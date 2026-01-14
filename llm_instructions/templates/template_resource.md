@@ -6,8 +6,7 @@
   Удалите этот комментарий после заполнения.
 -->
 
-**Тип:** database | backend | frontend | infra
-**Дата обновления:** [YYYY-MM-DD]
+**Тип:** database | backend | frontend | infra **Дата обновления:** [YYYY-MM-DD]
 
 ## Назначение
 

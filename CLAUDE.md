@@ -28,7 +28,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Документация
 
-Проект использует структурированную систему документации. Подробные инструкции: `llm_instructions/instructions_general_docs.md`
+Проект использует структурированную систему документации. 
+Подробные инструкции: `llm_instructions/instructions_general_docs.md`
 
 ### Структура документации
 
