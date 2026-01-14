@@ -1,5 +1,5 @@
 ---
-name: doc-structure-project
+name: doc-project-structure
 description: Генерирует структуру проекта и обновляет раздел "Структура проекта" в llm_instructions.md и README.md
 allowed-tools: Glob, Read, Edit, Bash
 ---
