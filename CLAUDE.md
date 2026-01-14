@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Обзор проекта
 
-Платформа для разработки, бэктестинга и исполнения торговых стратегий.
+Платформа для разработки, [📖 бэктестинга](general_docs/glossary.md#бэктестинг) и исполнения [📖 торговых стратегий](general_docs/glossary.md#торговая-стратегия).
 
 ---
 
@@ -52,15 +52,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 |------------|------------|
 | [instructions_general_docs.md](llm_instructions/instructions_general_docs.md) | Правила ведения документации |
 | [instructions_scripts.md](llm_instructions/instructions_scripts.md) | Служебные скрипты |
-| [instructions_agents.md](llm_instructions/instructions_agents.md) | AI-агенты Claude Code |
-| [instructions_skills.md](llm_instructions/instructions_skills.md) | Скиллы Claude Code |
+| [instructions_agents.md](llm_instructions/instructions_agents.md) | AI-[📖 агенты](general_docs/glossary.md#агент) Claude Code |
+| [instructions_skills.md](llm_instructions/instructions_skills.md) | [📖 Скиллы](general_docs/glossary.md#скилл) Claude Code |
 
 ## Управление задачами
 
 | Файл | Назначение |
 |------|------------|
 | [current_tasks.md](llm_tasks/current_tasks.md) | Текущие задачи сессии |
-| [future_tasks.md](llm_tasks/future_tasks.md) | Бэклог задач |
+| [future_tasks.md](llm_tasks/future_tasks.md) | [📖 Бэклог](general_docs/glossary.md#бэклог) задач |
 
 ---
 
@@ -91,10 +91,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 general_docs/
 ├── glossary.md             # Глоссарий терминов проекта
-├── discuss/                # Дискуссии (идея → решение)
+├── discuss/                # [📖 Дискуссии](general_docs/glossary.md#дискуссия) (идея → решение)
 ├── architecture/           # Архитектурные документы
 ├── diagrams/               # Диаграммы (.drawio, Mermaid)
-├── imp_plans/              # Планы реализации
+├── imp_plans/              # [📖 Планы реализации](general_docs/glossary.md#план-реализации)
 └── resources/              # Описания ресурсов
     ├── database/
     ├── backend/
@@ -102,16 +102,16 @@ general_docs/
     └── infra/
 ```
 
-### Цепочка зависимостей документов
+### [📖 Цепочка зависимостей](general_docs/glossary.md#цепочка-зависимостей) документов
 
-**Прямая:** Дискуссия → Архитектура → Ресурсы → План реализации → Документация папок
+**Прямая:** [📖 Дискуссия](general_docs/glossary.md#дискуссия) → Архитектура → [📖 Ресурсы](general_docs/glossary.md#ресурс) → [📖 План реализации](general_docs/glossary.md#план-реализации) → [📖 Документация папок](general_docs/glossary.md#документация-папок)
 
 **При изменениях:**
 - Изменение архитектуры → обновить связанные дискуссии
-- Изменение ресурса → обновить архитектуру и документацию папок
+- Изменение [📖 ресурса](general_docs/glossary.md#ресурс) → обновить архитектуру и [📖 документацию папок](general_docs/glossary.md#документация-папок)
 - Изменение кода → обновить документацию папки, при существенных изменениях — ресурс
 
-### Документация папок
+### [📖 Документация папок](general_docs/glossary.md#документация-папок)
 
 Размещается в корне значимых папок как `[название_папки]_doc.md` (например: `src/auth/auth_doc.md`).
 

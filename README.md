@@ -1,6 +1,6 @@
 # Trading Platform
 
-Платформа для разработки, бэктестинга и исполнения торговых стратегий.
+Платформа для разработки, [📖 бэктестинга](general_docs/glossary.md#бэктестинг) и исполнения [📖 торговых стратегий](general_docs/glossary.md#торговая-стратегия).
 
 ## Документация
 
@@ -25,19 +25,19 @@ trading_platform/
 │   ├── instructions_general_docs.md  # Правила документации
 │   ├── instructions_scripts.md    # Служебные скрипты
 │   ├── instructions_agents.md     # AI-агенты Claude
-│   ├── instructions_skills.md     # Скиллы Claude
+│   ├── instructions_skills.md     # [📖 Скиллы](general_docs/glossary.md#скилл) Claude
 │   └── templates/                 # Шаблоны документов
 │
 ├── llm_tasks/                     # Управление задачами LLM
 │   ├── current_tasks.md           # Текущие задачи сессии
-│   └── future_tasks.md            # Бэклог задач
+│   └── future_tasks.md            # [📖 Бэклог](general_docs/glossary.md#бэклог) задач
 │
-├── general_docs/                  # Общая документация
+├── general_docs/                  # [📖 Общая документация](general_docs/glossary.md#общая-документация)
 │   ├── glossary.md                # Глоссарий терминов
-│   ├── discuss/                   # Дискуссии (идея → решение)
+│   ├── discuss/                   # [📖 Дискуссии](general_docs/glossary.md#дискуссия) (идея → решение)
 │   ├── architecture/              # Архитектурные документы
 │   ├── diagrams/                  # Диаграммы (.drawio, Mermaid)
-│   ├── imp_plans/                 # Планы реализации
+│   ├── imp_plans/                 # [📖 Планы реализации](general_docs/glossary.md#план-реализации)
 │   └── resources/                 # Описания ресурсов
 │       ├── database/
 │       ├── backend/

@@ -15,10 +15,10 @@
 
 | Файл | Назначение |
 |------|------------|
-| [instructions_general_docs.md](instructions_general_docs.md) | Правила ведения документации: структура `general_docs/`, workflow статусов, правила feedback |
+| [instructions_general_docs.md](instructions_general_docs.md) | Правила ведения документации: структура `general_docs/`, [📖 workflow статусов](../general_docs/glossary.md#workflow-статусов), правила [📖 feedback](../general_docs/glossary.md#feedback) |
 | [instructions_scripts.md](instructions_scripts.md) | Служебные скрипты для поддержания порядка в проекте |
-| [instructions_agents.md](instructions_agents.md) | Конфигурация AI-агентов Claude Code (`.claude/agents/`) |
-| [instructions_skills.md](instructions_skills.md) | Конфигурация скиллов Claude Code (`.claude/skills/`) |
+| [instructions_agents.md](instructions_agents.md) | Конфигурация AI-[📖 агентов](../general_docs/glossary.md#агент) Claude Code (`.claude/agents/`) |
+| [instructions_skills.md](instructions_skills.md) | Конфигурация [📖 скиллов](../general_docs/glossary.md#скилл) Claude Code (`.claude/skills/`) |
 
 ---
 
@@ -28,11 +28,11 @@
 
 | Шаблон | Назначение | Расположение документов |
 |--------|------------|-------------------------|
-| [template_discuss.md](templates/template_discuss.md) | Дискуссии (идея → решение) | `general_docs/discuss/` |
+| [template_discuss.md](templates/template_discuss.md) | [📖 Дискуссии](../general_docs/glossary.md#дискуссия) (идея → решение) | `general_docs/discuss/` |
 | [template_architecture.md](templates/template_architecture.md) | Архитектурные документы | `general_docs/architecture/` |
-| [template_imp_plan.md](templates/template_imp_plan.md) | Планы реализации | `general_docs/imp_plans/` |
+| [template_imp_plan.md](templates/template_imp_plan.md) | [📖 Планы реализации](../general_docs/glossary.md#план-реализации) | `general_docs/imp_plans/` |
 | [template_resource.md](templates/template_resource.md) | Описания ресурсов | `general_docs/resources/` |
-| [template_folder_doc.md](templates/template_folder_doc.md) | Документация папок кода | `src/*/[название]_doc.md` |
+| [template_folder_doc.md](templates/template_folder_doc.md) | [📖 Документация папок](../general_docs/glossary.md#документация-папок) кода | `src/*/[название]_doc.md` |
 
 **Примечание:** Шаблоны — рекомендуемая структура. Адаптируйте под конкретную задачу.
 
