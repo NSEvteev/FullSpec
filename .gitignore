@@ -1,0 +1,65 @@
+# Временные файлы Claude Code
+tmpclaude-*
+
+# Временные файлы ОС
+*.tmp
+*.temp
+*~
+.DS_Store
+Thumbs.db
+
+# Логи
+*.log
+
+# Кэш Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# Виртуальное окружение
+venv/
+.venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Node.js
+node_modules/
+
+# Переменные окружения
+.env
+.env.local
+.env.*.local
+
+# Данные и бэкапы
+*.db
+*.sqlite
+*.sqlite3
+data/
+backups/
+
+# Торговые данные и секреты
+*.csv
+*.parquet
+credentials/
+secrets/
+api_keys/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Coverage
+htmlcov/
+.coverage
+coverage.xml
+
+# Build
+dist/
+build/
+*.egg-info/
