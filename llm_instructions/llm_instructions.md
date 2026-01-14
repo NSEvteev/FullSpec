@@ -32,7 +32,7 @@
 | [template_architecture.md](templates/template_architecture.md) | Архитектурные документы | `general_docs/architecture/` |
 | [template_imp_plan.md](templates/template_imp_plan.md) | Планы реализации | `general_docs/imp_plans/` |
 | [template_resource.md](templates/template_resource.md) | Описания ресурсов | `general_docs/resources/` |
-| [template_folder_doc.md](templates/template_folder_doc.md) | Документация папок кода | `src/*/_doc.md` |
+| [template_folder_doc.md](templates/template_folder_doc.md) | Документация папок кода | `src/*/[название]_doc.md` |
 
 **Примечание:** Шаблоны — рекомендуемая структура. Адаптируйте под конкретную задачу.
 

@@ -6,7 +6,9 @@
   Удалите этот комментарий после заполнения.
 -->
 
-**Статус:** draft | in_progress | review | test | approved | final **Дата создания:** [YYYY-MM-DD] **Дата обновления:** [YYYY-MM-DD]
+**Статус:** draft | in_progress | review | test | approved | final
+**Дата создания:** [YYYY-MM-DD]
+**Дата обновления:** [YYYY-MM-DD]
 
 ## Связанные документы
 
