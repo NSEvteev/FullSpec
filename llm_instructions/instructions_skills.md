@@ -121,4 +121,5 @@ skills: coding-standards, security-checklist
 
 | Имя | Назначение | Инструменты | Используется в агентах |
 |-----|------------|-------------|------------------------|
-| doc-structure-project | Генерация и обновление структуры проекта в документации | Glob, Read, Edit, Bash | — |
+| commit-push | Коммит и пуш с правильным форматированием сообщений | Bash, Read | — |
+| doc-structure-project | Генерация структуры проекта и обновление в llm_instructions.md и README.md | Glob, Read, Edit, Bash | — |

@@ -45,6 +45,8 @@ trading_platform/
 ├── .claude/                           # Конфигурация Claude Code
 │   ├── settings.local.json            # Локальные настройки
 │   └── skills/                        # Скиллы
+│       ├── commit-push/               # Скилл коммита и пуша
+│       │   └── SKILL.md
 │       └── doc-structure-project/     # Скилл структуры проекта
 │           └── SKILL.md
 ├── general_docs/                      # Общая документация
