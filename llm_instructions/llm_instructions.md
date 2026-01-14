@@ -42,33 +42,42 @@
 
 ```
 trading_platform/
-├── CLAUDE.md                      # Инструкции для Claude Code
-├── README.md                      # Описание проекта
-│
-├── llm_instructions/              # Инструкции для LLM
-│   ├── llm_instructions.md        # (этот файл)
-│   ├── instructions_general_docs.md
-│   ├── instructions_scripts.md
-│   ├── instructions_agents.md
-│   ├── instructions_skills.md
-│   └── templates/
-│
-├── llm_tasks/                     # Управление задачами
-│   ├── current_tasks.md           # Текущие задачи сессии
-│   └── future_tasks.md            # Бэклог задач
-│
-├── general_docs/                  # Общая документация
-│   ├── glossary.md                # Глоссарий терминов
-│   ├── discuss/                   # Дискуссии
-│   ├── architecture/              # Архитектура
-│   ├── diagrams/                  # Диаграммы
-│   ├── imp_plans/                 # Планы реализации
-│   └── resources/                 # Описания ресурсов
-│
-├── scripts/                       # Служебные скрипты
-└── .claude/                       # Конфигурация Claude Code
-    ├── agents/                    # Агенты
-    └── skills/                    # Скиллы
+├── .claude/                           # Конфигурация Claude Code
+│   ├── settings.local.json            # Локальные настройки
+│   └── skills/                        # Скиллы
+│       └── doc-structure-project/     # Скилл структуры проекта
+│           └── SKILL.md
+├── general_docs/                      # Общая документация
+│   ├── architecture/                  # Архитектурные документы
+│   ├── diagrams/                      # Диаграммы
+│   ├── discuss/                       # Дискуссии
+│   ├── imp_plans/                     # Планы реализации
+│   ├── resources/                     # Описания ресурсов
+│   │   ├── backend/
+│   │   ├── database/
+│   │   ├── frontend/
+│   │   └── infra/
+│   └── glossary.md                    # Глоссарий терминов
+├── llm_instructions/                  # Инструкции для LLM
+│   ├── templates/                     # Шаблоны документов
+│   │   ├── template_architecture.md
+│   │   ├── template_discuss.md
+│   │   ├── template_folder_doc.md
+│   │   ├── template_imp_plan.md
+│   │   └── template_resource.md
+│   ├── instructions_agents.md         # Инструкции по агентам
+│   ├── instructions_general_docs.md   # Правила документации
+│   ├── instructions_scripts.md        # Служебные скрипты
+│   ├── instructions_skills.md         # Инструкции по скиллам
+│   └── llm_instructions.md            # Индекс инструкций (этот файл)
+├── llm_tasks/                         # Управление задачами
+│   ├── current_tasks.md               # Текущие задачи сессии
+│   └── future_tasks.md                # Бэклог задач
+├── scripts/                           # Служебные скрипты
+│   └── check_doc_links.py             # Проверка ссылок в документации
+├── .gitignore
+├── CLAUDE.md                          # Быстрый справочник Claude
+└── README.md                          # Описание проекта
 ```
 
 ---
