@@ -1,5 +1,14 @@
 # Инструкция по ведению документации проекта
 
+**Связанные документы:**
+- [llm_instructions.md](llm_instructions.md) — индекс инструкций
+- [glossary.md](../general_docs/glossary.md) — глоссарий терминов
+- [CLAUDE.md](../CLAUDE.md) — краткие инструкции для Claude
+
+**Шаблоны:** [templates/](templates/)
+
+---
+
 ## Виды документации
 
 ### Файл глоссария glossary.md

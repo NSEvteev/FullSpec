@@ -1,10 +1,15 @@
 # Будущие задачи
 
+**Связанные документы:**
+- [current_tasks.md](current_tasks.md) — текущие задачи сессии
+- [CLAUDE.md](../CLAUDE.md) — инструкции для Claude Code
+- [llm_instructions/](../llm_instructions/llm_instructions.md) — полные инструкции для LLM
+
+---
+
 ## Назначение
 
 Файл для хранения идей и задач, которые планируется взять в работу в будущих сессиях.
-
-**Связанный файл:** [current_tasks.md](current_tasks.md) — текущие задачи сессии
 
 ## Приоритеты
 

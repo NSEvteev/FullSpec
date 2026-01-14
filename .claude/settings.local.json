@@ -13,7 +13,8 @@
       "Bash(npx:*)",
       "Bash(claude mcp remove:*)",
       "Bash(claude mcp get:*)",
-      "Bash(git commit -m \"$\\(cat <<''EOF''\nДобавить документацию агентов, скиллов и системы задач\n\n- Добавить инструкции по агентам Claude Code \\(instructions_agents.md\\)\n- Добавить инструкции по скиллам Claude Code \\(instructions_skills.md\\)  \n- Добавить систему управления задачами \\(llm_tasks/\\)\n- Обновить форматирование шаблонов документации\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nДобавить документацию агентов, скиллов и системы задач\n\n- Добавить инструкции по агентам Claude Code \\(instructions_agents.md\\)\n- Добавить инструкции по скиллам Claude Code \\(instructions_skills.md\\)  \n- Добавить систему управления задачами \\(llm_tasks/\\)\n- Обновить форматирование шаблонов документации\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)"
     ]
   }
 }
