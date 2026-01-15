@@ -44,6 +44,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 При изменении любого файла в `llm_instructions/` — обновить CLAUDE.md релевантной информацией.
 
+**Автоматизация:** Используй скилл `/doc-claude` для автоматического обновления CLAUDE.md и llm_instructions.md при важных изменениях.
+
+### Управление задачами (обязательно!)
+
+**КРИТИЧЕСКИ ВАЖНО:** При каждой новой сессии:
+
+1. **Прочитать** [instructions_tasks.md](llm_instructions/instructions_tasks.md) — полные правила работы с задачами
+2. **Проверить** [current_tasks.md](llm_tasks/current_tasks.md) — текущие задачи сессии
+3. **Предложить** пользователю варианты:
+   - Продолжить текущие задачи
+   - Начать новые задачи
+   - Просмотреть бэклог ([future_tasks.md](llm_tasks/future_tasks.md))
+
+**Запрещено:** Использовать временные файлы (PROJECT_IMPROVEMENTS.md и подобные) — только `llm_tasks/`.
+
 ### Сохранение новых правил
 
 При введении пользователем новых правил или инструкций для Claude — предложить:
@@ -57,6 +72,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 1. **Контекст проекта:** Ознакомиться с [llm_instructions.md](llm_instructions/llm_instructions.md)
 2. **Новая сессия:** **ОБЯЗАТЕЛЬНО** проверить [current_tasks.md](llm_tasks/current_tasks.md)
+   - Если есть текущие задачи → предложить пользователю:
+     - Продолжить работу над текущими задачами
+     - Работать с новыми задачами
+     - Посмотреть бэклог ([future_tasks.md](llm_tasks/future_tasks.md))
 3. **Задачи:** Следовать [instructions_tasks.md](llm_instructions/instructions_tasks.md)
 4. **Документация:** Следовать [instructions_general_docs.md](llm_instructions/instructions_general_docs.md)
 5. **Термины:** Добавлять в [glossary.md](general_docs/glossary.md)

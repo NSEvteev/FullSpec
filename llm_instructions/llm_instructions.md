@@ -184,7 +184,8 @@ project_template/
 │   │   └── README.md
 │   └── skills/                        # Скиллы
 │       ├── commit-push/
-│       ├── doc-health/                # NEW: Проверка документации
+│       ├── doc-claude/                # NEW: Обновление CLAUDE.md и llm_instructions.md
+│       ├── doc-health/                # Проверка документации
 │       ├── doc-project-structure/
 │       ├── glossary-candidates/
 │       ├── glossary-link/

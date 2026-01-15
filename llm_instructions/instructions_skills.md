@@ -122,7 +122,9 @@ skills: coding-standards, security-checklist
 | Имя | Назначение | Инструменты | Используется в агентах |
 |-----|------------|-------------|------------------------|
 | commit-push | Коммит и пуш с правильным форматированием сообщений | Bash, Read | — |
-| glossary-candidates | Поиск специфичных терминов в документе и добавление в кандидаты глоссария | Read, Edit, Glob | — |
+| doc-claude | Обновление CLAUDE.md и llm_instructions.md при важных изменениях | Read, Edit, Bash | — |
+| doc-health | Проверка здоровья документации — ссылки, структура, статусы, метаданные | Bash | — |
 | doc-project-structure | Генерация структуры проекта и обновление в llm_instructions.md и README.md | Glob, Read, Edit, Bash | — |
-| glossary-review | Интерактивная обработка кандидатов в глоссарий | Read, Edit, AskUserQuestion, Grep | — |
+| glossary-candidates | Поиск специфичных терминов в документе и добавление в кандидаты глоссария | Read, Edit, Glob | — |
 | glossary-link | Добавление ссылок на глоссарий во все .md файлы проекта | Read, Edit, Glob, Grep | — |
+| glossary-review | Интерактивная обработка кандидатов в глоссарий | Read, Edit, AskUserQuestion, Grep | — |
