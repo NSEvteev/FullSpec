@@ -186,3 +186,57 @@
 ## Кандидаты
 
 <!-- Термины, ожидающие рассмотрения. Обрабатываются командой /glossary-review -->
+
+### Amy Santiago
+
+- **Источник:** [CLAUDE.md](../CLAUDE.md), [agents.md](../llm_instructions/agents.md)
+- **Контекст:** "Amy Santiago (Documentation Manager) — специализированный агент для управления документацией"
+- **Статус:** ожидает рассмотрения
+
+### API Gateway
+
+- **Источник:** [README.md](../README.md), [llm_instructions.md](../llm_instructions/llm_instructions.md)
+- **Контекст:** "API Gateway — единая точка входа для всех запросов"
+- **Статус:** ожидает рассмотрения
+
+### Auth Service
+
+- **Источник:** [README.md](../README.md), [llm_instructions.md](../llm_instructions/llm_instructions.md)
+- **Контекст:** "Auth Service — аутентификация и авторизация"
+- **Статус:** ожидает рассмотрения
+
+### Users Service
+
+- **Источник:** [README.md](../README.md), [llm_instructions.md](../llm_instructions/llm_instructions.md)
+- **Контекст:** "Users Service — управление профилями пользователей"
+- **Статус:** ожидает рассмотрения
+
+### Архив завершённых задач
+
+- **Источник:** [tasks.md](../llm_instructions/tasks.md), [CLAUDE.md](../CLAUDE.md)
+- **Контекст:** "completed_tasks.md — Архив завершённых задач агента (обратная хронология)"
+- **Статус:** ожидает рассмотрения
+
+### Временная папка агента
+
+- **Источник:** [tasks.md](../llm_instructions/tasks.md), [CLAUDE.md](../CLAUDE.md)
+- **Контекст:** "temp/ — Временные файлы (отчёты, логи, промежуточные результаты)"
+- **Статус:** ожидает рассмотрения
+
+### Индексный файл
+
+- **Источник:** [CLAUDE.md](../CLAUDE.md), [general_docs.md](../llm_instructions/general_docs.md)
+- **Контекст:** "Автоматически обновляет индексы (000_*.md)"
+- **Статус:** ожидает рассмотрения
+
+### Метаданные документа
+
+- **Источник:** [CLAUDE.md](../CLAUDE.md), [general_docs.md](../llm_instructions/general_docs.md)
+- **Контекст:** "Создаёт документы по шаблонам с правильными метаданными" (даты, версии, статусы)
+- **Статус:** ожидает рассмотрения
+
+### Микросервисная архитектура
+
+- **Источник:** [README.md](../README.md), [llm_instructions.md](../llm_instructions/llm_instructions.md)
+- **Контекст:** "Проект использует микросервисную архитектуру с разделением на фронтенд и бэкенд-сервисы"
+- **Статус:** ожидает рассмотрения

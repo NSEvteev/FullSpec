@@ -260,3 +260,25 @@ docs-structure: ## Обновить структуру проекта в README
 	@echo "$(GREEN)Обновление структуры проекта...$(NC)"
 	@# TODO: Добавить скрипт генерации структуры
 	@echo "$(YELLOW)TODO: Реализовать автогенерацию$(NC)"
+
+# ============================================
+# Управление задачами
+# ============================================
+
+task-add: ## Добавить задачу в current_tasks.md (интерактивно)
+	@python scripts/task_add.py -i
+
+task: ## Добавить задачу в current_tasks.md (использование: make task TITLE="..." PRIORITY="средний")
+	@python scripts/task_add.py -t "$(TITLE)" -p $(PRIORITY)
+
+backlog-add: ## Добавить задачу в бэклог (интерактивно)
+	@python scripts/backlog_add.py -i
+
+backlog: ## Добавить задачу в бэклог (использование: make backlog TITLE="..." PRIORITY="P2" CATEGORY="docs")
+	@python scripts/backlog_add.py -t "$(TITLE)" -p $(PRIORITY) -c $(CATEGORY)
+
+tasks-view: ## Просмотреть текущие задачи
+	@cat llm_tasks/current_tasks.md
+
+backlog-view: ## Просмотреть бэклог задач
+	@cat llm_tasks/future_tasks.md

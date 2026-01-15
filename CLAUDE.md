@@ -27,6 +27,95 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Docker Compose для разработки
 - Makefile для автоматизации
 
+### Структура проекта
+
+```
+project_template/
+├── .claude/                      # Конфигурация Claude Code
+│   ├── agents/                   # Определения агентов
+│   │   └── amy-santiago.md       # Amy Santiago - Documentation Manager
+│   ├── skills/                   # Пользовательские скиллы
+│   │   ├── commit-push.md
+│   │   ├── doc-*.md              # Скиллы документации
+│   │   └── glossary-*.md         # Скиллы глоссария
+│   └── settings.local.json       # Локальные настройки Claude
+│
+├── apps/                         # Клиентские приложения
+│   └── web/                      # Web UI (фронтенд)
+│
+├── services/                     # Бэкенд микросервисы
+│   ├── api-gateway/              # API Gateway - точка входа
+│   ├── auth/                     # Auth Service - аутентификация
+│   └── users/                    # Users Service - управление пользователями
+│
+├── packages/                     # Общий код (монорепозиторий)
+│   ├── shared/                   # Общие утилиты и типы
+│   ├── ui/                       # UI компоненты
+│   ├── validation/               # Схемы валидации
+│   └── config/                   # Общая конфигурация
+│
+├── general_docs/                 # Документация проекта
+│   ├── glossary.md               # Глоссарий терминов
+│   ├── 01_discuss/               # Дискуссии (идеи → решения)
+│   ├── 02_architecture/          # Архитектурные документы
+│   ├── 03_diagrams/              # Диаграммы (.drawio, Mermaid)
+│   ├── 04_decisions/             # Decision Records (ADR)
+│   ├── 05_resources/             # Описания ресурсов
+│   │   ├── database/             # Схемы БД
+│   │   ├── backend/              # Бэкенд ресурсы
+│   │   ├── frontend/             # Фронтенд ресурсы
+│   │   └── infra/                # Инфраструктура
+│   └── 06_imp_plans/             # Планы реализации
+│
+├── llm_instructions/             # Инструкции для LLM
+│   ├── llm_instructions.md       # Индекс всех инструкций
+│   ├── general_docs.md           # Правила ведения документации
+│   ├── tasks.md                  # Управление задачами
+│   ├── scripts.md                # Служебные скрипты
+│   ├── agents.md                 # Описание агентов Claude Code
+│   └── skills.md                 # Описание скиллов Claude Code
+│
+├── llm_tasks/                    # Задачи для LLM
+│   ├── current_tasks.md          # Текущие задачи основного LLM
+│   ├── future_tasks.md           # Бэклог задач
+│   └── agents/                   # Задачи агентов
+│       └── amy-santiago/         # Задачи Amy Santiago
+│           ├── current_tasks.md  # Текущие задачи агента
+│           ├── future_tasks.md   # Бэклог агента
+│           ├── completed_tasks.md # Архив завершённых задач
+│           └── temp/             # Временные файлы (отчёты, логи)
+│
+├── scripts/                      # Служебные скрипты
+│   ├── check_doc_health.py       # Проверка здоровья документации
+│   ├── check_gloss_health.py     # Проверка глоссария
+│   ├── task_add.py               # Добавление задачи в current_tasks.md
+│   └── backlog_add.py            # Добавление задачи в бэклог
+│
+├── templates/                    # Шаблоны документов
+│   ├── discussion.md             # Шаблон дискуссии
+│   ├── architecture.md           # Шаблон архитектуры
+│   ├── decision.md               # Шаблон ADR
+│   ├── resource.md               # Шаблон ресурса
+│   └── plan.md                   # Шаблон плана реализации
+│
+├── config/                       # Конфигурация проекта
+│   └── examples/                 # Примеры .env файлов
+│
+├── CLAUDE.md                     # Инструкции для Claude Code (этот файл)
+├── README.md                     # Главная документация проекта
+├── Makefile                      # Команды автоматизации
+├── docker-compose.yml            # Docker конфигурация
+└── .env.example                  # Пример переменных окружения
+```
+
+**Ключевые папки:**
+- **`.claude/`** - конфигурация Claude Code (агенты, скиллы, настройки)
+- **`llm_instructions/`** - инструкции для работы LLM с проектом
+- **`llm_tasks/`** - управление задачами (текущие, бэклог, агенты)
+- **`general_docs/`** - документация проекта (дискуссии, архитектура, планы)
+- **`scripts/`** - служебные скрипты (проверки, автоматизация задач)
+- **`templates/`** - шаблоны для создания документов
+
 ---
 
 ## Правила для Claude
@@ -228,6 +317,36 @@ make gloss-health      # Проверка глоссария
 make docs-check        # Документация + глоссарий
 ```
 
+### Управление задачами
+
+```bash
+# Добавление задач (интерактивно)
+make task-add          # Добавить задачу в current_tasks.md
+make backlog-add       # Добавить задачу в бэклог (future_tasks.md)
+
+# Добавление задач (через параметры)
+make task TITLE="Название задачи" PRIORITY="средний"
+make backlog TITLE="Название" PRIORITY="P2" CATEGORY="docs"
+
+# Просмотр задач
+make tasks-view        # Просмотреть текущие задачи
+make backlog-view      # Просмотреть бэклог
+
+# Альтернатива: Python скрипты напрямую
+python scripts/task_add.py -i
+python scripts/backlog_add.py -i
+```
+
+**Примеры:**
+```bash
+# Интерактивный режим (рекомендуется)
+make task-add
+
+# Быстрое добавление
+make task TITLE="Исправить баг в auth" PRIORITY="высокий"
+make backlog TITLE="Добавить тесты" PRIORITY="P2" CATEGORY="feat"
+```
+
 ## Переменные окружения (.env)
 
 ### Файлы конфигураций
@@ -298,18 +417,56 @@ API Gateway (services/api-gateway) :8000
 
 ```
 general_docs/
-├── glossary.md             # Глоссарий терминов проекта
-├── 01_discuss/             # [📖 Дискуссии](general_docs/glossary.md#дискуссия) (идея → решение)
-├── 02_architecture/        # Архитектурные документы
-├── 03_diagrams/            # Диаграммы (.drawio, Mermaid)
-├── 04_decisions/           # [📖 Decision (ADR)](general_docs/glossary.md#decision-adr) — архитектурные решения
-├── 05_resources/           # Описания ресурсов
-│   ├── database/
-│   ├── backend/
-│   ├── frontend/
-│   └── infra/
-└── 06_imp_plans/           # [📖 Планы реализации](general_docs/glossary.md#план-реализации)
+├── README.md                    # Обзор системы документации (для разработчиков)
+├── glossary.md                  # Глоссарий терминов (14 терминов, 3 категории)
+│
+├── 01_discuss/                  # Дискуссии (идеи → решения)
+│   ├── 000_discuss.md           # ЧТО: Индекс всех дискуссий (автообновляемый)
+│   └── README.md                # КАК: Правила создания дискуссий
+│
+├── 02_architecture/             # Архитектурные документы
+│   ├── 000_architecture.md      # ЧТО: Индекс архитектуры (автообновляемый)
+│   └── README.md                # КАК: Правила работы с архитектурой
+│
+├── 03_diagrams/                 # Диаграммы (.drawio, Mermaid)
+│   ├── 000_diagrams.md          # ЧТО: Индекс диаграмм
+│   └── README.md                # КАК: Правила создания диаграмм
+│
+├── 04_decisions/                # Decision Records (ADR)
+│   ├── 000_decisions.md         # ЧТО: Индекс решений (автообновляемый)
+│   ├── README.md                # КАК: Правила фиксации решений
+│   └── archive/                 # Устаревшие решения
+│
+├── 05_resources/                # Описания ресурсов
+│   ├── 000_resources.md         # ЧТО: Индекс всех ресурсов
+│   ├── database/                # Схемы БД и миграции
+│   │   ├── 000_database.md      # Индекс БД ресурсов
+│   │   └── README.md            # Правила работы с БД
+│   ├── backend/                 # Backend ресурсы (API, сервисы)
+│   │   ├── 000_backend.md
+│   │   └── README.md
+│   ├── frontend/                # Frontend ресурсы (UI, компоненты)
+│   │   ├── 000_frontend.md
+│   │   └── README.md
+│   └── infra/                   # Инфраструктура (Docker, CI/CD)
+│       ├── 000_infra.md
+│       └── README.md
+│
+└── 06_imp_plans/                # Планы реализации
+    ├── 000_imp_plans.md         # ЧТО: Индекс планов (автообновляемый)
+    └── README.md                # КАК: Правила создания планов
 ```
+
+**Ключевые принципы:**
+
+**Разделение ЧТО vs КАК:**
+- `000_*.md` — **ЧТО** есть в папке (динамический индекс, автообновляемый)
+- `README.md` — **КАК** работать с документами (статичные правила)
+
+**Категории глоссария:**
+- Документация (9 терминов) — дискуссия, архитектура, план, ресурс, etc.
+- Claude Code (3 термина) — агент, скилл, команда
+- Управление задачами (2 термина) — бэклог, LLM-сессия
 
 ### [📖 Цепочка зависимостей](general_docs/glossary.md#цепочка-зависимостей) документов
 
