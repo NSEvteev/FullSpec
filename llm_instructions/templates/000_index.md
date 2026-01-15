@@ -22,7 +22,7 @@
 
 **Правила работы:** См. [README.md](README.md)
 
-**Полная инструкция:** [general_docs.md](../../llm_instructions/general_docs.md#[ссылка-на-раздел])
+**Полная инструкция:** [general_docs.md](../../llm_instructions/general_docs.md#виды-документации) (раздел для конкретного типа документов)
 
 ---
 

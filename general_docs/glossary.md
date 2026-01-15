@@ -2,7 +2,7 @@
 
 **Связанные документы:**
 - [CLAUDE.md](../CLAUDE.md) — инструкции для Claude Code
-- [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md) — правила документации
+- [general_docs.md](../llm_instructions/general_docs.md) — правила документации
 
 ---
 
@@ -33,6 +33,21 @@
 
 ---
 
+## Примеры
+
+Этот раздел содержит примеры оформления терминов для демонстрации в документации.
+
+### Термин
+
+- **Определение:** Пример термина для демонстрации ссылок в формате `[📖 Термин](glossary.md#термин)`.
+- **Контекст:** Используется в примерах документации как образец правильного оформления ссылок на глоссарий.
+- **Синонимы:** Term, понятие.
+- **Антонимы:** —
+- **Связанные термины:** —
+- **Источник:** Технический пример для документации
+
+---
+
 ## Документация
 
 Термины, связанные с системой документации проекта.
@@ -55,7 +70,7 @@
 - **Синонимы:** Discuss, обсуждение.
 - **Антонимы:** —
 - **Связанные термины:** [Общая документация](#общая-документация), [Цепочка зависимостей](#цепочка-зависимостей), [Decision (ADR)](#decision-adr)
-- **Источник:** [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md)
+- **Источник:** [general_docs.md](../llm_instructions/general_docs.md)
 
 ### Документация папок
 
@@ -64,7 +79,7 @@
 - **Синонимы:** Folder docs, локальная документация.
 - **Антонимы:** [Общая документация](#общая-документация)
 - **Связанные термины:** [Общая документация](#общая-документация), [Ресурс](#ресурс)
-- **Источник:** [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md)
+- **Источник:** [general_docs.md](../llm_instructions/general_docs.md)
 
 ### Общая документация
 
@@ -73,7 +88,7 @@
 - **Синонимы:** General docs.
 - **Антонимы:** [Документация папок](#документация-папок)
 - **Связанные термины:** [Дискуссия](#дискуссия), [План реализации](#план-реализации), [Ресурс](#ресурс)
-- **Источник:** [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md)
+- **Источник:** [general_docs.md](../llm_instructions/general_docs.md)
 
 ### План реализации
 
@@ -82,7 +97,7 @@
 - **Синонимы:** Implementation plan, imp_plan.
 - **Антонимы:** —
 - **Связанные термины:** [Общая документация](#общая-документация), [Ресурс](#ресурс), [Decision (ADR)](#decision-adr)
-- **Источник:** [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md)
+- **Источник:** [general_docs.md](../llm_instructions/general_docs.md)
 
 ### Ресурс
 
@@ -91,7 +106,7 @@
 - **Синонимы:** Resource.
 - **Антонимы:** —
 - **Связанные термины:** [Общая документация](#общая-документация), [План реализации](#план-реализации), [Документация папок](#документация-папок), [Decision (ADR)](#decision-adr)
-- **Источник:** [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md)
+- **Источник:** [general_docs.md](../llm_instructions/general_docs.md)
 
 ### FeedBack
 
@@ -100,7 +115,7 @@
 - **Синонимы:** Обратная связь.
 - **Антонимы:** —
 - **Связанные термины:** [Цепочка зависимостей](#цепочка-зависимостей), [Workflow статусов](#workflow-статусов)
-- **Источник:** [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md)
+- **Источник:** [general_docs.md](../llm_instructions/general_docs.md)
 
 ### Цепочка зависимостей
 
@@ -109,7 +124,7 @@
 - **Синонимы:** Dependency chain.
 - **Антонимы:** —
 - **Связанные термины:** [Дискуссия](#дискуссия), [Decision (ADR)](#decision-adr), [Ресурс](#ресурс), [План реализации](#план-реализации), [FeedBack](#feedback)
-- **Источник:** [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md)
+- **Источник:** [general_docs.md](../llm_instructions/general_docs.md)
 
 ### Workflow статусов
 
@@ -118,7 +133,7 @@
 - **Синонимы:** Статусы документов.
 - **Антонимы:** —
 - **Связанные термины:** [Общая документация](#общая-документация), [FeedBack](#feedback)
-- **Источник:** [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md)
+- **Источник:** [general_docs.md](../llm_instructions/general_docs.md)
 
 ---
 
@@ -135,7 +150,7 @@
 - **Синонимы:** Agent.
 - **Антонимы:** —
 - **Связанные термины:** [Скилл](#скилл)
-- **Источник:** [instructions_agents.md](../llm_instructions/instructions_agents.md)
+- **Источник:** [agents.md](../llm_instructions/agents.md)
 
 ### Скилл
 
@@ -144,7 +159,7 @@
 - **Синонимы:** Skill, навык.
 - **Антонимы:** —
 - **Связанные термины:** [Слэш-команда](#слэш-команда), [Агент](#агент)
-- **Источник:** [instructions_skills.md](../llm_instructions/instructions_skills.md)
+- **Источник:** [skills.md](../llm_instructions/skills.md)
 
 ### Слэш-команда
 
@@ -153,7 +168,7 @@
 - **Синонимы:** Slash command.
 - **Антонимы:** —
 - **Связанные термины:** [Скилл](#скилл)
-- **Источник:** [instructions_skills.md](../llm_instructions/instructions_skills.md)
+- **Источник:** [skills.md](../llm_instructions/skills.md)
 
 ---
 

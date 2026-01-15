@@ -2,7 +2,7 @@
 
 **Связанные документы:**
 - [llm_instructions.md](llm_instructions.md) — индекс инструкций
-- [instructions_agents.md](instructions_agents.md) — агенты (скиллы можно привязать к агентам)
+- [agents.md](agents.md) — агенты (скиллы можно привязать к агентам)
 - [CLAUDE.md](../CLAUDE.md) — краткие инструкции для Claude
 
 ---

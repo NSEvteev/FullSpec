@@ -119,7 +119,7 @@ claude agents list
 
 ## Дополнительная информация
 
-Подробная документация по агентам: [instructions_agents.md](../../llm_instructions/instructions_agents.md)
+Подробная документация по агентам: [agents.md](../../llm_instructions/agents.md)
 
 ## Примечание
 

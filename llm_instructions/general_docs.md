@@ -164,7 +164,9 @@ general_docs/
 
 ```
 
-### [📖 Дискуссии](../general_docs/glossary.md#дискуссия) (01_discuss/)
+### Дискуссии (Discuss)
+
+[📖 Дискуссии](../general_docs/glossary.md#дискуссия) в папке 01_discuss/
 
 **Назначение:** Фиксация обсуждений "пользователь ↔ LLM" о функциональности.
 
@@ -215,7 +217,9 @@ general_docs/
 - Обновлен статус документа
 
 
-### Архитектура (02_architecture/)
+### Архитектура (Architecture)
+
+Архитектурные документы в папке 02_architecture/
 
 **Назначение:** Планирование архитектуры на основе дискуссий.
 
@@ -290,7 +294,9 @@ general_docs/
 
 
 
-### Диаграммы (03_diagrams/)
+### Диаграммы (Diagrams)
+
+Диаграммы в папке 03_diagrams/
 
 **Назначение:** Хранение диаграмм, если для файла архитектуры требуется диаграмма .drawio
 
@@ -340,7 +346,9 @@ general_docs/
 
 
 
-### [📖 План реализации](../general_docs/glossary.md#план-реализации) (06_imp_plans/)
+### План реализации (Imp_Plans)
+
+[📖 План реализации](../general_docs/glossary.md#план-реализации) в папке 06_imp_plans/
 
 **Назначение:** Декомпозиция и отслеживание выполнения работ.
 
@@ -370,7 +378,9 @@ general_docs/
 **Workflow:** draft → in_progress → review → test → approved → final
 **Важно:** статус может вернуться на in_progress при обнаружении проблем на этапах review или test
 
-### [📖 Ресурсы](../general_docs/glossary.md#ресурс) (05_resources/)
+### Ресурсы (Resources)
+
+[📖 Ресурсы](../general_docs/glossary.md#ресурс) в папке 05_resources/
 
 **Типы_ресурсов**:
 - database

@@ -5,7 +5,7 @@
   ШАБЛОН [📖 РЕСУРСА](../../general_docs/glossary.md#ресурс)
   Это рекомендуемая структура. Адаптируйте под тип ресурса (database/backend/frontend/infra).
   Удалите этот комментарий после заполнения.
--->
+- ->
 
 **Тип:** database | backend | frontend | infra
 **Дата обновления:** [YYYY-MM-DD]

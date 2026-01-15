@@ -2,7 +2,7 @@
 
 Централизованное хранилище всей документации проекта.
 
-**Полные правила ведения документации:** [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md)
+**Полные правила ведения документации:** [general_docs.md](../llm_instructions/general_docs.md)
 
 ---
 
@@ -53,7 +53,7 @@ general_docs/
 - Изменение ресурса → обновить Decision (ADR) и документацию папок
 - Изменение кода → обновить документацию папки, при существенных изменениях — ресурс и Decision (ADR)
 
-См. [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md#цепочка-зависимостей-документов)
+См. [general_docs.md](../llm_instructions/general_docs.md#цепочка-зависимостей-документов)
 
 ---
 
@@ -73,7 +73,7 @@ general_docs/
 ### Для LLM
 
 **Начало работы:**
-1. Прочитать [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md)
+1. Прочитать [general_docs.md](../llm_instructions/general_docs.md)
 2. Ознакомиться с [glossary.md](glossary.md)
 3. Следовать [📖 workflow статусов](glossary.md#workflow-статусов)
 

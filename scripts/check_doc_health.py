@@ -483,11 +483,38 @@ def check_markdown(checker: HealthChecker):
         with open(file_path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
 
-        # Проверка заголовков
+        in_code_block = False
+        in_table = False
+
+        # Проверка заголовков и списков
         for line_num, line in enumerate(lines, 1):
+            stripped = line.strip()
+
+            # Отслеживание блоков кода
+            if stripped.startswith('```'):
+                in_code_block = not in_code_block
+                continue
+
+            # Пропускаем строки внутри блоков кода
+            if in_code_block:
+                continue
+
+            # Определение таблицы: строка содержит '|' и это не список
+            is_table_row = '|' in line and not stripped.startswith(('-', '*', '+'))
+
+            # Обновляем состояние таблицы
+            if is_table_row:
+                in_table = True
+            elif stripped == '':
+                in_table = False
+
+            # Пропускаем строки таблиц
+            if in_table or is_table_row:
+                continue
+
             # Заголовки должны иметь пробел после #
-            if line.strip().startswith('#'):
-                if not re.match(r'^#{1,6}\s+.+', line.strip()):
+            if stripped.startswith('#'):
+                if not re.match(r'^#{1,6}\s+.+', stripped):
                     checker.add_issue(
                         'markdown_format',
                         file_path,
@@ -496,14 +523,34 @@ def check_markdown(checker: HealthChecker):
                     )
 
             # Проверка списков (должны иметь пробел после маркера)
-            if line.strip().startswith(('-', '*', '+')):
-                if not re.match(r'^[\s]*[-*+]\s+.+', line):
-                    checker.add_issue(
-                        'markdown_format',
-                        file_path,
-                        line_num,
-                        "Список должен иметь пробел после маркера"
-                    )
+            # Проверяем только если строка начинается с одного символа маркера
+            list_match = re.match(r'^(\s*)([-*+])([^-*+].*)?$', stripped)
+
+            if list_match:
+                # Пропускаем горизонтальные линии (только --- или *** или ___)
+                if re.match(r'^[-*_]{3,}$', stripped):
+                    continue
+
+                # Пропускаем жирный текст (**текст**) и курсив (*текст*)
+                if stripped.startswith('**') or (stripped.startswith('*') and stripped.count('*') >= 2):
+                    continue
+
+                # Проверяем формат маркированного списка
+                # Правильный формат: "- текст" или "  * текст" (пробел после маркера)
+                # Неправильный формат: "-текст" (нет пробела)
+                marker = list_match.group(2)
+                after_marker = list_match.group(3) if list_match.group(3) else ''
+
+                # Если после маркера есть текст, но нет пробела - это ошибка
+                if after_marker and not after_marker.startswith(' '):
+                    # Дополнительная проверка: это не таблица
+                    if '|' not in line:
+                        checker.add_issue(
+                            'markdown_format',
+                            file_path,
+                            line_num,
+                            "Список должен иметь пробел после маркера"
+                        )
 
 
 # ============================================

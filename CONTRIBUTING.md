@@ -193,7 +193,7 @@ make gloss-health
 - Заголовки с пробелом: `# Заголовок` (не `#Заголовок`)
 - Списки с пробелом: `- Элемент` (не `-Элемент`)
 
-Подробнее: [instructions_general_docs.md](llm_instructions/instructions_general_docs.md)
+Подробнее: [general_docs.md](llm_instructions/general_docs.md)
 
 ---
 

@@ -79,7 +79,7 @@ allowed-tools: Read, Edit, Glob, Grep
 
 Файлы с изменениями:
 - general_docs/02_architecture/01_overview.md: 5 ссылок
-- llm_instructions/instructions_general_docs.md: 3 ссылки
+- llm_instructions/general_docs.md: 3 ссылки
 
 ✓ Ссылки на глоссарий добавлены
 ```

@@ -133,5 +133,5 @@ MISSING_SECTIONS
 
 - `scripts/check_doc_health.py` — основной скрипт проверки
 - `scripts/check_gloss_health.py` — проверка глоссария (отдельный скрипт)
-- `llm_instructions/instructions_general_docs.md` — правила ведения документации
+- `llm_instructions/general_docs.md` — правила ведения документации
 - `llm_instructions/instructions_scripts.md` — описание скриптов

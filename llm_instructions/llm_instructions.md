@@ -219,10 +219,10 @@ project_template/
 │
 ├── llm_instructions/                  # Инструкции для LLM
 │   ├── llm_instructions.md            # Индекс (этот файл)
-│   ├── instructions_agents.md         # Инструкции для AI-агентов
-│   ├── instructions_general_docs.md   # Правила ведения документации
+│   ├── agents.md         # Инструкции для AI-агентов
+│   ├── general_docs.md   # Правила ведения документации
 │   ├── instructions_scripts.md        # Служебные скрипты
-│   ├── instructions_skills.md         # Конфигурация скиллов
+│   ├── skills.md         # Конфигурация скиллов
 │   └── templates/                     # Шаблоны документов
 │       ├── template_discuss.md
 │       ├── template_architecture.md

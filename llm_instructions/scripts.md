@@ -2,7 +2,7 @@
 
 **Связанные документы:**
 - [llm_instructions.md](llm_instructions.md) — индекс инструкций
-- [instructions_general_docs.md](instructions_general_docs.md) — правила документации
+- [general_docs.md](general_docs.md) — правила документации
 - [CLAUDE.md](../CLAUDE.md) — краткие инструкции для Claude
 
 ---
