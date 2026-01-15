@@ -25,7 +25,7 @@ skills: doc-health, doc-claude, doc-project-structure, doc-review, glossary-cand
 
 ### 1. При запуске
 
-1. **Читаю** `llm_tasks/agents/amy-santiago/current_tasks.md`
+1. **Читаю** `llm_tasks/current/0_task_index.md` (секция Amy Santiago)
 2. **Показываю пользователю** секцию "📊 Что было сделано в прошлый раз":
    - Список выполненных подзадач с ✅
    - Текущий прогресс задач
@@ -33,48 +33,50 @@ skills: doc-health, doc-claude, doc-project-structure, doc-review, glossary-cand
 3. **Предлагаю варианты:**
    - Продолжить текущие задачи
    - Начать новые задачи
-   - Просмотреть бэклог (`future_tasks.md`)
+   - Просмотреть бэклог (`future/0_task_index.md`)
 
 ### 2. При начале новой задачи
 
 1. **Очищаю папку** `llm_tasks/agents/amy-santiago/temp/`:
    - Удаляю все временные файлы из прошлой сессии
    - Начинаю работу с чистого листа
-2. **Обновляю статус** задачи: `planned` → `in_progress`
-3. **Обновляю дату** последнего запуска в `current_tasks.md`
+2. **Обновляю статус** задачи: `pending` → `in_progress`
+3. **Обновляю дату** `updated` в файле задачи
 
 ### 3. Во время работы
 
-1. **Обновляю статусы** в `current_tasks.md` в реальном времени:
+1. **Обновляю статусы** в файле задачи в реальном времени:
    - Отмечаю подзадачи: `- [ ]` → `- [x]`
 2. **Сохраняю временные файлы** в `temp/`:
    - Отчёты: `temp/audit_report_2026-01-15.md`
    - Промежуточные результаты: `temp/broken_links.json`
    - Логи работы: `temp/validation_log.txt`
-3. **Синхронизирую** `current_tasks.md` после каждого важного шага
+3. **Синхронизирую** файл задачи после каждого важного шага
 
 ### 4. При завершении задачи
 
-1. **Перемещаю задачу** из `current_tasks.md` в `completed_tasks.md`:
-   - Добавляю **вверх** файла (обратная хронология)
-   - Указываю дату завершения, результат, ссылки на файлы
-2. **Обновляю секцию** "Что было сделано" в `current_tasks.md`
+1. **Использую** `task_complete.py AMY-XXXXX`
+2. Задача перемещается в `completed/YYYY-MM/amy-santiago/`
 3. **Временные файлы** остаются в `temp/` до следующей сессии
 
 ### 5. Структура моих файлов
 
 ```
-llm_tasks/agents/amy-santiago/
-├── current_tasks.md      # Текущие задачи
-├── future_tasks.md       # Бэклог задач
-├── completed_tasks.md    # Архив завершённых задач
-└── temp/                 # Временные файлы
-    ├── audit_report_YYYY-MM-DD.md
-    ├── broken_links.json
-    └── validation_log.txt
+llm_tasks/
+├── current/
+│   ├── 0_task_index.md       # Индекс (секция Amy Santiago)
+│   └── AMY-00001.md          # Мои задачи (assignee: amy-santiago)
+├── future/
+│   └── 0_task_index.md       # Бэклог
+├── completed/
+│   └── YYYY-MM/amy-santiago/ # Мои завершённые задачи
+├── temp/amy-santiago/        # Мои временные файлы
+│   ├── audit_report_YYYY-MM-DD.md
+│   └── broken_links.json
+└── agents/amy-santiago/temp/ # Альтернативное расположение temp
 ```
 
-**Правило:** Никогда не начинаю работу без проверки текущих задач и показа "Что было сделано"!
+**Правило:** Никогда не начинаю работу без проверки текущих задач!
 
 ---
 
@@ -214,7 +216,7 @@ llm_tasks/agents/amy-santiago/
 5. Запустить /glossary-link → добавить ссылки на глоссарий
 6. Сформировать сводный отчёт на основе результатов скиллов
 7. Сохранить всё в temp/
-8. Обновить current_tasks.md
+8. Обновить файл задачи (отметить подзадачи выполненными)
 ```
 
 **Правило:** Если задача может быть выполнена скиллом — использую скилл!

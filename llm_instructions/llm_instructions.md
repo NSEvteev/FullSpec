@@ -224,21 +224,29 @@ project_template/
 │   ├── instructions_scripts.md        # Служебные скрипты
 │   ├── skills.md         # Конфигурация скиллов
 │   └── templates/                     # Шаблоны документов
-│       ├── template_discuss.md
-│       ├── template_architecture.md
-│       ├── template_imp_plan.md
-│       ├── template_resource.md
-│       └── template_folder_doc.md
+│       ├── discuss.md
+│       ├── architecture.md
+│       ├── decision_adr.md
+│       ├── imp_plan.md
+│       ├── resource.md
+│       ├── folder_doc.md
+│       ├── 000_index.md
+│       ├── general_docs_README.md
+│       └── resources_README.md
 │
 ├── llm_tasks/                         # Управление задачами LLM
-│   ├── current_tasks.md               # Текущие задачи основного LLM
-│   ├── future_tasks.md                # Бэклог задач основного LLM
-│   └── agents/                        # Задачи агентов
-│       └── amy-santiago/              # Задачи Documentation Manager
-│           ├── current_tasks.md       # Текущие задачи Amy
-│           ├── future_tasks.md        # Бэклог задач Amy
-│           ├── completed_tasks.md     # Архив завершённых задач
-│           └── temp/                  # Временные файлы Amy
+│   ├── .task_counter                  # Счётчики ID для каждой категории
+│   ├── current/                       # Текущие задачи (все исполнители)
+│   │   ├── 0_task_index.md            # Индекс с группировкой
+│   │   └── FEAT-00001.md              # Файлы задач
+│   ├── future/                        # Бэклог задач
+│   │   └── 0_task_index.md
+│   ├── completed/                     # Архив завершённых задач
+│   │   └── YYYY-MM/{assignee}/        # По месяцам и исполнителям
+│   ├── temp/                          # Временные файлы
+│   │   └── amy-santiago/              # Временные файлы Amy
+│   └── agents/                        # Структура агентов
+│       └── amy-santiago/temp/         # Временные файлы Amy
 │
 └── scripts/                           # Служебные скрипты
     ├── check_doc_health.py            # Комплексная проверка документации

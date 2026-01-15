@@ -172,7 +172,7 @@ assignee: llm-main
 
 ### Выполненная задача (completed/)
 
-**Файл:** `completed/2026/01-january/FEAT-00001.md`
+**Файл:** `completed/2026-01/llm-main/FEAT-00001.md`
 
 После завершения в начало файла добавляется секция **Результат**:
 
@@ -477,23 +477,17 @@ make task-move-future ID=FEAT-00001
 
 ```
 llm_tasks/agents/amy-santiago/
-├── current/
-│   ├── 000_current_index.md
-│   └── AMY-00001.md
-├── future/
-│   └── 000_future_index.md
-├── completed/
-│   ├── 000_completed_index.md
-│   └── 2026/01-january/000_01_index.md
-└── temp/                      # Временные файлы
-    ├── task_doc_FEAT-00001_2026-01-15.md
-    └── audit_report_2026-01-15.md
+├── temp/                      # Временные файлы
+│   ├── task_doc_FEAT-00001_2026-01-15.md
+│   └── audit_report_2026-01-15.md
 ```
+
+**Примечание:** Задачи Amy хранятся в общих папках `current/`, `future/`, `completed/` с полем `assignee: amy-santiago`.
 
 ### Правила для агентов
 
 **При запуске агента:**
-1. Прочитать `current/000_current_index.md`
+1. Прочитать `current/0_task_index.md`
 2. Показать пользователю текущие задачи
 3. Предложить варианты (продолжить, новые, бэклог)
 
@@ -600,10 +594,10 @@ make tasks-completed    # Показать выполненные
 ## Чек-лист для LLM
 
 **Начало сессии:**
-- [ ] Прочитать `current/000_current_index.md`
+- [ ] Прочитать `current/0_task_index.md`
 - [ ] Проверить незавершённые задачи
 - [ ] Спросить пользователя о приоритетах
-- [ ] Просмотреть `future/000_future_index.md` для новых задач
+- [ ] Просмотреть `future/0_task_index.md` для новых задач
 - [ ] Создать TodoWrite на основе выбранных задач
 
 **Во время работы:**
