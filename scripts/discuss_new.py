@@ -90,10 +90,10 @@ def update_index(discuss_id, title, filename, description=''):
     with open(INDEX_FILE, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    # 1. Обновить статистику draft
+    # 1. Обновить статистику draft (с эмодзи)
     content = re.sub(
-        r'\| draft \| (\d+) \|',
-        lambda m: f'| draft | {int(m.group(1)) + 1} |',
+        r'\| 🟡 draft \| (\d+) \|',
+        lambda m: f'| 🟡 draft | {int(m.group(1)) + 1} |',
         content
     )
 
@@ -113,7 +113,7 @@ def update_index(discuss_id, title, filename, description=''):
 
     # 4. Добавить строку в таблицу индекса
     desc = description or title[:50]  # Описание или обрезанный title
-    new_row = f'| {discuss_id} | [{title}]({filename}) | {desc} | draft | {today} | — |'
+    new_row = f'| {discuss_id} | [{title}]({filename}) | {desc} | 🟡 draft | {today} | — |'
 
     # Найти таблицу и добавить строку после заголовка
     table_pattern = r'(\| ID \| Название \| Описание \| Статус \| Обновлено \| Связанная архитектура \|\n\|[-|]+\|)'
@@ -124,18 +124,18 @@ def update_index(discuss_id, title, filename, description=''):
             content
         )
 
-    # 5. Обновить быстрый поиск по статусу draft
+    # 5. Обновить быстрый поиск по статусу draft (с эмодзи)
     content = re.sub(
-        r'- \*\*draft\*\* \((\d+)\) — новые идеи и предложения:?[^\n]*',
-        lambda m: f'- **draft** ({int(m.group(1)) + 1}) — новые идеи и предложения: [{discuss_id}_{slugify(title)}]({filename})',
+        r'- \*\*🟡 draft\*\* \((\d+)\) — новые идеи и предложения:?[^\n]*',
+        lambda m: f'- **🟡 draft** ({int(m.group(1)) + 1}) — новые идеи и предложения: [{discuss_id}_{slugify(title)}]({filename})',
         content
     )
 
     # Если draft был 0, добавить ссылку
-    if '- **draft** (0)' in content:
+    if '- **🟡 draft** (0)' in content:
         content = content.replace(
-            '- **draft** (0) — новые идеи и предложения',
-            f'- **draft** (1) — новые идеи и предложения: [{discuss_id}_{slugify(title)}]({filename})'
+            '- **🟡 draft** (0) — новые идеи и предложения',
+            f'- **🟡 draft** (1) — новые идеи и предложения: [{discuss_id}_{slugify(title)}]({filename})'
         )
 
     # 6. Обновить "По дате"
@@ -169,7 +169,8 @@ def create_discussion(title, user_request=None, description=None):
 
 <!-- [📖 Дискуссия](../glossary.md#дискуссия) -->
 
-**Статус:** draft
+**Статус:** 🟡 draft
+**Дата:** {today}
 
 ## Исходный запрос пользователя
 
