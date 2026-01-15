@@ -71,11 +71,9 @@ def get_next_id(category):
 
 
 def get_task_folder(assignee):
-    """Определить папку для задачи на основе исполнителя."""
-    if assignee == 'amy-santiago':
-        return PROJECT_ROOT / 'llm_tasks' / 'agents' / 'amy-santiago' / 'current'
-    else:
-        return PROJECT_ROOT / 'llm_tasks' / 'current'
+    """Определить папку для задачи."""
+    # Все задачи создаются в общей папке current/
+    return PROJECT_ROOT / 'llm_tasks' / 'current'
 
 
 def create_task(title, priority, category, assignee='llm-main', description='', context=''):

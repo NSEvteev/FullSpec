@@ -28,8 +28,8 @@ python scripts/task_complete.py FEAT-00001
 
 ### 1. Прочитать файл выполненной задачи
 
-- Найти файл в `llm_tasks/completed/YYYY/MM-month/{task_id}.md`
-- Извлечь из frontmatter: `id`, `title`, `category`, `completed`
+- Найти файл в `llm_tasks/completed/YYYY-MM/{assignee}/{task_id}.md`
+- Извлечь из frontmatter: `id`, `title`, `category`, `completed`, `assignee`
 - Извлечь секцию "Связанные документы"
 - Извлечь секцию "Результат"
 
@@ -73,7 +73,29 @@ python scripts/task_complete.py FEAT-00001
 - `general_docs/02_architecture/`
 - `general_docs/06_imp_plans/`
 
-### 4. Отметить в задаче
+### 4. Обновить индекс завершённых задач
+
+Обновить файл `llm_tasks/completed/YYYY-MM/{assignee}/0_task_index.md`:
+
+1. Добавить строку в таблицу с данными задачи:
+   - ID задачи с ссылкой (например, `[FEAT-00001](FEAT-00001.md)`)
+   - Название
+   - Дата завершения
+   - Фактическое время
+   - Фактические токены
+   - **Документация обновлена** — статус обновления документации
+
+2. **Статусы для колонки "Документация обновлена":**
+   - `Success` — все связанные документы успешно обновлены. Формат: `Success: [Doc1](путь), [Doc2](путь)`
+   - `Need` — требуется обновление документации (если есть связанные документы, но они не были обновлены)
+   - `N/A` — нет связанных документов для обновления
+
+3. Пример строки в индексе:
+   ```markdown
+   | [FEAT-00001](FEAT-00001.md) | Добавить OAuth | 2026-01-15 | 2ч | 15k | Success: [Architecture-005](../../../general_docs/02_architecture/005_auth.md), [Plan-003](../../../general_docs/06_imp_plans/003_oauth.md) |
+   ```
+
+### 5. Отметить в задаче
 
 Обновить секцию "Результат" → "Документация обновлена" в файле задачи:
 
@@ -86,10 +108,10 @@ python scripts/task_complete.py FEAT-00001
 - [План 003](../../general_docs/06_imp_plans/003_auth_implementation.md) — отмечены выполненные подзадачи
 ```
 
-### 5. Создать отчёт
+### 6. Создать отчёт
 
 Сохранить детальный отчёт в:
-- `llm_tasks/agents/amy-santiago/temp/task_doc_{task_id}_{date}.md`
+- `llm_tasks/temp/amy-santiago/task_doc_{task_id}_{date}.md`
 
 Формат отчёта:
 

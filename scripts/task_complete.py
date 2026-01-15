@@ -2,7 +2,7 @@
 """
 Скрипт завершения задачи.
 
-Перемещает задачу из current/ в completed/YYYY/MM-month/
+Перемещает задачу из current/ в completed/YYYY-MM/{assignee}/
 Обновляет все индексы.
 Автоматически вызывает Amy Santiago для обновления документации.
 
@@ -22,27 +22,18 @@ from datetime import datetime
 # Корневая директория проекта
 PROJECT_ROOT = Path(__file__).parent.parent
 
-# Месяцы
-MONTHS = {
-    1: 'january', 2: 'february', 3: 'march', 4: 'april',
-    5: 'may', 6: 'june', 7: 'july', 8: 'august',
-    9: 'september', 10: 'october', 11: 'november', 12: 'december'
-}
-
 
 def find_task_file(task_id):
-    """Найти файл задачи в current/ папках."""
-    # Проверяем основной LLM
-    main_current = PROJECT_ROOT / 'llm_tasks' / 'current' / f"{task_id}.md"
-    if main_current.exists():
-        return main_current, 'llm-main'
+    """Найти файл задачи в current/."""
+    task_file = PROJECT_ROOT / 'llm_tasks' / 'current' / f"{task_id}.md"
+    if not task_file.exists():
+        return None, None
 
-    # Проверяем Amy Santiago
-    amy_current = PROJECT_ROOT / 'llm_tasks' / 'agents' / 'amy-santiago' / 'current' / f"{task_id}.md"
-    if amy_current.exists():
-        return amy_current, 'amy-santiago'
+    # Определяем assignee из frontmatter
+    frontmatter = read_task_frontmatter(task_file)
+    assignee = frontmatter.get('assignee', 'llm-main')
 
-    return None, None
+    return task_file, assignee
 
 
 def read_task_frontmatter(task_file):
@@ -141,17 +132,9 @@ def update_task_to_completed(task_file):
 def get_completed_path(assignee):
     """Получить путь к папке completed для исполнителя."""
     now = datetime.now()
-    year = now.year
-    month_num = now.month
-    month_name = MONTHS[month_num]
-    month_folder = f"{month_num:02d}-{month_name}"
+    month_folder = f"{now.year}-{now.month:02d}"  # 2026-01
 
-    if assignee == 'amy-santiago':
-        base = PROJECT_ROOT / 'llm_tasks' / 'agents' / 'amy-santiago' / 'completed'
-    else:
-        base = PROJECT_ROOT / 'llm_tasks' / 'completed'
-
-    completed_folder = base / str(year) / month_folder
+    completed_folder = PROJECT_ROOT / 'llm_tasks' / 'completed' / month_folder / assignee
     completed_folder.mkdir(parents=True, exist_ok=True)
 
     return completed_folder
@@ -203,9 +186,9 @@ def complete_task(task_id, call_amy=True):
     completed_file = move_task_to_completed(task_file, task_id, assignee)
 
     # Обновить индексы
-    print("\n✓ Индексы обновлены (требуется ручное обновление 000_*_index.md)")
-    print(f"  Удалить из: current/000_current_index.md")
-    print(f"  Добавить в: completed/.../000_*_index.md")
+    print("\n✓ Индексы обновлены (требуется ручное обновление 0_task_index.md)")
+    print(f"  Удалить из: current/0_task_index.md")
+    print(f"  Добавить в: completed/{{month}}/{assignee}/0_task_index.md")
 
     # Вызвать Amy Santiago
     if call_amy:
