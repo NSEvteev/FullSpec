@@ -150,3 +150,4 @@ skills: coding-standards, security-checklist
 | glossary-candidates | Поиск специфичных терминов в документе и добавление в кандидаты глоссария | Read, Edit, Glob | amy-santiago |
 | glossary-link | Добавление ссылок на глоссарий во все .md файлы проекта | Read, Edit, Glob, Grep | amy-santiago |
 | glossary-review | Интерактивная обработка кандидатов в глоссарий | Read, Edit, AskUserQuestion, Grep | amy-santiago |
+| task-documentation | Автоматическое документирование завершённых задач — обновление связанных документов | Read, Edit, Write, Grep, Glob | amy-santiago |

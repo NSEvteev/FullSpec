@@ -27,94 +27,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Docker Compose для разработки
 - Makefile для автоматизации
 
-### Структура проекта
+### Ключевые папки
 
-```
-project_template/
-├── .claude/                      # Конфигурация Claude Code
-│   ├── agents/                   # Определения агентов
-│   │   └── amy-santiago.md       # Amy Santiago - Documentation Manager
-│   ├── skills/                   # Пользовательские скиллы
-│   │   ├── commit-push.md
-│   │   ├── doc-*.md              # Скиллы документации
-│   │   └── glossary-*.md         # Скиллы глоссария
-│   └── settings.local.json       # Локальные настройки Claude
-│
-├── apps/                         # Клиентские приложения
-│   └── web/                      # Web UI (фронтенд)
-│
-├── services/                     # Бэкенд микросервисы
-│   ├── api-gateway/              # API Gateway - точка входа
-│   ├── auth/                     # Auth Service - аутентификация
-│   └── users/                    # Users Service - управление пользователями
-│
-├── packages/                     # Общий код (монорепозиторий)
-│   ├── shared/                   # Общие утилиты и типы
-│   ├── ui/                       # UI компоненты
-│   ├── validation/               # Схемы валидации
-│   └── config/                   # Общая конфигурация
-│
-├── general_docs/                 # Документация проекта
-│   ├── glossary.md               # Глоссарий терминов
-│   ├── 01_discuss/               # Дискуссии (идеи → решения)
-│   ├── 02_architecture/          # Архитектурные документы
-│   ├── 03_diagrams/              # Диаграммы (.drawio, Mermaid)
-│   ├── 04_decisions/             # Decision Records (ADR)
-│   ├── 05_resources/             # Описания ресурсов
-│   │   ├── database/             # Схемы БД
-│   │   ├── backend/              # Бэкенд ресурсы
-│   │   ├── frontend/             # Фронтенд ресурсы
-│   │   └── infra/                # Инфраструктура
-│   └── 06_imp_plans/             # Планы реализации
-│
-├── llm_instructions/             # Инструкции для LLM
-│   ├── llm_instructions.md       # Индекс всех инструкций
-│   ├── general_docs.md           # Правила ведения документации
-│   ├── tasks.md                  # Управление задачами
-│   ├── scripts.md                # Служебные скрипты
-│   ├── agents.md                 # Описание агентов Claude Code
-│   └── skills.md                 # Описание скиллов Claude Code
-│
-├── llm_tasks/                    # Задачи для LLM
-│   ├── current_tasks.md          # Текущие задачи основного LLM
-│   ├── future_tasks.md           # Бэклог задач
-│   └── agents/                   # Задачи агентов
-│       └── amy-santiago/         # Задачи Amy Santiago
-│           ├── current_tasks.md  # Текущие задачи агента
-│           ├── future_tasks.md   # Бэклог агента
-│           ├── completed_tasks.md # Архив завершённых задач
-│           └── temp/             # Временные файлы (отчёты, логи)
-│
-├── scripts/                      # Служебные скрипты
-│   ├── check_doc_health.py       # Проверка здоровья документации
-│   ├── check_gloss_health.py     # Проверка глоссария
-│   ├── task_add.py               # Добавление задачи в current_tasks.md
-│   └── backlog_add.py            # Добавление задачи в бэклог
-│
-├── templates/                    # Шаблоны документов
-│   ├── discussion.md             # Шаблон дискуссии
-│   ├── architecture.md           # Шаблон архитектуры
-│   ├── decision.md               # Шаблон ADR
-│   ├── resource.md               # Шаблон ресурса
-│   └── plan.md                   # Шаблон плана реализации
-│
-├── config/                       # Конфигурация проекта
-│   └── examples/                 # Примеры .env файлов
-│
-├── CLAUDE.md                     # Инструкции для Claude Code (этот файл)
-├── README.md                     # Главная документация проекта
-├── Makefile                      # Команды автоматизации
-├── docker-compose.yml            # Docker конфигурация
-└── .env.example                  # Пример переменных окружения
-```
-
-**Ключевые папки:**
 - **`.claude/`** - конфигурация Claude Code (агенты, скиллы, настройки)
 - **`llm_instructions/`** - инструкции для работы LLM с проектом
 - **`llm_tasks/`** - управление задачами (текущие, бэклог, агенты)
 - **`general_docs/`** - документация проекта (дискуссии, архитектура, планы)
 - **`scripts/`** - служебные скрипты (проверки, автоматизация задач)
 - **`templates/`** - шаблоны для создания документов
+
+**Полная структура:** См. [llm_instructions.md](llm_instructions/llm_instructions.md)
 
 ---
 
@@ -140,13 +62,14 @@ project_template/
 **КРИТИЧЕСКИ ВАЖНО:** При каждой новой сессии:
 
 1. **Прочитать** [tasks.md](llm_instructions/tasks.md) — полные правила работы с задачами
-2. **Проверить** [current_tasks.md](llm_tasks/current_tasks.md) — текущие задачи сессии
+2. **Проверить** индекс текущих задач [000_current_index.md](llm_tasks/current/000_current_index.md)
 3. **Предложить** пользователю варианты:
-   - Продолжить текущие задачи
-   - Начать новые задачи
-   - Просмотреть бэклог ([future_tasks.md](llm_tasks/future_tasks.md))
+   - Продолжить текущие задачи из `current/`
+   - Начать новые задачи (создать через `task_new.py`)
+   - Просмотреть бэклог ([000_future_index.md](llm_tasks/future/000_future_index.md))
+   - Переместить задачи из `future/` в `current/`
 
-**Запрещено:** Использовать временные файлы (PROJECT_IMPROVEMENTS.md и подобные) — только `llm_tasks/`.
+**Запрещено:** Использовать временные файлы (PROJECT_IMPROVEMENTS.md и подобные) — только `llm_tasks/` с уникальными ID.
 
 ### Сохранение новых правил
 
@@ -160,12 +83,13 @@ project_template/
 ## Быстрый старт LLM
 
 1. **Контекст проекта:** Ознакомиться с [llm_instructions.md](llm_instructions/llm_instructions.md)
-2. **Новая сессия:** **ОБЯЗАТЕЛЬНО** проверить [current_tasks.md](llm_tasks/current_tasks.md)
+2. **Новая сессия:** **ОБЯЗАТЕЛЬНО** проверить индекс текущих задач [000_current_index.md](llm_tasks/current/000_current_index.md)
    - Если есть текущие задачи → предложить пользователю:
-     - Продолжить работу над текущими задачами
-     - Работать с новыми задачами
-     - Посмотреть бэклог ([future_tasks.md](llm_tasks/future_tasks.md))
-3. **Задачи:** Следовать [tasks.md](llm_instructions/tasks.md)
+     - Продолжить работу над текущими задачами из `current/`
+     - Работать с новыми задачами (создать через скрипты)
+     - Просмотреть бэклог ([000_future_index.md](llm_tasks/future/000_future_index.md))
+     - Переместить задачи из бэклога в текущие
+3. **Задачи:** Следовать [tasks.md](llm_instructions/tasks.md) — полная документация системы с ID
 4. **Документация:** Следовать [general_docs.md](llm_instructions/general_docs.md)
 5. **Термины:** Добавлять в [glossary.md](general_docs/glossary.md)
 6. **Скрипты:** См. [scripts.md](llm_instructions/scripts.md)
@@ -209,6 +133,7 @@ project_template/
 **Скиллы:**
 - doc-health, doc-claude, doc-project-structure
 - glossary-candidates, glossary-link, glossary-review
+- task-documentation (автоматическое документирование завершённых задач)
 
 **Использование скиллов:**
 
@@ -224,47 +149,109 @@ Amy **автоматически** использует скиллы в прав
 
 ## Управление задачами
 
-**ВАЖНО:** Все задачи проекта ведутся через `llm_tasks/`, а не через временные файлы.
+**ВАЖНО:** Все задачи проекта ведутся через `llm_tasks/` с уникальными ID, а не через временные файлы.
 
-### Основной LLM
+### Структура задач
 
-| Файл | Назначение |
-|------|------------|
-| [current_tasks.md](llm_tasks/current_tasks.md) | Текущие задачи сессии (проверять при каждом запуске!) |
-| [future_tasks.md](llm_tasks/future_tasks.md) | [📖 Бэклог](general_docs/glossary.md#бэклог) задач |
-| [tasks.md](llm_instructions/tasks.md) | Правила работы с задачами |
+```
+llm_tasks/
+├── .task_counter          # Счётчики ID для каждой категории
+├── current/               # Текущие активные задачи
+│   ├── 000_current_index.md
+│   ├── FEAT-00001.md
+│   └── ID-00006.md
+├── future/                # Бэклог задач
+│   ├── 000_future_index.md
+│   └── FIX-00002.md
+└── completed/             # Архив завершённых задач
+    ├── 000_completed_index.md
+    └── 2026/
+        ├── 000_2026_index.md
+        └── 01-january/
+            ├── 000_01_index.md
+            └── ID-00005.md
+```
 
-### Агенты
+### Формат ID задач
 
-Каждый агент имеет собственную папку задач в `llm_tasks/agents/[имя-агента]/`:
+Задачи имеют уникальные ID формата: `CATEGORY-NNNNN`
+
+**Категории:**
+- `FEAT-00001` — новая функциональность
+- `FIX-00001` — исправление бага
+- `REFACTOR-00001` — рефакторинг кода
+- `DOCS-00001` — документация
+- `TEST-00001` — тесты
+- `INFRA-00001` — инфраструктура
+- `ID-00001` — общие задачи (без категории)
+- `AMY-00001` — задачи для Amy Santiago
+
+**Счётчики:** Каждая категория имеет отдельный счётчик в `.task_counter`
+
+### Работа с задачами через скрипты
+
+```bash
+# Создание новых задач
+python scripts/task_new.py -i                    # Интерактивно
+python scripts/task_new.py -t "Название" -c feat # С параметрами
+
+# Завершение задачи (автоматически вызывает Amy Santiago)
+python scripts/task_complete.py FEAT-00001
+
+# Перемещение между current и future
+python scripts/task_move.py FEAT-00001 current   # future → current
+python scripts/task_move.py FEAT-00002 future    # current → future
+```
+
+### Makefile команды
+
+```bash
+# Создание задач
+make task-new              # Интерактивное создание
+make task-new-feat TITLE="..." PRIORITY="high"
+make task-new-fix TITLE="..." PRIORITY="medium"
+
+# Управление задачами
+make task-complete ID=FEAT-00001
+make task-move-current ID=FEAT-00001
+make task-move-future ID=FEAT-00001
+
+# Просмотр
+make tasks-current         # Показать текущие задачи
+make tasks-future          # Показать бэклог
+make tasks-completed       # Показать архив
+```
+
+### Автоматическое документирование
+
+При завершении задачи (`task_complete.py`) автоматически вызывается **Amy Santiago** со скиллом `task-documentation` для обновления связанной документации:
+
+- Обновляет дискуссии (добавляет ссылку на задачу)
+- Обновляет архитектуру (добавляет в историю изменений)
+- Обновляет планы реализации (отмечает выполненные подзадачи)
+- Обновляет индексы документации
+
+### Задачи агентов
+
+Агенты имеют аналогичную структуру в `llm_tasks/agents/[имя-агента]/`:
 
 ```
 llm_tasks/agents/amy-santiago/
-├── current_tasks.md      # Текущие задачи
-├── future_tasks.md       # Бэклог
-├── completed_tasks.md    # Архив завершённых задач
-└── temp/                 # Временные файлы
+├── current/
+│   ├── 000_current_index.md
+│   └── AMY-00001.md
+├── future/
+│   ├── 000_future_index.md
+│   └── AMY-00002.md
+├── completed/
+│   ├── 000_completed_index.md
+│   └── 2026/01-january/
+│       ├── 000_01_index.md
+│       └── AMY-00003.md
+└── temp/                  # Временные файлы (отчёты, логи)
 ```
 
-| Файл | Назначение |
-|------|------------|
-| [current_tasks.md](llm_tasks/agents/amy-santiago/current_tasks.md) | Текущие задачи Amy (с секцией "Что было сделано") |
-| [future_tasks.md](llm_tasks/agents/amy-santiago/future_tasks.md) | Бэклог задач Amy |
-| [completed_tasks.md](llm_tasks/agents/amy-santiago/completed_tasks.md) | Архив завершённых задач (обратная хронология) |
-| temp/ | Временные файлы (отчёты, логи, промежуточные результаты) |
-
-**Правила для агентов:**
-1. При запуске — показать "Что было сделано в прошлый раз"
-2. При начале новой задачи — очистить `temp/`
-3. Во время работы — сохранять временные файлы в `temp/`
-4. При завершении — переместить задачу в `completed_tasks.md` (вверх файла)
-
-### Правила работы с задачами
-
-1. **Начало сессии:** Обязательно прочитать `current_tasks.md`
-2. **Планирование:** Переносить задачи из `future_tasks.md` в `current_tasks.md`
-3. **Выполнение:** Обновлять статусы подзадач в реальном времени
-4. **Завершение:** Синхронизировать `current_tasks.md` с выполненной работой
+**Подробнее:** См. [tasks.md](llm_instructions/tasks.md) — полная документация системы управления задачами
 
 ---
 
@@ -320,31 +307,39 @@ make docs-check        # Документация + глоссарий
 ### Управление задачами
 
 ```bash
-# Добавление задач (интерактивно)
-make task-add          # Добавить задачу в current_tasks.md
-make backlog-add       # Добавить задачу в бэклог (future_tasks.md)
+# Создание задач
+make task-new              # Создать задачу интерактивно
+make task-new-feat TITLE="..." PRIORITY="high"    # FEAT задача
+make task-new-fix TITLE="..." PRIORITY="medium"   # FIX задача
+make task-new-docs TITLE="..." PRIORITY="low"     # DOCS задача
 
-# Добавление задач (через параметры)
-make task TITLE="Название задачи" PRIORITY="средний"
-make backlog TITLE="Название" PRIORITY="P2" CATEGORY="docs"
+# Управление задачами
+make task-complete ID=FEAT-00001           # Завершить задачу (вызывает Amy)
+make task-move-current ID=FEAT-00001       # Переместить из future в current
+make task-move-future ID=FEAT-00001        # Переместить из current в future
 
-# Просмотр задач
-make tasks-view        # Просмотреть текущие задачи
-make backlog-view      # Просмотреть бэклог
+# Просмотр индексов
+make tasks-current         # Показать текущие задачи
+make tasks-future          # Показать бэклог
+make tasks-completed       # Показать архив
 
 # Альтернатива: Python скрипты напрямую
-python scripts/task_add.py -i
-python scripts/backlog_add.py -i
+python scripts/task_new.py -i
+python scripts/task_complete.py FEAT-00001
+python scripts/task_move.py FEAT-00001 current
 ```
 
 **Примеры:**
 ```bash
-# Интерактивный режим (рекомендуется)
-make task-add
+# Интерактивное создание (рекомендуется)
+make task-new
 
-# Быстрое добавление
-make task TITLE="Исправить баг в auth" PRIORITY="высокий"
-make backlog TITLE="Добавить тесты" PRIORITY="P2" CATEGORY="feat"
+# Быстрое создание с категорией
+make task-new-feat TITLE="Добавить OAuth" PRIORITY="high"
+make task-new-fix TITLE="Исправить баг в auth" PRIORITY="high"
+
+# Завершение задачи (автоматически документируется Amy)
+make task-complete ID=FEAT-00001
 ```
 
 ## Переменные окружения (.env)

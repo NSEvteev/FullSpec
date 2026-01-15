@@ -265,20 +265,32 @@ docs-structure: ## Обновить структуру проекта в README
 # Управление задачами
 # ============================================
 
-task-add: ## Добавить задачу в current_tasks.md (интерактивно)
-	@python scripts/task_add.py -i
+task-new: ## Создать новую задачу (интерактивно)
+	@python scripts/task_new.py -i
 
-task: ## Добавить задачу в current_tasks.md (использование: make task TITLE="..." PRIORITY="средний")
-	@python scripts/task_add.py -t "$(TITLE)" -p $(PRIORITY)
+task-new-feat: ## Создать задачу FEAT (использование: make task-new-feat TITLE="..." PRIORITY="high")
+	@python scripts/task_new.py -t "$(TITLE)" -p $(PRIORITY) -c feat
 
-backlog-add: ## Добавить задачу в бэклог (интерактивно)
-	@python scripts/backlog_add.py -i
+task-new-fix: ## Создать задачу FIX (использование: make task-new-fix TITLE="..." PRIORITY="high")
+	@python scripts/task_new.py -t "$(TITLE)" -p $(PRIORITY) -c fix
 
-backlog: ## Добавить задачу в бэклог (использование: make backlog TITLE="..." PRIORITY="P2" CATEGORY="docs")
-	@python scripts/backlog_add.py -t "$(TITLE)" -p $(PRIORITY) -c $(CATEGORY)
+task-new-docs: ## Создать задачу DOCS (использование: make task-new-docs TITLE="..." PRIORITY="medium")
+	@python scripts/task_new.py -t "$(TITLE)" -p $(PRIORITY) -c docs
 
-tasks-view: ## Просмотреть текущие задачи
-	@cat llm_tasks/current_tasks.md
+task-complete: ## Завершить задачу (использование: make task-complete ID=FEAT-00001)
+	@python scripts/task_complete.py $(ID)
 
-backlog-view: ## Просмотреть бэклог задач
-	@cat llm_tasks/future_tasks.md
+task-move-current: ## Переместить задачу из future в current (использование: make task-move-current ID=FEAT-00001)
+	@python scripts/task_move.py $(ID) current
+
+task-move-future: ## Переместить задачу из current в future (использование: make task-move-future ID=FEAT-00001)
+	@python scripts/task_move.py $(ID) future
+
+tasks-current: ## Показать текущие задачи
+	@cat llm_tasks/current/000_current_index.md
+
+tasks-future: ## Показать бэклог задач
+	@cat llm_tasks/future/000_future_index.md
+
+tasks-completed: ## Показать выполненные задачи
+	@cat llm_tasks/completed/000_completed_index.md

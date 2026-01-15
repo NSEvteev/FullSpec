@@ -22,7 +22,14 @@
       "Bash(git mv:*)",
       "Skill(doc-health)",
       "Skill(doc-claude)",
-      "Skill(glossary-link)"
+      "Skill(glossary-link)",
+      "Bash(if [ -f llm_tasks/agents/amy-santiago/current_tasks.md ])",
+      "Bash(then mv llm_tasks/agents/amy-santiago/current_tasks.md llm_tasks/agents/amy-santiago/_deprecated_current_tasks.md)",
+      "Bash(fi)",
+      "Bash(if [ -f llm_tasks/agents/amy-santiago/future_tasks.md ])",
+      "Bash(then mv llm_tasks/agents/amy-santiago/future_tasks.md llm_tasks/agents/amy-santiago/_deprecated_future_tasks.md)",
+      "Bash(if [ -f llm_tasks/agents/amy-santiago/completed_tasks.md ])",
+      "Bash(then mv llm_tasks/agents/amy-santiago/completed_tasks.md llm_tasks/agents/amy-santiago/_deprecated_completed_tasks.md)"
     ]
   }
 }
