@@ -1,5 +1,6 @@
 # Временные файлы Claude Code
 tmpclaude-*
+llm_tasks/agents/*/temp/
 
 # Временные файлы ОС
 *.tmp
