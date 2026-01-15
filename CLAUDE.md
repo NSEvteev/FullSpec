@@ -139,9 +139,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Amy **автоматически** использует скиллы в правильной последовательности:
 
-- **Аудит:** /doc-health → /doc-claude → /glossary-candidates → /glossary-link → /doc-review
-- **Создание документа:** /glossary-candidates → /glossary-review → /glossary-link → /doc-health → /doc-review
-- **Изменение структуры:** /doc-project-structure → /doc-claude → /doc-health
+- **Создание документа:** /doc-review → /doc-health → /doc-claude → /glossary-candidates → /glossary-review → /glossary-link
+- **Аудит:** /doc-review → /doc-health → /doc-claude → /glossary-candidates → /glossary-link
+- **Изменение структуры:** /doc-project-structure → /doc-health → /doc-claude
 
 **Скилл doc-review (ревью документа):**
 
