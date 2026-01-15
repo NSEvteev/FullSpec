@@ -143,7 +143,7 @@ skills: coding-standards, security-checklist
 
 | Имя | Назначение | Инструменты | Используется в агентах |
 |-----|------------|-------------|------------------------|
-| discussion | Создание новой дискуссии. Триггер: "Дискуссия:" или /discussion. Проверяет похожие темы в индексе | Read, Write, Edit, Grep, Glob, AskUserQuestion | — |
+| discussion | Создание новой дискуссии. Триггер: "Дискуссия:" или /discussion. Проверяет похожие темы в индексе | Read, Write, Edit, Grep, Glob, AskUserQuestion | amy-santiago |
 | commit-push | Коммит и пуш с правильным форматированием сообщений | Bash, Read | — |
 | doc-claude | Обновление CLAUDE.md и llm_instructions.md при важных изменениях | Read, Edit, Bash | amy-santiago |
 | doc-health | Проверка здоровья документации — ссылки, структура, статусы, метаданные | Bash | amy-santiago |

@@ -3,7 +3,7 @@ name: amy-santiago
 description: Documentation Manager Agent — специалист по управлению документацией проекта. Создаёт, валидирует и поддерживает документы в general_docs/, следит за соблюдением стандартов, управляет индексами и цепочкой зависимостей. Используй для создания/изменения документации, проверки соответствия стандартам, обновления связанных документов.
 tools: Read, Write, Edit, Grep, Glob
 model: sonnet
-skills: doc-health, doc-claude, doc-project-structure, doc-review, glossary-candidates, glossary-link, glossary-review
+skills: discussion, doc-health, doc-claude, doc-project-structure, doc-review, glossary-candidates, glossary-link, glossary-review
 ---
 
 # Amy Santiago — Documentation Manager Agent
