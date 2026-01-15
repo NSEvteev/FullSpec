@@ -31,6 +31,7 @@
 |--------|------------|-------------------------|
 | [discuss.md](templates/discuss.md) | [📖 Дискуссии](../general_docs/glossary.md#дискуссия) (идея → решение) | `general_docs/discuss/` |
 | [architecture.md](templates/architecture.md) | Архитектурные документы | `general_docs/architecture/` |
+| [decision_adr.md](templates/decision_adr.md) | [📖 Decision (ADR)](../general_docs/glossary.md#decision-adr) — архитектурные решения | `general_docs/decisions/` |
 | [imp_plan.md](templates/imp_plan.md) | [📖 Планы реализации](../general_docs/glossary.md#план-реализации) | `general_docs/imp_plans/` |
 | [resource.md](templates/resource.md) | Описания ресурсов | `general_docs/resources/` |
 | [folder_doc.md](templates/folder_doc.md) | [📖 Документация папок](../general_docs/glossary.md#документация-папок) кода | `src/*/[название]_doc.md` |
@@ -203,6 +204,9 @@ project_template/
 ├── general_docs/                      # Общая документация
 │   ├── glossary.md                    # Глоссарий терминов
 │   ├── architecture/                  # Архитектурные документы
+│   ├── decisions/                     # Decision (ADR) — архитектурные решения
+│   │   ├── 000_decisions_index.md     # Индекс решений
+│   │   └── archive/                   # Устаревшие/отклонённые решения
 │   ├── diagrams/                      # Диаграммы (.drawio, Mermaid)
 │   ├── discuss/                       # Дискуссии (идея → решение)
 │   ├── imp_plans/                     # Планы реализации

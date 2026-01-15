@@ -13,6 +13,7 @@ general_docs/
 ├── glossary.md              # Глоссарий терминов проекта
 ├── discuss/                 # Дискуссии (идея → решение)
 ├── architecture/            # Архитектурные документы
+├── decisions/               # Architecture Decision Records (ADR)
 ├── diagrams/                # Диаграммы (.drawio, Mermaid)
 ├── imp_plans/               # Планы реализации
 └── resources/               # Описания ресурсов
@@ -29,9 +30,10 @@ general_docs/
 
 | Документ | Назначение |
 |----------|------------|
-| [glossary.md](glossary.md) | Глоссарий терминов проекта (13 терминов) |
+| [glossary.md](glossary.md) | Глоссарий терминов проекта (14 терминов) |
 | [discuss/](discuss/) | [📖 Дискуссии](glossary.md#дискуссия) — обсуждение архитектурных решений |
 | [architecture/](architecture/) | Архитектурные документы — решения и их обоснования |
+| [decisions/](decisions/) | [📖 Decision (ADR)](glossary.md#decision-adr) — зафиксированные архитектурные решения |
 | [diagrams/](diagrams/) | Диаграммы архитектуры (.drawio, Mermaid) |
 | [imp_plans/](imp_plans/) | [📖 Планы реализации](glossary.md#план-реализации) — задачи и этапы разработки |
 | [resources/](resources/) | Описания ресурсов (БД, API, компоненты) |
@@ -43,13 +45,13 @@ general_docs/
 **Прямая цепочка:**
 
 ```
-Дискуссия → Архитектура → Ресурсы → План реализации → Документация папок (README.md)
+Дискуссия → Архитектура → Decision (ADR) → Ресурсы → План реализации → Документация папок (README.md)
 ```
 
 **При изменениях:**
-- Изменение архитектуры → обновить связанные дискуссии
-- Изменение ресурса → обновить архитектуру и документацию папок
-- Изменение кода → обновить документацию папки, при существенных изменениях — ресурс
+- Изменение [📖 Decision (ADR)](glossary.md#decision-adr) → обновить связанные дискуссии и архитектуру
+- Изменение ресурса → обновить Decision (ADR) и документацию папок
+- Изменение кода → обновить документацию папки, при существенных изменениях — ресурс и Decision (ADR)
 
 См. [instructions_general_docs.md](../llm_instructions/instructions_general_docs.md#цепочка-зависимостей-документов)
 
@@ -60,7 +62,7 @@ general_docs/
 ### Для разработчиков
 
 **Ищете архитектурное решение?**
-→ Начните с [discuss/](discuss/) или [architecture/](architecture/)
+→ Начните с [decisions/](decisions/) (краткие ADR) или [discuss/](discuss/) / [architecture/](architecture/) (детали)
 
 **Нужна схема БД или API?**
 → Смотрите [resources/database/](resources/database/) или [resources/api/](resources/api/)
@@ -89,6 +91,7 @@ general_docs/
 1. **Выбрать тип документа:**
    - [📖 Дискуссия](glossary.md#дискуссия) → `discuss/XXX_название.md`
    - Архитектурный документ → `architecture/XXX_название.md`
+   - [📖 Decision (ADR)](glossary.md#decision-adr) → `decisions/DEC-XXX_название.md`
    - [📖 План реализации](glossary.md#план-реализации) → `imp_plans/XXX_план_название.md`
    - Описание ресурса → `resources/[категория]/XXX_название.md`
 
@@ -122,9 +125,10 @@ general_docs/
 
 Эмодзи 📖 визуально отличает ссылки на глоссарий от обычных ссылок.
 
-**Текущие термины:** 13
+**Текущие термины:** 14
 - [📖 Агент](glossary.md#агент)
 - [📖 Бэклог](glossary.md#бэклог)
+- [📖 Decision (ADR)](glossary.md#decision-adr)
 - [📖 Дискуссия](glossary.md#дискуссия)
 - [📖 Документация папок](glossary.md#документация-папок)
 - [📖 LLM-сессия](glossary.md#llm-сессия)
@@ -135,7 +139,6 @@ general_docs/
 - [📖 Цепочка зависимостей](glossary.md#цепочка-зависимостей)
 - [📖 Feedback](glossary.md#feedback)
 - [📖 Workflow статусов](glossary.md#workflow-статусов)
-- [📖 Stakeholders](glossary.md#stakeholders)
 - и другие (см. глоссарий)
 
 ---
