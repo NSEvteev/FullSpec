@@ -1,0 +1,9 @@
+{
+  "discuss": 1,
+  "architecture": 0,
+  "diagrams": 0,
+  "decisions": 0,
+  "resources": 0,
+  "imp_plans": 0,
+  "description": "Счётчики ID для документов в general_docs/"
+}

@@ -21,31 +21,40 @@ PROJECT_ROOT = Path(__file__).parent.parent
 DISCUSS_DIR = PROJECT_ROOT / 'general_docs' / '01_discuss'
 INDEX_FILE = DISCUSS_DIR / '000_discuss.md'
 TEMPLATE_FILE = PROJECT_ROOT / 'llm_instructions' / 'templates' / 'discuss.md'
-COUNTER_FILE = PROJECT_ROOT / 'general_docs' / '.discuss_counter'
+COUNTER_FILE = PROJECT_ROOT / 'general_docs' / '.doc_counter'
 
 
-def load_counter():
-    """Загрузить счётчик дискуссий."""
+def load_counters():
+    """Загрузить счётчики документов."""
     if not COUNTER_FILE.exists():
-        save_counter(0)
-        return 0
+        default = {
+            "discuss": 0,
+            "architecture": 0,
+            "diagrams": 0,
+            "decisions": 0,
+            "resources": 0,
+            "imp_plans": 0,
+            "description": "Счётчики ID для документов в general_docs/"
+        }
+        save_counters(default)
+        return default
 
     with open(COUNTER_FILE, 'r', encoding='utf-8') as f:
-        return int(f.read().strip())
+        return json.load(f)
 
 
-def save_counter(value):
-    """Сохранить счётчик дискуссий."""
+def save_counters(counters):
+    """Сохранить счётчики документов."""
     with open(COUNTER_FILE, 'w', encoding='utf-8') as f:
-        f.write(str(value))
+        json.dump(counters, f, indent=2, ensure_ascii=False)
 
 
 def get_next_id():
     """Получить следующий ID для дискуссии."""
-    counter = load_counter()
-    counter += 1
-    save_counter(counter)
-    return f"{counter:03d}"
+    counters = load_counters()
+    counters["discuss"] += 1
+    save_counters(counters)
+    return f"{counters['discuss']:03d}"
 
 
 def slugify(text):
@@ -74,7 +83,7 @@ def slugify(text):
     return slug[:50]  # Ограничиваем длину
 
 
-def update_index(discuss_id, title, filename):
+def update_index(discuss_id, title, filename, description=''):
     """Обновить индекс дискуссий."""
     today = datetime.now().strftime('%Y-%m-%d')
 
@@ -103,10 +112,11 @@ def update_index(discuss_id, title, filename):
     )
 
     # 4. Добавить строку в таблицу индекса
-    new_row = f'| {discuss_id} | [{title}]({filename}) | draft | {today} | — |'
+    desc = description or title[:50]  # Описание или обрезанный title
+    new_row = f'| {discuss_id} | [{title}]({filename}) | {desc} | draft | {today} | — |'
 
     # Найти таблицу и добавить строку после заголовка
-    table_pattern = r'(\| ID \| Название \| Статус \| Обновлено \| Связанная архитектура \|\n\|[-|]+\|)'
+    table_pattern = r'(\| ID \| Название \| Описание \| Статус \| Обновлено \| Связанная архитектура \|\n\|[-|]+\|)'
     if re.search(table_pattern, content):
         content = re.sub(
             table_pattern,
@@ -144,7 +154,7 @@ def update_index(discuss_id, title, filename):
         f.write(content)
 
 
-def create_discussion(title, user_request=None):
+def create_discussion(title, user_request=None, description=None):
     """Создать новую дискуссию."""
     discuss_id = get_next_id()
     slug = slugify(title)
@@ -152,6 +162,7 @@ def create_discussion(title, user_request=None):
     filepath = DISCUSS_DIR / filename
 
     today = datetime.now().strftime('%Y-%m-%d')
+    desc = description or title[:50]  # Короткое описание для индекса
 
     # Создаём контент
     content = f"""# {discuss_id}_{slug}
@@ -206,12 +217,13 @@ def create_discussion(title, user_request=None):
         f.write(content)
 
     # Обновляем индекс
-    update_index(discuss_id, title, filename)
+    update_index(discuss_id, title, filename, desc)
 
-    print(f"✓ Дискуссия создана: {discuss_id}")
-    print(f"  Файл: general_docs/01_discuss/{filename}")
-    print(f"  Тема: {title}")
-    print(f"  Статус: draft")
+    print(f"[OK] Diskussiya sozdana: {discuss_id}")
+    print(f"  Fayl: general_docs/01_discuss/{filename}")
+    print(f"  Tema: {title}")
+    print(f"  Opisanie: {desc}")
+    print(f"  Status: draft")
     print()
     print("Следующие шаги:")
     print(f"  1. Заполнить варианты в файле дискуссии")
@@ -230,18 +242,23 @@ def interactive_mode():
         print("Ошибка: тема обязательна")
         return
 
+    description = input("Краткое описание (для индекса, Enter - использовать тему): ").strip()
+    if not description:
+        description = title[:50]
+
     user_request = input("Исходный запрос (Enter - использовать тему): ").strip()
     if not user_request:
         user_request = title
 
     print()
-    create_discussion(title, user_request)
+    create_discussion(title, user_request, description)
 
 
 def main():
     parser = argparse.ArgumentParser(description='Создать новую дискуссию')
     parser.add_argument('topic', nargs='?', help='Тема дискуссии')
     parser.add_argument('-t', '--title', help='Тема дискуссии (альтернатива positional)')
+    parser.add_argument('-d', '--description', help='Краткое описание для индекса')
     parser.add_argument('-q', '--request', help='Исходный запрос пользователя')
     parser.add_argument('-i', '--interactive', action='store_true',
                         help='Интерактивный режим')
@@ -252,12 +269,12 @@ def main():
         interactive_mode()
     elif args.topic or args.title:
         title = args.topic or args.title
-        create_discussion(title, args.request)
+        create_discussion(title, args.request, args.description)
     else:
         parser.print_help()
         print("\nПримеры:")
         print('  python scripts/discuss_new.py "UI стайлгайд"')
-        print('  python scripts/discuss_new.py -t "Выбор БД" -q "Какую базу данных выбрать?"')
+        print('  python scripts/discuss_new.py -t "Выбор БД" -d "Выбор базы данных"')
         print('  python scripts/discuss_new.py -i  # интерактивный режим')
 
 

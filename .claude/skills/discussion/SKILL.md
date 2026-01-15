@@ -125,18 +125,26 @@ python scripts/discuss_new.py "UI-фреймворк"
 ```bash
 # Создать дискуссию
 python scripts/discuss_new.py "Тема"
-python scripts/discuss_new.py -t "Тема" -q "Полный запрос"
+python scripts/discuss_new.py -t "Тема" -d "Описание" -q "Полный запрос"
 python scripts/discuss_new.py -i  # интерактивно
 
+# Удалить дискуссию
+python scripts/discuss_delete.py 001           # с подтверждением
+python scripts/discuss_delete.py 001 --force   # без подтверждения
+
 # Makefile
-make discuss-new TOPIC="Тема дискуссии"
+make discuss-new              # интерактивно
+make discuss-new-topic TOPIC="Тема"
+make discuss-delete ID="001"  # удалить дискуссию
+make discuss-index            # показать индекс
 ```
 
 ## Связанные файлы
 
 - `scripts/discuss_new.py` — скрипт создания дискуссии
+- `scripts/discuss_delete.py` — скрипт удаления дискуссии
 - `general_docs/01_discuss/000_discuss.md` — индекс дискуссий
-- `general_docs/.discuss_counter` — счётчик ID
+- `general_docs/.doc_counter` — единый счётчик ID для всех документов
 - `llm_instructions/templates/discuss.md` — шаблон
 
 ## Связанные скиллы
