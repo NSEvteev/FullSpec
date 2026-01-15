@@ -62,11 +62,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **КРИТИЧЕСКИ ВАЖНО:** При каждой новой сессии:
 
 1. **Прочитать** [tasks.md](llm_instructions/tasks.md) — полные правила работы с задачами
-2. **Проверить** индекс текущих задач [000_current_index.md](llm_tasks/current/000_current_index.md)
+2. **Проверить** индекс текущих задач [0_task_index.md](llm_tasks/current/0_task_index.md)
 3. **Предложить** пользователю варианты:
    - Продолжить текущие задачи из `current/`
    - Начать новые задачи (создать через `task_new.py`)
-   - Просмотреть бэклог ([000_future_index.md](llm_tasks/future/000_future_index.md))
+   - Просмотреть бэклог ([0_task_index.md](llm_tasks/future/0_task_index.md))
    - Переместить задачи из `future/` в `current/`
 
 **Запрещено:** Использовать временные файлы (PROJECT_IMPROVEMENTS.md и подобные) — только `llm_tasks/` с уникальными ID.
@@ -83,11 +83,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Быстрый старт LLM
 
 1. **Контекст проекта:** Ознакомиться с [llm_instructions.md](llm_instructions/llm_instructions.md)
-2. **Новая сессия:** **ОБЯЗАТЕЛЬНО** проверить индекс текущих задач [000_current_index.md](llm_tasks/current/000_current_index.md)
+2. **Новая сессия:** **ОБЯЗАТЕЛЬНО** проверить индекс текущих задач [0_task_index.md](llm_tasks/current/0_task_index.md)
    - Если есть текущие задачи → предложить пользователю:
      - Продолжить работу над текущими задачами из `current/`
      - Работать с новыми задачами (создать через скрипты)
-     - Просмотреть бэклог ([000_future_index.md](llm_tasks/future/000_future_index.md))
+     - Просмотреть бэклог ([0_task_index.md](llm_tasks/future/0_task_index.md))
      - Переместить задачи из бэклога в текущие
 3. **Задачи:** Следовать [tasks.md](llm_instructions/tasks.md) — полная документация системы с ID
 4. **Документация:** Следовать [general_docs.md](llm_instructions/general_docs.md)
@@ -131,7 +131,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Валидирует структуру, ссылки, метаданные
 
 **Скиллы:**
-- doc-health, doc-claude, doc-project-structure
+- doc-health, doc-claude, doc-project-structure, doc-review
 - glossary-candidates, glossary-link, glossary-review
 - task-documentation (автоматическое документирование завершённых задач)
 
@@ -139,9 +139,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Amy **автоматически** использует скиллы в правильной последовательности:
 
-- **Аудит:** /doc-health → /doc-claude → /glossary-candidates → /glossary-link
-- **Создание документа:** /glossary-candidates → /glossary-review → /glossary-link → /doc-health
+- **Аудит:** /doc-health → /doc-claude → /glossary-candidates → /glossary-link → /doc-review
+- **Создание документа:** /glossary-candidates → /glossary-review → /glossary-link → /doc-health → /doc-review
 - **Изменение структуры:** /doc-project-structure → /doc-claude → /doc-health
+
+**Скилл doc-review (ревью документа):**
+
+Также доступен напрямую (без агента) по команде `/doc-review` или по ключевым словам:
+- "уделить внимание [документу]"
+- "подумать над [документом]"
+- "сделать ревью"
+- "ультрасинк" / "ультрасинг"
+
+Автоматически применяется при завершении работы над .md файлами в:
+- `general_docs/`
+- `.claude/agents/`, `.claude/skills/`
+- `llm_instructions/`
 
 **Подробнее:** См. [agents.md](llm_instructions/agents.md#amy-santiago-documentation-manager)
 
@@ -159,22 +172,15 @@ llm_tasks/
 ├── current/               # Текущие задачи (все исполнители)
 │   ├── 0_task_index.md    # Индекс с группировкой по исполнителям
 │   ├── FEAT-00001.md      # assignee: llm-main
-│   ├── AMY-00002.md       # assignee: amy-santiago
-│   └── ID-00003.md
+│   └── AMY-00002.md       # assignee: amy-santiago
 ├── future/                # Бэклог задач (все исполнители)
 │   ├── 0_task_index.md    # Индекс с группировкой по исполнителям
 │   └── FIX-00004.md
 ├── completed/             # Архив завершённых задач
-│   └── 2026-01/           # Месяц (YYYY-MM)
-│       ├── llm-main/      # Исполнитель
-│       │   ├── 0_task_index.md
-│       │   ├── FEAT-00001.md
-│       │   └── ID-00005.md
-│       └── amy-santiago/
-│           ├── 0_task_index.md
-│           └── AMY-00002.md
-└── temp/                  # Временные файлы
-    └── amy-santiago/      # Отчёты, логи
+│   └── YYYY-MM/           # Месяц завершения
+│       └── {assignee}/    # Исполнитель
+│           └── 0_task_index.md
+└── temp/                  # Временные файлы агентов
 ```
 
 ### Формат ID задач
@@ -265,6 +271,9 @@ make stop              # Остановить все сервисы
 make logs              # Показать логи всех сервисов
 make test              # Запустить все тесты
 make build             # Собрать для production
+
+# Запуск отдельного теста (пример для сервиса auth):
+cd services/auth && npm test -- --grep "test name"
 ```
 
 ### Запуск и остановка

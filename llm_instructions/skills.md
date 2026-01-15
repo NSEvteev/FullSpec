@@ -146,6 +146,7 @@ skills: coding-standards, security-checklist
 | commit-push | Коммит и пуш с правильным форматированием сообщений | Bash, Read | — |
 | doc-claude | Обновление CLAUDE.md и llm_instructions.md при важных изменениях | Read, Edit, Bash | amy-santiago |
 | doc-health | Проверка здоровья документации — ссылки, структура, статусы, метаданные | Bash | amy-santiago |
+| doc-review | Ревью документа на полноту и качество. Автоматически при работе с .md в general_docs/, .claude/, llm_instructions/. Также по запросу "уделить внимание", "подумать", "сделать ревью", "ультрасинк" | Read, Grep, Glob, AskUserQuestion | amy-santiago |
 | doc-project-structure | Генерация структуры проекта и обновление в llm_instructions.md и README.md | Glob, Read, Edit, Bash | amy-santiago |
 | glossary-candidates | Поиск специфичных терминов в документе и добавление в кандидаты глоссария | Read, Edit, Glob | amy-santiago |
 | glossary-link | Добавление ссылок на глоссарий во все .md файлы проекта | Read, Edit, Glob, Grep | amy-santiago |
