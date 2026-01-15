@@ -8,7 +8,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Обзор проекта
 
-Шаблон проекта с настроенной системой документации и интеграцией Claude Code.
+Универсальный шаблон fullstack проекта с микросервисной архитектурой, настроенной системой документации и интеграцией Claude Code.
+
+### Архитектура
+
+**Клиентские приложения (`apps/`):**
+- Web UI — веб-фронтенд
+
+**Бэкенд сервисы (`services/`):**
+- API Gateway — единая точка входа
+- Auth Service — аутентификация и авторизация
+- Users Service — управление пользователями
+
+**Общий код (`packages/`):**
+- shared, ui, validation, config
+
+**Инфраструктура:**
+- Docker Compose для разработки
+- Makefile для автоматизации
 
 ---
 
@@ -39,10 +56,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Быстрый старт LLM
 
 1. **Контекст проекта:** Ознакомиться с [llm_instructions.md](llm_instructions/llm_instructions.md)
-2. **Новая сессия:** Проверить [current_tasks.md](llm_tasks/current_tasks.md)
-3. **Документация:** Следовать [instructions_general_docs.md](llm_instructions/instructions_general_docs.md)
-4. **Термины:** Добавлять в [glossary.md](general_docs/glossary.md)
-5. **Скрипты:** См. [instructions_scripts.md](llm_instructions/instructions_scripts.md)
+2. **Новая сессия:** **ОБЯЗАТЕЛЬНО** проверить [current_tasks.md](llm_tasks/current_tasks.md)
+3. **Задачи:** Следовать [instructions_tasks.md](llm_instructions/instructions_tasks.md)
+4. **Документация:** Следовать [instructions_general_docs.md](llm_instructions/instructions_general_docs.md)
+5. **Термины:** Добавлять в [glossary.md](general_docs/glossary.md)
+6. **Скрипты:** См. [instructions_scripts.md](llm_instructions/instructions_scripts.md)
 
 ---
 
@@ -50,35 +68,139 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 | Инструкция | Назначение |
 |------------|------------|
-| [instructions_general_docs.md](llm_instructions/instructions_general_docs.md) | Правила ведения документации |
-| [instructions_scripts.md](llm_instructions/instructions_scripts.md) | Служебные скрипты |
+| [instructions_general_docs.md](llm_instructions/instructions_general_docs.md) | Правила ведения документации (дискуссии, архитектура, планы, README.md) |
+| [instructions_tasks.md](llm_instructions/instructions_tasks.md) | **Управление задачами через llm_tasks/** |
+| [instructions_scripts.md](llm_instructions/instructions_scripts.md) | Служебные скрипты (check_doc_health.py, check_gloss_health.py) |
 | [instructions_agents.md](llm_instructions/instructions_agents.md) | AI-[📖 агенты](general_docs/glossary.md#агент) Claude Code |
 | [instructions_skills.md](llm_instructions/instructions_skills.md) | [📖 Скиллы](general_docs/glossary.md#скилл) Claude Code |
 
 ## Управление задачами
 
+**ВАЖНО:** Все задачи проекта ведутся через `llm_tasks/`, а не через временные файлы.
+
 | Файл | Назначение |
 |------|------------|
-| [current_tasks.md](llm_tasks/current_tasks.md) | Текущие задачи сессии |
+| [current_tasks.md](llm_tasks/current_tasks.md) | Текущие задачи сессии (проверять при каждом запуске!) |
 | [future_tasks.md](llm_tasks/future_tasks.md) | [📖 Бэклог](general_docs/glossary.md#бэклог) задач |
+| [instructions_tasks.md](llm_instructions/instructions_tasks.md) | Правила работы с задачами |
+
+### Правила работы с задачами
+
+1. **Начало сессии:** Обязательно прочитать `current_tasks.md`
+2. **Планирование:** Переносить задачи из `future_tasks.md` в `current_tasks.md`
+3. **Выполнение:** Обновлять статусы подзадач в реальном времени
+4. **Завершение:** Синхронизировать `current_tasks.md` с выполненной работой
 
 ---
 
 ## Команды
 
-<!-- TODO: Заполнить после выбора стека -->
+### Основные команды Makefile
+
+```bash
+make help              # Показать все доступные команды
+make init              # Инициализация проекта (первый запуск)
+make dev               # Запустить все сервисы для разработки
+make stop              # Остановить все сервисы
+make logs              # Показать логи всех сервисов
+make test              # Запустить все тесты
+make build             # Собрать для production
+```
+
+### Запуск и остановка
+
+```bash
+make dev               # Запуск: Web (3000), API Gateway (8000), Auth (8001), Users (8002)
+make stop              # Остановка всех сервисов
+make restart           # Перезапуск
+```
+
+### Разработка
+
+```bash
+make logs-web          # Логи фронтенда
+make logs-auth         # Логи auth сервиса
+make logs-users        # Логи users сервиса
+make shell-web         # Открыть shell в web контейнере
+make shell-db          # Открыть psql в PostgreSQL
+```
+
+### База данных
+
+```bash
+make db-migrate        # Запустить миграции
+make db-seed           # Заполнить тестовыми данными
+make db-reset          # Сбросить и пересоздать БД
+```
+
+### Проверка документации
+
+```bash
+make docs-health       # Полная проверка документации (ссылки, структура, статусы)
+make docs-links        # Только проверка ссылок
+make gloss-health      # Проверка глоссария
+make docs-check        # Документация + глоссарий
+```
 
 ## Переменные окружения (.env)
 
-<!-- TODO: Заполнить после настройки проекта -->
+### Файлы конфигураций
 
-## Архитектура
+- **`.env.example`** — базовый шаблон в корне
+- **`config/examples/`** — примеры для разных окружений:
+  - `.env.development.example` — для разработки
+  - `.env.production.example` — для продакшена
+  - `.env.test.example` — для тестов
 
-<!-- TODO: Заполнить после создания архитектурных документов -->
+### Инициализация
 
-## Заглушки (Mocks)
+```bash
+# Автоматическая инициализация
+make init
 
-<!-- TODO: Заполнить при необходимости -->
+# Или вручную
+cp .env.example .env
+cp apps/web/.env.example apps/web/.env
+cp services/auth/.env.example services/auth/.env
+cp services/users/.env.example services/users/.env
+```
+
+## Архитектура сервисов
+
+### Взаимодействие компонентов
+
+```
+Client (Browser)
+    ↓
+Web UI (apps/web) :3000
+    ↓
+API Gateway (services/api-gateway) :8000
+    ↓
+    ├─→ Auth Service :8001 → PostgreSQL (auth_db)
+    └─→ Users Service :8002 → PostgreSQL (users_db)
+           ↓
+        Redis (кэш, сессии)
+```
+
+### Ответственность сервисов
+
+**Auth Service:**
+- Регистрация/логин
+- JWT токены
+- OAuth интеграция
+- Восстановление пароля
+
+**Users Service:**
+- Профили пользователей
+- Роли и права (RBAC)
+- Загрузка аватаров
+- История активности
+
+**API Gateway:**
+- Маршрутизация запросов
+- Rate limiting
+- Валидация JWT
+- CORS обработка
 
 ---
 
@@ -113,7 +235,7 @@ general_docs/
 
 ### [📖 Документация папок](general_docs/glossary.md#документация-папок)
 
-Размещается в корне значимых папок как `[название_папки]_doc.md` (например: `src/auth/auth_doc.md`).
+Размещается в корне значимых папок как `README.md` (например: `services/auth/README.md`, `packages/shared/README.md`).
 
 ### Глоссарий
 

@@ -36,6 +36,7 @@ allowed-tools: Read, Edit, Glob, Grep
 
 **Исключить:**
 - `general_docs/glossary.md` — сам глоссарий
+- `README.md` — основной файл проекта (содержит отдельный раздел со ссылкой на глоссарий)
 - `node_modules/`
 - `.git/`
 
@@ -65,7 +66,6 @@ allowed-tools: Read, Edit, Glob, Grep
 **Вычисление относительного пути:**
 - Из `general_docs/architecture/doc.md` → `../glossary.md`
 - Из `llm_instructions/file.md` → `../general_docs/glossary.md`
-- Из `README.md` → `general_docs/glossary.md`
 
 #### 3.3: Сохранить изменения
 
@@ -80,7 +80,6 @@ allowed-tools: Read, Edit, Glob, Grep
 Файлы с изменениями:
 - general_docs/architecture/01_overview.md: 5 ссылок
 - llm_instructions/instructions_general_docs.md: 3 ссылки
-- README.md: 2 ссылки
 
 ✓ Ссылки на глоссарий добавлены
 ```

@@ -16,6 +16,7 @@
 | Файл | Назначение |
 |------|------------|
 | [instructions_general_docs.md](instructions_general_docs.md) | Правила ведения документации: структура `general_docs/`, [📖 workflow статусов](../general_docs/glossary.md#workflow-статусов), правила [📖 feedback](../general_docs/glossary.md#feedback) |
+| [instructions_tasks.md](instructions_tasks.md) | **Управление задачами через `llm_tasks/`** (current_tasks.md, future_tasks.md) |
 | [instructions_scripts.md](instructions_scripts.md) | Служебные скрипты для поддержания порядка в проекте |
 | [instructions_agents.md](instructions_agents.md) | Конфигурация AI-[📖 агентов](../general_docs/glossary.md#агент) Claude Code (`.claude/agents/`) |
 | [instructions_skills.md](instructions_skills.md) | Конфигурация [📖 скиллов](../general_docs/glossary.md#скилл) Claude Code (`.claude/skills/`) |
@@ -38,58 +39,195 @@
 
 ---
 
-## Структура проекта
+### Ключевые особенности структуры
 
-```
-project_name/
-├── .claude/                           # Конфигурация Claude Code
-│   ├── settings.local.json            # Локальные настройки
-│   └── skills/                        # Скиллы
-│       ├── commit-push/               # Коммит и пуш
-│       │   └── SKILL.md
-│       ├── doc-project-structure/     # Структура проекта
-│       │   └── SKILL.md
-│       ├── glossary-candidates/       # Поиск кандидатов в глоссарий
-│       │   └── SKILL.md
-│       ├── glossary-link/             # Добавление ссылок на глоссарий
-│       │   └── SKILL.md
-│       └── glossary-review/           # Обработка кандидатов глоссария
-│           └── SKILL.md
-├── general_docs/                      # Общая документация
-│   ├── architecture/                  # Архитектурные документы
-│   ├── diagrams/                      # Диаграммы
-│   ├── discuss/                       # Дискуссии
-│   ├── imp_plans/                     # Планы реализации
-│   ├── resources/                     # Описания ресурсов
-│   │   ├── backend/
-│   │   ├── database/
-│   │   ├── frontend/
-│   │   └── infra/
-│   └── glossary.md                    # Глоссарий терминов
-├── llm_instructions/                  # Инструкции для LLM
-│   ├── templates/                     # Шаблоны документов
-│   │   ├── template_architecture.md
-│   │   ├── template_discuss.md
-│   │   ├── template_folder_doc.md
-│   │   ├── template_imp_plan.md
-│   │   └── template_resource.md
-│   ├── instructions_agents.md         # Инструкции по агентам
-│   ├── instructions_general_docs.md   # Правила документации
-│   ├── instructions_scripts.md        # Служебные скрипты
-│   ├── instructions_skills.md         # Инструкции по скиллам
-│   └── llm_instructions.md            # Индекс инструкций (этот файл)
-├── llm_tasks/                         # Управление задачами
-│   ├── current_tasks.md               # Текущие задачи сессии
-│   └── future_tasks.md                # Бэклог задач
-├── scripts/                           # Служебные скрипты
-│   └── check_doc_links.py             # Проверка ссылок в документации
-├── .gitignore
-├── CLAUDE.md                          # Быстрый справочник Claude
-└── README.md                          # Описание проекта
-```
+**Микросервисная архитектура:**
+- `apps/web/` — клиентское веб-приложение
+- `services/api-gateway/` — единая точка входа, маршрутизация запросов
+- `services/auth/` — аутентификация, авторизация, JWT, OAuth
+- `services/users/` — управление пользователями, RBAC, профили
+
+**Переиспользуемый код:**
+- `packages/shared/` — общие утилиты и типы
+- `packages/ui/` — библиотека UI компонентов
+- `packages/validation/` — схемы валидации
+- `packages/config/` — конфигурации линтеров и форматтеров
+
+**Инфраструктура:**
+- Docker Compose для локальной разработки
+- Makefile с 40+ командами автоматизации
+- Kubernetes манифесты для продакшена
+- Terraform для IaC
+
+**Базы данных:**
+- PostgreSQL 15 (отдельные БД для auth и users)
+- Redis 7 (кеширование, сессии)
+
+**Инструменты разработки:**
+- MailHog — тестирование email (http://localhost:8025)
+- PgAdmin — управление БД (http://localhost:5050)
+- Redis Commander — просмотр Redis (http://localhost:8081)
+
+**Проверка документации:**
+- `check_doc_health.py` — ссылки, структура, статусы, метаданные
+- `check_gloss_health.py` — проверка глоссария
+- Скилл `/doc-health` для Claude Code
+
+**IDE:**
+- VS Code настройки (.vscode/)
+- Рекомендуемые расширения
+- Задачи и отладка
 
 ---
 
 ## Быстрый старт LLM
 
 См. раздел «Быстрый старт LLM» в [CLAUDE.md](../CLAUDE.md#быстрый-старт-llm)
+
+
+## Структура проекта
+
+Проект использует микросервисную архитектуру с разделением на клиентские приложения (`apps/`), бэкенд-сервисы (`services/`), общий код (`packages/`) и инфраструктуру (`infrastructure/`).
+
+```
+project_template/
+│
+├── .editorconfig                      # Настройки редактора
+├── .env.example                       # Шаблон переменных окружения
+├── .gitignore                         # Игнорируемые файлы Git
+├── docker-compose.yml                 # Docker Compose для локальной разработки
+├── Makefile                           # Команды для управления проектом (40+ команд)
+├── CLAUDE.md                          # Быстрый справочник Claude
+├── CHANGELOG.md                       # Журнал изменений (Keep a Changelog)
+├── CONTRIBUTING.md                    # Руководство для контрибьюторов
+├── LICENSE                            # Лицензия проекта
+├── PROJECT_IMPROVEMENTS.md            # План улучшений (Фаза 1,2,4,5 ✅)
+├── README.md                          # Описание проекта
+│
+├── apps/                              # Клиентские приложения
+│   └── web/                           # Веб-фронтенд
+│       ├── public/                    # Статические файлы
+│       ├── src/                       # Исходный код фронтенда
+│       ├── tests/                     # Тесты фронтенда
+│       ├── Dockerfile                 # Docker образ
+│       ├── .env.example               # Переменные окружения
+│       └── README.md                  # Документация (стек, API integration)
+│
+├── services/                          # Бэкенд микросервисы
+│   ├── api-gateway/                   # API Gateway (единая точка входа)
+│   │   ├── src/                       # Исходный код
+│   │   ├── tests/                     # Тесты
+│   │   ├── Dockerfile                 # Docker образ
+│   │   ├── .env.example               # Переменные окружения
+│   │   └── README.md                  # Документация (middleware, routing)
+│   │
+│   ├── auth/                          # Сервис авторизации
+│   │   ├── src/                       # Исходный код
+│   │   ├── tests/                     # Тесты
+│   │   ├── static/                    # Email шаблоны
+│   │   ├── Dockerfile                 # Docker образ
+│   │   ├── .env.example               # Переменные окружения
+│   │   └── README.md                  # Документация (JWT, OAuth, API)
+│   │
+│   └── users/                         # Сервис управления пользователями
+│       ├── src/                       # Исходный код
+│       ├── tests/                     # Тесты
+│       ├── static/                    # Статические файлы
+│       ├── Dockerfile                 # Docker образ
+│       ├── .env.example               # Переменные окружения
+│       └── README.md                  # Документация (RBAC, profiles, API)
+│
+├── packages/                          # Общий переиспользуемый код
+│   ├── shared/                        # Утилиты, типы, константы
+│   │   └── src/
+│   ├── ui/                            # UI библиотека компонентов
+│   │   └── components/
+│   ├── validation/                    # Схемы валидации (Zod/Joi)
+│   │   └── src/
+│   ├── config/                        # Конфигурации (ESLint, TS, Prettier)
+│   │   ├── eslint/
+│   │   ├── typescript/
+│   │   └── prettier/
+│   └── README.md                      # Документация пакетов
+│
+├── infrastructure/                    # Инфраструктурный код
+│   ├── docker/                        # Docker конфигурации
+│   │   ├── postgres/                  # Скрипты инициализации БД
+│   │   └── nginx/                     # Конфигурация веб-сервера
+│   ├── kubernetes/                    # K8s манифесты
+│   │   ├── deployments/
+│   │   ├── services/
+│   │   └── ingress/
+│   ├── terraform/                     # IaC (Infrastructure as Code)
+│   │   ├── modules/
+│   │   └── environments/
+│   └── README.md                      # Документация инфраструктуры
+│
+├── tests/                             # Общие тесты
+│   ├── e2e/                           # End-to-end тесты
+│   ├── integration/                   # Интеграционные тесты
+│   ├── load/                          # Нагрузочное тестирование
+│   └── README.md                      # Документация тестирования
+│
+├── config/                            # Конфигурационные файлы
+│   └── examples/                      # Примеры конфигураций
+│       ├── .env.development.example   # Dev окружение
+│       ├── .env.production.example    # Production окружение
+│       ├── .env.test.example          # Test окружение
+│       ├── database.config.example.json
+│       ├── logging.config.example.yaml
+│       └── README.md
+│
+├── .claude/                           # Конфигурация Claude Code
+│   ├── settings.local.json
+│   ├── agents/                        # AI-агенты
+│   │   └── README.md
+│   └── skills/                        # Скиллы
+│       ├── commit-push/
+│       ├── doc-health/                # NEW: Проверка документации
+│       ├── doc-project-structure/
+│       ├── glossary-candidates/
+│       ├── glossary-link/
+│       └── glossary-review/
+│
+├── .vscode/                           # Настройки VS Code
+│   ├── settings.json                  # Настройки редактора
+│   ├── extensions.json                # Рекомендуемые расширения
+│   ├── tasks.json                     # Задачи автоматизации
+│   └── launch.json                    # Конфигурация отладки
+│
+├── general_docs/                      # Общая документация
+│   ├── glossary.md                    # Глоссарий терминов
+│   ├── architecture/                  # Архитектурные документы
+│   ├── diagrams/                      # Диаграммы (.drawio, Mermaid)
+│   ├── discuss/                       # Дискуссии (идея → решение)
+│   ├── imp_plans/                     # Планы реализации
+│   └── resources/                     # Описания ресурсов
+│       ├── api/                       # API документация
+│       ├── backend/                   # Бэкенд ресурсы
+│       ├── database/                  # Схемы БД
+│       ├── frontend/                  # Фронтенд ресурсы
+│       └── infra/                     # Инфраструктурные ресурсы
+│
+├── llm_instructions/                  # Инструкции для LLM
+│   ├── llm_instructions.md            # Индекс (этот файл)
+│   ├── instructions_agents.md         # Инструкции для AI-агентов
+│   ├── instructions_general_docs.md   # Правила ведения документации
+│   ├── instructions_scripts.md        # Служебные скрипты
+│   ├── instructions_skills.md         # Конфигурация скиллов
+│   └── templates/                     # Шаблоны документов
+│       ├── template_discuss.md
+│       ├── template_architecture.md
+│       ├── template_imp_plan.md
+│       ├── template_resource.md
+│       └── template_folder_doc.md
+│
+├── llm_tasks/                         # Управление задачами LLM
+│   ├── current_tasks.md               # Текущие задачи сессии
+│   └── future_tasks.md                # Бэклог задач
+│
+└── scripts/                           # Служебные скрипты
+    ├── check_doc_health.py            # Комплексная проверка документации
+    ├── check_gloss_health.py          # Проверка глоссария
+    └── check_doc_links.py             # [УСТАРЕЛ] Заменён на check_doc_health.py
+```

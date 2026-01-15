@@ -350,34 +350,46 @@ resources/
 ## Структура "[📖 Документация папок](../general_docs/glossary.md#документация-папок)"
 
 **Расположение:** В корне каждой значимой папки разработки:
-- Папка представляет собой отдельный модуль/сервис (например, src/auth/).
+- Папка представляет собой отдельный модуль/сервис (например, services/auth/, apps/web/).
 - Папка содержит код с публичным API (интерфейсы, которые используются другими модулями).
 - Папка имеет сложную внутреннюю структуру, требующую пояснения.
 - Исключение: Папки кэша, папки внутри general_docs/, папки наподобие "__pycache__" — не значимые.
-**Именование:** [название_папки]_doc.md
-**Пример:** src/auth/auth_doc.md, src/data/sources/sources_doc.md
+**Именование:** README.md
+**Пример:** services/auth/README.md, apps/web/README.md, packages/shared/README.md
 
 ```
-src/
+services/
 ├── auth/
-│   ├── handlers/
-│   ├── models/
+│   ├── src/
 │   ├── tests/
-│   └── auth_doc.md          # Документация папки auth
+│   ├── static/
+│   └── README.md          # Документация сервиса auth
 │
-├── data/
-│   ├── data_doc.md          # Документация папки data
-│   ├── sources/
-│   │   ├── parsers/
-│   │   └── sources_doc.md   # Документация папки sources
-│   └── realtime/
-│       ├── processors/
-│       └── realtime_doc.md  # Документация папки realtime
+├── users/
+│   ├── src/
+│   ├── tests/
+│   ├── static/
+│   └── README.md          # Документация сервиса users
 │
+└── api-gateway/
+    ├── src/
+    ├── tests/
+    └── README.md          # Документация API Gateway
+
+apps/
+└── web/
+    ├── src/
+    ├── public/
+    ├── tests/
+    └── README.md          # Документация веб-приложения
+
+packages/
+├── shared/
+│   ├── src/
+│   └── README.md          # Документация пакета shared
 └── ui/
-    ├── pages/
     ├── components/
-    └── ui_doc.md            # Документация папки ui
+    └── README.md          # Документация UI библиотеки
 ```
 
 **Назначение документации папок:**
@@ -410,6 +422,8 @@ src/
 
 ## 4. Соответствие ресурсам
 [Таблица соответствия файлов модуля описаниям в general_docs/resources/]
+
+**Примечание:** Документация папки — это README.md в корне папки модуля/сервиса.
 ```
 
 
@@ -470,18 +484,18 @@ src/
 - [См. архитектуру аутентификации](../architecture/02_auth_module.md#принципы-и-ограничения) — ссылка на раздел.
 - Запретить абсолютные пути и URL (кроме внешних ссылок).
 
-## Пример иерархии связей 
+## Пример иерархии связей
 
 ```
 discuss/001_user_auth.md
      ↓
 architecture/002_auth_module.md
-     ├── resources/backend/user_service.md
+     ├── resources/backend/auth_service.md
      ├── resources/database/PostgreSQL.md
      └── imp_plans/001_plan_auth.md
           ↓
-src/auth/auth_doc.md
-     ├── references: user_service.md
+services/auth/README.md
+     ├── references: auth_service.md
      └── references: PostgreSQL.md
 ```
 

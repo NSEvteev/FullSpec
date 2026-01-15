@@ -1,0 +1,90 @@
+# EditorConfig - единые настройки редактора для всех разработчиков
+# https://editorconfig.org
+
+# Корневой конфигурационный файл
+root = true
+
+# Настройки по умолчанию для всех файлов
+[*]
+charset = utf-8                    # Кодировка UTF-8
+end_of_line = lf                   # Unix-style переносы строк (важно для Git)
+insert_final_newline = true        # Пустая строка в конце файла
+trim_trailing_whitespace = true    # Удалять пробелы в конце строк
+indent_style = space               # Использовать пробелы (не табы)
+indent_size = 2                    # 2 пробела для отступа по умолчанию
+
+# Markdown файлы (можно использовать trailing spaces для <br>)
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# Python файлы (PEP 8 рекомендует 4 пробела)
+[*.py]
+indent_size = 4
+max_line_length = 88              # Black formatter default
+
+# Makefile требует табы
+[Makefile]
+indent_style = tab
+
+# JSON, YAML
+[*.{json,yaml,yml}]
+indent_size = 2
+
+# TypeScript, JavaScript, JSX, TSX
+[*.{ts,tsx,js,jsx,mjs,cjs}]
+indent_size = 2
+
+# HTML, CSS, SCSS, LESS
+[*.{html,css,scss,sass,less}]
+indent_size = 2
+
+# Shell scripts
+[*.{sh,bash,zsh}]
+indent_size = 2
+
+# XML, SVG
+[*.{xml,svg}]
+indent_size = 2
+
+# SQL
+[*.sql]
+indent_size = 2
+
+# Go (требует табы по стандарту)
+[*.go]
+indent_style = tab
+indent_size = 4
+
+# Rust
+[*.rs]
+indent_size = 4
+
+# C, C++, C#
+[*.{c,cpp,h,hpp,cs}]
+indent_size = 4
+
+# Java
+[*.java]
+indent_size = 4
+
+# PHP
+[*.php]
+indent_size = 4
+
+# Ruby
+[*.rb]
+indent_size = 2
+
+# Конфигурационные файлы
+[*.{toml,ini,conf,cfg}]
+indent_size = 2
+
+# Файлы с минифицированным кодом (не трогать форматирование)
+[*.min.*]
+insert_final_newline = false
+trim_trailing_whitespace = false
+
+# Файлы пакетных менеджеров (автогенерируемые)
+[{package-lock.json,yarn.lock,pnpm-lock.yaml,Pipfile.lock,poetry.lock}]
+insert_final_newline = false
