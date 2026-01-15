@@ -225,10 +225,10 @@ def create_discussion(title, user_request=None, description=None):
     print(f"  Opisanie: {desc}")
     print(f"  Status: draft")
     print()
-    print("Следующие шаги:")
-    print(f"  1. Заполнить варианты в файле дискуссии")
-    print(f"  2. Обсудить с командой")
-    print(f"  3. Принять решение → изменить статус")
+    print("Next steps:")
+    print(f"  1. Fill variants in discussion file")
+    print(f"  2. Discuss with team")
+    print(f"  3. Make decision -> change status")
 
     return discuss_id, filename
 

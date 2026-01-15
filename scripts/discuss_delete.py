@@ -9,6 +9,7 @@
 
 import os
 import re
+import json
 import argparse
 from pathlib import Path
 from datetime import datetime
@@ -18,6 +19,39 @@ from datetime import datetime
 PROJECT_ROOT = Path(__file__).parent.parent
 DISCUSS_DIR = PROJECT_ROOT / 'general_docs' / '01_discuss'
 INDEX_FILE = DISCUSS_DIR / '000_discuss.md'
+COUNTER_FILE = PROJECT_ROOT / 'general_docs' / '.doc_counter'
+
+
+def load_counters():
+    """Load document counters."""
+    if not COUNTER_FILE.exists():
+        return {"discuss": 0}
+    with open(COUNTER_FILE, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+
+def save_counters(counters):
+    """Save document counters."""
+    with open(COUNTER_FILE, 'w', encoding='utf-8') as f:
+        json.dump(counters, f, indent=2, ensure_ascii=False)
+
+
+def decrement_counter_if_last(discuss_id):
+    """Decrement counter if deleting the last created discussion."""
+    try:
+        id_num = int(discuss_id)
+    except ValueError:
+        return False
+
+    counters = load_counters()
+    current = counters.get("discuss", 0)
+
+    # Only decrement if this was the last created discussion
+    if id_num == current:
+        counters["discuss"] = max(0, current - 1)
+        save_counters(counters)
+        return True
+    return False
 
 
 def find_discussion_file(discuss_id):
@@ -109,8 +143,13 @@ def delete_discussion(discuss_id, force=False):
     # Обновляем индекс
     update_index_on_delete(discuss_id, filename)
 
+    # Уменьшаем счётчик если это была последняя дискуссия
+    counter_decremented = decrement_counter_if_last(discuss_id)
+
     print(f"[OK] Diskussiya udalena: {discuss_id}")
     print(f"  Fayl: {filename}")
+    if counter_decremented:
+        print(f"  Counter decremented")
 
     return True
 
