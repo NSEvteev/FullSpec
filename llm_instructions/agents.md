@@ -99,7 +99,7 @@ skills: skill-1, skill-2
 
 | Имя | Назначение | Инструменты | Скиллы |
 |-----|------------|-------------|--------|
-| **amy-santiago** | Documentation Manager — управление документацией проекта. Создаёт документы по шаблонам, валидирует соответствие стандартам, обновляет индексы (000_*.md), поддерживает цепочку зависимостей, запускает процесс обратной связи (feedback). | Read, Write, Edit, Grep, Glob | — |
+| **amy-santiago** | Documentation Manager — управление документацией проекта. Создаёт документы по шаблонам, валидирует соответствие стандартам, обновляет индексы (000_*.md), поддерживает цепочку зависимостей, запускает процесс обратной связи (feedback). | Read, Write, Edit, Grep, Glob | doc-health, doc-claude, doc-project-structure, glossary-candidates, glossary-link, glossary-review |
 
 ### Amy Santiago (Documentation Manager)
 

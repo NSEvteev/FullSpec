@@ -116,15 +116,37 @@ skills: coding-standards, security-checklist
 4. Указать минимально необходимые `allowed-tools`
 5. Добавить вспомогательные файлы (если нужно)
 6. Добавить описание скилла в этот файл
+7. **Проверить, нужен ли скилл каким-либо агентам** — обновить поле `skills` в конфигурации агента
+
+**ВАЖНО для скиллов документации:**
+- Все новые скиллы с префиксом `doc-*` или `glossary-*` **обязательно назначать агенту amy-santiago**
+- Обновить файл `.claude/agents/amy-santiago.md` — добавить скилл в поле `skills`
+- Обновить таблицу в `agents.md` — добавить скилл в колонку "Скиллы" для amy-santiago
+- Обновить таблицу "Скиллы проекта" в этом файле — указать `amy-santiago` в колонке "Используется в агентах"
+
+## Добавление нового [📖 агента](../general_docs/glossary.md#агент)
+
+**ВАЖНО:** При создании нового [📖 агента](../general_docs/glossary.md#агент) **всегда проверяй** доступные скиллы и назначай релевантные:
+
+1. Проанализировать назначение агента
+2. Просмотреть список доступных скиллов в `.claude/skills/`
+3. Определить, какие скиллы помогут агенту в его задачах
+4. Добавить в frontmatter агента поле `skills: skill-1, skill-2, skill-3`
+5. Обновить документацию агента (таблицу в `agents.md`)
+
+**Примеры назначения скиллов:**
+- **Documentation Manager** → doc-health, doc-claude, doc-project-structure, glossary-*
+- **Code Reviewer** → coding-standards, security-checklist
+- **Release Manager** → commit-push, changelog-update
 
 ## Скиллы проекта
 
 | Имя | Назначение | Инструменты | Используется в агентах |
 |-----|------------|-------------|------------------------|
 | commit-push | Коммит и пуш с правильным форматированием сообщений | Bash, Read | — |
-| doc-claude | Обновление CLAUDE.md и llm_instructions.md при важных изменениях | Read, Edit, Bash | — |
-| doc-health | Проверка здоровья документации — ссылки, структура, статусы, метаданные | Bash | — |
-| doc-project-structure | Генерация структуры проекта и обновление в llm_instructions.md и README.md | Glob, Read, Edit, Bash | — |
-| glossary-candidates | Поиск специфичных терминов в документе и добавление в кандидаты глоссария | Read, Edit, Glob | — |
-| glossary-link | Добавление ссылок на глоссарий во все .md файлы проекта | Read, Edit, Glob, Grep | — |
-| glossary-review | Интерактивная обработка кандидатов в глоссарий | Read, Edit, AskUserQuestion, Grep | — |
+| doc-claude | Обновление CLAUDE.md и llm_instructions.md при важных изменениях | Read, Edit, Bash | amy-santiago |
+| doc-health | Проверка здоровья документации — ссылки, структура, статусы, метаданные | Bash | amy-santiago |
+| doc-project-structure | Генерация структуры проекта и обновление в llm_instructions.md и README.md | Glob, Read, Edit, Bash | amy-santiago |
+| glossary-candidates | Поиск специфичных терминов в документе и добавление в кандидаты глоссария | Read, Edit, Glob | amy-santiago |
+| glossary-link | Добавление ссылок на глоссарий во все .md файлы проекта | Read, Edit, Glob, Grep | amy-santiago |
+| glossary-review | Интерактивная обработка кандидатов в глоссарий | Read, Edit, AskUserQuestion, Grep | amy-santiago |

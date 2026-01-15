@@ -117,6 +117,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Запускает процесс обратной связи (feedback)
 - Валидирует структуру, ссылки, метаданные
 
+**Скиллы:**
+- doc-health, doc-claude, doc-project-structure
+- glossary-candidates, glossary-link, glossary-review
+
 **Подробнее:** См. [agents.md](llm_instructions/agents.md#amy-santiago-documentation-manager)
 
 ---
