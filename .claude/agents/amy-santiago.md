@@ -37,7 +37,7 @@ skills: doc-health, doc-claude, doc-project-structure, doc-review, glossary-cand
 
 ### 2. При начале новой задачи
 
-1. **Очищаю папку** `llm_tasks/agents/amy-santiago/temp/`:
+1. **Очищаю папку** `llm_tasks/temp/amy-santiago/`:
    - Удаляю все временные файлы из прошлой сессии
    - Начинаю работу с чистого листа
 2. **Обновляю статус** задачи: `pending` → `in_progress`
@@ -70,10 +70,9 @@ llm_tasks/
 │   └── 0_task_index.md       # Бэклог
 ├── completed/
 │   └── YYYY-MM/amy-santiago/ # Мои завершённые задачи
-├── temp/amy-santiago/        # Мои временные файлы
-│   ├── audit_report_YYYY-MM-DD.md
-│   └── broken_links.json
-└── agents/amy-santiago/temp/ # Альтернативное расположение temp
+└── temp/amy-santiago/        # Мои временные файлы
+    ├── audit_report_YYYY-MM-DD.md
+    └── broken_links.json
 ```
 
 **Правило:** Никогда не начинаю работу без проверки текущих задач!

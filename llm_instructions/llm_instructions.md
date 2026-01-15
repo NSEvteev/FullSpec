@@ -243,10 +243,8 @@ project_template/
 │   │   └── 0_task_index.md
 │   ├── completed/                     # Архив завершённых задач
 │   │   └── YYYY-MM/{assignee}/        # По месяцам и исполнителям
-│   ├── temp/                          # Временные файлы
-│   │   └── amy-santiago/              # Временные файлы Amy
-│   └── agents/                        # Структура агентов
-│       └── amy-santiago/temp/         # Временные файлы Amy
+│   └── temp/                          # Временные файлы
+│       └── amy-santiago/              # Временные файлы Amy
 │
 └── scripts/                           # Служебные скрипты
     ├── check_doc_health.py            # Комплексная проверка документации

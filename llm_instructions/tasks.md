@@ -475,14 +475,15 @@ make task-move-future ID=FEAT-00001
 
 ### Структура для Amy Santiago
 
-```
-llm_tasks/agents/amy-santiago/
-├── temp/                      # Временные файлы
-│   ├── task_doc_FEAT-00001_2026-01-15.md
-│   └── audit_report_2026-01-15.md
-```
+Задачи Amy хранятся в общих папках `current/`, `future/`, `completed/` с полем `assignee: amy-santiago`.
 
-**Примечание:** Задачи Amy хранятся в общих папках `current/`, `future/`, `completed/` с полем `assignee: amy-santiago`.
+**Временные файлы:**
+```
+llm_tasks/temp/amy-santiago/
+├── task_doc_FEAT-00001_2026-01-15.md
+├── audit_report_2026-01-15.md
+└── broken_links.json
+```
 
 ### Правила для агентов
 
@@ -623,7 +624,6 @@ make tasks-completed    # Показать выполненные
 **Старые файлы (deprecated):**
 - `llm_tasks/_deprecated_current_tasks.md` (было: `current_tasks.md`)
 - `llm_tasks/_deprecated_future_tasks.md` (было: `future_tasks.md`)
-- `llm_tasks/agents/amy-santiago/_deprecated_*.md`
 
 **Что делать:**
 - Не использовать deprecated файлы
