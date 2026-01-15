@@ -290,6 +290,54 @@ def check_term_definitions(checker: GlossaryHealthChecker):
 
 
 # ============================================
+# 5. Мониторинг размера глоссария
+# ============================================
+
+def check_glossary_size(checker: GlossaryHealthChecker):
+    """Проверить размер глоссария и предупредить, если он становится слишком большим."""
+    checker.log("Проверка размера глоссария...")
+
+    glossary_path = checker.root_dir / GLOSSARY_PATH
+    if not glossary_path.exists():
+        return
+
+    # Подсчитываем строки
+    with open(glossary_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+        line_count = len(lines)
+
+    # Подсчитываем термины
+    term_count = len(checker.glossary_terms)
+
+    # Пороги для предупреждения
+    LINE_THRESHOLD = 1000
+    TERM_THRESHOLD = 150
+
+    # Проверяем пороги
+    if line_count > LINE_THRESHOLD or term_count > TERM_THRESHOLD:
+        message = (
+            f"⚠️ Глоссарий становится большим:\n"
+            f"      - Терминов: {term_count} (порог: {TERM_THRESHOLD})\n"
+            f"      - Строк: {line_count} (порог: {LINE_THRESHOLD})\n"
+            f"      \n"
+            f"      Рекомендации:\n"
+            f"      1. Создать дискуссию 'general_docs/discuss/XXX_glossary_split.md'\n"
+            f"      2. Спроектировать структуру категорий\n"
+            f"      3. Создать план миграции (обновление ссылок, скриптов, скиллов)\n"
+            f"      \n"
+            f"      См. instructions_general_docs.md для деталей."
+        )
+        checker.add_issue(
+            'glossary_size_warning',
+            glossary_path,
+            0,
+            message
+        )
+    else:
+        checker.log(f"Размер глоссария в норме: {term_count} терминов, {line_count} строк")
+
+
+# ============================================
 # Главная функция
 # ============================================
 
@@ -319,6 +367,7 @@ def main():
     check_glossary_links(checker)
     check_unused_terms(checker)
     check_term_definitions(checker)
+    check_glossary_size(checker)
 
     # Вывод результатов
     return checker.print_results()
