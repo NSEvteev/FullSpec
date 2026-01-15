@@ -260,27 +260,41 @@ assignee: llm-main
 
 **Скрипт:** `scripts/task_new.py`
 
+#### В текущие задачи (current/)
+
 ```bash
 # Интерактивный режим (рекомендуется)
 python scripts/task_new.py -i
-# или
 make task-new
 
-# Прямое создание
+# Прямое создание в current/
 python scripts/task_new.py -t "Добавить тесты" -p high -c test
-# или
 make task-new-feat TITLE="Новая функция" PRIORITY="high"
+```
+
+#### В бэклог (future/)
+
+```bash
+# Интерактивный режим
+python scripts/task_new.py -i
+# Выбрать: 2. future (бэклог)
+
+# Прямое создание в future/
+python scripts/task_new.py -t "Рефакторинг" -c refactor -f future
+make backlog-new-feat TITLE="Будущая функция" PRIORITY="medium"
+make backlog-new-fix TITLE="Багфикс" PRIORITY="low"
+make backlog-new-docs TITLE="Обновить доку" PRIORITY="low"
 ```
 
 **Что происходит:**
 1. Скрипт читает `.task_counter`
 2. Инкрементирует счётчик для выбранной категории
-3. Создаёт файл `current/{PREFIX}-{ID}.md` из шаблона
+3. Создаёт файл `{folder}/{PREFIX}-{ID}.md` из шаблона (folder = current или future)
 4. Обновляет `.task_counter`
 
 **Далее:**
 - Отредактировать файл задачи вручную (заполнить описание, контекст, подзадачи)
-- Обновить `current/0_task_index.md` (добавить в таблицу соответствующего исполнителя)
+- Обновить `{folder}/0_task_index.md` (добавить в таблицу соответствующего исполнителя)
 
 ### 2. Работа над задачей
 

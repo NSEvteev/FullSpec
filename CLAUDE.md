@@ -305,11 +305,17 @@ make docs-check        # Документация + глоссарий
 ### Управление задачами
 
 ```bash
-# Создание задач
-make task-new              # Создать задачу интерактивно
+# Создание задач в текущие (current/)
+make task-new              # Интерактивно
 make task-new-feat TITLE="..." PRIORITY="high"    # FEAT задача
 make task-new-fix TITLE="..." PRIORITY="medium"   # FIX задача
 make task-new-docs TITLE="..." PRIORITY="low"     # DOCS задача
+
+# Создание задач в бэклог (future/)
+make backlog-new           # Интерактивно
+make backlog-new-feat TITLE="..." PRIORITY="medium"
+make backlog-new-fix TITLE="..." PRIORITY="low"
+make backlog-new-docs TITLE="..." PRIORITY="low"
 
 # Управление задачами
 make task-complete ID=FEAT-00001           # Завершить задачу (вызывает Amy)
@@ -319,22 +325,27 @@ make task-move-future ID=FEAT-00001        # Переместить из current
 # Просмотр индексов
 make tasks-current         # Показать текущие задачи
 make tasks-future          # Показать бэклог
-make tasks-completed       # Показать архив
+make tasks-completed       # Показать архив (последний месяц)
 
 # Альтернатива: Python скрипты напрямую
-python scripts/task_new.py -i
+python scripts/task_new.py -i                        # Интерактивно
+python scripts/task_new.py -t "Название" -c feat -f future  # В бэклог
 python scripts/task_complete.py FEAT-00001
 python scripts/task_move.py FEAT-00001 current
 ```
 
 **Примеры:**
 ```bash
-# Интерактивное создание (рекомендуется)
+# Создание текущей задачи
 make task-new
-
-# Быстрое создание с категорией
 make task-new-feat TITLE="Добавить OAuth" PRIORITY="high"
-make task-new-fix TITLE="Исправить баг в auth" PRIORITY="high"
+
+# Создание задачи в бэклог
+make backlog-new
+make backlog-new-feat TITLE="Будущая фича" PRIORITY="medium"
+
+# Перенос из бэклога в текущие
+make task-move-current ID=FEAT-00100
 
 # Завершение задачи (автоматически документируется Amy)
 make task-complete ID=FEAT-00001

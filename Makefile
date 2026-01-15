@@ -277,6 +277,18 @@ task-new-fix: ## Создать задачу FIX (использование: ma
 task-new-docs: ## Создать задачу DOCS (использование: make task-new-docs TITLE="..." PRIORITY="medium")
 	@python scripts/task_new.py -t "$(TITLE)" -p $(PRIORITY) -c docs
 
+backlog-new: ## Создать задачу в бэклоге (интерактивно)
+	@python scripts/task_new.py -i
+
+backlog-new-feat: ## Создать задачу FEAT в бэклоге (использование: make backlog-new-feat TITLE="..." PRIORITY="medium")
+	@python scripts/task_new.py -t "$(TITLE)" -p $(PRIORITY) -c feat -f future
+
+backlog-new-fix: ## Создать задачу FIX в бэклоге (использование: make backlog-new-fix TITLE="..." PRIORITY="medium")
+	@python scripts/task_new.py -t "$(TITLE)" -p $(PRIORITY) -c fix -f future
+
+backlog-new-docs: ## Создать задачу DOCS в бэклоге (использование: make backlog-new-docs TITLE="..." PRIORITY="low")
+	@python scripts/task_new.py -t "$(TITLE)" -p $(PRIORITY) -c docs -f future
+
 task-complete: ## Завершить задачу (использование: make task-complete ID=FEAT-00001)
 	@python scripts/task_complete.py $(ID)
 
@@ -287,10 +299,10 @@ task-move-future: ## Переместить задачу из current в future 
 	@python scripts/task_move.py $(ID) future
 
 tasks-current: ## Показать текущие задачи
-	@cat llm_tasks/current/000_current_index.md
+	@cat llm_tasks/current/0_task_index.md
 
 tasks-future: ## Показать бэклог задач
-	@cat llm_tasks/future/000_future_index.md
+	@cat llm_tasks/future/0_task_index.md
 
-tasks-completed: ## Показать выполненные задачи
-	@cat llm_tasks/completed/000_completed_index.md
+tasks-completed: ## Показать выполненные задачи (последний месяц)
+	@ls -t llm_tasks/completed/ | head -1 | xargs -I {} sh -c 'echo "=== Месяц: {} ===" && cat llm_tasks/completed/{}/*/0_task_index.md'

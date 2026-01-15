@@ -70,19 +70,19 @@ def get_next_id(category):
     return task_id
 
 
-def get_task_folder(assignee):
+def get_task_folder(folder='current'):
     """Определить папку для задачи."""
-    # Все задачи создаются в общей папке current/
-    return PROJECT_ROOT / 'llm_tasks' / 'current'
+    # Задачи могут создаваться в current/ (текущие) или future/ (бэклог)
+    return PROJECT_ROOT / 'llm_tasks' / folder
 
 
-def create_task(title, priority, category, assignee='llm-main', description='', context=''):
+def create_task(title, priority, category, assignee='llm-main', description='', context='', folder='current'):
     """Создать новую задачу."""
     # Получаем ID
     task_id = get_next_id(category)
 
     # Папка задачи
-    task_folder = get_task_folder(assignee)
+    task_folder = get_task_folder(folder)
     task_file = task_folder / f"{task_id}.md"
 
     # Текущая дата
@@ -114,10 +114,11 @@ def create_task(title, priority, category, assignee='llm-main', description='', 
     print(f"  Приоритет: {priority}")
     print(f"  Категория: {category}")
     print(f"  Исполнитель: {assignee}")
+    print(f"  Папка: {folder}/")
     print()
     print("Следующие шаги:")
     print(f"  1. Отредактировать файл: {task_file.relative_to(PROJECT_ROOT)}")
-    print(f"  2. Обновить индекс: llm_tasks/current/000_current_index.md")
+    print(f"  2. Обновить индекс: llm_tasks/{folder}/0_task_index.md")
 
     return task_id
 
@@ -165,11 +166,17 @@ def interactive_mode():
     assignee_choice = input("Выберите (1-2): ").strip()
     assignee = 'amy-santiago' if assignee_choice == '2' else 'llm-main'
 
+    print("\nГде создать задачу:")
+    print("  1. current (текущие задачи)")
+    print("  2. future (бэклог)")
+    folder_choice = input("Выберите (1-2): ").strip()
+    folder = 'future' if folder_choice == '2' else 'current'
+
     description = input("\nОписание (Enter - пропустить): ").strip()
     context = input("Контекст (Enter - пропустить): ").strip()
 
     print()
-    create_task(title, priority, category, assignee, description, context)
+    create_task(title, priority, category, assignee, description, context, folder)
 
 
 def main():
@@ -183,6 +190,8 @@ def main():
     parser.add_argument('-a', '--assignee', default='llm-main',
                         help='Исполнитель (llm-main, amy-santiago)')
     parser.add_argument('-d', '--description', default='', help='Описание задачи')
+    parser.add_argument('-f', '--folder', choices=['current', 'future'], default='current',
+                        help='Где создать задачу: current (текущие) или future (бэклог)')
     parser.add_argument('-i', '--interactive', action='store_true',
                         help='Интерактивный режим')
 
@@ -196,12 +205,15 @@ def main():
             args.priority,
             args.category,
             args.assignee,
-            args.description
+            args.description,
+            '',  # context
+            args.folder
         )
     else:
         parser.print_help()
         print("\nПримеры:")
         print('  python scripts/task_new.py -t "Добавить тесты" -p high -c test')
+        print('  python scripts/task_new.py -t "Рефакторинг" -c refactor -f future  # в бэклог')
         print('  python scripts/task_new.py -i  # интерактивный режим')
 
 
