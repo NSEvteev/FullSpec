@@ -1,6 +1,6 @@
-# Trading Platform
+# Project Template
 
-Платформа для разработки, [📖 бэктестинга](general_docs/glossary.md#бэктестинг) и исполнения [📖 торговых стратегий](general_docs/glossary.md#торговая-стратегия).
+Шаблон проекта с настроенной системой документации и интеграцией Claude Code.
 
 ## Документация
 
@@ -15,7 +15,7 @@
 ## Структура проекта
 
 ```
-trading_platform/
+project_name/
 │
 ├── CLAUDE.md                      # Инструкции для Claude Code
 ├── README.md                      # Описание проекта (этот файл)

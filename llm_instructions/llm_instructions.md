@@ -41,7 +41,7 @@
 ## Структура проекта
 
 ```
-trading_platform/
+project_name/
 ├── .claude/                           # Конфигурация Claude Code
 │   ├── settings.local.json            # Локальные настройки
 │   └── skills/                        # Скиллы

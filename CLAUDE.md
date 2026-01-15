@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Обзор проекта
 
-Платформа для разработки, [📖 бэктестинга](general_docs/glossary.md#бэктестинг) и исполнения [📖 торговых стратегий](general_docs/glossary.md#торговая-стратегия).
+Шаблон проекта с настроенной системой документации и интеграцией Claude Code.
 
 ---
 
