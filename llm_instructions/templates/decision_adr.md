@@ -139,4 +139,4 @@
 ---
 
 **Шаблон:** [decision_adr.md](../../llm_instructions/templates/decision_adr.md)
-**Индекс решений:** [000_decisions_index.md](../../general_docs/decisions/000_decisions_index.md)
+**Индекс решений:** [000_decisions.md](../../general_docs/decisions/000_decisions.md)
