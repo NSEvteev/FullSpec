@@ -315,3 +315,16 @@ tasks-future: ## Показать бэклог задач
 
 tasks-completed: ## Показать выполненные задачи (последний месяц)
 	@ls -t llm_tasks/completed/ | head -1 | xargs -I {} sh -c 'echo "=== Месяц: {} ===" && cat llm_tasks/completed/{}/*/0_task_index.md'
+
+# ============================================
+# Управление дискуссиями
+# ============================================
+
+discuss-new: ## Создать новую дискуссию (интерактивно)
+	@python scripts/discuss_new.py -i
+
+discuss-new-topic: ## Создать дискуссию с темой (использование: make discuss-new-topic TOPIC="...")
+	@python scripts/discuss_new.py "$(TOPIC)"
+
+discuss-index: ## Показать индекс дискуссий
+	@cat general_docs/01_discuss/000_discuss.md
