@@ -121,6 +121,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - doc-health, doc-claude, doc-project-structure
 - glossary-candidates, glossary-link, glossary-review
 
+**Использование скиллов:**
+
+Amy **автоматически** использует скиллы в правильной последовательности:
+
+- **Аудит:** /doc-health → /doc-claude → /glossary-candidates → /glossary-link
+- **Создание документа:** /glossary-candidates → /glossary-review → /glossary-link → /doc-health
+- **Изменение структуры:** /doc-project-structure → /doc-claude → /doc-health
+
 **Подробнее:** См. [agents.md](llm_instructions/agents.md#amy-santiago-documentation-manager)
 
 ---
