@@ -74,21 +74,144 @@ trading_platform/
 1. Обновлённую структуру проекта
 2. Сообщение об успешном обновлении обоих файлов
 
-## Пример вывода
+## Примеры использования
 
+### Пример 1: Обновление структуры после добавления нового сервиса
+
+**Сценарий:** В проект добавлен новый микросервис `services/notifications/` для отправки уведомлений. Нужно обновить документацию с актуальной структурой проекта.
+
+**Команда:**
+```bash
+/doc-project-structure
 ```
-trading_platform/
+
+**Ожидаемый результат:**
+- Сканирование всех папок и файлов проекта
+- Генерация ASCII-дерева структуры
+- Обновление раздела "Структура проекта" в `llm_instructions/llm_instructions.md`
+- Обновление раздела "Структура проекта" в `README.md`
+
+**Вывод (пример):**
+```
+project_template/
 ├── .claude/                       # Конфигурация Claude Code
 │   ├── agents/                    # AI-агенты
+│   │   └── amy-santiago/          # Агент управления документацией
 │   └── skills/                    # Скиллы
+│       ├── doc-health/
+│       ├── glossary-link/
+│       └── ...
+├── services/                      # Микросервисы
+│   ├── auth/                      # Аутентификация
+│   ├── users/                     # Управление пользователями
+│   ├── api-gateway/               # API Gateway
+│   └── notifications/             # Отправка уведомлений (NEW)
 ├── general_docs/                  # Общая документация
-│   ├── glossary.md                # Глоссарий терминов
-│   └── ...
+│   ├── 01_discuss/                # Дискуссии
+│   ├── 02_architecture/           # Архитектура
+│   └── glossary.md                # Глоссарий терминов
 ├── llm_instructions/              # Инструкции для LLM
+│   ├── general_docs.md
+│   ├── tasks.md
 │   └── ...
 ├── CLAUDE.md                      # Быстрый справочник Claude
 └── README.md                      # Описание проекта
 
 ✓ Структура обновлена в llm_instructions/llm_instructions.md
 ✓ Структура обновлена в README.md
+
+Изменения:
+- Добавлена папка: services/notifications/
+- Обновлено файлов: 2
+```
+
+### Пример 2: Обновление после рефакторинга папок
+
+**Сценарий:** Папки в `general_docs/` были переименованы с добавлением префиксов `01_`, `02_` и т.д. (discuss → 01_discuss, architecture → 02_architecture). Нужно обновить структуру в документации.
+
+**Команда:**
+```bash
+/doc-project-structure
+```
+
+**Ожидаемый результат:**
+- Новые имена папок появляются в структуре
+- ASCII-дерево обновлено с правильной иерархией
+- Комментарии к папкам сохранены
+
+**Вывод (пример):**
+```
+project_template/
+├── general_docs/                  # Общая документация
+│   ├── 01_discuss/                # Дискуссии (renamed from discuss/)
+│   ├── 02_architecture/           # Архитектура (renamed from architecture/)
+│   ├── 03_diagrams/               # Диаграммы (renamed from diagrams/)
+│   ├── 04_decisions/              # Decision Records (renamed from decisions/)
+│   ├── 05_resources/              # Описания ресурсов (renamed from resources/)
+│   ├── 06_imp_plans/              # Планы реализации (renamed from imp_plans/)
+│   └── glossary.md                # Глоссарий терминов
+...
+
+✓ Структура обновлена в llm_instructions/llm_instructions.md
+✓ Структура обновлена в README.md
+
+Изменения:
+- Переименовано папок: 6
+- Обновлено файлов: 2
+
+Следующий шаг: Запустить `/doc-health` для проверки ссылок после рефакторинга
+```
+
+### Пример 3: Обновление структуры с исключением временных файлов
+
+**Сценарий:** В проекте много временных файлов (node_modules/, __pycache__/, .venv/). Нужно обновить структуру, но исключить эти папки из вывода.
+
+**Команда:**
+```bash
+/doc-project-structure
+```
+
+**Ожидаемый результат:**
+- Сканирование проекта с исключением служебных папок
+- Чистая структура без временных файлов
+- Сохранение только значимых файлов (.md, .py, .js, .ts, конфигурации)
+
+**Вывод (пример):**
+```
+project_template/
+├── .claude/                       # Конфигурация Claude Code
+├── apps/                          # Клиентские приложения
+│   └── web/                       # Web UI
+│       ├── src/
+│       ├── package.json
+│       └── README.md
+├── services/                      # Микросервисы
+│   ├── auth/
+│   │   ├── src/
+│   │   ├── requirements.txt
+│   │   └── README.md
+│   └── users/
+│       ├── src/
+│       ├── requirements.txt
+│       └── README.md
+├── general_docs/                  # Общая документация
+├── llm_instructions/              # Инструкции для LLM
+├── scripts/                       # Служебные скрипты
+│   ├── check_doc_health.py
+│   └── task_new.py
+├── CLAUDE.md
+└── README.md
+
+Исключено из вывода:
+- node_modules/ (зависимости npm)
+- __pycache__/ (кэш Python)
+- .venv/ (виртуальное окружение)
+- .git/ (служебная папка git)
+
+✓ Структура обновлена в llm_instructions/llm_instructions.md
+✓ Структура обновлена в README.md
+
+Изменения:
+- Обновлено файлов: 2
+- Исключено временных папок: 4
 ```

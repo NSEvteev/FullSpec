@@ -34,7 +34,20 @@ VERSION_PATTERN = re.compile(r'\*\*Версия:\*\*\s*(\d+\.\d+)', re.IGNORECAS
 FRONTMATTER_PATTERN = re.compile(r'^---\s*\n(.*?)\n---\s*\n', re.DOTALL)
 
 # Директории для проверки
-DOCS_DIRS = ['general_docs', 'llm_instructions', 'llm_tasks']
+DOCS_DIRS = [
+    'general_docs',        # Общая документация проекта
+    'llm_instructions',    # Инструкции для LLM
+    'llm_tasks',           # Задачи (current, future, completed)
+    '.claude/agents',      # Описания агентов
+    '.claude/skills'       # Скиллы Claude Code
+]
+
+# Корневые файлы для проверки
+ROOT_DOCS = [
+    'README.md',
+    'CLAUDE.md',
+    'CONTRIBUTING.md'
+]
 
 
 class DocumentationAggregator:
@@ -134,11 +147,20 @@ class DocumentationAggregator:
     def _find_md_files(self) -> List[Path]:
         """Найти все markdown-файлы."""
         md_files = []
+
+        # 1. Собрать файлы из директорий
         for docs_dir in DOCS_DIRS:
             dir_path = self.root_dir / docs_dir
             if dir_path.exists():
                 for file_path in dir_path.rglob('*.md'):
                     md_files.append(file_path)
+
+        # 2. Добавить корневые файлы
+        for root_file in ROOT_DOCS:
+            file_path = self.root_dir / root_file
+            if file_path.exists():
+                md_files.append(file_path)
+
         return md_files
 
     def _extract_document_info(self, file_path: Path) -> Dict:
@@ -165,9 +187,24 @@ class DocumentationAggregator:
 
     def _detect_document_type(self, path: Path) -> str:
         """Определить тип документа по пути."""
-        path_str = str(path)
+        path_str = str(path).replace('\\', '/')
 
-        if '01_discuss' in path_str:
+        # Корневые файлы (приоритет выше, чем README.md в подпапках)
+        if path.name == 'README.md' and path.parent == self.root_dir:
+            return 'root_readme'
+        elif path.name == 'CLAUDE.md':
+            return 'root_claude'
+        elif path.name == 'CONTRIBUTING.md':
+            return 'root_contributing'
+
+        # Агенты и скиллы
+        elif '.claude/agents' in path_str:
+            return 'agent'
+        elif '.claude/skills' in path_str:
+            return 'skill'
+
+        # Общая документация (general_docs)
+        elif '01_discuss' in path_str:
             return 'discuss'
         elif '02_architecture' in path_str:
             return 'architecture'
@@ -181,10 +218,14 @@ class DocumentationAggregator:
             return 'imp_plan'
         elif 'glossary.md' in path_str:
             return 'glossary'
+
+        # Инструкции и задачи
         elif 'llm_instructions' in path_str:
             return 'instruction'
         elif 'llm_tasks' in path_str:
             return 'task'
+
+        # README в подпапках
         elif path.name == 'README.md':
             return 'readme'
         else:

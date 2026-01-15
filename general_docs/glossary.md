@@ -185,7 +185,7 @@
 - **Синонимы:** Backlog.
 - **Антонимы:** —
 - **Связанные термины:** [LLM-сессия](#llm-сессия)
-- **Источник:** [future_tasks.md](../llm_tasks/future_tasks.md)
+- **Источник:** [0_task_index.md](../llm_tasks/future/0_task_index.md)
 
 ### LLM-сессия
 
@@ -194,7 +194,7 @@
 - **Синонимы:** Session, сессия.
 - **Антонимы:** —
 - **Связанные термины:** [Бэклог](#бэклог)
-- **Источник:** [current_tasks.md](../llm_tasks/current_tasks.md)
+- **Источник:** [0_task_index.md](../llm_tasks/current/0_task_index.md)
 
 ---
 

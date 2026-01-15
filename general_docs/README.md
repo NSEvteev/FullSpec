@@ -16,7 +16,6 @@ general_docs/
 ├── 03_diagrams/             # Диаграммы (.drawio, Mermaid)
 ├── 04_decisions/            # Architecture Decision Records (ADR)
 ├── 05_resources/            # Описания ресурсов
-│   ├── api/                 # API документация
 │   ├── backend/             # Бэкенд ресурсы
 │   ├── database/            # Схемы БД
 │   ├── frontend/            # Фронтенд ресурсы
@@ -53,7 +52,7 @@ general_docs/
 - Изменение ресурса → обновить Decision (ADR) и документацию папок
 - Изменение кода → обновить документацию папки, при существенных изменениях — ресурс и Decision (ADR)
 
-См. [general_docs.md](../llm_instructions/general_docs.md#цепочка-зависимостей-документов)
+**Подробнее:** См. [general_docs.md](../llm_instructions/general_docs.md) — полные правила ведения документации
 
 ---
 
@@ -64,8 +63,8 @@ general_docs/
 **Ищете архитектурное решение?**
 → Начните с [04_decisions/](04_decisions/) (краткие ADR) или [01_discuss/](01_discuss/) / [02_architecture/](02_architecture/) (детали)
 
-**Нужна схема БД или API?**
-→ Смотрите [05_resources/database/](05_resources/database/) или [05_resources/api/](05_resources/api/)
+**Нужна схема БД?**
+→ Смотрите [05_resources/database/](05_resources/database/)
 
 **Незнакомый термин?**
 → Проверьте [glossary.md](glossary.md)
@@ -172,7 +171,7 @@ make docs-check
 
 ## Примеры
 
-См. задачу [ID-001] в [llm_tasks/future_tasks.md](../llm_tasks/future_tasks.md) — создание примеров документации запланировано после реализации сервисов.
+См. задачу [ID-001] в [llm_tasks/future/0_task_index.md](../llm_tasks/future/0_task_index.md) — создание примеров документации запланировано после реализации сервисов.
 
 ---
 

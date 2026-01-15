@@ -210,9 +210,9 @@ in_progress → final
 ## Диаграммы
 
 ### Контекстная диаграмма
-![Context Diagram](../03_diagrams/001_system_overview/001-context.drawio)
+![Context Diagram](../03_diagrams/папка_диаграммы/имя_файла.drawio)
 
-См. [03_diagrams/001_system_overview/001-context.drawio](../03_diagrams/001_system_overview/001-context.drawio)
+Ссылка на диаграмму: [03_diagrams/папка_диаграммы/имя_файла.drawio](../03_diagrams/папка_диаграммы/имя_файла.drawio)
 ```
 
 ---
