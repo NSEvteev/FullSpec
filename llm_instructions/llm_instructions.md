@@ -15,11 +15,11 @@
 
 | Файл | Назначение |
 |------|------------|
-| [instructions_general_docs.md](instructions_general_docs.md) | Правила ведения документации: структура `general_docs/`, [📖 workflow статусов](../general_docs/glossary.md#workflow-статусов), правила [📖 feedback](../general_docs/glossary.md#feedback) |
-| [instructions_tasks.md](instructions_tasks.md) | **Управление задачами через `llm_tasks/`** (current_tasks.md, future_tasks.md) |
-| [instructions_scripts.md](instructions_scripts.md) | Служебные скрипты для поддержания порядка в проекте |
-| [instructions_agents.md](instructions_agents.md) | Конфигурация AI-[📖 агентов](../general_docs/glossary.md#агент) Claude Code (`.claude/agents/`) |
-| [instructions_skills.md](instructions_skills.md) | Конфигурация [📖 скиллов](../general_docs/glossary.md#скилл) Claude Code (`.claude/skills/`) |
+| [general_docs.md](general_docs.md) | Правила ведения документации: структура `general_docs/`, [📖 workflow статусов](../general_docs/glossary.md#workflow-статусов), правила [📖 feedback](../general_docs/glossary.md#feedback), шаблоны |
+| [tasks.md](tasks.md) | **Управление задачами через `llm_tasks/`** (current_tasks.md, future_tasks.md) |
+| [scripts.md](scripts.md) | Служебные скрипты для поддержания порядка в проекте |
+| [agents.md](agents.md) | Конфигурация AI-[📖 агентов](../general_docs/glossary.md#агент) Claude Code (`.claude/agents/`) — включая **Amy Santiago** (Documentation Manager) |
+| [skills.md](skills.md) | Конфигурация [📖 скиллов](../general_docs/glossary.md#скилл) Claude Code (`.claude/skills/`) |
 
 ---
 
@@ -29,11 +29,14 @@
 
 | Шаблон | Назначение | Расположение документов |
 |--------|------------|-------------------------|
-| [template_discuss.md](templates/template_discuss.md) | [📖 Дискуссии](../general_docs/glossary.md#дискуссия) (идея → решение) | `general_docs/discuss/` |
-| [template_architecture.md](templates/template_architecture.md) | Архитектурные документы | `general_docs/architecture/` |
-| [template_imp_plan.md](templates/template_imp_plan.md) | [📖 Планы реализации](../general_docs/glossary.md#план-реализации) | `general_docs/imp_plans/` |
-| [template_resource.md](templates/template_resource.md) | Описания ресурсов | `general_docs/resources/` |
-| [template_folder_doc.md](templates/template_folder_doc.md) | [📖 Документация папок](../general_docs/glossary.md#документация-папок) кода | `src/*/[название]_doc.md` |
+| [discuss.md](templates/discuss.md) | [📖 Дискуссии](../general_docs/glossary.md#дискуссия) (идея → решение) | `general_docs/discuss/` |
+| [architecture.md](templates/architecture.md) | Архитектурные документы | `general_docs/architecture/` |
+| [imp_plan.md](templates/imp_plan.md) | [📖 Планы реализации](../general_docs/glossary.md#план-реализации) | `general_docs/imp_plans/` |
+| [resource.md](templates/resource.md) | Описания ресурсов | `general_docs/resources/` |
+| [folder_doc.md](templates/folder_doc.md) | [📖 Документация папок](../general_docs/glossary.md#документация-папок) кода | `src/*/[название]_doc.md` |
+| [000_index.md](templates/000_index.md) | Индексные файлы (000_*.md) | Индексы в папках `general_docs/` |
+| [general_docs_README.md](templates/general_docs_README.md) | README для основных папок документации | `general_docs/*/README.md` |
+| [resources_README.md](templates/resources_README.md) | README для папок ресурсов | `general_docs/resources/*/README.md` |
 
 **Примечание:** Шаблоны — рекомендуемая структура. Адаптируйте под конкретную задачу.
 
@@ -224,8 +227,12 @@ project_template/
 │       └── template_folder_doc.md
 │
 ├── llm_tasks/                         # Управление задачами LLM
-│   ├── current_tasks.md               # Текущие задачи сессии
-│   └── future_tasks.md                # Бэклог задач
+│   ├── current_tasks.md               # Текущие задачи основного LLM
+│   ├── future_tasks.md                # Бэклог задач основного LLM
+│   └── agents/                        # Задачи агентов
+│       └── amy-santiago/              # Задачи Documentation Manager
+│           ├── current_tasks.md
+│           └── future_tasks.md
 │
 └── scripts/                           # Служебные скрипты
     ├── check_doc_health.py            # Комплексная проверка документации

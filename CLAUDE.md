@@ -50,7 +50,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **КРИТИЧЕСКИ ВАЖНО:** При каждой новой сессии:
 
-1. **Прочитать** [instructions_tasks.md](llm_instructions/instructions_tasks.md) — полные правила работы с задачами
+1. **Прочитать** [tasks.md](llm_instructions/tasks.md) — полные правила работы с задачами
 2. **Проверить** [current_tasks.md](llm_tasks/current_tasks.md) — текущие задачи сессии
 3. **Предложить** пользователю варианты:
    - Продолжить текущие задачи
@@ -76,10 +76,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
      - Продолжить работу над текущими задачами
      - Работать с новыми задачами
      - Посмотреть бэклог ([future_tasks.md](llm_tasks/future_tasks.md))
-3. **Задачи:** Следовать [instructions_tasks.md](llm_instructions/instructions_tasks.md)
-4. **Документация:** Следовать [instructions_general_docs.md](llm_instructions/instructions_general_docs.md)
+3. **Задачи:** Следовать [tasks.md](llm_instructions/tasks.md)
+4. **Документация:** Следовать [general_docs.md](llm_instructions/general_docs.md)
 5. **Термины:** Добавлять в [glossary.md](general_docs/glossary.md)
-6. **Скрипты:** См. [instructions_scripts.md](llm_instructions/instructions_scripts.md)
+6. **Скрипты:** См. [scripts.md](llm_instructions/scripts.md)
 
 ---
 
@@ -87,21 +87,62 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 | Инструкция | Назначение |
 |------------|------------|
-| [instructions_general_docs.md](llm_instructions/instructions_general_docs.md) | Правила ведения документации (дискуссии, архитектура, планы, README.md) |
-| [instructions_tasks.md](llm_instructions/instructions_tasks.md) | **Управление задачами через llm_tasks/** |
-| [instructions_scripts.md](llm_instructions/instructions_scripts.md) | Служебные скрипты (check_doc_health.py, check_gloss_health.py) |
-| [instructions_agents.md](llm_instructions/instructions_agents.md) | AI-[📖 агенты](general_docs/glossary.md#агент) Claude Code |
-| [instructions_skills.md](llm_instructions/instructions_skills.md) | [📖 Скиллы](general_docs/glossary.md#скилл) Claude Code |
+| [general_docs.md](llm_instructions/general_docs.md) | Правила ведения документации (дискуссии, архитектура, планы, README.md) |
+| [tasks.md](llm_instructions/tasks.md) | **Управление задачами через llm_tasks/** |
+| [scripts.md](llm_instructions/scripts.md) | Служебные скрипты (check_doc_health.py, check_gloss_health.py) |
+| [agents.md](llm_instructions/agents.md) | AI-[📖 агенты](general_docs/glossary.md#агент) Claude Code |
+| [skills.md](llm_instructions/skills.md) | [📖 Скиллы](general_docs/glossary.md#скилл) Claude Code |
+
+---
+
+## Агенты Claude Code
+
+**Amy Santiago (Documentation Manager)** — специализированный агент для управления документацией.
+
+**Когда использовать:**
+- ✅ Создание нового документа (дискуссия, архитектура, план, ресурс)
+- ✅ Изменение документа, влияющее на другие
+- ✅ Проверка документации на соответствие стандартам
+- ✅ Массовое обновление индексов (000_*.md)
+
+**Вызов агента:**
+```
+Используй агента amy-santiago для создания дискуссии об аутентификации
+```
+
+**Возможности:**
+- Создаёт документы по шаблонам с правильными метаданными
+- Автоматически обновляет индексы (000_*.md)
+- Поддерживает цепочку зависимостей (Дискуссия → Архитектура → Ресурсы → План)
+- Запускает процесс обратной связи (feedback)
+- Валидирует структуру, ссылки, метаданные
+
+**Подробнее:** См. [agents.md](llm_instructions/agents.md#amy-santiago-documentation-manager)
+
+---
 
 ## Управление задачами
 
 **ВАЖНО:** Все задачи проекта ведутся через `llm_tasks/`, а не через временные файлы.
 
+### Основной LLM
+
 | Файл | Назначение |
 |------|------------|
 | [current_tasks.md](llm_tasks/current_tasks.md) | Текущие задачи сессии (проверять при каждом запуске!) |
 | [future_tasks.md](llm_tasks/future_tasks.md) | [📖 Бэклог](general_docs/glossary.md#бэклог) задач |
-| [instructions_tasks.md](llm_instructions/instructions_tasks.md) | Правила работы с задачами |
+| [tasks.md](llm_instructions/tasks.md) | Правила работы с задачами |
+
+### Агенты
+
+Каждый агент имеет собственную папку задач в `llm_tasks/agents/[имя-агента]/`:
+
+| Агент | Задачи | Назначение |
+|-------|--------|------------|
+| Amy Santiago | [current_tasks.md](llm_tasks/agents/amy-santiago/current_tasks.md) | Текущие задачи по документации |
+| Amy Santiago | [future_tasks.md](llm_tasks/agents/amy-santiago/future_tasks.md) | Бэклог задач по документации |
+
+**Правило для агентов:** Каждый агент **обязательно** читает свой `current_tasks.md` при запуске и предлагает продолжить текущие задачи.
 
 ### Правила работы с задачами
 
