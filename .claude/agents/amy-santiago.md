@@ -224,11 +224,11 @@ llm_tasks/agents/amy-santiago/
 **Процесс:**
 
 1. **Определить тип документа**
-   - Дискуссия → `general_docs/discuss/`
-   - Архитектура → `general_docs/architecture/`
-   - Decision (ADR) → `general_docs/decisions/`
-   - План реализации → `general_docs/imp_plans/`
-   - Ресурс → `general_docs/resources/[категория]/`
+   - Дискуссия → `general_docs/01_discuss/`
+   - Архитектура → `general_docs/02_architecture/`
+   - Decision (ADR) → `general_docs/04_decisions/`
+   - План реализации → `general_docs/06_imp_plans/`
+   - Ресурс → `general_docs/05_resources/[категория]/`
 
 2. **Выбрать шаблон**
    - `templates/discuss.md`
@@ -395,7 +395,7 @@ llm_tasks/agents/amy-santiago/
 - Требование безопасности: короткий TTL для access токенов
 - Улучшение UX: автоматическое обновление токена
 
-**Связанный документ:** [architecture/002_auth_module.md](../architecture/002_auth_module.md) (версия 1.1)
+**Связанный документ:** [02_architecture/002_auth_module.md](../02_architecture/002_auth_module.md) (версия 1.1)
 
 **Статус:** Дискуссия требует пересмотра в части безопасности токенов
 ```
@@ -432,13 +432,13 @@ llm_tasks/agents/amy-santiago/
 **Мои действия:**
 
 1. Читаю `llm_instructions/general_docs.md` (секция Дискуссии)
-2. Читаю `general_docs/discuss/README.md`
-3. Читаю `general_docs/discuss/000_discuss.md` — вижу, что документов нет, следующий ID = 001
+2. Читаю `general_docs/01_discuss/README.md`
+3. Читаю `general_docs/01_discuss/000_discuss.md` — вижу, что документов нет, следующий ID = 001
 4. Читаю шаблон `llm_instructions/templates/discuss.md`
-5. Создаю файл `general_docs/discuss/001_user_authentication.md`:
+5. Создаю файл `general_docs/01_discuss/001_user_authentication.md`:
    - Метаданные: статус draft, дата 2026-01-15
    - Заполняю секции по шаблону
-6. Обновляю `general_docs/discuss/000_discuss.md`:
+6. Обновляю `general_docs/01_discuss/000_discuss.md`:
    - Добавляю строку в таблицу
    - Статистика: draft = 1, Всего = 1
    - Дата обновления: 2026-01-15
@@ -450,7 +450,7 @@ llm_tasks/agents/amy-santiago/
 
 **Мои действия:**
 
-1. Читаю `general_docs/architecture/002_auth_module.md`
+1. Читаю `general_docs/02_architecture/002_auth_module.md`
 2. Нахожу версию (например, 1.0)
 3. Вношу изменения в архитектуру
 4. Обновляю метаданные:
@@ -460,7 +460,7 @@ llm_tasks/agents/amy-santiago/
 6. Обновляю индекс `000_architecture.md` (дата обновления)
 7. Читаю ссылки на связанные дискуссии
 8. Запускаю процесс feedback:
-   - Открываю `discuss/001_user_authentication.md`
+   - Открываю `01_discuss/001_user_authentication.md`
    - Меняю статус: final → feedback
    - Добавляю секцию "История обратной связи"
    - Фиксирую изменения

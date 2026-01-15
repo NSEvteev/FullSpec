@@ -29,15 +29,15 @@
 
 | Шаблон | Назначение | Расположение документов |
 |--------|------------|-------------------------|
-| [discuss.md](templates/discuss.md) | [📖 Дискуссии](../general_docs/glossary.md#дискуссия) (идея → решение) | `general_docs/discuss/` |
-| [architecture.md](templates/architecture.md) | Архитектурные документы | `general_docs/architecture/` |
-| [decision_adr.md](templates/decision_adr.md) | [📖 Decision (ADR)](../general_docs/glossary.md#decision-adr) — архитектурные решения | `general_docs/decisions/` |
-| [imp_plan.md](templates/imp_plan.md) | [📖 Планы реализации](../general_docs/glossary.md#план-реализации) | `general_docs/imp_plans/` |
-| [resource.md](templates/resource.md) | Описания ресурсов | `general_docs/resources/` |
+| [discuss.md](templates/discuss.md) | [📖 Дискуссии](../general_docs/glossary.md#дискуссия) (идея → решение) | `general_docs/01_discuss/` |
+| [architecture.md](templates/architecture.md) | Архитектурные документы | `general_docs/02_architecture/` |
+| [decision_adr.md](templates/decision_adr.md) | [📖 Decision (ADR)](../general_docs/glossary.md#decision-adr) — архитектурные решения | `general_docs/04_decisions/` |
+| [imp_plan.md](templates/imp_plan.md) | [📖 Планы реализации](../general_docs/glossary.md#план-реализации) | `general_docs/06_imp_plans/` |
+| [resource.md](templates/resource.md) | Описания ресурсов | `general_docs/05_resources/` |
 | [folder_doc.md](templates/folder_doc.md) | [📖 Документация папок](../general_docs/glossary.md#документация-папок) кода | `src/*/[название]_doc.md` |
 | [000_index.md](templates/000_index.md) | Индексные файлы (000_*.md) | Индексы в папках `general_docs/` |
 | [general_docs_README.md](templates/general_docs_README.md) | README для основных папок документации | `general_docs/*/README.md` |
-| [resources_README.md](templates/resources_README.md) | README для папок ресурсов | `general_docs/resources/*/README.md` |
+| [resources_README.md](templates/resources_README.md) | README для папок ресурсов | `general_docs/05_resources/*/README.md` |
 
 **Примечание:** Шаблоны — рекомендуемая структура. Адаптируйте под конкретную задачу.
 
@@ -203,19 +203,19 @@ project_template/
 │
 ├── general_docs/                      # Общая документация
 │   ├── glossary.md                    # Глоссарий терминов
-│   ├── architecture/                  # Архитектурные документы
-│   ├── decisions/                     # Decision (ADR) — архитектурные решения
-│   │   ├── 000_decisions_index.md     # Индекс решений
+│   ├── 01_discuss/                    # Дискуссии (идея → решение)
+│   ├── 02_architecture/               # Архитектурные документы
+│   ├── 03_diagrams/                   # Диаграммы (.drawio, Mermaid)
+│   ├── 04_decisions/                  # Decision (ADR) — архитектурные решения
+│   │   ├── 000_decisions.md           # Индекс решений
 │   │   └── archive/                   # Устаревшие/отклонённые решения
-│   ├── diagrams/                      # Диаграммы (.drawio, Mermaid)
-│   ├── discuss/                       # Дискуссии (идея → решение)
-│   ├── imp_plans/                     # Планы реализации
-│   └── resources/                     # Описания ресурсов
-│       ├── api/                       # API документация
-│       ├── backend/                   # Бэкенд ресурсы
-│       ├── database/                  # Схемы БД
-│       ├── frontend/                  # Фронтенд ресурсы
-│       └── infra/                     # Инфраструктурные ресурсы
+│   ├── 05_resources/                  # Описания ресурсов
+│   │   ├── api/                       # API документация
+│   │   ├── backend/                   # Бэкенд ресурсы
+│   │   ├── database/                  # Схемы БД
+│   │   ├── frontend/                  # Фронтенд ресурсы
+│   │   └── infra/                     # Инфраструктурные ресурсы
+│   └── 06_imp_plans/                  # Планы реализации
 │
 ├── llm_instructions/                  # Инструкции для LLM
 │   ├── llm_instructions.md            # Индекс (этот файл)

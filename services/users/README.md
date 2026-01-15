@@ -314,6 +314,6 @@ GET /health
 
 ## Дополнительная информация
 
-- [Архитектура](../../general_docs/architecture/)
-- [API документация](../../general_docs/resources/api/users_service_api.md)
-- [Схема базы данных](../../general_docs/resources/database/)
+- [Архитектура](../../general_docs/02_architecture/)
+- [API документация](../../general_docs/05_resources/api/users_service_api.md)
+- [Схема базы данных](../../general_docs/05_resources/database/)

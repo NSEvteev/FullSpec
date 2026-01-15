@@ -108,14 +108,14 @@ python scripts/check_doc_health.py --check structure --verbose
 BROKEN_LINKS
 ============================================================
 
-  general_docs/discuss/001_example.md:15
-    Битая ссылка на файл: [Архитектура](../architecture/999_missing.md)
+  general_docs/01_discuss/001_example.md:15
+    Битая ссылка на файл: [Архитектура](../02_architecture/999_missing.md)
 
 ============================================================
 MISSING_SECTIONS
 ============================================================
 
-  general_docs/discuss/002_example.md
+  general_docs/01_discuss/002_example.md
     Отсутствует обязательный раздел: 'Принятое решение' (тип: discuss)
 
 ============================================================

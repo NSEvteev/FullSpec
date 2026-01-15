@@ -236,6 +236,6 @@ GET /metrics
 
 ## Дополнительная информация
 
-- [Архитектура аутентификации](../../general_docs/architecture/)
-- [API документация](../../general_docs/resources/api/auth_service_api.md)
-- [Схема базы данных](../../general_docs/resources/database/)
+- [Архитектура аутентификации](../../general_docs/02_architecture/)
+- [API документация](../../general_docs/05_resources/api/auth_service_api.md)
+- [Схема базы данных](../../general_docs/05_resources/database/)

@@ -35,7 +35,7 @@
 ## Структура
 
 ```
-resources/
+05_resources/
 ├── 000_resources.md         # Общий индекс
 ├── README.md                # Общие правила
 │
@@ -110,8 +110,8 @@ resources/
 **Шаблон:** [templates/resource.md](../../llm_instructions/templates/resource.md)
 
 **Связанные папки:**
-- [architecture/](../architecture/)
-- [imp_plans/](../imp_plans/)
+- [02_architecture/](../02_architecture/)
+- [06_imp_plans/](../06_imp_plans/)
 
 ---
 

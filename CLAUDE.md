@@ -299,16 +299,16 @@ API Gateway (services/api-gateway) :8000
 ```
 general_docs/
 ├── glossary.md             # Глоссарий терминов проекта
-├── discuss/                # [📖 Дискуссии](general_docs/glossary.md#дискуссия) (идея → решение)
-├── architecture/           # Архитектурные документы
-├── decisions/              # [📖 Decision (ADR)](general_docs/glossary.md#decision-adr) — архитектурные решения
-├── diagrams/               # Диаграммы (.drawio, Mermaid)
-├── imp_plans/              # [📖 Планы реализации](general_docs/glossary.md#план-реализации)
-└── resources/              # Описания ресурсов
-    ├── database/
-    ├── backend/
-    ├── frontend/
-    └── infra/
+├── 01_discuss/             # [📖 Дискуссии](general_docs/glossary.md#дискуссия) (идея → решение)
+├── 02_architecture/        # Архитектурные документы
+├── 03_diagrams/            # Диаграммы (.drawio, Mermaid)
+├── 04_decisions/           # [📖 Decision (ADR)](general_docs/glossary.md#decision-adr) — архитектурные решения
+├── 05_resources/           # Описания ресурсов
+│   ├── database/
+│   ├── backend/
+│   ├── frontend/
+│   └── infra/
+└── 06_imp_plans/           # [📖 Планы реализации](general_docs/glossary.md#план-реализации)
 ```
 
 ### [📖 Цепочка зависимостей](general_docs/glossary.md#цепочка-зависимостей) документов

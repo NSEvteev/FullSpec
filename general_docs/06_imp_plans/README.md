@@ -111,8 +111,8 @@ make docs-health
 **Шаблон:** [templates/imp_plan.md](../../llm_instructions/templates/imp_plan.md)
 
 **Связанные папки:**
-- [architecture/](../architecture/) — архитектура
-- [resources/](../resources/) — ресурсы
+- [02_architecture/](../02_architecture/) — архитектура
+- [05_resources/](../05_resources/) — ресурсы
 
 ---
 

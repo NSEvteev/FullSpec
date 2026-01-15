@@ -1,4 +1,4 @@
-# Аудит папки general_docs/architecture/
+# Аудит папки general_docs/02_architecture/
 
 **Дата:** 2026-01-15
 **Аудитор:** Amy Santiago (Documentation Manager Agent)
@@ -114,19 +114,19 @@ final: 0
 - ✅ `../../llm_instructions/general_docs.md` — существует
 - ✅ `../glossary.md` — существует
 - ✅ `../../llm_instructions/templates/architecture.md` — существует
-- ✅ `../discuss/README.md` — существует
-- ✅ `../resources/README.md` — проверю далее
-- ✅ `../diagrams/` — проверю далее
-- ✅ `../imp_plans/` — проверю далее
+- ✅ `../01_discuss/README.md` — существует
+- ✅ `../05_resources/README.md` — проверю далее
+- ✅ `../03_diagrams/` — проверю далее
+- ✅ `../06_imp_plans/` — проверю далее
 
 **Проверенные ссылки в 000_architecture.md:**
 - ✅ `README.md` — существует
 - ✅ `../../llm_instructions/general_docs.md` — существует
 - ✅ `../glossary.md` — существует
-- ✅ `../discuss/000_discuss.md` — существует
-- ✅ `../resources/000_resources.md` — проверю далее
-- ✅ `../imp_plans/` — проверю далее
-- ✅ `../diagrams/` — проверю далее
+- ✅ `../01_discuss/000_discuss.md` — существует
+- ✅ `../05_resources/000_resources.md` — проверю далее
+- ✅ `../06_imp_plans/` — проверю далее
+- ✅ `../03_diagrams/` — проверю далее
 - ✅ `../../llm_instructions/templates/architecture.md` — существует
 
 ### 6. Соответствие стандартам ✅
@@ -152,14 +152,14 @@ final: 0
    - **Рекомендация:** Добавить примеры после создания первых архитектурных документов
 
 2. **Ссылки на другие папки:**
-   - Ссылки на `resources/`, `diagrams/`, `imp_plans/` будут проверены в следующих этапах аудита
+   - Ссылки на `05_resources/`, `03_diagrams/`, `06_imp_plans/` будут проверены в следующих этапах аудита
    - **Статус:** Ожидает проверки
 
 ---
 
 ## Выводы
 
-Папка `general_docs/architecture/` полностью соответствует стандартам проекта:
+Папка `general_docs/02_architecture/` полностью соответствует стандартам проекта:
 
 ✅ Все обязательные файлы присутствуют
 ✅ Структура документов корректна
@@ -177,8 +177,8 @@ final: 0
 ## Рекомендации
 
 1. При создании первых архитектурных документов — добавить примеры в README.md
-2. Продолжить аудит следующих папок (diagrams/, imp_plans/, resources/)
+2. Продолжить аудит следующих папок (03_diagrams/, 06_imp_plans/, 05_resources/)
 
 ---
 
-**Следующий шаг:** Аудит `general_docs/diagrams/`
+**Следующий шаг:** Аудит `general_docs/03_diagrams/`

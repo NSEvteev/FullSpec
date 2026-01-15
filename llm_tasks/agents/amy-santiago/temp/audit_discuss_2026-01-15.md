@@ -1,4 +1,4 @@
-# Аудит папки general_docs/discuss/
+# Аудит папки general_docs/01_discuss/
 
 **Дата:** 2026-01-15
 **Аудитор:** Amy Santiago (Documentation Manager Agent)
@@ -112,18 +112,18 @@ final: 0
 - ✅ `../../llm_instructions/general_docs.md` — существует
 - ✅ `../glossary.md` — существует
 - ✅ `../../llm_instructions/templates/discuss.md` — существует
-- ✅ `../architecture/README.md` — проверю далее
-- ✅ `../resources/` — проверю далее
-- ✅ `../imp_plans/` — проверю далее
+- ✅ `../02_architecture/README.md` — проверю далее
+- ✅ `../05_resources/` — проверю далее
+- ✅ `../06_imp_plans/` — проверю далее
 
 **Проверенные ссылки в 000_discuss.md:**
 - ✅ `README.md` — существует
 - ✅ `../../llm_instructions/general_docs.md` — существует
 - ✅ `../glossary.md` — существует
-- ✅ `../architecture/000_architecture.md` — проверю далее
-- ✅ `../architecture/` — проверю далее
-- ✅ `../resources/` — проверю далее
-- ✅ `../imp_plans/` — проверю далее
+- ✅ `../02_architecture/000_architecture.md` — проверю далее
+- ✅ `../02_architecture/` — проверю далее
+- ✅ `../05_resources/` — проверю далее
+- ✅ `../06_imp_plans/` — проверю далее
 - ✅ `../../llm_instructions/templates/discuss.md` — существует
 
 **Проверенные ссылки в шаблоне:**
@@ -151,14 +151,14 @@ final: 0
    - **Рекомендация:** Добавить примеры после создания первых дискуссий
 
 2. **Ссылки на другие папки:**
-   - Ссылки на `architecture/`, `resources/`, `imp_plans/` будут проверены в следующих этапах аудита
+   - Ссылки на `02_architecture/`, `05_resources/`, `06_imp_plans/` будут проверены в следующих этапах аудита
    - **Статус:** Ожидает проверки
 
 ---
 
 ## Выводы
 
-Папка `general_docs/discuss/` полностью соответствует стандартам проекта:
+Папка `general_docs/01_discuss/` полностью соответствует стандартам проекта:
 
 ✅ Все обязательные файлы присутствуют
 ✅ Структура документов корректна
@@ -175,8 +175,8 @@ final: 0
 ## Рекомендации
 
 1. При создании первых дискуссий — добавить примеры в README.md
-2. Продолжить аудит следующих папок (architecture/, diagrams/, imp_plans/, resources/)
+2. Продолжить аудит следующих папок (02_architecture/, 03_diagrams/, 06_imp_plans/, 05_resources/)
 
 ---
 
-**Следующий шаг:** Аудит `general_docs/architecture/`
+**Следующий шаг:** Аудит `general_docs/02_architecture/`

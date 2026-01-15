@@ -5,8 +5,8 @@
 **Автор:** [Имя автора]
 
 **Связанные документы:**
-- Дискуссия: [D-XXX](../../general_docs/discuss/D-XXX_название.md)
-- Архитектура: [A-XXX](../../general_docs/architecture/A-XXX_название.md)
+- Дискуссия: [D-XXX](../../general_docs/01_discuss/D-XXX_название.md)
+- Архитектура: [A-XXX](../../general_docs/02_architecture/A-XXX_название.md)
 - Ресурсы: [список ресурсов, которые реализуют это решение]
 - Планы: [список планов реализации]
 
@@ -139,4 +139,4 @@
 ---
 
 **Шаблон:** [decision_adr.md](../../llm_instructions/templates/decision_adr.md)
-**Индекс решений:** [000_decisions.md](../../general_docs/decisions/000_decisions.md)
+**Индекс решений:** [000_decisions.md](../../general_docs/04_decisions/000_decisions.md)

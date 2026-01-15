@@ -105,11 +105,11 @@ project_template/
 │
 ├── general_docs/                  # Общая документация
 │   ├── glossary.md                # Глоссарий терминов
-│   ├── architecture/              # Архитектурные документы
-│   ├── diagrams/                  # Диаграммы
-│   ├── discuss/                   # Дискуссии
-│   ├── imp_plans/                 # Планы реализации
-│   └── resources/                 # Описания ресурсов
+│   ├── 02_architecture/              # Архитектурные документы
+│   ├── 03_diagrams/                  # Диаграммы
+│   ├── 01_discuss/                   # Дискуссии
+│   ├── 06_imp_plans/                 # Планы реализации
+│   └── 05_resources/                 # Описания ресурсов
 │
 ├── llm_instructions/              # Инструкции для LLM
 │   ├── llm_instructions.md

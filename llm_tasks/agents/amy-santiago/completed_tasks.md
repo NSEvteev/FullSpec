@@ -34,17 +34,17 @@
 - ✅ Документация готова к использованию (100%)
 
 **Выполненные подзадачи:**
-- [x] 1.1. Аудит discuss/
-- [x] 1.2. Аудит architecture/
-- [x] 1.3. Аудит diagrams/
-- [x] 1.4. Аудит imp_plans/
-- [x] 1.5. Аудит resources/ (database, backend, frontend, infra)
+- [x] 1.1. Аудит 01_discuss/
+- [x] 1.2. Аудит 02_architecture/
+- [x] 1.3. Аудит 03_diagrams/
+- [x] 1.4. Аудит 06_imp_plans/
+- [x] 1.5. Аудит 05_resources/ (database, backend, frontend, infra)
 - [x] 1.6. Аудит глоссария
 - [x] 1.7. Формирование сводного отчёта
 
 **Временные файлы:**
-- `temp/audit_discuss_2026-01-15.md` — отчёт по аудиту discuss/
-- `temp/audit_architecture_2026-01-15.md` — отчёт по аудиту architecture/
+- `temp/audit_discuss_2026-01-15.md` — отчёт по аудиту 01_discuss/
+- `temp/audit_architecture_2026-01-15.md` — отчёт по аудиту 02_architecture/
 - `temp/audit_complete_report_2026-01-15.md` — сводный отчёт по всему аудиту
 
 **Рекомендации:**

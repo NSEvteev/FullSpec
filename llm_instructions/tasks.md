@@ -122,8 +122,8 @@ llm_tasks/agents/amy-santiago/
 **Дата:** 2026-01-15
 
 **Выполнено:**
-- [x] Аудит discuss/ (3 документа проверено)
-- [x] Аудит architecture/ (2 документа)
+- [x] Аудит 01_discuss/ (3 документа проверено)
+- [x] Аудит 02_architecture/ (2 документа)
 
 **Результаты:**
 - Создан отчёт: `temp/audit_report_2026-01-15.md`
@@ -140,11 +140,11 @@ llm_tasks/agents/amy-santiago/
 **Прогресс:** 2/7 подзадач
 
 **Подзадачи:**
-- [x] Аудит discuss/
-- [x] Аудит architecture/
-- [ ] Аудит diagrams/ ← **Следующая**
-- [ ] Аудит imp_plans/
-- [ ] Аудит resources/
+- [x] Аудит 01_discuss/
+- [x] Аудит 02_architecture/
+- [ ] Аудит 03_diagrams/ ← **Следующая**
+- [ ] Аудит 06_imp_plans/
+- [ ] Аудит 05_resources/
 - [ ] Аудит glossary.md
 - [ ] Формирование итогового отчёта
 
@@ -423,7 +423,7 @@ llm_tasks/agents/amy-santiago/
 
 Когда задача требует архитектурных решений:
 
-1. Создать дискуссию в `general_docs/discuss/`
+1. Создать дискуссию в `general_docs/01_discuss/`
 2. Указать ссылку на дискуссию в задаче
 3. После утверждения дискуссии — обновить задачу
 
@@ -433,15 +433,15 @@ llm_tasks/agents/amy-santiago/
 ### [ID-050] Реализовать систему уведомлений
 
 **Связанные документы:**
-- [Дискуссия 005](../general_docs/discuss/005_notification_system.md)
-- [Архитектура 010](../general_docs/architecture/010_notifications.md)
+- [Дискуссия 005](../general_docs/01_discuss/005_notification_system.md)
+- [Архитектура 010](../general_docs/02_architecture/010_notifications.md)
 ```
 
 ### Связь задач с планами реализации
 
 Когда начинается реализация задачи:
 
-1. Создать план реализации в `general_docs/imp_plans/`
+1. Создать план реализации в `general_docs/06_imp_plans/`
 2. Указать ссылку на план в задаче
 3. Отслеживать прогресс в плане
 
@@ -451,7 +451,7 @@ llm_tasks/agents/amy-santiago/
 ### [ID-051] Реализовать Auth Service
 
 **Связанные документы:**
-- [План реализации 003](../general_docs/imp_plans/003_plan_auth_service.md)
+- [План реализации 003](../general_docs/06_imp_plans/003_plan_auth_service.md)
 
 **Прогресс:**
 - [x] Настройка проекта

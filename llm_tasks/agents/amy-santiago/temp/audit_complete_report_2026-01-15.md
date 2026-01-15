@@ -16,22 +16,22 @@
 
 | Папка | Статус | Документы | Проблемы |
 |-------|--------|-----------|----------|
-| `general_docs/discuss/` | ✅ OK | 0 | 0 |
-| `general_docs/architecture/` | ✅ OK | 0 | 0 |
-| `general_docs/diagrams/` | ✅ OK | 0 | 0 |
-| `general_docs/imp_plans/` | ✅ OK | 0 | 0 |
-| `general_docs/resources/` | ✅ OK | 0 | 0 |
-| `general_docs/resources/database/` | ✅ OK | 0 | 0 |
-| `general_docs/resources/backend/` | ✅ OK | 0 | 0 |
-| `general_docs/resources/frontend/` | ✅ OK | 0 | 0 |
-| `general_docs/resources/infra/` | ✅ OK | 0 | 0 |
+| `general_docs/01_discuss/` | ✅ OK | 0 | 0 |
+| `general_docs/02_architecture/` | ✅ OK | 0 | 0 |
+| `general_docs/03_diagrams/` | ✅ OK | 0 | 0 |
+| `general_docs/06_imp_plans/` | ✅ OK | 0 | 0 |
+| `general_docs/05_resources/` | ✅ OK | 0 | 0 |
+| `general_docs/05_resources/database/` | ✅ OK | 0 | 0 |
+| `general_docs/05_resources/backend/` | ✅ OK | 0 | 0 |
+| `general_docs/05_resources/frontend/` | ✅ OK | 0 | 0 |
+| `general_docs/05_resources/infra/` | ✅ OK | 0 | 0 |
 | `general_docs/glossary.md` | ✅ OK | 13 терминов | 0 |
 
 ---
 
 ## Детализация по папкам
 
-### 1. discuss/ ✅
+### 1. 01_discuss/ ✅
 
 **Служебные файлы:**
 - ✅ `README.md` — правила работы с дискуссиями
@@ -49,7 +49,7 @@
 
 ---
 
-### 2. architecture/ ✅
+### 2. 02_architecture/ ✅
 
 **Служебные файлы:**
 - ✅ `README.md` — правила работы с архитектурой
@@ -68,7 +68,7 @@
 
 ---
 
-### 3. diagrams/ ✅
+### 3. 03_diagrams/ ✅
 
 **Служебные файлы:**
 - ✅ `README.md` — правила работы с диаграммами
@@ -86,7 +86,7 @@
 
 ---
 
-### 4. imp_plans/ ✅
+### 4. 06_imp_plans/ ✅
 
 **Служебные файлы:**
 - ✅ `README.md` — правила работы с планами реализации
@@ -104,7 +104,7 @@
 
 ---
 
-### 5. resources/ ✅
+### 5. 05_resources/ ✅
 
 **Служебные файлы:**
 - ✅ `README.md` — правила работы с ресурсами
@@ -158,10 +158,10 @@
 
 Все ссылки между файлами документации проверены и работают:
 
-- ✅ `discuss/` → `architecture/` ✅
-- ✅ `architecture/` → `discuss/`, `resources/`, `imp_plans/`, `diagrams/` ✅
-- ✅ `resources/` → `architecture/`, `imp_plans/` ✅
-- ✅ `imp_plans/` → `architecture/`, `resources/` ✅
+- ✅ `01_discuss/` → `02_architecture/` ✅
+- ✅ `02_architecture/` → `01_discuss/`, `05_resources/`, `06_imp_plans/`, `03_diagrams/` ✅
+- ✅ `05_resources/` → `02_architecture/`, `06_imp_plans/` ✅
+- ✅ `06_imp_plans/` → `02_architecture/`, `05_resources/` ✅
 - ✅ Все ссылки на `glossary.md` работают ✅
 
 ### Ссылки на шаблоны ✅
@@ -197,26 +197,26 @@
 
 Все папки имеют корректное описание workflow статусов:
 
-### discuss/
+### 01_discuss/
 ```
 draft → in_progress → review → approved → final
            ↓              ↑
         feedback ─────────┘
 ```
 
-### architecture/
+### 02_architecture/
 ```
 draft → in_progress → review → approved → final
            ↓              ↑
         feedback ─────────┘
 ```
 
-### diagrams/
+### 03_diagrams/
 ```
 in_progress → final
 ```
 
-### imp_plans/
+### 06_imp_plans/
 ```
 draft → in_progress → review → test → approved → final
 ```

@@ -64,7 +64,7 @@ allowed-tools: Read, Edit, Glob, Grep
 ```
 
 **Вычисление относительного пути:**
-- Из `general_docs/architecture/doc.md` → `../glossary.md`
+- Из `general_docs/02_architecture/doc.md` → `../glossary.md`
 - Из `llm_instructions/file.md` → `../general_docs/glossary.md`
 
 #### 3.3: Сохранить изменения
@@ -78,7 +78,7 @@ allowed-tools: Read, Edit, Glob, Grep
 Добавлено ссылок: Y
 
 Файлы с изменениями:
-- general_docs/architecture/01_overview.md: 5 ссылок
+- general_docs/02_architecture/01_overview.md: 5 ссылок
 - llm_instructions/instructions_general_docs.md: 3 ссылки
 
 ✓ Ссылки на глоссарий добавлены

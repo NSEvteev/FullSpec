@@ -11,17 +11,17 @@
 ```
 general_docs/
 ├── glossary.md              # Глоссарий терминов проекта
-├── discuss/                 # Дискуссии (идея → решение)
-├── architecture/            # Архитектурные документы
-├── decisions/               # Architecture Decision Records (ADR)
-├── diagrams/                # Диаграммы (.drawio, Mermaid)
-├── imp_plans/               # Планы реализации
-└── resources/               # Описания ресурсов
-    ├── api/                 # API документация
-    ├── backend/             # Бэкенд ресурсы
-    ├── database/            # Схемы БД
-    ├── frontend/            # Фронтенд ресурсы
-    └── infra/               # Инфраструктурные ресурсы
+├── 01_discuss/              # Дискуссии (идея → решение)
+├── 02_architecture/         # Архитектурные документы
+├── 03_diagrams/             # Диаграммы (.drawio, Mermaid)
+├── 04_decisions/            # Architecture Decision Records (ADR)
+├── 05_resources/            # Описания ресурсов
+│   ├── api/                 # API документация
+│   ├── backend/             # Бэкенд ресурсы
+│   ├── database/            # Схемы БД
+│   ├── frontend/            # Фронтенд ресурсы
+│   └── infra/               # Инфраструктурные ресурсы
+└── 06_imp_plans/            # Планы реализации
 ```
 
 ---
@@ -31,12 +31,12 @@ general_docs/
 | Документ | Назначение |
 |----------|------------|
 | [glossary.md](glossary.md) | Глоссарий терминов проекта (14 терминов) |
-| [discuss/](discuss/) | [📖 Дискуссии](glossary.md#дискуссия) — обсуждение архитектурных решений |
-| [architecture/](architecture/) | Архитектурные документы — решения и их обоснования |
-| [decisions/](decisions/) | [📖 Decision (ADR)](glossary.md#decision-adr) — зафиксированные архитектурные решения |
-| [diagrams/](diagrams/) | Диаграммы архитектуры (.drawio, Mermaid) |
-| [imp_plans/](imp_plans/) | [📖 Планы реализации](glossary.md#план-реализации) — задачи и этапы разработки |
-| [resources/](resources/) | Описания ресурсов (БД, API, компоненты) |
+| [01_discuss/](01_discuss/) | [📖 Дискуссии](glossary.md#дискуссия) — обсуждение архитектурных решений |
+| [02_architecture/](02_architecture/) | Архитектурные документы — решения и их обоснования |
+| [03_diagrams/](03_diagrams/) | Диаграммы архитектуры (.drawio, Mermaid) |
+| [04_decisions/](04_decisions/) | [📖 Decision (ADR)](glossary.md#decision-adr) — зафиксированные архитектурные решения |
+| [05_resources/](05_resources/) | Описания ресурсов (БД, API, компоненты) |
+| [06_imp_plans/](06_imp_plans/) | [📖 Планы реализации](glossary.md#план-реализации) — задачи и этапы разработки |
 
 ---
 
@@ -62,10 +62,10 @@ general_docs/
 ### Для разработчиков
 
 **Ищете архитектурное решение?**
-→ Начните с [decisions/](decisions/) (краткие ADR) или [discuss/](discuss/) / [architecture/](architecture/) (детали)
+→ Начните с [04_decisions/](04_decisions/) (краткие ADR) или [01_discuss/](01_discuss/) / [02_architecture/](02_architecture/) (детали)
 
 **Нужна схема БД или API?**
-→ Смотрите [resources/database/](resources/database/) или [resources/api/](resources/api/)
+→ Смотрите [05_resources/database/](05_resources/database/) или [05_resources/api/](05_resources/api/)
 
 **Незнакомый термин?**
 → Проверьте [glossary.md](glossary.md)
@@ -89,11 +89,11 @@ general_docs/
 ### Создание нового документа
 
 1. **Выбрать тип документа:**
-   - [📖 Дискуссия](glossary.md#дискуссия) → `discuss/XXX_название.md`
-   - Архитектурный документ → `architecture/XXX_название.md`
-   - [📖 Decision (ADR)](glossary.md#decision-adr) → `decisions/DEC-XXX_название.md`
-   - [📖 План реализации](glossary.md#план-реализации) → `imp_plans/XXX_план_название.md`
-   - Описание ресурса → `resources/[категория]/XXX_название.md`
+   - [📖 Дискуссия](glossary.md#дискуссия) → `01_discuss/XXX_название.md`
+   - Архитектурный документ → `02_architecture/XXX_название.md`
+   - [📖 Decision (ADR)](glossary.md#decision-adr) → `04_decisions/DEC-XXX_название.md`
+   - [📖 План реализации](glossary.md#план-реализации) → `06_imp_plans/XXX_план_название.md`
+   - Описание ресурса → `05_resources/[категория]/XXX_название.md`
 
 2. **Использовать шаблон** из `llm_instructions/templates/`
 

@@ -124,5 +124,5 @@ src/
 
 ## Дополнительная информация
 
-- [Документация архитектуры](../../general_docs/architecture/)
-- [API документация](../../general_docs/resources/api/)
+- [Документация архитектуры](../../general_docs/02_architecture/)
+- [API документация](../../general_docs/05_resources/api/)

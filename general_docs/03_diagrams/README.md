@@ -44,7 +44,7 @@
 Каждый архитектурный документ может иметь свою папку с диаграммами:
 
 ```
-diagrams/
+03_diagrams/
 ├── [ID]_[название_архитектуры]/
 │   ├── [ID]-[описание].drawio
 │   ├── [ID]-[описание].drawio
@@ -56,7 +56,7 @@ diagrams/
 
 **Пример:**
 ```
-diagrams/
+03_diagrams/
 ├── 001_system_overview/
 │   ├── 001-context.drawio       # C4 Context диаграмма
 │   ├── 001-container.drawio     # C4 Container диаграмма
@@ -71,7 +71,7 @@ diagrams/
 
 **Папки:**
 - Формат: `[ID]_[название_архитектурного_документа]/`
-- ID должен совпадать с ID в `architecture/`
+- ID должен совпадать с ID в `02_architecture/`
 - Пример: `001_system_overview/`
 
 **Файлы диаграмм:**
@@ -210,9 +210,9 @@ in_progress → final
 ## Диаграммы
 
 ### Контекстная диаграмма
-![Context Diagram](../diagrams/001_system_overview/001-context.drawio)
+![Context Diagram](../03_diagrams/001_system_overview/001-context.drawio)
 
-См. [diagrams/001_system_overview/001-context.drawio](../diagrams/001_system_overview/001-context.drawio)
+См. [03_diagrams/001_system_overview/001-context.drawio](../03_diagrams/001_system_overview/001-context.drawio)
 ```
 
 ---
@@ -265,18 +265,18 @@ make docs-check-diagrams
 **Рекомендуемый процесс:**
 
 1. **Определить архитектурный документ:**
-   - Найти ID в `architecture/`
-   - Проверить, есть ли папка `diagrams/[ID]_название/`
+   - Найти ID в `02_architecture/`
+   - Проверить, есть ли папка `03_diagrams/[ID]_название/`
 
 2. **Создать папку (если нет):**
    ```bash
-   mkdir diagrams/001_system_overview
+   mkdir 03_diagrams/001_system_overview
    ```
 
 3. **Создать диаграмму:**
    - Открыть Draw.io
    - Создать диаграмму
-   - Сохранить как `diagrams/001_system_overview/001-context.drawio`
+   - Сохранить как `03_diagrams/001_system_overview/001-context.drawio`
 
 4. **Добавить метаданные:**
    - Статус: `in_progress`
@@ -287,7 +287,7 @@ make docs-check-diagrams
    - Обновить статистику
 
 6. **Добавить ссылку в архитектуру:**
-   - Открыть `architecture/001_system_overview.md`
+   - Открыть `02_architecture/001_system_overview.md`
    - Добавить секцию "Диаграммы"
    - Добавить ссылку на диаграмму
 
@@ -337,7 +337,7 @@ make docs-check-diagrams
 **Связанные инструкции:**
 - [general_docs.md](../../llm_instructions/general_docs.md) — полная инструкция по документации
 - [glossary.md](../glossary.md) — глоссарий терминов проекта
-- [Архитектура](../architecture/README.md) — архитектурные документы
+- [Архитектура](../02_architecture/README.md) — архитектурные документы
 
 **Полезные ссылки:**
 - [C4 Model](https://c4model.com/) — документация по C4 диаграммам
@@ -348,7 +348,7 @@ make docs-check-diagrams
 - `/doc-index` — обновление индексов
 
 **Связанные папки:**
-- [architecture/](../architecture/) — архитектурные документы
+- [02_architecture/](../02_architecture/) — архитектурные документы
 
 ---
 

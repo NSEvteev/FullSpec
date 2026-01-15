@@ -67,7 +67,7 @@ allowed-tools: Read, Edit, Glob
 ## Пример вывода
 
 ```
-Проанализирован: general_docs/architecture/01_system_overview.md
+Проанализирован: general_docs/02_architecture/01_system_overview.md
 
 Найдено кандидатов: 5
 - Strategy Engine

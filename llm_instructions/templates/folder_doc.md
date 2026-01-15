@@ -13,9 +13,9 @@
 
 ## 1. Связи с общей документацией
 
-- **Архитектура:** [ссылки на файлы в general_docs/architecture/]
-- **Ресурсы:** [ссылки на файлы в general_docs/resources/]
-- **План реализации:** [ссылки на файлы в general_docs/imp_plans/]
+- **Архитектура:** [ссылки на файлы в general_docs/02_architecture/]
+- **Ресурсы:** [ссылки на файлы в general_docs/05_resources/]
+- **План реализации:** [ссылки на файлы в general_docs/06_imp_plans/]
 
 ## 2. Структура модуля
 
@@ -71,4 +71,4 @@
 
 | Файл модуля | Ресурс в general_docs |
 |-------------|----------------------|
-| [file.py] | [resources/backend/service.md] |
+| [file.py] | [05_resources/backend/service.md] |

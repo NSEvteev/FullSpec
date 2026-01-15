@@ -46,7 +46,7 @@
   - `002_auth_module.md`
   - `003_data_pipeline.md`
 - **ID:** Последовательная нумерация (001, 002, 003...)
-- **Уникальность:** ID должен быть уникальным в рамках папки architecture/
+- **Уникальность:** ID должен быть уникальным в рамках папки 02_architecture/
 
 ### Обязательные разделы
 
@@ -77,7 +77,7 @@
 6. **Диаграммы**
    - C4-уровни (Context, Container, Component)
    - UML-последовательности
-   - Ссылки на файлы в diagrams/
+   - Ссылки на файлы в 03_diagrams/
 
 7. **Интерфейсы и контракты**
    - API (OpenAPI/Swagger)
@@ -179,7 +179,7 @@ draft → in_progress → review → approved → final
   - В архитектуре указывается ссылка на план
 
 - **Архитектура → Диаграммы** (опционально)
-  - Если требуются диаграммы .drawio, они создаются в diagrams/
+  - Если требуются диаграммы .drawio, они создаются в 03_diagrams/
   - В архитектуре указываются ссылки на диаграммы
 
 **[📖 Цепочка зависимостей](../glossary.md#цепочка-зависимостей):**
@@ -309,8 +309,8 @@ make docs-check-architecture
 **Связанные инструкции:**
 - [general_docs.md](../../llm_instructions/general_docs.md) — полная инструкция по документации
 - [glossary.md](../glossary.md) — глоссарий терминов проекта
-- [Дискуссии](../discuss/README.md) — предыдущий этап
-- [Ресурсы](../resources/README.md) — следующий этап
+- [Дискуссии](../01_discuss/README.md) — предыдущий этап
+- [Ресурсы](../05_resources/README.md) — следующий этап
 
 **Полезные скиллы:**
 - `/doc-health` — проверка здоровья документации
@@ -319,10 +319,10 @@ make docs-check-architecture
 - `/doc-claude` — обновление CLAUDE.md и инструкций
 
 **Связанные папки:**
-- [discuss/](../discuss/) — дискуссии
-- [diagrams/](../diagrams/) — диаграммы
-- [resources/](../resources/) — ресурсы
-- [imp_plans/](../imp_plans/) — планы реализации
+- [01_discuss/](../01_discuss/) — дискуссии
+- [03_diagrams/](../03_diagrams/) — диаграммы
+- [05_resources/](../05_resources/) — ресурсы
+- [06_imp_plans/](../06_imp_plans/) — планы реализации
 
 ---
 
