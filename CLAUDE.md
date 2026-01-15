@@ -34,7 +34,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **`llm_tasks/`** - управление задачами (текущие, бэклог, агенты)
 - **`general_docs/`** - документация проекта (дискуссии, архитектура, планы)
 - **`scripts/`** - служебные скрипты (проверки, автоматизация задач)
-- **`templates/`** - шаблоны для создания документов
+- **`llm_instructions/templates/`** - шаблоны для создания документов
 
 **Полная структура:** См. [llm_instructions.md](llm_instructions/llm_instructions.md)
 
@@ -160,6 +160,27 @@ Amy **автоматически** использует скиллы в прав
 
 ---
 
+## Скиллы Claude Code
+
+Скиллы — команды, расширяющие возможности Claude Code.
+
+| Скилл | Команда | Назначение |
+|-------|---------|------------|
+| commit-push | `/commit-push` | Коммит и пуш с правильным форматированием |
+| doc-review | `/doc-review` | Ревью документа на полноту и качество |
+| doc-health | `/doc-health` | Техническая проверка документации |
+| doc-health-deep | `/doc-health-deep` | Глубокий смысловой аудит с генерацией задач |
+| doc-claude | `/doc-claude` | Синхронизация CLAUDE.md и llm_instructions.md |
+| doc-project-structure | `/doc-project-structure` | Обновление структуры проекта в документации |
+| glossary-candidates | `/glossary-candidates` | Поиск терминов-кандидатов для глоссария |
+| glossary-review | `/glossary-review` | Интерактивная обработка кандидатов |
+| glossary-link | `/glossary-link` | Добавление ссылок на глоссарий в .md файлы |
+| task-documentation | `/task-documentation` | Документирование завершённой задачи |
+
+**Подробнее:** См. [skills.md](llm_instructions/skills.md)
+
+---
+
 ## Управление задачами
 
 **ВАЖНО:** Все задачи проекта ведутся через `llm_tasks/` с уникальными ID, а не через временные файлы.
@@ -180,7 +201,8 @@ llm_tasks/
 │   └── YYYY-MM/           # Месяц завершения
 │       └── {assignee}/    # Исполнитель
 │           └── 0_task_index.md
-└── temp/                  # Временные файлы агентов
+└── temp/                  # Временные файлы
+    └── amy-santiago/      # Временные файлы Amy
 ```
 
 ### Формат ID задач
