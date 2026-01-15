@@ -2,7 +2,7 @@
 """
 Скрипт комплексной проверки здоровья документации проекта.
 
-Запуск:
+Запуск (CLI):
     python scripts/check_doc_health.py
     python scripts/check_doc_health.py --verbose
     python scripts/check_doc_health.py --check links      # Только проверка ссылок
@@ -10,6 +10,23 @@
     python scripts/check_doc_health.py --check status     # Только проверка статусов
     python scripts/check_doc_health.py --check metadata   # Только проверка метаданных
     python scripts/check_doc_health.py --check markdown   # Только проверка форматирования
+
+    # Новые возможности:
+    python scripts/check_doc_health.py --json             # JSON вывод
+    python scripts/check_doc_health.py --format json      # JSON вывод (альтернатива)
+    python scripts/check_doc_health.py --output report.txt # Сохранить в файл
+    python scripts/check_doc_health.py --json --output results.json # JSON в файл
+
+Программное использование:
+    from scripts.check_doc_health import run_checks
+
+    # Получить результаты в виде словаря
+    results = run_checks(verbose=False)
+    print(results['success'])
+    print(results['total_issues'])
+
+    # Получить JSON
+    json_results = run_checks(format='json')
 
 Что проверяет:
     1. Целостность ссылок:
@@ -42,9 +59,10 @@
 import os
 import re
 import sys
+import json
 import argparse
 from pathlib import Path
-from typing import List, Tuple, Dict, Set
+from typing import List, Tuple, Dict, Set, Optional
 from datetime import datetime
 from collections import defaultdict
 
@@ -135,32 +153,72 @@ class HealthChecker:
             'message': message
         })
 
-    def print_results(self):
-        """Вывести результаты проверки."""
-        if not self.issues:
-            print("✓ Все проверки пройдены успешно!")
-            return 0
+    def get_results(self) -> Dict:
+        """Получить результаты проверки в виде словаря."""
+        total_issues = sum(len(problems) for problems in self.issues.values())
 
-        print("✗ Найдены проблемы в документации:\n")
+        return {
+            'success': total_issues == 0,
+            'total_issues': total_issues,
+            'issues_by_category': dict(self.issues),
+            'categories': list(self.issues.keys())
+        }
 
-        total_issues = 0
-        for category, problems in sorted(self.issues.items()):
-            print(f"{'='*60}")
-            print(f"{category.upper()}")
-            print(f"{'='*60}\n")
+    def print_results(self, format: str = 'text', output_file: Optional[str] = None):
+        """Вывести результаты проверки.
 
-            for problem in problems:
-                total_issues += 1
-                if problem['line'] > 0:
-                    print(f"  {problem['file']}:{problem['line']}")
-                else:
-                    print(f"  {problem['file']}")
-                print(f"    {problem['message']}\n")
+        Args:
+            format: Формат вывода ('text' или 'json')
+            output_file: Путь к файлу для сохранения результатов
+        """
+        results = self.get_results()
 
-        print(f"{'='*60}")
-        print(f"Всего проблем: {total_issues}")
-        print(f"{'='*60}")
-        return 1
+        if format == 'json':
+            output = json.dumps(results, ensure_ascii=False, indent=2)
+
+            if output_file:
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    f.write(output)
+                print(f"Результаты сохранены в {output_file}")
+            else:
+                print(output)
+
+            return 0 if results['success'] else 1
+
+        # Текстовый формат (по умолчанию)
+        output_lines = []
+
+        if results['success']:
+            output_lines.append("[OK] Все проверки пройдены успешно!")
+        else:
+            output_lines.append("[FAIL] Найдены проблемы в документации:\n")
+
+            for category, problems in sorted(self.issues.items()):
+                output_lines.append(f"{'='*60}")
+                output_lines.append(f"{category.upper()}")
+                output_lines.append(f"{'='*60}\n")
+
+                for problem in problems:
+                    if problem['line'] > 0:
+                        output_lines.append(f"  {problem['file']}:{problem['line']}")
+                    else:
+                        output_lines.append(f"  {problem['file']}")
+                    output_lines.append(f"    {problem['message']}\n")
+
+            output_lines.append(f"{'='*60}")
+            output_lines.append(f"Всего проблем: {results['total_issues']}")
+            output_lines.append(f"{'='*60}")
+
+        output_text = '\n'.join(output_lines)
+
+        if output_file:
+            with open(output_file, 'w', encoding='utf-8') as f:
+                f.write(output_text)
+            print(f"Результаты сохранены в {output_file}")
+        else:
+            print(output_text)
+
+        return 0 if results['success'] else 1
 
 
 # ============================================
@@ -449,23 +507,111 @@ def check_markdown(checker: HealthChecker):
 
 
 # ============================================
+# Программный API
+# ============================================
+
+def run_checks(
+    root_dir: Optional[Path] = None,
+    verbose: bool = False,
+    checks: Optional[List[str]] = None,
+    format: str = 'dict'
+) -> Dict:
+    """Запустить проверки программно и получить результаты.
+
+    Args:
+        root_dir: Корневая директория проекта (по умолчанию - родитель scripts/)
+        verbose: Включить подробный вывод
+        checks: Список проверок для выполнения (None = все проверки)
+                Доступные: 'links', 'structure', 'status', 'metadata', 'markdown'
+        format: Формат возврата результатов ('dict' или 'json')
+
+    Returns:
+        Словарь с результатами проверок:
+        {
+            'success': bool,
+            'total_issues': int,
+            'issues_by_category': {...},
+            'categories': [...]
+        }
+
+        Если format='json', возвращает JSON строку.
+
+    Example:
+        >>> from scripts.check_doc_health import run_checks
+        >>> results = run_checks(verbose=False)
+        >>> print(results['success'])
+        True
+        >>> print(results['total_issues'])
+        0
+    """
+    if root_dir is None:
+        root_dir = Path(__file__).parent.parent
+
+    checker = HealthChecker(root_dir, verbose=verbose)
+
+    # Выполняем проверки
+    all_checks = ['links', 'structure', 'status', 'metadata', 'markdown']
+    checks_to_run = checks if checks else all_checks
+
+    if 'links' in checks_to_run:
+        check_links(checker)
+
+    if 'structure' in checks_to_run:
+        check_structure(checker)
+
+    if 'status' in checks_to_run:
+        check_statuses(checker)
+
+    if 'metadata' in checks_to_run:
+        check_metadata(checker)
+
+    if 'markdown' in checks_to_run:
+        check_markdown(checker)
+
+    results = checker.get_results()
+
+    if format == 'json':
+        return json.dumps(results, ensure_ascii=False, indent=2)
+
+    return results
+
+
+# ============================================
 # Главная функция
 # ============================================
 
 def main():
     """Основная функция проверки."""
+    # Установка UTF-8 для вывода в консоль (для Windows)
+    if sys.platform == 'win32':
+        import codecs
+        sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+        if sys.stderr:
+            sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
+
     parser = argparse.ArgumentParser(description='Проверка здоровья документации')
     parser.add_argument('--verbose', '-v', action='store_true', help='Подробный вывод')
     parser.add_argument('--check', choices=['links', 'structure', 'status', 'metadata', 'markdown'],
                         help='Выполнить только указанную проверку')
+    parser.add_argument('--json', action='store_true',
+                        help='Вывести результаты в JSON формате')
+    parser.add_argument('--format', choices=['text', 'json'], default='text',
+                        help='Формат вывода результатов (по умолчанию: text)')
+    parser.add_argument('--output', '-o', metavar='FILE',
+                        help='Сохранить результаты в файл')
     args = parser.parse_args()
+
+    # Определяем формат вывода
+    output_format = 'json' if args.json else args.format
 
     root_dir = Path(__file__).parent.parent
     checker = HealthChecker(root_dir, verbose=args.verbose)
 
-    print(f"Проверка документации проекта")
-    print(f"Корневая директория: {root_dir}")
-    print(f"{'='*60}\n")
+    # Выводим заголовок только в текстовом режиме без сохранения в файл
+    if output_format == 'text' and not args.output:
+        print(f"Проверка документации проекта")
+        print(f"Корневая директория: {root_dir}")
+        print(f"{'='*60}\n")
 
     # Выполняем проверки
     if args.check is None or args.check == 'links':
@@ -484,7 +630,7 @@ def main():
         check_markdown(checker)
 
     # Вывод результатов
-    return checker.print_results()
+    return checker.print_results(format=output_format, output_file=args.output)
 
 
 if __name__ == '__main__':
