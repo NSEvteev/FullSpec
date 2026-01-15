@@ -231,8 +231,10 @@ project_template/
 │   ├── future_tasks.md                # Бэклог задач основного LLM
 │   └── agents/                        # Задачи агентов
 │       └── amy-santiago/              # Задачи Documentation Manager
-│           ├── current_tasks.md
-│           └── future_tasks.md
+│           ├── current_tasks.md       # Текущие задачи Amy
+│           ├── future_tasks.md        # Бэклог задач Amy
+│           ├── completed_tasks.md     # Архив завершённых задач
+│           └── temp/                  # Временные файлы Amy
 │
 └── scripts/                           # Служебные скрипты
     ├── check_doc_health.py            # Комплексная проверка документации

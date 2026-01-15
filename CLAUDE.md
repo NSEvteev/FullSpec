@@ -141,12 +141,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Каждый агент имеет собственную папку задач в `llm_tasks/agents/[имя-агента]/`:
 
-| Агент | Задачи | Назначение |
-|-------|--------|------------|
-| Amy Santiago | [current_tasks.md](llm_tasks/agents/amy-santiago/current_tasks.md) | Текущие задачи по документации |
-| Amy Santiago | [future_tasks.md](llm_tasks/agents/amy-santiago/future_tasks.md) | Бэклог задач по документации |
+```
+llm_tasks/agents/amy-santiago/
+├── current_tasks.md      # Текущие задачи
+├── future_tasks.md       # Бэклог
+├── completed_tasks.md    # Архив завершённых задач
+└── temp/                 # Временные файлы
+```
 
-**Правило для агентов:** Каждый агент **обязательно** читает свой `current_tasks.md` при запуске и предлагает продолжить текущие задачи.
+| Файл | Назначение |
+|------|------------|
+| [current_tasks.md](llm_tasks/agents/amy-santiago/current_tasks.md) | Текущие задачи Amy (с секцией "Что было сделано") |
+| [future_tasks.md](llm_tasks/agents/amy-santiago/future_tasks.md) | Бэклог задач Amy |
+| [completed_tasks.md](llm_tasks/agents/amy-santiago/completed_tasks.md) | Архив завершённых задач (обратная хронология) |
+| temp/ | Временные файлы (отчёты, логи, промежуточные результаты) |
+
+**Правила для агентов:**
+1. При запуске — показать "Что было сделано в прошлый раз"
+2. При начале новой задачи — очистить `temp/`
+3. Во время работы — сохранять временные файлы в `temp/`
+4. При завершении — переместить задачу в `completed_tasks.md` (вверх файла)
 
 ### Правила работы с задачами
 
