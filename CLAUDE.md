@@ -182,7 +182,7 @@ Amy **автоматически** использует скиллы в прав
 
 ## Скиллы Claude Code
 
-Список скиллов: [skills.md](llm_instructions/skills.md)
+Список скиллов: [skills.md](llm_instructions/skills.md#скиллы-проекта)
 
 ---
 
@@ -280,8 +280,12 @@ make stop              # Остановить все сервисы
 make logs              # Показать логи всех сервисов
 make test              # Запустить все тесты
 make build             # Собрать для production
+```
 
-# Запуск отдельного теста (пример для сервиса auth):
+### Запуск отдельного теста
+
+```bash
+# Пример для сервиса auth:
 cd services/auth && npm test -- --grep "test name"
 ```
 
@@ -319,7 +323,6 @@ make docs-links        # Только проверка ссылок
 make gloss-health      # Проверка глоссария
 make docs-check        # Документация + глоссарий
 ```
-
 
 ## Переменные окружения (.env)
 
