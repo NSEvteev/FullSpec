@@ -315,7 +315,7 @@ sequenceDiagram
 
 ### Ожидаемый результат
 
-- Файл: `general_docs/06_plans/PLAN-001_email_notifications.md`
+- Файл: `general_docs/06_imp_plans/PLAN-001_email_notifications.md`
 - Содержит:
   - Фазы реализации
   - Задачи с оценками
@@ -323,7 +323,7 @@ sequenceDiagram
   - Зависимости между задачами
 
 ### Зависимые данные
-- Индекс `000_plans.md` обновлён
+- Индекс `000_imp_plans.md` обновлён
 - ADR содержит ссылку на план
 
 ---
@@ -375,7 +375,7 @@ make task-new
 - [ ] `05_resources/database/email_tables.md`
 - [ ] `05_resources/frontend/notification_settings.md`
 - [ ] `05_resources/infra/redis_queue.md`
-- [ ] `06_plans/PLAN-001_email_notifications.md`
+- [ ] `06_imp_plans/PLAN-001_email_notifications.md`
 
 ### Индексы обновлены
 
@@ -384,7 +384,7 @@ make task-new
 - [ ] `000_architecture.md` — содержит архитектуру
 - [ ] `000_diagrams.md` — содержит 2 диаграммы
 - [ ] `000_decisions.md` — содержит ADR
-- [ ] `000_plans.md` — содержит план
+- [ ] `000_imp_plans.md` — содержит план
 
 ### Цепочка зависимостей
 
@@ -430,7 +430,7 @@ rm general_docs/05_resources/frontend/notification_settings.md
 rm general_docs/05_resources/infra/redis_queue.md
 
 # Планы
-rm general_docs/06_plans/PLAN-001_email_notifications.md
+rm general_docs/06_imp_plans/PLAN-001_email_notifications.md
 
 # Тестовые задачи (осторожно! удалит все FEAT задачи)
 rm llm_tasks/current/FEAT-*.md
@@ -450,7 +450,7 @@ general_docs/05_resources/backend/000_backend.md
 general_docs/05_resources/database/000_database.md
 general_docs/05_resources/frontend/000_frontend.md
 general_docs/05_resources/infra/000_infra.md
-general_docs/06_plans/000_plans.md
+general_docs/06_imp_plans/000_imp_plans.md
 
 # SUMMARY файлы
 general_docs/01_discuss/000_SUMMARY.md
@@ -467,7 +467,7 @@ general_docs/01_discuss/.counter        # Счётчик дискуссий
 general_docs/02_architecture/.counter   # Счётчик архитектур
 general_docs/03_diagrams/.counter       # Счётчик диаграмм
 general_docs/04_decisions/.counter      # Счётчик ADR
-general_docs/06_plans/.counter          # Счётчик планов
+general_docs/06_imp_plans/.counter      # Счётчик планов
 llm_tasks/.counter                      # Счётчик задач
 ```
 

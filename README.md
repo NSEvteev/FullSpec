@@ -105,11 +105,13 @@ project_template/
 │
 ├── general_docs/                  # Общая документация
 │   ├── glossary.md                # Глоссарий терминов
-│   ├── 02_architecture/              # Архитектурные документы
-│   ├── 03_diagrams/                  # Диаграммы
-│   ├── 01_discuss/                   # Дискуссии
-│   ├── 06_imp_plans/                 # Планы реализации
-│   └── 05_resources/                 # Описания ресурсов
+│   ├── 00_services/               # IT-сервисы
+│   ├── 01_discuss/                # Дискуссии
+│   ├── 02_architecture/           # Архитектурные документы
+│   ├── 03_diagrams/               # Диаграммы
+│   ├── 04_decisions/              # Архитектурные решения (ADR)
+│   ├── 05_resources/              # Описания ресурсов
+│   └── 06_imp_plans/              # Планы реализации
 │
 ├── llm_instructions/              # Инструкции для LLM
 │   ├── llm_instructions.md
@@ -117,11 +119,17 @@ project_template/
 │   └── templates/
 │
 ├── llm_tasks/                     # Управление задачами LLM
-│   ├── current_tasks.md
-│   └── future_tasks.md
+│   ├── current/                   # Текущие задачи
+│   │   └── 0_task_index.md
+│   ├── future/                    # Бэклог
+│   │   └── 0_task_index.md
+│   ├── completed/                 # Завершённые задачи
+│   └── temp/                      # Временные файлы
 │
 └── scripts/                       # Служебные скрипты
-    └── check_doc_links.py
+    ├── check_doc_health.py        # Проверка документации
+    ├── check_gloss_health.py      # Проверка глоссария
+    └── task_*.py                  # Управление задачами
 ```
 
 ---

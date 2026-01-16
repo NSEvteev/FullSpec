@@ -4,7 +4,7 @@
   ШАБЛОН АРХИТЕКТУРЫ
   Это рекомендуемая структура. Адаптируйте под конкретный компонент.
   Удалите этот комментарий после заполнения.
-- ->
+-->
 
 **Статус:** 🟡 draft | 🔵 in_progress | 🟠 feedback | 🟣 review | 🟢 approved | ⚪ final
 **Область:** [UI/Frontend | Backend/API | Auth/Security | Database | Infrastructure | Architecture]
