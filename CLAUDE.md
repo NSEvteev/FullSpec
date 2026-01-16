@@ -57,14 +57,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Автоматизация:** Используй скилл `/doc-claude` для автоматического обновления CLAUDE.md и llm_instructions.md при важных изменениях.
 
-### Управление задачами (обязательно!)
-
-**При старте сессии:**
-1. Проверить [0_task_index.md](llm_tasks/current/0_task_index.md) — текущие задачи
-2. Предложить: продолжить текущие / создать новые / просмотреть [бэклог](llm_tasks/future/0_task_index.md)
-
-**Подробнее:** См. секцию [Управление задачами](#управление-задачами) и [tasks.md](llm_instructions/tasks.md)
-
 ### Сохранение новых правил
 
 При введении пользователем новых правил или инструкций для Claude — предложить:
@@ -77,7 +69,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Быстрый старт LLM
 
 1. **Контекст:** Ознакомиться с [llm_instructions.md](llm_instructions/llm_instructions.md)
-2. **Задачи:** Проверить [текущие задачи](llm_tasks/current/0_task_index.md) — см. [Управление задачами](#управление-задачами-обязательно)
+2. **Задачи:** Проверить [текущие задачи](llm_tasks/current/0_task_index.md), предложить: продолжить / создать новые / [бэклог](llm_tasks/future/0_task_index.md)
 3. **Документация:** Следовать [general_docs.md](llm_instructions/general_docs.md)
 4. **Термины:** Проверять/добавлять в [glossary.md](general_docs/glossary.md)
 
@@ -173,88 +165,6 @@ Amy **автоматически** использует скиллы в прав
 ## Скиллы Claude Code
 
 Список скиллов: [skills.md](llm_instructions/skills.md#скиллы-проекта)
-
----
-
-## Управление задачами
-
-**ВАЖНО:** Все задачи проекта ведутся через `llm_tasks/` с уникальными ID, а не через временные файлы.
-
-### Структура задач
-
-```
-llm_tasks/
-├── .task_counter          # Счётчики ID для каждой категории
-├── current/               # Текущие задачи (все исполнители)
-│   ├── 0_task_index.md    # Индекс с группировкой по исполнителям
-│   ├── FEAT-00001.md      # assignee: llm-main
-│   └── AMY-00002.md       # assignee: amy-santiago
-├── future/                # Бэклог задач (все исполнители)
-│   ├── 0_task_index.md    # Индекс с группировкой по исполнителям
-│   └── FIX-00004.md
-├── completed/             # Архив завершённых задач
-│   └── YYYY-MM/           # Месяц завершения
-│       └── {assignee}/    # Исполнитель
-│           └── 0_task_index.md
-└── temp/                  # Временные файлы
-    └── amy-santiago/      # Временные файлы Amy
-```
-
-### Формат ID задач
-
-Задачи имеют уникальные ID формата: `CATEGORY-NNNNN`
-
-**Категории:**
-- `FEAT-00001` — новая функциональность
-- `FIX-00001` — исправление бага
-- `REFACTOR-00001` — рефакторинг кода
-- `DOCS-00001` — документация
-- `TEST-00001` — тесты
-- `INFRA-00001` — инфраструктура
-- `ID-00001` — общие задачи (без категории)
-- `AMY-00001` — задачи для Amy Santiago
-
-**Счётчики:** Каждая категория имеет отдельный счётчик в `.task_counter`
-
-### Команды задач
-
-```bash
-# Makefile (рекомендуется)
-make task-new                              # Интерактивное создание
-make task-new-feat TITLE="..." PRIORITY="high"
-make task-complete ID=FEAT-00001           # Завершить (вызывает Amy)
-make task-move-current ID=FEAT-00001       # future → current
-make tasks-current                         # Показать текущие
-
-# Python скрипты (альтернатива)
-python scripts/task_new.py -i
-python scripts/task_complete.py FEAT-00001
-python scripts/task_move.py FEAT-00001 current
-```
-
-### Автоматическое документирование
-
-При завершении задачи (`task_complete.py`) автоматически вызывается **Amy Santiago** со скиллом `task-documentation` для обновления связанной документации:
-
-- Обновляет дискуссии (добавляет ссылку на задачу)
-- Обновляет архитектуру (добавляет в историю изменений)
-- Обновляет планы реализации (отмечает выполненные подзадачи)
-- Обновляет индексы документации (000_*_index.md в general_docs/)
-- **Обновляет индекс завершённых задач** `completed/YYYY-MM/{assignee}/0_task_index.md`
-
-**Колонка "Документация обновлена":**
-- `Success: [Doc1](путь), [Doc2](путь)` — все связанные документы обновлены
-- `Need` — требуется обновление (Amy не смогла автоматически обновить)
-- `N/A` — нет связанных документов
-
-**Индексы с группировкой:**
-
-Current/future индексы (`0_task_index.md`) группируются по исполнителям:
-- Навигация: [LLM-main](#llm-main) | [Amy Santiago](#amy-santiago) | [Другие](#другие)
-- Секции с таблицами задач для каждого исполнителя
-- Единая точка входа для всех задач
-
-**Подробнее:** См. [tasks.md](llm_instructions/tasks.md) — полная документация системы управления задачами
 
 ---
 
