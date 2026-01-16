@@ -59,8 +59,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Управление задачами (обязательно!)
 
-**КРИТИЧЕСКИ ВАЖНО:** При каждой новой сессии:
-
 1. **Прочитать** [tasks.md](llm_instructions/tasks.md) — полные правила работы с задачами
 2. **Проверить** индекс текущих задач [0_task_index.md](llm_tasks/current/0_task_index.md)
 3. **Предложить** пользователю варианты:
@@ -69,7 +67,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    - Просмотреть бэклог ([0_task_index.md](llm_tasks/future/0_task_index.md))
    - Переместить задачи из `future/` в `current/`
 
-**Запрещено:** Использовать временные файлы (PROJECT_IMPROVEMENTS.md и подобные) — только `llm_tasks/` с уникальными ID.
+**Важно:** Временные файлы задач (PROJECT_IMPROVEMENTS.md и подобные) можно располагать в llm_tasks\temp
 
 ### Сохранение новых правил
 
@@ -77,12 +75,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 1. Сохранить правила в `llm_instructions/` (новый файл или существующий)
 2. Обновить [llm_instructions.md](llm_instructions/llm_instructions.md) — добавить в индекс
 3. Обновить CLAUDE.md — добавить краткую информацию
-
-### Работа с дискуссиями
-
-**ОБЯЗАТЕЛЬНО:** При любых действиях с файлами в `general_docs/01_discuss/` — сначала прочитать скилл `/discussion`.
-
-Это включает: создание, изменение, удаление дискуссий. Скрипты автоматически обновляют счётчики и индексы — ручные операции (`rm`, Write) ломают синхронизацию.
 
 ---
 
@@ -190,32 +182,7 @@ Amy **автоматически** использует скиллы в прав
 
 ## Скиллы Claude Code
 
-Скиллы — команды, расширяющие возможности Claude Code.
-
-| Скилл | Команда | Назначение |
-|-------|---------|------------|
-| discussion | `/discussion` | **Управление дискуссиями** — создание, изменение, удаление. ОБЯЗАТЕЛЬНО сверяться при работе с `01_discuss/` |
-| discussion-review | `/discussion-review` | Ревью выбранного решения в дискуссии |
-| summary-doc | `/summary-doc` | Обновление 000_SUMMARY.md при переходе в `approved` |
-| summary-arch | `/summary-arch` | Обновление 000_SUMMARY.md архитектуры при переходе в `approved`. Вызывается после ревью архитектуры |
-| architect | `/architect` | **Создание архитектуры** — читает SUMMARY + дискуссию. Вызывается после `/summary-doc` |
-| commit-push | `/commit-push` | Коммит и пуш с правильным форматированием |
-| doc-review | `/doc-review` | Глубокое ревью с автоулучшением новых документов |
-| doc-health | `/doc-health` | Техническая проверка документации |
-| doc-health-deep | `/doc-health-deep` | Глубокий смысловой аудит с генерацией задач |
-| doc-claude | `/doc-claude` | Синхронизация CLAUDE.md и llm_instructions.md |
-| doc-project-structure | `/doc-project-structure` | Обновление структуры проекта в документации |
-| glossary-candidates | `/glossary-candidates` | Поиск терминов-кандидатов для глоссария |
-| glossary-review | `/glossary-review` | Интерактивная обработка кандидатов |
-| glossary-link | `/glossary-link` | Добавление ссылок на глоссарий в .md файлы |
-| task-documentation | `/task-documentation` | Документирование завершённой задачи |
-| decision | `/decision` | **Создание ADR** из одобренной архитектуры. ADR создаёт ресурсы и планы |
-| resource | `/resource` | **Создание ресурса** (database/backend/frontend/infra) из ADR |
-| imp-plan | `/imp-plan` | **Создание плана реализации** из ADR с фазами и задачами |
-| doc-delete | `/doc-delete` | Безопасное удаление документа с созданием задачи на обновление связей |
-| feedback | `/feedback` | Отслеживание изменений по цепочке зависимостей |
-
-**Подробнее:** См. [skills.md](llm_instructions/skills.md)
+Список скиллов: [skills.md](llm_instructions/skills.md)
 
 ---
 
@@ -353,22 +320,6 @@ make gloss-health      # Проверка глоссария
 make docs-check        # Документация + глоссарий
 ```
 
-### Управление дискуссиями
-
-```bash
-make discuss-new                  # Создать дискуссию (интерактивно)
-make discuss-new-topic TOPIC="..." # Создать с темой
-make discuss-index                # Показать индекс дискуссий
-make discuss-delete ID="001"      # Удалить дискуссию
-```
-
-### Управление архитектурой
-
-```bash
-make arch-new                              # Создать архитектуру (интерактивно)
-make arch-new-topic TITLE="..." DISCUSS="001"  # Создать из дискуссии
-make arch-index                            # Показать индекс архитектуры
-```
 
 ## Переменные окружения (.env)
 
