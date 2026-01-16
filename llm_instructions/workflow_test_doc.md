@@ -2,6 +2,8 @@
 
 Тестовый сценарий для проверки полной цепочки создания документации: от дискуссии до задач реализации.
 
+> **ВАЖНО для LLM:** При выполнении теста используй ТОЛЬКО раздел "Входные данные" каждого шага. НЕ ПОДГЛЯДЫВАЙ в разделы "Ожидаемый результат" и "Зависимые данные" — они предназначены для проверки ПОСЛЕ выполнения шага. Формируй решение с нуля, как при реальной задаче. Разделы с ожидаемыми результатами нужны только для финальной верификации.
+
 ## Цель теста
 
 Проверить работоспособность всех скиллов и процессов создания документации:
@@ -40,21 +42,49 @@
 - Изменения в аккаунте
 - Системные уведомления (от администратора)
 
+**Требования по компонентам:**
+
+**Backend (Notification Service):**
+- API для отправки уведомлений из других сервисов
+- Выбор и рендеринг шаблонов
+- Интеграция с очередью
+- Retry-логика при неудачной отправке
+- Логирование всех операций
+
+**Database:**
+- `email_queue` — очередь писем (recipient, subject, body, status, attempts, scheduled_at)
+- `email_templates` — шаблоны (name, subject_template, body_template, variables)
+- `email_logs` — логи отправки (email_id, status, smtp_response, sent_at)
+- `user_notification_preferences` — настройки пользователя (user_id, notification_type, enabled, frequency)
+
+**Frontend (настройки пользователя):**
+- Страница настроек уведомлений в профиле
+- Переключатели для каждого типа уведомлений
+- Выбор частоты (мгновенно / дайджест / отключено)
+- Превью шаблонов уведомлений
+
+**Infrastructure:**
+- Redis для очереди задач (Bull/BullMQ)
+- Email Worker — отдельный процесс/контейнер
+- SMTP-сервер (Mailhog для dev, внешний для prod)
+- Мониторинг очереди (Bull Board)
+
 **Варианты решения:**
 
 1. **Синхронная отправка** — отправлять email напрямую при событии
-   - Плюсы: простота реализации
-   - Минусы: блокирует основной поток, ненадёжно при сбоях SMTP
+   - Плюсы: простота, нет дополнительной инфраструктуры
+   - Минусы: блокирует основной поток, ненадёжно при сбоях SMTP, нет retry
 
-2. **Асинхронная очередь (Redis/RabbitMQ)** — события в очередь, воркер отправляет
-   - Плюсы: надёжность, повторные попытки, масштабируемость
-   - Минусы: сложнее инфраструктура
+2. **Асинхронная очередь (Redis + Bull)** — события в очередь, воркер отправляет
+   - Плюсы: надёжность, повторные попытки, масштабируемость, отложенная отправка
+   - Минусы: сложнее инфраструктура, нужен Redis
+   - Компоненты: Notification Service → Redis Queue → Email Worker → SMTP
 
 3. **Внешний сервис (SendGrid/Mailgun)** — делегировать отправку SaaS
-   - Плюсы: надёжность, аналитика, шаблоны
-   - Минусы: зависимость от внешнего сервиса, стоимость
+   - Плюсы: надёжность, аналитика, готовые шаблоны, webhooks
+   - Минусы: зависимость от внешнего сервиса, стоимость, privacy concerns
 
-**Рекомендуемый вариант:** Вариант 2 (асинхронная очередь) с возможностью подключения внешнего сервиса в будущем.
+**Рекомендуемый вариант:** Вариант 2 (асинхронная очередь с Redis + Bull) с возможностью подключения внешнего сервиса в будущем через абстракцию транспорта.
 
 ### Ожидаемый результат
 
@@ -252,15 +282,17 @@ sequenceDiagram
 
 Создать ресурсы из ADR:
 
-1. **Backend:** Notification Service
-2. **Database:** Таблицы email_queue, email_templates, email_logs
-3. **Infrastructure:** Redis конфигурация
+1. **Backend:** Notification Service + Email Worker
+2. **Database:** Таблицы email_queue, email_templates, email_logs, user_notification_preferences
+3. **Frontend:** Страница настроек уведомлений
+4. **Infrastructure:** Redis Queue + Mailhog (dev) + Bull Board
 
 ### Ожидаемый результат
 
 - Файлы в `05_resources/`:
   - `backend/notification_service.md`
   - `database/email_tables.md`
+  - `frontend/notification_settings.md`
   - `infra/redis_queue.md`
 - Индексы в каждой подпапке обновлены
 
@@ -307,15 +339,18 @@ make task-new
 
 Создать задачи из плана:
 
-1. **FEAT-XXXXX:** Создать Notification Service (backend)
-2. **FEAT-XXXXX:** Создать таблицы email_* (database)
-3. **FEAT-XXXXX:** Настроить Redis очередь (infra)
-4. **FEAT-XXXXX:** Создать Email Worker (backend)
-5. **FEAT-XXXXX:** Добавить настройки уведомлений в UI (frontend)
+1. **FEAT-XXXXX:** Создать Notification Service API (backend)
+2. **FEAT-XXXXX:** Создать Email Worker (backend)
+3. **FEAT-XXXXX:** Создать таблицы email_queue, email_templates, email_logs (database)
+4. **FEAT-XXXXX:** Создать таблицу user_notification_preferences (database)
+5. **FEAT-XXXXX:** Настроить Redis + Bull Queue (infra)
+6. **FEAT-XXXXX:** Добавить Mailhog для dev-окружения (infra)
+7. **FEAT-XXXXX:** Создать страницу настроек уведомлений (frontend)
+8. **FEAT-XXXXX:** Интегрировать Auth Service с Notification Service (backend)
 
 ### Ожидаемый результат
 
-- 5 задач в `llm_tasks/current/`
+- 8 задач в `llm_tasks/current/`
 - Индекс `0_task_index.md` обновлён
 - Каждая задача содержит ссылку на план
 
@@ -338,6 +373,7 @@ make task-new
 - [ ] `04_decisions/ADR-001_email_queue.md` (статус: accepted)
 - [ ] `05_resources/backend/notification_service.md`
 - [ ] `05_resources/database/email_tables.md`
+- [ ] `05_resources/frontend/notification_settings.md`
 - [ ] `05_resources/infra/redis_queue.md`
 - [ ] `06_plans/PLAN-001_email_notifications.md`
 
@@ -361,7 +397,7 @@ make task-new
 
 ### Задачи созданы
 
-- [ ] 5 задач в `llm_tasks/current/`
+- [ ] 8 задач в `llm_tasks/current/`
 - [ ] Все задачи имеют ссылку на план
 - [ ] Индекс задач обновлён
 
@@ -380,6 +416,7 @@ rm general_docs/03_diagrams/002_email_send_sequence.md
 rm general_docs/04_decisions/ADR-001_email_queue.md
 rm -rf general_docs/05_resources/backend/notification_service.md
 rm -rf general_docs/05_resources/database/email_tables.md
+rm -rf general_docs/05_resources/frontend/notification_settings.md
 rm -rf general_docs/05_resources/infra/redis_queue.md
 rm general_docs/06_plans/PLAN-001_email_notifications.md
 
@@ -404,6 +441,7 @@ python scripts/test_cleanup.py --workflow-test
 2. **Скиллы вызывают друг друга** — `/discussion-review` автоматически вызывает `/summary-doc` и `/architect`
 3. **Индексы обновляются автоматически** — не нужно редактировать вручную
 4. **Тест можно прервать** — но тогда останутся частичные данные
+5. **Не подглядывать в результаты** — LLM должен использовать только "Входные данные", формируя решение самостоятельно. Разделы "Ожидаемый результат" и чеклисты — только для верификации после выполнения
 
 ## Время выполнения
 
