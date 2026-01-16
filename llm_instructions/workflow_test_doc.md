@@ -405,33 +405,97 @@ make task-new
 
 ## Очистка после теста
 
-После проверки удалить тестовые данные:
+После проверки удалить тестовые данные и откатить изменения:
+
+### 1. Удалить тестовые документы
 
 ```bash
-# Удалить тестовые документы
+# Дискуссии
 rm general_docs/01_discuss/001_email_notifications.md
+
+# Архитектура
 rm general_docs/02_architecture/001_email_notifications.md
+
+# Диаграммы
 rm general_docs/03_diagrams/001_email_system_architecture.md
 rm general_docs/03_diagrams/002_email_send_sequence.md
+
+# ADR
 rm general_docs/04_decisions/ADR-001_email_queue.md
-rm -rf general_docs/05_resources/backend/notification_service.md
-rm -rf general_docs/05_resources/database/email_tables.md
-rm -rf general_docs/05_resources/frontend/notification_settings.md
-rm -rf general_docs/05_resources/infra/redis_queue.md
+
+# Ресурсы
+rm general_docs/05_resources/backend/notification_service.md
+rm general_docs/05_resources/database/email_tables.md
+rm general_docs/05_resources/frontend/notification_settings.md
+rm general_docs/05_resources/infra/redis_queue.md
+
+# Планы
 rm general_docs/06_plans/PLAN-001_email_notifications.md
 
-# Удалить тестовые задачи
-rm llm_tasks/current/FEAT-*.md  # Осторожно! Удалит все FEAT задачи
-
-# Пересоздать индексы
-python scripts/discuss_new.py --rebuild-index
-# ... аналогично для других индексов
+# Тестовые задачи (осторожно! удалит все FEAT задачи)
+rm llm_tasks/current/FEAT-*.md
 ```
 
-**Или** запустить скрипт очистки (если будет создан):
+### 2. Очистить индексы от тестовых записей
+
+Удалить записи о тестовых документах из следующих файлов:
+
+```bash
+# Индексы папок
+general_docs/01_discuss/000_discuss.md
+general_docs/02_architecture/000_architecture.md
+general_docs/03_diagrams/000_diagrams.md
+general_docs/04_decisions/000_decisions.md
+general_docs/05_resources/backend/000_backend.md
+general_docs/05_resources/database/000_database.md
+general_docs/05_resources/frontend/000_frontend.md
+general_docs/05_resources/infra/000_infra.md
+general_docs/06_plans/000_plans.md
+
+# SUMMARY файлы
+general_docs/01_discuss/000_SUMMARY.md
+general_docs/02_architecture/000_SUMMARY.md
+```
+
+### 3. Откатить счётчики
+
+Вернуть счётчики к состоянию до теста:
+
+```bash
+# Файлы со счётчиками (проверить и откатить):
+general_docs/01_discuss/.counter        # Счётчик дискуссий
+general_docs/02_architecture/.counter   # Счётчик архитектур
+general_docs/03_diagrams/.counter       # Счётчик диаграмм
+general_docs/04_decisions/.counter      # Счётчик ADR
+general_docs/06_plans/.counter          # Счётчик планов
+llm_tasks/.counter                      # Счётчик задач
+```
+
+**Пример отката счётчика:**
+```bash
+# Если до теста было 0, вернуть 0
+echo "0" > general_docs/01_discuss/.counter
+```
+
+### 4. Проверить очистку
+
+После очистки запустить проверку здоровья документации:
+
+```bash
+make docs-health
+```
+
+### Автоматическая очистка (если скрипт создан)
+
 ```bash
 python scripts/test_cleanup.py --workflow-test
 ```
+
+Скрипт должен:
+1. Удалить все тестовые документы
+2. Очистить индексы от записей тестовых документов
+3. Откатить счётчики
+4. Запустить проверку здоровья
 
 ---
 
