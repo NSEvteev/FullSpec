@@ -78,6 +78,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 2. Обновить [llm_instructions.md](llm_instructions/llm_instructions.md) — добавить в индекс
 3. Обновить CLAUDE.md — добавить краткую информацию
 
+### Работа с дискуссиями
+
+**ОБЯЗАТЕЛЬНО:** При любых действиях с файлами в `general_docs/01_discuss/` — сначала прочитать скилл `/discussion`.
+
+Это включает: создание, изменение, удаление дискуссий. Скрипты автоматически обновляют счётчики и индексы — ручные операции (`rm`, Write) ломают синхронизацию.
+
 ---
 
 ## Быстрый старт LLM
@@ -105,6 +111,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | [scripts.md](llm_instructions/scripts.md) | Служебные скрипты (check_doc_health.py, check_gloss_health.py) |
 | [agents.md](llm_instructions/agents.md) | AI-[📖 агенты](general_docs/glossary.md#агент) Claude Code |
 | [skills.md](llm_instructions/skills.md) | [📖 Скиллы](general_docs/glossary.md#скилл) Claude Code |
+
+---
+
+## Документация
+
+Проект использует структурированную систему документации в `general_docs/`.
+
+**Подробнее:** См. [general_docs.md](llm_instructions/general_docs.md) — полные правила ведения документации.
+
+### Ключевые принципы
+
+- **`000_*.md`** — индексы (ЧТО есть в папке, автообновляемые)
+- **`README.md`** — правила (КАК работать с документами)
+- **[📖 Цепочка зависимостей](general_docs/glossary.md#цепочка-зависимостей):** Дискуссия → Архитектура → Decision (ADR) → Ресурсы → План → Документация папок
+
+### Глоссарий
+
+Все термины проекта — в [glossary.md](general_docs/glossary.md).
+
+**Формат ссылок:** `[📖 Термин](путь/к/glossary.md#термин)`
+
+**Правило:** При встрече незнакомого термина — проверить глоссарий перед продолжением работы.
 
 ---
 
@@ -166,7 +194,7 @@ Amy **автоматически** использует скиллы в прав
 
 | Скилл | Команда | Назначение |
 |-------|---------|------------|
-| discussion | `/discussion` | Создание новой дискуссии (триггер: "Дискуссия:") |
+| discussion | `/discussion` | **Управление дискуссиями** — создание, изменение, удаление. ОБЯЗАТЕЛЬНО сверяться при работе с `01_discuss/` |
 | commit-push | `/commit-push` | Коммит и пуш с правильным форматированием |
 | doc-review | `/doc-review` | Глубокое ревью с автоулучшением новых документов |
 | doc-health | `/doc-health` | Техническая проверка документации |
@@ -222,38 +250,20 @@ llm_tasks/
 
 **Счётчики:** Каждая категория имеет отдельный счётчик в `.task_counter`
 
-### Работа с задачами через скрипты
+### Команды задач
 
 ```bash
-# Создание новых задач
-python scripts/task_new.py -i                    # Интерактивно
-python scripts/task_new.py -t "Название" -c feat # С параметрами
-
-# Завершение задачи (автоматически вызывает Amy Santiago)
-python scripts/task_complete.py FEAT-00001
-
-# Перемещение между current и future
-python scripts/task_move.py FEAT-00001 current   # future → current
-python scripts/task_move.py FEAT-00002 future    # current → future
-```
-
-### Makefile команды
-
-```bash
-# Создание задач
-make task-new              # Интерактивное создание
+# Makefile (рекомендуется)
+make task-new                              # Интерактивное создание
 make task-new-feat TITLE="..." PRIORITY="high"
-make task-new-fix TITLE="..." PRIORITY="medium"
+make task-complete ID=FEAT-00001           # Завершить (вызывает Amy)
+make task-move-current ID=FEAT-00001       # future → current
+make tasks-current                         # Показать текущие
 
-# Управление задачами
-make task-complete ID=FEAT-00001
-make task-move-current ID=FEAT-00001
-make task-move-future ID=FEAT-00001
-
-# Просмотр
-make tasks-current         # Показать текущие задачи
-make tasks-future          # Показать бэклог
-make tasks-completed       # Показать архив
+# Python скрипты (альтернатива)
+python scripts/task_new.py -i
+python scripts/task_complete.py FEAT-00001
+python scripts/task_move.py FEAT-00001 current
 ```
 
 ### Автоматическое документирование
@@ -334,54 +344,6 @@ make gloss-health      # Проверка глоссария
 make docs-check        # Документация + глоссарий
 ```
 
-### Управление задачами
-
-```bash
-# Создание задач в текущие (current/)
-make task-new              # Интерактивно
-make task-new-feat TITLE="..." PRIORITY="high"    # FEAT задача
-make task-new-fix TITLE="..." PRIORITY="medium"   # FIX задача
-make task-new-docs TITLE="..." PRIORITY="low"     # DOCS задача
-
-# Создание задач в бэклог (future/)
-make backlog-new           # Интерактивно
-make backlog-new-feat TITLE="..." PRIORITY="medium"
-make backlog-new-fix TITLE="..." PRIORITY="low"
-make backlog-new-docs TITLE="..." PRIORITY="low"
-
-# Управление задачами
-make task-complete ID=FEAT-00001           # Завершить задачу (вызывает Amy)
-make task-move-current ID=FEAT-00001       # Переместить из future в current
-make task-move-future ID=FEAT-00001        # Переместить из current в future
-
-# Просмотр индексов
-make tasks-current         # Показать текущие задачи
-make tasks-future          # Показать бэклог
-make tasks-completed       # Показать архив (последний месяц)
-
-# Альтернатива: Python скрипты напрямую
-python scripts/task_new.py -i                        # Интерактивно
-python scripts/task_new.py -t "Название" -c feat -f future  # В бэклог
-python scripts/task_complete.py FEAT-00001
-python scripts/task_move.py FEAT-00001 current
-```
-
-**Примеры:**
-```bash
-# Создание текущей задачи
-make task-new
-make task-new-feat TITLE="Добавить OAuth" PRIORITY="high"
-
-# Создание задачи в бэклог
-make backlog-new
-make backlog-new-feat TITLE="Будущая фича" PRIORITY="medium"
-
-# Перенос из бэклога в текущие
-make task-move-current ID=FEAT-00100
-
-# Завершение задачи (автоматически документируется Amy)
-make task-complete ID=FEAT-00001
-```
 
 ## Переменные окружения (.env)
 
@@ -445,88 +407,3 @@ API Gateway (services/api-gateway) :8000
 
 ---
 
-## Документация
-
-Проект использует структурированную систему документации.
-
-### Структура документации
-
-```
-general_docs/
-├── README.md                    # Обзор системы документации (для разработчиков)
-├── glossary.md                  # Глоссарий терминов (14 терминов, 3 категории)
-│
-├── 01_discuss/                  # Дискуссии (идеи → решения)
-│   ├── 000_discuss.md           # ЧТО: Индекс всех дискуссий (автообновляемый)
-│   └── README.md                # КАК: Правила создания дискуссий
-│
-├── 02_architecture/             # Архитектурные документы
-│   ├── 000_architecture.md      # ЧТО: Индекс архитектуры (автообновляемый)
-│   └── README.md                # КАК: Правила работы с архитектурой
-│
-├── 03_diagrams/                 # Диаграммы (.drawio, Mermaid)
-│   ├── 000_diagrams.md          # ЧТО: Индекс диаграмм
-│   └── README.md                # КАК: Правила создания диаграмм
-│
-├── 04_decisions/                # Decision Records (ADR)
-│   ├── 000_decisions.md         # ЧТО: Индекс решений (автообновляемый)
-│   ├── README.md                # КАК: Правила фиксации решений
-│   └── archive/                 # Устаревшие решения
-│
-├── 05_resources/                # Описания ресурсов
-│   ├── 000_resources.md         # ЧТО: Индекс всех ресурсов
-│   ├── database/                # Схемы БД и миграции
-│   │   ├── 000_database.md      # Индекс БД ресурсов
-│   │   └── README.md            # Правила работы с БД
-│   ├── backend/                 # Backend ресурсы (API, сервисы)
-│   │   ├── 000_backend.md
-│   │   └── README.md
-│   ├── frontend/                # Frontend ресурсы (UI, компоненты)
-│   │   ├── 000_frontend.md
-│   │   └── README.md
-│   └── infra/                   # Инфраструктура (Docker, CI/CD)
-│       ├── 000_infra.md
-│       └── README.md
-│
-└── 06_imp_plans/                # Планы реализации
-    ├── 000_imp_plans.md         # ЧТО: Индекс планов (автообновляемый)
-    └── README.md                # КАК: Правила создания планов
-```
-
-**Ключевые принципы:**
-
-**Разделение ЧТО vs КАК:**
-- `000_*.md` — **ЧТО** есть в папке (динамический индекс, автообновляемый)
-- `README.md` — **КАК** работать с документами (статичные правила)
-
-**Категории глоссария:**
-- Документация (9 терминов) — дискуссия, архитектура, план, ресурс, etc.
-- Claude Code (3 термина) — агент, скилл, команда
-- Управление задачами (2 термина) — бэклог, LLM-сессия
-
-### [📖 Цепочка зависимостей](general_docs/glossary.md#цепочка-зависимостей) документов
-
-**Прямая:** [📖 Дискуссия](general_docs/glossary.md#дискуссия) → Архитектура → [📖 Decision (ADR)](general_docs/glossary.md#decision-adr) → [📖 Ресурсы](general_docs/glossary.md#ресурс) → [📖 План реализации](general_docs/glossary.md#план-реализации) → [📖 Документация папок](general_docs/glossary.md#документация-папок)
-
-**При изменениях:**
-- Изменение [📖 Decision (ADR)](general_docs/glossary.md#decision-adr) → обновить связанные дискуссии и архитектуру
-- Изменение [📖 ресурса](general_docs/glossary.md#ресурс) → обновить Decision (ADR) и [📖 документацию папок](general_docs/glossary.md#документация-папок)
-- Изменение кода → обновить документацию папки, при существенных изменениях — ресурс и Decision (ADR)
-
-### [📖 Документация папок](general_docs/glossary.md#документация-папок)
-
-Размещается в корне значимых папок как `README.md` (например: `services/auth/README.md`, `packages/shared/README.md`).
-
-### Глоссарий
-
-Все новые термины добавлять в [glossary.md](general_docs/glossary.md).
-**Формат ссылок на глоссарий:** `[📖 Термин](путь/к/glossary.md#термин)`
-
-Эмодзи `📖` визуально отличает ссылки на глоссарий от обычных ссылок.
-**Правило для LLM:** При встрече незнакомого термина из проекта — проверить [glossary.md](general_docs/glossary.md). Если термин есть в глоссарии, ознакомиться с его определением перед продолжением работы.
-
----
-
-## MCP серверы
-
-<!-- TODO: Добавить MCP серверы при необходимости -->
