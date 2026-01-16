@@ -8,6 +8,7 @@
 - ->
 
 **Тип:** database | backend | frontend | infra
+**Область:** [UI/Frontend | Backend/API | Auth/Security | Database | Infrastructure | Architecture]
 **Дата обновления:** [YYYY-MM-DD]
 
 ## Назначение
@@ -16,7 +17,7 @@
 
 ## Связанные документы
 
-- **Архитектура:** [ссылки на 02_architecture/]
+- **ADR:** [ссылка на 04_decisions/] (источник ресурса)
 - **План реализации:** [ссылки на 06_imp_plans/]
 
 ## Компоненты

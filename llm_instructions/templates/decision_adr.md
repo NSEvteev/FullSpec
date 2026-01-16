@@ -1,14 +1,15 @@
-# DEC-XXX: [Название решения]
+# [ID]_[название_решения]
 
-**Статус:** draft
-**Дата:** YYYY-MM-DD
-**Автор:** [Имя автора]
+<!-- [📖 Decision (ADR)](../../general_docs/glossary.md#decision-adr) -->
+
+**Статус:** 🟡 draft | 🟣 review | 🟢 approved
+**Область:** [UI/Frontend | Backend/API | Auth/Security | Database | Infrastructure | Architecture]
+**Дата:** [YYYY-MM-DD]
 
 **Связанные документы:**
-- Дискуссия: [D-XXX](../../general_docs/01_discuss/D-XXX_название.md)
-- Архитектура: [A-XXX](../../general_docs/02_architecture/A-XXX_название.md)
-- Ресурсы: [список ресурсов, которые реализуют это решение]
-- Планы: [список планов реализации]
+- **Архитектура:** [ссылка на 02_architecture/]
+- **Ресурсы:** [создаются из этого ADR → 05_resources/]
+- **План реализации:** [создаётся из этого ADR → 06_imp_plans/]
 
 ---
 

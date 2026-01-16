@@ -185,15 +185,28 @@ project_template/
 ├── .claude/                           # Конфигурация Claude Code
 │   ├── settings.local.json
 │   ├── agents/                        # AI-агенты
+│   │   ├── amy-santiago.md            # Documentation Manager
 │   │   └── README.md
 │   └── skills/                        # Скиллы
-│       ├── commit-push/
-│       ├── doc-claude/                # NEW: Обновление CLAUDE.md и llm_instructions.md
+│       ├── architect/                 # Создание архитектуры из дискуссии
+│       ├── commit-push/               # Коммит и пуш с форматированием
+│       ├── decision/                  # Создание ADR из архитектуры
+│       ├── discussion/                # Управление дискуссиями
+│       ├── discussion-review/         # Ревью решения дискуссии
+│       ├── doc-claude/                # Обновление CLAUDE.md и llm_instructions.md
+│       ├── doc-delete/                # Безопасное удаление документа
 │       ├── doc-health/                # Проверка документации
-│       ├── doc-project-structure/
-│       ├── glossary-candidates/
-│       ├── glossary-link/
-│       └── glossary-review/
+│       ├── doc-health-deep/           # Глубокий аудит документации
+│       ├── doc-project-structure/     # Генерация структуры проекта
+│       ├── doc-review/                # Глубокое ревью документа
+│       ├── feedback/                  # Отслеживание изменений по цепочке
+│       ├── glossary-candidates/       # Поиск терминов для глоссария
+│       ├── glossary-link/             # Добавление ссылок на глоссарий
+│       ├── glossary-review/           # Интерактивная обработка кандидатов
+│       ├── imp-plan/                  # Создание плана реализации
+│       ├── resource/                  # Создание ресурса из ADR
+│       ├── summary/                   # Обновление SUMMARY файлов
+│       └── task-documentation/        # Документирование задач
 │
 ├── .vscode/                           # Настройки VS Code
 │   ├── settings.json                  # Настройки редактора
@@ -249,5 +262,23 @@ project_template/
 └── scripts/                           # Служебные скрипты
     ├── check_doc_health.py            # Комплексная проверка документации
     ├── check_gloss_health.py          # Проверка глоссария
-    └── check_doc_links.py             # [УСТАРЕЛ] Заменён на check_doc_health.py
+    ├── check_doc_links.py             # [УСТАРЕЛ] Заменён на check_doc_health.py
+    │
+    ├── task_new.py                    # Создание задачи с автоинкрементом ID
+    ├── task_complete.py               # Завершение задачи
+    ├── task_move.py                   # Перемещение задачи между current/future
+    │
+    ├── discuss_new.py                 # Создание дискуссии
+    ├── discuss_delete.py              # Удаление дискуссии
+    │
+    ├── architecture_new.py            # Создание архитектуры из дискуссии
+    │
+    ├── decision_new.py                # Создание ADR (DEC-XXX)
+    ├── decision_delete.py             # Удаление ADR
+    │
+    ├── resource_new.py                # Создание ресурса (по типам)
+    ├── resource_delete.py             # Удаление ресурса
+    │
+    ├── imp_plan_new.py                # Создание плана реализации
+    └── imp_plan_delete.py             # Удаление плана
 ```

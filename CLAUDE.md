@@ -208,6 +208,11 @@ Amy **автоматически** использует скиллы в прав
 | glossary-review | `/glossary-review` | Интерактивная обработка кандидатов |
 | glossary-link | `/glossary-link` | Добавление ссылок на глоссарий в .md файлы |
 | task-documentation | `/task-documentation` | Документирование завершённой задачи |
+| decision | `/decision` | **Создание ADR** из одобренной архитектуры. ADR создаёт ресурсы и планы |
+| resource | `/resource` | **Создание ресурса** (database/backend/frontend/infra) из ADR |
+| imp-plan | `/imp-plan` | **Создание плана реализации** из ADR с фазами и задачами |
+| doc-delete | `/doc-delete` | Безопасное удаление документа с созданием задачи на обновление связей |
+| feedback | `/feedback` | Отслеживание изменений по цепочке зависимостей |
 
 **Подробнее:** См. [skills.md](llm_instructions/skills.md)
 

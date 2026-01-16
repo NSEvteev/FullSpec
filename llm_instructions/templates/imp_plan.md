@@ -7,14 +7,15 @@
   Удалите этот комментарий после заполнения.
 - ->
 
-**Статус:** draft | in_progress | review | test | approved | final
+**Статус:** 🟡 draft | 🔵 in_progress | 🟣 review | 🧪 test | 🟢 approved | ⚪ final
+**Область:** [UI/Frontend | Backend/API | Auth/Security | Database | Infrastructure | Architecture]
 **Дата создания:** [YYYY-MM-DD]
 **Дата обновления:** [YYYY-MM-DD]
 
 ## Связанные документы
 
-- **Архитектура:** [ссылка на 02_architecture/]
-- **Дискуссии:** [ссылки на 01_discuss/]
+- **ADR:** [ссылка на 04_decisions/] (источник плана)
+- **Ресурсы:** [ссылки на 05_resources/]
 
 ## Обзор
 

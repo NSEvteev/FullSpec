@@ -6,8 +6,8 @@
   Удалите этот комментарий после заполнения.
 - ->
 
-**Статус:** draft | in_progress | feedback | review | approved | final
-**Версия:** 1.0
+**Статус:** 🟡 draft | 🔵 in_progress | 🟠 feedback | 🟣 review | 🟢 approved | ⚪ final
+**Область:** [UI/Frontend | Backend/API | Auth/Security | Database | Infrastructure | Architecture]
 **Дата:** [YYYY-MM-DD]
 
 ## Оглавление

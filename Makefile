@@ -344,3 +344,60 @@ arch-new-topic: ## Создать архитектуру с параметрам
 
 arch-index: ## Показать индекс архитектуры
 	@cat general_docs/02_architecture/000_architecture.md
+
+# ============================================
+# Управление решениями (ADR)
+# ============================================
+
+decision-new: ## Создать ADR (интерактивно)
+	@python scripts/decision_new.py -i
+
+decision-new-topic: ## Создать ADR с параметрами (использование: make decision-new-topic TITLE="..." ARCH="001")
+	@python scripts/decision_new.py -t "$(TITLE)" -a "$(ARCH)"
+
+decision-index: ## Показать индекс ADR
+	@cat general_docs/04_decisions/000_decisions.md
+
+decision-delete: ## Удалить ADR (использование: make decision-delete ID="DEC-001")
+	@python scripts/decision_delete.py "$(ID)" --force
+
+# ============================================
+# Управление ресурсами
+# ============================================
+
+resource-new: ## Создать ресурс (интерактивно)
+	@python scripts/resource_new.py -i
+
+resource-new-backend: ## Создать backend ресурс (использование: make resource-new-backend NAME="..." ADR="DEC-001")
+	@python scripts/resource_new.py -n "$(NAME)" -t backend -a "$(ADR)"
+
+resource-new-frontend: ## Создать frontend ресурс (использование: make resource-new-frontend NAME="..." ADR="DEC-001")
+	@python scripts/resource_new.py -n "$(NAME)" -t frontend -a "$(ADR)"
+
+resource-new-database: ## Создать database ресурс (использование: make resource-new-database NAME="..." ADR="DEC-001")
+	@python scripts/resource_new.py -n "$(NAME)" -t database -a "$(ADR)"
+
+resource-new-infra: ## Создать infra ресурс (использование: make resource-new-infra NAME="..." ADR="DEC-001")
+	@python scripts/resource_new.py -n "$(NAME)" -t infra -a "$(ADR)"
+
+resource-index: ## Показать индекс ресурсов
+	@cat general_docs/05_resources/000_resources.md
+
+resource-delete: ## Удалить ресурс (использование: make resource-delete ID="001" TYPE="backend")
+	@python scripts/resource_delete.py "$(ID)" -t "$(TYPE)" --force
+
+# ============================================
+# Управление планами реализации
+# ============================================
+
+imp-plan-new: ## Создать план реализации (интерактивно)
+	@python scripts/imp_plan_new.py -i
+
+imp-plan-new-topic: ## Создать план с параметрами (использование: make imp-plan-new-topic TITLE="..." ADR="DEC-001")
+	@python scripts/imp_plan_new.py -t "$(TITLE)" -a "$(ADR)"
+
+imp-plan-index: ## Показать индекс планов
+	@cat general_docs/06_imp_plans/000_imp_plans.md
+
+imp-plan-delete: ## Удалить план (использование: make imp-plan-delete ID="001")
+	@python scripts/imp_plan_delete.py "$(ID)" --force

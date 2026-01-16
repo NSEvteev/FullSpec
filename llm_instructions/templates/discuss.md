@@ -3,6 +3,7 @@
 <!-- [📖 Дискуссия](../../general_docs/glossary.md#дискуссия) -->
 
 **Статус:** 🟡 draft
+**Область:** [UI/Frontend | Backend/API | Auth/Security | Database | Infrastructure | Architecture]
 **Дата:** [YYYY-MM-DD]
 
 <!--

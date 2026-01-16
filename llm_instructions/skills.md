@@ -157,3 +157,8 @@ skills: coding-standards, security-checklist
 | glossary-link | Добавление ссылок на глоссарий во все .md файлы проекта | Read, Edit, Glob, Grep | amy-santiago |
 | glossary-review | Интерактивная обработка кандидатов в глоссарий | Read, Edit, AskUserQuestion, Grep | amy-santiago |
 | task-documentation | Автоматическое документирование завершённых задач — обновление связанных документов | Read, Edit, Write, Grep, Glob | amy-santiago |
+| decision | Создание ADR (Architecture Decision Record) из одобренной архитектуры. ADR затем создаёт ресурсы и планы реализации | Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion | amy-santiago |
+| resource | Создание ресурса (database, backend, frontend, infra) из одобренного ADR. Ресурсы описывают конкретные технические компоненты системы | Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion | amy-santiago |
+| imp-plan | Создание плана реализации из одобренного ADR. План содержит фазы, задачи и критерии готовности для реализации решения | Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion | amy-santiago |
+| doc-delete | Безопасное удаление документа с созданием задачи на актуализацию связей. Находит зависимые документы и создаёт задачу для их обновления | Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion | amy-santiago |
+| feedback | Отслеживание изменений по цепочке зависимостей. При изменении документа определяет, какие связанные документы нужно обновить | Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion | amy-santiago |
