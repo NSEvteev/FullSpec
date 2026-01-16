@@ -54,30 +54,15 @@
     └── ...
 ```
 
-**Пример:**
-```
-03_diagrams/
-├── 001_system_overview/
-│   ├── 001-context.drawio       # C4 Context диаграмма
-│   ├── 001-container.drawio     # C4 Container диаграмма
-│   └── 001-component.drawio     # C4 Component диаграмма
-│
-└── 002_auth_module/
-    ├── 002-auth-flow.drawio     # Диаграмма потока аутентификации
-    └── 002-data-model.drawio    # Модель данных
-```
-
 ### Правила именования
 
 **Папки:**
 - Формат: `[ID]_[название_архитектурного_документа]/`
 - ID должен совпадать с ID в `02_architecture/`
-- Пример: `001_system_overview/`
 
 **Файлы диаграмм:**
 - Формат: `[ID]-[краткое_описание].drawio`
 - ID совпадает с ID папки/архитектуры
-- Пример: `001-context.drawio`, `002-auth-flow.drawio`
 
 ---
 
@@ -270,13 +255,13 @@ make docs-check-diagrams
 
 2. **Создать папку (если нет):**
    ```bash
-   mkdir 03_diagrams/001_system_overview
+   mkdir 03_diagrams/[ID]_название_архитектуры
    ```
 
 3. **Создать диаграмму:**
    - Открыть Draw.io
    - Создать диаграмму
-   - Сохранить как `03_diagrams/001_system_overview/001-context.drawio`
+   - Сохранить как `03_diagrams/[ID]_название/[ID]-описание.drawio`
 
 4. **Добавить метаданные:**
    - Статус: `in_progress`
@@ -287,7 +272,7 @@ make docs-check-diagrams
    - Обновить статистику
 
 6. **Добавить ссылку в архитектуру:**
-   - Открыть `02_architecture/001_system_overview.md`
+   - Открыть `02_architecture/[ID]_название.md`
    - Добавить секцию "Диаграммы"
    - Добавить ссылку на диаграмму
 
@@ -316,7 +301,7 @@ make docs-check-diagrams
 
 **1. Неправильное именование**
 - ❌ `diagram1.drawio`, `my_diagram.drawio`
-- ✅ `001-context.drawio`, `002-auth-flow.drawio`
+- ✅ `[ID]-описание.drawio` (например: `001-context.drawio`)
 
 **2. Отсутствие связи с архитектурой**
 - ❌ Диаграмма создана, но нет ссылки в архитектурном документе

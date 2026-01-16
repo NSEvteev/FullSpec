@@ -93,19 +93,6 @@ make docs-check-indexes
 
 **Именование папок:** `[ID]_[название_архитектурного_документа]/`
 
-**Пример:**
-```
-03_diagrams/
-├── 001_system_overview/
-│   ├── 001-context.drawio
-│   ├── 001-container.drawio
-│   └── 001-component.drawio
-│
-└── 002_auth_module/
-    ├── 002-auth-flow.drawio
-    └── 002-data-model.drawio
-```
-
 **Правило:** ID папки должен совпадать с ID архитектурного документа в `02_architecture/`.
 
 ---
@@ -120,12 +107,10 @@ make docs-check-indexes
 
 2. **Создать папку (если нет):**
    - Имя: `[ID]_[название_архитектурного_документа]/`
-   - Пример: `001_system_overview/`
 
 3. **Создать файл диаграммы:**
    - Формат: `.drawio`
    - Имя: `[ID]-[описание].drawio`
-   - Пример: `001-context.drawio`
 
 4. **Обновить этот индекс:**
    - Добавить запись в таблицу
