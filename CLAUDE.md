@@ -196,8 +196,9 @@ Amy **автоматически** использует скиллы в прав
 |-------|---------|------------|
 | discussion | `/discussion` | **Управление дискуссиями** — создание, изменение, удаление. ОБЯЗАТЕЛЬНО сверяться при работе с `01_discuss/` |
 | discussion-review | `/discussion-review` | Ревью выбранного решения в дискуссии |
-| summary | `/summary` | Обновление 000_SUMMARY.md при переходе в `approved` |
-| architect | `/architect` | **Создание архитектуры** — читает SUMMARY + дискуссию. Вызывается после `/summary` |
+| summary-doc | `/summary-doc` | Обновление 000_SUMMARY.md при переходе в `approved` |
+| summary-arch | `/summary-arch` | Обновление 000_SUMMARY.md архитектуры при переходе в `approved`. Вызывается после ревью архитектуры |
+| architect | `/architect` | **Создание архитектуры** — читает SUMMARY + дискуссию. Вызывается после `/summary-doc` |
 | commit-push | `/commit-push` | Коммит и пуш с правильным форматированием |
 | doc-review | `/doc-review` | Глубокое ревью с автоулучшением новых документов |
 | doc-health | `/doc-health` | Техническая проверка документации |

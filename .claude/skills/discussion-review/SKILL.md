@@ -37,14 +37,14 @@ allowed-tools: Read, Edit, Grep, Glob, AskUserQuestion
       ↓
 🟢 approved     → Решение принято после ревью
       ↓
-/summary        → Обновление 000_SUMMARY.md (агрегация решений)
+/summary-doc        → Обновление 000_SUMMARY.md (агрегация решений)
       ↓
 /architect      → Создание архитектуры (читает SUMMARY + дискуссию)
       ↓
 ⚪ final        → Архитектура создана, дискуссия завершена
 ```
 
-**ВАЖНО:** Этот скилл отвечает за переход `in_progress → review → approved`. После подтверждения вызывается `/summary`, затем `/architect`.
+**ВАЖНО:** Этот скилл отвечает за переход `in_progress → review → approved`. После подтверждения вызывается `/summary-doc`, затем `/architect`.
 
 ## Инструкции
 
@@ -138,7 +138,7 @@ allowed-tools: Read, Edit, Grep, Glob, AskUserQuestion
 1. Изменить статус: `🟣 review` → `🟢 approved`
 2. Добавить запись в "История обсуждения": `[YYYY-MM-DD]: Решение подтверждено после ревью → approved`
 3. Обновить индекс дискуссий (000_discuss.md)
-4. **Вызвать `/summary`** — обновить 000_SUMMARY.md с принятым решением
+4. **Вызвать `/summary-doc`** — обновить 000_SUMMARY.md с принятым решением
 5. **Вызвать `/architect`** — создать архитектуру на основе SUMMARY и дискуссии
 
 **Если пользователь вернулся к обсуждению:**
@@ -205,5 +205,5 @@ allowed-tools: Read, Edit, Grep, Glob, AskUserQuestion
 
 - `/discussion` — создание дискуссии
 - `/doc-review` — ревью документа (вызывает этот скилл после выбора варианта)
-- `/summary` — обновление SUMMARY (вызывается этим скиллом после approved)
-- `/architect` — создание архитектуры (вызывается после /summary)
+- `/summary-doc` — обновление SUMMARY (вызывается этим скиллом после approved)
+- `/architect` — создание архитектуры (вызывается после /summary-doc)

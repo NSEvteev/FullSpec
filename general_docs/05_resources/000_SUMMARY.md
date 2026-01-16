@@ -75,8 +75,8 @@
 ## Связанные документы
 
 - **Индекс ресурсов:** [000_resources.md](000_resources.md)
-- **ADR (источник ресурсов):** [../04_decisions/](../04_decisions/)
-- **Планы реализации:** [../06_imp_plans/](../06_imp_plans/)
+- **SUMMARY ADR (предыдущий этап):** [../04_decisions/000_SUMMARY.md](../04_decisions/000_SUMMARY.md)
+- **SUMMARY планов (следующий этап):** [../06_imp_plans/000_SUMMARY.md](../06_imp_plans/000_SUMMARY.md)
 
 ---
 

@@ -101,7 +101,8 @@
 ## Связанные документы
 
 - **Индекс архитектуры:** [000_architecture.md](000_architecture.md)
-- **SUMMARY дискуссий:** [../01_discuss/000_SUMMARY.md](../01_discuss/000_SUMMARY.md)
+- **SUMMARY дискуссий (предыдущий этап):** [../01_discuss/000_SUMMARY.md](../01_discuss/000_SUMMARY.md)
+- **SUMMARY ADR (следующий этап):** [../04_decisions/000_SUMMARY.md](../04_decisions/000_SUMMARY.md)
 - **Ресурсы:** [../05_resources/](../05_resources/)
 
 ---

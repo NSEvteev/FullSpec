@@ -2,7 +2,7 @@
 
 **Назначение:** Агрегация всех ADR для контекста при создании ресурсов и планов реализации.
 
-**Обновляется:** Автоматически при переходе ADR в статус `🟢 approved` (скилл `/summary`).
+**Обновляется:** Вручную при переходе ADR в статус `🟢 approved`.
 
 **Роль ADR:** ADR является "разделителем" в цепочке зависимостей — создаёт ресурсы и планы реализации.
 
@@ -102,9 +102,10 @@
 ## Связанные документы
 
 - **Индекс ADR:** [000_decisions.md](000_decisions.md)
-- **Архитектура:** [../02_architecture/](../02_architecture/)
+- **SUMMARY дискуссий:** [../01_discuss/000_SUMMARY.md](../01_discuss/000_SUMMARY.md)
+- **SUMMARY архитектуры (предыдущий этап):** [../02_architecture/000_SUMMARY.md](../02_architecture/000_SUMMARY.md)
 - **Ресурсы:** [../05_resources/](../05_resources/)
-- **Планы реализации:** [../06_imp_plans/](../06_imp_plans/)
+- **SUMMARY планов (следующий этап):** [../06_imp_plans/000_SUMMARY.md](../06_imp_plans/000_SUMMARY.md)
 
 ---
 
@@ -118,12 +119,10 @@
 4. **Обновить счётчик** в таблице "Быстрый обзор по областям"
 5. **Добавить блок** в секцию "Краткое описание решений"
 
-**Скилл `/summary`** автоматически выполняет эти шаги.
-
 **Workflow:**
 ```
 Architecture (approved) → /decision → ADR (draft)
-ADR (approved) → /summary → /resource + /imp-plan
+ADR (approved) → /resource + /imp-plan
 ```
 
 ---

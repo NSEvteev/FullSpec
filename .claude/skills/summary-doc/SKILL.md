@@ -1,12 +1,12 @@
 ---
-name: summary
-description: Обновление 000_SUMMARY.md при переходе дискуссии в статус approved. Агрегирует принятые решения для контекста архитектуры. Вызывается из /discussion-review после подтверждения решения.
+name: summary-doc
+description: Обновление 000_SUMMARY.md дискуссий при переходе в статус approved. Агрегирует принятые решения для контекста архитектуры. Вызывается из /discussion-review после подтверждения решения.
 allowed-tools: Read, Edit, Grep
 ---
 
-# Обновление SUMMARY файлов
+# Обновление SUMMARY дискуссий
 
-Скилл для обновления файлов `000_SUMMARY.md` при переходе дискуссии в статус `🟢 approved`.
+Скилл для обновления файла `000_SUMMARY.md` дискуссий при переходе дискуссии в статус `🟢 approved`.
 
 ## Связанная документация
 
@@ -20,7 +20,7 @@ allowed-tools: Read, Edit, Grep
 ## Когда использовать
 
 **Триггеры:**
-- Команда `/summary`
+- Команда `/summary-doc`
 - Автоматически из `/discussion-review` при переходе `review → approved`
 
 **Контекст:**
@@ -30,7 +30,7 @@ allowed-tools: Read, Edit, Grep
 ## Workflow
 
 ```
-🟣 review → 🟢 approved → /summary (этот скилл!) → /architect → ⚪ final
+🟣 review → 🟢 approved → /summary-doc (этот скилл!) → /architect → ⚪ final
 ```
 
 **ВАЖНО:** Этот скилл выполняется МЕЖДУ `approved` и `/architect`.
@@ -250,4 +250,5 @@ Mantine — оптимальный выбор для проекта благод
 ## Связанные скиллы
 
 - `/discussion-review` — вызывает этот скилл после подтверждения решения
+- `/summary-arch` — аналогичный скилл для SUMMARY архитектуры
 - `/architect` — читает SUMMARY перед созданием архитектуры
