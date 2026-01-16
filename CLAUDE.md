@@ -195,7 +195,9 @@ Amy **автоматически** использует скиллы в прав
 | Скилл | Команда | Назначение |
 |-------|---------|------------|
 | discussion | `/discussion` | **Управление дискуссиями** — создание, изменение, удаление. ОБЯЗАТЕЛЬНО сверяться при работе с `01_discuss/` |
-| architect | `/architect` | **Создание архитектуры** из одобренной дискуссии. Вызывается при переводе в `approved`, затем переводит дискуссию в `final` |
+| discussion-review | `/discussion-review` | Ревью выбранного решения в дискуссии |
+| summary | `/summary` | Обновление 000_SUMMARY.md при переходе в `approved` |
+| architect | `/architect` | **Создание архитектуры** — читает SUMMARY + дискуссию. Вызывается после `/summary` |
 | commit-push | `/commit-push` | Коммит и пуш с правильным форматированием |
 | doc-review | `/doc-review` | Глубокое ревью с автоулучшением новых документов |
 | doc-health | `/doc-health` | Техническая проверка документации |
@@ -206,7 +208,6 @@ Amy **автоматически** использует скиллы в прав
 | glossary-review | `/glossary-review` | Интерактивная обработка кандидатов |
 | glossary-link | `/glossary-link` | Добавление ссылок на глоссарий в .md файлы |
 | task-documentation | `/task-documentation` | Документирование завершённой задачи |
-| discussion-review | `/discussion-review` | Ревью выбранного решения в дискуссии |
 
 **Подробнее:** См. [skills.md](llm_instructions/skills.md)
 

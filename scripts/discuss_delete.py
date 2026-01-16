@@ -7,12 +7,10 @@
     python scripts/discuss_delete.py 001 --force  # без подтверждения
 """
 
-import os
 import re
 import json
 import argparse
 from pathlib import Path
-from datetime import datetime
 
 
 # Корневая директория проекта
@@ -63,10 +61,8 @@ def find_discussion_file(discuss_id):
     return None
 
 
-def update_index_on_delete(discuss_id, filename):
+def update_index_on_delete(discuss_id):
     """Обновить индекс после удаления дискуссии."""
-    today = datetime.now().strftime('%Y-%m-%d')
-
     with open(INDEX_FILE, 'r', encoding='utf-8') as f:
         content = f.read()
 
@@ -74,48 +70,6 @@ def update_index_on_delete(discuss_id, filename):
     # Паттерн для строки с ID
     row_pattern = rf'\| {discuss_id} \| \[[^\]]+\]\([^)]+\) \| [^|]+ \| [^|]+ \| [^|]+ \| [^|]+ \|\n?'
     content = re.sub(row_pattern, '', content)
-
-    # 2. Обновить статистику draft (уменьшить на 1)
-    content = re.sub(
-        r'\| draft \| (\d+) \|',
-        lambda m: f'| draft | {max(0, int(m.group(1)) - 1)} |',
-        content
-    )
-
-    # 3. Обновить всего (уменьшить на 1)
-    content = re.sub(
-        r'\| \*\*Всего\*\* \| \*\*(\d+)\*\* \|',
-        lambda m: f'| **Всего** | **{max(0, int(m.group(1)) - 1)}** |',
-        content
-    )
-
-    # 4. Обновить дату
-    content = re.sub(
-        r'\*\*Последнее обновление:\*\* \d{4}-\d{2}-\d{2}',
-        f'**Последнее обновление:** {today}',
-        content
-    )
-
-    # 5. Обновить быстрый поиск по статусу draft
-    # Убрать ссылку на удалённую дискуссию
-    slug = filename.replace('.md', '')
-    content = re.sub(
-        rf'- \*\*draft\*\* \((\d+)\) — новые идеи и предложения: \[{slug}\]\({filename}\)',
-        lambda m: f'- **draft** ({max(0, int(m.group(1)) - 1)}) — новые идеи и предложения',
-        content
-    )
-
-    # 6. Обновить "По дате" если там была эта дискуссия
-    content = re.sub(
-        rf'- \*\*Последние обновления:\*\* \[{slug}\]\({filename}\)',
-        '- **Последние обновления:** —',
-        content
-    )
-    content = re.sub(
-        rf'- \*\*Недавно созданные:\*\* \[{slug}\]\({filename}\)',
-        '- **Недавно созданные:** —',
-        content
-    )
 
     with open(INDEX_FILE, 'w', encoding='utf-8') as f:
         f.write(content)
@@ -141,7 +95,7 @@ def delete_discussion(discuss_id, force=False):
     filepath.unlink()
 
     # Обновляем индекс
-    update_index_on_delete(discuss_id, filename)
+    update_index_on_delete(discuss_id)
 
     # Уменьшаем счётчик если это была последняя дискуссия
     counter_decremented = decrement_counter_if_last(discuss_id)

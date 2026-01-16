@@ -90,28 +90,7 @@ def update_index(discuss_id, title, filename, description=''):
     with open(INDEX_FILE, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    # 1. Обновить статистику draft (с эмодзи)
-    content = re.sub(
-        r'\| 🟡 draft \| (\d+) \|',
-        lambda m: f'| 🟡 draft | {int(m.group(1)) + 1} |',
-        content
-    )
-
-    # 2. Обновить всего
-    content = re.sub(
-        r'\| \*\*Всего\*\* \| \*\*(\d+)\*\* \|',
-        lambda m: f'| **Всего** | **{int(m.group(1)) + 1}** |',
-        content
-    )
-
-    # 3. Обновить дату
-    content = re.sub(
-        r'\*\*Последнее обновление:\*\* \d{4}-\d{2}-\d{2}',
-        f'**Последнее обновление:** {today}',
-        content
-    )
-
-    # 4. Добавить строку в таблицу индекса
+    # 1. Добавить строку в таблицу индекса
     desc = description or title[:50]  # Описание или обрезанный title
     new_row = f'| {discuss_id} | [{title}]({filename}) | {desc} | 🟡 draft | {today} | — |'
 
@@ -123,32 +102,6 @@ def update_index(discuss_id, title, filename, description=''):
             f'\\1\n{new_row}',
             content
         )
-
-    # 5. Обновить быстрый поиск по статусу draft (с эмодзи)
-    content = re.sub(
-        r'- \*\*🟡 draft\*\* \((\d+)\) — новые идеи и предложения:?[^\n]*',
-        lambda m: f'- **🟡 draft** ({int(m.group(1)) + 1}) — новые идеи и предложения: [{discuss_id}_{slugify(title)}]({filename})',
-        content
-    )
-
-    # Если draft был 0, добавить ссылку
-    if '- **🟡 draft** (0)' in content:
-        content = content.replace(
-            '- **🟡 draft** (0) — новые идеи и предложения',
-            f'- **🟡 draft** (1) — новые идеи и предложения: [{discuss_id}_{slugify(title)}]({filename})'
-        )
-
-    # 6. Обновить "По дате"
-    content = re.sub(
-        r'- \*\*Последние обновления:\*\* [^\n]+',
-        f'- **Последние обновления:** [{discuss_id}_{slugify(title)}]({filename})',
-        content
-    )
-    content = re.sub(
-        r'- \*\*Недавно созданные:\*\* [^\n]+',
-        f'- **Недавно созданные:** [{discuss_id}_{slugify(title)}]({filename})',
-        content
-    )
 
     with open(INDEX_FILE, 'w', encoding='utf-8') as f:
         f.write(content)

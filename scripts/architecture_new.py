@@ -87,28 +87,7 @@ def update_index(arch_id, title, filename, description='', discuss_id=''):
     with open(INDEX_FILE, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    # 1. Обновить статистику draft
-    content = re.sub(
-        r'\| draft \| (\d+) \|',
-        lambda m: f'| draft | {int(m.group(1)) + 1} |',
-        content
-    )
-
-    # 2. Обновить всего
-    content = re.sub(
-        r'\| \*\*Всего\*\* \| \*\*(\d+)\*\* \|',
-        lambda m: f'| **Всего** | **{int(m.group(1)) + 1}** |',
-        content
-    )
-
-    # 3. Обновить дату
-    content = re.sub(
-        r'\*\*Последнее обновление:\*\* \d{4}-\d{2}-\d{2}',
-        f'**Последнее обновление:** {today}',
-        content
-    )
-
-    # 4. Заменить "В настоящее время архитектурные документы отсутствуют." на таблицу
+    # 1. Заменить "В настоящее время архитектурные документы отсутствуют." на таблицу
     if 'В настоящее время архитектурные документы отсутствуют.' in content:
         discuss_link = f'[{discuss_id}](../01_discuss/{discuss_id}_*.md)' if discuss_id else '—'
         new_table = f"""| ID | Название | Описание | Статус | Обновлено | Связанные дискуссии | Ресурсы |
@@ -133,25 +112,6 @@ def update_index(arch_id, title, filename, description='', discuss_id=''):
                 f'\\1\n{new_row}',
                 content
             )
-
-    # 5. Обновить быстрый поиск по статусу draft
-    content = re.sub(
-        r'- \*\*draft\*\* \((\d+)\) — планирование архитектуры',
-        lambda m: f'- **draft** ({int(m.group(1)) + 1}) — планирование архитектуры',
-        content
-    )
-
-    # 6. Обновить "По дате"
-    content = re.sub(
-        r'- \*\*Последние обновления:\*\* [^\n]+',
-        f'- **Последние обновления:** [{arch_id}_{slugify(title)}]({filename})',
-        content
-    )
-    content = re.sub(
-        r'- \*\*Недавно созданные:\*\* [^\n]+',
-        f'- **Недавно созданные:** [{arch_id}_{slugify(title)}]({filename})',
-        content
-    )
 
     with open(INDEX_FILE, 'w', encoding='utf-8') as f:
         f.write(content)
