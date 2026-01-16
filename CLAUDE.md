@@ -59,15 +59,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Управление задачами (обязательно!)
 
-1. **Прочитать** [tasks.md](llm_instructions/tasks.md) — полные правила работы с задачами
-2. **Проверить** индекс текущих задач [0_task_index.md](llm_tasks/current/0_task_index.md)
-3. **Предложить** пользователю варианты:
-   - Продолжить текущие задачи из `current/`
-   - Начать новые задачи (создать через `task_new.py`)
-   - Просмотреть бэклог ([0_task_index.md](llm_tasks/future/0_task_index.md))
-   - Переместить задачи из `future/` в `current/`
+**При старте сессии:**
+1. Проверить [0_task_index.md](llm_tasks/current/0_task_index.md) — текущие задачи
+2. Предложить: продолжить текущие / создать новые / просмотреть [бэклог](llm_tasks/future/0_task_index.md)
 
-**Важно:** Временные файлы задач (PROJECT_IMPROVEMENTS.md и подобные) можно располагать в llm_tasks\temp
+**Подробнее:** См. секцию [Управление задачами](#управление-задачами) и [tasks.md](llm_instructions/tasks.md)
 
 ### Сохранение новых правил
 
@@ -80,17 +76,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Быстрый старт LLM
 
-1. **Контекст проекта:** Ознакомиться с [llm_instructions.md](llm_instructions/llm_instructions.md)
-2. **Новая сессия:** **ОБЯЗАТЕЛЬНО** проверить индекс текущих задач [0_task_index.md](llm_tasks/current/0_task_index.md)
-   - Если есть текущие задачи → предложить пользователю:
-     - Продолжить работу над текущими задачами из `current/`
-     - Работать с новыми задачами (создать через скрипты)
-     - Просмотреть бэклог ([0_task_index.md](llm_tasks/future/0_task_index.md))
-     - Переместить задачи из бэклога в текущие
-3. **Задачи:** Следовать [tasks.md](llm_instructions/tasks.md) — полная документация системы с ID
-4. **Документация:** Следовать [general_docs.md](llm_instructions/general_docs.md)
-5. **Термины:** Добавлять в [glossary.md](general_docs/glossary.md)
-6. **Скрипты:** См. [scripts.md](llm_instructions/scripts.md)
+1. **Контекст:** Ознакомиться с [llm_instructions.md](llm_instructions/llm_instructions.md)
+2. **Задачи:** Проверить [текущие задачи](llm_tasks/current/0_task_index.md) — см. [Управление задачами](#управление-задачами-обязательно)
+3. **Документация:** Следовать [general_docs.md](llm_instructions/general_docs.md)
+4. **Термины:** Проверять/добавлять в [glossary.md](general_docs/glossary.md)
 
 ---
 
@@ -295,9 +284,26 @@ cd services/auth && npm test -- --grep "test name"
 make restart           # Перезапуск всех сервисов
 make logs-web          # Логи фронтенда
 make logs-auth         # Логи auth сервиса
-make shell-db          # Открыть psql в PostgreSQL
 make db-migrate        # Запустить миграции
 make db-reset          # Сбросить и пересоздать БД
+```
+
+### Shell-доступ к контейнерам
+
+```bash
+make shell-web         # Shell в web контейнере
+make shell-auth        # Shell в auth контейнере
+make shell-users       # Shell в users контейнере
+make shell-db          # psql в PostgreSQL
+make shell-redis       # redis-cli
+```
+
+### Утилиты
+
+```bash
+make ps                # Показать запущенные контейнеры
+make clean             # Очистить node_modules, dist, build
+make clean-all         # Полная очистка (+ Docker volumes)
 ```
 
 ### Проверка документации
@@ -367,6 +373,3 @@ API Gateway (services/api-gateway)
 - Rate limiting
 - Валидация JWT
 - CORS обработка
-
----
-
