@@ -20,6 +20,7 @@
 | [scripts.md](scripts.md) | Служебные скрипты для поддержания порядка в проекте |
 | [agents.md](agents.md) | Конфигурация AI-[📖 агентов](../general_docs/glossary.md#агент) Claude Code (`.claude/agents/`) — включая **Amy Santiago** (Documentation Manager) |
 | [skills.md](skills.md) | Конфигурация [📖 скиллов](../general_docs/glossary.md#скилл) Claude Code (`.claude/skills/`) |
+| [workflow_test_doc.md](workflow_test_doc.md) | **Тест workflow документации** — полный цикл от дискуссии до задач |
 
 ---
 
