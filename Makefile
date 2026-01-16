@@ -331,3 +331,16 @@ discuss-index: ## Показать индекс дискуссий
 
 discuss-delete: ## Удалить дискуссию (использование: make discuss-delete ID="001")
 	@python scripts/discuss_delete.py "$(ID)" --force
+
+# ============================================
+# Управление архитектурой
+# ============================================
+
+arch-new: ## Создать архитектурный документ (интерактивно)
+	@python scripts/architecture_new.py -i
+
+arch-new-topic: ## Создать архитектуру с параметрами (использование: make arch-new-topic TITLE="..." DISCUSS="001")
+	@python scripts/architecture_new.py -t "$(TITLE)" -d "$(DISCUSS)"
+
+arch-index: ## Показать индекс архитектуры
+	@cat general_docs/02_architecture/000_architecture.md

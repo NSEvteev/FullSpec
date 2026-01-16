@@ -216,12 +216,13 @@ general_docs/
 **[📖 Workflow](../general_docs/glossary.md#workflow-статусов):**
 ```
 🟡 draft → 🔵 in_progress → 🟣 review → 🟢 approved → ⚪ final
-                ↑                ↑             ↓
-           обсуждение    /discussion-review   Создаются ТОЛЬКО файлы
-                                              02_architecture/
+                ↑                ↑             ↓            ↑
+           обсуждение    /discussion-review   /architect → создаёт
+                                              архитектуру и переводит
+                                              дискуссию в final
 ```
 
-**ВАЖНО:** При финализации дискуссии создаются **только файлы архитектуры**. Ресурсы и планы реализации создаются из [📖 Decision (ADR)](../general_docs/glossary.md#decision-adr), не напрямую из дискуссии или архитектуры.
+**ВАЖНО:** При переходе в `approved` автоматически вызывается `/architect`, который создаёт файл архитектуры и переводит дискуссию в `final`. Ресурсы и планы реализации создаются из [📖 Decision (ADR)](../general_docs/glossary.md#decision-adr), не напрямую из дискуссии или архитектуры.
 
 **Обратная связь:** статус может измениться final → [📖 feedback](../general_docs/glossary.md#feedback) при уточнении документации
 

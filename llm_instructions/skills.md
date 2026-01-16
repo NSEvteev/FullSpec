@@ -143,7 +143,9 @@ skills: coding-standards, security-checklist
 
 | Имя | Назначение | Инструменты | Используется в агентах |
 |-----|------------|-------------|------------------------|
-| discussion | Создание новой дискуссии. Триггер: "Дискуссия:" или /discussion. Проверяет похожие темы в индексе | Read, Write, Edit, Grep, Glob, AskUserQuestion | amy-santiago |
+| discussion | Управление дискуссиями — создание, изменение, удаление. ОБЯЗАТЕЛЬНО сверяться с этим скиллом при любых действиях с файлами в general_docs/01_discuss/ | Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion | amy-santiago |
+| discussion-review | Ревью выбранного решения в дискуссии. Анализирует, что пользователь СМОЖЕТ и НЕ СМОЖЕТ сделать при выборе варианта. Вызывается после выбора варианта, переводит дискуссию из in_progress в review | Read, Grep, Glob, AskUserQuestion, Edit | amy-santiago |
+| architect | Создание архитектурного документа из одобренной дискуссии. Вызывается при переводе дискуссии в статус approved, затем переводит дискуссию в final | Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion | amy-santiago |
 | commit-push | Коммит и пуш с правильным форматированием сообщений | Bash, Read | — |
 | doc-claude | Обновление CLAUDE.md и llm_instructions.md при важных изменениях | Read, Edit, Bash | amy-santiago |
 | doc-health | Проверка здоровья документации — ссылки, структура, статусы, метаданные | Bash | amy-santiago |

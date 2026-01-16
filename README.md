@@ -226,6 +226,16 @@ make docs-links          # Только проверка ссылок
 make gloss-health        # Проверка глоссария
 make docs-check          # Полная проверка (документация + глоссарий)
 
+# Управление дискуссиями
+make discuss-new                  # Создать дискуссию (интерактивно)
+make discuss-new-topic TOPIC="..." # Создать с темой
+make discuss-index                # Показать индекс дискуссий
+
+# Управление архитектурой
+make arch-new                              # Создать архитектуру (интерактивно)
+make arch-new-topic TITLE="..." DISCUSS="001"  # Создать из дискуссии
+make arch-index                            # Показать индекс архитектуры
+
 # Сборка
 make build               # Собрать для production
 make build-docker        # Собрать Docker образы
