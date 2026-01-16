@@ -92,6 +92,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | [scripts.md](llm_instructions/scripts.md) | Служебные скрипты (check_doc_health.py, check_gloss_health.py) |
 | [agents.md](llm_instructions/agents.md) | AI-[📖 агенты](general_docs/glossary.md#агент) Claude Code |
 | [skills.md](llm_instructions/skills.md) | [📖 Скиллы](general_docs/glossary.md#скилл) Claude Code |
+| [workflow_test_doc.md](llm_instructions/workflow_test_doc.md) | Тест workflow документации (полный цикл) |
 
 ---
 
