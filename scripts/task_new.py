@@ -109,7 +109,7 @@ def create_task(title, priority, category, assignee='llm-main', description='', 
     with open(task_file, 'w', encoding='utf-8') as f:
         f.write(content)
 
-    print(f"✓ Задача создана: {task_id}")
+    print(f"[OK] Задача создана: {task_id}")
     print(f"  Файл: {task_file.relative_to(PROJECT_ROOT)}")
     print(f"  Приоритет: {priority}")
     print(f"  Категория: {category}")

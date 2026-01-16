@@ -155,14 +155,53 @@
 **Структура general_docs/:**
 ```
 general_docs/
-├── glossary.md             # (Глоссарий)
+├── glossary.md                # (Глоссарий)
+├── 00_services/               # (IT-сервисы — бизнес-ценность)
 ├── 01_discuss/                # (Дискуссии)
 ├── 02_architecture/           # (Архитектура)
 ├── 03_diagrams/               # (Диаграммы)
-├── 06_imp_plans/              # (План реализации)
-└── 05_resources/              # (Ресурсы)
+├── 04_decisions/              # (ADR — Architecture Decision Records)
+├── 05_resources/              # (Ресурсы)
+└── 06_imp_plans/              # (План реализации)
+```
+
+### IT-сервисы (Services)
+
+[📖 IT-сервис](../general_docs/glossary.md#it-сервис) в папке 00_services/
+
+**Ключевая концепция:** IT-сервис стоит НАД цепочкой зависимостей, объединяя все связанные документы.
 
 ```
+            ┌─────────────────────────────────────┐
+            │          IT-СЕРВИС (SRV-XXX)        │
+            │   general_docs/00_services/         │
+            │   (бизнес-ценность для клиента)     │
+            └─────────────────┬───────────────────┘
+                              │
+    ┌─────────────────────────┴─────────────────────────┐
+    │           ТЕХНИЧЕСКАЯ РЕАЛИЗАЦИЯ                  │
+    │                                                   │
+    │  01_discuss → 02_architecture → 04_decisions →    │
+    │  → 05_resources → 06_imp_plans                    │
+    └───────────────────────────────────────────────────┘
+```
+
+**Назначение:** Описание бизнес-ценности, которую сервис даёт клиенту/бизнесу.
+
+**Структура:**
+```
+00_services/
+├── README.md                    # Правила работы с сервисами
+├── 000_services.md              # Индекс всех сервисов
+└── [service-name]/              # Папка конкретного сервиса
+    └── README.md                # Описание сервиса (SRV-XXX)
+```
+
+**Когда создаётся:** При одобрении дискуссии, описывающей новую бизнес-функцию (скилл `/summary-doc`).
+
+**Связи:**
+- Каждый сервис ссылается на все свои дискуссии, архитектуры, ADR, ресурсы, планы
+- Ресурсы в `05_resources/` группируются по сервисам
 
 ### Дискуссии (Discuss)
 
@@ -290,13 +329,25 @@ general_docs/
 #### Рабочий процесс с файлами архитектуры
 
 **Статусы файлов Архитектуры:**
-- draft (Планирование работы над архитектурой)
-- in_progress (Работа над архитектурой) ИЛИ feedback (фиксация изменений из ADR/ресурсов)
-- review (Ревью архитектуры)
-- approved (Архитектура одобрена, готова для создания ADR)
-- final (Создан ADR на основе архитектуры)
+- 🟡 draft (Планирование работы над архитектурой)
+- 🔵 in_progress (Работа над архитектурой) ИЛИ 🟠 feedback (фиксация изменений из ADR/ресурсов)
+- 🟣 review (Ревью архитектуры через `/architect-review`)
+- 🟢 approved (Архитектура одобрена, готова для создания ADR)
+- ⚪ final (Создан ADR на основе архитектуры)
 
-**[📖 Workflow](../general_docs/glossary.md#workflow-статусов):** draft → in_progress / feedback → review → approved → final
+**[📖 Workflow](../general_docs/glossary.md#workflow-статусов):**
+```
+🟡 draft → 🔵 in_progress → 🟣 review → 🟢 approved → ⚪ final
+                 ↑              ↑             ↓            ↑
+            обсуждение   /architect-review   /summary-arch →
+                                             → /decision → создаёт ADR
+```
+
+**ВАЖНО:** При переходе в `review` запускается `/architect-review`:
+1. Критический анализ архитектуры
+2. Проверка компонентов, зависимостей, рисков
+3. При одобрении → `/summary-arch` → `/decision`
+
 **Важно:** статус может измениться final → [📖 feedback](../general_docs/glossary.md#feedback) при работе с уточнением документации
 
 #### Правила обратной связи [📖 FeedBack](../general_docs/glossary.md#feedback)
@@ -462,27 +513,54 @@ ADR (approved) → /resource + /imp-plan → Resources + Plan
 
 **Назначение:** Детальное описание всех ресурсов системы.
 
-**Структура:**
+**Структура по IT-сервисам:**
+
+Ресурсы организованы по **типу**, затем по **сервису**. Имена файлов соответствуют именам файлов в `src/`.
+
 ```
 05_resources/
-├── resource_requirements.md        # Требования к полноте описания ВСЕХ ресурсов
+├── 000_resources.md             # Общий индекс
+├── README.md                    # Общие правила
 │
-├── database/                       # Ресурсы баз данных
-│   ├── SQLite.md
-│   ├── PostgreSQL.md
-│   └── DuckDB.md
+├── database/                    # Ресурсы БД
+│   ├── 000_database.md          # Индекс БД-ресурсов
+│   └── [service-name]/          # Папка сервиса
+│       ├── 000_SUMMARY.md       # Агрегация БД-компонентов сервиса
+│       ├── email_queue.md       # Имя = имя таблицы
+│       └── email_templates.md
 │
-├── backend/                        # Бэкенд-ресурсы
-│   ├── api_gateway.md
-│   └── user_service.md
+├── backend/                     # Бэкенд-ресурсы
+│   ├── 000_backend.md
+│   └── [service-name]/
+│       ├── 000_SUMMARY.md
+│       ├── notification.service.md  # Имя = имя файла в src/
+│       └── email.worker.md
 │
-├── frontend/                       # Фронтенд-ресурсы
-│   ├── web_app.md
-│   └── admin_panel.md
+├── frontend/                    # Фронтенд-ресурсы
+│   ├── 000_frontend.md
+│   └── [feature-name]/
+│       ├── 000_SUMMARY.md
+│       └── NotificationSettingsPage.md
 │
-└── infra/                          # Инфраструктурные ресурсы
-    ├── kubernetes_cluster.md
-    └── redis_cache.md
+└── infra/                       # Инфраструктурные ресурсы
+    ├── 000_infra.md
+    └── [service-name]/
+        ├── 000_SUMMARY.md
+        └── redis_queue.md
+```
+
+**Принцип именования:**
+- Папки сервисов: `[service-name]/` (kebab-case, соответствует `00_services/`)
+- Файлы ресурсов: `[имя_как_в_src].md` (имя файла = имя файла в кодовой базе)
+
+**Связь с IT-сервисами:**
+```
+00_services/notification-service/
+        ↓
+05_resources/backend/notification-service/
+05_resources/database/notification-service/
+05_resources/frontend/notification-settings/
+05_resources/infra/notification-service/
 ```
 
 **Каждая категория содержит**: *_doc_requirements.md — требования к описанию, которые содержат требования к полноте описания. 
@@ -739,40 +817,72 @@ make docs-check        # Полная проверка (документация
 - **Поддерживаемость:** Легко вносить изменения, не нарушая целостность
 - **Проверяемость:** Регулярная автоматическая проверка через `make docs-check`
 
-## Итоговый пример дерева файлов документации 
+## Итоговый пример дерева файлов документации
 
 ```
 general_docs/
 │
+├── glossary.md                            # Глоссарий терминов
+│
+├── 00_services/                           # IT-сервисы (бизнес-ценность)
+│   ├── README.md
+│   ├── 000_services.md
+│   └── notification-service/
+│       └── README.md                      # SRV-001
+│
 ├── 01_discuss/                            # Дискуссии
-│   ├── 001_user_auth_and_roles.md
-│   ├── 002_data_export_feature.md
-│   └── 003_notification_system.md
+│   ├── README.md
+│   ├── 000_discuss.md
+│   ├── 000_SUMMARY.md                     # Агрегация решений + IT-сервисы
+│   └── 001_email_notifications.md
 │
 ├── 02_architecture/                       # Архитектура
-│   ├── 001_system_overview.md
-│   ├── 002_authorization_module.md
-│   └── 003_data_pipeline.md
+│   ├── README.md
+│   ├── 000_architecture.md
+│   ├── 000_SUMMARY.md
+│   └── 001_email_notifications.md
 │
-├── 06_imp_plans/                          # Планы реализации
-│   ├── 001_plan_auth_module.md
-│   └── 002_plan_export_service.md
+├── 03_diagrams/                           # Диаграммы (Mermaid/drawio)
+│   ├── README.md
+│   ├── 000_diagrams.md
+│   └── 001_email_system_architecture.md   # Mermaid диаграмма
 │
-└── 05_resources/                          # Ресурсы
-    │
-    ├── database/
-    │   ├── SQLite.md
-    │   ├── PostgreSQL.md
-    │   └── DuckDB.md
-    │
-    ├── backend/
-    │   ├── api_gateway.md
-    │   └── user_service.md
-    │
-    ├── frontend/
-    │   ├── web_app.md
-    │   └── admin_panel.md
-    │
-    └── infra/
-        ├── kubernetes_cluster.md
-        └── redis_cache.md
+├── 04_decisions/                          # ADR (Architecture Decision Records)
+│   ├── README.md
+│   ├── 000_decisions.md
+│   └── DEC-001_email_queue_system.md
+│
+├── 05_resources/                          # Ресурсы (по сервисам)
+│   ├── README.md
+│   ├── 000_resources.md
+│   │
+│   ├── backend/
+│   │   ├── 000_backend.md
+│   │   └── notification-service/
+│   │       ├── 000_SUMMARY.md
+│   │       ├── notification.service.md
+│   │       └── email.worker.md
+│   │
+│   ├── database/
+│   │   ├── 000_database.md
+│   │   └── notification-service/
+│   │       ├── 000_SUMMARY.md
+│   │       ├── email_queue.md
+│   │       └── email_templates.md
+│   │
+│   ├── frontend/
+│   │   ├── 000_frontend.md
+│   │   └── notification-settings/
+│   │       ├── 000_SUMMARY.md
+│   │       └── NotificationSettingsPage.md
+│   │
+│   └── infra/
+│       ├── 000_infra.md
+│       └── notification-service/
+│           ├── 000_SUMMARY.md
+│           └── redis_queue.md
+│
+└── 06_imp_plans/                          # Планы реализации
+    ├── README.md
+    ├── 000_imp_plans.md
+    └── 001_plan_email_notifications.md

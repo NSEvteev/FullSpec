@@ -148,6 +148,7 @@ skills: coding-standards, security-checklist
 | summary-doc | Обновление 000_SUMMARY.md дискуссий при переходе в approved. Агрегирует принятые решения для контекста архитектуры | Read, Edit, Grep | amy-santiago |
 | summary-arch | Обновление 000_SUMMARY.md архитектуры при переходе в статус approved. Агрегирует архитектурные решения для контекста при создании ADR. Вызывается после ревью архитектуры | Read, Edit, Grep | amy-santiago |
 | architect | Создание архитектурного документа из одобренной дискуссии. Читает SUMMARY + дискуссию для полного контекста. Вызывается после /summary-doc, затем переводит дискуссию в final | Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion | amy-santiago |
+| architect-review | Ревью архитектуры перед созданием ADR. Анализирует полноту компонентов, зависимости, риски. Вызывается после заполнения архитектуры, переводит из in_progress в review, затем в approved | Read, Edit, Grep, Glob, AskUserQuestion | amy-santiago |
 | commit-push | Коммит и пуш с правильным форматированием сообщений | Bash, Read | — |
 | doc-claude | Обновление CLAUDE.md и llm_instructions.md при важных изменениях | Read, Edit, Bash | amy-santiago |
 | doc-health | Проверка здоровья документации — ссылки, структура, статусы, метаданные | Bash | amy-santiago |

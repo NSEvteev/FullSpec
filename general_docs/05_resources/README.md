@@ -40,39 +40,81 @@
 
 ## Структура
 
+**Принцип:** Ресурсы организованы по **типу**, затем по **сервису**. Имена файлов соответствуют именам файлов в `src/`.
+
 ```
 05_resources/
 ├── 000_resources.md         # Общий индекс
 ├── README.md                # Общие правила
 │
 ├── database/                # Ресурсы БД
-│   ├── 000_database.md
+│   ├── 000_database.md      # Индекс БД-ресурсов
 │   ├── README.md
-│   └── [ресурсы].md
+│   └── [service-name]/      # Папка сервиса
+│       ├── 000_SUMMARY.md   # Агрегация БД-компонентов сервиса
+│       ├── email_queue.md   # Описание таблицы (имя = имя таблицы)
+│       └── email_templates.md
 │
 ├── backend/                 # Бэкенд-ресурсы
 │   ├── 000_backend.md
 │   ├── README.md
-│   └── [ресурсы].md
+│   └── [service-name]/
+│       ├── 000_SUMMARY.md   # Агрегация бэкенд-компонентов сервиса
+│       ├── notification.service.md  # (имя = имя файла в src/)
+│       └── email.worker.md
 │
 ├── frontend/                # Фронтенд-ресурсы
 │   ├── 000_frontend.md
 │   ├── README.md
-│   └── [ресурсы].md
+│   └── [feature-name]/      # Папка фичи/компонента
+│       ├── 000_SUMMARY.md
+│       ├── NotificationSettingsPage.md
+│       └── NotificationToggle.md
 │
 └── infra/                   # Инфраструктурные ресурсы
     ├── 000_infra.md
     ├── README.md
-    └── [ресурсы].md
+    └── [service-name]/
+        ├── 000_SUMMARY.md
+        └── redis_queue.md
+```
+
+### Связь с IT-сервисами
+
+Каждая папка `[service-name]/` соответствует [📖 IT-сервису](../glossary.md#it-сервис) из `00_services/`:
+
+```
+00_services/notification-service/
+        ↓
+05_resources/backend/notification-service/
+05_resources/database/notification-service/
+05_resources/frontend/notification-settings/
+05_resources/infra/notification-service/
 ```
 
 ---
 
 ## Именование
 
-- Формат: `[название_ресурса].md`
-- Примеры: `PostgreSQL.md`, `auth_service.md`
-- Имя должно соответствовать кодовой базе
+### Папки сервисов
+
+- Формат: `[service-name]/` (kebab-case)
+- Пример: `notification-service/`, `auth-service/`
+- Имя соответствует сервису в `00_services/`
+
+### Файлы ресурсов
+
+- Формат: `[имя_как_в_src].md`
+- Имя файла = имя файла в кодовой базе (с расширением `.md`)
+
+**Примеры:**
+
+| Тип | Файл в src/ | Файл в resources/ |
+|-----|-------------|-------------------|
+| backend | `notification.service.ts` | `notification.service.md` |
+| database | таблица `email_queue` | `email_queue.md` |
+| frontend | `NotificationSettingsPage.tsx` | `NotificationSettingsPage.md` |
+| infra | конфиг Redis | `redis_queue.md` |
 
 ---
 

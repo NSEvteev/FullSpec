@@ -98,7 +98,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **`000_*.md`** — индексы (ЧТО есть в папке, автообновляемые)
 - **`README.md`** — правила (КАК работать с документами)
+- **[📖 IT-сервис](general_docs/glossary.md#it-сервис)** — бизнес-сущность в `00_services/`, стоит НАД цепочкой зависимостей
 - **[📖 Цепочка зависимостей](general_docs/glossary.md#цепочка-зависимостей):** Дискуссия → Архитектура → Decision (ADR) → Ресурсы → План → Документация папок
+
+### IT-сервисы
+
+**Папка:** `general_docs/00_services/`
+
+IT-сервис объединяет все документы, относящиеся к одной бизнес-функции:
+
+```
+00_services/notification-service/  ← Бизнес-ценность
+        ↓
+01_discuss/ → 02_architecture/ → 04_decisions/ → 05_resources/ → 06_imp_plans/
+                                                        ↓
+                                            backend/notification-service/
+                                            database/notification-service/
+```
+
+**Создание:** Автоматически через `/summary-doc` при одобрении дискуссии
 
 ### Глоссарий
 
@@ -107,6 +125,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **Формат ссылок:** `[📖 Термин](путь/к/glossary.md#термин)`
 
 **Правило:** При встрече незнакомого термина — проверить глоссарий перед продолжением работы.
+
+### Диаграммы
+
+**Формат:** Mermaid (текстовый, в Markdown)
+
+**Папка:** `general_docs/03_diagrams/`
+
+**Просмотр:** GitHub/GitLab рендерит автоматически, VS Code — расширение "Markdown Preview Mermaid Support"
 
 ---
 
@@ -133,8 +159,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Валидирует структуру, ссылки, метаданные
 
 **Скиллы:**
+- discussion-review, architect-review (ревью дискуссий и архитектуры)
 - doc-health, doc-claude, doc-project-structure, doc-review
 - glossary-candidates, glossary-link, glossary-review
+- summary-doc, summary-arch (обновление SUMMARY файлов)
 - task-documentation (автоматическое документирование завершённых задач)
 
 **Использование скиллов:**

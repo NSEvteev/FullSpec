@@ -190,6 +190,7 @@ project_template/
 │   │   └── README.md
 │   └── skills/                        # Скиллы
 │       ├── architect/                 # Создание архитектуры из дискуссии
+│       ├── architect-review/          # Ревью архитектуры перед созданием ADR
 │       ├── commit-push/               # Коммит и пуш с форматированием
 │       ├── decision/                  # Создание ADR из архитектуры
 │       ├── discussion/                # Управление дискуссиями
@@ -217,18 +218,22 @@ project_template/
 │
 ├── general_docs/                      # Общая документация
 │   ├── glossary.md                    # Глоссарий терминов
+│   ├── 00_services/                   # IT-сервисы (бизнес-ценность)
 │   ├── 01_discuss/                    # Дискуссии (идея → решение)
 │   ├── 02_architecture/               # Архитектурные документы
 │   ├── 03_diagrams/                   # Диаграммы (.drawio, Mermaid)
 │   ├── 04_decisions/                  # Decision (ADR) — архитектурные решения
 │   │   ├── 000_decisions.md           # Индекс решений
 │   │   └── archive/                   # Устаревшие/отклонённые решения
-│   ├── 05_resources/                  # Описания ресурсов
-│   │   ├── api/                       # API документация
+│   ├── 05_resources/                  # Описания ресурсов (по сервисам)
 │   │   ├── backend/                   # Бэкенд ресурсы
+│   │   │   └── [service-name]/        # Папка IT-сервиса
 │   │   ├── database/                  # Схемы БД
+│   │   │   └── [service-name]/        # Папка IT-сервиса
 │   │   ├── frontend/                  # Фронтенд ресурсы
+│   │   │   └── [feature-name]/        # Папка фичи
 │   │   └── infra/                     # Инфраструктурные ресурсы
+│   │       └── [service-name]/        # Папка IT-сервиса
 │   └── 06_imp_plans/                  # Планы реализации
 │
 ├── llm_instructions/                  # Инструкции для LLM
