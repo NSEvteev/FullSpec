@@ -259,7 +259,7 @@ refactor(api-gateway): упрощена логика rate limiting
 
 ## Как протестировать
 1. Запустить `make dev`
-2. Перейти на http://localhost:3000
+2. Перейти на http://localhost:####
 3. ...
 
 ## Чеклист

@@ -175,15 +175,15 @@ docker-compose up -d
 ```
 
 Доступные сервисы после запуска:
-- **Web UI:** http://localhost:3000
-- **API Gateway:** http://localhost:8000
-- **Auth Service:** http://localhost:8001
-- **Users Service:** http://localhost:8002
+- **Web UI:** http://localhost:####
+- **API Gateway:** http://localhost:####
+- **Auth Service:** http://localhost:####
+- **Users Service:** http://localhost:####
 
 Dev tools:
-- **MailHog:** http://localhost:8025 (тестирование email)
-- **PgAdmin:** http://localhost:5050 (управление БД)
-- **Redis Commander:** http://localhost:8081 (просмотр Redis)
+- **MailHog:** http://localhost:#### (тестирование email)
+- **PgAdmin:** http://localhost:#### (управление БД)
+- **Redis Commander:** http://localhost:#### (просмотр Redis)
 
 ### 3. Остановка сервисов
 

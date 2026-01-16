@@ -69,9 +69,9 @@
 - Redis 7 (кеширование, сессии)
 
 **Инструменты разработки:**
-- MailHog — тестирование email (http://localhost:8025)
-- PgAdmin — управление БД (http://localhost:5050)
-- Redis Commander — просмотр Redis (http://localhost:8081)
+- MailHog — тестирование email (http://localhost:####)
+- PgAdmin — управление БД (http://localhost:####)
+- Redis Commander — просмотр Redis (http://localhost:####)
 
 **Проверка документации:**
 - `check_doc_health.py` — ссылки, структура, статусы, метаданные

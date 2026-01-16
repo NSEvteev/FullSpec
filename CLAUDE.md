@@ -289,39 +289,23 @@ make build             # Собрать для production
 cd services/auth && npm test -- --grep "test name"
 ```
 
-### Запуск и остановка
+### Разработка и отладка
 
 ```bash
-make dev               # Запуск: Web (3000), API Gateway (8000), Auth (8001), Users (8002)
-make stop              # Остановка всех сервисов
-make restart           # Перезапуск
-```
-
-### Разработка
-
-```bash
+make restart           # Перезапуск всех сервисов
 make logs-web          # Логи фронтенда
 make logs-auth         # Логи auth сервиса
-make logs-users        # Логи users сервиса
-make shell-web         # Открыть shell в web контейнере
 make shell-db          # Открыть psql в PostgreSQL
-```
-
-### База данных
-
-```bash
 make db-migrate        # Запустить миграции
-make db-seed           # Заполнить тестовыми данными
 make db-reset          # Сбросить и пересоздать БД
 ```
 
 ### Проверка документации
 
 ```bash
-make docs-health       # Полная проверка документации (ссылки, структура, статусы)
-make docs-links        # Только проверка ссылок
+make docs-health       # Проверка документации (ссылки, структура, статусы)
 make gloss-health      # Проверка глоссария
-make docs-check        # Документация + глоссарий
+make docs-check        # Полная проверка (документация + глоссарий)
 ```
 
 ## Переменные окружения (.env)
@@ -354,12 +338,12 @@ cp services/users/.env.example services/users/.env
 ```
 Client (Browser)
     ↓
-Web UI (apps/web) :3000
+Web UI (apps/web)
     ↓
-API Gateway (services/api-gateway) :8000
+API Gateway (services/api-gateway)
     ↓
-    ├─→ Auth Service :8001 → PostgreSQL (auth_db)
-    └─→ Users Service :8002 → PostgreSQL (users_db)
+    ├─→ Auth Service → PostgreSQL (auth_db)
+    └─→ Users Service → PostgreSQL (users_db)
            ↓
         Redis (кэш, сессии)
 ```

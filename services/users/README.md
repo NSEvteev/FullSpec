@@ -65,7 +65,7 @@ UPLOAD_DIR=./uploads/avatars
 MAX_FILE_SIZE=5mb
 
 # Auth Service (для валидации токенов)
-AUTH_SERVICE_URL=http://auth:8001
+AUTH_SERVICE_URL=http://auth:####
 ```
 
 ## API Эндпоинты
@@ -238,7 +238,7 @@ npm run dev
 
 # Запуск с Docker
 docker build -t users-service .
-docker run -p 8002:8002 users-service
+docker run -p 8002:#### users-service
 ```
 
 ## Тестирование

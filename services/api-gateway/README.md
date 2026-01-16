@@ -41,8 +41,8 @@ api-gateway/
 PORT=8000
 
 # Сервисы
-AUTH_SERVICE_URL=http://auth:8001
-USERS_SERVICE_URL=http://users:8002
+AUTH_SERVICE_URL=http://auth:####
+USERS_SERVICE_URL=http://users:####
 
 # Rate limiting
 RATE_LIMIT_WINDOW=15m
@@ -50,7 +50,7 @@ RATE_LIMIT_MAX=100
 RATE_LIMIT_SKIP_SUCCESSFUL=false
 
 # CORS
-CORS_ORIGINS=http://localhost:3000,https://app.example.com
+CORS_ORIGINS=http://localhost:####,https://app.example.com
 CORS_CREDENTIALS=true
 
 # Кэширование
@@ -68,24 +68,24 @@ LOG_RESPONSES=false  # Не логировать тела ответов в prod
 ### Auth Service
 
 ```
-/api/auth/*  →  http://auth:8001/api/auth/*
+/api/auth/*  →  http://auth:####/api/auth/*
 ```
 
 **Примеры:**
-- `POST /api/auth/login` → `http://auth:8001/api/auth/login`
-- `POST /api/auth/register` → `http://auth:8001/api/auth/register`
-- `POST /api/auth/refresh` → `http://auth:8001/api/auth/refresh`
+- `POST /api/auth/login` → `http://auth:####/api/auth/login`
+- `POST /api/auth/register` → `http://auth:####/api/auth/register`
+- `POST /api/auth/refresh` → `http://auth:####/api/auth/refresh`
 
 ### Users Service
 
 ```
-/api/users/*  →  http://users:8002/api/users/*
+/api/users/*  →  http://users:####/api/users/*
 ```
 
 **Примеры:**
-- `GET /api/users/me` → `http://users:8002/api/users/me`
-- `PUT /api/users/me` → `http://users:8002/api/users/me`
-- `POST /api/users/me/avatar` → `http://users:8002/api/users/me/avatar`
+- `GET /api/users/me` → `http://users:####/api/users/me`
+- `PUT /api/users/me` → `http://users:####/api/users/me`
+- `POST /api/users/me/avatar` → `http://users:####/api/users/me/avatar`
 
 ## Middleware Pipeline
 
@@ -270,7 +270,7 @@ npm start
 
 # Docker
 docker build -t api-gateway .
-docker run -p 8000:8000 api-gateway
+docker run -p 8000:#### api-gateway
 ```
 
 ## Тестирование
@@ -306,7 +306,7 @@ api-gateway:
   deploy:
     replicas: 3  # 3 инстанса
   ports:
-    - "8000:8000"
+    - "8000:####"
 ```
 
 Load balancer (Nginx/HAProxy) распределяет трафик между инстансами.

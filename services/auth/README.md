@@ -179,7 +179,7 @@ npm run dev
 
 # Запуск с Docker
 docker build -t auth-service .
-docker run -p 8001:8001 auth-service
+docker run -p 8001:#### auth-service
 ```
 
 ## Тестирование
