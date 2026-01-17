@@ -42,6 +42,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Правила для Claude
 
+Нужно продолжить работу с документом refactoring.md
+
 ### Структура инструкций
 
 | Файл | Назначение |
