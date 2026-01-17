@@ -92,31 +92,33 @@
 
 ## Общая структура
 
+> **Назначение раздела:** Обзор верхнего уровня — какие папки и файлы есть в корне проекта. Детали каждой папки — в соответствующих разделах ниже.
+
 ```
-/.claude/                   ← всё для Claude (инструкции, агенты, скиллы, шаблоны)
+/.claude/                   ← инструменты Claude (инструкции, агенты, скиллы, шаблоны)
 /src/                       ← код сервисов
-/doc/                       ← документация (зеркалит src, shared, platform)
-/shared/                    ← переиспользуемый код, контракты, assets
+/doc/                       ← документация (зеркало src, shared, platform)
+/shared/                    ← общий код (контракты, библиотеки, assets)
 /config/                    ← конфигурации окружений
-/platform/                  ← инфраструктура, Docker, Terraform
-/tests/                     ← e2e и нагрузочные тесты
-/.github/                   ← CI/CD
+/platform/                  ← инфраструктура (Docker, Terraform, мониторинг)
+/tests/                     ← системные тесты (e2e, нагрузочные)
+/.github/                   ← CI/CD workflows
 
 # Файлы в корне
-/CLAUDE.md                  ← entry point для LLM
-/docker-compose.yml         ← запуск всех сервисов
-/docker-compose.dev.yml     ← для разработки
-/docker-compose.test.yml    ← для тестов
-/Makefile                   ← единый интерфейс команд
-/README.md                  ← как начать работу
+/CLAUDE.md                  ← точка входа для LLM
+/docker-compose.yml         ← конфигурация запуска сервисов
+/docker-compose.dev.yml     ← конфигурация для разработки
+/docker-compose.test.yml    ← конфигурация для тестов
+/Makefile                   ← интерфейс команд проекта
+/README.md                  ← руководство по началу работы
 /CHANGELOG.md               ← история изменений
-/LICENSE                    ← проприетарная лицензия
-/.gitignore                 ← игнорируемые файлы git
-/.dockerignore              ← игнорируемые файлы docker
-/.editorconfig              ← базовые правила кода
-/.prettierrc                ← форматирование JS/TS
-/.eslintrc.js               ← линтинг JS/TS
-/.pre-commit-config.yaml    ← git hooks
+/LICENSE                    ← лицензия (проприетарная)
+/.gitignore                 ← исключения git
+/.dockerignore              ← исключения Docker
+/.editorconfig              ← базовые правила редактора
+/.prettierrc                ← конфигурация Prettier (JS/TS)
+/.eslintrc.js               ← конфигурация ESLint (JS/TS)
+/.pre-commit-config.yaml    ← конфигурация git hooks
 ```
 
 **Ключевое:** Структура позволяет писать сервисы на разных языках и использовать разные БД для каждого сервиса.
