@@ -15,29 +15,31 @@
 
 **Текущий статус:** ✅ Документ завершён
 
-**TODO:** Перепроверить и определить области ответственности для каждой инструкции (избежать дублирования/пропусков)
+**TODO:**
+1. Перепроверить и определить области ответственности для каждой инструкции (избежать дублирования/пропусков)
+2. Пройтись по каждому разделу документа, определить его зоны ответственности, доописать в формате "что за документ и что в нём должно быть описано", поискать информацию о нём во всех других разделах и если что исправить и раздел, в котором работали, и раздел, в котором найдено соответствие
 
 ### MemoryBank
 
 **MemoryBank** — структурированная память проекта для LLM. Набор концептов, описывающих что есть в проекте, как тут принято делать, почему так решили и над чем сейчас работаем.
 
-**Patterns** — `/.claude/instructions/` (весь раздел "Дерево Claude")
+**Patterns (Паттерны)** — `/.claude/instructions/` (весь раздел "Дерево Claude")
 
 **Entities (Сущности)** —
 - Сами сущности: `/src/`, `/shared/`, `/platform/`
 - Описания сущностей: `/doc/src/`, `/doc/shared/`, `/doc/platform/`
 
-**Tech Context** — `/doc/src/{service}/specs/architecture/`
+**Tech Context (Технический контекст)** — `/doc/src/{service}/specs/architecture/`
 
-**Decisions** — `/doc/src/{service}/specs/adr/`
+**ADR (Архитектурные решения)** — `/doc/src/{service}/specs/adr/`
 
-**Progress** — `/doc/src/{service}/specs/plans/`
+**Progress (Прогресс)** — `/doc/src/{service}/specs/plans/`
 
-**Active Context** — GitHub Issues
+**Active Context (Активный контекст)** — GitHub Issues
 
-**Glossary** — `/doc/glossary.md`
+**Glossary (Глоссарий)** — `/doc/glossary.md`
 
-**Discussions** — `/.claude/discussions/`
+**Discussions (Дискуссии)** — `/.claude/discussions/`
 
 ---
 
@@ -853,7 +855,7 @@ repos:
 
 ---
 
-## Real-time (Real-time коммуникация)
+## Real-time communication (Real-time коммуникация)
 
 Варианты push-коммуникации от сервера к клиенту.
 
