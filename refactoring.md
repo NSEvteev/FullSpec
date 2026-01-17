@@ -7,6 +7,8 @@
 2. Перечень инструкций (`/.claude/instructions/`) для каждой области
 3. Требования к каждой области (правила)
 
+Структура, описанная в данном документе, **является памятью для LLM**.
+
 **Требования к будущим инструкциям:**
 - Каждая инструкция содержит детали реализации для своей зоны ответственности
 - Инструкции связаны перелинковкой между собой
@@ -14,6 +16,32 @@
 **Текущий статус:** ✅ Документ завершён
 
 **TODO:** Перепроверить и определить области ответственности для каждой инструкции (избежать дублирования/пропусков)
+
+### MemoryBank
+
+**MemoryBank** — структурированная память проекта для LLM. Набор концептов, описывающих что есть в проекте, как тут принято делать, почему так решили и над чем сейчас работаем.
+
+**Patterns** — `/.claude/instructions/` (весь раздел "Дерево Claude")
+
+**Entities (Сущности)** —
+- Сами сущности: `/src/`, `/shared/`, `/platform/`
+- Описания сущностей: `/doc/src/`, `/doc/shared/`, `/doc/platform/`
+
+**Tech Context** — `/doc/src/{service}/specs/architecture/`
+
+**Decisions** — `/doc/src/{service}/specs/adr/`
+
+**Progress** — `/doc/src/{service}/specs/plans/`
+
+**Active Context** — GitHub Issues
+
+**Glossary** — `/doc/glossary.md`
+
+**Discussions** — `/.claude/discussions/`
+
+---
+
+# ЧАСТЬ 1: СТРУКТУРА (ЧТО)
 
 ---
 
@@ -315,35 +343,6 @@ JWT между сервисами:
     /tests/
 ```
 
-### Проверки здоровья и корректное завершение (Health checks / Graceful shutdown)
-
-Каждый сервис реализует:
-```
-GET /health      ← liveness (жив ли сервис)
-GET /ready       ← readiness (готов ли принимать трафик)
-```
-
-Формат ответа:
-```json
-{
-  "status": "healthy",
-  "checks": {
-    "database": "ok",
-    "redis": "ok"
-  },
-  "version": "1.2.3"
-}
-```
-
-**Graceful shutdown:**
-1. Сервис получает SIGTERM
-2. `/ready` → false (перестаёт получать новый трафик)
-3. Дожидается завершения текущих запросов (timeout: 30 сек)
-4. Закрывает соединения (БД, Redis, очереди)
-5. Завершается
-
-Инструкция: `/.claude/instructions/src/health-checks.md` (включает graceful shutdown).
-
 ### Swagger UI
 
 Каждый сервис хостит документацию API:
@@ -544,68 +543,6 @@ package auth.v2;
 | REST | `/shared/contracts/rest/` | OpenAPI (YAML) |
 | gRPC | `/shared/contracts/grpc/` | Protobuf (.proto) |
 | Очереди | `/shared/contracts/events/` | JSON Schema |
-
-### Единый формат ошибок
-
-```json
-{
-  "error": {
-    "code": "AUTH_TOKEN_EXPIRED",
-    "message": "Token has expired",
-    "details": {
-      "expired_at": "2024-01-15T10:00:00Z"
-    },
-    "request_id": "abc-123"
-  }
-}
-```
-
-### Ошибки валидации
-
-```json
-{
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Validation failed",
-    "details": {
-      "fields": {
-        "email": "Invalid email format",
-        "age": "Must be at least 18"
-      }
-    }
-  }
-}
-```
-
-### Единый формат логов
-
-Structured logging в JSON:
-```json
-{
-  "timestamp": "2024-01-15T10:30:00Z",
-  "level": "error",
-  "service": "auth",
-  "request_id": "abc-123",
-  "message": "Failed to validate token",
-  "context": {
-    "user_id": "user-456"
-  }
-}
-```
-
-### Единый формат пагинации
-
-```json
-{
-  "data": [...],
-  "pagination": {
-    "page": 2,
-    "limit": 20,
-    "total": 156,
-    "total_pages": 8
-  }
-}
-```
 
 ---
 
@@ -978,154 +915,6 @@ repos:
 
 ---
 
-## Проектирование API (API design)
-
-Единые правила проектирования REST API.
-
-### Инструкции
-
-```
-/.claude/instructions/
-  /src/
-    api-design.md             ← naming, методы, статусы, ошибки
-```
-
-### Правила
-
-- **URLs:** kebab-case, множественное число (`/users`, `/order-items`)
-- **Методы:** GET=читать, POST=создать, PUT=заменить, PATCH=частично, DELETE=удалить
-- **Статусы:** 200/201/204 успех, 400 валидация, 401 auth, 403 forbidden, 404 not found, 500 server
-- **Partial update:** PATCH + JSON Merge Patch (RFC 7396)
-- **Bulk operations:** POST `/{entity}/bulk` с массивом
-
----
-
-## Локальная разработка (Local development)
-
-Как разработчику запустить проект и эффективно работать.
-
-### Инструкции
-
-```
-/.claude/instructions/
-  /src/
-    local-dev.md              ← запуск, hot reload, отладка, IDE
-```
-
-### Правила
-
-- **Запуск:** `make dev` поднимает всё через docker-compose
-- **Hot reload:** код монтируется в контейнер, изменения применяются автоматически
-- **Отладка:** debug порты открыты (9229 для Node.js, 5678 для Python)
-- **IDE:** рекомендации по VS Code / JetBrains в инструкции
-
----
-
-## Стратегии развёртывания (Deployment strategies)
-
-Как безопасно выкатывать новые версии без даунтайма.
-
-### Инструкции
-
-```
-/.claude/instructions/
-  /platform/
-    deployment.md             ← стратегии деплоя, rollback
-```
-
-### Правила
-
-- **Rolling update:** по умолчанию (постепенная замена подов)
-- **Blue-green:** для критичных изменений (две среды, переключение)
-- **Canary:** для рискованных (1% → 10% → 100% трафика)
-- **Rollback:** автоматический при падении health checks
-
----
-
-## Паттерны работы с БД (Database patterns)
-
-Паттерны работы с БД в микросервисах.
-
-### Инструкции
-
-```
-/.claude/instructions/
-  /src/
-    database.md               ← pooling, migrations, transactions, naming
-```
-
-### Правила
-
-- **Connection pooling:** обязателен
-- **Migrations:** только forward (no rollback в prod)
-- **Transactions:** в пределах сервиса; между сервисами — saga
-- **Naming:** snake_case для таблиц и колонок
-
----
-
-## Вывод API из эксплуатации (API deprecation)
-
-Как выводить старые версии API без поломки клиентов.
-
-### Инструкции
-
-```
-/.claude/instructions/
-  /src/
-    api-deprecation.md        ← политика вывода API
-```
-
-### Правила
-
-- **Sunset header:** дата отключения (`Sunset: Sat, 01 Jun 2025 00:00:00 GMT`)
-- **Deprecation header:** `Deprecation: true`
-- **Срок:** минимум 3 месяца между deprecation и удалением
-- **Документация:** changelog с датами и migration guide
-
----
-
-## Производительность (Performance)
-
-Как измерять и оптимизировать производительность.
-
-### Инструкции
-
-```
-/.claude/instructions/
-  /src/
-    performance.md            ← профилирование, бенчмарки, лимиты
-```
-
-### Правила
-
-- **Профилирование (Profiling):** встроено в dev-режим (CPU, память)
-- **Бенчмарки (Benchmarks):** `/tests/load/` — k6 сценарии
-- **Лимиты (Performance budgets):** p99 latency < 200ms, память < 512MB на сервис
-- **Поиск узких мест (Bottleneck detection):** через трейсы + метрики
-
----
-
-## Соответствие и аудит (Compliance/Audit)
-
-Отслеживание действий и соответствие требованиям (GDPR и др.).
-
-### Инструкции
-
-```
-/.claude/instructions/
-  /src/
-    audit.md                  ← аудит-логи, хранение данных, GDPR
-```
-
-### Правила
-
-- **Аудит-логи (Audit logs):** кто, что, когда (отдельно от обычных логов)
-- **Хранение (Data retention):** срок хранения данных (например 1 год)
-- **Удаление данных (Right to be forgotten):** API для удаления по запросу
-- **PII (Персональные данные):** не логировать, маскировать
-
----
-
 ## Makefile
 
 Корневой Makefile — единый интерфейс, абстрагирует языки:
@@ -1193,6 +982,10 @@ new-service:   создание нового сервиса из шаблона
 /doc/src/payment/               ← документация сервиса
 /shared/contracts/rest/payment.yaml  ← контракт
 ```
+
+---
+
+# ЧАСТЬ 2: РЕШЕНИЯ
 
 ---
 
@@ -1284,3 +1077,186 @@ new-service:   создание нового сервиса из шаблона
 | index.md в инструкциях | Каждая папка имеет index.md — точка входа со ссылками |
 | Resilience | Инструкция + `/shared/libs/http-client/` (timeouts, retries, circuit breaker) |
 | Ссылки в agents/skills | Каждый файл начинается со ссылки на инструкцию |
+
+---
+
+# ЧАСТЬ 3: ДЕТАЛИ ИНСТРУКЦИЙ (КАК)
+
+Заготовки для будущих файлов в `/.claude/instructions/`. После рефакторинга — вынести в соответствующие инструкции.
+
+---
+
+## Форматы данных
+
+> **Инструкция:** `/.claude/instructions/src/error-handling.md`, `logging.md`, `pagination.md`
+
+### Единый формат ошибок
+
+```json
+{
+  "error": {
+    "code": "AUTH_TOKEN_EXPIRED",
+    "message": "Token has expired",
+    "details": {
+      "expired_at": "2024-01-15T10:00:00Z"
+    },
+    "request_id": "abc-123"
+  }
+}
+```
+
+### Ошибки валидации
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Validation failed",
+    "details": {
+      "fields": {
+        "email": "Invalid email format",
+        "age": "Must be at least 18"
+      }
+    }
+  }
+}
+```
+
+### Единый формат логов
+
+Structured logging в JSON:
+```json
+{
+  "timestamp": "2024-01-15T10:30:00Z",
+  "level": "error",
+  "service": "auth",
+  "request_id": "abc-123",
+  "message": "Failed to validate token",
+  "context": {
+    "user_id": "user-456"
+  }
+}
+```
+
+### Единый формат пагинации
+
+```json
+{
+  "data": [...],
+  "pagination": {
+    "page": 2,
+    "limit": 20,
+    "total": 156,
+    "total_pages": 8
+  }
+}
+```
+
+---
+
+## Health checks / Graceful shutdown
+
+> **Инструкция:** `/.claude/instructions/src/health-checks.md`
+
+Каждый сервис реализует:
+```
+GET /health      ← liveness (жив ли сервис)
+GET /ready       ← readiness (готов ли принимать трафик)
+```
+
+Формат ответа:
+```json
+{
+  "status": "healthy",
+  "checks": {
+    "database": "ok",
+    "redis": "ok"
+  },
+  "version": "1.2.3"
+}
+```
+
+**Graceful shutdown:**
+1. Сервис получает SIGTERM
+2. `/ready` → false (перестаёт получать новый трафик)
+3. Дожидается завершения текущих запросов (timeout: 30 сек)
+4. Закрывает соединения (БД, Redis, очереди)
+5. Завершается
+
+---
+
+## Проектирование API (API design)
+
+> **Инструкция:** `/.claude/instructions/src/api-design.md`
+
+- **URLs:** kebab-case, множественное число (`/users`, `/order-items`)
+- **Методы:** GET=читать, POST=создать, PUT=заменить, PATCH=частично, DELETE=удалить
+- **Статусы:** 200/201/204 успех, 400 валидация, 401 auth, 403 forbidden, 404 not found, 500 server
+- **Partial update:** PATCH + JSON Merge Patch (RFC 7396)
+- **Bulk operations:** POST `/{entity}/bulk` с массивом
+
+---
+
+## Локальная разработка (Local development)
+
+> **Инструкция:** `/.claude/instructions/src/local-dev.md`
+
+- **Запуск:** `make dev` поднимает всё через docker-compose
+- **Hot reload:** код монтируется в контейнер, изменения применяются автоматически
+- **Отладка:** debug порты открыты (9229 для Node.js, 5678 для Python)
+- **IDE:** рекомендации по VS Code / JetBrains в инструкции
+
+---
+
+## Стратегии развёртывания (Deployment strategies)
+
+> **Инструкция:** `/.claude/instructions/platform/deployment.md`
+
+- **Rolling update:** по умолчанию (постепенная замена подов)
+- **Blue-green:** для критичных изменений (две среды, переключение)
+- **Canary:** для рискованных (1% → 10% → 100% трафика)
+- **Rollback:** автоматический при падении health checks
+
+---
+
+## Паттерны работы с БД (Database patterns)
+
+> **Инструкция:** `/.claude/instructions/src/database.md`
+
+- **Connection pooling:** обязателен
+- **Migrations:** только forward (no rollback в prod)
+- **Transactions:** в пределах сервиса; между сервисами — saga
+- **Naming:** snake_case для таблиц и колонок
+
+---
+
+## Вывод API из эксплуатации (API deprecation)
+
+> **Инструкция:** `/.claude/instructions/src/api-deprecation.md`
+
+- **Sunset header:** дата отключения (`Sunset: Sat, 01 Jun 2025 00:00:00 GMT`)
+- **Deprecation header:** `Deprecation: true`
+- **Срок:** минимум 3 месяца между deprecation и удалением
+- **Документация:** changelog с датами и migration guide
+
+---
+
+## Производительность (Performance)
+
+> **Инструкция:** `/.claude/instructions/src/performance.md`
+
+- **Профилирование (Profiling):** встроено в dev-режим (CPU, память)
+- **Бенчмарки (Benchmarks):** `/tests/load/` — k6 сценарии
+- **Лимиты (Performance budgets):** p99 latency < 200ms, память < 512MB на сервис
+- **Поиск узких мест (Bottleneck detection):** через трейсы + метрики
+
+---
+
+## Соответствие и аудит (Compliance/Audit)
+
+> **Инструкция:** `/.claude/instructions/src/audit.md`
+
+- **Аудит-логи (Audit logs):** кто, что, когда (отдельно от обычных логов)
+- **Хранение (Data retention):** срок хранения данных (например 1 год)
+- **Удаление данных (Right to be forgotten):** API для удаления по запросу
+- **PII (Персональные данные):** не логировать, маскировать
