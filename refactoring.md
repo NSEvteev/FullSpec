@@ -13,6 +13,8 @@
 
 **Текущий статус:** ✅ Документ завершён
 
+**TODO:** Перепроверить и определить области ответственности для каждой инструкции (избежать дублирования/пропусков)
+
 ---
 
 ## Общая структура
@@ -23,7 +25,7 @@
 /doc/                       ← документация (зеркалит src, shared, platform)
 /shared/                    ← переиспользуемый код, контракты, assets
 /config/                    ← конфигурации окружений
-/platform/                  ← инфраструктура, Docker, K8s, Terraform
+/platform/                  ← инфраструктура, Docker, Terraform
 /tests/                     ← e2e и нагрузочные тесты
 /.github/                   ← CI/CD
 
@@ -75,6 +77,7 @@
       api-deprecation.md            ← политика вывода API
       performance.md                ← профилирование, бенчмарки, лимиты
       audit.md                      ← аудит-логи, хранение данных, GDPR
+      realtime.md                   ← polling, SSE, WebSocket
       testing.md                    ← unit/integration тесты (→ ссылка на /tests/)
       resilience.md                 ← timeouts, retries, circuit breaker
 
@@ -100,7 +103,6 @@
     /platform/                      ← инструкции для /platform/
       index.md                      ← точка входа
       docker.md                     ← работа с Docker
-      k8s.md                        ← Kubernetes
       observability.md              ← общий обзор (logs, metrics, traces)
       metrics.md                    ← Prometheus метрики
       tracing.md                    ← распределённые трейсы
@@ -269,6 +271,11 @@ gh issue list --state open
 - Можно разные БД (auth → PostgreSQL, notification → MongoDB)
 - Чёткие границы ответственности
 
+### Обнаружение сервисов (Service discovery)
+
+Docker DNS — имя сервиса из docker-compose равно хосту.
+URL сервисов через переменные окружения для гибкости (`AUTH_SERVICE_URL=http://auth:8080`).
+
 ### Аутентификация между сервисами
 
 JWT между сервисами:
@@ -377,10 +384,16 @@ Auth handlers.
 
 ### Версионирование API
 
-URL-версионирование:
+**REST:** URL-версионирование:
 ```
 /api/v1/users
 /api/v2/users
+```
+
+**gRPC:** Package-версионирование:
+```protobuf
+package auth.v1;
+package auth.v2;
 ```
 
 ---
@@ -453,8 +466,6 @@ URL-версионирование:
       README.md             ← настройка Traefik
     /docker/
       README.md             ← работа с Docker
-    /k8s/
-      README.md             ← деплой в Kubernetes
     /monitoring/
       README.md             ← настройка мониторинга
     /runbooks/              ← инфраструктурные runbooks
@@ -494,6 +505,9 @@ URL-версионирование:
     /events/                ← схемы событий для очередей
       user-created.json
       order-completed.json
+    /realtime/              ← схемы real-time сообщений
+      notifications.json
+      chat-messages.json
     /pacts/                 ← contract testing (генерируются)
 
   /libs/                    ← общие библиотеки
@@ -640,7 +654,6 @@ logging:
       cors.yml              ← CORS настройки
       rate-limit.yml        ← rate limiting
   /docker/                  ← Dockerfile'ы
-  /k8s/                     ← Kubernetes манифесты
   /terraform/               ← IaC
   /monitoring/              ← Prometheus, Grafana, алерты
     prometheus.yml
@@ -665,6 +678,8 @@ logging:
 - Бесплатный (open source)
 - Автоматически обнаруживает сервисы в Docker
 - Конфигурация через labels в docker-compose
+
+**Load balancing:** Traefik автоматически балансирует при нескольких репликах (round-robin).
 
 **CORS:** Настраивается централизованно в Traefik (не в сервисах).
 
@@ -901,6 +916,40 @@ repos:
 
 ---
 
+## Real-time коммуникация (Real-time)
+
+Варианты push-коммуникации от сервера к клиенту.
+
+### Структура
+
+```
+/shared/contracts/realtime/     ← схемы сообщений
+  notifications.json
+  chat-messages.json
+```
+
+### Инструкции
+
+```
+/.claude/instructions/
+  /src/
+    realtime.md                 ← polling, SSE, WebSocket
+```
+
+### Правила
+
+| Технология | Когда использовать |
+|------------|-------------------|
+| **Polling** | Редкие обновления, простота важнее |
+| **SSE** | Односторонний push (нотификации, ленты) |
+| **WebSocket** | Двусторонний (чат, collaborative editing) |
+
+- **Выбор:** определяется в ADR сервиса
+- **Схемы сообщений:** `/shared/contracts/realtime/`
+- **Heartbeat:** обязателен для WebSocket (keep-alive)
+
+---
+
 ## Кэширование (Caching)
 
 Кэширование для ускорения и снижения нагрузки на БД.
@@ -1118,9 +1167,16 @@ new-service:   создание нового сервиса из шаблона
 
 /platform/secrets/
   README.md                 ← как работать с секретами
+  rotation.md               ← runbook ротации секретов
 ```
 
 **Правило:** `.env` в `.gitignore`, `.env.example` в репо.
+
+### Ротация секретов (Secrets rotation)
+
+- **Runbook:** `/platform/secrets/rotation.md`
+- **Паттерн dual keys:** для JWT — два signing key активны одновременно
+- **Vault:** при необходимости автоматической ротации
 
 ---
 
@@ -1152,11 +1208,14 @@ new-service:   создание нового сервиса из шаблона
 | Seed данные | Сервис-специфичные в сервисе, общие в `/shared/seeds/` |
 | CI/CD | `/.github/` |
 | Зависимости | `dependencies.yaml` в корне сервиса |
-| Версионирование API | URL (`/api/v1/`, `/api/v2/`) |
+| Версионирование API (REST) | URL (`/api/v1/`, `/api/v2/`) |
+| Версионирование API (gRPC) | Package (`package auth.v1;`) |
 | Версионирование сервисов | Git tags |
 | Владение БД | Database per Service |
+| Service discovery | Docker DNS (имя сервиса = хост) |
 | Auth между сервисами | JWT |
 | API Gateway | Traefik (`/platform/gateway/`) |
+| Load balancing | Traefik (round-robin при нескольких репликах) |
 | CORS | Централизованно в Traefik (`/platform/gateway/dynamic/cors.yml`) |
 | Rate limiting | Централизованно в Traefik (`/platform/gateway/dynamic/rate-limit.yml`) |
 | Контракты API | По типу: `/shared/contracts/{rest,grpc,events}/` |
@@ -1170,6 +1229,8 @@ new-service:   создание нового сервиса из шаблона
 | Events naming | `{service}.{entity}.{action}` |
 | Events idempotency | `event_id` в каждом событии |
 | Dead letter queues | `/platform/queues/dlq/` |
+| Real-time | Polling/SSE/WebSocket — выбор в ADR сервиса |
+| Real-time схемы | `/shared/contracts/realtime/` |
 | Кэширование | `/platform/cache/`, паттерн cache-aside |
 | Cache key naming | `{service}:{entity}:{id}` |
 | Cache TTL | Обязателен для всех ключей |
@@ -1209,6 +1270,7 @@ new-service:   создание нового сервиса из шаблона
 | Pagination | Единый формат offset-based |
 | Logging | JSON structured, `/shared/libs/logging/` |
 | Security scanning | Dependabot + GitLeaks в CI |
+| Secrets rotation | Dual keys + runbook, Vault при необходимости |
 | Health checks | `/health`, `/ready` в каждом сервисе |
 | Graceful shutdown | В health-checks.md (связан с /ready) |
 | Swagger UI | `/docs` в каждом сервисе |
