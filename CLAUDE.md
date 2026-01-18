@@ -29,6 +29,7 @@
     /tools/                 # Агенты и скиллы
   /agents/                  # Агенты
   /skills/                  # Скиллы
+  /scripts/                 # Скрипты Python
   /templates/               # Шаблоны
   /discussions/             # Дискуссии
 

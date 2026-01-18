@@ -237,7 +237,14 @@ graph LR
 
 ## Дерево Claude (`/.claude/`)
 
-Всё для Claude Code в одном месте:
+Всё для Claude Code в одном месте.
+
+**Статус реализации:**
+- ✅ `/instructions/tools/` — agents.md, skills.md
+- ✅ `/scripts/` — find_references.py
+- ✅ `/skills/` — 4 скилла (skill-create, links-create, links-update, context-update)
+- ⬜ `/instructions/src/`, `/doc/`, `/shared/`, `/config/`, `/platform/`, `/tests/`, `/git/`
+- ⬜ `/agents/`, `/templates/`, `/discussions/`
 
 ```
 /.claude/
@@ -316,11 +323,24 @@ graph LR
     # Общие инструкции (верхний уровень)
     feature-flags.md                ← когда и как использовать
 
-  /agents/                          ← агенты
-  /skills/                          ← скиллы
-    new-service.md                  ← создание сервиса из шаблона
+  /agents/                          ← агенты (пока не созданы)
+
+  /skills/                          ← скиллы (каждый в своей папке)
+    /{skill-name}/
+      SKILL.md                      ← описание скилла
+
+    # Созданные скиллы:
+    /skill-create/                  ← создание нового скилла
+    /links-create/                  ← создание ссылок в документе
+    /links-update/                  ← обновление ссылок в связанных документах
+    /context-update/                ← распространение контекста по графу
+
+    # Планируемые скиллы:
+    /service-create/                ← создание сервиса из шаблона
+
   /scripts/                         ← скрипты, вызываемые LLM
-    create-service.py               ← скрипт создания сервиса
+    find_references.py              ← поиск ссылок на файл/папку (создан)
+    create-service.py               ← скрипт создания сервиса (планируется)
   /templates/                       ← шаблоны для создания
     /service/                       ← шаблон нового сервиса
       README.md.template

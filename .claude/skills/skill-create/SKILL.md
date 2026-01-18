@@ -26,6 +26,7 @@ triggers:
 **Связанные скиллы:**
 - [skill-update](/.claude/skills/skill-update/SKILL.md) — обновление *(не создан)*
 - [skill-delete](/.claude/skills/skill-delete/SKILL.md) — удаление *(не создан)*
+- [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
 
 ## Оглавление
 
@@ -283,6 +284,7 @@ mkdir -p .claude/skills/{название}
 - Проверить и доработать инструкции в SKILL.md
 - Добавить примеры использования (если нужно больше)
 - Протестировать скилл
+- Вызвать `/context-update` для распространения контекста по связанным документам
 ```
 
 ---

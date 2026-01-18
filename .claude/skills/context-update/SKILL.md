@@ -249,7 +249,7 @@ triggers:
 | Тип | Описание | Пример |
 |-----|----------|--------|
 | Правило → Применение | Правило используется в другом месте | skill-create (правила) → links-create (использует) |
-| Зависимость | Один документ зависит от другого | context-update → find_references.py |
+| Зависимость | Один документ зависит от другого | context-update → [find_references.py](/.claude/scripts/find_references.py) |
 
 ### По направлению
 
