@@ -37,6 +37,7 @@ skills: [{скилл1}, {скилл2}, ...]
 |-----|----------|-------------------|
 | `skill-management` | Управление скиллами | skill-management |
 | `agent-management` | Управление агентами | agent-management |
+| `instruction-management` | Управление инструкциями | instruction-management |
 | `documentation` | Работа с документацией | documentation |
 | `git` | Git операции | git |
 | `code` | Работа с кодом | code |

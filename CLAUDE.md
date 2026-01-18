@@ -43,6 +43,8 @@
 
 ## Инструкции
 
+**Индекс:** [/.claude/instructions/README.md](/.claude/instructions/README.md)
+
 **Правило:** При работе с папкой `/X/` — читать `/.claude/instructions/X/README.md`.
 
 | Папка | Инструкция |

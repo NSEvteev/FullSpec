@@ -46,6 +46,14 @@
 |-------|----------|----------|
 | — | — | — |
 
+### instruction-management
+
+Управление инструкциями.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [instruction-create](/.claude/skills/instruction-create/SKILL.md) | Создание новой инструкции | `/instruction-create`, "создай инструкцию" |
+
 ### documentation
 
 Работа с документацией.

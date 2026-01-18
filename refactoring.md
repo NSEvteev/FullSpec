@@ -239,120 +239,119 @@ graph LR
 
 Всё для Claude Code в одном месте.
 
+**Индекс инструкций:** [/.claude/instructions/README.md](/.claude/instructions/README.md)
+
 **Статус реализации:**
+- ✅ `/instructions/README.md` — индекс инструкций
 - ✅ `/instructions/tools/` — agents.md, skills.md
 - ✅ `/scripts/` — find_references.py
-- ✅ `/skills/` — 4 скилла (skill-create, links-create, links-update, context-update)
-- ⬜ `/instructions/src/`, `/doc/`, `/shared/`, `/config/`, `/platform/`, `/tests/`, `/git/`
+- ✅ `/skills/` — 5 скиллов (skill-create, instruction-create, links-create, links-update, context-update)
+- ✓ `/instructions/src/`, `/doc/`, `/shared/`, `/config/`, `/platform/`, `/tests/`, `/git/` — README созданы
 - ⬜ `/agents/`, `/templates/`, `/discussions/`
 
 ```
 /.claude/
-  settings.local.json               ← настройки (в .gitignore)
+  settings.local.json                     ← локальные настройки (в .gitignore)
 
-  /instructions/                    ← инструкции для LLM
+  /instructions/                          ← инструкции для LLM
+    README.md                             ← индекс всех инструкций
 
-    /src/                           ← инструкции для /src/ (сервисы)
-      README.md                     ← точка входа
-      linking-to-doc.md             ← как из src ссылаться на doc
-      health-checks.md              ← стандарт health endpoints
-      auth.md                       ← JWT между сервисами
-      error-handling.md             ← формат ошибок
-      logging.md                    ← формат логов
-      validation.md                 ← валидация входных данных
-      pagination.md                 ← формат пагинации
-      versioning.md                 ← версионирование сервисов
-      api-docs.md                   ← Swagger UI документация
-      api-design.md                 ← REST API design guidelines
-      local-dev.md                  ← запуск, hot reload, отладка, IDE
-      database.md                   ← pooling, migrations, transactions
-      api-deprecation.md            ← политика вывода API
-      performance.md                ← профилирование, бенчмарки, лимиты
-      audit.md                      ← аудит-логи, хранение данных, GDPR
-      realtime.md                   ← polling, SSE, WebSocket
-      testing.md                    ← unit/integration тесты (→ ссылка на /tests/)
-      resilience.md                 ← timeouts, retries, circuit breaker
+    /src/                                 ← правила разработки сервисов
+      README.md
+      documentation.md                    ← правила документирования кода
+      /api/                               ← проектирование API
+        design.md                         ← URL, методы, статусы, частичное обновление
+        versioning.md                     ← версионирование (/v1/, /v2/)
+        deprecation.md                    ← вывод API (заголовки, сроки, миграция)
+        swagger.md                        ← документация API (OpenAPI, /docs)
+      /data/                              ← форматы данных
+        errors.md                         ← формат ошибок (code, message, details)
+        logging.md                        ← формат логов (JSON, request_id)
+        validation.md                     ← валидация входных данных
+        pagination.md                     ← формат пагинации (page, limit, total)
+      /runtime/                           ← поведение в runtime
+        health.md                         ← проверки (/health, /ready, завершение)
+        database.md                       ← работа с БД (пул, миграции, транзакции)
+        resilience.md                     ← устойчивость (таймауты, повторы, предохранитель)
+        realtime.md                       ← real-time (polling, SSE, WebSocket)
+      /dev/                               ← разработка
+        local.md                          ← локальный запуск (hot reload, отладка)
+        testing.md                        ← тесты (unit, integration, моки)
+        performance.md                    ← производительность (профилирование, лимиты)
+      /security/                          ← безопасность
+        auth.md                           ← аутентификация (JWT между сервисами)
+        audit.md                          ← аудит (кто/что/когда, PII, GDPR)
 
-    /tests/                         ← инструкции для /tests/ (системные тесты)
-      README.md                     ← точка входа
-      e2e.md                        ← e2e тесты (→ ссылка на /src/)
-      load.md                       ← нагрузочные тесты k6 (→ ссылка на /src/)
-      fixtures.md                   ← организация тестовых данных
+    /platform/                            ← правила инфраструктуры
+      README.md
+      docker.md                           ← работа с Docker (образы, compose)
+      caching.md                          ← кэширование (Redis, TTL, инвалидация)
+      deployment.md                       ← деплой (rolling, blue-green, откат)
+      security.md                         ← безопасность инфраструктуры
+      /observability/                     ← наблюдаемость
+        overview.md                       ← обзор (логи, метрики, трейсы)
+        metrics.md                        ← метрики (Prometheus, labels)
+        tracing.md                        ← трейсы (OpenTelemetry, span)
+        logging.md                        ← логи (Loki, корреляция)
+        alerting.md                       ← алерты (severity, маршрутизация)
 
-    /doc/                           ← инструкции для /doc/ (документация)
-      README.md                     ← точка входа
-      linking-to-src.md             ← как из doc ссылаться на src
-      structure.md                  ← структура документации
+    /tests/                               ← правила тестирования
+      README.md
+      e2e.md                              ← e2e тесты (сценарии, инструменты)
+      load.md                             ← нагрузочные тесты (k6, пороги)
+      fixtures.md                         ← тестовые данные (фикстуры, фабрики)
 
-    /shared/                        ← инструкции для /shared/
-      README.md                     ← точка входа
-      contracts.md                  ← работа с контрактами (REST, gRPC)
-      events.md                     ← события: naming, idempotency, DLQ
-      libs.md                       ← общие библиотеки
-      assets.md                     ← статика, иконки, шрифты
-      i18n.md                       ← локализация
+    /doc/                                 ← правила документации
+      README.md
+      structure.md                        ← структура (зеркалирование, ссылки на код)
 
-    /config/                        ← инструкции для /config/
-      README.md                     ← точка входа
-      environments.md               ← работа с окружениями (dev/staging/prod)
-      feature-flags.md              ← feature flags (когда понадобятся)
+    /shared/                              ← правила общего кода
+      README.md
+      contracts.md                        ← контракты (OpenAPI, Protobuf, JSON Schema)
+      events.md                           ← события (именование, идемпотентность, DLQ)
+      libs.md                             ← общие библиотеки (ошибки, логи, валидация)
+      assets.md                           ← статика (иконки, шрифты, брендинг)
+      i18n.md                             ← локализация (формат ключей)
 
-    /platform/                      ← инструкции для /platform/
-      README.md                     ← точка входа
-      docker.md                     ← работа с Docker
-      observability.md              ← общий обзор (logs, metrics, traces)
-      metrics.md                    ← Prometheus метрики
-      tracing.md                    ← распределённые трейсы
-      logging.md                    ← агрегация логов (Loki)
-      alerting.md                   ← правила алертинга
-      caching.md                    ← Redis, паттерны кэширования
-      deployment.md                 ← стратегии деплоя, rollback
-      security.md                   ← безопасность
+    /config/                              ← правила конфигураций
+      README.md
+      environments.md                     ← окружения (dev/staging/prod)
+      feature-flags.md                    ← флаги функций (когда использовать)
 
-    /git/                           ← git и workflow
-      README.md                     ← точка входа
-      workflow.md                   ← GitHub Flow
-      commits.md                    ← conventional commits
-      issues.md                     ← работа с GitHub Issues (префиксы, labels)
+    /git/                                 ← правила Git
+      README.md
+      workflow.md                         ← рабочий процесс (ветки, PR)
+      commits.md                          ← коммиты (conventional, changelog)
+      issues.md                           ← задачи (префиксы, метки)
 
-    /tools/                         ← инструменты Claude
-      README.md                     ← точка входа
-      skills.md                     ← как работать со скиллами
-      agents.md                     ← как работать с агентами
+    /tools/                               ← инструменты Claude
+      skills.md                           ← индекс скиллов
+      agents.md                           ← индекс агентов
 
-    # Общие инструкции (верхний уровень)
-    feature-flags.md                ← когда и как использовать
+  /agents/                                ← агенты (пока не созданы)
 
-  /agents/                          ← агенты (пока не созданы)
+  /skills/                                ← скиллы (команды автоматизации)
+    /{skill-name}/SKILL.md
+    # Созданные:
+    /skill-create/                        ← создание скилла
+    /links-create/                        ← создание ссылок в документе
+    /links-update/                        ← обновление ссылок
+    /context-update/                      ← распространение контекста
+    /instruction-create/                  ← создание инструкции
+    # Планируемые:
+    /service-create/                      ← создание сервиса
 
-  /skills/                          ← скиллы (каждый в своей папке)
-    /{skill-name}/
-      SKILL.md                      ← описание скилла
+  /scripts/                               ← скрипты автоматизации (Python)
+    find_references.py                    ✓ создан
+    create_service.py                     ○ планируется
 
-    # Созданные скиллы:
-    /skill-create/                  ← создание нового скилла
-    /links-create/                  ← создание ссылок в документе
-    /links-update/                  ← обновление ссылок в связанных документах
-    /context-update/                ← распространение контекста по графу
+  /templates/                             ← шаблоны для генерации
+    /service/                             ← шаблон сервиса
+    /adr/                                 ← шаблон ADR
+    /contract/                            ← шаблон контракта
+    /instruction/                         ← шаблон инструкции
 
-    # Планируемые скиллы:
-    /service-create/                ← создание сервиса из шаблона
-
-  /scripts/                         ← скрипты, вызываемые LLM
-    find_references.py              ← поиск ссылок на файл/папку (создан)
-    create-service.py               ← скрипт создания сервиса (планируется)
-  /templates/                       ← шаблоны для создания
-    /service/                       ← шаблон нового сервиса
-      README.md.template
-      Makefile.template
-      /backend/
-      /database/
-    /adr/
-      adr.md.template
-    /contract/
-      rest.yaml.template
-      event.json.template
-  /discussions/                     ← дискуссии (рабочий инструмент LLM)
+  /discussions/                           ← дискуссии и решения
 ```
 
 ### CLAUDE.md
@@ -995,11 +994,12 @@ repos:
 ```
 /.claude/instructions/
   /platform/
-    observability.md    ← общий обзор, ссылки на детали
-    metrics.md          ← требования к метрикам
-    tracing.md          ← требования к трейсам
-    logging.md          ← требования к логам
-    alerting.md         ← требования к алертам
+    /observability/
+      overview.md       ← общий обзор, ссылки на детали
+      metrics.md        ← требования к метрикам
+      tracing.md        ← требования к трейсам
+      logging.md        ← требования к логам
+      alerting.md       ← требования к алертам
 ```
 
 ---
@@ -1053,7 +1053,8 @@ repos:
 ```
 /.claude/instructions/
   /src/
-    realtime.md                 ← polling, SSE, WebSocket
+    /runtime/
+      realtime.md               ← polling, SSE, WebSocket
 ```
 
 ### Правила
@@ -1271,7 +1272,7 @@ new-service:   создание нового сервиса из шаблона
 
 ## Форматы данных
 
-> **Инструкция:** `/.claude/instructions/src/error-handling.md`, `logging.md`, `pagination.md`
+> **Инструкция:** `/.claude/instructions/src/data/errors.md`, `logging.md`, `pagination.md`
 
 ### Единый формат ошибок
 
@@ -1339,7 +1340,7 @@ Structured logging в JSON:
 
 ## Health checks / Graceful shutdown (Проверки работоспособности)
 
-> **Инструкция:** `/.claude/instructions/src/health-checks.md`
+> **Инструкция:** `/.claude/instructions/src/runtime/health.md`
 
 Каждый сервис реализует:
 ```
@@ -1370,7 +1371,7 @@ GET /ready       ← readiness (готов ли принимать трафик)
 
 ## API design (Проектирование API)
 
-> **Инструкция:** `/.claude/instructions/src/api-design.md`
+> **Инструкция:** `/.claude/instructions/src/api/design.md`
 
 - **URLs:** kebab-case, множественное число (`/users`, `/order-items`)
 - **Методы:** GET=читать, POST=создать, PUT=заменить, PATCH=частично, DELETE=удалить
@@ -1382,7 +1383,7 @@ GET /ready       ← readiness (готов ли принимать трафик)
 
 ## Local development (Локальная разработка)
 
-> **Инструкция:** `/.claude/instructions/src/local-dev.md`
+> **Инструкция:** `/.claude/instructions/src/dev/local.md`
 
 - **Запуск:** `make dev` поднимает всё через docker-compose
 - **Hot reload (Горячая перезагрузка):** код монтируется в контейнер, изменения применяются автоматически
@@ -1404,7 +1405,7 @@ GET /ready       ← readiness (готов ли принимать трафик)
 
 ## Database patterns (Паттерны работы с БД)
 
-> **Инструкция:** `/.claude/instructions/src/database.md`
+> **Инструкция:** `/.claude/instructions/src/runtime/database.md`
 
 - **Connection pooling (Пул соединений):** обязателен
 - **Migrations (Миграции):** только forward (no rollback в prod)
@@ -1415,7 +1416,7 @@ GET /ready       ← readiness (готов ли принимать трафик)
 
 ## API deprecation (Вывод API из эксплуатации)
 
-> **Инструкция:** `/.claude/instructions/src/api-deprecation.md`
+> **Инструкция:** `/.claude/instructions/src/api/deprecation.md`
 
 - **Sunset header (Заголовок окончания):** дата отключения (`Sunset: Sat, 01 Jun 2025 00:00:00 GMT`)
 - **Deprecation header (Заголовок устаревания):** `Deprecation: true`
@@ -1426,7 +1427,7 @@ GET /ready       ← readiness (готов ли принимать трафик)
 
 ## Performance (Производительность)
 
-> **Инструкция:** `/.claude/instructions/src/performance.md`
+> **Инструкция:** `/.claude/instructions/src/dev/performance.md`
 
 - **Profiling (Профилирование):** встроено в dev-режим (CPU, память)
 - **Benchmarks (Бенчмарки):** `/tests/load/` — k6 сценарии
@@ -1437,7 +1438,7 @@ GET /ready       ← readiness (готов ли принимать трафик)
 
 ## Compliance/Audit (Соответствие и аудит)
 
-> **Инструкция:** `/.claude/instructions/src/audit.md`
+> **Инструкция:** `/.claude/instructions/src/security/audit.md`
 
 - **Audit logs (Аудит-логи):** кто, что, когда (отдельно от обычных логов)
 - **Data retention (Хранение):** срок хранения данных (например 1 год)
