@@ -196,6 +196,7 @@ graph LR
     CLAUDE -.->|правила для| SRC
     CLAUDE -.->|правила для| DOC
     CLAUDE -.->|правила для| SHARED
+    CLAUDE -.->|правила для| CONFIG
     CLAUDE -.->|правила для| PLATFORM
     CLAUDE -.->|правила для| TESTS
 ```
@@ -284,6 +285,11 @@ graph LR
       assets.md                     ← статика, иконки, шрифты
       i18n.md                       ← локализация
 
+    /config/                        ← инструкции для /config/
+      README.md                     ← точка входа
+      environments.md               ← работа с окружениями (dev/staging/prod)
+      feature-flags.md              ← feature flags (когда понадобятся)
+
     /platform/                      ← инструкции для /platform/
       README.md                     ← точка входа
       docker.md                     ← работа с Docker
@@ -344,6 +350,7 @@ graph LR
 /src/      → /.claude/instructions/src/
 /doc/      → /.claude/instructions/doc/
 /shared/   → /.claude/instructions/shared/
+/config/   → /.claude/instructions/config/
 /platform/ → /.claude/instructions/platform/
 /tests/    → /.claude/instructions/tests/
 ```
@@ -1228,7 +1235,7 @@ new-service:   создание нового сервиса из шаблона
 | Задачи | GitHub Issues с префиксами [AUTH], [NOTIFY] |
 | .gitignore | В корне |
 | .dockerignore | В корне |
-| Инструкции Claude | По зонам: `/.claude/instructions/{src,doc,shared,platform,tests,git,tools}/` |
+| Инструкции Claude | По зонам: `/.claude/instructions/{src,doc,shared,config,platform,tests,git,tools}/` |
 | Инструкции тестов | src/testing.md (unit) ↔ tests/*.md (e2e, load) — перелинковка |
 | README.md в инструкциях | Каждая папка имеет README.md — точка входа со ссылками |
 | Resilience | Инструкция + `/shared/libs/http-client/` (timeouts, retries, circuit breaker) |
