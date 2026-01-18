@@ -1,6 +1,6 @@
 ---
 name: links-create
-description: Создание ссылок на .md файлы в документе
+description: Создание ссылок на файлы и папки репозитория в документе
 allowed-tools: Read, Edit, Glob, Grep
 category: documentation
 triggers:
@@ -20,7 +20,7 @@ triggers:
 
 # Создание ссылок
 
-Команда для автоматического оформления ссылок на `.md` файлы в документе.
+Команда для автоматического оформления ссылок на файлы и папки репозитория в документе.
 
 **Связанные скиллы:**
 - [links-update](/.claude/skills/links-update/SKILL.md) — обновление ссылок в связанных документах
@@ -51,28 +51,42 @@ triggers:
 
 ## Правила
 
-### Что считается упоминанием .md файла
+### Что считается упоминанием
 
 **Нужно оформить как ссылку:**
-- Путь к файлу: `/.claude/instructions/tools/skills.md`
-- Имя файла с расширением: `skills.md`, `SKILL.md`
+- Путь к файлу: `/.claude/instructions/tools/skills.md`, `/config/settings.json`
+- Имя файла с расширением: `skills.md`, `package.json`, `.gitignore`
+- Путь к папке: `/.claude/scripts/`, `.claude/skills/`
 - Путь в обратных кавычках: `` `/.claude/skills/foo/SKILL.md` ``
+
+**Условие:** Файл или папка должны существовать в репозитории.
 
 **Не трогать:**
 - Уже оформленные ссылки: `[skills.md](/.claude/instructions/tools/skills.md)`
 - Внутри блоков кода (``` ... ```)
 - В URL и внешних ссылках
 - В примерах вывода команд
+- В командах bash (mkdir, rm, cd и т.д.)
+- Файлы/папки, которых нет в репозитории
 
 ### Формат ссылки
 
+**Файлы:**
 ```markdown
 [имя-файла](полный-путь)
+```
+
+**Папки:**
+```markdown
+[имя-папки/](полный-путь/)
 ```
 
 **Примеры:**
 - `skills.md` → `[skills.md](/.claude/instructions/tools/skills.md)`
 - `/.claude/agents/amy.md` → `[amy.md](/.claude/agents/amy.md)`
+- `/.claude/scripts/` → `[scripts/](/.claude/scripts/)`
+- `package.json` → `[package.json](/package.json)`
+- `.gitignore` → `[.gitignore](/.gitignore)`
 
 ## Воркфлоу
 
@@ -84,14 +98,16 @@ triggers:
 
 ### Шаг 2: Найти упоминания
 
-Найти все упоминания `.md` файлов, которые НЕ оформлены как ссылки:
+Найти все упоминания файлов и папок, которые НЕ оформлены как ссылки:
 
 **Паттерны поиска:**
-- `[^[\]](/path/to/file.md)` — путь не внутри ссылки
-- `[^[\]]file.md` — имя файла не внутри ссылки
+- Путь к файлу: `/path/to/file.ext`, `./path/file.ext`
+- Имя файла с расширением: `file.md`, `config.json`, `.gitignore`
+- Путь к папке: `/path/to/folder/`, `./folder/`
 - Исключить содержимое блоков кода
+- Исключить команды bash (mkdir, rm, cd и т.д.)
 
-**Результат:** список `{текст, строка, позиция}`
+**Результат:** список `{текст, строка, позиция, тип: файл|папка}`
 
 ### Шаг 3: Проверить файлы
 
