@@ -28,7 +28,7 @@
 | # | Раздел | Статус | Примечания |
 |---|--------|--------|------------|
 | **ЧАСТЬ 1: СТРУКТУРА** ||||
-| 1.1 | Общая структура | ⬜ | |
+| 1.1 | Общая структура | ✅ | Добавлены: принцип разделения, диаграмма связей, чеклисты для папок и файлов |
 | 1.2 | Дерево Claude (`/.claude/`) | ⬜ | |
 | 1.3 | CLAUDE.md | ⬜ | |
 | 1.4 | Паттерн инструкций | ⬜ | |
@@ -94,6 +94,8 @@
 
 > **Назначение раздела:** Обзор верхнего уровня — какие папки и файлы есть в корне проекта. Детали каждой папки — в соответствующих разделах ниже.
 
+### Корневые папки
+
 ```
 /.claude/                   ← инструменты Claude (инструкции, агенты, скиллы, шаблоны)
 /src/                       ← код сервисов
@@ -103,8 +105,11 @@
 /platform/                  ← инфраструктура (Docker, Terraform, мониторинг)
 /tests/                     ← системные тесты (e2e, нагрузочные)
 /.github/                   ← CI/CD workflows
+```
 
-# Файлы в корне
+### Файлы в корне
+
+```
 /CLAUDE.md                  ← точка входа для LLM
 /docker-compose.yml         ← конфигурация запуска сервисов
 /docker-compose.dev.yml     ← конфигурация для разработки
@@ -121,7 +126,111 @@
 /.pre-commit-config.yaml    ← конфигурация git hooks
 ```
 
+### Какие файлы должны быть в корне
+
+**Правило:** В корне только файлы, которые:
+- Нужны инструментам, ожидающим их в корне (git, Docker, IDE)
+- Являются точками входа для людей или LLM
+
+| Категория | Файлы | Почему в корне |
+|-----------|-------|----------------|
+| Точки входа | README.md, CLAUDE.md | Первое, что видит человек/LLM |
+| Запуск проекта | docker-compose.*, Makefile | Docker и make ищут в корне |
+| Git | .gitignore, .pre-commit-config.yaml | Git ожидает в корне |
+| Docker | .dockerignore | Docker ожидает в корне |
+| IDE/редакторы | .editorconfig, .prettierrc, .eslintrc.js | IDE ищут конфиги в корне |
+| Метаданные | LICENSE, CHANGELOG.md | Стандартное расположение |
+
+**Чеклист перед добавлением файла в корень:**
+1. ❓ Инструмент требует файл именно в корне?
+2. ❓ Это точка входа (README, CLAUDE.md)?
+3. ❓ Файл относится ко всему проекту, а не к конкретной папке?
+
+**Если нет — файл должен быть в соответствующей папке:**
+- Конфиги окружений → `/config/`
+- Скрипты → `/platform/scripts/` или `/.claude/scripts/`
+- Документация → `/doc/`
+
+### Принцип разделения
+
 **Ключевое:** Структура позволяет писать сервисы на разных языках и использовать разные БД для каждого сервиса.
+
+| Папка | Отвечает за | Критерий попадания |
+|-------|-------------|-------------------|
+| `/src/` | Исполняемый код | Запускается как процесс |
+| `/doc/` | Документация | Читается человеком/LLM, не исполняется |
+| `/shared/` | Переиспользуемое | Используется 2+ сервисами |
+| `/config/` | Настройки окружений | Меняется между dev/staging/prod |
+| `/platform/` | Инфраструктура | Не бизнес-логика, а "как запускать" |
+| `/tests/` | Системные тесты | Тестирует взаимодействие сервисов |
+| `/.claude/` | Инструменты LLM | Используется только Claude |
+| `/.github/` | CI/CD | GitHub-специфичное |
+
+### Связи между папками
+
+```mermaid
+graph LR
+    subgraph "Код"
+        SRC["/src/"]
+        SHARED["/shared/"]
+    end
+
+    subgraph "Запуск"
+        PLATFORM["/platform/"]
+        CONFIG["/config/"]
+    end
+
+    DOC["/doc/"]
+    TESTS["/tests/"]
+    CLAUDE["/.claude/"]
+
+    SRC -->|использует| SHARED
+    SRC -->|запускается| PLATFORM
+    PLATFORM -->|читает| CONFIG
+    TESTS -->|тестирует| SRC
+
+    DOC -.->|зеркалирует| SRC
+    DOC -.->|зеркалирует| SHARED
+    DOC -.->|зеркалирует| PLATFORM
+
+    CLAUDE -.->|правила для| SRC
+    CLAUDE -.->|правила для| DOC
+    CLAUDE -.->|правила для| SHARED
+    CLAUDE -.->|правила для| PLATFORM
+    CLAUDE -.->|правила для| TESTS
+```
+
+### Связь папок и инструкций
+
+**Правило:** Каждая корневая папка `/X/` имеет инструкцию `/.claude/instructions/X/README.md`.
+
+```
+/src/      → /.claude/instructions/src/README.md
+/doc/      → /.claude/instructions/doc/README.md
+/shared/   → /.claude/instructions/shared/README.md
+/config/   → /.claude/instructions/config/README.md
+/platform/ → /.claude/instructions/platform/README.md
+/tests/    → /.claude/instructions/tests/README.md
+```
+
+**Исключения:**
+- `/.github/` — самодокументируемый (YAML с комментариями)
+- `/.claude/` — сам является инструкцией
+
+### Добавление новой папки в корень
+
+**Правило:** Новая корневая папка — исключение, не норма.
+
+**Чеклист перед созданием:**
+1. ❓ Можно ли поместить в существующую папку?
+2. ❓ Будет ли использоваться регулярно (не одноразово)?
+3. ❓ Есть ли чёткая зона ответственности, не пересекающаяся с другими?
+
+**Если ответ "да" на все три:**
+1. Добавить папку в этот раздел (Общая структура)
+2. Создать раздел "Дерево {название}" в документе
+3. Создать `/.claude/instructions/{название}/README.md`
+4. Обновить MemoryBank (если папка содержит сущности или паттерны)
 
 ---
 
@@ -136,7 +245,7 @@
   /instructions/                    ← инструкции для LLM
 
     /src/                           ← инструкции для /src/ (сервисы)
-      index.md                      ← точка входа
+      README.md                     ← точка входа
       linking-to-doc.md             ← как из src ссылаться на doc
       health-checks.md              ← стандарт health endpoints
       auth.md                       ← JWT между сервисами
@@ -157,18 +266,18 @@
       resilience.md                 ← timeouts, retries, circuit breaker
 
     /tests/                         ← инструкции для /tests/ (системные тесты)
-      index.md                      ← точка входа
+      README.md                     ← точка входа
       e2e.md                        ← e2e тесты (→ ссылка на /src/)
       load.md                       ← нагрузочные тесты k6 (→ ссылка на /src/)
       fixtures.md                   ← организация тестовых данных
 
     /doc/                           ← инструкции для /doc/ (документация)
-      index.md                      ← точка входа
+      README.md                     ← точка входа
       linking-to-src.md             ← как из doc ссылаться на src
       structure.md                  ← структура документации
 
     /shared/                        ← инструкции для /shared/
-      index.md                      ← точка входа
+      README.md                     ← точка входа
       contracts.md                  ← работа с контрактами (REST, gRPC)
       events.md                     ← события: naming, idempotency, DLQ
       libs.md                       ← общие библиотеки
@@ -176,7 +285,7 @@
       i18n.md                       ← локализация
 
     /platform/                      ← инструкции для /platform/
-      index.md                      ← точка входа
+      README.md                     ← точка входа
       docker.md                     ← работа с Docker
       observability.md              ← общий обзор (logs, metrics, traces)
       metrics.md                    ← Prometheus метрики
@@ -188,13 +297,13 @@
       security.md                   ← безопасность
 
     /git/                           ← git и workflow
-      index.md                      ← точка входа
+      README.md                     ← точка входа
       workflow.md                   ← GitHub Flow
       commits.md                    ← conventional commits
       issues.md                     ← работа с GitHub Issues (префиксы, labels)
 
     /tools/                         ← инструменты Claude
-      index.md                      ← точка входа
+      README.md                     ← точка входа
       skills.md                     ← как работать со скиллами
       agents.md                     ← как работать с агентами
 
@@ -247,11 +356,11 @@
 
 Это упрощает навигацию — если нужны правила для работы с `/shared/`, смотри `/.claude/instructions/shared/`.
 
-**index.md в каждой папке инструкций** — обязательная точка входа при работе с ресурсом.
+**README.md в каждой папке инструкций** — обязательная точка входа при работе с ресурсом.
 
 **Назначение:** Гарантирует, что при работе с `/X/` будут учтены ВСЕ инструкции из `/.claude/instructions/X/`.
 
-**Пример `/.claude/instructions/src/index.md`:**
+**Пример `/.claude/instructions/src/README.md`:**
 ```markdown
 # Инструкции для /src/
 
@@ -1121,7 +1230,7 @@ new-service:   создание нового сервиса из шаблона
 | .dockerignore | В корне |
 | Инструкции Claude | По зонам: `/.claude/instructions/{src,doc,shared,platform,tests,git,tools}/` |
 | Инструкции тестов | src/testing.md (unit) ↔ tests/*.md (e2e, load) — перелинковка |
-| index.md в инструкциях | Каждая папка имеет index.md — точка входа со ссылками |
+| README.md в инструкциях | Каждая папка имеет README.md — точка входа со ссылками |
 | Resilience | Инструкция + `/shared/libs/http-client/` (timeouts, retries, circuit breaker) |
 | Ссылки в agents/skills | Каждый файл начинается со ссылки на инструкцию |
 
