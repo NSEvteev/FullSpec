@@ -52,7 +52,8 @@
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| — | — | — |
+| [links-create](/.claude/skills/links-create/SKILL.md) | Создание ссылок на .md файлы в документе | `/links-create`, "создай ссылки", "оформи ссылки" |
+| [links-update](/.claude/skills/links-update/SKILL.md) | Обновление ссылок в связанных документах | `/links-update`, "обнови ссылки", "проверь ссылки" |
 
 ### git
 
