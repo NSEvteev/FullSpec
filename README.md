@@ -1,271 +1,73 @@
 # Project Template
 
-Шаблон проекта с настроенной системой документации и интеграцией Claude Code.
+Шаблон fullstack проекта с микросервисной архитектурой.
 
 ## Документация
 
 | Документ | Назначение |
 |----------|------------|
-| [CLAUDE.md](CLAUDE.md) | Инструкции для Claude Code |
+| [CLAUDE.md](CLAUDE.md) | Точка входа для LLM |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Руководство для контрибьюторов |
-| [CHANGELOG.md](CHANGELOG.md) | Журнал изменений |
-| [llm_instructions/](llm_instructions/llm_instructions.md) | Полные инструкции для LLM |
-| [general_docs/](general_docs/) | Общая документация проекта |
-
-## Глоссарий
-
-Терминология проекта доступна в [глоссарии](general_docs/glossary.md). Все специфичные термины и понятия, используемые в проекте, описаны там с соответствующими определениями.
-
----
-
-## Архитектура
-
-Проект использует микросервисную архитектуру с разделением на фронтенд и бэкенд-сервисы.
-
-### Компоненты
-
-- **Web UI** — клиентское веб-приложение
-- **API Gateway** — единая точка входа для всех запросов
-- **Auth Service** — аутентификация и авторизация
-- **Users Service** — управление профилями пользователей
-- **Shared Packages** — переиспользуемый код
+| [SECURITY.md](SECURITY.md) | Политика безопасности |
 
 ## Структура проекта
 
 ```
-project_template/
+/
+├── .claude/                    # Инструменты Claude (инструкции, агенты, скиллы)
+├── /src/                       # Код сервисов
+├── /doc/                       # Документация (зеркало src, shared, platform)
+├── /shared/                    # Общий код (контракты, библиотеки)
+├── /config/                    # Конфигурации окружений
+├── /platform/                  # Инфраструктура (Docker, мониторинг)
+├── /tests/                     # Системные тесты (e2e, нагрузочные)
+├── /.github/                   # CI/CD workflows
 │
-├── .editorconfig                  # Настройки редактора
-├── .env.example                   # Шаблон переменных окружения
-├── .gitignore                     # Игнорируемые файлы Git
-├── docker-compose.yml             # Docker Compose для локальной разработки
-├── Makefile                       # Команды для управления проектом
-├── CLAUDE.md                      # Инструкции для Claude Code
-├── LICENSE                        # Лицензия проекта
-├── PROJECT_IMPROVEMENTS.md        # План улучшений структуры
-├── README.md                      # Описание проекта (этот файл)
-│
-├── apps/                          # Клиентские приложения
-│   └── web/                       # Веб-фронтенд
-│       ├── public/                # Статические файлы
-│       ├── src/                   # Исходный код фронтенда
-│       ├── tests/                 # Тесты фронтенда
-│       └── README.md              # Документация фронтенда
-│
-├── services/                      # Бэкенд микросервисы
-│   ├── api-gateway/               # API Gateway
-│   │   ├── src/                   # Исходный код
-│   │   ├── tests/                 # Тесты
-│   │   └── README.md              # Документация
-│   │
-│   ├── auth/                      # Сервис авторизации
-│   │   ├── src/                   # Исходный код
-│   │   ├── tests/                 # Тесты
-│   │   ├── static/                # Статические файлы (email шаблоны)
-│   │   └── README.md              # Документация
-│   │
-│   └── users/                     # Сервис управления пользователями
-│       ├── src/                   # Исходный код
-│       ├── tests/                 # Тесты
-│       ├── static/                # Статические файлы
-│       └── README.md              # Документация
-│
-├── packages/                      # Общий переиспользуемый код
-│   ├── shared/                    # Общие утилиты и типы
-│   ├── ui/                        # UI библиотека компонентов
-│   ├── validation/                # Схемы валидации
-│   ├── config/                    # Общие конфигурации (ESLint, TS, Prettier)
-│   └── README.md
-│
-├── infrastructure/                # Инфраструктурный код
-│   ├── docker/                    # Docker конфигурации
-│   ├── kubernetes/                # K8s манифесты
-│   ├── terraform/                 # IaC (Infrastructure as Code)
-│   └── README.md
-│
-├── tests/                         # Общие тесты
-│   ├── e2e/                       # End-to-end тесты
-│   ├── integration/               # Интеграционные тесты
-│   ├── load/                      # Нагрузочное тестирование
-│   └── README.md
-│
-├── config/                        # Конфигурационные файлы
-│   └── examples/                  # Примеры конфигураций
-│       ├── .env.development.example
-│       ├── .env.production.example
-│       ├── .env.test.example
-│       ├── database.config.example.json
-│       ├── logging.config.example.yaml
-│       └── README.md
-│
-├── .claude/                       # Конфигурация Claude Code
-│   ├── settings.local.json
-│   ├── agents/                    # AI-агенты
-│   └── skills/                    # Скиллы
-│
-├── general_docs/                  # Общая документация
-│   ├── glossary.md                # Глоссарий терминов
-│   ├── 00_services/               # IT-сервисы
-│   ├── 01_discuss/                # Дискуссии
-│   ├── 02_architecture/           # Архитектурные документы
-│   ├── 03_diagrams/               # Диаграммы
-│   ├── 04_decisions/              # Архитектурные решения (ADR)
-│   ├── 05_resources/              # Описания ресурсов
-│   └── 06_imp_plans/              # Планы реализации
-│
-├── llm_instructions/              # Инструкции для LLM
-│   ├── llm_instructions.md
-│   ├── instructions_*.md
-│   └── templates/
-│
-├── llm_tasks/                     # Управление задачами LLM
-│   ├── current/                   # Текущие задачи
-│   │   └── 0_task_index.md
-│   ├── future/                    # Бэклог
-│   │   └── 0_task_index.md
-│   ├── completed/                 # Завершённые задачи
-│   └── temp/                      # Временные файлы
-│
-└── scripts/                       # Служебные скрипты
-    ├── check_doc_health.py        # Проверка документации
-    ├── check_gloss_health.py      # Проверка глоссария
-    └── task_*.py                  # Управление задачами
+├── CLAUDE.md                   # Точка входа для LLM
+├── README.md                   # Руководство по началу работы (этот файл)
+├── docker-compose.yml          # Конфигурация запуска сервисов
+├── Makefile                    # Интерфейс команд проекта
+└── ...
 ```
-
----
-
-## Стек
-
-**Frontend:**
-- TODO: Выбрать (React/Vue/Angular + TypeScript + Vite)
-
-**Backend Services:**
-- TODO: Выбрать для каждого сервиса (Node.js/Python/Go)
-
-**Базы данных:**
-- PostgreSQL 15
-- Redis 7
-
-**Инфраструктура:**
-- Docker & Docker Compose
-- Makefile для автоматизации
 
 ## Быстрый старт
 
-### Предварительные требования
+### Требования
 
 - Docker и Docker Compose
-- Make (опционально, но рекомендуется)
+- Make
 - Git
 
-### 1. Клонирование и инициализация
+### Запуск
 
 ```bash
 # Клонировать репозиторий
 git clone <repository-url>
 cd project_template
 
-# Инициализация проекта (создание .env файлов)
+# Инициализация проекта
 make init
 
-# Или вручную:
-cp .env.example .env
-```
-
-### 2. Запуск всех сервисов
-
-```bash
-# Запустить все сервисы в Docker
+# Запуск всех сервисов
 make dev
 
-# Или напрямую через docker-compose:
-docker-compose up -d
-```
-
-Доступные сервисы после запуска:
-- **Web UI:** http://localhost:####
-- **API Gateway:** http://localhost:####
-- **Auth Service:** http://localhost:####
-- **Users Service:** http://localhost:####
-
-Dev tools:
-- **MailHog:** http://localhost:#### (тестирование email)
-- **PgAdmin:** http://localhost:#### (управление БД)
-- **Redis Commander:** http://localhost:#### (просмотр Redis)
-
-### 3. Остановка сервисов
-
-```bash
+# Остановка
 make stop
-
-# Или:
-docker-compose down
 ```
 
-## Полезные команды
+### Основные команды
 
 ```bash
-# Показать все доступные команды
-make help
-
-# Просмотр логов
-make logs                # Все сервисы
-make logs-web            # Только фронтенд
-make logs-auth           # Только auth сервис
-
-# Тестирование
-make test                # Все тесты
-make test-unit           # Unit тесты
-make test-e2e            # E2E тесты
-
-# База данных
-make db-migrate          # Запустить миграции
-make db-seed             # Заполнить тестовыми данными
-make db-reset            # Сбросить и пересоздать БД
-
-# Проверки кода
-make lint                # Линтинг
-make format              # Форматирование
-make check               # Lint + Tests
-
-# Проверка документации
-make docs-health         # Проверка документации (ссылки, структура, статусы)
-make docs-links          # Только проверка ссылок
-make gloss-health        # Проверка глоссария
-make docs-check          # Полная проверка (документация + глоссарий)
-
-# Управление дискуссиями
-make discuss-new                  # Создать дискуссию (интерактивно)
-make discuss-new-topic TOPIC="..." # Создать с темой
-make discuss-index                # Показать индекс дискуссий
-
-# Управление архитектурой
-make arch-new                              # Создать архитектуру (интерактивно)
-make arch-new-topic TITLE="..." DISCUSS="001"  # Создать из дискуссии
-make arch-index                            # Показать индекс архитектуры
-
-# Сборка
-make build               # Собрать для production
-make build-docker        # Собрать Docker образы
+make help          # Показать все команды
+make dev           # Запустить для разработки
+make stop          # Остановить сервисы
+make test          # Запустить тесты
+make build         # Собрать для production
 ```
 
----
+## Статус
 
-## Настройки IDE
-
-Проект включает настройки для VS Code в директории `.vscode/`:
-- `settings.json` — настройки редактора
-- `extensions.json` — рекомендуемые расширения
-- `tasks.json` — задачи для автоматизации
-- `launch.json` — конфигурация отладки
-
-VS Code автоматически предложит установить рекомендуемые расширения при открытии проекта.
-
----
-
-## Статус разработки
-
-<!-- TODO: Заполнить -->
+Проект в процессе рефакторинга. См. [refactoring.md](refactoring.md).
 
 ## Лицензия
 

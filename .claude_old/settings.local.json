@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nДобавить структуру документации и CLAUDE.md\n\n- CLAUDE.md с инструкциями для Claude Code\n- README.md с описанием проекта\n- general_docs/ со структурой документации \\(glossary.md\\)\n- llm_instructions/ с правилами ведения документации\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git config:*)",
+      "Bash(git push:*)",
+      "Bash(python:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nУлучшить систему документации\n\n- Добавить шаблоны документов \\(templates/\\): discuss, architecture, imp_plan, resource, folder_doc\n- Добавить workflow статусов для imp_plans/ с этапом test\n- Добавить правила версионирования документов \\(MAJOR.MINOR\\)\n- Добавить скрипт проверки ссылок \\(scripts/check_doc_links.py\\)\n- Добавить инструкцию по служебным скриптам\n- Обновить CLAUDE.md: правило синхронизации llm_instructions\n- Обновить .gitignore для trading platform\n- Исправить опечатки в instructions_general_docs.md\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(claude mcp --help:*)",
+      "Bash(claude mcp add:*)",
+      "Bash(claude mcp list:*)",
+      "Bash(npx:*)",
+      "Bash(claude mcp remove:*)",
+      "Bash(claude mcp get:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nДобавить документацию агентов, скиллов и системы задач\n\n- Добавить инструкции по агентам Claude Code \\(instructions_agents.md\\)\n- Добавить инструкции по скиллам Claude Code \\(instructions_skills.md\\)  \n- Добавить систему управления задачами \\(llm_tasks/\\)\n- Обновить форматирование шаблонов документации\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)",
+      "Bash(cd:*)",
+      "Bash(tree:*)",
+      "Bash(git rm:*)",
+      "Skill(commit-push)",
+      "Bash(git mv:*)",
+      "Skill(doc-health)",
+      "Skill(doc-claude)",
+      "Skill(glossary-link)",
+      "Bash(if [ -f llm_tasks/agents/amy-santiago/current_tasks.md ])",
+      "Bash(then mv llm_tasks/agents/amy-santiago/current_tasks.md llm_tasks/agents/amy-santiago/_deprecated_current_tasks.md)",
+      "Bash(fi)",
+      "Bash(if [ -f llm_tasks/agents/amy-santiago/future_tasks.md ])",
+      "Bash(then mv llm_tasks/agents/amy-santiago/future_tasks.md llm_tasks/agents/amy-santiago/_deprecated_future_tasks.md)",
+      "Bash(if [ -f llm_tasks/agents/amy-santiago/completed_tasks.md ])",
+      "Bash(then mv llm_tasks/agents/amy-santiago/completed_tasks.md llm_tasks/agents/amy-santiago/_deprecated_completed_tasks.md)",
+      "Bash(find:*)",
+      "Skill(summary-doc)",
+      "Bash(git checkout:*)"
+    ]
+  }
+}
