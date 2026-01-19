@@ -64,6 +64,9 @@
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
+| [doc-create](/.claude/skills/doc-create/SKILL.md) | Создание документации для файла в /src/ | `/doc-create`, "создай документацию" |
+| [doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации при изменении кода | `/doc-update`, "обнови документацию" |
+| [doc-delete](/.claude/skills/doc-delete/SKILL.md) | Пометка документации при удалении файла | `/doc-delete`, "удали документацию" |
 | [links-create](/.claude/skills/links-create/SKILL.md) | Создание ссылок на файлы и папки | `/links-create`, "создай ссылки" |
 | [links-update](/.claude/skills/links-update/SKILL.md) | Обновление ссылок в связанных документах | `/links-update`, "обнови ссылки" |
 | [links-delete](/.claude/skills/links-delete/SKILL.md) | Пометка битых ссылок при удалении файлов | `/links-delete`, "удали ссылки" |
@@ -83,7 +86,10 @@ Git операции.
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| — | — | — |
+| [issue-create](/.claude/skills/issue-create/SKILL.md) | Создание GitHub Issue с правильным форматом | `/issue-create`, "создай задачу" |
+| [issue-update](/.claude/skills/issue-update/SKILL.md) | Обновление описания и меток Issue | `/issue-update`, "обнови задачу" |
+| [issue-delete](/.claude/skills/issue-delete/SKILL.md) | Закрытие Issue с комментарием | `/issue-delete`, "закрой задачу" |
+| [issue-execute](/.claude/skills/issue-execute/SKILL.md) | Взятие Issue в работу | `/issue-execute`, "возьми задачу" |
 
 ---
 
