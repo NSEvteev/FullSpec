@@ -293,7 +293,7 @@ graph LR
 - [Логирование](logging.md) — structured JSON
 - [Валидация](validation.md) — входные данные
 - [Resilience](resilience.md) — timeouts, retries
-- [Документация](linking-to-doc.md) — ссылка на /doc/src/{service}/
+- [Документация](documentation.md) — ссылка на /doc/src/{service}/
 - [Тесты](testing.md) — unit/integration
 - [API docs](api-docs.md) — Swagger
 
@@ -440,23 +440,7 @@ git push --tags
 
 ### Связь src ↔ doc
 
-**Правило:** При создании файла в `/src/{service}/{path}` — создать `/doc/src/{service}/{path}.md` и добавить ссылку в начало файла.
-
-**Пример `/src/auth/README.md`:**
-```markdown
-# Auth Service
-
-Документация: [/doc/src/auth/](/doc/src/auth/)
-```
-
-**Пример `/src/auth/backend/handlers.py`:**
-```python
-"""
-Auth handlers.
-
-Документация: /doc/src/auth/backend/handlers.md
-"""
-```
+> 📋 **Инструкция:** [/.claude/instructions/src/documentation.md](/.claude/instructions/src/documentation.md)
 
 ### Версионирование API
 
