@@ -29,7 +29,7 @@ triggers:
 **Связанные скиллы:**
 - [links-update](/.claude/skills/links-update/SKILL.md) — обновление ссылок (синтаксис)
 - [links-create](/.claude/skills/links-create/SKILL.md) — создание ссылок в документе
-- [context-delete](/.claude/skills/context-delete/SKILL.md) — очистка контекста при удалении *(не создан)*
+- [context-delete](/.claude/skills/context-delete/SKILL.md) — очистка контекста при удалении
 
 ## Оглавление
 

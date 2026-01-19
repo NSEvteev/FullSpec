@@ -38,7 +38,7 @@
 |-------|----------|----------|
 | [skill-create](/.claude/skills/skill-create/SKILL.md) | Создание нового скилла | `/skill-create`, "создай скилл" |
 | [skill-update](/.claude/skills/skill-update/SKILL.md) | Обновление скиллов при добавлении нового | `/skill-update`, "обнови скиллы" |
-| [skill-delete](/.claude/skills/skill-delete/SKILL.md) | Очистка ссылок при удалении скилла | `/skill-delete`, "удали скилл" |
+| [skill-delete](/.claude/skills/skill-delete/SKILL.md) | Обновление существующих скиллов при удалении скилла | `/skill-delete`, "удали скилл" |
 
 ### agent-management
 
@@ -71,6 +71,7 @@
 | [links-update](/.claude/skills/links-update/SKILL.md) | Обновление ссылок в связанных документах | `/links-update`, "обнови ссылки" |
 | [links-delete](/.claude/skills/links-delete/SKILL.md) | Пометка битых ссылок при удалении файлов | `/links-delete`, "удали ссылки" |
 | [context-update](/.claude/skills/context-update/SKILL.md) | Распространение контекста по графу документов | `/context-update`, "пошарь контекст" |
+| [context-delete](/.claude/skills/context-delete/SKILL.md) | Очистка контекста при удалении документа | `/context-delete`, "удали контекст" |
 
 ### meta
 
@@ -88,8 +89,9 @@ Git операции.
 |-------|----------|----------|
 | [issue-create](/.claude/skills/issue-create/SKILL.md) | Создание GitHub Issue с правильным форматом | `/issue-create`, "создай задачу" |
 | [issue-update](/.claude/skills/issue-update/SKILL.md) | Обновление описания и меток Issue | `/issue-update`, "обнови задачу" |
-| [issue-delete](/.claude/skills/issue-delete/SKILL.md) | Закрытие Issue с комментарием | `/issue-delete`, "закрой задачу" |
-| [issue-execute](/.claude/skills/issue-execute/SKILL.md) | Взятие Issue в работу | `/issue-execute`, "возьми задачу" |
+| [issue-execute](/.claude/skills/issue-execute/SKILL.md) | Взятие Issue в работу и выполнение | `/issue-execute`, "возьми задачу" |
+| [issue-complete](/.claude/skills/issue-complete/SKILL.md) | Закрытие Issue как выполненного | `/issue-complete`, "заверши задачу" |
+| [issue-delete](/.claude/skills/issue-delete/SKILL.md) | Закрытие Issue как неактуального | `/issue-delete`, "удали задачу" |
 
 ---
 

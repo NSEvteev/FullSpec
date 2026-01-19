@@ -12,10 +12,11 @@ related:
 
 ## Оглавление
 
-- [Формат задачи](#формат-задачи)
-- [Префиксы сервисов](#префиксы-сервисов)
-- [Метки (Labels)](#метки-labels)
-- [Workflow](#workflow)
+- [Правила](#правила)
+  - [Формат задачи](#формат-задачи)
+  - [Префиксы сервисов](#префиксы-сервисов)
+  - [Метки (Labels)](#метки-labels)
+  - [Workflow](#workflow)
 - [Скиллы](#скиллы)
 - [Команды gh](#команды-gh)
 - [Примеры](#примеры)
@@ -23,9 +24,11 @@ related:
 
 ---
 
-## Формат задачи
+## Правила
 
-**Заголовок:** `[PREFIX] Краткое описание`
+### Формат задачи
+
+**Правило:** Заголовок Issue имеет формат `[PREFIX] Краткое описание`.
 
 ```
 [AUTH] Добавить OAuth авторизацию
@@ -33,7 +36,8 @@ related:
 [INFRA] Настроить CI pipeline
 ```
 
-**Тело задачи:**
+**Правило:** Тело задачи содержит три обязательных раздела.
+
 ```markdown
 ## Описание
 
@@ -48,9 +52,9 @@ related:
 - {Ссылки на код/документацию}
 ```
 
----
+### Префиксы сервисов
 
-## Префиксы сервисов
+**Правило:** Каждый сервис имеет уникальный префикс и метку.
 
 | Сервис | Префикс | Label | Пример |
 |--------|---------|-------|--------|
@@ -64,42 +68,45 @@ related:
 
 **Правило:** При создании нового сервиса — добавить префикс в эту таблицу.
 
----
+### Метки (Labels)
 
-## Метки (Labels)
+**Правило:** Каждый Issue должен иметь метки по категориям.
 
-### По сервису
-
+**По сервису:**
 - `service:auth` — сервис аутентификации
 - `service:notify` — сервис уведомлений
 - `service:payment` — сервис платежей
 - `service:users` — сервис пользователей
 - `service:gateway` — API gateway
 
-### По типу
-
+**По типу:**
 - `bug` — ошибка
 - `feature` — новая функциональность
 - `enhancement` — улучшение
 - `docs` — документация
 - `infra` — инфраструктура
 
-### По приоритету
-
+**По приоритету:**
 - `priority:high` — высокий приоритет
 - `priority:medium` — средний приоритет
 - `priority:low` — низкий приоритет
 
----
+**По статусу:**
+- `in-progress` — в работе
+- `blocked` — заблокировано
+- `needs-review` — требует ревью
 
-## Workflow
+### Workflow
+
+**Правило:** Жизненный цикл Issue управляется через скиллы.
 
 | Событие | Действие | Скилл |
 |---------|----------|-------|
-| Новая задача | Создать Issue с префиксом и меткой | `/issue-create` |
-| Изменение требований | Обновить описание Issue | `/issue-update` |
-| Задача неактуальна | Закрыть Issue с комментарием | `/issue-delete` |
-| Начало работы | Назначить себя, добавить метку `in-progress` | `/issue-execute` |
+| Новая задача | Создать Issue с префиксом и меткой | [/issue-create](/.claude/skills/issue-create/SKILL.md) |
+| Изменение требований | Обновить описание Issue | [/issue-update](/.claude/skills/issue-update/SKILL.md) |
+| Начало работы | Взять в работу и выполнить задачу | [/issue-execute](/.claude/skills/issue-execute/SKILL.md) |
+| Завершение работы | Закрыть Issue как выполненный | [/issue-complete](/.claude/skills/issue-complete/SKILL.md) |
+| Задача неактуальна | Закрыть Issue как not planned | [/issue-delete](/.claude/skills/issue-delete/SKILL.md) |
 
 ---
 
@@ -111,8 +118,9 @@ related:
 |-------|------------|
 | [/issue-create](/.claude/skills/issue-create/SKILL.md) | Создание Issue с правильным форматом |
 | [/issue-update](/.claude/skills/issue-update/SKILL.md) | Обновление описания Issue |
-| [/issue-delete](/.claude/skills/issue-delete/SKILL.md) | Закрытие Issue с комментарием |
-| [/issue-execute](/.claude/skills/issue-execute/SKILL.md) | Взятие Issue в работу |
+| [/issue-execute](/.claude/skills/issue-execute/SKILL.md) | Взятие Issue в работу и выполнение |
+| [/issue-complete](/.claude/skills/issue-complete/SKILL.md) | Закрытие Issue как выполненного |
+| [/issue-delete](/.claude/skills/issue-delete/SKILL.md) | Закрытие Issue как неактуального |
 
 ### /issue-create
 
@@ -128,18 +136,27 @@ related:
 - Добавление/удаление меток
 - Обновление чек-листа
 
-### /issue-delete
-
-Закрывает Issue:
-1. Добавляет комментарий с причиной
-2. Закрывает как `not planned` или `completed`
-
 ### /issue-execute
 
-Берёт Issue в работу:
+Берёт Issue в работу и выполняет:
 1. Назначает исполнителя
 2. Добавляет метку `in-progress`
 3. Создаёт ветку `feature/{issue-number}-{short-name}`
+4. Выполняет задачу (код, тесты, документация)
+
+### /issue-complete
+
+Закрывает Issue как выполненный:
+1. Проверяет критерии готовности
+2. Находит связанный PR
+3. Добавляет комментарий о выполнении
+4. Закрывает как `completed`
+
+### /issue-delete
+
+Закрывает Issue как неактуальный:
+1. Добавляет комментарий с причиной
+2. Закрывает как `not planned`
 
 ---
 
@@ -219,7 +236,7 @@ gh issue create \
   --title "[NOTIFY] Email не отправляется при регистрации"
 ```
 
-### Пример 3: Задача на документацию (из doc-delete)
+### Пример 3: Задача на документацию
 
 ```bash
 gh issue create \
@@ -234,6 +251,34 @@ gh issue create \
 
 - [ ] Удалить или обновить документацию
 - [ ] Обновить ссылки в связанных документах"
+```
+
+### Пример 4: Взятие задачи в работу
+
+```bash
+# Назначить себя
+gh issue edit 123 --add-assignee @me
+
+# Добавить метку in-progress
+gh issue edit 123 --add-label "in-progress"
+
+# Создать ветку
+git checkout -b feature/123-oauth-auth
+
+# Добавить комментарий
+gh issue comment 123 --body "Начал работу над задачей. Ветка: feature/123-oauth-auth"
+```
+
+### Пример 5: Закрытие выполненной задачи
+
+```bash
+gh issue close 123 --comment "Выполнено в PR #456"
+```
+
+### Пример 6: Закрытие неактуальной задачи
+
+```bash
+gh issue close 123 --reason "not planned" --comment "Требования изменились, задача неактуальна"
 ```
 
 ---

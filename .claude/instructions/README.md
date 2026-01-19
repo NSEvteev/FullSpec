@@ -232,8 +232,8 @@
 
 | Инструкция | Описание | Тип | Создано | Заполнено |
 |------------|----------|-----|:-------:|:---------:|
-| [workflow.md](./git/workflow.md) | Git workflow: GitHub Flow, ветки (main + feature/fix), PR | standard | ⬜ | ⬜ |
-| [commits.md](./git/commits.md) | Conventional commits: feat/fix/breaking, автогенерация CHANGELOG | standard | ⬜ | ⬜ |
+| [workflow.md](./git/workflow.md) | Git workflow: GitHub Flow, ветки (main + feature/fix), PR | standard | ✅ | ✅ |
+| [commits.md](./git/commits.md) | Conventional commits: feat/fix/breaking, автогенерация CHANGELOG | standard | ✅ | ✅ |
 | [issues.md](./git/issues.md) | GitHub Issues: префиксы ([AUTH], [NOTIFY]), labels, gh commands | standard | ✅ | ✅ |
 
 ---
