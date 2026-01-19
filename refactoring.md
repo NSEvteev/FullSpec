@@ -29,17 +29,17 @@
 |---|--------|--------|------------|
 | **ЧАСТЬ 1: СТРУКТУРА** ||||
 | 1.1 | Общая структура | ✅ | Добавлены: принцип разделения, диаграмма связей, чеклисты для папок и файлов |
-| 1.2 | Дерево Claude (`/.claude/`) | ⬜ | |
+| 1.2 | Дерево Claude (`/.claude/`) | ✅ | Сокращён, ссылка на [instructions/README.md](/.claude/instructions/README.md) |
 | 1.3 | CLAUDE.md | ⬜ | |
-| 1.4 | Паттерн инструкций | ⬜ | |
-| 1.5 | Задачи — GitHub Issues | ⬜ | |
+| 1.4 | Паттерн инструкций | ✅ | Вынесен в [instructions/README.md](/.claude/instructions/README.md) |
+| 1.5 | Задачи — GitHub Issues | ✅ | Вынесен в [git/issues.md](/.claude/instructions/git/issues.md) |
 | 1.6 | Дерево сервисов (`/src/`) | ⬜ | |
-| 1.7 | Дерево документации (`/doc/`) | ⬜ | |
+| 1.7 | Дерево документации (`/doc/`) | ✅ | Вынесен в [doc/structure.md](/.claude/instructions/doc/structure.md) |
 | 1.8 | Дерево общего кода (`/shared/`) | ⬜ | |
 | 1.9 | Дерево конфигураций (`/config/`) | ⬜ | |
 | 1.10 | Дерево инфраструктуры (`/platform/`) | ⬜ | |
 | 1.11 | Дерево тестов (`/tests/`) | ⬜ | |
-| 1.12 | Git workflow | ⬜ | |
+| 1.12 | Git workflow | ✅ | Вынесен в [workflow.md](/.claude/instructions/git/workflow.md), [commits.md](/.claude/instructions/git/commits.md) |
 | 1.13 | Code style | ⬜ | |
 | 1.14 | Security | ⬜ | |
 | 1.15 | Observability | ⬜ | |
@@ -239,95 +239,21 @@ graph LR
 
 Всё для Claude Code в одном месте.
 
-**Индекс инструкций:** [/.claude/instructions/README.md](/.claude/instructions/README.md)
+> 📋 **Полная документация:** [/.claude/instructions/README.md](/.claude/instructions/README.md)
 
-**Статус реализации:**
-- ✅ `/instructions/README.md` — индекс инструкций
-- ✅ `/instructions/tools/` — agents.md, skills.md
-- ✅ `/scripts/` — find_references.py
-- ✅ `/skills/` — 10 скиллов
-- ⬜ `/instructions/src/`, `/doc/`, `/shared/`, `/config/`, `/platform/`, `/tests/`, `/git/` — инструкции не созданы
-- ✅ `/agents/`, `/templates/`, `/discussions/` — папки созданы
+### Статус реализации
 
-### CLAUDE.md
-
-`CLAUDE.md` остаётся в корне как entry point:
-- Краткий справочник
-- Ссылки на `/.claude/instructions/`
-- Claude Code автоматически находит его
-
-### Паттерн инструкций
-
-**Правило:** Инструкции для папки `/X/` находятся в `/.claude/instructions/X/`.
-
-```
-/src/      → /.claude/instructions/src/
-/doc/      → /.claude/instructions/doc/
-/shared/   → /.claude/instructions/shared/
-/config/   → /.claude/instructions/config/
-/platform/ → /.claude/instructions/platform/
-/tests/    → /.claude/instructions/tests/
-```
-
-**Внутренние инструкции** (не зеркалируют корневые папки):
-```
-/.claude/instructions/git/    ← git workflow, commits, issues
-/.claude/instructions/tools/  ← работа с агентами и скиллами
-```
-
-Это упрощает навигацию — если нужны правила для работы с `/shared/`, смотри `/.claude/instructions/shared/`.
-
-**README.md в каждой папке инструкций** — обязательная точка входа при работе с ресурсом.
-
-**Назначение:** Гарантирует, что при работе с `/X/` будут учтены ВСЕ инструкции из `/.claude/instructions/X/`.
-
-**Пример `/.claude/instructions/src/README.md`:**
-```markdown
-# Инструкции для /src/
-
-## Обязательные правила
-
-- [Health checks](health-checks.md) — /health и /ready
-- [Аутентификация](auth.md) — JWT между сервисами
-- [Обработка ошибок](error-handling.md) — единый формат
-- [Логирование](logging.md) — structured JSON
-- [Валидация](validation.md) — входные данные
-- [Resilience](resilience.md) — timeouts, retries
-- [Документация](documentation.md) — ссылка на /doc/src/{service}/
-- [Тесты](testing.md) — unit/integration
-- [API docs](api-docs.md) — Swagger
-
-## Справочные
-
-- [Пагинация](pagination.md)
-- [Версионирование](versioning.md)
-```
-
-### Ссылки в agents/ и skills/
-
-**Правило:** Каждый файл агента или скилла начинается со ссылки на инструкцию.
-
-**Пример `/.claude/agents/documentation.md`:**
-```markdown
-<!-- Инструкция: /.claude/instructions/tools/agents.md -->
-
-# Documentation Agent
-...
-```
-
-**Пример `/.claude/skills/new-service.md`:**
-```markdown
-<!-- Инструкция: /.claude/instructions/tools/skills.md -->
-
-# Скилл: Создание сервиса
-...
-```
-
-Это позволяет LLM быстро найти правила работы с агентами/скиллами при их использовании.
-
-### Задачи — GitHub Issues
-
-> 📋 **Инструкция:** [/.claude/instructions/git/issues.md](/.claude/instructions/git/issues.md)
+| Компонент | Статус | Документация |
+|-----------|:------:|--------------|
+| Индекс инструкций | ✅ | [README.md](/.claude/instructions/README.md) |
+| Инструменты | ✅ | [skills.md](/.claude/instructions/tools/skills.md), [agents.md](/.claude/instructions/tools/agents.md) |
+| Git | ✅ | [workflow.md](/.claude/instructions/git/workflow.md), [commits.md](/.claude/instructions/git/commits.md), [issues.md](/.claude/instructions/git/issues.md) |
+| /src/ | ✅ | [documentation.md](/.claude/instructions/src/documentation.md) |
+| /doc/ | ✅ | [structure.md](/.claude/instructions/doc/structure.md) |
+| Скиллы | ✅ | [25 скиллов](/.claude/instructions/tools/skills.md) |
+| Скрипты | ✅ | [find_references.py](/.claude/scripts/find_references.py) |
+| /shared/, /config/, /platform/, /tests/ | ⬜ | Инструкции не созданы |
+| agents/, templates/, discussions/ | ⬜ | Папки созданы, контент не заполнен |
 
 ---
 
@@ -620,38 +546,10 @@ http:
 
 ## Git workflow (Git-процессы)
 
-### Branching (Ветвление) — GitHub Flow
-
-```
-main                        ← всегда стабильный, деплоится
-  └── feature/auth-sso      ← короткая ветка, PR в main
-  └── fix/login-bug
-```
-
-- `main` — защищённая ветка, только через PR
-- Feature-ветки — короткоживущие
-
-### Commits (Коммиты) — Conventional Commits
-
-```
-feat: добавить авторизацию через OAuth
-fix: исправить утечку памяти в auth
-breaking: изменить формат ответа API
-```
-
-Автогенерация `CHANGELOG.md` при релизе.
-
-### Git hooks (Git-хуки) — pre-commit
-
-```yaml
-# .pre-commit-config.yaml
-repos:
-  - repo: local
-    hooks:
-      - id: lint
-      - id: format
-      - id: secrets-check
-```
+> 📋 **Инструкции:**
+> - [workflow.md](/.claude/instructions/git/workflow.md) — GitHub Flow, ветки, PR
+> - [commits.md](/.claude/instructions/git/commits.md) — Conventional Commits, CHANGELOG
+> - [issues.md](/.claude/instructions/git/issues.md) — GitHub Issues, метки, префиксы
 
 ---
 
