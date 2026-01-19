@@ -203,7 +203,7 @@
 
 | Инструкция | Описание | Тип | Создано | Заполнено |
 |------------|----------|-----|:-------:|:---------:|
-| [structure.md](./doc/structure.md) | Структура /doc/: зеркалирование, ссылки на код, ADR, runbooks | project | ⬜ | ⬜ |
+| [structure.md](./doc/structure.md) | Структура /doc/: зеркалирование, ссылки на код, ADR, runbooks | project | ✅ | ✅ |
 
 ---
 
@@ -234,7 +234,7 @@
 |------------|----------|-----|:-------:|:---------:|
 | [workflow.md](./git/workflow.md) | Git workflow: GitHub Flow, ветки (main + feature/fix), PR | standard | ⬜ | ⬜ |
 | [commits.md](./git/commits.md) | Conventional commits: feat/fix/breaking, автогенерация CHANGELOG | standard | ⬜ | ⬜ |
-| [issues.md](./git/issues.md) | GitHub Issues: префиксы ([AUTH], [NOTIFY]), labels, gh commands | standard | ⬜ | ⬜ |
+| [issues.md](./git/issues.md) | GitHub Issues: префиксы ([AUTH], [NOTIFY]), labels, gh commands | standard | ✅ | ✅ |
 
 ---
 

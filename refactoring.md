@@ -327,39 +327,7 @@ graph LR
 
 ### Задачи — GitHub Issues
 
-Локальные задачи не используем. Работаем через GitHub Issues с префиксами.
-
-**Инструкция:** `/.claude/instructions/git/issues.md` — содержит:
-- Таблицу соответствия сервисов и префиксов
-- Правила именования задач
-- Примеры команд gh
-
-**Формат префикса:** `[PREFIX]` в начале заголовка issue.
-
-| Сервис | Префикс | Label | Пример |
-|--------|---------|-------|--------|
-| auth | AUTH | service:auth | [AUTH] Добавить OAuth |
-| notification | NOTIFY | service:notify | [NOTIFY] Email templates |
-| payment | PAY | service:payment | [PAY] Stripe интеграция |
-| users | USERS | service:users | [USERS] Профили |
-| gateway | GW | service:gateway | [GW] Rate limiting |
-| общие/инфра | INFRA | infra | [INFRA] CI pipeline |
-| документация | DOCS | docs | [DOCS] README |
-
-**Правило:** При создании нового сервиса — добавить префикс в `/.claude/instructions/git/issues.md`.
-
-```bash
-# Создание issue
-gh issue create \
-  --label "service:auth" \
-  --title "[AUTH] Исправить JWT валидацию"
-
-# Просмотр по сервису
-gh issue list --label "service:auth"
-
-# Просмотр всех открытых
-gh issue list --state open
-```
+> 📋 **Инструкция:** [/.claude/instructions/git/issues.md](/.claude/instructions/git/issues.md)
 
 ---
 
@@ -460,93 +428,7 @@ package auth.v2;
 
 ## Дерево документации (`/doc/`)
 
-Зеркалит структуру `/src/`, `/shared/`, `/platform/` (colocation principle).
-
-### Почему именно эти папки?
-
-| Папка | Зеркалируется | Причина |
-|-------|---------------|---------|
-| `/src/` | ✅ | Сервисы требуют документации: API, архитектура, ADR, runbooks |
-| `/shared/` | ✅ | Библиотеки и контракты нужно документировать для потребителей |
-| `/platform/` | ✅ | Инфраструктура требует runbooks, инструкций по деплою |
-| `/config/` | ❌ | Конфиги самодокументируемы (комментарии внутри YAML) |
-| `/tests/` | ❌ | Тесты сами являются документацией (код = спецификация) |
-| `/.github/` | ❌ | Workflows самодокументируемы (YAML с комментариями) |
-
-### Структура
-
-```
-/doc/
-  README.md                 ← как работать с документацией
-  glossary.md               ← глоссарий терминов проекта
-  /runbooks/                ← общие runbooks (инфра, БД)
-    database-full.md
-    high-load.md
-    backup-restore.md       ← стратегия бэкапов, восстановление
-
-  # Зеркало /src/ — документация сервисов
-  /src/
-    /auth/
-      README.md             ← обзор сервиса
-      /specs/               ← спецификации
-        /architecture/      ← архитектурные решения
-        /adr/               ← ADR этого сервиса
-          0001-jwt-tokens.md
-        /plans/             ← планы реализации
-      /backend/
-        handlers.md
-        api.md
-      /database/
-        schema.md
-      /runbooks/            ← runbooks этого сервиса
-        token-issues.md
-
-    /notification/
-      README.md
-      /specs/
-      /backend/
-      /database/
-      /runbooks/
-
-  # Зеркало /shared/ — документация библиотек и контрактов
-  /shared/
-    README.md               ← обзор shared-кода
-    /contracts/
-      README.md             ← как работать с контрактами
-    /libs/
-      errors.md             ← документация формата ошибок
-      logging.md            ← документация формата логов
-    /i18n/
-      README.md             ← правила локализации
-
-  # Зеркало /platform/ — документация инфраструктуры
-  /platform/
-    README.md               ← обзор инфраструктуры
-    /gateway/
-      README.md             ← настройка Traefik
-    /docker/
-      README.md             ← работа с Docker
-    /monitoring/
-      README.md             ← настройка мониторинга
-    /runbooks/              ← инфраструктурные runbooks
-      deploy.md
-      rollback.md
-      incident-response.md
-```
-
-### Процесс ведения документации (Workflow)
-
-```
-Дискуссия (/.claude/discussions/)
-    ↓ (решение принято)
-/doc/src/{service}/specs/adr/       ← ADR
-    ↓
-/doc/src/{service}/specs/plans/     ← план реализации
-    ↓
-/src/{service}/                     ← код
-    ↓
-/doc/src/{service}/backend/         ← документация кода
-```
+> 📋 **Инструкция:** [/.claude/instructions/doc/structure.md](/.claude/instructions/doc/structure.md)
 
 ---
 
