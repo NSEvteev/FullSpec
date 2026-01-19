@@ -27,6 +27,10 @@ triggers:
 - [links-delete](/.claude/skills/links-delete/SKILL.md) — пометка битых ссылок
 - [issue-create](/.claude/skills/issue-create/SKILL.md) — создание GitHub Issue
 
+**Связанные инструкции:**
+- [src/documentation.md](/.claude/instructions/src/documentation.md) — правила документирования кода
+- [git/issues.md](/.claude/instructions/git/issues.md) — создание Issue для отслеживания
+
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)

@@ -27,6 +27,9 @@ triggers:
 - [links-update](/.claude/skills/links-update/SKILL.md) — синхронизация ссылок
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
 
+**Связанные инструкции:**
+- [README.md](/.claude/instructions/README.md) — индекс инструкций, статусы заполнения
+
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)

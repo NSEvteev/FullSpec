@@ -105,7 +105,8 @@ related:
 | Новая задача | Создать Issue с префиксом и меткой | [/issue-create](/.claude/skills/issue-create/SKILL.md) |
 | Изменение требований | Обновить описание Issue | [/issue-update](/.claude/skills/issue-update/SKILL.md) |
 | Начало работы | Взять в работу и выполнить задачу | [/issue-execute](/.claude/skills/issue-execute/SKILL.md) |
-| Завершение работы | Закрыть Issue как выполненный | [/issue-complete](/.claude/skills/issue-complete/SKILL.md) |
+| После выполнения | Проверить качество решения | [/issue-review](/.claude/skills/issue-review/SKILL.md) |
+| Ревью пройдено | Закрыть Issue как выполненный | [/issue-complete](/.claude/skills/issue-complete/SKILL.md) |
 | Задача неактуальна | Закрыть Issue как not planned | [/issue-delete](/.claude/skills/issue-delete/SKILL.md) |
 
 ---
@@ -119,6 +120,7 @@ related:
 | [/issue-create](/.claude/skills/issue-create/SKILL.md) | Создание Issue с правильным форматом |
 | [/issue-update](/.claude/skills/issue-update/SKILL.md) | Обновление описания Issue |
 | [/issue-execute](/.claude/skills/issue-execute/SKILL.md) | Взятие Issue в работу и выполнение |
+| [/issue-review](/.claude/skills/issue-review/SKILL.md) | Ревью решения перед закрытием |
 | [/issue-complete](/.claude/skills/issue-complete/SKILL.md) | Закрытие Issue как выполненного |
 | [/issue-delete](/.claude/skills/issue-delete/SKILL.md) | Закрытие Issue как неактуального |
 
@@ -143,6 +145,16 @@ related:
 2. Добавляет метку `in-progress`
 3. Создаёт ветку `feature/{issue-number}-{short-name}`
 4. Выполняет задачу (код, тесты, документация)
+5. Вызывает `/issue-review` для проверки
+
+### /issue-review
+
+Проверяет качество решения перед закрытием:
+1. Проверяет качество кода (линтинг, типы)
+2. Оценивает реализацию (можно ли улучшить)
+3. Проверяет тесты
+4. Проверяет критерии готовности из Issue
+5. При успехе — вызывает `/issue-complete`
 
 ### /issue-complete
 

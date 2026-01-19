@@ -28,6 +28,9 @@ triggers:
 - [skill-delete](/.claude/skills/skill-delete/SKILL.md) — удаление скилла
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
 
+**Связанные инструкции:**
+- [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов, категории
+
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)

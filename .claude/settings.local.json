@@ -36,7 +36,17 @@
       "Skill(context-update)",
       "Skill(prompt-update)",
       "Skill(skill-create)",
-      "Skill(links-update)"
+      "Skill(links-update)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" diff --stat refactoring.md)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" status)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" diff refactoring.md)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" log --oneline -5)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" add refactoring.md)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" commit -m \"$\\(cat <<''EOF''\ndocs: Сокращён refactoring.md, добавлены ссылки на готовые инструкции\n\n- Дерево Claude: 90 строк → 15 строк \\(ссылка на instructions/README.md\\)\n- Git workflow: 33 строки → 6 строк \\(ссылки на workflow.md, commits.md, issues.md\\)\n- Обновлена таблица проработки разделов \\(5 разделов отмечены как ✅\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" push)",
+      "Bash(xargs:*)",
+      "Bash(done)",
+      "Bash(grep:*)"
     ]
   }
 }

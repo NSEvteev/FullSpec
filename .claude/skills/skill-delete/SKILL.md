@@ -27,6 +27,9 @@ triggers:
 - [context-delete](/.claude/skills/context-delete/SKILL.md) — очистка контекста (вызвать до удаления файлов)
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста (после изменений)
 
+**Связанные инструкции:**
+- [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов, категории
+
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)

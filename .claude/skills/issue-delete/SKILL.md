@@ -25,6 +25,7 @@ triggers:
 - [issue-create](/.claude/skills/issue-create/SKILL.md) — создание Issue
 - [issue-update](/.claude/skills/issue-update/SKILL.md) — обновление Issue
 - [issue-execute](/.claude/skills/issue-execute/SKILL.md) — взятие Issue в работу и выполнение
+- [issue-review](/.claude/skills/issue-review/SKILL.md) — ревью решения перед закрытием
 - [issue-complete](/.claude/skills/issue-complete/SKILL.md) — закрытие Issue как выполненного
 
 **Связанные инструкции:**

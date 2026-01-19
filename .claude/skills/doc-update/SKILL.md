@@ -26,6 +26,9 @@ triggers:
 - [doc-delete](/.claude/skills/doc-delete/SKILL.md) — пометка документации при удалении
 - [links-update](/.claude/skills/links-update/SKILL.md) — синхронизация ссылок
 
+**Связанные инструкции:**
+- [src/documentation.md](/.claude/instructions/src/documentation.md) — правила документирования кода
+
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)

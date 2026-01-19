@@ -49,7 +49,7 @@
 | Создание инструкции | `/instruction-create` | Создаёт файл и генерирует содержимое |
 | Изменение инструкции | `/instruction-update` | Проверяет файлы проекта на соответствие новым правилам |
 
-**Рекомендуемый порядок создания:** см. "План создания инструкций" в [CLAUDE.md](/CLAUDE.md)
+**Рекомендуемый порядок:** начинать с инструкций типа `standard`, затем `project`.
 
 ---
 
@@ -69,6 +69,8 @@
 ---
 
 ## Дерево инструкций
+
+> ✅ Все папки созданы. Файлы создаются по мере необходимости через `/instruction-create`.
 
 ```
 /.claude/instructions/
@@ -110,6 +112,7 @@
       tracing.md                        # трейсы (OpenTelemetry, span)
       logging.md                        # логи (Loki, корреляция)
       alerting.md                       # алерты (severity, маршрутизация)
+    operations.md                       # runbooks, incidents, postmortems
 
   /tests/                               # правила тестирования
     e2e.md                              # e2e тесты (сценарии, инструменты)
@@ -134,10 +137,13 @@
     workflow.md                         # рабочий процесс (ветки, PR)
     commits.md                          # коммиты (conventional, changelog)
     issues.md                           # задачи (префиксы, метки)
+    ci.md                               # CI/CD pipeline, GitHub Actions, quality gates
+    review.md                           # code review: чек-лист, CODEOWNERS, правила
 
   /tools/                               # инструменты Claude
     skills.md                           # индекс скиллов
     agents.md                           # индекс агентов
+    testing.md                          # тестирование Claude Code (smoke tests)
 ```
 
 ---
@@ -186,6 +192,7 @@
 | [tracing.md](./platform/observability/tracing.md) | Distributed tracing: OpenTelemetry, span, W3C traceparent | standard | ⬜ | ⬜ |
 | [logging.md](./platform/observability/logging.md) | Централизованные логи: Loki, корреляция с request_id | standard | ⬜ | ⬜ |
 | [alerting.md](./platform/observability/alerting.md) | Алертинг: severity levels, routing, связь с runbooks | standard | ⬜ | ⬜ |
+| [operations.md](./platform/operations.md) | Операции: runbooks, incidents, postmortems | standard | ⬜ | ⬜ |
 
 ---
 
@@ -235,6 +242,8 @@
 | [workflow.md](./git/workflow.md) | Git workflow: GitHub Flow, ветки (main + feature/fix), PR | standard | ✅ | ✅ |
 | [commits.md](./git/commits.md) | Conventional commits: feat/fix/breaking, автогенерация CHANGELOG | standard | ✅ | ✅ |
 | [issues.md](./git/issues.md) | GitHub Issues: префиксы ([AUTH], [NOTIFY]), labels, gh commands | standard | ✅ | ✅ |
+| [ci.md](./git/ci.md) | CI/CD: pipeline структура, GitHub Actions, quality gates | standard | ⬜ | ⬜ |
+| [review.md](./git/review.md) | Code review: чек-лист, CODEOWNERS, правила approve | standard | ⬜ | ⬜ |
 
 ---
 
@@ -244,3 +253,4 @@
 |------------|----------|-----|:-------:|:---------:|
 | [skills.md](./tools/skills.md) | Индекс скиллов: команды автоматизации, категории, триггеры | project | ✅ | ✅ |
 | [agents.md](./tools/agents.md) | Индекс агентов: специализированные агенты, их роли и скиллы | project | ✅ | ✅ |
+| [testing.md](./tools/testing.md) | Тестирование Claude Code: smoke tests, проверка скиллов | standard | ⬜ | ⬜ |

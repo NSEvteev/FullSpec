@@ -24,6 +24,7 @@ triggers:
 **Связанные скиллы:**
 - [issue-update](/.claude/skills/issue-update/SKILL.md) — обновление Issue
 - [issue-execute](/.claude/skills/issue-execute/SKILL.md) — взятие Issue в работу и выполнение
+- [issue-review](/.claude/skills/issue-review/SKILL.md) — ревью решения перед закрытием
 - [issue-complete](/.claude/skills/issue-complete/SKILL.md) — закрытие Issue как выполненного
 - [issue-delete](/.claude/skills/issue-delete/SKILL.md) — закрытие Issue как неактуального
 

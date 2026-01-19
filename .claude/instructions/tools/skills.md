@@ -90,6 +90,7 @@ Git операции.
 | [issue-create](/.claude/skills/issue-create/SKILL.md) | Создание GitHub Issue с правильным форматом | `/issue-create`, "создай задачу" |
 | [issue-update](/.claude/skills/issue-update/SKILL.md) | Обновление описания и меток Issue | `/issue-update`, "обнови задачу" |
 | [issue-execute](/.claude/skills/issue-execute/SKILL.md) | Взятие Issue в работу и выполнение | `/issue-execute`, "возьми задачу" |
+| [issue-review](/.claude/skills/issue-review/SKILL.md) | Ревью решения перед закрытием Issue | `/issue-review`, "проверь решение" |
 | [issue-complete](/.claude/skills/issue-complete/SKILL.md) | Закрытие Issue как выполненного | `/issue-complete`, "заверши задачу" |
 | [issue-delete](/.claude/skills/issue-delete/SKILL.md) | Закрытие Issue как неактуального | `/issue-delete`, "удали задачу" |
 
