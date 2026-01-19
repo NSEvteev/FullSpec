@@ -36,7 +36,9 @@
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| [skill-create](/.claude/skills/skill-create/SKILL.md) | Создание нового скилла | `/skill-create`, "создай скилл", "новый скилл" |
+| [skill-create](/.claude/skills/skill-create/SKILL.md) | Создание нового скилла | `/skill-create`, "создай скилл" |
+| [skill-update](/.claude/skills/skill-update/SKILL.md) | Обновление скиллов при добавлении нового | `/skill-update`, "обнови скиллы" |
+| [skill-delete](/.claude/skills/skill-delete/SKILL.md) | Очистка ссылок при удалении скилла | `/skill-delete`, "удали скилл" |
 
 ### agent-management
 
@@ -60,9 +62,18 @@
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| [links-create](/.claude/skills/links-create/SKILL.md) | Создание ссылок на файлы и папки репозитория | `/links-create`, "создай ссылки", "оформи ссылки" |
-| [links-update](/.claude/skills/links-update/SKILL.md) | Обновление ссылок на файлы и папки в связанных документах | `/links-update`, "обнови ссылки", "проверь ссылки" |
-| [context-update](/.claude/skills/context-update/SKILL.md) | Распространение контекста по графу связанных документов | `/context-update`, "пошарь контекст", "расшарь" |
+| [links-create](/.claude/skills/links-create/SKILL.md) | Создание ссылок на файлы и папки | `/links-create`, "создай ссылки" |
+| [links-update](/.claude/skills/links-update/SKILL.md) | Обновление ссылок в связанных документах | `/links-update`, "обнови ссылки" |
+| [links-delete](/.claude/skills/links-delete/SKILL.md) | Пометка битых ссылок при удалении файлов | `/links-delete`, "удали ссылки" |
+| [context-update](/.claude/skills/context-update/SKILL.md) | Распространение контекста по графу документов | `/context-update`, "пошарь контекст" |
+
+### meta
+
+Мета-скиллы для улучшения работы с LLM.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [prompt-update](/.claude/skills/prompt-update/SKILL.md) | Улучшение и обогащение промтов | `/prompt`, "улучши промт" |
 
 ### git
 
