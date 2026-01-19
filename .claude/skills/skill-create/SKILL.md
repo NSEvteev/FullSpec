@@ -25,7 +25,7 @@ triggers:
 
 **Связанные скиллы:**
 - [skill-update](/.claude/skills/skill-update/SKILL.md) — обновление существующих скиллов при добавлении нового
-- [skill-delete](/.claude/skills/skill-delete/SKILL.md) — удаление *(не создан)*
+- [skill-delete](/.claude/skills/skill-delete/SKILL.md) — удаление скилла
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
 
 ## Оглавление

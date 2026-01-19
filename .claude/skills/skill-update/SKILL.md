@@ -25,7 +25,7 @@ triggers:
 
 **Связанные скиллы:**
 - [skill-create](/.claude/skills/skill-create/SKILL.md) — создание нового скилла
-- [skill-delete](/.claude/skills/skill-delete/SKILL.md) — удаление скилла *(не создан)*
+- [skill-delete](/.claude/skills/skill-delete/SKILL.md) — удаление скилла
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
 
 ## Оглавление
