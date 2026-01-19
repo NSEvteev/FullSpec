@@ -17,6 +17,19 @@
 - `.claude_old/` — старая структура Claude
 - `llm_instructions_old/` — старые инструкции
 
+## Инициализация проекта
+
+> **Блокирующее требование:** Все инструкции из [/.claude/instructions/README.md](/.claude/instructions/README.md) должны быть созданы и заполнены перед началом работы с проектом.
+
+Для создания инструкции используйте `/instruction-create <путь>`.
+
+### Типы инструкций
+
+| Тип | Назначение | При инициализации |
+|-----|------------|-------------------|
+| `standard` | Стандарты качества (КАК делать) | Использовать as-is |
+| `project` | Специфика проекта (ЧТО есть) | Заполнить под проект |
+
 ## Структура проекта
 
 ```
@@ -41,40 +54,6 @@
 **Индекс:** [/.claude/instructions/README.md](/.claude/instructions/README.md)
 
 **Правило:** При работе с папкой `/X/` — читать `/.claude/instructions/X/README.md`.
-
-### Типы инструкций
-
-| Тип | Назначение | Когда создавать |
-|-----|------------|-----------------|
-| `standard` | Требования, КАК делать. Стандарты качества | Один раз, применимы ко всем проектам |
-| `project` | Специфика, ЧТО есть в проекте | При старте проекта, специфичны |
-
-**Формат frontmatter:**
-```yaml
----
-type: standard
-description: Краткое описание
----
-```
-
-### План создания инструкций
-
-**Фаза 1 — Критичные (🔴):**
-1. `git/workflow.md` — GitHub Flow, ветки, PR
-2. `git/commits.md` — Conventional commits
-3. `src/api/design.md` — URL, методы, статусы
-4. `src/data/errors.md` — Формат ошибок
-5. `src/data/logging.md` — Формат логов
-6. `src/data/validation.md` — Валидация
-7. `src/runtime/health.md` — Health checks
-8. `src/runtime/database.md` — Работа с БД
-9. `src/security/auth.md` — JWT между сервисами
-10. `shared/contracts.md` — Контракты API
-11. `platform/observability/overview.md` — Observability
-
-**Фаза 2 — Средние (🟡):** 17 инструкций
-
-**Фаза 3 — Низкие (🟢):** 11 инструкций
 
 ## Ключевые файлы
 
