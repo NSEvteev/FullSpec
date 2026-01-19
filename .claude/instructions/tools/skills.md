@@ -55,6 +55,7 @@
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
 | [instruction-create](/.claude/skills/instruction-create/SKILL.md) | Создание новой инструкции | `/instruction-create`, "создай инструкцию" |
+| [instruction-update](/.claude/skills/instruction-update/SKILL.md) | Проверка файлов на соответствие инструкции | `/instruction-update`, "проверь инструкцию" |
 
 ### documentation
 

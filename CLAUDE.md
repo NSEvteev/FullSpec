@@ -1,6 +1,9 @@
 # CLAUDE.md
 
-Точка входа для Claude Code. Краткий справочник со ссылками на инструкции.
+Точка входа для Claude Code. **Справочная информация** о проекте.
+
+> 📖 **CLAUDE.md** — справочник со ссылками и статусами.
+> 📋 **/.claude/instructions/** — инструкции для LLM (правила работы).
 
 ## Язык
 
@@ -19,14 +22,6 @@
 ```
 /.claude/                   # Инструменты Claude
   /instructions/            # Инструкции для LLM
-    /src/                   # Правила для /src/
-    /doc/                   # Правила для /doc/
-    /shared/                # Правила для /shared/
-    /config/                # Правила для /config/
-    /platform/              # Правила для /platform/
-    /tests/                 # Правила для /tests/
-    /git/                   # Git workflow, commits, issues
-    /tools/                 # Агенты и скиллы
   /agents/                  # Агенты
   /skills/                  # Скиллы
   /scripts/                 # Скрипты Python
@@ -47,18 +42,39 @@
 
 **Правило:** При работе с папкой `/X/` — читать `/.claude/instructions/X/README.md`.
 
-| Папка | Инструкция |
-|-------|------------|
-| `/src/` | `/.claude/instructions/src/README.md` |
-| `/doc/` | `/.claude/instructions/doc/README.md` |
-| `/shared/` | `/.claude/instructions/shared/README.md` |
-| `/config/` | `/.claude/instructions/config/README.md` |
-| `/platform/` | `/.claude/instructions/platform/README.md` |
-| `/tests/` | `/.claude/instructions/tests/README.md` |
+### Типы инструкций
 
-**Дополнительные инструкции:**
-- Git workflow: `/.claude/instructions/git/README.md`
-- Агенты и скиллы: `/.claude/instructions/tools/README.md`
+| Тип | Назначение | Когда создавать |
+|-----|------------|-----------------|
+| `standard` | Требования, КАК делать. Стандарты качества | Один раз, применимы ко всем проектам |
+| `project` | Специфика, ЧТО есть в проекте | При старте проекта, специфичны |
+
+**Формат frontmatter:**
+```yaml
+---
+type: standard
+description: Краткое описание
+---
+```
+
+### План создания инструкций
+
+**Фаза 1 — Критичные (🔴):**
+1. `git/workflow.md` — GitHub Flow, ветки, PR
+2. `git/commits.md` — Conventional commits
+3. `src/api/design.md` — URL, методы, статусы
+4. `src/data/errors.md` — Формат ошибок
+5. `src/data/logging.md` — Формат логов
+6. `src/data/validation.md` — Валидация
+7. `src/runtime/health.md` — Health checks
+8. `src/runtime/database.md` — Работа с БД
+9. `src/security/auth.md` — JWT между сервисами
+10. `shared/contracts.md` — Контракты API
+11. `platform/observability/overview.md` — Observability
+
+**Фаза 2 — Средние (🟡):** 17 инструкций
+
+**Фаза 3 — Низкие (🟢):** 11 инструкций
 
 ## Ключевые файлы
 

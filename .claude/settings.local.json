@@ -30,7 +30,12 @@
       "Bash(then mv llm_tasks/agents/amy-santiago/future_tasks.md llm_tasks/agents/amy-santiago/_deprecated_future_tasks.md)",
       "Bash(if [ -f llm_tasks/agents/amy-santiago/completed_tasks.md ])",
       "Bash(then mv llm_tasks/agents/amy-santiago/completed_tasks.md llm_tasks/agents/amy-santiago/_deprecated_completed_tasks.md)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Skill(summary-doc)",
+      "Bash(git checkout:*)",
+      "Skill(context-update)",
+      "Skill(prompt-update)",
+      "Skill(skill-create)"
     ]
   }
 }

@@ -245,9 +245,9 @@ graph LR
 - ✅ `/instructions/README.md` — индекс инструкций
 - ✅ `/instructions/tools/` — agents.md, skills.md
 - ✅ `/scripts/` — find_references.py
-- ✅ `/skills/` — 5 скиллов (skill-create, instruction-create, links-create, links-update, context-update)
-- ✓ `/instructions/src/`, `/doc/`, `/shared/`, `/config/`, `/platform/`, `/tests/`, `/git/` — README созданы
-- ⬜ `/agents/`, `/templates/`, `/discussions/`
+- ✅ `/skills/` — 9 скиллов
+- ⬜ `/instructions/src/`, `/doc/`, `/shared/`, `/config/`, `/platform/`, `/tests/`, `/git/` — инструкции не созданы
+- ✅ `/agents/`, `/templates/`, `/discussions/` — папки созданы
 
 ```
 /.claude/
@@ -257,7 +257,6 @@ graph LR
     README.md                             ← индекс всех инструкций
 
     /src/                                 ← правила разработки сервисов
-      README.md
       documentation.md                    ← правила документирования кода
       /api/                               ← проектирование API
         design.md                         ← URL, методы, статусы, частичное обновление
@@ -283,7 +282,6 @@ graph LR
         audit.md                          ← аудит (кто/что/когда, PII, GDPR)
 
     /platform/                            ← правила инфраструктуры
-      README.md
       docker.md                           ← работа с Docker (образы, compose)
       caching.md                          ← кэширование (Redis, TTL, инвалидация)
       deployment.md                       ← деплой (rolling, blue-green, откат)
@@ -296,17 +294,14 @@ graph LR
         alerting.md                       ← алерты (severity, маршрутизация)
 
     /tests/                               ← правила тестирования
-      README.md
       e2e.md                              ← e2e тесты (сценарии, инструменты)
       load.md                             ← нагрузочные тесты (k6, пороги)
       fixtures.md                         ← тестовые данные (фикстуры, фабрики)
 
     /doc/                                 ← правила документации
-      README.md
       structure.md                        ← структура (зеркалирование, ссылки на код)
 
     /shared/                              ← правила общего кода
-      README.md
       contracts.md                        ← контракты (OpenAPI, Protobuf, JSON Schema)
       events.md                           ← события (именование, идемпотентность, DLQ)
       libs.md                             ← общие библиотеки (ошибки, логи, валидация)
@@ -314,12 +309,10 @@ graph LR
       i18n.md                             ← локализация (формат ключей)
 
     /config/                              ← правила конфигураций
-      README.md
       environments.md                     ← окружения (dev/staging/prod)
       feature-flags.md                    ← флаги функций (когда использовать)
 
     /git/                                 ← правила Git
-      README.md
       workflow.md                         ← рабочий процесс (ветки, PR)
       commits.md                          ← коммиты (conventional, changelog)
       issues.md                           ← задачи (префиксы, метки)
@@ -334,10 +327,14 @@ graph LR
     /{skill-name}/SKILL.md
     # Созданные:
     /skill-create/                        ← создание скилла
+    /skill-update/                        ← обновление скиллов при добавлении нового
+    /skill-delete/                        ← очистка ссылок при удалении скилла
+    /instruction-create/                  ← создание инструкции
     /links-create/                        ← создание ссылок в документе
     /links-update/                        ← обновление ссылок
+    /links-delete/                        ← пометка битых ссылок
     /context-update/                      ← распространение контекста
-    /instruction-create/                  ← создание инструкции
+    /prompt-update/                       ← улучшение промтов
     # Планируемые:
     /service-create/                      ← создание сервиса
 
