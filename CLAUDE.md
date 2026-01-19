@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 Точка входа для Claude Code. **Справочная информация** о проекте.
 
 > 📖 **CLAUDE.md** — справочник со ссылками и статусами.
@@ -76,6 +78,8 @@ gh issue create --label "service:auth" --title "[AUTH] Описание"
 ```
 
 ## Команды
+
+**Все команды:** [Makefile](Makefile) или `make help`
 
 ```bash
 make dev           # Запустить для разработки
