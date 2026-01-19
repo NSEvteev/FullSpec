@@ -23,7 +23,7 @@ triggers:
 
 **Связанные скиллы:**
 - [instruction-create](/.claude/skills/instruction-create/SKILL.md) — создание инструкций
-- [instruction-delete](/.claude/skills/instruction-delete/SKILL.md) — удаление инструкций *(не создан)*
+- [instruction-delete](/.claude/skills/instruction-delete/SKILL.md) — удаление инструкций
 - [links-update](/.claude/skills/links-update/SKILL.md) — синхронизация ссылок
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
 

@@ -56,6 +56,7 @@
 |-------|----------|----------|
 | [instruction-create](/.claude/skills/instruction-create/SKILL.md) | Создание новой инструкции | `/instruction-create`, "создай инструкцию" |
 | [instruction-update](/.claude/skills/instruction-update/SKILL.md) | Проверка файлов на соответствие инструкции | `/instruction-update`, "проверь инструкцию" |
+| [instruction-delete](/.claude/skills/instruction-delete/SKILL.md) | Очистка ссылок при удалении инструкции | `/instruction-delete`, "удали инструкцию" |
 
 ### documentation
 
