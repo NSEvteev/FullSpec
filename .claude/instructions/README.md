@@ -242,8 +242,8 @@
 | [workflow.md](./git/workflow.md) | Git workflow: GitHub Flow, ветки (main + feature/fix), PR | standard | ✅ | ✅ |
 | [commits.md](./git/commits.md) | Conventional commits: feat/fix/breaking, автогенерация CHANGELOG | standard | ✅ | ✅ |
 | [issues.md](./git/issues.md) | GitHub Issues: префиксы ([AUTH], [NOTIFY]), labels, gh commands | standard | ✅ | ✅ |
-| [ci.md](./git/ci.md) | CI/CD: pipeline структура, GitHub Actions, quality gates | standard | ⬜ | ⬜ |
-| [review.md](./git/review.md) | Code review: чек-лист, CODEOWNERS, правила approve | standard | ⬜ | ⬜ |
+| [ci.md](./git/ci.md) | CI/CD: pipeline структура, GitHub Actions, quality gates | standard | ✅ | ✅ |
+| [review.md](./git/review.md) | Code review: чек-лист, CODEOWNERS, правила approve | standard | ✅ | ✅ |
 
 ---
 
@@ -253,4 +253,4 @@
 |------------|----------|-----|:-------:|:---------:|
 | [skills.md](./tools/skills.md) | Индекс скиллов: команды автоматизации, категории, триггеры | project | ✅ | ✅ |
 | [agents.md](./tools/agents.md) | Индекс агентов: специализированные агенты, их роли и скиллы | project | ✅ | ✅ |
-| [testing.md](./tools/testing.md) | Тестирование Claude Code: smoke tests, проверка скиллов | standard | ⬜ | ⬜ |
+| [testing.md](./tools/testing.md) | Тестирование Claude Code: smoke tests, проверка скиллов | standard | ✅ | ✅ |

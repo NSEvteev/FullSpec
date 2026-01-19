@@ -246,8 +246,8 @@ graph LR
 | Компонент | Статус | Документация |
 |-----------|:------:|--------------|
 | Индекс инструкций | ✅ | [README.md](/.claude/instructions/README.md) |
-| Инструменты | ✅ | [skills.md](/.claude/instructions/tools/skills.md), [agents.md](/.claude/instructions/tools/agents.md) |
-| Git | ✅ | [workflow.md](/.claude/instructions/git/workflow.md), [commits.md](/.claude/instructions/git/commits.md), [issues.md](/.claude/instructions/git/issues.md) |
+| Инструменты | ✅ | [skills.md](/.claude/instructions/tools/skills.md), [agents.md](/.claude/instructions/tools/agents.md), [testing.md](/.claude/instructions/tools/testing.md) |
+| Git | ✅ | [workflow.md](/.claude/instructions/git/workflow.md), [commits.md](/.claude/instructions/git/commits.md), [issues.md](/.claude/instructions/git/issues.md), [ci.md](/.claude/instructions/git/ci.md), [review.md](/.claude/instructions/git/review.md) |
 | /src/ | ✅ | [documentation.md](/.claude/instructions/src/documentation.md) |
 | /doc/ | ✅ | [structure.md](/.claude/instructions/doc/structure.md) |
 | Скиллы | ✅ | [25 скиллов](/.claude/instructions/tools/skills.md) |
