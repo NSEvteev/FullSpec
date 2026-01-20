@@ -31,7 +31,7 @@ triggers:
 **Связанные инструкции:**
 - [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов, категории
 - [tools/agents.md](/.claude/instructions/tools/agents.md) — агенты используют скиллы
-- [tools/testing.md](/.claude/instructions/tools/testing.md) — тестирование скиллов после изменений
+- [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование скиллов после изменений
 
 ## Оглавление
 

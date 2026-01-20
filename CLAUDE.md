@@ -184,41 +184,18 @@ make lint          # Линтинг
 
 ---
 
+### ✅ ВЫПОЛНЕНО В ЭТОЙ СЕССИИ (продолжение)
+
+| Задача | Статус |
+|--------|--------|
+| Блок A.1: testing.md → claude-testing.md | ✅ |
+| Блок A.2: tools/skills.md (+ related, + стандарт параметров) | ✅ |
+| Блок B.1: tests/README.md создан | ✅ |
+| Блок B.2: /tests/ обновлён в refactoring.md | ✅ |
+
+---
+
 ### 🟡 ТЕКУЩИЙ ПЛАН
-
-#### Блок A: Завершить улучшение инструкций
-
-| # | Задача | Статус |
-|---|--------|--------|
-| A.1 | Переименовать `testing.md` → `claude-testing.md` | ⏳ |
-| A.2 | Обновить `tools/skills.md` (+ related, + стандарт параметров) | ⏳ |
-
-#### Блок B: Создать структуру тестов
-
-**B.1 Инструкции для тестов:**
-
-```
-/.claude/instructions/
-  tools/
-    claude-testing.md    # Тесты Claude Code (скиллы, инструкции, агенты)
-  tests/
-    README.md            # Индекс инструкций для проектных тестов
-    unit.md              # Unit-тесты
-    integration.md       # Интеграционные тесты
-    e2e.md               # End-to-end тесты
-    smoke.md             # Smoke-тесты
-```
-
-**B.2 Обновить `/tests/` в refactoring.md:**
-
-```
-/tests/
-  /smoke/           # ← ДОБАВИТЬ
-  /unit/
-  /integration/
-  /e2e/
-  /load/
-```
 
 #### Блок C: Создать универсальные скиллы test-*
 

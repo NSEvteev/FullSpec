@@ -246,13 +246,14 @@ graph LR
 | Компонент | Статус | Документация |
 |-----------|:------:|--------------|
 | Индекс инструкций | ✅ | [README.md](/.claude/instructions/README.md) |
-| Инструменты | ✅ | [skills.md](/.claude/instructions/tools/skills.md), [agents.md](/.claude/instructions/tools/agents.md), [testing.md](/.claude/instructions/tools/testing.md) |
+| Инструменты | ✅ | [skills.md](/.claude/instructions/tools/skills.md), [agents.md](/.claude/instructions/tools/agents.md), [claude-testing.md](/.claude/instructions/tools/claude-testing.md) |
 | Git | ✅ | [workflow.md](/.claude/instructions/git/workflow.md), [commits.md](/.claude/instructions/git/commits.md), [issues.md](/.claude/instructions/git/issues.md), [ci.md](/.claude/instructions/git/ci.md), [review.md](/.claude/instructions/git/review.md) |
 | /src/ | ✅ | [documentation.md](/.claude/instructions/src/documentation.md) |
 | /doc/ | ✅ | [structure.md](/.claude/instructions/doc/structure.md) |
 | Скиллы | ✅ | [25 скиллов](/.claude/instructions/tools/skills.md) |
 | Скрипты | ✅ | [find_references.py](/.claude/scripts/find_references.py) |
-| /shared/, /config/, /platform/, /tests/ | ⬜ | Инструкции не созданы |
+| /tests/ | ✅ | [README.md](/.claude/instructions/tests/README.md) |
+| /shared/, /config/, /platform/ | ⬜ | Инструкции не созданы |
 | agents/, templates/, discussions/ | ⬜ | Папки созданы, контент не заполнен |
 
 ---
@@ -527,9 +528,12 @@ http:
 
 ```
 /tests/
+  /unit/                    ← юнит-тесты сервисов
+  /integration/             ← интеграционные тесты
   /e2e/                     ← функциональные сценарии
     auth-flow.spec.ts
     checkout.spec.ts
+  /smoke/                   ← быстрая проверка работоспособности
   /load/                    ← нагрузочные тесты (k6)
     /services/              ← изолированные тесты сервисов
       auth.k6.js

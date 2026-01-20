@@ -114,8 +114,12 @@
       alerting.md                       # алерты (severity, маршрутизация)
     operations.md                       # runbooks, incidents, postmortems
 
-  /tests/                               # правила тестирования
+  /tests/                               # правила тестирования проекта
+    README.md                           # индекс инструкций тестирования
+    unit.md                             # unit-тесты (изоляция, моки)
+    integration.md                      # интеграционные тесты (БД, API)
     e2e.md                              # e2e тесты (сценарии, инструменты)
+    smoke.md                            # smoke-тесты (быстрая проверка)
     load.md                             # нагрузочные тесты (k6, пороги)
     fixtures.md                         # тестовые данные (фикстуры, фабрики)
 
@@ -143,7 +147,7 @@
   /tools/                               # инструменты Claude
     skills.md                           # индекс скиллов
     agents.md                           # индекс агентов
-    testing.md                          # тестирование Claude Code (smoke tests)
+    claude-testing.md                   # тестирование Claude Code (smoke tests)
 ```
 
 ---
@@ -200,7 +204,11 @@
 
 | Инструкция | Описание | Тип | Создано | Заполнено |
 |------------|----------|-----|:-------:|:---------:|
+| [README.md](./tests/README.md) | Индекс инструкций тестирования проекта | project | ✅ | ✅ |
+| [unit.md](./tests/unit.md) | Unit-тесты: изоляция, моки, покрытие | standard | ⬜ | ⬜ |
+| [integration.md](./tests/integration.md) | Интеграционные тесты: БД, API, сервисы | standard | ⬜ | ⬜ |
 | [e2e.md](./tests/e2e.md) | End-to-end тесты: сценарии пользователя, инструменты | standard | ⬜ | ⬜ |
+| [smoke.md](./tests/smoke.md) | Smoke-тесты: быстрая проверка работоспособности | standard | ⬜ | ⬜ |
 | [load.md](./tests/load.md) | Нагрузочные тесты: k6, пороги производительности | standard | ⬜ | ⬜ |
 | [fixtures.md](./tests/fixtures.md) | Тестовые данные: фикстуры, фабрики, seeds | standard | ⬜ | ⬜ |
 
@@ -253,4 +261,4 @@
 |------------|----------|-----|:-------:|:---------:|
 | [skills.md](./tools/skills.md) | Индекс скиллов: команды автоматизации, категории, триггеры | project | ✅ | ✅ |
 | [agents.md](./tools/agents.md) | Индекс агентов: специализированные агенты, их роли и скиллы | project | ✅ | ✅ |
-| [testing.md](./tools/testing.md) | Тестирование Claude Code: smoke tests, проверка скиллов | standard | ✅ | ✅ |
+| [claude-testing.md](./tools/claude-testing.md) | Тестирование Claude Code: smoke tests, проверка скиллов | standard | ✅ | ✅ |

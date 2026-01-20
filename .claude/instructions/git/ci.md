@@ -6,6 +6,7 @@ related:
   - git/commits.md
   - git/review.md
   - git/issues.md
+  - tests/README.md
 ---
 
 # CI/CD Pipeline
@@ -388,3 +389,4 @@ jobs:
 - [commits.md](commits.md) — Conventional commits для changelog
 - [review.md](review.md) — Code review перед merge
 - [issues.md](issues.md) — GitHub Issues, задачи
+- [tests/README.md](../tests/README.md) — Тестирование проекта
