@@ -11,13 +11,13 @@
 - [Начало работы](#начало-работы)
 - [Workflow статусы](#workflow-статусы)
 - [Дерево инструкций](#дерево-инструкций)
-- [/src/ — Правила разработки сервисов](#src--правила-разработки-сервисов)
-- [/platform/ — Правила инфраструктуры](#platform--правила-инфраструктуры)
-- [/tests/ — Правила тестирования](#tests--правила-тестирования)
-- [/doc/ — Правила документации](#doc--правила-документации)
-- [/shared/ — Правила общего кода](#shared--правила-общего-кода)
 - [/config/ — Правила конфигураций](#config--правила-конфигураций)
+- [/doc/ — Правила документации](#doc--правила-документации)
 - [/git/ — Правила Git](#git--правила-git)
+- [/platform/ — Правила инфраструктуры](#platform--правила-инфраструктуры)
+- [/shared/ — Правила общего кода](#shared--правила-общего-кода)
+- [/src/ — Правила разработки сервисов](#src--правила-разработки-сервисов)
+- [/tests/ — Правила тестирования](#tests--правила-тестирования)
 
 ---
 
@@ -122,158 +122,75 @@
 /.claude/instructions/
   README.md                             # индекс всех инструкций
 
-  /src/                                 # правила разработки сервисов
-    /api/                               # проектирование API
-      design.md                         # URL, методы, статусы, частичное обновление
-      versioning.md                     # версионирование (/v1/, /v2/)
-      deprecation.md                    # вывод API (заголовки, сроки, миграция)
-      swagger.md                        # документация API (OpenAPI, /docs)
-    /data/                              # форматы данных
-      errors.md                         # формат ошибок (code, message, details)
-      logging.md                        # формат логов (JSON, request_id)
-      validation.md                     # валидация входных данных
-      pagination.md                     # формат пагинации (page, limit, total)
-    /runtime/                           # поведение в runtime
-      health.md                         # проверки (/health, /ready, завершение)
-      database.md                       # работа с БД (пул, миграции, транзакции)
-      resilience.md                     # устойчивость (таймауты, повторы, предохранитель)
-      realtime.md                       # real-time (polling, SSE, WebSocket)
-    /dev/                               # разработка
-      local.md                          # локальный запуск (hot reload, отладка)
-      testing.md                        # тесты (unit, integration, моки)
-      performance.md                    # производительность (профилирование, лимиты)
-    /security/                          # безопасность
-      auth.md                           # аутентификация (JWT между сервисами)
-      audit.md                          # аудит (кто/что/когда, PII, GDPR)
-
-  /platform/                            # правила инфраструктуры
-    docker.md                           # работа с Docker (образы, compose)
-    caching.md                          # кэширование (Redis, TTL, инвалидация)
-    deployment.md                       # деплой (rolling, blue-green, откат)
-    security.md                         # безопасность инфраструктуры
-    /observability/                     # наблюдаемость
-      overview.md                       # обзор (логи, метрики, трейсы)
-      metrics.md                        # метрики (Prometheus, labels)
-      tracing.md                        # трейсы (OpenTelemetry, span)
-      logging.md                        # логи (Loki, корреляция)
-      alerting.md                       # алерты (severity, маршрутизация)
-    operations.md                       # runbooks, incidents, postmortems
-
-  /tests/                               # правила тестирования
-    claude-testing.md                   # тестирование Claude Code (smoke tests)
-    project-testing.md                  # тестирование проекта (индекс)
-    unit.md                             # unit-тесты (изоляция, моки)
-    integration.md                      # интеграционные тесты (БД, API)
-    e2e.md                              # e2e тесты (сценарии, инструменты)
-    smoke.md                            # smoke-тесты (быстрая проверка)
-    load.md                             # нагрузочные тесты (k6, пороги)
-    fixtures.md                         # тестовые данные (фикстуры, фабрики)
-
-  /doc/                                 # правила документации
-    structure.md                        # структура (зеркалирование, ссылки на код)
-
-  /shared/                              # правила общего кода
-    contracts.md                        # контракты (OpenAPI, Protobuf, JSON Schema)
-    events.md                           # события (именование, идемпотентность, DLQ)
-    libs.md                             # общие библиотеки (ошибки, логи, валидация)
-    assets.md                           # статика (иконки, шрифты, брендинг)
-    i18n.md                             # локализация (формат ключей)
-
   /config/                              # правила конфигураций
     environments.md                     # окружения (dev/staging/prod)
     feature-flags.md                    # флаги функций (когда использовать)
 
+  /doc/                                 # правила документации
+    structure.md                        # структура (зеркалирование, ссылки на код)
+
   /git/                                 # правила Git
-    workflow.md                         # рабочий процесс (ветки, PR)
+    ci.md                               # CI/CD pipeline, GitHub Actions, quality gates
     commits.md                          # коммиты (conventional, changelog)
     issues.md                           # задачи (префиксы, метки)
-    ci.md                               # CI/CD pipeline, GitHub Actions, quality gates
     review.md                           # code review: чек-лист, CODEOWNERS, правила
+    workflow.md                         # рабочий процесс (ветки, PR)
+
+  /platform/                            # правила инфраструктуры
+    caching.md                          # кэширование (Redis, TTL, инвалидация)
+    deployment.md                       # деплой (rolling, blue-green, откат)
+    docker.md                           # работа с Docker (образы, compose)
+    /observability/                     # наблюдаемость
+      alerting.md                       # алерты (severity, маршрутизация)
+      logging.md                        # логи (Loki, корреляция)
+      metrics.md                        # метрики (Prometheus, labels)
+      overview.md                       # обзор (логи, метрики, трейсы)
+      tracing.md                        # трейсы (OpenTelemetry, span)
+    operations.md                       # runbooks, incidents, postmortems
+    security.md                         # безопасность инфраструктуры
+
+  /shared/                              # правила общего кода
+    assets.md                           # статика (иконки, шрифты, брендинг)
+    contracts.md                        # контракты (OpenAPI, Protobuf, JSON Schema)
+    events.md                           # события (именование, идемпотентность, DLQ)
+    i18n.md                             # локализация (формат ключей)
+    libs.md                             # общие библиотеки (ошибки, логи, валидация)
+
+  /src/                                 # правила разработки сервисов
+    /api/                               # проектирование API
+      deprecation.md                    # вывод API (заголовки, сроки, миграция)
+      design.md                         # URL, методы, статусы, частичное обновление
+      swagger.md                        # документация API (OpenAPI, /docs)
+      versioning.md                     # версионирование (/v1/, /v2/)
+    /data/                              # форматы данных
+      errors.md                         # формат ошибок (code, message, details)
+      logging.md                        # формат логов (JSON, request_id)
+      pagination.md                     # формат пагинации (page, limit, total)
+      validation.md                     # валидация входных данных
+    /dev/                               # разработка
+      local.md                          # локальный запуск (hot reload, отладка)
+      performance.md                    # производительность (профилирование, лимиты)
+      testing.md                        # тесты (unit, integration, моки)
+    /runtime/                           # поведение в runtime
+      database.md                       # работа с БД (пул, миграции, транзакции)
+      health.md                         # проверки (/health, /ready, завершение)
+      realtime.md                       # real-time (polling, SSE, WebSocket)
+      resilience.md                     # устойчивость (таймауты, повторы, предохранитель)
+    /security/                          # безопасность
+      audit.md                          # аудит (кто/что/когда, PII, GDPR)
+      auth.md                           # аутентификация (JWT между сервисами)
+
+  /tests/                               # правила тестирования
+    README.md                           # индекс тестирования
+    claude-testing.md                   # тестирование Claude Code (smoke tests)
+    e2e.md                              # e2e тесты (сценарии, инструменты)
+    fixtures.md                         # тестовые данные (фикстуры, фабрики)
+    integration.md                      # интеграционные тесты (БД, API)
+    load.md                             # нагрузочные тесты (k6, пороги)
+    project-testing.md                  # тестирование проекта (индекс)
+    smoke.md                            # smoke-тесты (быстрая проверка)
+    unit.md                             # unit-тесты (изоляция, моки)
 ```
-
-> **Перемещённые индексы:** skills.md, agents.md, state.md, dependencies.md перемещены в `/.claude/` — см. [/.claude/README.md](/.claude/README.md).
-
----
-
-## /src/ — Правила разработки сервисов
-
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| **api/** | Проектирование REST API ||||
-| [design.md](./src/api/design.md) | URL naming (kebab-case), HTTP методы, статус-коды, partial update, bulk operations | standard | ✅ | ✅ |
-| [versioning.md](./src/api/versioning.md) | Версионирование API через URL (/v1/, /v2/), gRPC package versioning | standard | ✅ | ✅ |
-| [deprecation.md](./src/api/deprecation.md) | Вывод API: Sunset header, Deprecation header, сроки, migration guide | standard | ✅ | ✅ |
-| [swagger.md](./src/api/swagger.md) | OpenAPI спецификация, Swagger UI на /docs, автогенерация | standard | ✅ | ✅ |
-| **data/** | Форматы данных ||||
-| [errors.md](./src/data/errors.md) | Единый формат ошибок: {error: {code, message, details, request_id}} | standard | ✅ | ✅ |
-| [logging.md](./src/data/logging.md) | Structured JSON logging: timestamp, level, service, request_id, message | standard | ✅ | ✅ |
-| [validation.md](./src/data/validation.md) | Валидация входных данных, формат ошибок по полям, JSON Schema | standard | ✅ | ✅ |
-| [pagination.md](./src/data/pagination.md) | Формат пагинации: {data, pagination: {page, limit, total, total_pages}} | standard | ✅ | ✅ |
-| **runtime/** | Поведение сервисов в runtime ||||
-| [health.md](./src/runtime/health.md) | Health checks: /health, /ready, graceful shutdown (SIGTERM, 30s) | standard | ✅ | ✅ |
-| [database.md](./src/runtime/database.md) | Connection pooling, миграции, транзакции, saga pattern, snake_case | standard | ✅ | ✅ |
-| [resilience.md](./src/runtime/resilience.md) | Устойчивость: таймауты, повторы (retry), circuit breaker, fallbacks | standard | ✅ | ✅ |
-| [realtime.md](./src/runtime/realtime.md) | Real-time: polling vs SSE vs WebSocket, когда что использовать | standard | ✅ | ✅ |
-| **dev/** | Разработка ||||
-| [local.md](./src/dev/local.md) | Локальная разработка: make dev, hot reload, debug порты, IDE | project | ✅ | ✅ |
-| [testing.md](./src/dev/testing.md) | Unit и integration тесты, моки, покрытие, расположение тестов | standard | ✅ | ✅ |
-| [performance.md](./src/dev/performance.md) | Профилирование, бенчмарки, лимиты: p99 < 200ms, память < 512MB | standard | ✅ | ✅ |
-| **security/** | Безопасность ||||
-| [auth.md](./src/security/auth.md) | Аутентификация между сервисами: JWT, service accounts | standard | ✅ | ✅ |
-| [audit.md](./src/security/audit.md) | Аудит-логи (кто/что/когда), PII, GDPR, data retention | standard | ✅ | ✅ |
-
----
-
-## /platform/ — Правила инфраструктуры
-
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [docker.md](./platform/docker.md) | Dockerfile best practices, docker-compose, образы, multi-stage | standard | ✅ | ✅ |
-| [caching.md](./platform/caching.md) | Redis: cache-aside, TTL, key naming ({service}:{entity}:{id}) | standard | ✅ | ✅ |
-| [deployment.md](./platform/deployment.md) | Деплой: rolling update, blue-green, canary, автооткат | standard | ✅ | ✅ |
-| [security.md](./platform/security.md) | Безопасность: Dependabot, GitLeaks, Semgrep, scanning в CI | standard | ✅ | ✅ |
-| **observability/** | Наблюдаемость (три столпа) ||||
-| [overview.md](./platform/observability/overview.md) | Обзор: logs (Loki), metrics (Prometheus), traces (Tempo) | standard | ✅ | ✅ |
-| [metrics.md](./platform/observability/metrics.md) | Prometheus метрики: naming, labels, типы (counter, gauge, histogram) | standard | ✅ | ✅ |
-| [tracing.md](./platform/observability/tracing.md) | Distributed tracing: OpenTelemetry, span, W3C traceparent | standard | ✅ | ✅ |
-| [logging.md](./platform/observability/logging.md) | Централизованные логи: Loki, корреляция с request_id | standard | ✅ | ✅ |
-| [alerting.md](./platform/observability/alerting.md) | Алертинг: severity levels, routing, связь с runbooks | standard | ✅ | ✅ |
-| [operations.md](./platform/operations.md) | Операции: runbooks, incidents, postmortems | standard | ✅ | ✅ |
-
----
-
-## /tests/ — Правила тестирования
-
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [claude-testing.md](./tests/claude-testing.md) | Тестирование Claude Code: smoke tests, скиллы, инструкции | standard | ✅ | ✅ |
-| [project-testing.md](./tests/project-testing.md) | Тестирование проекта (индекс, unit, e2e, load) | project | ✅ | ✅ |
-| [unit.md](./tests/unit.md) | Unit-тесты: изоляция, моки, покрытие | standard | ✅ | ✅ |
-| [integration.md](./tests/integration.md) | Интеграционные тесты: БД, API, сервисы | standard | ✅ | ✅ |
-| [e2e.md](./tests/e2e.md) | End-to-end тесты: сценарии пользователя, инструменты | standard | ✅ | ✅ |
-| [smoke.md](./tests/smoke.md) | Smoke-тесты: быстрая проверка работоспособности | standard | ✅ | ✅ |
-| [load.md](./tests/load.md) | Нагрузочные тесты: k6, пороги производительности | standard | ✅ | ✅ |
-| [fixtures.md](./tests/fixtures.md) | Тестовые данные: фикстуры, фабрики, seeds | standard | ✅ | ✅ |
-
----
-
-## /doc/ — Правила документации
-
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [structure.md](./doc/structure.md) | Структура /doc/, документирование кода, шаблоны, workflow | project | ✅ | ✅ |
-
----
-
-## /shared/ — Правила общего кода
-
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [contracts.md](./shared/contracts.md) | API контракты: OpenAPI, Protobuf, JSON Schema | standard | ✅ | ✅ |
-| [events.md](./shared/events.md) | События: naming ({service}.{entity}.{action}), идемпотентность, DLQ | standard | ✅ | ✅ |
-| [libs.md](./shared/libs.md) | Общие библиотеки: errors, logging, validation | project | ✅ | ✅ |
-| [assets.md](./shared/assets.md) | Статические ресурсы: иконки, шрифты, брендинг | project | ✅ | ✅ |
-| [i18n.md](./shared/i18n.md) | Локализация: формат ключей, структура /shared/i18n/{locale}/ | standard | ✅ | ✅ |
 
 ---
 
@@ -286,16 +203,96 @@
 
 ---
 
+## /doc/ — Правила документации
+
+| Инструкция | Описание | Тип | Создано | Заполнено |
+|------------|----------|-----|:-------:|:---------:|
+| [structure.md](./doc/structure.md) | Структура /doc/, документирование кода, шаблоны, workflow | project | ✅ | ✅ |
+
+---
+
 ## /git/ — Правила Git
 
 | Инструкция | Описание | Тип | Создано | Заполнено |
 |------------|----------|-----|:-------:|:---------:|
-| [workflow.md](./git/workflow.md) | Git workflow: GitHub Flow, ветки (main + feature/fix), PR | standard | ✅ | ✅ |
+| [ci.md](./git/ci.md) | CI/CD: pipeline структура, GitHub Actions, quality gates | standard | ✅ | ✅ |
 | [commits.md](./git/commits.md) | Conventional commits: feat/fix/breaking, автогенерация CHANGELOG | standard | ✅ | ✅ |
 | [issues.md](./git/issues.md) | GitHub Issues: префиксы ([AUTH], [NOTIFY]), labels, gh commands | standard | ✅ | ✅ |
-| [ci.md](./git/ci.md) | CI/CD: pipeline структура, GitHub Actions, quality gates | standard | ✅ | ✅ |
 | [review.md](./git/review.md) | Code review: чек-лист, CODEOWNERS, правила approve | standard | ✅ | ✅ |
+| [workflow.md](./git/workflow.md) | Git workflow: GitHub Flow, ветки (main + feature/fix), PR | standard | ✅ | ✅ |
 
 ---
 
-> **Примечание:** Индексы скиллов, агентов и состояния — в `/.claude/`. См. [/.claude/README.md](/.claude/README.md).
+## /platform/ — Правила инфраструктуры
+
+| Инструкция | Описание | Тип | Создано | Заполнено |
+|------------|----------|-----|:-------:|:---------:|
+| [caching.md](./platform/caching.md) | Redis: cache-aside, TTL, key naming ({service}:{entity}:{id}) | standard | ✅ | ✅ |
+| [deployment.md](./platform/deployment.md) | Деплой: rolling update, blue-green, canary, автооткат | standard | ✅ | ✅ |
+| [docker.md](./platform/docker.md) | Dockerfile best practices, docker-compose, образы, multi-stage | standard | ✅ | ✅ |
+| **observability/** | Наблюдаемость (три столпа) ||||
+| [alerting.md](./platform/observability/alerting.md) | Алертинг: severity levels, routing, связь с runbooks | standard | ✅ | ✅ |
+| [logging.md](./platform/observability/logging.md) | Централизованные логи: Loki, корреляция с request_id | standard | ✅ | ✅ |
+| [metrics.md](./platform/observability/metrics.md) | Prometheus метрики: naming, labels, типы (counter, gauge, histogram) | standard | ✅ | ✅ |
+| [overview.md](./platform/observability/overview.md) | Обзор: logs (Loki), metrics (Prometheus), traces (Tempo) | standard | ✅ | ✅ |
+| [tracing.md](./platform/observability/tracing.md) | Distributed tracing: OpenTelemetry, span, W3C traceparent | standard | ✅ | ✅ |
+| [operations.md](./platform/operations.md) | Операции: runbooks, incidents, postmortems | standard | ✅ | ✅ |
+| [security.md](./platform/security.md) | Безопасность: Dependabot, GitLeaks, Semgrep, scanning в CI | standard | ✅ | ✅ |
+
+---
+
+## /shared/ — Правила общего кода
+
+| Инструкция | Описание | Тип | Создано | Заполнено |
+|------------|----------|-----|:-------:|:---------:|
+| [assets.md](./shared/assets.md) | Статические ресурсы: иконки, шрифты, брендинг | project | ✅ | ✅ |
+| [contracts.md](./shared/contracts.md) | API контракты: OpenAPI, Protobuf, JSON Schema | standard | ✅ | ✅ |
+| [events.md](./shared/events.md) | События: naming ({service}.{entity}.{action}), идемпотентность, DLQ | standard | ✅ | ✅ |
+| [i18n.md](./shared/i18n.md) | Локализация: формат ключей, структура /shared/i18n/{locale}/ | standard | ✅ | ✅ |
+| [libs.md](./shared/libs.md) | Общие библиотеки: errors, logging, validation | project | ✅ | ✅ |
+
+---
+
+## /src/ — Правила разработки сервисов
+
+| Инструкция | Описание | Тип | Создано | Заполнено |
+|------------|----------|-----|:-------:|:---------:|
+| **api/** | Проектирование REST API ||||
+| [deprecation.md](./src/api/deprecation.md) | Вывод API: Sunset header, Deprecation header, сроки, migration guide | standard | ✅ | ✅ |
+| [design.md](./src/api/design.md) | URL naming (kebab-case), HTTP методы, статус-коды, partial update, bulk operations | standard | ✅ | ✅ |
+| [swagger.md](./src/api/swagger.md) | OpenAPI спецификация, Swagger UI на /docs, автогенерация | standard | ✅ | ✅ |
+| [versioning.md](./src/api/versioning.md) | Версионирование API через URL (/v1/, /v2/), gRPC package versioning | standard | ✅ | ✅ |
+| **data/** | Форматы данных ||||
+| [errors.md](./src/data/errors.md) | Единый формат ошибок: {error: {code, message, details, request_id}} | standard | ✅ | ✅ |
+| [logging.md](./src/data/logging.md) | Structured JSON logging: timestamp, level, service, request_id, message | standard | ✅ | ✅ |
+| [pagination.md](./src/data/pagination.md) | Формат пагинации: {data, pagination: {page, limit, total, total_pages}} | standard | ✅ | ✅ |
+| [validation.md](./src/data/validation.md) | Валидация входных данных, формат ошибок по полям, JSON Schema | standard | ✅ | ✅ |
+| **dev/** | Разработка ||||
+| [local.md](./src/dev/local.md) | Локальная разработка: make dev, hot reload, debug порты, IDE | project | ✅ | ✅ |
+| [performance.md](./src/dev/performance.md) | Профилирование, бенчмарки, лимиты: p99 < 200ms, память < 512MB | standard | ✅ | ✅ |
+| [testing.md](./src/dev/testing.md) | Unit и integration тесты, моки, покрытие, расположение тестов | standard | ✅ | ✅ |
+| **runtime/** | Поведение сервисов в runtime ||||
+| [database.md](./src/runtime/database.md) | Connection pooling, миграции, транзакции, saga pattern, snake_case | standard | ✅ | ✅ |
+| [health.md](./src/runtime/health.md) | Health checks: /health, /ready, graceful shutdown (SIGTERM, 30s) | standard | ✅ | ✅ |
+| [realtime.md](./src/runtime/realtime.md) | Real-time: polling vs SSE vs WebSocket, когда что использовать | standard | ✅ | ✅ |
+| [resilience.md](./src/runtime/resilience.md) | Устойчивость: таймауты, повторы (retry), circuit breaker, fallbacks | standard | ✅ | ✅ |
+| **security/** | Безопасность ||||
+| [audit.md](./src/security/audit.md) | Аудит-логи (кто/что/когда), PII, GDPR, data retention | standard | ✅ | ✅ |
+| [auth.md](./src/security/auth.md) | Аутентификация между сервисами: JWT, service accounts | standard | ✅ | ✅ |
+
+---
+
+## /tests/ — Правила тестирования
+
+| Инструкция | Описание | Тип | Создано | Заполнено |
+|------------|----------|-----|:-------:|:---------:|
+| [claude-testing.md](./tests/claude-testing.md) | Тестирование Claude Code: smoke tests, скиллы, инструкции | standard | ✅ | ✅ |
+| [e2e.md](./tests/e2e.md) | End-to-end тесты: сценарии пользователя, инструменты | standard | ✅ | ✅ |
+| [fixtures.md](./tests/fixtures.md) | Тестовые данные: фикстуры, фабрики, seeds | standard | ✅ | ✅ |
+| [integration.md](./tests/integration.md) | Интеграционные тесты: БД, API, сервисы | standard | ✅ | ✅ |
+| [load.md](./tests/load.md) | Нагрузочные тесты: k6, пороги производительности | standard | ✅ | ✅ |
+| [project-testing.md](./tests/project-testing.md) | Тестирование проекта (индекс, unit, e2e, load) | project | ✅ | ✅ |
+| [smoke.md](./tests/smoke.md) | Smoke-тесты: быстрая проверка работоспособности | standard | ✅ | ✅ |
+| [unit.md](./tests/unit.md) | Unit-тесты: изоляция, моки, покрытие | standard | ✅ | ✅ |
+
+---
