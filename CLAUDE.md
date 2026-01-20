@@ -272,29 +272,3 @@ doc-delete → issue-create, links-delete
 ```
 
 ---
-
-### 📈 МЕТРИКИ ДЛЯ ОТСЛЕЖИВАНИЯ
-
-- [x] testing.md → claude-testing.md
-- [x] Создана структура /.claude/instructions/tests/
-- [x] Созданы 6 скиллов test-*
-- [x] test-* скиллы расширены до полных спецификаций
-- [x] project-testing.md перемещён в tests/
-- [x] Инструкции тестирования имеют раздел "Скиллы"
-- [x] Создан SSOT scope-detection.md
-- [x] Все test-* скиллы имеют FAQ
-- [x] Все test-* скиллы имеют "Следующие шаги"
-- [x] ci.md связан с test-execute
-- [x] Критичные скиллы определены в CLAUDE.md
-- [x] test-execute поддерживает batch-операции (--category)
-- [x] test-execute и test-review поддерживают --last-failed
-- [x] Документирована интеграция с git hooks
-- [x] claude-testing.md содержит раздел side effects и мокирование
-- [x] test-formats.md содержит диагностику flaky
-- [x] issue-complete проверяет CI статус
-- [x] Фаза 2: Сравнение links-update vs context-update
-- [x] Фаза 2: instruction-update вызывает test-update
-- [x] Фаза 2: prompt-update интегрирован в экосистему
-- [ ] Все инструкции имеют раздел "Скиллы"
-- [x] Созданы инструкции tests/*.md (6 файлов)
-- [x] Созданы все 53 инструкции (100%)
