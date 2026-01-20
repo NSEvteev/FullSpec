@@ -35,6 +35,11 @@ triggers:
 - [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов, категории
 - [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование скиллов после создания
 - [workflow-template.md](/.claude/templates/workflow-template.md) — SSOT шаблон воркфлоу для скиллов
+- [output-formats.md](/.claude/templates/output-formats.md) — SSOT форматы вывода (Шаг 12)
+
+**Utility-скиллы:**
+- [input-validate](/.claude/skills/input-validate/SKILL.md) — валидация названия скилла (Шаг 0b)
+- [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка git для отката (Шаг 0b)
 
 ## Оглавление
 

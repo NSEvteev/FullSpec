@@ -27,6 +27,9 @@ triggers:
 - [links-delete](/.claude/skills/links-delete/SKILL.md) — пометка битых ссылок
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста (семантика)
 
+**Шаблоны:**
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)

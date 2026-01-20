@@ -26,6 +26,9 @@ triggers:
 - [links-update](/.claude/skills/links-update/SKILL.md) — обновление и восстановление ссылок
 - [context-delete](/.claude/skills/context-delete/SKILL.md) — очистка контекста (вызывать до удаления файла)
 
+**Шаблоны:**
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)

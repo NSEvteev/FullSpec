@@ -22,6 +22,17 @@ triggers:
 **Связанные скиллы:**
 - [input-validate](/.claude/skills/input-validate/SKILL.md) — валидация входных данных
 
+**Используется в:**
+- [issue-create](/.claude/skills/issue-create/SKILL.md) — проверка gh перед созданием Issue
+- [issue-update](/.claude/skills/issue-update/SKILL.md) — проверка gh перед обновлением Issue
+- [issue-execute](/.claude/skills/issue-execute/SKILL.md) — проверка gh/git перед выполнением
+- [issue-review](/.claude/skills/issue-review/SKILL.md) — проверка gh перед ревью
+- [issue-complete](/.claude/skills/issue-complete/SKILL.md) — проверка gh перед закрытием
+- [issue-delete](/.claude/skills/issue-delete/SKILL.md) — проверка gh перед закрытием
+
+**Шаблоны:**
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)

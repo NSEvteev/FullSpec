@@ -31,6 +31,9 @@ triggers:
 - [links-create](/.claude/skills/links-create/SKILL.md) — создание ссылок в документе
 - [context-delete](/.claude/skills/context-delete/SKILL.md) — очистка контекста при удалении
 
+**Шаблоны:**
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)

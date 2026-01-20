@@ -34,6 +34,7 @@ triggers:
 **Шаблоны:**
 - [test-formats.md](/.claude/templates/test-formats.md) — форматы отчётов, статусы тестов
 - [scope-detection.md](/.claude/templates/scope-detection.md) — определение scope (SSOT)
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
 
 ## Оглавление
 

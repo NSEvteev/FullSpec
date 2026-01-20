@@ -30,6 +30,7 @@ triggers:
 
 **Связанные инструкции:**
 - [README.md](/.claude/instructions/README.md) — индекс инструкций, статусы заполнения
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
 
 ## Оглавление
 

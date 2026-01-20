@@ -22,6 +22,14 @@ triggers:
 **Связанные скиллы:**
 - [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка окружения (gh, git, python)
 
+**Используется в:**
+- [skill-create](/.claude/skills/skill-create/SKILL.md) — валидация названия скилла
+- [instruction-create](/.claude/skills/instruction-create/SKILL.md) — валидация пути инструкции
+- [doc-create](/.claude/skills/doc-create/SKILL.md) — валидация пути файла
+
+**Шаблоны:**
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)

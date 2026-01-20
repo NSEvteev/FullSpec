@@ -34,6 +34,9 @@ triggers:
 - [instruction-create](/.claude/skills/instruction-create/SKILL.md) — если промт про создание инструкции
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
 
+**Шаблоны:**
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)

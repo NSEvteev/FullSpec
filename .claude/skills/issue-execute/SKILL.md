@@ -35,6 +35,10 @@ triggers:
 - [git/workflow.md](/.claude/instructions/git/workflow.md) — правила работы с ветками и PR
 - [git/commits.md](/.claude/instructions/git/commits.md) — формат сообщений коммитов
 - [git/issues.md](/.claude/instructions/git/issues.md) — правила работы с Issues
+- [output-formats.md](/.claude/templates/output-formats.md) — SSOT форматы вывода
+
+**Utility-скиллы:**
+- [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением (Шаг 0)
 
 ## Оглавление
 

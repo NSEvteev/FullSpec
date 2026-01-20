@@ -33,6 +33,7 @@ triggers:
 - [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов, категории
 - [tools/agents.md](/.claude/instructions/tools/agents.md) — агенты используют скиллы
 - [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование скиллов после изменений
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
 
 ## Оглавление
 

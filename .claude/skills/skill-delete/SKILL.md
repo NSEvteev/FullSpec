@@ -29,6 +29,7 @@ triggers:
 
 **Связанные инструкции:**
 - [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов, категории
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
 
 ## Оглавление
 

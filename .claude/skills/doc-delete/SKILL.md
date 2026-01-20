@@ -33,6 +33,7 @@ triggers:
 - [tools/documentation.md](/.claude/instructions/tools/documentation.md) — правила документирования кода
 - [git/issues.md](/.claude/instructions/git/issues.md) — создание Issue для отслеживания
 - [scope-detection.md](/.claude/templates/scope-detection.md) — SSOT для определения scope (раздел "Scope для документации")
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
 
 ## Оглавление
 

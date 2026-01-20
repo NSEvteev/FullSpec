@@ -34,6 +34,10 @@ triggers:
 - [git/commits.md](/.claude/instructions/git/commits.md) — формат сообщений коммитов
 - [git/issues.md](/.claude/instructions/git/issues.md) — правила работы с Issues
 - [git/ci.md](/.claude/instructions/git/ci.md) — CI pipeline, проверка статуса перед закрытием
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+
+**Utility-скиллы:**
+- [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением (Шаг 0)
 
 ## Оглавление
 

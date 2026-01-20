@@ -32,6 +32,10 @@ triggers:
 - [git/workflow.md](/.claude/instructions/git/workflow.md) — правила работы с ветками и PR
 - [git/commits.md](/.claude/instructions/git/commits.md) — формат сообщений коммитов
 - [git/issues.md](/.claude/instructions/git/issues.md) — правила работы с Issues
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+
+**Utility-скиллы:**
+- [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением (Шаг 0)
 
 ## Оглавление
 
@@ -173,6 +177,38 @@ gh issue create --title "[AUTH] Добавить OAuth" --label "service:auth,fe
 ---
 
 ## Воркфлоу
+
+### Шаг 0: Проверка окружения
+
+> **SSOT:** [environment-check](/.claude/skills/environment-check/SKILL.md)
+
+Перед созданием Issue проверить доступность GitHub CLI:
+
+```
+/environment-check github --fix
+```
+
+**Что проверяется:**
+- `gh` — GitHub CLI установлен
+- `gh-auth` — авторизация выполнена
+
+**При ошибке:**
+```
+❌ Окружение не готово
+
+❌ gh: не установлен
+
+Установка:
+- macOS: brew install gh
+- Linux: sudo apt install gh
+- Windows: winget install GitHub.cli
+
+Документация: https://cli.github.com/
+```
+
+> ⚠️ **БЛОКИРУЮЩИЙ ШАГ:** При ошибке окружения — остановить выполнение.
+
+---
 
 ### Шаг 1: Определить сервис
 

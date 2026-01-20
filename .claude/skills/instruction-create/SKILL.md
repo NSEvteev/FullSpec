@@ -31,6 +31,8 @@ triggers:
 
 **Связанные инструкции:**
 - [README.md](/.claude/instructions/README.md) — индекс инструкций, статусы заполнения
+- [workflow-template.md](/.claude/templates/workflow-template.md) — SSOT шаблон воркфлоу
+- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
 
 ## Оглавление
 
