@@ -18,7 +18,6 @@
 - [/shared/ — Правила общего кода](#shared--правила-общего-кода)
 - [/config/ — Правила конфигураций](#config--правила-конфигураций)
 - [/git/ — Правила Git](#git--правила-git)
-- [/tools/ — Инструменты Claude](#tools--инструменты-claude)
 
 ---
 
@@ -160,8 +159,10 @@
       alerting.md                       # алерты (severity, маршрутизация)
     operations.md                       # runbooks, incidents, postmortems
 
-  /tests/                               # правила тестирования проекта
-    project-testing.md                  # индекс тестирования проекта
+  /tests/                               # правила тестирования
+    README.md                           # индекс тестирования
+    claude-testing.md                   # тестирование Claude Code (smoke tests)
+    project-testing.md                  # тестирование проекта (индекс)
     unit.md                             # unit-тесты (изоляция, моки)
     integration.md                      # интеграционные тесты (БД, API)
     e2e.md                              # e2e тесты (сценарии, инструменты)
@@ -189,18 +190,6 @@
     issues.md                           # задачи (префиксы, метки)
     ci.md                               # CI/CD pipeline, GitHub Actions, quality gates
     review.md                           # code review: чек-лист, CODEOWNERS, правила
-
-  /tools/                               # инструменты Claude
-    documentation.md                    # правила документирования кода
-
-  /tests/                               # тестирование (добавлено)
-    README.md                           # индекс тестирования
-    claude-testing.md                   # тестирование Claude Code (smoke tests)
-    project-testing.md                  # тестирование проекта
-    unit.md                             # unit-тесты
-    integration.md                      # интеграционные тесты
-    e2e.md                              # e2e тесты
-    fixtures.md                         # тестовые данные
 ```
 
 > **Перемещённые индексы:** skills.md, agents.md, state.md, dependencies.md перемещены в `/.claude/` — см. [/.claude/README.md](/.claude/README.md).
@@ -310,4 +299,4 @@
 
 ---
 
-> **Примечание:** Папка `/tools/` удалена. Содержимое `documentation.md` объединено с [doc/structure.md](./doc/structure.md). Индексы скиллов, агентов и состояния — в `/.claude/`. См. [/.claude/README.md](/.claude/README.md).
+> **Примечание:** Индексы скиллов, агентов и состояния — в `/.claude/`. См. [/.claude/README.md](/.claude/README.md).
