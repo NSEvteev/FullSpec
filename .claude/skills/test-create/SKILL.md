@@ -28,7 +28,11 @@ triggers:
 
 **Связанные инструкции:**
 - [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование Claude Code
-- [tools/project-testing.md](/.claude/instructions/tools/project-testing.md) — тестирование проекта
+- [tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
+
+**Шаблоны:**
+- [test-formats.md](/.claude/templates/test-formats.md) — форматы тестов, статусы, чек-листы
+- [scope-detection.md](/.claude/templates/scope-detection.md) — определение scope (SSOT)
 
 ## Оглавление
 
@@ -44,6 +48,7 @@ triggers:
   - [Шаг 6: Результат](#шаг-6-результат)
 - [Чек-лист](#чек-лист)
 - [Примеры использования](#примеры-использования)
+- [FAQ / Troubleshooting](#faq--troubleshooting)
 
 ---
 
@@ -64,27 +69,18 @@ triggers:
 
 ## Автоопределение scope
 
-**Принцип:** Один набор скиллов test-* для всех типов тестов. Scope определяется автоматически по пути.
+> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/templates/scope-detection.md).
 
-```
-                    /test-create [target]
-                               │
-               ┌───────────────┼───────────────┐
-               │               │               │
-         .claude/*        src/*           tests/*
-               │               │               │
-               ▼               ▼               ▼
-         scope: claude    scope: project  scope: project
-```
+**Принцип:** Один набор скиллов test-* для всех типов тестов. Scope определяется **автоматически по пути**.
 
-| Путь | Scope | Описание |
-|------|-------|----------|
-| `.claude/skills/*` | claude | Тест скилла |
-| `.claude/instructions/*` | claude | Тест инструкции |
-| `.claude/agents/*` | claude | Тест агента |
-| `src/*` | project | Тест кода проекта |
-| `tests/*` | project | Тест в папке тестов |
-| `shared/*` | project | Тест общего кода |
+**Краткая таблица:**
+
+| Путь начинается с | Scope | Описание |
+|-------------------|-------|----------|
+| `.claude/*` | `claude` | Тесты скиллов, инструкций, агентов |
+| `src/*` | `project` | Тесты кода проекта |
+| `tests/*` | `project` | Тесты в папке тестов |
+| `shared/*` | `project` | Тесты общего кода |
 
 ---
 
@@ -415,4 +411,114 @@ Scope: claude
   - Проверка запроса пути к файлу
 
 Изменений не внесено (dry-run).
+```
+
+---
+
+## FAQ / Troubleshooting
+
+### Scope определён неверно — что делать?
+
+**Симптом:** Скилл создал тест в формате markdown (для claude) вместо `.test.ts` (для project), или наоборот.
+
+**Решение:** Указать scope явно:
+```
+/test-create .claude/skills/my-skill/SKILL.md --scope claude
+/test-create src/auth/token.ts --scope project
+```
+
+**Причины неверного определения:**
+
+| Ситуация | Причина | Решение |
+|----------|---------|---------|
+| Путь не начинается с `.claude/` | Определяется как `project` | Добавить `--scope claude` |
+| Путь вне стандартных папок | Неизвестный scope | Явно указать `--scope` |
+| Опечатка в пути | Автоопределение не работает | Проверить путь |
+| Файл в нестандартной папке | Алгоритм не распознаёт | Явно указать `--scope` |
+
+### Scope claude: Как исправить неверно созданный тест?
+
+**Если создан `.test.ts` вместо раздела в SKILL.md:**
+
+1. Удалить созданный файл:
+   ```bash
+   rm .claude/skills/{skill}/tests.test.ts
+   ```
+
+2. Пересоздать с правильным scope:
+   ```
+   /test-create .claude/skills/{skill}/SKILL.md --scope claude
+   ```
+
+**Если создан раздел, но в неверном формате:**
+
+1. Удалить через `/test-delete`
+2. Пересоздать с явными параметрами
+
+### Scope project: Как исправить неверно созданный тест?
+
+**Если создан markdown вместо `.test.ts`:**
+
+1. Удалить созданный markdown:
+   ```bash
+   rm src/{path}/tests/{name}.md
+   ```
+
+2. Пересоздать с правильным scope:
+   ```
+   /test-create src/{path}/{file}.ts --scope project
+   ```
+
+**Если тест создан в неправильной папке:**
+
+1. Переместить файл:
+   ```bash
+   mv src/{wrong}/tests/{name}.test.ts src/{correct}/tests/
+   ```
+
+2. Обновить импорты в тесте
+
+### Как узнать, какой scope будет определён?
+
+Используйте `--dry-run`:
+```
+/test-create {путь} --dry-run
+```
+
+Вывод покажет:
+```
+📋 План создания теста (dry-run)
+
+Объект: {путь}
+Scope: {определённый scope}  ← проверить здесь
+Тип: smoke
+```
+
+### Когда использовать явный --scope?
+
+| Ситуация | Рекомендация |
+|----------|--------------|
+| Путь `.claude/*` | Не нужен (авто = claude) |
+| Путь `src/*`, `tests/*`, `shared/*` | Не нужен (авто = project) |
+| Файл в корне проекта | Указать явно |
+| Нестандартная структура | Указать явно |
+| Сомнения в определении | Использовать `--dry-run` или указать явно |
+
+---
+
+## Следующие шаги
+
+После создания теста рекомендуется:
+
+```bash
+# 1. Проверить, что тест работает
+/test-execute {путь-к-тесту}
+
+# 2. Проверить покрытие (опционально)
+/test-review {путь-к-тесту}
+```
+
+**Типичная цепочка:**
+```
+/test-create → /test-execute → /test-review → /test-complete
 ```

@@ -6,7 +6,7 @@ related:
   - git/commits.md
   - git/review.md
   - git/issues.md
-  - tools/project-testing.md
+  - tests/project-testing.md
 ---
 
 # CI/CD Pipeline
@@ -24,6 +24,7 @@ related:
   - [Alerting при failure](#alerting-при-failure)
 - [Примеры](#примеры)
 - [Скиллы](#скиллы)
+- [FAQ / Troubleshooting](#faq--troubleshooting)
 - [Связанные инструкции](#связанные-инструкции)
 
 ---
@@ -373,13 +374,219 @@ jobs:
 
 ---
 
+## Интеграция с тестированием
+
+> Связь CI pipeline с [test-execute](/.claude/skills/test-execute/SKILL.md).
+
+### Маппинг команд
+
+| Локальная команда | CI эквивалент | Scope |
+|-------------------|---------------|-------|
+| `/test-execute --scope project` | `make test` в `ci.yml` | project |
+| `/test-execute --scope claude` | Manual в Claude Code | claude |
+| `/test-execute --scope all` | `make test` + manual | all |
+
+### Pipeline и test-* скиллы
+
+```
+PR создан
+    │
+    ├── /test-execute --scope project  ← локально перед push
+    │
+    ▼
+CI Pipeline
+    │
+    ├── lint (make lint)
+    ├── test (make test)  ← эквивалент /test-execute --scope project
+    ├── build
+    └── security
+    │
+    ▼
+Если failed:
+    ├── /test-review ← найти проблему
+    └── /test-update ← исправить тест или /issue-create ← баг в коде
+```
+
+### Рекомендации
+
+**Перед push:**
+```bash
+/test-execute --scope project --type smoke
+```
+
+**Перед merge:**
+```bash
+/test-execute --scope project --type all
+```
+
+**При failed CI:**
+```bash
+# 1. Посмотреть логи
+gh run view <run-id> --log-failed
+
+# 2. Найти проблему
+/test-review путь-к-failed-тесту
+
+# 3. Исправить
+/test-update путь-к-failed-тесту --reason fix
+```
+
+---
+
 ## Скиллы
 
 | Скилл | Назначение |
 |-------|------------|
+| [test-execute](/.claude/skills/test-execute/SKILL.md) | Выполнение тестов локально |
+| [test-review](/.claude/skills/test-review/SKILL.md) | Анализ failed тестов |
+| [test-update](/.claude/skills/test-update/SKILL.md) | Исправление тестов |
 | `ci-check` | Проверка статуса CI *(планируется)* |
 | `ci-fix` | Исправление ошибок CI *(планируется)* |
 | `ci-rerun` | Перезапуск failed jobs *(планируется)* |
+
+---
+
+## FAQ / Troubleshooting
+
+### Pipeline упал — что делать?
+
+1. **Проверить логи:**
+   - GitHub → Actions → выбрать workflow → выбрать failed job
+   - Развернуть failed step для просмотра логов
+
+2. **Определить причину:**
+   | Ошибка | Вероятная причина | Решение |
+   |--------|-------------------|---------|
+   | `exit code 1` в lint | Ошибки линтера | Исправить код, запустить `make lint` локально |
+   | `exit code 1` в test | Падающие тесты | Запустить `make test` локально |
+   | `ImagePullBackOff` | Нет доступа к registry | Проверить secrets |
+   | `timeout` | Слишком долгое выполнение | Оптимизировать или увеличить timeout |
+
+3. **Исправить и перезапустить** (см. следующий вопрос)
+
+### Как перезапустить только failed jobs?
+
+```bash
+# Через GitHub CLI
+gh run rerun <run-id> --failed
+
+# Через UI
+# Actions → выбрать run → Re-run failed jobs
+```
+
+**Когда использовать:**
+- Flaky тесты (нестабильные)
+- Временные сбои сети
+- Rate limiting от внешних API
+
+### Как отладить workflow локально?
+
+1. **Используйте act** (локальный запуск GitHub Actions):
+   ```bash
+   # Установка
+   brew install act  # macOS
+
+   # Запуск
+   act -j lint       # запустить job lint
+   act -l            # список jobs
+   ```
+
+2. **Добавьте debug шаги:**
+   ```yaml
+   - name: Debug info
+     run: |
+       echo "GitHub ref: ${{ github.ref }}"
+       echo "Event: ${{ github.event_name }}"
+       env
+   ```
+
+3. **Включите debug logging:**
+   - Settings → Secrets → добавить `ACTIONS_STEP_DEBUG` = `true`
+
+### Тесты проходят локально, падают в CI — что делать?
+
+1. **Проверить окружение:**
+   - Версии (Node, Go, Python) — совпадают ли с CI?
+   - Переменные окружения — все ли заданы?
+   - Services (PostgreSQL, Redis) — доступны ли?
+
+2. **Проверить изоляцию:**
+   ```bash
+   # Запустить тесты в чистом окружении
+   docker run --rm -v $(pwd):/app -w /app node:20 npm test
+   ```
+
+3. **Проверить тайминги:**
+   - Добавить `--timeout` для медленных тестов
+   - CI-runners обычно медленнее локальной машины
+
+4. **Проверить порядок тестов:**
+   ```bash
+   # Запустить в случайном порядке
+   npm test -- --randomize
+   pytest --random-order
+   ```
+
+### Как пропустить CI для мелких коммитов?
+
+```bash
+# Добавить в commit message
+git commit -m "docs: update readme [skip ci]"
+
+# Или
+git commit -m "chore: formatting [ci skip]"
+```
+
+**Когда использовать:**
+- Исправление опечаток в документации
+- Обновление README
+- Изменения, не влияющие на код
+
+**Когда НЕ использовать:**
+- Любые изменения кода
+- Изменения конфигураций
+- Изменения зависимостей
+
+### Deploy упал — как откатиться?
+
+1. **Автоматический откат** (если настроен health check):
+   - Kubernetes автоматически откатит при failed readiness probe
+
+2. **Ручной откат через CLI:**
+   ```bash
+   # GitHub CLI
+   gh workflow run rollback.yml -f version=v1.2.3
+
+   # Kubernetes напрямую
+   kubectl rollout undo deployment/app
+   ```
+
+3. **Откат через UI:**
+   - Actions → Rollback workflow → Run workflow → указать версию
+
+**Важно:**
+- Rollback должен завершиться < 5 минут
+- После отката — создать issue для анализа причин
+- Не деплоить новые версии до исправления
+
+### Как проверить статус CI перед merge?
+
+```bash
+# Проверить статус checks для PR
+gh pr checks <pr-number>
+
+# Статус последнего workflow run
+gh run list --limit 5
+
+# Детали конкретного run
+gh run view <run-id>
+```
+
+**Required checks для main:**
+- ✅ lint
+- ✅ test
+- ✅ security (для main)
+- ✅ code review approved
 
 ---
 
@@ -389,4 +596,4 @@ jobs:
 - [commits.md](commits.md) — Conventional commits для changelog
 - [review.md](review.md) — Code review перед merge
 - [issues.md](issues.md) — GitHub Issues, задачи
-- [tools/project-testing.md](../tools/project-testing.md) — Тестирование проекта
+- [project-testing.md](../tests/project-testing.md) — Тестирование проекта

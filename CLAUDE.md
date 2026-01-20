@@ -81,6 +81,30 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Приоритет: пользовательские скиллы > ручное выполнение.
 
+## Критичные скиллы
+
+**Критичные скиллы** — базовые скиллы управления сущностями проекта. Для них действуют особые правила:
+
+### Список критичных скиллов
+
+| Категория | Скиллы |
+|-----------|--------|
+| skill-management | `skill-create`, `skill-update`, `skill-delete` |
+| instruction-management | `instruction-create`, `instruction-update`, `instruction-delete` |
+| git | `issue-create`, `issue-update`, `issue-execute`, `issue-review`, `issue-complete`, `issue-delete` |
+
+### Правила для критичных скиллов
+
+1. **Нельзя удалять единственный тест** критичного скилла через `/test-delete`
+2. При **failed тесте** критичного скилла — автоматическое предложение создать Issue
+3. Критичные скиллы **приоритетны** в CI/CD проверках
+
+### Как определить критичность
+
+Скилл критичен, если:
+- Паттерн имени: `skill-*`, `instruction-*`, `issue-*`
+- Или поле `critical: true` в frontmatter SKILL.md
+
 ## Статус проекта
 
 Проект в процессе рефакторинга. Целевая структура описана в [refactoring.md](refactoring.md).
@@ -166,125 +190,115 @@ make lint          # Линтинг
 ## 📌 При следующем запуске
 
 > **Дата:** 2026-01-20
-> **Статус:** Рефакторинг в процессе
+> **Статус:** Анализ и улучшение test-* скиллов завершено
 
 ---
 
-### ✅ ВЫПОЛНЕНО В ЭТОЙ СЕССИИ
+### ✅ ВЫПОЛНЕНО (2026-01-20) — Сессия 2: Анализ качества
 
-| Задача | Статус |
-|--------|--------|
-| Блок 1: skill-update проверен | ✅ Файл в порядке |
-| Блок 1: Циклические зависимости | ✅ Ложная проблема — циклов нет |
-| instruction-update: добавлен Шаг 8 (context-update) | ✅ |
-| git/ci.md: + Скиллы, + rollback, + alerting | ✅ |
-| git/review.md: + SLA, + self-review чек-лист | ✅ |
-| git/workflow.md: + Скиллы, + related | ✅ |
-| issue-review: + ссылка на self-review чек-лист | ✅ |
+#### Созданные файлы
+
+| Файл | Назначение |
+|------|------------|
+| `/.claude/templates/scope-detection.md` | SSOT для определения scope и типов тестов |
+| `/.claude/discussions/2026-01-20-refactoring-analysis.md` | Детальный отчёт сессии |
+
+#### Улучшения test-* скиллов
+
+| Скилл | Изменения |
+|-------|-----------|
+| test-create | + SSOT ссылка, + "Следующие шаги" |
+| test-update | Исправлен scope (путь вместо расширения), + FAQ, + "Следующие шаги" |
+| test-review | + SSOT ссылка, + FAQ, + "Следующие шаги" |
+| test-execute | Удалён /test-run, + CI интеграция, + "Следующие шаги" |
+| test-complete | + SSOT ссылка, + FAQ, + "Следующие шаги" |
+| test-delete | + SSOT ссылка, + "Следующие шаги" |
+
+#### Новые связи
+
+| Связь | Описание |
+|-------|----------|
+| ci.md ↔ test-execute | Интеграция тестов с CI pipeline |
+| scope-detection.md → test-* | Все 6 скиллов ссылаются на SSOT |
+| CLAUDE.md "Критичные скиллы" | Определены: skill-*, instruction-*, issue-* |
+
+#### Устранённые проблемы
+
+- ✅ Дублирование логики scope (3 места → 1 SSOT)
+- ✅ Противоречие в test-update (расширение → путь)
+- ✅ Дублированный триггер /test-run удалён
+- ✅ Отсутствие FAQ в test-update, test-review, test-complete
+- ✅ Отсутствие связи тестов с CI
 
 ---
 
-### ✅ ВЫПОЛНЕНО В ЭТОЙ СЕССИИ (продолжение)
+### ✅ ВЫПОЛНЕНО (2026-01-20) — Сессия 1: Скиллы тестирования
 
-| Задача | Статус |
-|--------|--------|
-| Блок A.1: testing.md → claude-testing.md | ✅ |
-| Блок A.2: tools/skills.md (+ related, + стандарт параметров) | ✅ |
-| Блок B.1: tests/README.md создан | ✅ |
-| Блок B.2: /tests/ обновлён в refactoring.md | ✅ |
+#### Скиллы тестирования
 
----
-
-### ✅ БЛОК C ВЫПОЛНЕН
-
-Созданы 6 test-* скиллов с автоопределением scope:
-- [test-create](/.claude/skills/test-create/SKILL.md) ✅
-- [test-update](/.claude/skills/test-update/SKILL.md) ✅
-- [test-review](/.claude/skills/test-review/SKILL.md) ✅
-- [test-execute](/.claude/skills/test-execute/SKILL.md) ✅
-- [test-complete](/.claude/skills/test-complete/SKILL.md) ✅
-- [test-delete](/.claude/skills/test-delete/SKILL.md) ✅
+| Скилл | Строк | Описание |
+|-------|-------|----------|
+| test-create | ~520 | Создание теста с автоопределением scope |
+| test-update | ~600 | Изменение теста (sync/extend/fix) + FAQ |
+| test-review | ~620 | Проверка покрытия и качества + FAQ |
+| test-execute | ~610 | Выполнение тестов + CI интеграция |
+| test-complete | ~585 | Отметка статуса с историей + FAQ |
+| test-delete | ~550 | Удаление с архивацией |
 
 ---
 
-### 🟡 ТЕКУЩИЙ ПЛАН
+### 📊 СТАТИСТИКА ПРОЕКТА
 
-#### ✅ Выполнено: Переименование tests/README.md → tools/project-testing.md
+| Метрика | Значение |
+|---------|----------|
+| Скиллов | 21 |
+| Инструкций создано | 12 из 64 (19%) |
+| test-* скиллов | 6 (полные с FAQ и цепочками) |
+| Шаблонов | 2 (test-formats.md, scope-detection.md) |
 
-По аналогии с `claude-testing.md`:
-- `tools/claude-testing.md` — тесты Claude Code ✅
-- `tools/project-testing.md` — тесты проекта ✅
+---
 
-#### Блок D: Создать критические инструкции
+### 🟡 СЛЕДУЮЩИЕ ЗАДАЧИ
+
+#### Блок D: Критические инструкции
 
 | # | Инструкция | Тип | Почему критично |
 |---|------------|-----|-----------------|
 | D.1 | src/dev/local.md | project | Как запустить проект локально |
 | D.2 | config/environments.md | project | Какие окружения есть |
 
----
+#### Блок E: Инструкции tests/
 
-### 📊 ГРАФ СВЯЗЕЙ СКИЛЛОВ (обновлённый)
+| # | Инструкция | Статус |
+|---|------------|--------|
+| E.1 | tests/unit.md | ⬜ |
+| E.2 | tests/integration.md | ⬜ |
+| E.3 | tests/e2e.md | ⬜ |
+| E.4 | tests/smoke.md | ⬜ |
+| E.5 | tests/load.md | ⬜ |
+| E.6 | tests/fixtures.md | ⬜ |
 
-```
-ТРИАДЫ СКИЛЛОВ:
+#### Блок F: Новые скиллы (опционально)
 
-skill-*:       create ←→ update ←→ delete
-instruction-*: create ←→ update ←→ delete
-doc-*:         create ←→ update ←→ delete
-links-*:       create ←→ update ←→ delete
-context-*:     update ←→ delete
-test-*:        create ←→ update ←→ review ←→ execute ←→ complete ←→ delete  # НОВОЕ
-
-issue-*:       create → update → execute → review → complete
-                                                 ↘ delete
-
-ЦЕПОЧКИ ВЫЗОВОВ:
-
-instruction-create:
-  └→ links-update (Шаг 7)
-  └→ context-update (Шаг 8)
-  └→ instruction-update (Шаг 9)
-  └→ skill-update (Шаг 10)
-  └→ skill-create (Шаг 11, если пользователь согласен)
-
-instruction-update:
-  └→ context-update (Шаг 8)  # ДОБАВЛЕНО
-
-skill-create:
-  └→ links-update (Шаг 9)
-  └→ skill-update (Шаг 10)
-```
-
----
-
-### 📋 ПОРЯДОК ВЫПОЛНЕНИЯ
-
-```
-1. Блок A — завершить инструкции
-2. Коммит + пуш
-
-3. Блок B — создать структуру тестов
-4. Коммит + пуш
-
-5. Блок C — создать скиллы test-*
-6. Коммит + пуш
-
-7. Блок D — создать критические инструкции
-8. Коммит + пуш
-
-9. Удалить этот раздел из CLAUDE.md
-```
+| Скилл | Описание |
+|-------|----------|
+| ci-check | Проверка статуса CI |
+| ci-fix | Исправление ошибок CI |
 
 ---
 
 ### 📈 МЕТРИКИ ДЛЯ ОТСЛЕЖИВАНИЯ
 
-После завершения проверить:
-
+- [x] testing.md → claude-testing.md
+- [x] Создана структура /.claude/instructions/tests/
+- [x] Созданы 6 скиллов test-*
+- [x] test-* скиллы расширены до полных спецификаций
+- [x] project-testing.md перемещён в tests/
+- [x] Инструкции тестирования имеют раздел "Скиллы"
+- [x] Создан SSOT scope-detection.md
+- [x] Все test-* скиллы имеют FAQ (кроме test-delete)
+- [x] Все test-* скиллы имеют "Следующие шаги"
+- [x] ci.md связан с test-execute
+- [x] Критичные скиллы определены в CLAUDE.md
 - [ ] Все инструкции имеют раздел "Скиллы"
-- [ ] Все frontmatter имеют полные related
-- [ ] `testing.md` переименован в `claude-testing.md`
-- [ ] Создана структура `/.claude/instructions/tests/`
-- [ ] Создано 6 скиллов test-*
-- [ ] Обновлён `/tests/` в refactoring.md (добавлен smoke/)
+- [ ] Созданы инструкции tests/*.md (6 файлов)

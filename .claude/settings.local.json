@@ -53,7 +53,8 @@
       "WebFetch(domain:live.mts.ru)",
       "WebFetch(domain:www.ticketland.ru)",
       "Skill(instruction-create)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(wc:*)"
     ]
   }
 }

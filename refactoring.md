@@ -211,7 +211,7 @@ graph LR
 /shared/   → /.claude/instructions/shared/README.md
 /config/   → /.claude/instructions/config/README.md
 /platform/ → /.claude/instructions/platform/README.md
-/tests/    → /.claude/instructions/tools/project-testing.md
+/tests/    → /.claude/instructions/tests/project-testing.md
 ```
 
 **Исключения:**
@@ -250,11 +250,12 @@ graph LR
 | Git | ✅ | [workflow.md](/.claude/instructions/git/workflow.md), [commits.md](/.claude/instructions/git/commits.md), [issues.md](/.claude/instructions/git/issues.md), [ci.md](/.claude/instructions/git/ci.md), [review.md](/.claude/instructions/git/review.md) |
 | /src/ | ✅ | [documentation.md](/.claude/instructions/src/documentation.md) |
 | /doc/ | ✅ | [structure.md](/.claude/instructions/doc/structure.md) |
-| Скиллы | ✅ | [25 скиллов](/.claude/instructions/tools/skills.md) |
+| Скиллы | ✅ | [27 скиллов](/.claude/instructions/tools/skills.md) |
 | Скрипты | ✅ | [find_references.py](/.claude/scripts/find_references.py) |
-| /tests/ | ✅ | [project-testing.md](/.claude/instructions/tools/project-testing.md) |
+| /tests/ | ✅ | [project-testing.md](/.claude/instructions/tests/project-testing.md) |
 | /shared/, /config/, /platform/ | ⬜ | Инструкции не созданы |
-| agents/, templates/, discussions/ | ⬜ | Папки созданы, контент не заполнен |
+| templates/ | ✅ | [scope-detection.md](/.claude/templates/scope-detection.md), [test-formats.md](/.claude/templates/test-formats.md) |
+| agents/, discussions/ | ⬜ | Папки созданы, контент не заполнен |
 
 ---
 

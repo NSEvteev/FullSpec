@@ -6,7 +6,6 @@ category: testing
 triggers:
   commands:
     - /test-execute
-    - /test-run
   phrases:
     ru:
       - запусти тест
@@ -30,7 +29,11 @@ triggers:
 
 **Связанные инструкции:**
 - [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование Claude Code
-- [tools/project-testing.md](/.claude/instructions/tools/project-testing.md) — тестирование проекта
+- [tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
+
+**Шаблоны:**
+- [test-formats.md](/.claude/templates/test-formats.md) — форматы отчётов, статусы тестов
+- [scope-detection.md](/.claude/templates/scope-detection.md) — определение scope (SSOT)
 
 ## Оглавление
 
@@ -45,6 +48,7 @@ triggers:
   - [Шаг 5: Результат](#шаг-5-результат)
 - [Чек-лист](#чек-лист)
 - [Примеры использования](#примеры-использования)
+- [FAQ / Troubleshooting](#faq--troubleshooting)
 
 ---
 
@@ -66,6 +70,8 @@ triggers:
 
 ## Автоопределение scope
 
+> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/templates/scope-detection.md).
+
 ```
                     /test-execute [target] [--scope]
                                │
@@ -75,10 +81,9 @@ triggers:
                │               │               │
                ▼               ▼               ▼
        Автоопределить     Использовать     Спросить:
-       по пути:           указанный        [1] claude
-       .claude/* → claude                  [2] project
-       src/* → project                     [3] all
-       tests/* → project
+       по пути            указанный        [1] claude
+       (см. SSOT)                          [2] project
+                                           [3] all
 ```
 
 ---
@@ -153,12 +158,29 @@ find . -name "*.test.ts" -o -name "*.spec.ts" -o -name "*_test.py"
 **Scope claude (интерактивно):**
 
 1. Для каждого скилла с тестами:
-   - Прочитать раздел "Тестирование"
-   - Выполнить шаги теста
-   - Проверить результат
-   - Записать статус
+   - Прочитать раздел "Тестирование" в SKILL.md
+   - Извлечь ожидания из теста
+   - Выполнить шаги теста последовательно
+   - Сравнить результат с ожиданиями
+   - Записать статус (passed/failed)
 
-2. Формат выполнения smoke test:
+2. **Алгоритм выполнения шага теста:**
+   ```
+   a. Прочитать описание шага
+   b. Выполнить действие (вызов команды, проверка вывода)
+   c. Сравнить результат с ожиданием:
+      - Совпадает → ✅ Passed
+      - Не совпадает → ❌ Failed + записать причину
+      - Ошибка/таймаут → ❌ Failed + записать ошибку
+   d. Перейти к следующему шагу или завершить
+   ```
+
+3. **Обработка ошибок:**
+   - Если шаг failed → продолжить выполнение остальных шагов
+   - Если критическая ошибка → остановить тест, пометить как failed
+   - Записать все ошибки в отчёт
+
+4. Формат выполнения smoke test:
    ```
    📋 Выполняю: Smoke test issue-create
 
@@ -175,16 +197,32 @@ find . -name "*.test.ts" -o -name "*.spec.ts" -o -name "*_test.py"
 
 **Scope project (автоматически):**
 
-```bash
-# Определить команду запуска
-if [ -f "Makefile" ]; then
-  make test
-elif [ -f "package.json" ]; then
-  npm test
-elif [ -f "pytest.ini" ]; then
-  pytest
-fi
-```
+1. **Определить команду запуска:**
+   ```bash
+   if [ -f "Makefile" ]; then
+     make test
+   elif [ -f "package.json" ]; then
+     npm test
+   elif [ -f "pytest.ini" ]; then
+     pytest
+   fi
+   ```
+
+2. **Параметры запуска:**
+   - `--verbose` → передать флаг verbose в тест-раннер
+   - `--filter {pattern}` → запустить только тесты по паттерну
+   - `--timeout {ms}` → ограничить время выполнения
+
+3. **Сбор результатов:**
+   - Парсить вывод тест-раннера
+   - Извлечь количество passed/failed/skipped
+   - Извлечь coverage (если доступен)
+   - Записать в отчёт
+
+4. **Обработка ошибок:**
+   - Тест-раннер не найден → предложить установить
+   - Таймаут → пометить как failed, показать последний вывод
+   - Exit code != 0 → пометить как failed
 
 ### Шаг 5: Результат
 
@@ -348,4 +386,224 @@ Project:
 > 1
 
 Выполняю тесты scope: claude...
+```
+
+---
+
+## CI интеграция
+
+> Связь с CI pipeline описана в [ci.md](/.claude/instructions/git/ci.md#интеграция-с-тестированием).
+
+### Маппинг на CI
+
+| /test-execute | CI эквивалент |
+|---------------|---------------|
+| `--scope project` | `make test` |
+| `--scope claude` | Manual (Claude Code) |
+| `--type smoke` | Быстрые тесты перед push |
+| `--type all` | Полные тесты перед merge |
+
+### Рекомендации
+
+**Перед push:**
+```bash
+/test-execute --scope project --type smoke
+```
+
+**При failed CI:**
+```bash
+# 1. Посмотреть логи
+gh run view <run-id> --log-failed
+
+# 2. Найти проблему локально
+/test-execute путь-к-failed-тесту --verbose
+
+# 3. Если тест некорректен
+/test-update путь --reason fix
+
+# 4. Если баг в коде
+/issue-create --type bug
+```
+
+---
+
+## FAQ / Troubleshooting
+
+### Scope определён неверно — что делать?
+
+**Симптом:** Скилл запустился в режиме `project` вместо `claude` (или наоборот).
+
+**Решение:** Указать scope явно:
+```
+/test-execute .claude/skills/my-skill/SKILL.md --scope claude
+/test-execute tests/unit/ --scope project
+```
+
+**Причины неверного определения:**
+
+| Ситуация | Причина | Решение |
+|----------|---------|---------|
+| Путь не начинается с `.claude/` | Определяется как `project` | Добавить `--scope claude` |
+| Опечатка в пути `.claud/` | Не распознаётся | Исправить путь |
+| Относительный путь `skills/...` | Нет `.claude/` | Использовать полный путь |
+| Нестандартная структура | Автоопределение не работает | Явно указать `--scope` |
+
+### Scope claude: Тесты не найдены
+
+**Симптом:**
+```
+📊 Результаты тестирования
+Scope: claude
+Найдено тестов: 0
+```
+
+**Причины:**
+1. В скиллах нет раздела "## Тестирование"
+2. Указан неверный путь к скиллу
+3. Файлы `tests.md` отсутствуют
+
+**Решение:**
+1. Создать тесты через `/test-create`:
+   ```
+   /test-create .claude/skills/{skill}/SKILL.md
+   ```
+2. Проверить путь существует:
+   ```bash
+   ls .claude/skills/{skill}/SKILL.md
+   ```
+
+### Scope project: Тесты не найдены
+
+**Симптом:**
+```
+📊 Результаты тестирования
+Scope: project
+Команда: make test
+Exit code: 1 (no tests found)
+```
+
+**Причины:**
+1. Нет файлов `*.test.ts` / `*.spec.ts`
+2. Неверная конфигурация test runner
+3. Makefile не настроен
+
+**Решение:**
+1. Создать тесты через `/test-create`:
+   ```
+   /test-create src/{path}/{file}.ts
+   ```
+2. Проверить наличие тестовых файлов:
+   ```bash
+   find . -name "*.test.ts" -o -name "*.spec.ts"
+   ```
+3. Проверить Makefile:
+   ```bash
+   grep -A5 "test:" Makefile
+   ```
+
+### Тесты падают только при выполнении через скилл
+
+**Scope claude:**
+
+Возможные причины:
+1. Тест зависит от контекста предыдущего разговора
+2. Скилл изменился после создания теста
+3. Ожидания в тесте устарели
+
+Решение:
+```
+/test-update .claude/skills/{skill}/SKILL.md
+```
+
+**Scope project:**
+
+Возможные причины:
+1. Переменные окружения не загружены
+2. Зависимости не установлены
+3. База данных недоступна
+
+Решение:
+```bash
+# Проверить переменные
+env | grep -i test
+
+# Установить зависимости
+npm install  # или make deps
+
+# Проверить доступность сервисов
+docker-compose ps
+```
+
+### Как выполнить только failed тесты?
+
+```
+/test-execute --scope {claude|project} --only-failed
+```
+
+**Или через test runner напрямую:**
+
+**Scope project:**
+```bash
+# Jest
+npm test -- --onlyFailures
+
+# Pytest
+pytest --lf
+
+# Vitest
+npx vitest --changed
+```
+
+### Как получить подробный вывод?
+
+```
+/test-execute {target} --verbose
+```
+
+**Scope claude:**
+- Показывает каждый шаг теста
+- Показывает сравнение ожидание vs результат
+
+**Scope project:**
+- Передаёт `--verbose` в test runner
+- Показывает полные логи тестов
+
+### Как проверить plan без выполнения?
+
+```
+/test-execute --scope all --dry-run
+```
+
+Покажет:
+- Какие тесты будут запущены
+- Какие команды будут выполнены
+- Какие файлы задействованы
+
+---
+
+## Следующие шаги
+
+После выполнения тестов:
+
+**При passed:**
+```bash
+/test-complete {путь} --status passed
+```
+
+**При failed:**
+```bash
+# 1. Понять причину
+/test-review {путь}
+
+# 2a. Если тест некорректен
+/test-update {путь} --reason fix
+
+# 2b. Если баг в коде
+/issue-create --type bug --title "Test failed: {название}"
+```
+
+**Типичные цепочки:**
+```
+passed:  /test-execute → /test-complete
+failed:  /test-execute → /test-review → /test-update или /issue-create
 ```
