@@ -116,7 +116,7 @@
 
 ## Дерево инструкций
 
-> ✅ Все папки и файлы созданы. Прогресс: 100% (53/53).
+> ✅ Все папки и файлы созданы. Прогресс: 100% (48 инструкций).
 
 ```
 /.claude/instructions/
@@ -160,7 +160,6 @@
     operations.md                       # runbooks, incidents, postmortems
 
   /tests/                               # правила тестирования
-    README.md                           # индекс тестирования
     claude-testing.md                   # тестирование Claude Code (smoke tests)
     project-testing.md                  # тестирование проекта (индекс)
     unit.md                             # unit-тесты (изоляция, моки)

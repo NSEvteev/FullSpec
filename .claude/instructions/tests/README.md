@@ -15,10 +15,12 @@ related:
 | Инструкция | Описание | Тип |
 |------------|----------|-----|
 | [claude-testing.md](./claude-testing.md) | Тестирование скиллов и инструкций Claude | standard |
-| [project-testing.md](./project-testing.md) | Общие правила тестирования проекта | standard |
+| [project-testing.md](./project-testing.md) | Общие правила тестирования проекта | project |
 | [unit.md](./unit.md) | Стандарты unit-тестов | standard |
 | [integration.md](./integration.md) | Стандарты интеграционных тестов | standard |
 | [e2e.md](./e2e.md) | Стандарты end-to-end тестов | standard |
+| [smoke.md](./smoke.md) | Smoke-тесты для быстрой проверки | standard |
+| [load.md](./load.md) | Нагрузочные тесты (k6) | standard |
 | [fixtures.md](./fixtures.md) | Тестовые данные и фикстуры | standard |
 
 ---
