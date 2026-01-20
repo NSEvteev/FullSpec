@@ -27,6 +27,7 @@ triggers:
 - [test-review](/.claude/skills/test-review/SKILL.md) — проверка полноты теста
 - [test-complete](/.claude/skills/test-complete/SKILL.md) — отметка о прохождении
 - [test-delete](/.claude/skills/test-delete/SKILL.md) — удаление теста
+- [instruction-update](/.claude/skills/instruction-update/SKILL.md) — вызывает test-update при изменении инструкции
 
 **Связанные инструкции:**
 - [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование Claude Code
