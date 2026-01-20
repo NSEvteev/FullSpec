@@ -5,6 +5,7 @@ related:
   - git/workflow.md
   - git/commits.md
   - git/review.md
+  - git/issues.md
 ---
 
 # CI/CD Pipeline
@@ -18,7 +19,10 @@ related:
   - [Quality gates](#quality-gates)
   - [GitHub Actions](#github-actions)
   - [Секреты и переменные](#секреты-и-переменные)
+  - [Rollback при failed deploy](#rollback-при-failed-deploy)
+  - [Alerting при failure](#alerting-при-failure)
 - [Примеры](#примеры)
+- [Скиллы](#скиллы)
 - [Связанные инструкции](#связанные-инструкции)
 
 ---
@@ -153,6 +157,61 @@ jobs:
       - name: Deploy
         env:
           API_URL: ${{ vars.API_URL }}  # из environment
+```
+
+### Rollback при failed deploy
+
+**Правило:** При падении деплоя — автоматический откат на предыдущую версию.
+
+| Ситуация | Действие |
+|----------|----------|
+| Health check failed | Откат на предыдущий image |
+| Tests failed в prod | Откат + alert |
+| Manual rollback | `gh workflow run rollback.yml` |
+
+**Правило:** Rollback должен завершиться за < 5 минут.
+
+```yaml
+# .github/workflows/rollback.yml
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to rollback to'
+        required: true
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rollback deployment
+        run: |
+          kubectl set image deployment/app app=${{ inputs.version }}
+          kubectl rollout status deployment/app --timeout=5m
+```
+
+### Alerting при failure
+
+**Правило:** При падении CI/CD — уведомление в канал команды.
+
+| Событие | Канал | Приоритет |
+|---------|-------|-----------|
+| Deploy failed | Slack #alerts | High |
+| Tests failed на main | Slack #ci | Medium |
+| Security scan failed | Slack #security | High |
+
+```yaml
+# В workflow после failed step
+- name: Notify on failure
+  if: failure()
+  uses: slackapi/slack-github-action@v1
+  with:
+    channel-id: ${{ secrets.SLACK_CHANNEL }}
+    slack-message: "❌ ${{ github.workflow }} failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+  env:
+    SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 ```
 
 ---
@@ -313,8 +372,19 @@ jobs:
 
 ---
 
+## Скиллы
+
+| Скилл | Назначение |
+|-------|------------|
+| `ci-check` | Проверка статуса CI *(планируется)* |
+| `ci-fix` | Исправление ошибок CI *(планируется)* |
+| `ci-rerun` | Перезапуск failed jobs *(планируется)* |
+
+---
+
 ## Связанные инструкции
 
 - [workflow.md](workflow.md) — Git workflow, ветки, PR
 - [commits.md](commits.md) — Conventional commits для changelog
 - [review.md](review.md) — Code review перед merge
+- [issues.md](issues.md) — GitHub Issues, задачи

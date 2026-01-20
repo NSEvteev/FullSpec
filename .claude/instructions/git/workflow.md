@@ -4,6 +4,8 @@ description: Git workflow: GitHub Flow, ветки (main + feature/fix), PR
 related:
   - git/issues.md
   - git/commits.md
+  - git/review.md
+  - git/ci.md
 ---
 
 # Git Workflow
@@ -19,6 +21,7 @@ related:
   - [Merge Strategy](#merge-strategy)
 - [Примеры](#примеры)
 - [Команды gh](#команды-gh)
+- [Скиллы](#скиллы)
 - [Связанные инструкции](#связанные-инструкции)
 
 ---
@@ -217,7 +220,19 @@ Resolves #123
 
 ---
 
+## Скиллы
+
+| Скилл | Назначение |
+|-------|------------|
+| [/issue-execute](/.claude/skills/issue-execute/SKILL.md) | Создание ветки от Issue, выполнение задачи |
+| [/issue-create](/.claude/skills/issue-create/SKILL.md) | Создание Issue с правильным форматом |
+| [/issue-complete](/.claude/skills/issue-complete/SKILL.md) | Закрытие Issue, создание PR |
+
+---
+
 ## Связанные инструкции
 
 - [git/issues.md](issues.md) — GitHub Issues, префиксы, метки
 - [git/commits.md](commits.md) — Conventional commits
+- [git/review.md](review.md) — Code review, чек-листы
+- [git/ci.md](ci.md) — CI/CD pipeline
