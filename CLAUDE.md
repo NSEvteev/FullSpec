@@ -18,7 +18,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 1. Получил запрос пользователя
 2. СТОП — не начинаю выполнение
-3. Читаю список скиллов: /.claude/instructions/tools/skills.md
+3. Читаю список скиллов: /.claude/skills/README.md
 4. Проверяю: есть ли скилл для этой задачи?
    - Создать инструкцию → /instruction-create
    - Создать скилл → /skill-create
@@ -77,7 +77,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **КРИТИЧНО:** При любом запросе пользователя проверять, можно ли использовать пользовательские скиллы из [/.claude/skills/](/.claude/skills/).
 
-Список скиллов: [/.claude/instructions/tools/skills.md](/.claude/instructions/tools/skills.md)
+Список скиллов: [/.claude/skills/README.md](/.claude/skills/README.md)
 
 Приоритет: пользовательские скиллы > ручное выполнение.
 
@@ -207,7 +207,7 @@ make lint          # Линтинг
 
 ## Граф зависимостей скиллов
 
-**Полный граф:** [/.claude/instructions/tools/dependencies.md](/.claude/instructions/tools/dependencies.md)
+**Полный граф:** [/.claude/README.md](/.claude/README.md)
 
 ### Оркестраторы (вызывают другие скиллы)
 

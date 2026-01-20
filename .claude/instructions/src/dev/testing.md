@@ -1,20 +1,24 @@
 ---
 type: standard
-description: Unit и integration тесты внутри сервисов, моки, покрытие
+description: КАК писать unit/integration тесты внутри сервисов (практика, инструменты, примеры)
 related:
   - /.claude/instructions/src/dev/local.md
   - /.claude/instructions/tests/unit.md
   - /.claude/instructions/tests/integration.md
   - /.claude/instructions/tests/fixtures.md
-  - /.claude/instructions/tools/claude-testing.md
+  - /.claude/instructions/tests/claude-testing.md
 ---
 
 # Тестирование сервисов
 
-Правила написания unit и integration тестов внутри сервисов (`/src/{service}/tests/`).
+Практическое руководство по написанию unit и integration тестов внутри сервисов (`/src/{service}/tests/`).
+
+> **Разделение ответственности:**
+> - Этот файл: КАК писать unit-тесты внутри сервиса (практика, инструменты, примеры)
+> - [tests/unit.md](/.claude/instructions/tests/unit.md): СТАНДАРТЫ unit-тестов для всего проекта (требования, метрики)
 
 > **Полные инструкции по тестированию:** [/.claude/instructions/tests/](/.claude/instructions/tests/)
-> **Тестирование Claude скиллов:** [/.claude/instructions/tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md)
+> **Тестирование Claude скиллов:** [/.claude/instructions/tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md)
 
 ## Оглавление
 
@@ -75,18 +79,12 @@ related:
 
 ## Unit тесты
 
-### Принципы
+> **Стандарты и правила:** см. [tests/unit.md](/.claude/instructions/tests/unit.md)
 
-| Принцип | Описание |
-|---------|----------|
-| **Изоляция** | Тестируем один модуль, все зависимости замокированы |
-| **Быстрота** | Выполнение < 1 секунды на тест |
-| **Детерминизм** | Один и тот же результат при каждом запуске |
-| **Независимость** | Тесты не зависят друг от друга |
-
-### Структура теста (AAA)
+### Пример unit теста в сервисе
 
 ```typescript
+// /src/auth/tests/unit/user.service.test.ts
 describe('UserService', () => {
   describe('createUser', () => {
     it('should create user with valid data', async () => {
@@ -107,20 +105,15 @@ describe('UserService', () => {
 });
 ```
 
-### Что тестировать unit тестами
+### Что тестировать в сервисе
 
-- Бизнес-логика (сервисы, use cases)
-- Утилиты и хелперы
-- Валидаторы
-- Трансформеры данных
-- Чистые функции
-
-### Что НЕ тестировать unit тестами
-
-- Взаимодействие с БД (→ integration)
-- HTTP запросы (→ integration)
-- Файловую систему (→ integration)
-- Внешние API (→ integration с моками)
+| Тестировать unit | Тестировать integration |
+|------------------|------------------------|
+| Бизнес-логика (сервисы) | Взаимодействие с БД |
+| Утилиты и хелперы | HTTP запросы |
+| Валидаторы | Файловая система |
+| Трансформеры данных | Внешние API |
+| Чистые функции | Очереди сообщений |
 
 ---
 
@@ -374,66 +367,14 @@ jobs:
 
 ---
 
-## Best practices
+## Best practices в сервисах
 
-### 1. Один assert — один тест
+> **Полные правила и антипаттерны:** см. [tests/unit.md](/.claude/instructions/tests/unit.md)
 
-```typescript
-// Плохо
-it('should validate user', () => {
-  expect(isValidEmail('test@example.com')).toBe(true);
-  expect(isValidEmail('invalid')).toBe(false);
-  expect(isValidEmail('')).toBe(false);
-});
-
-// Хорошо
-it('should accept valid email', () => {
-  expect(isValidEmail('test@example.com')).toBe(true);
-});
-
-it('should reject invalid email format', () => {
-  expect(isValidEmail('invalid')).toBe(false);
-});
-
-it('should reject empty email', () => {
-  expect(isValidEmail('')).toBe(false);
-});
-```
-
-### 2. Читаемые имена тестов
+### Использовать фабрики для тестовых данных
 
 ```typescript
-// Плохо
-it('test1', () => { ... });
-it('should work', () => { ... });
-
-// Хорошо
-it('should return 401 when token is expired', () => { ... });
-it('should send welcome email after registration', () => { ... });
-```
-
-### 3. Избегать логики в тестах
-
-```typescript
-// Плохо
-it('should calculate total', () => {
-  const items = [{ price: 10 }, { price: 20 }];
-  let expected = 0;
-  items.forEach(i => expected += i.price);  // логика в тесте!
-  expect(calculateTotal(items)).toBe(expected);
-});
-
-// Хорошо
-it('should calculate total', () => {
-  const items = [{ price: 10 }, { price: 20 }];
-  expect(calculateTotal(items)).toBe(30);  // явное значение
-});
-```
-
-### 4. Использовать фабрики для тестовых данных
-
-```typescript
-// factories/user.factory.ts
+// /src/auth/tests/factories/user.factory.ts
 export const createTestUser = (overrides = {}) => ({
   id: 'user-123',
   email: 'test@example.com',
@@ -446,7 +387,7 @@ export const createTestUser = (overrides = {}) => ({
 const user = createTestUser({ name: 'Custom Name' });
 ```
 
-### 5. Тестировать граничные случаи
+### Тестировать граничные случаи
 
 - Пустые значения (null, undefined, '')
 - Граничные значения (0, -1, MAX_INT)

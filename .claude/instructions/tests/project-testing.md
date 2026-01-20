@@ -2,7 +2,7 @@
 type: project
 description: Индекс инструкций тестирования проекта
 related:
-  - tools/claude-testing.md
+  - tests/claude-testing.md
   - src/dev/testing.md
   - git/ci.md
 ---
@@ -11,7 +11,7 @@ related:
 
 Индекс инструкций для тестирования проекта (`/tests/`).
 
-> **Отличие от [claude-testing.md](../tools/claude-testing.md):** Этот раздел описывает тесты для кода проекта (unit, integration, e2e). Claude-testing описывает тесты для скиллов, инструкций и агентов Claude Code.
+> **Отличие от [claude-testing.md](./claude-testing.md):** Этот раздел описывает тесты для кода проекта (unit, integration, e2e). Claude-testing описывает тесты для скиллов, инструкций и агентов Claude Code.
 
 > **Шаблоны форматов:** [test-formats.md](/.claude/templates/test-formats.md) — статусы, типы тестов, шаблоны.
 
@@ -174,6 +174,6 @@ npx vitest --changed
 
 ## Связанные инструкции
 
-- [claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование Claude Code (скиллы, инструкции)
+- [claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование Claude Code (скиллы, инструкции)
 - [src/dev/testing.md](/.claude/instructions/src/dev/testing.md) — тесты внутри сервисов (co-located)
 - [git/ci.md](/.claude/instructions/git/ci.md) — CI/CD pipeline (запуск тестов)

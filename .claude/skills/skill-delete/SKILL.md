@@ -28,7 +28,7 @@ triggers:
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста (после изменений)
 
 **Связанные инструкции:**
-- [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов, категории
+- [skills/README.md](/.claude/skills/README.md) — индекс скиллов, категории
 - [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
 
 **Utility-скиллы:**
@@ -156,8 +156,8 @@ triggers:
 
 **3.3. Поиск в индексах:**
 
-1. Проверить индекс скиллов: `/.claude/instructions/tools/skills.md`
-2. Проверить индекс агентов: `/.claude/instructions/tools/agents.md`
+1. Проверить индекс скиллов: `/.claude/skills/README.md`
+2. Проверить индекс агентов: `/.claude/agents/README.md`
 3. Если есть упоминания → добавить в список изменений для автоматического удаления
 
 **Поиск по паттернам:**
@@ -277,7 +277,7 @@ triggers:
 
 6. **Удаление из индекса skills.md:**
 
-   Если скилл найден в `/.claude/instructions/tools/skills.md`:
+   Если скилл найден в `/.claude/skills/README.md`:
 
    ```diff
    - | [links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок | `/links-validate`, "проверь ссылки" |
@@ -712,7 +712,7 @@ grep -r "skill-name" --include="*.md" /.claude/
 - skill-update — удалено 1 ссылка
 
 ⚠️ Проверьте вручную:
-- /.claude/instructions/tools/skills.md — упоминание в индексе скиллов
+- /.claude/skills/README.md — упоминание в индексе скиллов
 - /doc/development.md — упоминание в документации (строка 145)
 
 Рекомендация: удалить или обновить упоминания в документации

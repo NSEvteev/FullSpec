@@ -76,7 +76,7 @@
 
 **Шаги:**
 1. Вызвать `/agent-create test-agent --auto`
-2. Проверить `/.claude/instructions/tools/agents.md`
+2. Проверить `/.claude/agents/README.md`
 
 **Ожидаемый результат:**
 - В таблице "Список агентов" появилась новая строка

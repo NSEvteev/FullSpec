@@ -30,7 +30,7 @@ triggers:
 - [instruction-update](/.claude/skills/instruction-update/SKILL.md) — вызывает test-update при изменении инструкции
 
 **Связанные инструкции:**
-- [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование Claude Code
+- [tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование Claude Code
 - [tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**

@@ -699,10 +699,10 @@ npm test
 pytest
 
 # 4. Создать PR напрямую (bypass Dependabot)
-git checkout -b security/fix-cve-2024-xxxx
+git checkout -b security/fix-lodash-prototype-pollution
 git add package-lock.json
-git commit -m "security: fix CVE-2024-XXXX in vulnerable-package"
-git push origin security/fix-cve-2024-xxxx
+git commit -m "security: fix CVE-2021-23337 in lodash (prototype pollution)"
+git push origin security/fix-lodash-prototype-pollution
 ```
 
 ### Container scan блокирует билд — что делать?
@@ -724,8 +724,8 @@ git push origin security/fix-cve-2024-xxxx
 3. **Если fix недоступен — создать исключение:**
    ```yaml
    # .trivyignore
-   # CVE-2024-XXXX: No fix available, accepted risk
-   CVE-2024-XXXX
+   # CVE-2023-44487: HTTP/2 Rapid Reset (no upstream fix yet)
+   CVE-2023-44487
    ```
 
 4. **Документировать риск:**
@@ -734,7 +734,8 @@ git push origin security/fix-cve-2024-xxxx
 
    | CVE | Package | Reason | Expiry |
    |-----|---------|--------|--------|
-   | CVE-2024-XXXX | libfoo | No fix, low risk | 2024-03-01 |
+   | CVE-2023-44487 | nghttp2 | HTTP/2 Rapid Reset, mitigated by rate limiting | 2024-03-01 |
+   | CVE-2024-21626 | runc | Container escape, no fix in alpine yet | 2024-04-15 |
    ```
 
 ### Как настроить security alerts в Slack?

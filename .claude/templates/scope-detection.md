@@ -146,7 +146,7 @@
 /test-create .claude/skills/test-create
 # → scope: claude
 
-/test-execute .claude/instructions/tools/skills.md
+/test-execute .claude/skills/README.md
 # → scope: claude
 
 # Project scope (автоопределение)

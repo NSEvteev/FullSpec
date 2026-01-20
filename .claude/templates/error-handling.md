@@ -137,8 +137,8 @@ git revert HEAD --no-commit
 ```
 Откат выполнен:
 - Удалён: /.claude/skills/my-skill/SKILL.md
-- Восстановлен: /.claude/instructions/tools/skills.md
-- Восстановлен: /.claude/instructions/tools/agents.md
+- Восстановлен: /.claude/skills/README.md
+- Восстановлен: /.claude/agents/README.md
 
 Можно попробовать снова.
 ```

@@ -387,23 +387,23 @@ mkdir -p .claude/instructions/{папка}
 | `git/workflow.md` | issue-execute | git |
 | `git/commits.md` | issue-* | git |
 | `git/review.md` | issue-review | git |
-| `tools/documentation.md` | doc-* | documentation |
-| `tools/skills.md` | skill-* | skill-management |
-| `tools/agents.md` | agent-* (если появятся) | agent-management |
+| `doc/structure.md` | doc-* | documentation |
+| `/.claude/skills/README.md` | skill-* | skill-management |
+| `/.claude/agents/README.md` | agent-* (если появятся) | agent-management |
 
 **Способ 2: Поиск по категории скиллов (рекомендуемый)**
 
 1. Определить категорию из пути инструкции:
    - `git/*.md` → категория `git` (issue-* скиллы)
-   - `tools/documentation.md` → категория `documentation` (doc-* скиллы)
-   - `tools/skills.md` → категория `skill-management` (skill-* скиллы)
-   - `tools/agents.md` → категория `agent-management` (agent-* скиллы)
+   - `doc/structure.md` → категория `documentation` (doc-* скиллы)
+   - `/.claude/skills/README.md` → категория `skill-management` (skill-* скиллы)
+   - `/.claude/agents/README.md` → категория `agent-management` (agent-* скиллы)
    - `src/api/*.md`, `platform/*.md`, `config/*.md` → **нет прямых скиллов** (использовать Способ 3-4)
 
-2. Найти скиллы этой категории в индексе [skills.md](/.claude/instructions/tools/skills.md):
+2. Найти скиллы этой категории в индексе [skills.md](/.claude/skills/README.md):
    ```bash
    # Прочитать skills.md, найти секцию категории
-   grep -A 20 "### git" .claude/instructions/tools/skills.md
+   grep -A 20 "### git" .claude/skills/README.md
    ```
 
 **Способ 3: Полнотекстовый поиск (универсальный)**

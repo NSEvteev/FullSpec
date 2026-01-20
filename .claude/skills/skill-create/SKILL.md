@@ -32,8 +32,8 @@ triggers:
 - [prompt-update](/.claude/skills/prompt-update/SKILL.md) — улучшение промта перед созданием
 
 **Связанные инструкции:**
-- [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов, категории
-- [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование скиллов после создания
+- [skills/README.md](/.claude/skills/README.md) — индекс скиллов, категории
+- [tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование скиллов после создания
 - [workflow-template.md](/.claude/templates/workflow-template.md) — SSOT шаблон воркфлоу для скиллов
 - [output-formats.md](/.claude/templates/output-formats.md) — SSOT форматы вывода (Шаг 12)
 
@@ -113,7 +113,7 @@ triggers:
 - /.claude/skills/my-skill/SKILL.md
 
 Будет обновлено:
-- /.claude/instructions/tools/skills.md (добавлена строка в таблицу)
+- /.claude/skills/README.md (добавлена строка в таблицу)
 
 Будет вызвано:
 - /links-update /.claude/skills/my-skill/SKILL.md
@@ -176,12 +176,12 @@ triggers:
 
 **Неправильно:**
 ```
-Добавить скилл в /.claude/instructions/tools/skills.md
+Добавить скилл в /.claude/skills/README.md
 ```
 
 **Правильно:**
 ```
-Добавить скилл в [skills.md](/.claude/instructions/tools/skills.md)
+Добавить скилл в [skills.md](/.claude/skills/README.md)
 ```
 
 **Связанные скиллы:**
@@ -192,7 +192,7 @@ triggers:
 
 ### Шаг 0: Проверка пересечений
 
-1. Прочитать индекс скиллов: [skills.md](/.claude/instructions/tools/skills.md)
+1. Прочитать индекс скиллов: [skills.md](/.claude/skills/README.md)
 2. Сравнить описание нового скилла с существующими
 3. Если есть пересечение:
    - Изучить пересекающиеся скиллы
@@ -251,11 +251,11 @@ triggers:
 
 ### Шаг 2: Категория
 
-1. Показать список существующих категорий из [skills.md](/.claude/instructions/tools/skills.md)
+1. Показать список существующих категорий из [skills.md](/.claude/skills/README.md)
 2. Предложить подходящую категорию
 3. Если пользователь хочет новую — он должен явно сказать "новая категория: {название}"
 
-**Категории:** см. [skills.md](/.claude/instructions/tools/skills.md) раздел "Категории"
+**Категории:** см. [skills.md](/.claude/skills/README.md) раздел "Категории"
 
 ### Шаг 3: Метаданные
 
@@ -426,7 +426,7 @@ mkdir -p .claude/skills/{название}
 
 ### Шаг 8: Связь с агентами
 
-1. Прочитать [agents.md](/.claude/instructions/tools/agents.md)
+1. Прочитать [agents.md](/.claude/agents/README.md)
 2. Найти агентов с тегами, соответствующими категории скилла
 3. Предложить: "Скилл `{название}` относится к `{категория}`. Назначить агенту `{агент}`?"
 4. Если да — добавить скилл в `skills:` агента
@@ -442,8 +442,8 @@ mkdir -p .claude/skills/{название}
 ```
 
 **Что обновляется автоматически:**
-- [skills.md](/.claude/instructions/tools/skills.md) — добавить в таблицу категории
-- [agents.md](/.claude/instructions/tools/agents.md) — если назначен агенту (Шаг 8)
+- [skills.md](/.claude/skills/README.md) — добавить в таблицу категории
+- [agents.md](/.claude/agents/README.md) — если назначен агенту (Шаг 8)
 - Связанные скиллы (`{объект}-update`, `{объект}-delete`) — добавить ссылку в "Связанные скиллы"
 - **Связанные инструкции** — обновить инструкции, указанные в "Связанные инструкции" скилла
 
@@ -559,7 +559,7 @@ mkdir -p .claude/skills/{название}
 - Агенты: {список или "не назначен"}
 - Связанные скиллы: {список или "нет"}
 
-Индекс обновлён: /.claude/instructions/tools/skills.md
+Индекс обновлён: /.claude/skills/README.md
 
 Следующие шаги:
 - Проверить и доработать инструкции в SKILL.md
@@ -593,8 +593,8 @@ mkdir -p .claude/skills/{название}
    rm -f .claude/scripts/{название}.py
 
    # Откатить изменения в skills.md и agents.md через git
-   git checkout -- .claude/instructions/tools/skills.md
-   git checkout -- .claude/instructions/tools/agents.md
+   git checkout -- .claude/skills/README.md
+   git checkout -- .claude/agents/README.md
 
    # Или если изменения уже закоммичены
    git revert HEAD --no-commit
@@ -617,7 +617,7 @@ mkdir -p .claude/skills/{название}
 
 Использовать при выполнении скилла:
 
-- [ ] **Шаг 0:** Прочитал [skills.md](/.claude/instructions/tools/skills.md), проверил пересечения
+- [ ] **Шаг 0:** Прочитал [skills.md](/.claude/skills/README.md), проверил пересечения
 - [ ] **Шаг 1:** Получил название, проверил формат `{объект}-{действие}`
 - [ ] **Шаг 1:** Если несколько действий — разделил на отдельные скиллы
 - [ ] **Шаг 2:** Показал категории, получил выбор пользователя
@@ -634,7 +634,7 @@ mkdir -p .claude/skills/{название}
 - [ ] **Шаг 7:** Проверил структуру SKILL.md (чек-лист валидации)
 - [ ] **Шаг 7:** Проверил вёрстку (YAML, ссылки, блоки кода)
 - [ ] **Шаг 7:** Проверил, что все файлы и папки репозитория оформлены как ссылки
-- [ ] **Шаг 8:** Прочитал [agents.md](/.claude/instructions/tools/agents.md), предложил назначить агентам по тегам
+- [ ] **Шаг 8:** Прочитал [agents.md](/.claude/agents/README.md), предложил назначить агентам по тегам
 - [ ] **Шаг 8:** Если назначен — обновил `skills:` в агенте
 - [ ] **Шаг 9a:** Вызвал [/links-update](/.claude/skills/links-update/SKILL.md) для синхронизации (индекс, агенты, связанные скиллы)
 - [ ] **Шаг 9a:** Обновил связанные инструкции (из раздела "Связанные инструкции" скилла)
@@ -767,7 +767,7 @@ triggers:
 ```bash
 rm -rf /.claude/skills/{skill-name}/
 # Откатить изменения в skills.md
-git checkout -- /.claude/instructions/tools/skills.md
+git checkout -- /.claude/skills/README.md
 ```
 
 ---
@@ -794,7 +794,7 @@ git checkout -- /.claude/instructions/tools/skills.md
 
 Создан скилл: .claude/skills/agent-create/SKILL.md
 Категория: agent-management
-Добавлен в индекс: /.claude/instructions/tools/skills.md
+Добавлен в индекс: /.claude/skills/README.md
 ```
 
 ### Пример 2: Попытка создать универсальный скилл

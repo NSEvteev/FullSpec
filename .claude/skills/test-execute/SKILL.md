@@ -28,7 +28,7 @@ triggers:
 - [test-delete](/.claude/skills/test-delete/SKILL.md) — удаление теста
 
 **Связанные инструкции:**
-- [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование Claude Code
+- [tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование Claude Code
 - [tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**
@@ -136,7 +136,7 @@ Ctrl+C для выхода
 ...
 ```
 
-**Категории для `--category`** (из [skills.md](/.claude/instructions/tools/skills.md)):
+**Категории для `--category`** (из [skills.md](/.claude/skills/README.md)):
 - `skill-management` — skill-create, skill-update, skill-delete
 - `instruction-management` — instruction-*, критичные
 - `documentation` — doc-*, links-*, context-*

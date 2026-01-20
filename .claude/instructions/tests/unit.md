@@ -1,16 +1,20 @@
 ---
 type: standard
-description: Unit-тесты: изоляция, моки, покрытие
+description: СТАНДАРТЫ unit-тестов для всего проекта (требования, метрики, naming)
 related:
-  - tests/project-testing.md
-  - tests/integration.md
-  - tests/fixtures.md
-  - src/dev/testing.md
+  - /.claude/instructions/tests/project-testing.md
+  - /.claude/instructions/tests/integration.md
+  - /.claude/instructions/tests/fixtures.md
+  - /.claude/instructions/src/dev/testing.md
 ---
 
-# Unit-тесты
+# Unit-тесты: Стандарты
 
-Правила написания unit-тестов для изолированного тестирования отдельных модулей.
+Стандарты качества unit-тестов для всего проекта: требования, метрики покрытия, naming conventions.
+
+> **Разделение ответственности:**
+> - Этот файл: СТАНДАРТЫ unit-тестов для всего проекта (требования, метрики, naming)
+> - [src/dev/testing.md](/.claude/instructions/src/dev/testing.md): КАК писать unit-тесты внутри сервиса (практика, примеры)
 
 ## Оглавление
 
@@ -49,52 +53,42 @@ related:
 
 ---
 
-## Структура
+## Структура и Naming Conventions
 
-### Расположение файлов
+### Стандарты именования файлов
 
-```
-/src/auth/
-  /backend/
-    token.ts
-    token.test.ts       ← co-located с кодом
-  /tests/
-    token.spec.ts       ← альтернатива: отдельная папка
+| Язык | Паттерн | Пример |
+|------|---------|--------|
+| TypeScript/JavaScript | `*.test.ts` | `token.test.ts` |
+| TypeScript/JavaScript | `*.spec.ts` | `token.spec.ts` |
+| Python | `test_*.py` | `test_token.py` |
+| Go | `*_test.go` | `token_test.go` |
 
-/tests/unit/
-  /auth/
-    token.test.ts       ← системные unit-тесты
-```
+### Стандарт структуры теста (AAA)
 
-**Правило:** Co-located тесты предпочтительны (рядом с кодом).
-
-### Именование файлов
-
-| Паттерн | Пример |
-|---------|--------|
-| `*.test.ts` | `token.test.ts` |
-| `*.spec.ts` | `token.spec.ts` |
-| `test_*.py` | `test_token.py` |
-
-### Структура теста (AAA)
+Все unit-тесты ДОЛЖНЫ следовать паттерну **Arrange-Act-Assert**:
 
 ```typescript
-describe('TokenService', () => {
-  describe('validate', () => {
-    it('should return true for valid token', () => {
-      // Arrange (подготовка)
-      const token = createValidToken();
-      const service = new TokenService();
+it('should {expected behavior} when {condition}', () => {
+  // Arrange (подготовка)
+  // ... setup test data and mocks
 
-      // Act (действие)
-      const result = service.validate(token);
+  // Act (действие)
+  // ... execute the code under test
 
-      // Assert (проверка)
-      expect(result).toBe(true);
-    });
-  });
+  // Assert (проверка)
+  // ... verify the expected outcome
 });
 ```
+
+### Стандарт расположения
+
+| Тип | Расположение |
+|-----|--------------|
+| Unit тесты сервиса | `/src/{service}/tests/unit/` |
+| Системные unit тесты | `/tests/unit/{domain}/` |
+
+> **Практика:** см. [src/dev/testing.md](/.claude/instructions/src/dev/testing.md) для примеров структуры папок
 
 ---
 
@@ -191,42 +185,32 @@ it('should check expiration', () => {
 
 ---
 
-## Моки и стабы
+## Стандарты мокирования
 
-### Когда использовать
+### Классификация тестовых дублёров
 
-| Тип | Когда | Пример |
-|-----|-------|--------|
-| **Mock** | Проверка вызова | `expect(mock).toHaveBeenCalledWith(...)` |
-| **Stub** | Подмена возвращаемого значения | `stub.returns(fixedValue)` |
-| **Spy** | Наблюдение без изменения | `spy.on(object, 'method')` |
-| **Fake** | Упрощённая реализация | In-memory DB вместо реальной |
+| Тип | Назначение | Когда использовать |
+|-----|------------|-------------------|
+| **Mock** | Проверка взаимодействия | Нужно убедиться, что метод вызван с правильными аргументами |
+| **Stub** | Подмена возвращаемого значения | Нужно контролировать ответ зависимости |
+| **Spy** | Наблюдение без изменения | Нужно проверить вызов без изменения поведения |
+| **Fake** | Упрощённая реализация | In-memory DB, локальный storage |
 
-### Примеры
+### Обязательные правила
 
-```typescript
-// Mock — проверяем, что метод вызван
-const emailService = { send: jest.fn() };
-await userService.register(user);
-expect(emailService.send).toHaveBeenCalledWith(user.email);
+1. **Мокать только внешние зависимости** — БД, API, файловая система, время
+2. **НЕ мокать тестируемый модуль** — тестируем реальный код
+3. **Сбрасывать моки между тестами** — изоляция обязательна
+4. **Минимум моков** — чем больше моков, тем меньше уверенности в тесте
+5. **Один мок = одна зависимость** — не объединять моки разных сервисов
 
-// Stub — подменяем возвращаемое значение
-const userRepo = { findById: jest.fn().mockResolvedValue(mockUser) };
-const result = await userService.getUser('123');
-expect(result).toEqual(mockUser);
+### Запрещено
 
-// Spy — наблюдаем за реальным методом
-const spy = jest.spyOn(console, 'log');
-logger.info('test');
-expect(spy).toHaveBeenCalled();
-```
+- Мокать приватные методы тестируемого класса
+- Использовать глобальные моки без очистки
+- Мокать стандартные библиотеки без необходимости
 
-### Правила мокирования
-
-1. **Мокать только внешние зависимости** — БД, API, файловая система
-2. **Не мокать тестируемый модуль** — тестируем реальный код
-3. **Сбрасывать моки между тестами** — `beforeEach(() => jest.clearAllMocks())`
-4. **Минимум моков** — чем больше моков, тем меньше уверенности
+> **Примеры кода:** см. [src/dev/testing.md](/.claude/instructions/src/dev/testing.md)
 
 ---
 
@@ -267,85 +251,44 @@ npm test -- --coverage --coverageThreshold='{"global":{"lines":80}}'
 
 ---
 
-## Примеры
+## Примеры соответствия стандартам
 
-### Пример 1: Тест валидатора
-
-```typescript
-// validators/email.ts
-export function isValidEmail(email: string): boolean {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
-
-// validators/email.test.ts
-describe('isValidEmail', () => {
-  it('should return true for valid email', () => {
-    expect(isValidEmail('user@example.com')).toBe(true);
-  });
-
-  it('should return false for email without @', () => {
-    expect(isValidEmail('userexample.com')).toBe(false);
-  });
-
-  it('should return false for empty string', () => {
-    expect(isValidEmail('')).toBe(false);
-  });
-
-  it('should return false for email with spaces', () => {
-    expect(isValidEmail('user @example.com')).toBe(false);
-  });
-});
-```
-
-### Пример 2: Тест сервиса с моками
+### Эталонный тест (соответствует всем стандартам)
 
 ```typescript
-// services/user.service.ts
-export class UserService {
-  constructor(private repo: UserRepository, private email: EmailService) {}
-
-  async register(data: CreateUserDto): Promise<User> {
-    const user = await this.repo.create(data);
-    await this.email.sendWelcome(user.email);
-    return user;
-  }
-}
-
-// services/user.service.test.ts
-describe('UserService', () => {
-  let service: UserService;
-  let mockRepo: jest.Mocked<UserRepository>;
-  let mockEmail: jest.Mocked<EmailService>;
-
+describe('TokenValidator', () => {
+  // Стандарт: beforeEach для изоляции
   beforeEach(() => {
-    mockRepo = { create: jest.fn() };
-    mockEmail = { sendWelcome: jest.fn() };
-    service = new UserService(mockRepo, mockEmail);
+    jest.clearAllMocks();
   });
 
-  describe('register', () => {
-    it('should create user and send welcome email', async () => {
-      const userData = { email: 'test@example.com', name: 'Test' };
-      const createdUser = { id: '1', ...userData };
-      mockRepo.create.mockResolvedValue(createdUser);
+  // Стандарт: describe для группировки по методу
+  describe('validate', () => {
+    // Стандарт: формат "should {behavior} when {condition}"
+    it('should return true when token is valid', () => {
+      // Arrange (AAA pattern)
+      const token = 'valid-token';
 
-      const result = await service.register(userData);
+      // Act
+      const result = validator.validate(token);
 
-      expect(mockRepo.create).toHaveBeenCalledWith(userData);
-      expect(mockEmail.sendWelcome).toHaveBeenCalledWith(userData.email);
-      expect(result).toEqual(createdUser);
+      // Assert (один assert на тест)
+      expect(result).toBe(true);
     });
 
-    it('should not send email if user creation fails', async () => {
-      mockRepo.create.mockRejectedValue(new Error('DB error'));
+    // Стандарт: edge cases в отдельных тестах
+    it('should return false when token is empty', () => {
+      expect(validator.validate('')).toBe(false);
+    });
 
-      await expect(service.register({})).rejects.toThrow('DB error');
-      expect(mockEmail.sendWelcome).not.toHaveBeenCalled();
+    it('should return false when token is null', () => {
+      expect(validator.validate(null)).toBe(false);
     });
   });
 });
 ```
+
+> **Больше примеров:** см. [src/dev/testing.md](/.claude/instructions/src/dev/testing.md)
 
 ---
 
@@ -406,7 +349,9 @@ it('should return processed data', async () => {
 
 ## Связанные инструкции
 
-- [project-testing.md](./project-testing.md) — индекс тестирования проекта
-- [integration.md](./integration.md) — интеграционные тесты
-- [fixtures.md](./fixtures.md) — тестовые данные
-- [src/dev/testing.md](../src/dev/testing.md) — тесты внутри сервисов
+| Инструкция | Содержание |
+|------------|------------|
+| [src/dev/testing.md](/.claude/instructions/src/dev/testing.md) | **КАК** писать тесты (практика, примеры) |
+| [project-testing.md](./project-testing.md) | Индекс тестирования проекта |
+| [integration.md](./integration.md) | Стандарты интеграционных тестов |
+| [fixtures.md](./fixtures.md) | Стандарты тестовых данных |

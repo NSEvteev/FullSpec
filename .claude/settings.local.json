@@ -67,7 +67,9 @@
       "Bash(then basename \"$skill\")",
       "Bash(for skill in */tests.md)",
       "Bash(do echo \"$skill\")",
-      "Bash(git check-ignore:*)"
+      "Bash(git check-ignore:*)",
+      "Bash(do if ! grep -q \"^related:\" \"$file\")",
+      "Bash(then echo \"$file\")"
     ]
   }
 }

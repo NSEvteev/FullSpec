@@ -67,7 +67,7 @@ triggers:
 
 Найдено упоминаний для оформления: 5
 
-1. строка 15: skills.md → [skills.md](/.claude/instructions/tools/skills.md)
+1. строка 15: skills.md → [skills.md](/.claude/skills/README.md)
 2. строка 23: /src/auth/ → [/src/auth/](/src/auth/)
 3. строка 45: package.json → [package.json](/package.json)
 4. строка 67: .gitignore → [.gitignore](/.gitignore)
@@ -81,7 +81,7 @@ triggers:
 ### Что считается упоминанием
 
 **Нужно оформить как ссылку:**
-- Путь к файлу: `/.claude/instructions/tools/skills.md`, `/config/settings.json`
+- Путь к файлу: `/.claude/skills/README.md`, `/config/settings.json`
 - Имя файла с расширением: `skills.md`, `package.json`, `.gitignore`
 - Путь к папке: `/.claude/scripts/`, `.claude/skills/`
 - Путь в обратных кавычках: `` `/.claude/skills/foo/SKILL.md` ``
@@ -89,7 +89,7 @@ triggers:
 **Условие:** Файл или папка должны существовать в репозитории.
 
 **Не трогать:**
-- Уже оформленные ссылки: `[skills.md](/.claude/instructions/tools/skills.md)`
+- Уже оформленные ссылки: `[skills.md](/.claude/skills/README.md)`
 - Внутри блоков кода (``` ... ```)
 - В URL и внешних ссылках
 - В примерах вывода команд
@@ -109,7 +109,7 @@ triggers:
 ```
 
 **Примеры:**
-- `skills.md` → `[skills.md](/.claude/instructions/tools/skills.md)`
+- `skills.md` → `[skills.md](/.claude/skills/README.md)`
 - `/.claude/agents/amy.md` → `[amy.md](/.claude/agents/amy.md)`
 - `/.claude/scripts/` → `[scripts/](/.claude/scripts/)`
 - `package.json` → `[package.json](/package.json)`
@@ -189,8 +189,8 @@ triggers:
 ✅ Ссылки созданы в {файл}
 
 Оформлено ссылок: {N}
-- строка {X}: skills.md → [skills.md](/.claude/instructions/tools/skills.md)
-- строка {Y}: agents.md → [agents.md](/.claude/instructions/tools/agents.md)
+- строка {X}: skills.md → [skills.md](/.claude/skills/README.md)
+- строка {Y}: agents.md → [agents.md](/.claude/agents/README.md)
 
 Не найдено файлов: {M}
 - строка {Z}: unknown.md — файл не существует
@@ -278,14 +278,14 @@ git checkout -- файл.md  # отменить конкретный файл
 
 **До:**
 ```markdown
-1. Прочитать индекс: /.claude/instructions/tools/skills.md
+1. Прочитать индекс: /.claude/skills/README.md
 2. Проверить агентов в agents.md
 ```
 
 **После:**
 ```markdown
-1. Прочитать индекс: [skills.md](/.claude/instructions/tools/skills.md)
-2. Проверить агентов в [agents.md](/.claude/instructions/tools/agents.md)
+1. Прочитать индекс: [skills.md](/.claude/skills/README.md)
+2. Проверить агентов в [agents.md](/.claude/agents/README.md)
 ```
 
 **Вывод:**
@@ -293,8 +293,8 @@ git checkout -- файл.md  # отменить конкретный файл
 ✅ Ссылки созданы в .claude/skills/foo-create/SKILL.md
 
 Оформлено ссылок: 2
-- строка 1: skills.md → [skills.md](/.claude/instructions/tools/skills.md)
-- строка 2: agents.md → [agents.md](/.claude/instructions/tools/agents.md)
+- строка 1: skills.md → [skills.md](/.claude/skills/README.md)
+- строка 2: agents.md → [agents.md](/.claude/agents/README.md)
 ```
 
 ### Пример 2: Документ с несуществующими файлами

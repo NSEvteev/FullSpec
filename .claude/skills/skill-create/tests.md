@@ -43,7 +43,7 @@
 **Ожидаемый результат:**
 - [ ] Создан файл `/.claude/skills/example-create/SKILL.md`
 - [ ] Frontmatter содержит: name, description, allowed-tools, category, triggers
-- [ ] Файл добавлен в `/.claude/instructions/tools/skills.md`
+- [ ] Файл добавлен в `/.claude/skills/README.md`
 - [ ] Вызван `/links-update` для синхронизации
 
 **Фактический результат:** —

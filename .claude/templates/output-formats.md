@@ -55,7 +55,7 @@
 
 Файл: /.claude/skills/my-skill/SKILL.md
 Категория: utility
-Добавлен в индекс: /.claude/instructions/tools/skills.md
+Добавлен в индекс: /.claude/skills/README.md
 
 Следующие шаги:
 - Проверить и доработать инструкции в SKILL.md

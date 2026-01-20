@@ -27,7 +27,7 @@ triggers:
 - [test-complete](/.claude/skills/test-complete/SKILL.md) — отметка о прохождении
 
 **Связанные инструкции:**
-- [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование Claude Code
+- [tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование Claude Code
 - [tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**
@@ -255,7 +255,7 @@ rm src/auth/services/tests/old-feature.test.ts
 📋 Найдены ссылки на удалённый тест
 
 Файлы со ссылками:
-- .claude/instructions/tools/claude-testing.md:45 — пример теста
+- .claude/instructions/tests/claude-testing.md:45 — пример теста
 - .claude/skills/other-skill/SKILL.md:78 — связанный тест
 
 Действие:

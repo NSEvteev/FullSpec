@@ -25,7 +25,7 @@ triggers:
 - [health-check](/.claude/skills/health-check/SKILL.md) — проверка проекта
 
 **Связанные инструкции:**
-- [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов
+- [skills/README.md](/.claude/skills/README.md) — индекс скиллов
 
 ## Оглавление
 

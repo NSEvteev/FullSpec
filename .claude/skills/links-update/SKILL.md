@@ -1,7 +1,7 @@
 ---
 name: links-update
 description: Обновление ссылок на файлы и папки в связанных документах
-allowed-tools: Read, Edit, Glob, Grep
+allowed-tools: Read, Edit, Glob, Grep, Bash
 category: documentation
 triggers:
   commands:
@@ -28,6 +28,10 @@ triggers:
 
 **Шаблоны:**
 - [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+
+**Скрипты:**
+- [find_references.py](/.claude/scripts/find_references.py) — поиск ссылок на файл
+- [update_links.py](/.claude/scripts/update_links.py) — массовая замена ссылок
 
 ## Оглавление
 
@@ -64,6 +68,29 @@ triggers:
 - `/links-update .claude/skills/doc-create/SKILL.md` — обновить ссылки для нового скилла
 - `/links-update .claude/skills/doc-create/SKILL.md --old-name file-create` — обновить после переименования
 - `/links-update /src/utils/` — обновить ссылки на папку
+
+### Быстрое обновление скриптом
+
+Для массовой замены ссылок используй скрипт [update_links.py](/.claude/scripts/update_links.py):
+
+```bash
+# Предпросмотр изменений
+python .claude/scripts/update_links.py "старый/путь.md" "новый/путь.md" --dry-run
+
+# Применить изменения
+python .claude/scripts/update_links.py "старый/путь.md" "новый/путь.md"
+```
+
+**Когда использовать скрипт:**
+- Переименование файла/папки с множеством ссылок
+- Реструктуризация документации
+- Массовая замена путей
+
+**Преимущества скрипта:**
+- ~1 секунда на любое количество замен (vs минуты вручную)
+- Автоматически находит все `.md` файлы
+- Пропускает блоки кода
+- Показывает diff перед применением
 
 ## Когда использовать
 
@@ -125,12 +152,12 @@ mv /src/helpers.ts /src/utils.ts
 В зависимости от типа источника:
 
 **Скилл:**
-- [skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов
-- [agents.md](/.claude/instructions/tools/agents.md) — если назначен агенту
+- [skills.md](/.claude/skills/README.md) — индекс скиллов
+- [agents.md](/.claude/agents/README.md) — если назначен агенту
 - Связанные скиллы: `{объект}-create`, `{объект}-update`, `{объект}-delete`
 
 **Агент:**
-- [agents.md](/.claude/instructions/tools/agents.md) — индекс агентов
+- [agents.md](/.claude/agents/README.md) — индекс агентов
 - Скиллы, назначенные агенту
 
 **Инструкция:**
@@ -230,7 +257,7 @@ mv /src/helpers.ts /src/utils.ts
 
 ### Скилл → Индекс
 
-**Файл:** [skills.md](/.claude/instructions/tools/skills.md)
+**Файл:** [skills.md](/.claude/skills/README.md)
 
 **Место:** Таблица в категории скилла
 
@@ -266,7 +293,7 @@ skills: [skill-create, skill-update, links-create]
 
 ### Агент → Индекс
 
-**Файл:** [agents.md](/.claude/instructions/tools/agents.md)
+**Файл:** [agents.md](/.claude/agents/README.md)
 
 **Место:** Таблица агентов
 
@@ -412,6 +439,20 @@ skills: [skill-create, skill-update, links-create]
 ### Что если скрипт find_references.py не найден?
 
 Скилл использует fallback — grep по `.md` файлам. Функциональность сохраняется, но поиск может быть менее точным.
+
+### Как быстро обновить много ссылок?
+
+Используй скрипт `update_links.py`:
+
+```bash
+# Сначала предпросмотр
+python .claude/scripts/update_links.py "old/path" "new/path" --dry-run
+
+# Если всё ок — применить
+python .claude/scripts/update_links.py "old/path" "new/path"
+```
+
+Скрипт обновит все ссылки за секунду вместо минут ручной работы.
 
 ---
 

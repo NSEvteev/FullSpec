@@ -38,7 +38,7 @@ critical: false
 2. **Обязательные файлы:**
    - `CLAUDE.md` — существует
    - `/.claude/instructions/README.md` — существует
-   - `/.claude/instructions/tools/skills.md` — существует
+   - `/.claude/skills/README.md` — существует
 
 ### Шаг 2: Проверка скиллов
 

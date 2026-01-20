@@ -66,7 +66,7 @@
    - `tests/load.md`, `tests/smoke.md`, `tests/fixtures.md`
    - `shared/assets.md`, `shared/i18n.md`
    - `src/dev/performance.md`, `src/runtime/realtime.md`
-   - `tools/state.md`, `tools/dependencies.md`
+   - `/.claude/state/README.md`, `/.claude/README.md`
 
 3. **Папка agents/ пуста** — нет ни одного агента
 
@@ -107,17 +107,17 @@
 ```
 ⚠️ shared/assets.md — только 1 связь
 ⚠️ shared/i18n.md — только 1 связь
-⚠️ tools/state.md — минимальные связи
-⚠️ tools/dependencies.md — минимальные связи
+⚠️ /.claude/state/README.md — минимальные связи
+⚠️ /.claude/README.md (dependencies) — минимальные связи
 ```
 
 ### Отсутствующие связи
 
 | Документ | Должен ссылаться на |
 |----------|---------------------|
-| `src/dev/testing.md` | `tools/claude-testing.md` |
+| `src/dev/testing.md` | `tests/claude-testing.md` |
 | `platform/security.md` | `src/security/auth.md` |
-| `tools/agents.md` | `/.claude/agents/` (пусто) |
+| `/.claude/agents/README.md` | `/.claude/agents/` (пусто) |
 
 ---
 

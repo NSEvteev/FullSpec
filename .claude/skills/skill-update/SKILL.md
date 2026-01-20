@@ -30,9 +30,9 @@ triggers:
 - [prompt-update](/.claude/skills/prompt-update/SKILL.md) — улучшение промта перед обновлением
 
 **Связанные инструкции:**
-- [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов, категории
-- [tools/agents.md](/.claude/instructions/tools/agents.md) — агенты используют скиллы
-- [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование скиллов после изменений
+- [skills/README.md](/.claude/skills/README.md) — индекс скиллов, категории
+- [agents/README.md](/.claude/agents/README.md) — агенты используют скиллы
+- [tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование скиллов после изменений
 - [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
 
 **Utility-скиллы:**
@@ -246,8 +246,8 @@ triggers:
 | Категория скилла | Связанные инструкции |
 |------------------|---------------------|
 | `git` | [git/issues.md](/.claude/instructions/git/issues.md), [git/workflow.md](/.claude/instructions/git/workflow.md), [git/commits.md](/.claude/instructions/git/commits.md) |
-| `documentation` | [tools/documentation.md](/.claude/instructions/tools/documentation.md) |
-| `skill-management` | [tools/skills.md](/.claude/instructions/tools/skills.md) |
+| `documentation` | [doc/structure.md](/.claude/instructions/doc/structure.md) |
+| `skill-management` | [skills/README.md](/.claude/skills/README.md) |
 | `instruction-management` | [README.md](/.claude/instructions/README.md) |
 
 2. Добавить раздел после "Связанные скиллы":
@@ -550,5 +550,5 @@ git checkout -- /.claude/skills/  # откатить все скиллы
 - instruction-create — добавлен в связанные скиллы
 
 Обновлены "Связанные инструкции" в doc-create:
-- tools/documentation.md
+- doc/structure.md
 ```

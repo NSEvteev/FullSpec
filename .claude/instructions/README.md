@@ -37,7 +37,8 @@
 
 **Внутренние инструкции:**
 - `/.claude/instructions/git/` — Git workflow, коммиты, issues
-- `/.claude/instructions/tools/` — агенты и скиллы
+- `/.claude/instructions/tools/` — документирование кода
+- `/.claude/instructions/tests/` — тестирование (включая Claude Code)
 
 ---
 
@@ -190,13 +191,19 @@
     review.md                           # code review: чек-лист, CODEOWNERS, правила
 
   /tools/                               # инструменты Claude
-    skills.md                           # индекс скиллов
-    agents.md                           # индекс агентов
-    claude-testing.md                   # тестирование Claude Code (smoke tests)
     documentation.md                    # правила документирования кода
-    state.md                            # хранение состояния между вызовами
-    dependencies.md                     # граф зависимостей скиллов
+
+  /tests/                               # тестирование (добавлено)
+    README.md                           # индекс тестирования
+    claude-testing.md                   # тестирование Claude Code (smoke tests)
+    project-testing.md                  # тестирование проекта
+    unit.md                             # unit-тесты
+    integration.md                      # интеграционные тесты
+    e2e.md                              # e2e тесты
+    fixtures.md                         # тестовые данные
 ```
+
+> **Перемещённые индексы:** skills.md, agents.md, state.md, dependencies.md перемещены в `/.claude/` — см. [/.claude/README.md](/.claude/README.md).
 
 ---
 
@@ -251,6 +258,7 @@
 
 | Инструкция | Описание | Тип | Создано | Заполнено |
 |------------|----------|-----|:-------:|:---------:|
+| [claude-testing.md](./tests/claude-testing.md) | Тестирование Claude Code: smoke tests, скиллы, инструкции | standard | ✅ | ✅ |
 | [project-testing.md](./tests/project-testing.md) | Тестирование проекта (индекс, unit, e2e, load) | project | ✅ | ✅ |
 | [unit.md](./tests/unit.md) | Unit-тесты: изоляция, моки, покрытие | standard | ✅ | ✅ |
 | [integration.md](./tests/integration.md) | Интеграционные тесты: БД, API, сервисы | standard | ✅ | ✅ |
@@ -265,7 +273,7 @@
 
 | Инструкция | Описание | Тип | Создано | Заполнено |
 |------------|----------|-----|:-------:|:---------:|
-| [structure.md](./doc/structure.md) | Структура /doc/: зеркалирование, ссылки на код, ADR, runbooks | project | ✅ | ✅ |
+| [structure.md](./doc/structure.md) | Структура /doc/, документирование кода, шаблоны, workflow | project | ✅ | ✅ |
 
 ---
 
@@ -302,13 +310,4 @@
 
 ---
 
-## /tools/ — Инструменты Claude
-
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [skills.md](./tools/skills.md) | Индекс скиллов: команды автоматизации, категории, триггеры | project | ✅ | ✅ |
-| [agents.md](./tools/agents.md) | Индекс агентов: специализированные агенты, их роли и скиллы | project | ✅ | ✅ |
-| [claude-testing.md](./tools/claude-testing.md) | Тестирование Claude Code: smoke tests, проверка скиллов | standard | ✅ | ✅ |
-| [documentation.md](./tools/documentation.md) | Документирование кода: ссылки на /doc/, комментарии, README | standard | ✅ | ✅ |
-| [state.md](./tools/state.md) | State management: хранение состояния между вызовами скиллов | standard | ✅ | ✅ |
-| [dependencies.md](./tools/dependencies.md) | Граф зависимостей: связи между скиллами и шаблонами | standard | ✅ | ✅ |
+> **Примечание:** Папка `/tools/` удалена. Содержимое `documentation.md` объединено с [doc/structure.md](./doc/structure.md). Индексы скиллов, агентов и состояния — в `/.claude/`. См. [/.claude/README.md](/.claude/README.md).

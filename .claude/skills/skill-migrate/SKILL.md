@@ -51,7 +51,7 @@ critical: true
    📋 Зависимости скилла old-name
 
    Ссылки на скилл:
-   - /.claude/instructions/tools/skills.md:42
+   - /.claude/skills/README.md:42
    - /.claude/skills/other-skill/SKILL.md:15
    - /CLAUDE.md:123
 
@@ -93,7 +93,7 @@ critical: true
 1. Вызвать `/links-update --old-name old-name --new-name new-name`
 
 2. Обновить:
-   - `/.claude/instructions/tools/skills.md`
+   - `/.claude/skills/README.md`
    - Все скиллы, вызывающие old-name
    - CLAUDE.md если есть ссылки
 
@@ -167,7 +167,7 @@ critical: true
 - /.claude/skills/my-skill/ → /.claude/skills/new-name/
 
 Будет обновлено:
-- /.claude/instructions/tools/skills.md
+- /.claude/skills/README.md
 - /.claude/skills/other-skill/SKILL.md
 
 ℹ️ Изменения НЕ применены (--dry-run)

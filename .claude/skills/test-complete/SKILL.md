@@ -30,7 +30,7 @@ triggers:
 - [issue-create](/.claude/skills/issue-create/SKILL.md) — создание Issue при failed критичного скилла
 
 **Связанные инструкции:**
-- [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование Claude Code
+- [tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование Claude Code
 - [tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**

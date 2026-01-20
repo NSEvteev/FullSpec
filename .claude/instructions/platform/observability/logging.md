@@ -10,14 +10,16 @@ related:
 
 # Логирование (Loki)
 
-Правила централизованного логирования: структурированные логи, Loki, корреляция.
+> **Разделение ответственности:**
+> - Этот файл: ИНФРАСТРУКТУРА логирования (Loki, сбор, хранение, индексация)
+> - [src/data/logging.md](/.claude/instructions/src/data/logging.md): КАК логировать в коде сервиса (форматы, уровни)
+
+Инфраструктура централизованного логирования: Loki, Promtail, корреляция с трейсами.
 
 ## Оглавление
 
+- [Формат логов](#формат-логов)
 - [Правила](#правила)
-  - [Structured Logging](#structured-logging)
-  - [Log Levels](#log-levels)
-  - [Обязательные поля](#обязательные-поля)
   - [Корреляция с трейсами](#корреляция-с-трейсами)
   - [Loki конфигурация](#loki-конфигурация)
   - [LogQL запросы](#logql-запросы)
@@ -28,113 +30,19 @@ related:
 
 ---
 
+## Формат логов
+
+Формат логов, уровни логирования и примеры описаны в [src/data/logging.md](/.claude/instructions/src/data/logging.md).
+
+**Ключевые требования:**
+- Все логи в формате JSON
+- Обязательные поля: `timestamp`, `level`, `service`, `request_id`, `message`
+- Production уровень: `info` и выше
+- Запрещено логировать sensitive data (пароли, токены, номера карт)
+
+---
+
 ## Правила
-
-### Structured Logging
-
-**Правило:** Все логи в формате JSON.
-
-```json
-{
-  "timestamp": "2024-01-15T14:30:00.000Z",
-  "level": "info",
-  "message": "User logged in",
-  "service": "auth-server",
-  "trace_id": "abc123def456",
-  "span_id": "789xyz",
-  "request_id": "req-001",
-  "user_id": "user-123",
-  "duration_ms": 45
-}
-```
-
-**Правило:** Не использовать string interpolation для структурированных данных.
-
-```python
-# Неправильно
-logger.info(f"User {user_id} logged in after {duration}ms")
-
-# Правильно
-logger.info("User logged in", extra={
-    "user_id": user_id,
-    "duration_ms": duration
-})
-```
-
-**Правило:** Консистентные имена полей.
-
-| Поле | Формат | Пример |
-|------|--------|--------|
-| Timestamp | ISO 8601 | `2024-01-15T14:30:00.000Z` |
-| Duration | `_ms` или `_seconds` | `duration_ms`, `latency_seconds` |
-| Count | `_count` | `retry_count` |
-| Size | `_bytes` | `request_size_bytes` |
-| ID | `_id` | `user_id`, `order_id` |
-
-### Log Levels
-
-**Правило:** Использовать правильный уровень логирования.
-
-| Level | Когда использовать | Примеры |
-|-------|-------------------|---------|
-| `error` | Ошибка, требующая внимания | Exception, failed request |
-| `warn` | Потенциальная проблема | Retry, deprecation |
-| `info` | Значимое событие | Request completed, user action |
-| `debug` | Детали для отладки | Variable values, flow |
-| `trace` | Очень детальная информация | Function entry/exit |
-
-**Правило:** Production уровень — `info` и выше.
-
-```python
-import os
-import logging
-
-level = os.environ.get("LOG_LEVEL", "INFO").upper()
-logging.basicConfig(level=getattr(logging, level))
-```
-
-**Правило:** Не логировать sensitive data.
-
-```python
-# Неправильно
-logger.info("Login attempt", extra={
-    "email": user.email,
-    "password": password,  # НИКОГДА!
-    "credit_card": card_number  # НИКОГДА!
-})
-
-# Правильно
-logger.info("Login attempt", extra={
-    "user_id": user.id,
-    "email_domain": user.email.split("@")[1]  # Только домен
-})
-```
-
-### Обязательные поля
-
-**Правило:** Каждый лог содержит обязательные поля.
-
-| Поле | Источник | Описание |
-|------|----------|----------|
-| `timestamp` | Автоматически | ISO 8601 с timezone |
-| `level` | Logger | info, warn, error, debug |
-| `message` | Разработчик | Человекочитаемое описание |
-| `service` | Конфигурация | Имя сервиса |
-| `environment` | Конфигурация | production, staging, dev |
-| `version` | Конфигурация | Версия приложения |
-
-**Правило:** Request-scoped поля для HTTP.
-
-| Поле | Описание |
-|------|----------|
-| `request_id` | Уникальный ID запроса |
-| `trace_id` | OpenTelemetry trace ID |
-| `span_id` | OpenTelemetry span ID |
-| `method` | HTTP method |
-| `path` | Request path |
-| `status` | Response status |
-| `duration_ms` | Request duration |
-| `user_id` | Authenticated user (если есть) |
 
 ### Корреляция с трейсами
 

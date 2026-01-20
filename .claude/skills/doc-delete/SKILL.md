@@ -30,7 +30,7 @@ triggers:
 - [issue-create](/.claude/skills/issue-create/SKILL.md) — создание GitHub Issue
 
 **Связанные инструкции:**
-- [tools/documentation.md](/.claude/instructions/tools/documentation.md) — правила документирования кода
+- [doc/structure.md](/.claude/instructions/doc/structure.md) — структура и документирование кода
 - [git/issues.md](/.claude/instructions/git/issues.md) — создание Issue для отслеживания
 - [scope-detection.md](/.claude/templates/scope-detection.md) — SSOT для определения scope (раздел "Scope для документации")
 - [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
@@ -104,7 +104,7 @@ triggers:
 
 **Исключения (не документируются):** `/doc/`, `/.claude/`, `/.git/`, `/tests/`, `*.md`, `*.rst`, `*.txt`
 
-**Связанная инструкция:** [documentation.md](/.claude/instructions/tools/documentation.md)
+**Связанная инструкция:** [doc/structure.md](/.claude/instructions/doc/structure.md)
 
 ### Что помечается
 

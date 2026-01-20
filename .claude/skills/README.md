@@ -2,9 +2,9 @@
 type: project
 description: Индекс скиллов, правила создания, параметры
 related:
-  - tools/agents.md
-  - tools/claude-testing.md
-  - tests/project-testing.md
+  - /.claude/agents/README.md
+  - /.claude/instructions/tests/claude-testing.md
+  - /.claude/instructions/tests/project-testing.md
 ---
 
 # Индекс скиллов
@@ -45,11 +45,11 @@ related:
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| [skill-create](/.claude/skills/skill-create/SKILL.md) | Создание нового скилла | `/skill-create`, "создай скилл" |
-| [skill-update](/.claude/skills/skill-update/SKILL.md) | Обновление скиллов при добавлении нового | `/skill-update`, "обнови скиллы" |
-| [skill-delete](/.claude/skills/skill-delete/SKILL.md) | Обновление существующих скиллов при удалении скилла | `/skill-delete`, "удали скилл" |
-| [skill-migrate](/.claude/skills/skill-migrate/SKILL.md) | Переименование скилла с обновлением всех ссылок | `/skill-migrate`, "мигрируй скилл" |
-| [skill-report](/.claude/skills/skill-report/SKILL.md) | Генерация отчёта по скиллам проекта | `/skill-report`, "отчёт по скиллам" |
+| [skill-create](./skill-create/SKILL.md) | Создание нового скилла | `/skill-create`, "создай скилл" |
+| [skill-update](./skill-update/SKILL.md) | Обновление скиллов при добавлении нового | `/skill-update`, "обнови скиллы" |
+| [skill-delete](./skill-delete/SKILL.md) | Обновление существующих скиллов при удалении скилла | `/skill-delete`, "удали скилл" |
+| [skill-migrate](./skill-migrate/SKILL.md) | Переименование скилла с обновлением всех ссылок | `/skill-migrate`, "мигрируй скилл" |
+| [skill-report](./skill-report/SKILL.md) | Генерация отчёта по скиллам проекта | `/skill-report`, "отчёт по скиллам" |
 
 ### agent-management
 
@@ -57,7 +57,7 @@ related:
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| [agent-create](/.claude/skills/agent-create/SKILL.md) | Создание нового агента по шаблону | `/agent-create`, "создай агента" |
+| [agent-create](./agent-create/SKILL.md) | Создание нового агента по шаблону | `/agent-create`, "создай агента" |
 
 ### instruction-management
 
@@ -65,9 +65,9 @@ related:
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| [instruction-create](/.claude/skills/instruction-create/SKILL.md) | Создание новой инструкции | `/instruction-create`, "создай инструкцию" |
-| [instruction-update](/.claude/skills/instruction-update/SKILL.md) | Проверка файлов на соответствие инструкции | `/instruction-update`, "проверь инструкцию" |
-| [instruction-delete](/.claude/skills/instruction-delete/SKILL.md) | Очистка ссылок при удалении инструкции | `/instruction-delete`, "удали инструкцию" |
+| [instruction-create](./instruction-create/SKILL.md) | Создание новой инструкции | `/instruction-create`, "создай инструкцию" |
+| [instruction-update](./instruction-update/SKILL.md) | Проверка файлов на соответствие инструкции | `/instruction-update`, "проверь инструкцию" |
+| [instruction-delete](./instruction-delete/SKILL.md) | Очистка ссылок при удалении инструкции | `/instruction-delete`, "удали инструкцию" |
 
 ### documentation
 
@@ -75,16 +75,16 @@ related:
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| [doc-create](/.claude/skills/doc-create/SKILL.md) | Создание документации для файла в /src/ | `/doc-create`, "создай документацию" |
-| [doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации при изменении кода | `/doc-update`, "обнови документацию" |
-| [doc-delete](/.claude/skills/doc-delete/SKILL.md) | Пометка документации при удалении файла | `/doc-delete`, "удали документацию" |
-| [links-create](/.claude/skills/links-create/SKILL.md) | Создание ссылок на файлы и папки | `/links-create`, "создай ссылки" |
-| [links-update](/.claude/skills/links-update/SKILL.md) | Обновление ссылок в связанных документах | `/links-update`, "обнови ссылки" |
-| [links-delete](/.claude/skills/links-delete/SKILL.md) | Пометка битых ссылок при удалении файлов | `/links-delete`, "удали ссылки" |
-| [context-update](/.claude/skills/context-update/SKILL.md) | Распространение контекста по графу документов | `/context-update`, "пошарь контекст" |
-| [context-delete](/.claude/skills/context-delete/SKILL.md) | Очистка контекста при удалении документа | `/context-delete`, "удали контекст" |
-| [links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация всех ссылок в проекте | `/links-validate`, "проверь ссылки" |
-| [doc-reindex](/.claude/skills/doc-reindex/SKILL.md) | Полная переиндексация документации | `/doc-reindex`, "переиндексируй документацию" |
+| [doc-create](./doc-create/SKILL.md) | Создание документации для файла в /src/ | `/doc-create`, "создай документацию" |
+| [doc-update](./doc-update/SKILL.md) | Обновление документации при изменении кода | `/doc-update`, "обнови документацию" |
+| [doc-delete](./doc-delete/SKILL.md) | Пометка документации при удалении файла | `/doc-delete`, "удали документацию" |
+| [links-create](./links-create/SKILL.md) | Создание ссылок на файлы и папки | `/links-create`, "создай ссылки" |
+| [links-update](./links-update/SKILL.md) | Обновление ссылок в связанных документах | `/links-update`, "обнови ссылки" |
+| [links-delete](./links-delete/SKILL.md) | Пометка битых ссылок при удалении файлов | `/links-delete`, "удали ссылки" |
+| [context-update](./context-update/SKILL.md) | Распространение контекста по графу документов | `/context-update`, "пошарь контекст" |
+| [context-delete](./context-delete/SKILL.md) | Очистка контекста при удалении документа | `/context-delete`, "удали контекст" |
+| [links-validate](./links-validate/SKILL.md) | Валидация всех ссылок в проекте | `/links-validate`, "проверь ссылки" |
+| [doc-reindex](./doc-reindex/SKILL.md) | Полная переиндексация документации | `/doc-reindex`, "переиндексируй документацию" |
 
 ### meta
 
@@ -92,7 +92,7 @@ related:
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| [prompt-update](/.claude/skills/prompt-update/SKILL.md) | Улучшение и обогащение промтов | `/prompt`, "улучши промт" |
+| [prompt-update](./prompt-update/SKILL.md) | Улучшение и обогащение промтов | `/prompt`, "улучши промт" |
 
 ### utility
 
@@ -100,9 +100,9 @@ related:
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| [input-validate](/.claude/skills/input-validate/SKILL.md) | Валидация входных данных скилла | `/input-validate`, "проверь ввод" |
-| [environment-check](/.claude/skills/environment-check/SKILL.md) | Проверка окружения (gh, git, python) | `/environment-check`, "проверь окружение" |
-| [health-check](/.claude/skills/health-check/SKILL.md) | Проверка целостности проекта Claude | `/health-check`, "проверь проект" |
+| [input-validate](./input-validate/SKILL.md) | Валидация входных данных скилла | `/input-validate`, "проверь ввод" |
+| [environment-check](./environment-check/SKILL.md) | Проверка окружения (gh, git, python) | `/environment-check`, "проверь окружение" |
+| [health-check](./health-check/SKILL.md) | Проверка целостности проекта Claude | `/health-check`, "проверь проект" |
 
 ### testing
 
@@ -112,13 +112,13 @@ related:
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| [test-create](/.claude/skills/test-create/SKILL.md) | Создание теста с автоопределением scope | `/test-create`, "создай тест" |
-| [test-update](/.claude/skills/test-update/SKILL.md) | Изменение существующего теста | `/test-update`, "обнови тест" |
-| [test-review](/.claude/skills/test-review/SKILL.md) | Проверка полноты и качества теста | `/test-review`, "проверь тест" |
-| [test-execute](/.claude/skills/test-execute/SKILL.md) | Выполнение тестов с автоопределением scope | `/test-execute`, "запусти тест" |
-| [test-complete](/.claude/skills/test-complete/SKILL.md) | Отметка теста как пройденного | `/test-complete`, "тест пройден" |
-| [test-delete](/.claude/skills/test-delete/SKILL.md) | Удаление теста | `/test-delete`, "удали тест" |
-| [test-coverage](/.claude/skills/test-coverage/SKILL.md) | Анализ покрытия тестами | `/test-coverage`, "покрытие тестами" |
+| [test-create](./test-create/SKILL.md) | Создание теста с автоопределением scope | `/test-create`, "создай тест" |
+| [test-update](./test-update/SKILL.md) | Изменение существующего теста | `/test-update`, "обнови тест" |
+| [test-review](./test-review/SKILL.md) | Проверка полноты и качества теста | `/test-review`, "проверь тест" |
+| [test-execute](./test-execute/SKILL.md) | Выполнение тестов с автоопределением scope | `/test-execute`, "запусти тест" |
+| [test-complete](./test-complete/SKILL.md) | Отметка теста как пройденного | `/test-complete`, "тест пройден" |
+| [test-delete](./test-delete/SKILL.md) | Удаление теста | `/test-delete`, "удали тест" |
+| [test-coverage](./test-coverage/SKILL.md) | Анализ покрытия тестами | `/test-coverage`, "покрытие тестами" |
 
 ### git
 
@@ -126,13 +126,13 @@ Git операции.
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| [issue-create](/.claude/skills/issue-create/SKILL.md) | Создание GitHub Issue с правильным форматом | `/issue-create`, "создай задачу" |
-| [issue-update](/.claude/skills/issue-update/SKILL.md) | Обновление описания и меток Issue | `/issue-update`, "обнови задачу" |
-| [issue-execute](/.claude/skills/issue-execute/SKILL.md) | Взятие Issue в работу и выполнение | `/issue-execute`, "возьми задачу" |
-| [issue-review](/.claude/skills/issue-review/SKILL.md) | Ревью решения перед закрытием Issue | `/issue-review`, "проверь решение" |
-| [issue-complete](/.claude/skills/issue-complete/SKILL.md) | Закрытие Issue как выполненного | `/issue-complete`, "заверши задачу" |
-| [issue-delete](/.claude/skills/issue-delete/SKILL.md) | Закрытие Issue как неактуального | `/issue-delete`, "удали задачу" |
-| [issue-reopen](/.claude/skills/issue-reopen/SKILL.md) | Переоткрытие закрытого Issue | `/issue-reopen`, "переоткрой задачу" |
+| [issue-create](./issue-create/SKILL.md) | Создание GitHub Issue с правильным форматом | `/issue-create`, "создай задачу" |
+| [issue-update](./issue-update/SKILL.md) | Обновление описания и меток Issue | `/issue-update`, "обнови задачу" |
+| [issue-execute](./issue-execute/SKILL.md) | Взятие Issue в работу и выполнение | `/issue-execute`, "возьми задачу" |
+| [issue-review](./issue-review/SKILL.md) | Ревью решения перед закрытием Issue | `/issue-review`, "проверь решение" |
+| [issue-complete](./issue-complete/SKILL.md) | Закрытие Issue как выполненного | `/issue-complete`, "заверши задачу" |
+| [issue-delete](./issue-delete/SKILL.md) | Закрытие Issue как неактуального | `/issue-delete`, "удали задачу" |
+| [issue-reopen](./issue-reopen/SKILL.md) | Переоткрытие закрытого Issue | `/issue-reopen`, "переоткрой задачу" |
 
 ---
 
@@ -200,9 +200,9 @@ Git операции.
 
 | Скилл | Описание |
 |-------|----------|
-| [/skill-create](/.claude/skills/skill-create/SKILL.md) | Создание нового скилла по шаблону |
-| [/skill-update](/.claude/skills/skill-update/SKILL.md) | Обновление существующих скиллов при добавлении нового |
-| [/skill-delete](/.claude/skills/skill-delete/SKILL.md) | Удаление скилла и обновление связей |
+| [/skill-create](./skill-create/SKILL.md) | Создание нового скилла по шаблону |
+| [/skill-update](./skill-update/SKILL.md) | Обновление существующих скиллов при добавлении нового |
+| [/skill-delete](./skill-delete/SKILL.md) | Удаление скилла и обновление связей |
 
 ---
 
@@ -254,9 +254,9 @@ Git операции.
 - Скиллы не подходят в существующие категории
 - Категория имеет понятное название
 
-**Шаг 2:** Добавить категорию в skills.md
+**Шаг 2:** Добавить категорию в README.md
 
-1. Открыть этот файл (`/.claude/instructions/tools/skills.md`)
+1. Открыть этот файл (`/.claude/skills/README.md`)
 2. Найти раздел `## Категории`
 3. Добавить новую секцию в алфавитном порядке:
 
@@ -294,8 +294,8 @@ Git операции.
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| [ci-check](/.claude/skills/ci-check/SKILL.md) | Проверка статуса CI | `/ci-check`, "проверь CI" |
-| [ci-fix](/.claude/skills/ci-fix/SKILL.md) | Исправление ошибок CI | `/ci-fix`, "исправь CI" |
+| [ci-check](./ci-check/SKILL.md) | Проверка статуса CI | `/ci-check`, "проверь CI" |
+| [ci-fix](./ci-fix/SKILL.md) | Исправление ошибок CI | `/ci-fix`, "исправь CI" |
 ```
 
 **Именование категорий:**
@@ -310,6 +310,6 @@ Git операции.
 
 ## Связанные инструкции
 
-- [agents.md](agents.md) — индекс агентов
-- [claude-testing.md](claude-testing.md) — тестирование Claude Code
-- [project-testing.md](../tests/project-testing.md) — тестирование проекта
+- [agents/README.md](/.claude/agents/README.md) — индекс агентов
+- [instructions/tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование Claude Code
+- [instructions/tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта

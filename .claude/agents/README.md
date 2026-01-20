@@ -1,3 +1,11 @@
+---
+type: standard
+description: Индекс агентов, правила создания, теги
+related:
+  - /.claude/skills/README.md
+  - /.claude/instructions/tests/claude-testing.md
+---
+
 # Индекс агентов
 
 Агенты — специализированные помощники для выполнения комплексных задач.
@@ -48,9 +56,20 @@ skills: [{скилл1}, {скилл2}, ...]
 
 ## Список агентов
 
+> **Статус:** Агенты ещё не созданы. Таблица заполняется автоматически при использовании `/agent-create`.
+
 | Агент | Описание | Теги | Скиллы |
 |-------|----------|------|--------|
-| — | — | — | — |
+| *(пусто)* | Используй `/agent-create` для создания первого агента | — | — |
+
+### Рекомендуемые агенты для создания
+
+| Агент | Назначение | Теги |
+|-------|------------|------|
+| `documentation-manager` | Управление документацией проекта (discuss → architecture → ADR) | `documentation` |
+| `code-reviewer` | Автоматический code review по чек-листу | `code`, `git` |
+| `test-runner` | Запуск и анализ тестов | `testing` |
+| `release-manager` | Управление релизами и changelog | `git`, `infrastructure` |
 
 ---
 
@@ -69,3 +88,10 @@ skills: [{скилл1}, {скилл2}, ...]
 | [/agent-create](/.claude/skills/agent-create/SKILL.md) | Создание нового агента по шаблону |
 | `/agent-update` | *(планируется)* Обновление агента |
 | `/agent-delete` | *(планируется)* Удаление агента |
+
+---
+
+## Связанные инструкции
+
+- [skills/README.md](/.claude/skills/README.md) — индекс скиллов
+- [instructions/tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование агентов

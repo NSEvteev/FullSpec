@@ -30,7 +30,7 @@ triggers:
 - [prompt-update](/.claude/skills/prompt-update/SKILL.md) — улучшение промта перед созданием
 
 **Связанные инструкции:**
-- [tools/documentation.md](/.claude/instructions/tools/documentation.md) — правила документирования кода
+- [doc/structure.md](/.claude/instructions/doc/structure.md) — структура и документирование кода
 - [scope-detection.md](/.claude/templates/scope-detection.md) — SSOT для определения scope (раздел "Scope для документации")
 - [workflow-template.md](/.claude/templates/workflow-template.md) — SSOT шаблон воркфлоу
 - [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
@@ -131,7 +131,7 @@ triggers:
 | `/tests/**` | Тесты (описываются в /.claude/instructions/tests/) |
 | `*.md`, `*.rst`, `*.txt` | Самоописывающиеся файлы |
 
-**Связанная инструкция:** [documentation.md](/.claude/instructions/tools/documentation.md)
+**Связанная инструкция:** [doc/structure.md](/.claude/instructions/doc/structure.md)
 
 ### Формат ссылки в коде
 

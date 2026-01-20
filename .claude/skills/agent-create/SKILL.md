@@ -24,8 +24,8 @@ triggers:
 - [links-update](/.claude/skills/links-update/SKILL.md) — синхронизация ссылок
 
 **Связанные инструкции:**
-- [tools/agents.md](/.claude/instructions/tools/agents.md) — индекс агентов, теги
-- [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов, категории
+- [agents/README.md](/.claude/agents/README.md) — индекс агентов, теги
+- [skills/README.md](/.claude/skills/README.md) — индекс скиллов, категории
 
 **Utility-скиллы:**
 - [input-validate](/.claude/skills/input-validate/SKILL.md) — валидация названия агента
@@ -102,7 +102,7 @@ triggers:
 ### Шаг 2: Описание и теги
 
 1. Спросить описание агента (1 строка)
-2. Показать список доступных тегов из [agents.md](/.claude/instructions/tools/agents.md)
+2. Показать список доступных тегов из [agents.md](/.claude/agents/README.md)
 3. Выбрать подходящие теги
 
 **Доступные теги:**
@@ -120,7 +120,7 @@ triggers:
 
 ### Шаг 3: Выбор скиллов
 
-1. Для каждого тега — показать скиллы этой категории из [skills.md](/.claude/instructions/tools/skills.md)
+1. Для каждого тега — показать скиллы этой категории из [skills.md](/.claude/skills/README.md)
 2. Предложить выбрать скиллы для агента
 3. В режиме `--auto` — добавить все скиллы из выбранных категорий
 
@@ -135,7 +135,7 @@ touch .claude/agents/{название}.md
 
 ### Шаг 5: Обновить индекс агентов
 
-1. Открыть [agents.md](/.claude/instructions/tools/agents.md)
+1. Открыть [agents.md](/.claude/agents/README.md)
 2. Добавить строку в таблицу "Список агентов"
 
 **Формат строки:**
@@ -161,7 +161,7 @@ touch .claude/agents/{название}.md
 Теги: {список тегов}
 Скиллы: {список скиллов}
 
-Индекс обновлён: /.claude/instructions/tools/agents.md
+Индекс обновлён: /.claude/agents/README.md
 
 Следующие шаги:
 - Дополнить инструкции агента в файле
@@ -218,7 +218,7 @@ skills:
 rm -f .claude/agents/{название}.md
 
 # Откатить изменения в индексе
-git checkout -- .claude/instructions/tools/agents.md
+git checkout -- .claude/agents/README.md
 ```
 
 ---
@@ -322,7 +322,7 @@ git checkout -- .claude/instructions/tools/agents.md
 ```bash
 rm /.claude/agents/{название}.md
 # Откатить изменения в индексе
-git checkout -- /.claude/instructions/tools/agents.md
+git checkout -- /.claude/agents/README.md
 ```
 
 Или используйте `/agent-delete` (планируется).

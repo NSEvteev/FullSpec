@@ -3,7 +3,7 @@
 Единый источник шаблонов для тестирования Claude Code и проекта.
 
 **Используется в:**
-- [claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование скиллов
+- [claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование скиллов
 - [project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
 - [test-create](/.claude/skills/test-create/SKILL.md) — создание тестов
 - [test-execute](/.claude/skills/test-execute/SKILL.md) — выполнение тестов
