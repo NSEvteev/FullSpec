@@ -195,37 +195,25 @@ make lint          # Линтинг
 
 ---
 
+### ✅ БЛОК C ВЫПОЛНЕН
+
+Созданы 6 test-* скиллов с автоопределением scope:
+- [test-create](/.claude/skills/test-create/SKILL.md) ✅
+- [test-update](/.claude/skills/test-update/SKILL.md) ✅
+- [test-review](/.claude/skills/test-review/SKILL.md) ✅
+- [test-execute](/.claude/skills/test-execute/SKILL.md) ✅
+- [test-complete](/.claude/skills/test-complete/SKILL.md) ✅
+- [test-delete](/.claude/skills/test-delete/SKILL.md) ✅
+
+---
+
 ### 🟡 ТЕКУЩИЙ ПЛАН
 
-#### Блок C: Создать универсальные скиллы test-*
+#### Задача: Переименовать tests/README.md → project-testing.md
 
-**Принцип:** Один набор скиллов с автоопределением scope по пути.
-
-| Скилл | Описание | Авто-scope |
-|-------|----------|------------|
-| `test-create` | Создать тест | `.claude/*` → claude, `src/*` → project |
-| `test-update` | Изменить тест | — |
-| `test-review` | Проверить полноту теста | — |
-| `test-execute` | Выполнить тест(ы) | `--scope claude/project/all` |
-| `test-complete` | Отметить пройденным | — |
-| `test-delete` | Удалить тест | — |
-
-**Визуализация:**
-
-```
-                    /test-execute [target] [--scope]
-                               │
-               ┌───────────────┼───────────────┐
-               │               │               │
-         target есть?    --scope есть?    ничего нет
-               │               │               │
-               ▼               ▼               ▼
-       Автоопределить     Использовать     Спросить:
-       по пути:           указанный        [1] claude
-       .claude/* → claude                  [2] project
-       src/* → project                     [3] all
-       tests/* → project
-```
+По аналогии с `claude-testing.md`:
+- `tools/claude-testing.md` — тесты Claude Code
+- `tools/project-testing.md` — тесты проекта (бывший tests/README.md)
 
 #### Блок D: Создать критические инструкции
 

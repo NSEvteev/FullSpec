@@ -89,6 +89,19 @@ related:
 |-------|----------|----------|
 | [prompt-update](/.claude/skills/prompt-update/SKILL.md) | Улучшение и обогащение промтов | `/prompt`, "улучши промт" |
 
+### testing
+
+Тестирование скиллов и кода проекта.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [test-create](/.claude/skills/test-create/SKILL.md) | Создание теста с автоопределением scope | `/test-create`, "создай тест" |
+| [test-update](/.claude/skills/test-update/SKILL.md) | Изменение существующего теста | `/test-update`, "обнови тест" |
+| [test-review](/.claude/skills/test-review/SKILL.md) | Проверка полноты и качества теста | `/test-review`, "проверь тест" |
+| [test-execute](/.claude/skills/test-execute/SKILL.md) | Выполнение тестов с автоопределением scope | `/test-execute`, "запусти тест" |
+| [test-complete](/.claude/skills/test-complete/SKILL.md) | Отметка теста как пройденного | `/test-complete`, "тест пройден" |
+| [test-delete](/.claude/skills/test-delete/SKILL.md) | Удаление теста | `/test-delete`, "удали тест" |
+
 ### git
 
 Git операции.
