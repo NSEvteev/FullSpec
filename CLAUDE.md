@@ -190,7 +190,34 @@ make lint          # Линтинг
 ## 📌 При следующем запуске
 
 > **Дата:** 2026-01-20
-> **Статус:** Все три сессии улучшения test-* скиллов завершены
+> **Статус:** Фаза 2 плана улучшений завершена
+
+---
+
+### ✅ ВЫПОЛНЕНО (2026-01-20) — Фаза 2: Связи между компонентами
+
+#### Выполненные задачи
+
+| Задача | Описание |
+|--------|----------|
+| 2.1.1 | Добавлено сравнение links-update vs context-update |
+| 2.2.1 | instruction-update вызывает test-update (новый Шаг 9) |
+| 2.2.2 | test-update добавлен в связанные скиллы instruction-update |
+| 2.2.3 | instruction-update добавлен в связанные скиллы test-update |
+| 2.3.1 | Расширена интеграция prompt-update (5 категорий, 20+ скиллов) |
+| 2.3.2 | prompt-update добавлен в instruction-create |
+| 2.3.3 | prompt-update добавлен в skill-create |
+
+#### Изменённые файлы
+
+| Файл | Изменения |
+|------|-----------|
+| links-update/SKILL.md | +раздел "Отличие от context-update" |
+| instruction-update/SKILL.md | +test-update в связях, +Шаг 9 |
+| test-update/SKILL.md | +instruction-update в связях |
+| prompt-update/SKILL.md | Расширен раздел интеграции |
+| instruction-create/SKILL.md | +prompt-update в связях |
+| skill-create/SKILL.md | +prompt-update в связях |
 
 ---
 
@@ -290,14 +317,24 @@ make lint          # Линтинг
 
 | Метрика | Значение |
 |---------|----------|
-| Скиллов | 21 |
-| Инструкций создано | 12 из 64 (19%) |
+| Скиллов | 27 |
+| Инструкций создано | 11 из 51 (22%) |
 | test-* скиллов | 6 (полные с FAQ и цепочками) |
-| Шаблонов | 2 (test-formats.md, scope-detection.md) |
+| Шаблонов | 4 (test-formats.md, scope-detection.md, error-handling.md, workflow-template.md) |
 
 ---
 
 ### 🟡 СЛЕДУЮЩИЕ ЗАДАЧИ
+
+#### План улучшений (из 2026-01-20-claude-analysis.md)
+
+| Фаза | Статус | Описание |
+|------|--------|----------|
+| Фаза 1 | ⬜ | Критические исправления (19 задач) |
+| Фаза 2 | ✅ | Связи между компонентами (8 задач) |
+| Фаза 3 | ⬜ частично | SSOT (9 задач, выполнено: 3.2.1) |
+| Фаза 4 | ⬜ | Улучшения workflow (12 задач) |
+| Фаза 5 | ⬜ частично | Nice to have (6 задач, выполнено: 5.1.1) |
 
 #### Блок D: Критические инструкции
 
@@ -345,5 +382,8 @@ make lint          # Линтинг
 - [x] claude-testing.md содержит раздел side effects и мокирование
 - [x] test-formats.md содержит диагностику flaky
 - [x] issue-complete проверяет CI статус
+- [x] Фаза 2: Сравнение links-update vs context-update
+- [x] Фаза 2: instruction-update вызывает test-update
+- [x] Фаза 2: prompt-update интегрирован в экосистему
 - [ ] Все инструкции имеют раздел "Скиллы"
 - [ ] Созданы инструкции tests/*.md (6 файлов)
