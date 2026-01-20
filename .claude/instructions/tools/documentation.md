@@ -443,4 +443,4 @@ counter += 1
 
 ---
 
-> **Путь:** `/.claude/instructions/tools/documentation.md`
+> **Путь:** `/.claude/instructions/src/documentation.md`

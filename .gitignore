@@ -3,6 +3,9 @@ tmpclaude-*
 llm_tasks/agents/*/temp/
 llm_tasks/temp/
 
+# Claude state (local, not versioned)
+.claude/state/
+
 # Временные файлы ОС
 *.tmp
 *.temp

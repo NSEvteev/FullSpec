@@ -2,7 +2,7 @@
 
 Индекс всех инструкций проекта. Единая точка входа.
 
-**Полное описание структуры:** [refactoring.md](/refactoring.md)
+**Полное описание структуры:** [README.md](/README.md) | [refactoring.md](/refactoring.md)
 
 ## Оглавление
 
@@ -42,7 +42,7 @@
 
 ## Начало работы
 
-> **Статус:** Создано **11 из 51** инструкций (22%). Полностью созданы: /git/, /tools/, /doc/. В работе: /src/, /tests/, /platform/, /shared/, /config/.
+> **Статус:** Создано **13 из 53** инструкций (25%). Полностью созданы: /git/, /tools/, /doc/. В работе: /src/, /tests/, /platform/, /shared/, /config/.
 
 | Ситуация | Команда | Описание |
 |----------|---------|----------|
@@ -70,14 +70,13 @@
 
 ## Дерево инструкций
 
-> ✅ Все папки созданы. Файлы создаются через `/instruction-create`. Прогресс: 22% (11/51).
+> ✅ Все папки созданы. Файлы создаются через `/instruction-create`. Прогресс: 25% (13/53).
 
 ```
 /.claude/instructions/
   README.md                             # индекс всех инструкций
 
   /src/                                 # правила разработки сервисов
-    documentation.md                    # правила документирования кода
     /api/                               # проектирование API
       design.md                         # URL, методы, статусы, частичное обновление
       versioning.md                     # версионирование (/v1/, /v2/)
@@ -148,6 +147,9 @@
     skills.md                           # индекс скиллов
     agents.md                           # индекс агентов
     claude-testing.md                   # тестирование Claude Code (smoke tests)
+    documentation.md                    # правила документирования кода
+    state.md                            # хранение состояния между вызовами
+    dependencies.md                     # граф зависимостей скиллов
 ```
 
 ---
@@ -156,7 +158,6 @@
 
 | Инструкция | Описание | Тип | Создано | Заполнено |
 |------------|----------|-----|:-------:|:---------:|
-| [documentation.md](./tools/documentation.md) | Документирование кода: ссылки на /doc/, комментарии, README | standard | ✅ | ✅ |
 | **api/** | Проектирование REST API ||||
 | [design.md](./src/api/design.md) | URL naming (kebab-case), HTTP методы, статус-коды, partial update, bulk operations | standard | ⬜ | ⬜ |
 | [versioning.md](./src/api/versioning.md) | Версионирование API через URL (/v1/, /v2/), gRPC package versioning | standard | ⬜ | ⬜ |
@@ -262,3 +263,6 @@
 | [skills.md](./tools/skills.md) | Индекс скиллов: команды автоматизации, категории, триггеры | project | ✅ | ✅ |
 | [agents.md](./tools/agents.md) | Индекс агентов: специализированные агенты, их роли и скиллы | project | ✅ | ✅ |
 | [claude-testing.md](./tools/claude-testing.md) | Тестирование Claude Code: smoke tests, проверка скиллов | standard | ✅ | ✅ |
+| [documentation.md](./tools/documentation.md) | Документирование кода: ссылки на /doc/, комментарии, README | standard | ✅ | ✅ |
+| [state.md](./tools/state.md) | State management: хранение состояния между вызовами скиллов | standard | ✅ | ✅ |
+| [dependencies.md](./tools/dependencies.md) | Граф зависимостей: связи между скиллами и шаблонами | standard | ✅ | ✅ |

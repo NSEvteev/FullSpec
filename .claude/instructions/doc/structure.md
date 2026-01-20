@@ -219,6 +219,18 @@ related:
 
 ---
 
+## Автоматизация
+
+Скиллы для работы с этой инструкцией:
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Создание документации для файла в /src/ |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации при изменении кода |
+| [/doc-delete](/.claude/skills/doc-delete/SKILL.md) | Пометка документации при удалении файла |
+
+---
+
 ## Связанные инструкции
 
 - [tools/documentation.md](../tools/documentation.md) — документирование кода, ссылки src ↔ doc

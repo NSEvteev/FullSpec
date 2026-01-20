@@ -221,6 +221,17 @@ ci: add automated security scanning
 
 ---
 
+## Автоматизация
+
+Скиллы для работы с этой инструкцией:
+
+| Скилл | Описание |
+|-------|----------|
+| [/issue-execute](/.claude/skills/issue-execute/SKILL.md) | Автоматическое создание коммитов при выполнении Issue |
+| [/issue-complete](/.claude/skills/issue-complete/SKILL.md) | Финальный коммит при закрытии Issue |
+
+---
+
 ## Связанные инструкции
 
 - [git/workflow.md](workflow.md) — Git workflow, ветки, PR
