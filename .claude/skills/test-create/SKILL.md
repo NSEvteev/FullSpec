@@ -34,6 +34,11 @@ triggers:
 - [test-formats.md](/.claude/templates/test-formats.md) — форматы тестов, статусы, чек-листы
 - [scope-detection.md](/.claude/templates/scope-detection.md) — определение scope (SSOT)
 - [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+- [workflow-template.md](/.claude/templates/workflow-template.md) — SSOT структуры воркфлоу
+
+**Utility-скиллы:**
+- [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением
+- [input-validate](/.claude/skills/input-validate/SKILL.md) — валидация входных данных
 
 ## Оглавление
 

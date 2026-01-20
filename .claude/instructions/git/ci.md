@@ -433,13 +433,15 @@ gh run view <run-id> --log-failed
 
 ---
 
-## Скиллы
+## Автоматизация
 
-| Скилл | Назначение |
-|-------|------------|
-| [test-execute](/.claude/skills/test-execute/SKILL.md) | Выполнение тестов локально |
-| [test-review](/.claude/skills/test-review/SKILL.md) | Анализ failed тестов |
-| [test-update](/.claude/skills/test-update/SKILL.md) | Исправление тестов |
+Скиллы для работы с этой инструкцией:
+
+| Скилл | Описание |
+|-------|----------|
+| [/test-execute](/.claude/skills/test-execute/SKILL.md) | Выполнение тестов локально |
+| [/test-review](/.claude/skills/test-review/SKILL.md) | Анализ failed тестов |
+| [/test-update](/.claude/skills/test-update/SKILL.md) | Исправление тестов |
 | `ci-check` | Проверка статуса CI *(планируется)* |
 | `ci-fix` | Исправление ошибок CI *(планируется)* |
 | `ci-rerun` | Перезапуск failed jobs *(планируется)* |

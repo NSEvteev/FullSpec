@@ -220,12 +220,15 @@ Resolves #123
 
 ---
 
-## Скиллы
+## Автоматизация
 
-| Скилл | Назначение |
-|-------|------------|
-| [/issue-execute](/.claude/skills/issue-execute/SKILL.md) | Создание ветки от Issue, выполнение задачи |
+Скиллы для работы с этой инструкцией:
+
+| Скилл | Описание |
+|-------|----------|
 | [/issue-create](/.claude/skills/issue-create/SKILL.md) | Создание Issue с правильным форматом |
+| [/issue-execute](/.claude/skills/issue-execute/SKILL.md) | Создание ветки от Issue, выполнение задачи |
+| [/issue-review](/.claude/skills/issue-review/SKILL.md) | Ревью решения перед закрытием Issue |
 | [/issue-complete](/.claude/skills/issue-complete/SKILL.md) | Закрытие Issue, создание PR |
 
 ---

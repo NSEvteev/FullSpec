@@ -183,6 +183,18 @@ Git операции.
 
 ---
 
+## Автоматизация
+
+Скиллы для работы с этой инструкцией:
+
+| Скилл | Описание |
+|-------|----------|
+| [/skill-create](/.claude/skills/skill-create/SKILL.md) | Создание нового скилла по шаблону |
+| [/skill-update](/.claude/skills/skill-update/SKILL.md) | Обновление существующих скиллов при добавлении нового |
+| [/skill-delete](/.claude/skills/skill-delete/SKILL.md) | Удаление скилла и обновление связей |
+
+---
+
 ## FAQ / Troubleshooting
 
 ### Что делать при конфликте между скиллами?

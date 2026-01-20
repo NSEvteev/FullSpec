@@ -35,6 +35,10 @@ triggers:
 - [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование скиллов после изменений
 - [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
 
+**Utility-скиллы:**
+- [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением
+- [input-validate](/.claude/skills/input-validate/SKILL.md) — валидация входных данных
+
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)
