@@ -4,6 +4,8 @@ description: Управление состоянием между вызовам
 related:
   - tools/skills.md
   - tools/claude-testing.md
+  - tools/dependencies.md
+  - tools/agents.md
 ---
 
 # State Management

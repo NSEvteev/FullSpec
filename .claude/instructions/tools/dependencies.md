@@ -4,6 +4,8 @@ description: Граф зависимостей между скиллами, ин
 related:
   - tools/skills.md
   - tools/state.md
+  - tools/agents.md
+  - tools/claude-testing.md
 ---
 
 # Граф зависимостей

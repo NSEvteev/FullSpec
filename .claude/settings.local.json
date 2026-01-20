@@ -66,7 +66,8 @@
       "Bash(do if [ ! -f \"$skill/tests.md\" ])",
       "Bash(then basename \"$skill\")",
       "Bash(for skill in */tests.md)",
-      "Bash(do echo \"$skill\")"
+      "Bash(do echo \"$skill\")",
+      "Bash(git check-ignore:*)"
     ]
   }
 }

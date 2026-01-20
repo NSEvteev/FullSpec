@@ -365,6 +365,16 @@ cursor.execute(query, [user_input])
 }
 ```
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование правил валидации |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление при изменении схем |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+
+---
+
 ## Связанные инструкции
 
 - [errors.md](errors.md) — Общий формат ошибок API

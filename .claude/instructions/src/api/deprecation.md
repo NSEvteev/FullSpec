@@ -350,6 +350,17 @@ for user in users:
 
 ---
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Создание Migration Guide |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации при deprecation |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+| [/issue-create](/.claude/skills/issue-create/SKILL.md) | Создание задачи на миграцию клиентов |
+
+---
+
 ## Связанные инструкции
 
 - [src/api/versioning.md](versioning.md) — версионирование API

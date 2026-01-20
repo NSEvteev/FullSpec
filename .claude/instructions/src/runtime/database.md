@@ -395,6 +395,16 @@ ForeignKeyConstraint(
 - [ ] Все имена в БД — snake_case
 - [ ] Индексы и constraints именованы по шаблону
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование схемы БД |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление при миграциях |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+
+---
+
 ## Связанные инструкции
 
 - [health.md](health.md) — проверка подключения к БД

@@ -237,6 +237,17 @@ spec:
 - [ ] `terminationGracePeriodSeconds` > таймаута
 - [ ] Новые запросы отклоняются во время shutdown
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование health endpoints |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление при изменении проверок |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+| [/health-check](/.claude/skills/health-check/SKILL.md) | Проверка целостности проекта |
+
+---
+
 ## Связанные инструкции
 
 - [resilience.md](resilience.md) — таймауты и повторы

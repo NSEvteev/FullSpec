@@ -6,11 +6,15 @@ related:
   - /.claude/instructions/tests/unit.md
   - /.claude/instructions/tests/integration.md
   - /.claude/instructions/tests/fixtures.md
+  - /.claude/instructions/tools/claude-testing.md
 ---
 
 # Тестирование сервисов
 
 Правила написания unit и integration тестов внутри сервисов (`/src/{service}/tests/`).
+
+> **Полные инструкции по тестированию:** [/.claude/instructions/tests/](/.claude/instructions/tests/)
+> **Тестирование Claude скиллов:** [/.claude/instructions/tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md)
 
 ## Оглавление
 
@@ -449,6 +453,19 @@ const user = createTestUser({ name: 'Custom Name' });
 - Невалидные входные данные
 - Ошибки и исключения
 - Таймауты
+
+---
+
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/test-create](/.claude/skills/test-create/SKILL.md) | Создание теста |
+| [/test-update](/.claude/skills/test-update/SKILL.md) | Обновление теста |
+| [/test-execute](/.claude/skills/test-execute/SKILL.md) | Запуск тестов |
+| [/test-review](/.claude/skills/test-review/SKILL.md) | Ревью теста |
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование тестов |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок |
 
 ---
 

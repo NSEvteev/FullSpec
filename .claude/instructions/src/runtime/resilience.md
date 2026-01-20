@@ -483,6 +483,16 @@ async def resilient_call(
 - [ ] Мониторинг состояния circuit breakers
 - [ ] Логирование всех retry и fallback
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование паттернов resilience |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление при изменении конфигурации |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+
+---
+
 ## Связанные инструкции
 
 - [health.md](health.md) — проверка состояния сервисов

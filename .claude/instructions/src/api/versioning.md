@@ -298,6 +298,16 @@ HTTP/1.1 400 Bad Request
 
 ---
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Создание документации для новой версии API |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации при изменении версии |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+
+---
+
 ## Связанные инструкции
 
 - [src/api/design.md](design.md) — общие правила дизайна API

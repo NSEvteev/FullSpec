@@ -307,6 +307,16 @@ GET /api/v1/users?status=active&sort=name&page=2&limit=10
 
 ---
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Создание документации для API |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации при изменении API |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+
+---
+
 ## Связанные инструкции
 
 - [src/api/versioning.md](versioning.md) — версионирование API

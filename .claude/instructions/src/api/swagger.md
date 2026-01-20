@@ -599,6 +599,16 @@ openapi-v2.yaml
 
 ---
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Создание OpenAPI спецификации |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление спецификации при изменении API |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+
+---
+
 ## Связанные инструкции
 
 - [src/api/design.md](design.md) — правила дизайна API

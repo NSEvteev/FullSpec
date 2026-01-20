@@ -189,6 +189,16 @@ related:
 }
 ```
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование кодов ошибок |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление при добавлении новых кодов |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+
+---
+
 ## Связанные инструкции
 
 - [validation.md](validation.md) — Валидация входных данных и формат ошибок полей

@@ -380,6 +380,17 @@ chmod -R 755 src/auth/
 
 ---
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование процесса разработки |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление при изменении конфигурации |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+| [/environment-check](/.claude/skills/environment-check/SKILL.md) | Проверка окружения разработки |
+
+---
+
 ## Связанные инструкции
 
 - [testing.md](./testing.md) — тестирование сервисов

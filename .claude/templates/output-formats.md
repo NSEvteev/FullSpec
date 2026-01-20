@@ -468,13 +468,93 @@ Stash и продолжить? [Y/n]
 
 ---
 
+---
+
+## JSON формат (--json)
+
+Для интеграции с CI/CD и скриптами скиллы поддерживают `--json` флаг.
+
+### Структура JSON
+
+```json
+{
+  "status": "success|error|warning",
+  "message": "Краткое описание результата",
+  "data": {
+    // Специфичные данные операции
+  },
+  "meta": {
+    "skill": "skill-name",
+    "timestamp": "2026-01-20T14:30:00Z",
+    "duration_ms": 1250
+  }
+}
+```
+
+### Примеры
+
+**Успех:**
+```json
+{
+  "status": "success",
+  "message": "Скилл создан успешно",
+  "data": {
+    "path": "/.claude/skills/my-skill/SKILL.md",
+    "category": "utility"
+  },
+  "meta": {
+    "skill": "skill-create",
+    "timestamp": "2026-01-20T14:30:00Z"
+  }
+}
+```
+
+**Ошибка:**
+```json
+{
+  "status": "error",
+  "message": "Файл уже существует",
+  "error": {
+    "code": "FILE_EXISTS",
+    "details": "/.claude/skills/my-skill/SKILL.md"
+  },
+  "meta": {
+    "skill": "skill-create"
+  }
+}
+```
+
+**С verbose:**
+```json
+{
+  "status": "success",
+  "message": "Проверка завершена",
+  "data": {
+    "files_checked": 87,
+    "links_checked": 342,
+    "valid": 340,
+    "broken": 2
+  },
+  "details": [
+    {"file": "doc/api.md", "line": 42, "link": "../src/auth", "reason": "not found"}
+  ],
+  "meta": {
+    "skill": "links-validate",
+    "verbose": true
+  }
+}
+```
+
+---
+
 ## Связанные скиллы
 
 Все скиллы должны следовать форматам из этого файла.
 
 Приоритетные для обновления:
-- skill-create, skill-update, skill-delete
+- skill-create, skill-update, skill-delete, skill-migrate
 - instruction-create, instruction-update, instruction-delete
-- issue-create, issue-update, issue-execute, issue-review, issue-complete, issue-delete
+- issue-create, issue-update, issue-execute, issue-review, issue-complete, issue-delete, issue-reopen
 - test-create, test-update, test-execute, test-review, test-complete, test-delete
-- doc-create, doc-update, doc-delete
+- doc-create, doc-update, doc-delete, doc-reindex
+- links-validate, health-check

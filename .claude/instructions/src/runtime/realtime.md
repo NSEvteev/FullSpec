@@ -461,6 +461,16 @@ async def websocket_with_error_handling(websocket: WebSocket, room: str):
 - [ ] Логирование подключений/отключений
 - [ ] Graceful shutdown для активных соединений
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование WebSocket/SSE протоколов |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление при изменении событий |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+
+---
+
 ## Связанные инструкции
 
 - [health.md](health.md) — проверка WebSocket подключений

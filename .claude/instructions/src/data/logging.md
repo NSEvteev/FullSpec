@@ -278,6 +278,16 @@ Staging:   DEBUG и выше
 }
 ```
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование формата логов |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление при изменении формата |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+
+---
+
 ## Связанные инструкции
 
 - [errors.md](errors.md) — Формат ошибок с request_id

@@ -48,6 +48,7 @@ related:
 | [skill-create](/.claude/skills/skill-create/SKILL.md) | Создание нового скилла | `/skill-create`, "создай скилл" |
 | [skill-update](/.claude/skills/skill-update/SKILL.md) | Обновление скиллов при добавлении нового | `/skill-update`, "обнови скиллы" |
 | [skill-delete](/.claude/skills/skill-delete/SKILL.md) | Обновление существующих скиллов при удалении скилла | `/skill-delete`, "удали скилл" |
+| [skill-migrate](/.claude/skills/skill-migrate/SKILL.md) | Переименование скилла с обновлением всех ссылок | `/skill-migrate`, "мигрируй скилл" |
 
 ### agent-management
 
@@ -81,6 +82,8 @@ related:
 | [links-delete](/.claude/skills/links-delete/SKILL.md) | Пометка битых ссылок при удалении файлов | `/links-delete`, "удали ссылки" |
 | [context-update](/.claude/skills/context-update/SKILL.md) | Распространение контекста по графу документов | `/context-update`, "пошарь контекст" |
 | [context-delete](/.claude/skills/context-delete/SKILL.md) | Очистка контекста при удалении документа | `/context-delete`, "удали контекст" |
+| [links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация всех ссылок в проекте | `/links-validate`, "проверь ссылки" |
+| [doc-reindex](/.claude/skills/doc-reindex/SKILL.md) | Полная переиндексация документации | `/doc-reindex`, "переиндексируй документацию" |
 
 ### meta
 
@@ -98,6 +101,7 @@ related:
 |-------|----------|----------|
 | [input-validate](/.claude/skills/input-validate/SKILL.md) | Валидация входных данных скилла | `/input-validate`, "проверь ввод" |
 | [environment-check](/.claude/skills/environment-check/SKILL.md) | Проверка окружения (gh, git, python) | `/environment-check`, "проверь окружение" |
+| [health-check](/.claude/skills/health-check/SKILL.md) | Проверка целостности проекта Claude | `/health-check`, "проверь проект" |
 
 ### testing
 
@@ -126,6 +130,7 @@ Git операции.
 | [issue-review](/.claude/skills/issue-review/SKILL.md) | Ревью решения перед закрытием Issue | `/issue-review`, "проверь решение" |
 | [issue-complete](/.claude/skills/issue-complete/SKILL.md) | Закрытие Issue как выполненного | `/issue-complete`, "заверши задачу" |
 | [issue-delete](/.claude/skills/issue-delete/SKILL.md) | Закрытие Issue как неактуального | `/issue-delete`, "удали задачу" |
+| [issue-reopen](/.claude/skills/issue-reopen/SKILL.md) | Переоткрытие закрытого Issue | `/issue-reopen`, "переоткрой задачу" |
 
 ---
 
@@ -161,6 +166,8 @@ Git операции.
 |------|----------|-----|--------|
 | `--dry-run` | Показать план без выполнения | boolean | `--dry-run` |
 | `--auto` | Автоматический режим без подтверждений | boolean | `--auto` |
+| `--json` | Вывод в JSON формате (для CI/скриптов) | boolean | `--json` |
+| `--verbose` | Подробный вывод с деталями | boolean | `--verbose` |
 | `--depth N` | Глубина обхода связей (по умолчанию 1) | number | `--depth 2` |
 | `--diff` | Показать diff изменений | boolean | `--diff` |
 | `--no-issue` | Не создавать/не связывать Issue | boolean | `--no-issue` |
@@ -180,6 +187,8 @@ Git операции.
 | `--dry-run --auto` | Показать план (auto игнорируется) |
 | `--depth 0` | Без рекурсивного обхода |
 | `--diff --dry-run` | Показать предполагаемые изменения |
+| `--json --verbose` | JSON с расширенными полями |
+| `--json --dry-run` | JSON с планом изменений |
 
 ---
 

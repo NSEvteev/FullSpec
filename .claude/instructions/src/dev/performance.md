@@ -454,6 +454,18 @@ make analyze-performance       # Сводный отчёт
 
 ---
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование метрик производительности |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление при изменении лимитов |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+| [/test-create](/.claude/skills/test-create/SKILL.md) | Создание бенчмарков |
+| [/test-execute](/.claude/skills/test-execute/SKILL.md) | Запуск нагрузочных тестов |
+
+---
+
 ## Связанные инструкции
 
 - [local.md](./local.md) — локальная разработка

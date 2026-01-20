@@ -469,6 +469,17 @@ router.get(
 
 ---
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование схемы аутентификации |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление при изменении токенов |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+| [/issue-create](/.claude/skills/issue-create/SKILL.md) | Задача на ротацию ключей |
+
+---
+
 ## Связанные инструкции
 
 - [audit.md](./audit.md) — аудит-логи и GDPR

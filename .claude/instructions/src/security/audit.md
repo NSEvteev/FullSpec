@@ -561,6 +561,17 @@ groups:
 
 ---
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование политик аудита |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление при изменении retention |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+| [/issue-create](/.claude/skills/issue-create/SKILL.md) | Задачи по GDPR compliance |
+
+---
+
 ## Связанные инструкции
 
 - [auth.md](./auth.md) — аутентификация между сервисами

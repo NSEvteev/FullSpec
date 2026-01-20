@@ -381,6 +381,16 @@ SELECT cached_count FROM counters WHERE table_name = 'users';
 }
 ```
 
+## Скиллы
+
+| Скилл | Описание |
+|-------|----------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Документирование API с пагинацией |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление при изменении формата |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации |
+
+---
+
 ## Связанные инструкции
 
 - [validation.md](validation.md) — Валидация параметров пагинации

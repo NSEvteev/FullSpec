@@ -3,7 +3,9 @@ type: project
 description: Статические ресурсы: иконки, шрифты, брендинг
 related:
   - shared/i18n.md
+  - shared/libs.md
   - doc/structure.md
+  - platform/deployment.md
 ---
 
 # Статические ресурсы (Assets)
