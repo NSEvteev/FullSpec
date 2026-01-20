@@ -49,6 +49,7 @@ related:
 | [skill-update](/.claude/skills/skill-update/SKILL.md) | Обновление скиллов при добавлении нового | `/skill-update`, "обнови скиллы" |
 | [skill-delete](/.claude/skills/skill-delete/SKILL.md) | Обновление существующих скиллов при удалении скилла | `/skill-delete`, "удали скилл" |
 | [skill-migrate](/.claude/skills/skill-migrate/SKILL.md) | Переименование скилла с обновлением всех ссылок | `/skill-migrate`, "мигрируй скилл" |
+| [skill-report](/.claude/skills/skill-report/SKILL.md) | Генерация отчёта по скиллам проекта | `/skill-report`, "отчёт по скиллам" |
 
 ### agent-management
 
@@ -56,7 +57,7 @@ related:
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
-| — | — | — |
+| [agent-create](/.claude/skills/agent-create/SKILL.md) | Создание нового агента по шаблону | `/agent-create`, "создай агента" |
 
 ### instruction-management
 
@@ -117,6 +118,7 @@ related:
 | [test-execute](/.claude/skills/test-execute/SKILL.md) | Выполнение тестов с автоопределением scope | `/test-execute`, "запусти тест" |
 | [test-complete](/.claude/skills/test-complete/SKILL.md) | Отметка теста как пройденного | `/test-complete`, "тест пройден" |
 | [test-delete](/.claude/skills/test-delete/SKILL.md) | Удаление теста | `/test-delete`, "удали тест" |
+| [test-coverage](/.claude/skills/test-coverage/SKILL.md) | Анализ покрытия тестами | `/test-coverage`, "покрытие тестами" |
 
 ### git
 
