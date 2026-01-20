@@ -467,6 +467,8 @@ Issue #{номер} остаётся открытым.
 
 ## Обработка ошибок
 
+> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+
 | Ошибка | Действие |
 |--------|----------|
 | Issue не найден | Сообщить: "Issue #{num} не найден" |

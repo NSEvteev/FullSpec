@@ -167,6 +167,8 @@ URL: https://github.com/user/repo/issues/123
 
 ## Обработка ошибок
 
+> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+
 | Ошибка | Действие |
 |--------|----------|
 | Номер не указан | Спросить: "Какой Issue закрыть?" |

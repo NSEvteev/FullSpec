@@ -27,6 +27,7 @@ triggers:
 - [skill-create](/.claude/skills/skill-create/SKILL.md) — создание нового скилла
 - [skill-delete](/.claude/skills/skill-delete/SKILL.md) — удаление скилла
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
+- [prompt-update](/.claude/skills/prompt-update/SKILL.md) — улучшение промта перед обновлением
 
 **Связанные инструкции:**
 - [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов, категории
@@ -240,7 +241,7 @@ triggers:
 | Категория скилла | Связанные инструкции |
 |------------------|---------------------|
 | `git` | [git/issues.md](/.claude/instructions/git/issues.md), [git/workflow.md](/.claude/instructions/git/workflow.md), [git/commits.md](/.claude/instructions/git/commits.md) |
-| `documentation` | [src/documentation.md](/.claude/instructions/src/documentation.md) |
+| `documentation` | [tools/documentation.md](/.claude/instructions/tools/documentation.md) |
 | `skill-management` | [tools/skills.md](/.claude/instructions/tools/skills.md) |
 | `instruction-management` | [README.md](/.claude/instructions/README.md) |
 
@@ -318,6 +319,8 @@ triggers:
 
 ## Обработка ошибок
 
+> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+
 | Ошибка | Действие |
 |--------|----------|
 | Скилл не найден | Сообщить: "Скилл {имя} не найден" |
@@ -336,6 +339,48 @@ triggers:
 - [ ] **Шаг 5:** Применил одобренные изменения
 - [ ] **Шаг 6:** Проверил выполнение всех пунктов чек-листа
 - [ ] **Шаг 7:** Вывел итоговый отчёт
+
+---
+
+## FAQ / Troubleshooting
+
+### Когда вызывается skill-update автоматически?
+
+| Событие | Автовызов |
+|---------|-----------|
+| После `/skill-create` | Да (Шаг 10) |
+| После ручного изменения SKILL.md | Нет — вызвать вручную |
+| При переименовании скилла | Нет — использовать `/skill-delete` + `/skill-create` |
+
+### Почему скилл не обновился?
+
+**Возможные причины:**
+- Нет связи между скиллами (разные объекты)
+- Изменения не влияют на другие скиллы
+- Тип интеграции `skip`
+
+### Как применить изменения выборочно?
+
+При запросе подтверждения:
+```
+Применить все? [Y/n/выборочно]
+> выборочно
+
+Введите номера: 1, 3
+```
+
+### Что если скилл не найден?
+
+Скилл сообщит об ошибке. Проверьте:
+- Правильность пути
+- Что скилл существует в `/.claude/skills/`
+
+### Как откатить изменения?
+
+```bash
+git diff  # посмотреть что изменилось
+git checkout -- /.claude/skills/  # откатить все скиллы
+```
 
 ---
 
@@ -500,5 +545,5 @@ triggers:
 - instruction-create — добавлен в связанные скиллы
 
 Обновлены "Связанные инструкции" в doc-create:
-- src/documentation.md
+- tools/documentation.md
 ```

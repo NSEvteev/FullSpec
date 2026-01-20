@@ -440,3 +440,7 @@ counter += 1
 
 - [doc/structure.md](../doc/structure.md) — структура документации, зеркалирование
 - [git/issues.md](../git/issues.md) — создание Issue при удалении документации
+
+---
+
+> **Путь:** `/.claude/instructions/tools/documentation.md`

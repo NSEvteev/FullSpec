@@ -301,6 +301,8 @@ gh issue comment 123 --body "✅ Выполнено в PR #456"
 
 ## Обработка ошибок
 
+> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+
 | Ошибка | Действие |
 |--------|----------|
 | Issue не найден | Сообщить: "Issue #123 не найден" |

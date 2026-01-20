@@ -27,6 +27,7 @@ triggers:
 - [links-update](/.claude/skills/links-update/SKILL.md) — синхронизация ссылок
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
 - [prompt-update](/.claude/skills/prompt-update/SKILL.md) — улучшение промта перед созданием
+- [skill-create](/.claude/skills/skill-create/SKILL.md) — создание скилла при необходимости (Шаг 11)
 
 **Связанные инструкции:**
 - [README.md](/.claude/instructions/README.md) — индекс инструкций, статусы заполнения
@@ -406,7 +407,7 @@ design.md                         ← URL, методы, статусы ✓
 | `git/workflow.md` | issue-execute | git |
 | `git/commits.md` | issue-* | git |
 | `git/review.md` | issue-review | git |
-| `src/documentation.md` | doc-* | documentation |
+| `tools/documentation.md` | doc-* | documentation |
 | `tools/skills.md` | skill-* | skill-management |
 | `tools/agents.md` | agent-* (если появятся) | agent-management |
 
@@ -414,7 +415,7 @@ design.md                         ← URL, методы, статусы ✓
 
 1. Определить категорию из пути инструкции:
    - `git/*.md` → категория `git` (issue-* скиллы)
-   - `src/documentation.md` → категория `documentation` (doc-* скиллы)
+   - `tools/documentation.md` → категория `documentation` (doc-* скиллы)
    - `tools/skills.md` → категория `skill-management` (skill-* скиллы)
    - `tools/agents.md` → категория `agent-management` (agent-* скиллы)
    - `src/api/*.md`, `platform/*.md`, `config/*.md` → **нет прямых скиллов** (использовать Способ 3-4)
@@ -862,6 +863,51 @@ related:
 
 - [{связанная}](путь) — описание связи
 ~~~
+
+---
+
+## FAQ / Troubleshooting
+
+### Какие типы инструкций существуют?
+
+| Тип | Назначение | При инициализации |
+|-----|------------|-------------------|
+| `standard` | Стандарты качества (КАК делать) | Использовать as-is |
+| `project` | Специфика проекта (ЧТО есть) | Заполнить под проект |
+
+### Что если инструкция уже существует?
+
+На Шаге 3 скилл предложит:
+1. **Перезаписать** — создать заново
+2. **Обновить** — вызвать `/instruction-update`
+3. **Отменить**
+
+### Как заполнить project-инструкцию?
+
+1. Скилл создаёт шаблон с TODO-секциями
+2. Откройте файл и заполните:
+   - Удалите `{TODO: ...}` плейсхолдеры
+   - Добавьте проектную специфику
+3. Вызовите `/instruction-update` для валидации
+
+### Почему нужно подтверждение?
+
+Инструкции — критичные файлы проекта. Подтверждение `[Y/n]` на Шаге 7 защищает от случайных изменений.
+
+### Как отменить созданную инструкцию?
+
+```bash
+rm /.claude/instructions/{path}.md
+git checkout -- /.claude/instructions/README.md
+```
+
+### Какие скиллы вызываются после создания?
+
+| Скилл | Зачем |
+|-------|-------|
+| `/links-update` | Синхронизация ссылок |
+| `/context-update` | Распространение контекста |
+| `/instruction-update` | Обновление существующих инструкций |
 
 ---
 

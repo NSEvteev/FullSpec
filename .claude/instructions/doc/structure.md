@@ -2,7 +2,7 @@
 type: project
 description: Структура /doc/: зеркалирование, ссылки на код, ADR, runbooks
 related:
-  - src/documentation.md
+  - tools/documentation.md
 ---
 
 # Структура документации
@@ -221,4 +221,4 @@ related:
 
 ## Связанные инструкции
 
-- [src/documentation.md](../src/documentation.md) — документирование кода, ссылки src ↔ doc
+- [tools/documentation.md](../tools/documentation.md) — документирование кода, ссылки src ↔ doc

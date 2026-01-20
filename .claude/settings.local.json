@@ -54,7 +54,19 @@
       "WebFetch(domain:www.ticketland.ru)",
       "Skill(instruction-create)",
       "Bash(ls:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(du:*)",
+      "Bash(while read skill)",
+      "Bash(do [ ! -z \"$skill\" ])",
+      "Bash(echo:*)",
+      "Bash(while read file)",
+      "Bash(do if ! grep -q \"Следующие шаги\" \"$file\")",
+      "Bash(then dirname \"$file\")",
+      "Bash(for skill in ./.claude/skills/*/)",
+      "Bash(do if [ ! -f \"$skill/tests.md\" ])",
+      "Bash(then basename \"$skill\")",
+      "Bash(for skill in */tests.md)",
+      "Bash(do echo \"$skill\")"
     ]
   }
 }

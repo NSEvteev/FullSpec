@@ -90,6 +90,15 @@ related:
 |-------|----------|----------|
 | [prompt-update](/.claude/skills/prompt-update/SKILL.md) | Улучшение и обогащение промтов | `/prompt`, "улучши промт" |
 
+### utility
+
+Утилитарные микро-скиллы для переиспользования в других скиллах.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [input-validate](/.claude/skills/input-validate/SKILL.md) | Валидация входных данных скилла | `/input-validate`, "проверь ввод" |
+| [environment-check](/.claude/skills/environment-check/SKILL.md) | Проверка окружения (gh, git, python) | `/environment-check`, "проверь окружение" |
+
 ### testing
 
 Тестирование скиллов и кода проекта.

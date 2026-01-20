@@ -30,7 +30,7 @@ triggers:
 - [issue-create](/.claude/skills/issue-create/SKILL.md) — создание GitHub Issue
 
 **Связанные инструкции:**
-- [src/documentation.md](/.claude/instructions/src/documentation.md) — правила документирования кода
+- [tools/documentation.md](/.claude/instructions/tools/documentation.md) — правила документирования кода
 - [git/issues.md](/.claude/instructions/git/issues.md) — создание Issue для отслеживания
 - [scope-detection.md](/.claude/templates/scope-detection.md) — SSOT для определения scope (раздел "Scope для документации")
 
@@ -70,7 +70,7 @@ triggers:
 | `--no-issue` | Не создавать GitHub Issue | false |
 | `--dry-run` | Показать изменения без применения | false |
 
-**Исключённые пути:** `/doc/`, `/.claude/`, `/.git/`, самоописывающиеся файлы (.md, .rst, .txt)
+**Исключённые пути:** `/doc/`, `/.claude/`, `/.git/`, `/tests/`, самоописывающиеся файлы (.md, .rst, .txt)
 
 **Примеры:**
 - `/doc-delete /src/auth/backend/old-handlers.ts`
@@ -97,9 +97,9 @@ triggers:
 | `/config/old-settings.yaml` | `/doc/config/old-settings.md` |
 | `/platform/docker/old-compose.yml` | `/doc/platform/docker/old-compose.md` |
 
-**Исключения (не документируются):** `/doc/`, `/.claude/`, `/.git/`, `*.md`, `*.rst`, `*.txt`
+**Исключения (не документируются):** `/doc/`, `/.claude/`, `/.git/`, `/tests/`, `*.md`, `*.rst`, `*.txt`
 
-**Связанная инструкция:** [documentation.md](/.claude/instructions/src/documentation.md)
+**Связанная инструкция:** [documentation.md](/.claude/instructions/tools/documentation.md)
 
 ### Что помечается
 
@@ -124,7 +124,7 @@ triggers:
 | Удалена папка из проекта | Пометить все документы в папке |
 | Рефакторинг (файл перемещён) | [/doc-delete](/.claude/skills/doc-delete/SKILL.md) + [/doc-create](/.claude/skills/doc-create/SKILL.md) |
 
-**Исключённые пути:** Файлы в `/doc/`, `/.claude/`, `/.git/` и самоописывающиеся (.md, .rst, .txt)
+**Исключённые пути:** Файлы в `/doc/`, `/.claude/`, `/.git/`, `/tests/` и самоописывающиеся (.md, .rst, .txt)
 
 ---
 
@@ -235,6 +235,8 @@ GitHub Issue: https://github.com/user/repo/issues/123
 
 ## Обработка ошибок
 
+> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+
 | Ошибка | Действие |
 |--------|----------|
 | Путь не указан | Спросить: "Какой файл был удалён?" |
@@ -258,7 +260,7 @@ git checkout -- /doc/src/{service}/{path}.md
 ## Чек-лист
 
 - [ ] **Шаг 1:** Получил путь к удалённому файлу
-- [ ] **Шаг 1:** Проверил, что файл НЕ в исключённых путях (/doc/, /.claude/, /.git/)
+- [ ] **Шаг 1:** Проверил, что файл НЕ в исключённых путях (/doc/, /.claude/, /.git/, /tests/)
 - [ ] **Шаг 1:** Проверил, что файл НЕ самоописывающийся (.md, .rst, .txt)
 - [ ] **Шаг 1:** Определил путь документации по маппингу
 - [ ] **Шаг 2:** Проверил существование документации
@@ -268,6 +270,54 @@ git checkout -- /doc/src/{service}/{path}.md
 - [ ] **Шаг 6:** Вызвал [/links-delete](/.claude/skills/links-delete/SKILL.md) для исходного файла
 - [ ] **Шаг 7:** Проверил выполнение всех пунктов
 - [ ] **Шаг 8:** Вывел полный отчёт
+
+---
+
+## FAQ / Troubleshooting
+
+### Почему документация не удаляется автоматически?
+
+**Причины:**
+1. Документация может быть актуальна для исторической справки
+2. Файл мог быть перемещён, а не удалён
+3. Требуется ручное решение о судьбе документации
+
+Скилл только помечает документацию и создаёт Issue для отслеживания.
+
+### Когда использовать --no-issue?
+
+| Ситуация | Флаг |
+|----------|------|
+| Обычное удаление | Без флага (создаётся Issue) |
+| Временное удаление | `--no-issue` |
+| Локальная очистка | `--no-issue` |
+| Рефакторинг (файл будет восстановлен) | `--no-issue` |
+
+### Что делать при переименовании файла?
+
+1. `/doc-delete старый-путь --no-issue`
+2. `/doc-create новый-путь`
+3. Удалить старую документацию вручную
+
+Или используйте `/links-update` с `--old-name` для обновления ссылок.
+
+### Как удалить документацию полностью?
+
+После пометки:
+1. Откройте Issue
+2. Примите решение
+3. Удалите файл: `rm /doc/{path}.md`
+4. Закройте Issue
+
+### Что если документация не существует?
+
+Скилл сообщит, что документация не найдена, и вызовет только `/links-delete` для исходного файла.
+
+### Как найти все помеченные документы?
+
+```bash
+grep -r "ТРЕБУЕТ РЕВЬЮ" --include="*.md" /doc/
+```
 
 ---
 

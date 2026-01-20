@@ -35,7 +35,7 @@
 | `/config/settings.yaml` | `/doc/config/settings.md` |
 | `/platform/docker/compose.yml` | `/doc/platform/docker/compose.md` |
 | `/shared/utils/helpers.ts` | `/doc/shared/utils/helpers.md` |
-| `/tests/integration/auth.test.ts` | `/doc/tests/integration/auth.test.md` |
+| `/scripts/build.sh` | `/doc/scripts/build.md` |
 | `/scripts/deploy.sh` | `/doc/scripts/deploy.md` |
 | `/Makefile` | `/doc/Makefile.md` |
 
@@ -75,6 +75,7 @@ def get_doc_path(file_path: str) -> str:
 | `/doc/**` | Целевая папка документации |
 | `/.claude/**` | Уже содержит документацию (SKILL.md, инструкции) |
 | `/.git/**` | Служебные файлы Git |
+| `/tests/**` | Тесты (описываются в `/.claude/instructions/tests/`) |
 | `/node_modules/**` | Внешние зависимости |
 | `/.venv/**`, `/venv/**` | Виртуальные окружения Python |
 

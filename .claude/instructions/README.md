@@ -156,7 +156,7 @@
 
 | Инструкция | Описание | Тип | Создано | Заполнено |
 |------------|----------|-----|:-------:|:---------:|
-| [documentation.md](./src/documentation.md) | Документирование кода: ссылки на /doc/, комментарии, README | standard | ✅ | ✅ |
+| [documentation.md](./tools/documentation.md) | Документирование кода: ссылки на /doc/, комментарии, README | standard | ✅ | ✅ |
 | **api/** | Проектирование REST API ||||
 | [design.md](./src/api/design.md) | URL naming (kebab-case), HTTP методы, статус-коды, partial update, bulk operations | standard | ⬜ | ⬜ |
 | [versioning.md](./src/api/versioning.md) | Версионирование API через URL (/v1/, /v2/), gRPC package versioning | standard | ⬜ | ⬜ |

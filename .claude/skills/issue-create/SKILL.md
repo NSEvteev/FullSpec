@@ -280,6 +280,8 @@ URL: https://github.com/user/repo/issues/123
 
 ## Обработка ошибок
 
+> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+
 | Ошибка | Действие |
 |--------|----------|
 | Заголовок не указан | Спросить: "Опишите задачу" |
