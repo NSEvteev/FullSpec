@@ -4,7 +4,7 @@ description: Тестирование Claude Code: smoke tests, проверка
 related:
   - tools/skills.md
   - tools/agents.md
-  - tests/README.md
+  - tools/project-testing.md
 ---
 
 # Тестирование Claude Code
@@ -305,4 +305,4 @@ d3c0f0e feat: Создан скилл issue-review...
 
 - [skills.md](skills.md) — Индекс скиллов, категории
 - [agents.md](agents.md) — Индекс агентов
-- [tests/README.md](../tests/README.md) — Тестирование проекта (unit, e2e, load)
+- [project-testing.md](project-testing.md) — Тестирование проекта (unit, e2e, load)

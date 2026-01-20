@@ -209,11 +209,11 @@ make lint          # Линтинг
 
 ### 🟡 ТЕКУЩИЙ ПЛАН
 
-#### Задача: Переименовать tests/README.md → project-testing.md
+#### ✅ Выполнено: Переименование tests/README.md → tools/project-testing.md
 
 По аналогии с `claude-testing.md`:
-- `tools/claude-testing.md` — тесты Claude Code
-- `tools/project-testing.md` — тесты проекта (бывший tests/README.md)
+- `tools/claude-testing.md` — тесты Claude Code ✅
+- `tools/project-testing.md` — тесты проекта ✅
 
 #### Блок D: Создать критические инструкции
 

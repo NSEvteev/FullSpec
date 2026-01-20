@@ -28,7 +28,7 @@ triggers:
 
 **Связанные инструкции:**
 - [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование Claude Code
-- [tests/README.md](/.claude/instructions/tests/README.md) — тестирование проекта
+- [tools/project-testing.md](/.claude/instructions/tools/project-testing.md) — тестирование проекта
 
 ## Оглавление
 

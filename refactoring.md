@@ -211,7 +211,7 @@ graph LR
 /shared/   → /.claude/instructions/shared/README.md
 /config/   → /.claude/instructions/config/README.md
 /platform/ → /.claude/instructions/platform/README.md
-/tests/    → /.claude/instructions/tests/README.md
+/tests/    → /.claude/instructions/tools/project-testing.md
 ```
 
 **Исключения:**
@@ -252,7 +252,7 @@ graph LR
 | /doc/ | ✅ | [structure.md](/.claude/instructions/doc/structure.md) |
 | Скиллы | ✅ | [25 скиллов](/.claude/instructions/tools/skills.md) |
 | Скрипты | ✅ | [find_references.py](/.claude/scripts/find_references.py) |
-| /tests/ | ✅ | [README.md](/.claude/instructions/tests/README.md) |
+| /tests/ | ✅ | [project-testing.md](/.claude/instructions/tools/project-testing.md) |
 | /shared/, /config/, /platform/ | ⬜ | Инструкции не созданы |
 | agents/, templates/, discussions/ | ⬜ | Папки созданы, контент не заполнен |
 

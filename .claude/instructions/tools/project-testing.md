@@ -11,7 +11,7 @@ related:
 
 Индекс инструкций для тестирования проекта (`/tests/`).
 
-> **Отличие от [claude-testing.md](../tools/claude-testing.md):** Этот раздел описывает тесты для кода проекта (unit, integration, e2e). Claude-testing описывает тесты для скиллов, инструкций и агентов Claude Code.
+> **Отличие от [claude-testing.md](claude-testing.md):** Этот раздел описывает тесты для кода проекта (unit, integration, e2e). Claude-testing описывает тесты для скиллов, инструкций и агентов Claude Code.
 
 ## Оглавление
 
@@ -56,17 +56,17 @@ make test-smoke     # Smoke-тесты (быстрые)
 
 | Инструкция | Описание | Тип | Статус |
 |------------|----------|-----|:------:|
-| [unit.md](./unit.md) | Unit-тесты: изоляция, моки, покрытие | standard | ⬜ |
-| [integration.md](./integration.md) | Интеграционные тесты: БД, API, сервисы | standard | ⬜ |
-| [e2e.md](./e2e.md) | End-to-end тесты: сценарии пользователя | standard | ⬜ |
-| [smoke.md](./smoke.md) | Smoke-тесты: быстрая проверка работоспособности | standard | ⬜ |
-| [load.md](./load.md) | Нагрузочные тесты: k6, пороги производительности | standard | ⬜ |
-| [fixtures.md](./fixtures.md) | Тестовые данные: фикстуры, фабрики, seeds | standard | ⬜ |
+| [unit.md](../tests/unit.md) | Unit-тесты: изоляция, моки, покрытие | standard | ⬜ |
+| [integration.md](../tests/integration.md) | Интеграционные тесты: БД, API, сервисы | standard | ⬜ |
+| [e2e.md](../tests/e2e.md) | End-to-end тесты: сценарии пользователя | standard | ⬜ |
+| [smoke.md](../tests/smoke.md) | Smoke-тесты: быстрая проверка работоспособности | standard | ⬜ |
+| [load.md](../tests/load.md) | Нагрузочные тесты: k6, пороги производительности | standard | ⬜ |
+| [fixtures.md](../tests/fixtures.md) | Тестовые данные: фикстуры, фабрики, seeds | standard | ⬜ |
 
 ---
 
 ## Связанные инструкции
 
-- [claude-testing.md](../tools/claude-testing.md) — тестирование Claude Code (скиллы, инструкции)
+- [claude-testing.md](claude-testing.md) — тестирование Claude Code (скиллы, инструкции)
 - [src/dev/testing.md](../src/dev/testing.md) — тесты внутри сервисов (co-located)
 - [git/ci.md](../git/ci.md) — CI/CD pipeline (запуск тестов)
