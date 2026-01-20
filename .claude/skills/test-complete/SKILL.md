@@ -27,6 +27,7 @@ triggers:
 - [test-execute](/.claude/skills/test-execute/SKILL.md) — выполнение тестов
 - [test-review](/.claude/skills/test-review/SKILL.md) — проверка полноты теста
 - [test-delete](/.claude/skills/test-delete/SKILL.md) — удаление теста
+- [issue-create](/.claude/skills/issue-create/SKILL.md) — создание Issue при failed критичного скилла
 
 **Связанные инструкции:**
 - [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование Claude Code
@@ -591,6 +592,11 @@ Failed тест критичного скилла требует немедле�
 
 # 3. Или создать Issue
 /issue-create --type bug
+```
+
+**При failed критичного скилла** (skill-*, instruction-*, issue-*):
+```bash
+/issue-create --type bug --title "[CRITICAL] Fix test: {название}" --label "priority:high"
 ```
 
 **При skipped:**

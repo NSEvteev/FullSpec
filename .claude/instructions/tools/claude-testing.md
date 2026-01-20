@@ -423,6 +423,24 @@ d3c0f0e feat: Создан скилл issue-review...
 - Путь не начинается с `.claude/` → определяется как `project`
 - Опечатка в пути
 
+### Как версионировать тесты?
+
+Тесты claude-скиллов версионируются вместе со скиллом:
+- Тест в SKILL.md — одна версия в git
+- Отдельный `tests.md` — отдельный файл в git
+
+**Правило:** При изменении скилла обновлять тест в том же коммите.
+
+```bash
+git add .claude/skills/{skill}/SKILL.md
+git commit -m "feat: обновлён {skill} + тесты"
+```
+
+**Откат к предыдущей версии:**
+```bash
+git checkout HEAD~1 -- .claude/skills/{skill}/SKILL.md
+```
+
 ---
 
 ## Интеграция с Git Hooks

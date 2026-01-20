@@ -616,7 +616,14 @@ describe('revokeToken'):
 /test-create {путь-к-коду}
 ```
 
-**Типичная цепочка:**
+**При низком coverage (< 50%):**
+```bash
+# Добавить функциональные тесты
+/test-create {путь} --type functional
 ```
-/test-review → /test-update (extend) → /test-execute
+
+**Типичные цепочки:**
+```
+низкий coverage: /test-review → /test-create (functional) → /test-execute
+расширение:      /test-review → /test-update (extend) → /test-execute
 ```
