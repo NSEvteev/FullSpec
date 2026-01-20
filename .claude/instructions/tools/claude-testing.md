@@ -441,6 +441,104 @@ git commit -m "feat: обновлён {skill} + тесты"
 git checkout HEAD~1 -- .claude/skills/{skill}/SKILL.md
 ```
 
+### Как управлять fixture-файлами для claude-тестов?
+
+**Fixture** — это подготовленные данные или состояние для теста.
+
+**Где хранить:**
+```
+/.claude/skills/{skill}/
+  SKILL.md          # Скилл
+  tests.md          # Тесты
+  fixtures/         # Fixture-файлы
+    sample.md       # Пример входных данных
+    expected.md     # Ожидаемый результат
+```
+
+**Типы fixtures:**
+
+| Тип | Описание | Пример |
+|-----|----------|--------|
+| Input | Входные данные для скилла | `fixtures/input.md` |
+| Expected | Ожидаемый результат | `fixtures/expected.md` |
+| State | Начальное состояние | `fixtures/state.json` |
+| Mock | Заглушки для зависимостей | `fixtures/mock-api.json` |
+
+**Использование в тесте:**
+
+```markdown
+### Input
+
+Загрузить: [input.md](./fixtures/input.md)
+
+### Expected
+
+Сравнить результат с: [expected.md](./fixtures/expected.md)
+```
+
+**Правила:**
+1. Fixture должен быть детерминированным (одинаковый результат)
+2. Не использовать реальные данные (токены, пароли)
+3. Fixture версионируется вместе с тестом
+
+### Как мокировать внешние зависимости (API, DB)?
+
+Claude-тесты работают на уровне скиллов, а не на уровне кода. Мокирование выполняется через подмену поведения.
+
+**Принцип:** Тест описывает ОЖИДАЕМОЕ поведение, а не реальные вызовы.
+
+**Вариант 1: Описательное мокирование**
+
+В тесте указывается, что зависимость вернёт:
+
+```markdown
+### Setup (Mocks)
+
+- `gh issue list` → возвращает:
+  ```
+  #1  [AUTH] Add OAuth  open  service:auth
+  #2  [PAY] Fix checkout  closed  service:payment
+  ```
+
+- `gh issue view 1` → возвращает:
+  ```
+  title: [AUTH] Add OAuth
+  state: OPEN
+  labels: service:auth, feature
+  ```
+```
+
+**Вариант 2: Fixture-файлы для mock**
+
+```
+/.claude/skills/{skill}/fixtures/
+  mock-gh-issue-list.txt    # Вывод gh issue list
+  mock-gh-issue-view.json   # Вывод gh issue view
+```
+
+**Вариант 3: Флаг --mock в скилле**
+
+Некоторые скиллы поддерживают `--mock` для тестирования:
+
+```
+/issue-create --mock --service auth "Test issue"
+# Не создаёт реальный Issue, но проходит весь workflow
+```
+
+**Что мокируется:**
+
+| Зависимость | Как мокировать |
+|-------------|----------------|
+| GitHub API (gh) | Fixture с выводом команды |
+| Файловая система | Fixture с файлами |
+| Git состояние | Описание состояния в Setup |
+| Внешние API | Не тестируется в claude-тестах |
+
+**Важно:**
+- Claude-тесты НЕ выполняют реальные команды автоматически
+- Тестировщик (человек или CI) выполняет команды и сравнивает результат
+- Для реальных интеграционных тестов используйте [project-testing.md](/.claude/instructions/tests/project-testing.md)
+
 ---
 
 ## Интеграция с Git Hooks

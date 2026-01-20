@@ -27,10 +27,12 @@ triggers:
 - [skill-update](/.claude/skills/skill-update/SKILL.md) — обновление существующих скиллов при добавлении нового
 - [skill-delete](/.claude/skills/skill-delete/SKILL.md) — удаление скилла
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
+- [prompt-update](/.claude/skills/prompt-update/SKILL.md) — улучшение промта перед созданием
 
 **Связанные инструкции:**
 - [tools/skills.md](/.claude/instructions/tools/skills.md) — индекс скиллов, категории
 - [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование скиллов после создания
+- [workflow-template.md](/.claude/templates/workflow-template.md) — SSOT шаблон воркфлоу для скиллов
 
 ## Оглавление
 
@@ -64,7 +66,54 @@ triggers:
 ## Формат вызова
 
 ```
-/skill-create [название]
+/skill-create [название] [--dry-run] [--auto]
+```
+
+| Параметр | Описание | По умолчанию |
+|----------|----------|--------------|
+| `название` | Имя скилла в формате `{объект}-{действие}` | Спросить |
+| `--dry-run` | Показать план без создания | false |
+| `--auto` | Автоматический режим (применить все улучшения, пропустить подтверждения) | false |
+
+> 💡 **Совет:** Если запрос неоднозначный или требует уточнения, используйте [/prompt-update](/.claude/skills/prompt-update/SKILL.md) для улучшения промта перед созданием скилла:
+> ```
+> /prompt-update создай скилл для работы с тестами
+> ```
+
+### Режим --auto
+
+В автоматическом режиме:
+- Категория определяется автоматически (первая подходящая)
+- Метаданные генерируются без подтверждения
+- Ревью-предложения применяются автоматически (все рекомендованные)
+- Связь с агентами пропускается
+- Подтверждения не запрашиваются
+
+```
+/skill-create my-skill --auto
+
+[Создание без интерактивных вопросов]
+
+✅ Скилл создан: /.claude/skills/my-skill/SKILL.md
+```
+
+**Режим --dry-run:**
+```
+/skill-create my-skill --dry-run
+
+📋 Предварительный просмотр (--dry-run)
+
+Будет создано:
+- /.claude/skills/my-skill/SKILL.md
+
+Будет обновлено:
+- /.claude/instructions/tools/skills.md (добавлена строка в таблицу)
+
+Будет вызвано:
+- /links-update /.claude/skills/my-skill/SKILL.md
+- /skill-update my-skill
+
+ℹ️ Изменения НЕ применены (--dry-run)
 ```
 
 ## Правила
@@ -459,6 +508,8 @@ mkdir -p .claude/skills/{название}
 ---
 
 ## Обработка ошибок
+
+> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md) — паттерны обработки ошибок
 
 Если на любом шаге произошла ошибка:
 

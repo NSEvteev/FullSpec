@@ -28,6 +28,7 @@ triggers:
 
 **Связанные инструкции:**
 - [src/documentation.md](/.claude/instructions/src/documentation.md) — правила документирования кода
+- [scope-detection.md](/.claude/templates/scope-detection.md) — SSOT для определения scope (раздел "Scope для документации")
 
 ## Оглавление
 

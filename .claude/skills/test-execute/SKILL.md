@@ -69,6 +69,71 @@ triggers:
 | `--only-failed` | Алиас для `--last-failed` | — |
 | `--verbose` | Подробный вывод | — |
 | `--dry-run` | Показать план без выполнения | — |
+| `--watch` | Режим наблюдения (перезапуск при изменениях) | — |
+| `--report` | Генерировать отчёт в формате markdown | — |
+
+### Режим --watch
+
+Запуск тестов в режиме наблюдения. При изменении файлов тесты перезапускаются автоматически.
+
+```
+/test-execute --scope claude --watch
+
+👁️ Watch mode включён
+
+Отслеживаемые файлы:
+- /.claude/skills/**/*.md
+- /.claude/instructions/**/*.md
+
+[10:30:15] Запуск тестов... ✅ 15/15 passed
+[10:32:45] Изменён: skill-create/SKILL.md
+[10:32:46] Перезапуск... ✅ 15/15 passed
+[10:35:12] Изменён: test-formats.md
+[10:35:13] Перезапуск... ✅ 15/15 passed
+
+Ctrl+C для выхода
+```
+
+**Отслеживаемые пути по scope:**
+
+| Scope | Отслеживаемые пути |
+|-------|-------------------|
+| `claude` | `/.claude/skills/**`, `/.claude/instructions/**`, `/.claude/templates/**` |
+| `project` | `/src/**`, `/tests/**`, `/config/**` |
+| `all` | Все вышеперечисленные |
+
+### Режим --report
+
+Генерация отчёта в формате markdown.
+
+```
+/test-execute --scope all --report
+
+[Выполнение тестов...]
+
+📊 Отчёт сохранён: .claude/reports/test-report-2026-01-20.md
+```
+
+**Формат отчёта:**
+
+```markdown
+# Test Report — 2026-01-20
+
+## Summary
+- Total: 25
+- Passed: 23
+- Failed: 2
+- Duration: 45s
+
+## Failed Tests
+| Test | Error |
+|------|-------|
+| test-create smoke | Expected skill to exist |
+| issue-review functional | Timeout |
+
+## Coverage
+...
+```
 
 **Категории для `--category`** (из [skills.md](/.claude/instructions/tools/skills.md)):
 - `skill-management` — skill-create, skill-update, skill-delete

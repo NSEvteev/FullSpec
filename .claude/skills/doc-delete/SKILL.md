@@ -30,6 +30,7 @@ triggers:
 **Связанные инструкции:**
 - [src/documentation.md](/.claude/instructions/src/documentation.md) — правила документирования кода
 - [git/issues.md](/.claude/instructions/git/issues.md) — создание Issue для отслеживания
+- [scope-detection.md](/.claude/templates/scope-detection.md) — SSOT для определения scope (раздел "Scope для документации")
 
 ## Оглавление
 

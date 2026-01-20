@@ -1,7 +1,7 @@
 # Scope Detection — единый источник истины
 
 > **SSOT:** Этот файл — единственный источник правил определения scope.
-> Все test-* скиллы ДОЛЖНЫ ссылаться на этот файл.
+> Все test-* и doc-* скиллы ДОЛЖНЫ ссылаться на этот файл.
 
 ---
 
@@ -86,6 +86,59 @@
 
 ---
 
+## Scope для документации
+
+### Принцип
+
+Документация имеет два scope:
+- **claude** — документация инструментов Claude (скиллы, инструкции, агенты)
+- **project** — документация проекта (сервисы, API, архитектура)
+
+### Таблица маппинга путь → scope (документация)
+
+| Путь начинается с | Scope | Тип документа |
+|-------------------|-------|---------------|
+| `.claude/skills/*` | `claude` | Документация скиллов |
+| `.claude/instructions/*` | `claude` | Инструкции для LLM |
+| `.claude/agents/*` | `claude` | Документация агентов |
+| `.claude/templates/*` | `claude` | Шаблоны |
+| `.claude/discussions/*` | `claude` | Дискуссии и решения |
+| `doc/*` | `project` | Документация проекта |
+| `src/*/README.md` | `project` | Документация сервиса |
+| `src/*/specs/*` | `project` | Спецификации сервиса |
+| `platform/*/README.md` | `project` | Документация инфраструктуры |
+
+### Формат документации по scope
+
+#### Scope: claude
+
+| Объект | Где хранить | Формат |
+|--------|------------|--------|
+| Скилл | `.claude/skills/{skill}/SKILL.md` | Markdown с frontmatter |
+| Тесты скилла | `.claude/skills/{skill}/tests.md` | Markdown |
+| Инструкция | `.claude/instructions/{path}.md` | Markdown с frontmatter |
+| Агент | `.claude/agents/{agent}.md` | Markdown с frontmatter |
+| Шаблон | `.claude/templates/{template}.md` | Markdown |
+
+#### Scope: project
+
+| Объект | Где хранить | Формат |
+|--------|------------|--------|
+| Сервис | `doc/src/{service}/README.md` | Markdown |
+| API | `doc/src/{service}/specs/api.md` | Markdown / OpenAPI |
+| ADR | `doc/src/{service}/specs/adr/*.md` | Markdown (шаблон ADR) |
+| Архитектура | `doc/architecture/*.md` | Markdown + диаграммы |
+
+### Связанные скиллы (документация)
+
+| Скилл | Использует scope |
+|-------|-----------------|
+| [doc-create](/.claude/skills/doc-create/SKILL.md) | ✅ При создании документа |
+| [doc-update](/.claude/skills/doc-update/SKILL.md) | ✅ При поиске документа |
+| [doc-delete](/.claude/skills/doc-delete/SKILL.md) | ✅ При поиске документа |
+
+---
+
 ## Примеры определения scope
 
 ```bash
@@ -110,6 +163,20 @@
 # Без параметров — спросить
 /test-execute
 # → "Какой scope запустить? [1] claude [2] project [3] all"
+
+# Документация — Claude scope (автоопределение)
+/doc-create .claude/skills/new-skill
+# → scope: claude
+
+/doc-update .claude/instructions/git/workflow.md
+# → scope: claude
+
+# Документация — Project scope (автоопределение)
+/doc-create src/auth
+# → scope: project, создаст doc/src/auth/README.md
+
+/doc-update doc/architecture/overview.md
+# → scope: project
 ```
 
 ---

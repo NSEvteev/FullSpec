@@ -311,12 +311,52 @@ triggers:
 
 После улучшения промта проверить, попадает ли задача под существующий скилл:
 
-| Ключевые слова в промте | Скилл | Действие |
-|-------------------------|-------|----------|
+### Скиллы по категориям
+
+**Скиллы (skill-management):**
+
+| Ключевые слова | Скилл | Действие |
+|----------------|-------|----------|
 | "создай скилл", "новый скилл" | [skill-create](/.claude/skills/skill-create/SKILL.md) | Предложить использовать |
+| "обнови скилл", "измени скилл" | [skill-update](/.claude/skills/skill-update/SKILL.md) | Предложить использовать |
+| "удали скилл" | [skill-delete](/.claude/skills/skill-delete/SKILL.md) | Предложить использовать |
+
+**Инструкции (instruction-management):**
+
+| Ключевые слова | Скилл | Действие |
+|----------------|-------|----------|
 | "создай инструкцию", "новая инструкция" | [instruction-create](/.claude/skills/instruction-create/SKILL.md) | Предложить использовать |
+| "обнови инструкцию", "проверь инструкцию" | [instruction-update](/.claude/skills/instruction-update/SKILL.md) | Предложить использовать |
+| "удали инструкцию" | [instruction-delete](/.claude/skills/instruction-delete/SKILL.md) | Предложить использовать |
+
+**Документация (documentation):**
+
+| Ключевые слова | Скилл | Действие |
+|----------------|-------|----------|
+| "создай документ", "документация для" | [doc-create](/.claude/skills/doc-create/SKILL.md) | Предложить использовать |
+| "обнови документ", "актуализируй документацию" | [doc-update](/.claude/skills/doc-update/SKILL.md) | Предложить использовать |
+| "удали документ" | [doc-delete](/.claude/skills/doc-delete/SKILL.md) | Предложить использовать |
 | "обнови ссылки", "синхронизируй ссылки" | [links-update](/.claude/skills/links-update/SKILL.md) | Предложить использовать |
 | "удали ссылки", "битые ссылки" | [links-delete](/.claude/skills/links-delete/SKILL.md) | Предложить использовать |
+
+**GitHub Issues (git):**
+
+| Ключевые слова | Скилл | Действие |
+|----------------|-------|----------|
+| "создай issue", "новый issue", "баг", "задача" | [issue-create](/.claude/skills/issue-create/SKILL.md) | Предложить использовать |
+| "обнови issue" | [issue-update](/.claude/skills/issue-update/SKILL.md) | Предложить использовать |
+| "возьму в работу", "issue в работу" | [issue-execute](/.claude/skills/issue-execute/SKILL.md) | Предложить использовать |
+| "проверь решение", "ревью issue" | [issue-review](/.claude/skills/issue-review/SKILL.md) | Предложить использовать |
+| "закрой issue", "issue выполнен" | [issue-complete](/.claude/skills/issue-complete/SKILL.md) | Предложить использовать |
+
+**Тестирование (testing):**
+
+| Ключевые слова | Скилл | Действие |
+|----------------|-------|----------|
+| "создай тест", "напиши тест" | [test-create](/.claude/skills/test-create/SKILL.md) | Предложить использовать |
+| "обнови тест", "измени тест" | [test-update](/.claude/skills/test-update/SKILL.md) | Предложить использовать |
+| "запусти тесты", "проверь тесты" | [test-execute](/.claude/skills/test-execute/SKILL.md) | Предложить использовать |
+| "проверь покрытие", "ревью тестов" | [test-review](/.claude/skills/test-review/SKILL.md) | Предложить использовать |
 
 **Формат предложения:**
 

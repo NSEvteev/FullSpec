@@ -72,6 +72,25 @@ triggers:
 | `--no-branch` | Не создавать ветку | false |
 | `--branch-name` | Кастомное имя ветки | Автогенерация |
 
+### Состояние между запусками
+
+Скилл сохраняет информацию о последнем взятом Issue в файл `.claude/state/last-issue-run.json`:
+
+```json
+{
+  "issue": 123,
+  "title": "[AUTH] Добавить OAuth авторизацию",
+  "branch": "feature/123-oauth-auth",
+  "started_at": "2026-01-20T10:30:00Z",
+  "service": "auth",
+  "type": "feature"
+}
+```
+
+Это позволяет:
+- `/issue-complete --last` — закрыть последний взятый Issue
+- `/issue-review --last` — провести ревью последнего Issue
+
 **Примеры:**
 - `/issue-execute 123`
 - `/issue-execute 123 --no-branch`
@@ -184,6 +203,32 @@ gh issue comment 123 --body "🚀 Начал работу над задачей
 
 Ветка: \`feature/123-oauth-auth\`"
 ```
+
+### Шаг 6.5: Сохранить состояние
+
+Сохранить информацию о текущем Issue в файл состояния:
+
+```bash
+mkdir -p .claude/state
+cat > .claude/state/last-issue-run.json << 'EOF'
+{
+  "issue": 123,
+  "title": "[AUTH] Добавить OAuth авторизацию",
+  "branch": "feature/123-oauth-auth",
+  "started_at": "2026-01-20T10:30:00Z",
+  "service": "auth",
+  "type": "feature"
+}
+EOF
+```
+
+**Поля:**
+- `issue` — номер Issue
+- `title` — заголовок Issue
+- `branch` — имя созданной ветки (или `null` если `--no-branch`)
+- `started_at` — время начала работы (ISO 8601)
+- `service` — сервис из префикса заголовка
+- `type` — тип задачи (feature/bug/enhancement)
 
 ### Шаг 7: Выполнить задачу
 
@@ -572,4 +617,76 @@ gh issue edit 123 --remove-assignee @me
 
 ⚠️ Сохранённые изменения в stash.
 Чтобы восстановить: git stash pop
+```
+
+---
+
+## FAQ / Troubleshooting
+
+### Задача слишком большая — что делать?
+
+**Проблема:** Issue содержит слишком много работы для одного PR.
+
+**Решение:**
+1. Разбить Issue на подзадачи через `/issue-create`
+2. Связать подзадачи в описании родительского Issue
+3. Закрыть родительский Issue после выполнения всех подзадач
+
+### Как отменить взятие Issue в работу?
+
+**Сценарий:** Нужно вернуть Issue в статус "открыт".
+
+**Команды:**
+```bash
+# Удалить метку in-progress
+gh issue edit {номер} --remove-label "in-progress"
+
+# Снять назначение
+gh issue edit {номер} --remove-assignee @me
+
+# Удалить локальную ветку (если не нужна)
+git branch -D feature/{номер}-{slug}
+```
+
+### Что делать если забыл номер Issue?
+
+**Решение:**
+```bash
+# Список открытых Issue, назначенных на меня
+gh issue list --assignee @me --state open
+
+# Поиск по ключевому слову
+gh issue list --search "OAuth"
+```
+
+### Ветка создана, но Issue не помечен — что делать?
+
+**Причина:** Ошибка при выполнении gh команд.
+
+**Решение:**
+```
+/issue-update {номер} --add-label "in-progress"
+```
+
+Или вручную:
+```bash
+gh issue edit {номер} --add-assignee @me --add-label "in-progress"
+gh issue comment {номер} --body "🚀 Начал работу, ветка: feature/{номер}-{slug}"
+```
+
+### Как работать над несколькими Issue одновременно?
+
+**Рекомендация:** Не рекомендуется, но если необходимо:
+
+1. Каждый Issue — отдельная ветка
+2. Переключение: `git checkout feature/{номер}-{slug}`
+3. Stash для сохранения незакоммиченных изменений
+
+### issue-review не вызывается автоматически — почему?
+
+**Причина:** Скилл `issue-review` вызывается автоматически только после Шага 7 (выполнение задачи).
+
+**Решение:** Вызвать вручную:
+```
+/issue-review {номер}
 ```

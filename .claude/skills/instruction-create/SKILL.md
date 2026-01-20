@@ -26,6 +26,7 @@ triggers:
 - [instruction-delete](/.claude/skills/instruction-delete/SKILL.md) — удаление инструкций
 - [links-update](/.claude/skills/links-update/SKILL.md) — синхронизация ссылок
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
+- [prompt-update](/.claude/skills/prompt-update/SKILL.md) — улучшение промта перед созданием
 
 **Связанные инструкции:**
 - [README.md](/.claude/instructions/README.md) — индекс инструкций, статусы заполнения
@@ -58,13 +59,61 @@ triggers:
 ## Формат вызова
 
 ```
-/instruction-create <путь>
+/instruction-create <путь> [--dry-run] [--auto]
 ```
+
+| Параметр | Описание | По умолчанию |
+|----------|----------|--------------|
+| `путь` | Путь к инструкции (относительно `/.claude/instructions/`) | — (обязательный) |
+| `--dry-run` | Показать план без создания | false |
+| `--auto` | Автоматический режим (без подтверждений) | false |
 
 **Примеры:**
 - `/instruction-create src/api/design.md`
 - `/instruction-create git/commits.md`
-- `/instruction-create platform/observability/metrics.md`
+- `/instruction-create platform/observability/metrics.md --dry-run`
+- `/instruction-create src/api/design.md --auto`
+
+> 💡 **Совет:** Если запрос неоднозначный или требует уточнения, используйте [/prompt-update](/.claude/skills/prompt-update/SKILL.md) для улучшения промта перед созданием инструкции:
+> ```
+> /prompt-update создай инструкцию для API
+> ```
+
+### Режим --auto
+
+В автоматическом режиме:
+- Содержимое генерируется без подтверждения
+- Ревью-предложения применяются автоматически
+- Создание новых скиллов пропускается (только анализ)
+- Подтверждения не запрашиваются
+
+```
+/instruction-create src/api/design.md --auto
+
+[Создание без интерактивных вопросов]
+
+✅ Инструкция создана: /.claude/instructions/src/api/design.md
+```
+
+**Режим --dry-run:**
+```
+/instruction-create src/api/design.md --dry-run
+
+📋 Предварительный просмотр (--dry-run)
+
+Будет создано:
+- /.claude/instructions/src/api/design.md
+
+Будет обновлено:
+- /.claude/instructions/README.md (статус ✅)
+- /refactoring.md (отметка ✓)
+
+Будет вызвано:
+- /links-update /.claude/instructions/src/api/design.md
+- /context-update /.claude/instructions/src/api/design.md
+
+ℹ️ Изменения НЕ применены (--dry-run)
+```
 
 ## Правила
 
@@ -641,6 +690,8 @@ ls .claude/skills/{объект}-{операция}/SKILL.md 2>/dev/null
 ---
 
 ## Обработка ошибок
+
+> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md) — паттерны обработки ошибок
 
 | Ошибка | Действие |
 |--------|----------|

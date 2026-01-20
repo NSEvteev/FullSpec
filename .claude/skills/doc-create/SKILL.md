@@ -28,6 +28,7 @@ triggers:
 
 **Связанные инструкции:**
 - [src/documentation.md](/.claude/instructions/src/documentation.md) — правила документирования кода
+- [scope-detection.md](/.claude/templates/scope-detection.md) — SSOT для определения scope (раздел "Scope для документации")
 
 ## Оглавление
 
@@ -56,12 +57,36 @@ triggers:
 ## Формат вызова
 
 ```
-/doc-create <путь-к-файлу-в-src>
+/doc-create <путь-к-файлу-в-src> [--dry-run]
 ```
+
+| Параметр | Описание | По умолчанию |
+|----------|----------|--------------|
+| `путь-к-файлу` | Файл в `/src/` для документирования | — (обязательный) |
+| `--dry-run` | Показать план без создания | false |
 
 **Примеры:**
 - `/doc-create /src/auth/backend/handlers.ts`
 - `/doc-create /src/notification/services/email.py`
+- `/doc-create /src/auth/utils/jwt.ts --dry-run`
+
+**Режим --dry-run:**
+```
+/doc-create /src/auth/backend/handlers.ts --dry-run
+
+📋 Предварительный просмотр (--dry-run)
+
+Будет создано:
+- /doc/src/auth/backend/handlers.md
+
+Будет обновлено:
+- /src/auth/backend/handlers.ts (добавлена ссылка на документацию)
+
+Будет вызвано:
+- /links-update /doc/src/auth/backend/handlers.md
+
+ℹ️ Изменения НЕ применены (--dry-run)
+```
 
 ---
 
