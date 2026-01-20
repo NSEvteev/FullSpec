@@ -19,7 +19,9 @@ triggers:
 
 # Создание документации
 
-Команда для автоматического создания документации при добавлении нового файла в `/src/`.
+Команда для автоматического создания документации при добавлении нового файла в проект.
+
+> **SSOT:** Правила маппинга путей и валидации см. в [doc-rules.md](/.claude/templates/doc-rules.md)
 
 **Связанные скиллы:**
 - [doc-update](/.claude/skills/doc-update/SKILL.md) — обновление документации
@@ -57,33 +59,36 @@ triggers:
 ## Формат вызова
 
 ```
-/doc-create <путь-к-файлу-в-src> [--dry-run]
+/doc-create <путь-к-файлу> [--dry-run]
 ```
 
 | Параметр | Описание | По умолчанию |
 |----------|----------|--------------|
-| `путь-к-файлу` | Файл в `/src/` для документирования | — (обязательный) |
+| `путь-к-файлу` | Любой файл проекта (кроме исключённых) | — (обязательный) |
 | `--dry-run` | Показать план без создания | false |
+
+**Исключённые пути:** `/doc/`, `/.claude/`, `/.git/`, самоописывающиеся файлы (.md, .rst, .txt)
 
 **Примеры:**
 - `/doc-create /src/auth/backend/handlers.ts`
-- `/doc-create /src/notification/services/email.py`
-- `/doc-create /src/auth/utils/jwt.ts --dry-run`
+- `/doc-create /config/settings.yaml`
+- `/doc-create /platform/docker/Dockerfile`
+- `/doc-create /Makefile --dry-run`
 
 **Режим --dry-run:**
 ```
-/doc-create /src/auth/backend/handlers.ts --dry-run
+/doc-create /config/settings.yaml --dry-run
 
 📋 Предварительный просмотр (--dry-run)
 
 Будет создано:
-- /doc/src/auth/backend/handlers.md
+- /doc/config/settings.md
 
 Будет обновлено:
-- /src/auth/backend/handlers.ts (добавлена ссылка на документацию)
+- /config/settings.yaml (добавлена ссылка на документацию)
 
 Будет вызвано:
-- /links-update /doc/src/auth/backend/handlers.md
+- /links-update /doc/config/settings.md
 
 ℹ️ Изменения НЕ применены (--dry-run)
 ```
@@ -94,17 +99,29 @@ triggers:
 
 ### Маппинг путей
 
-**Правило:** Документация зеркалирует структуру `/src/` в `/doc/src/`.
+**SSOT:** [doc-rules.md](/.claude/templates/doc-rules.md#маппинг-путей)
+
+**Правило:** Документация зеркалирует структуру проекта в `/doc/`.
 
 ```
-/src/{service}/{path}.{ext} → /doc/src/{service}/{path}.md
+/{any-path}/{file}.{ext} → /doc/{any-path}/{file}.md
 ```
 
 | Исходный файл | Документация |
 |---------------|--------------|
 | `/src/auth/backend/handlers.ts` | `/doc/src/auth/backend/handlers.md` |
-| `/src/notification/services/email.py` | `/doc/src/notification/services/email.md` |
-| `/src/payment/database/schema.sql` | `/doc/src/payment/database/schema.md` |
+| `/config/settings.yaml` | `/doc/config/settings.md` |
+| `/platform/docker/compose.yml` | `/doc/platform/docker/compose.md` |
+| `/Makefile` | `/doc/Makefile.md` |
+
+**Исключения (не документируются):**
+
+| Путь | Причина |
+|------|---------|
+| `/doc/**` | Целевая папка документации |
+| `/.claude/**` | Уже содержит документацию |
+| `/.git/**` | Служебные файлы Git |
+| `*.md`, `*.rst`, `*.txt` | Самоописывающиеся файлы |
 
 **Связанная инструкция:** [documentation.md](/.claude/instructions/src/documentation.md)
 
@@ -148,11 +165,12 @@ triggers:
 
 ### Шаг 1: Получить путь к файлу
 
-1. Из аргумента: `/doc-create /src/auth/backend/handlers.ts`
+1. Из аргумента: `/doc-create /config/settings.yaml`
 2. Или спросить: "Какой файл задокументировать?"
-3. Валидация:
+3. Валидация (блокирующая):
    - Файл существует
-   - Путь начинается с `/src/`
+   - Путь НЕ в `/doc/`, `/.claude/`, `/.git/`
+   - Файл НЕ самоописывающийся (.md, .rst, .txt)
    - Файл не является директорией
 
 ### Шаг 2: Определить путь документации
@@ -160,7 +178,9 @@ triggers:
 Преобразовать путь по правилу маппинга:
 
 ```
-/src/auth/backend/handlers.ts → /doc/src/auth/backend/handlers.md
+/config/settings.yaml → /doc/config/settings.md
+/src/auth/handlers.ts → /doc/src/auth/handlers.md
+/Makefile → /doc/Makefile.md
 ```
 
 ### Шаг 3: Проверить существование
@@ -273,7 +293,10 @@ triggers:
 | Ошибка | Действие |
 |--------|----------|
 | Файл не существует | Сообщить: "Файл {путь} не найден" |
-| Файл не в `/src/` | Сообщить: "Скилл работает только с файлами в /src/" |
+| Файл в `/doc/` | Сообщить: "Нельзя документировать документацию" |
+| Файл в `/.claude/` | Сообщить: "/.claude/ уже содержит документацию" |
+| Файл в `/.git/` | Сообщить: "Служебные файлы Git не документируются" |
+| Файл .md/.rst/.txt | Сообщить: "Файл уже является документацией" |
 | Документация существует | Спросить: перезаписать / редактировать / отменить |
 | Не удалось извлечь API | Создать минимальный шаблон, предупредить |
 | Ошибка записи | Сообщить, откатить изменения |
@@ -293,8 +316,9 @@ git checkout -- /src/{service}/{path}.{ext}
 ## Чек-лист
 
 - [ ] **Шаг 1:** Получил путь к файлу, проверил существование
-- [ ] **Шаг 1:** Проверил, что файл в `/src/`
-- [ ] **Шаг 2:** Определил путь документации (`/doc/src/...`)
+- [ ] **Шаг 1:** Проверил, что файл НЕ в исключённых путях (/doc/, /.claude/, /.git/)
+- [ ] **Шаг 1:** Проверил, что файл НЕ самоописывающийся (.md, .rst, .txt)
+- [ ] **Шаг 2:** Определил путь документации (`/doc/...`)
 - [ ] **Шаг 3:** Проверил, что документация не существует (или получил подтверждение)
 - [ ] **Шаг 4:** Прочитал исходный файл, определил язык
 - [ ] **Шаг 4:** Извлёк API (функции, классы)
@@ -434,7 +458,7 @@ function validateToken(token: string): boolean
 Запускаю /doc-update /src/auth/backend/handlers.ts...
 ```
 
-### Пример 3: Файл не в /src/
+### Пример 3: Конфигурационный файл
 
 **Вызов:**
 ```
@@ -443,13 +467,26 @@ function validateToken(token: string): boolean
 
 **Диалог:**
 ```
-❌ Ошибка: Скилл /doc-create работает только с файлами в /src/
+> Создаю документацию для /config/settings.yaml
 
-Файл /config/settings.yaml находится в /config/
+Определяю путь документации...
+Документация: /doc/config/settings.md
 
-Для документирования конфигураций используйте:
-- Комментарии внутри YAML файла
-- /doc/config/README.md для общего описания
+Анализирую структуру YAML...
+- Найдено секций: 5 (database, redis, api, auth, logging)
+
+Создать документацию? [Y/n]
+> Y
+
+✅ Документация создана
+
+Файлы:
+- /doc/config/settings.md
+- /config/settings.yaml (добавлена ссылка)
+
+Следующие шаги:
+- Описать назначение каждой секции
+- Добавить примеры значений
 ```
 
 ### Пример 4: Не удалось извлечь API
@@ -476,4 +513,38 @@ function validateToken(token: string): boolean
 
 Следующие шаги:
 - Заполнить описание констант вручную
+```
+
+### Пример 5: Самоописывающийся файл (ошибка)
+
+**Вызов:**
+```
+/doc-create /doc/README.md
+```
+
+**Диалог:**
+```
+❌ Ошибка: Файл уже является документацией
+
+/doc/README.md — это markdown-файл, он самоописывающийся.
+
+Исключённые расширения: .md, .rst, .txt, .adoc
+```
+
+### Пример 6: Файл в /.claude/ (ошибка)
+
+**Вызов:**
+```
+/doc-create /.claude/skills/doc-create/SKILL.md
+```
+
+**Диалог:**
+```
+❌ Ошибка: /.claude/ уже содержит документацию
+
+Файлы в папке /.claude/ имеют собственную документацию:
+- SKILL.md — документация скилла
+- инструкции — правила для LLM
+
+Используйте /skill-update или /instruction-update для изменения.
 ```

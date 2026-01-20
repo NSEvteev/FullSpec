@@ -1,6 +1,6 @@
 ---
 name: doc-delete
-description: Пометка документации при удалении файла из /src/
+description: Пометка документации при удалении файла из проекта
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 category: documentation
 triggers:
@@ -19,7 +19,9 @@ triggers:
 
 # Удаление документации
 
-Команда для пометки документации при удалении файла из `/src/`. Создаёт GitHub Issue для отслеживания.
+Команда для пометки документации при удалении файла из проекта. Создаёт GitHub Issue для отслеживания.
+
+> **SSOT:** Правила маппинга путей и валидации см. в [doc-rules.md](/.claude/templates/doc-rules.md)
 
 **Связанные скиллы:**
 - [doc-create](/.claude/skills/doc-create/SKILL.md) — создание документации
@@ -64,13 +66,16 @@ triggers:
 
 | Параметр | Описание | По умолчанию |
 |----------|----------|--------------|
-| `путь` | Удалённый файл из `/src/` | — (обязательный) |
+| `путь` | Удалённый файл проекта (кроме исключённых) | — (обязательный) |
 | `--no-issue` | Не создавать GitHub Issue | false |
 | `--dry-run` | Показать изменения без применения | false |
 
+**Исключённые пути:** `/doc/`, `/.claude/`, `/.git/`, самоописывающиеся файлы (.md, .rst, .txt)
+
 **Примеры:**
 - `/doc-delete /src/auth/backend/old-handlers.ts`
-- `/doc-delete /src/legacy/module.py --no-issue`
+- `/doc-delete /config/old-settings.yaml --no-issue`
+- `/doc-delete /platform/docker/old-compose.yml`
 
 ---
 
@@ -78,16 +83,21 @@ triggers:
 
 ### Маппинг путей
 
-**Правило:** Документация зеркалирует структуру `/src/` в `/doc/src/`.
+**SSOT:** [doc-rules.md](/.claude/templates/doc-rules.md#маппинг-путей)
+
+**Правило:** Документация зеркалирует структуру проекта в `/doc/`.
 
 ```
-/src/{service}/{path}.{ext} → /doc/src/{service}/{path}.md
+/{any-path}/{file}.{ext} → /doc/{any-path}/{file}.md
 ```
 
 | Удалённый файл | Документация |
 |----------------|--------------|
 | `/src/auth/backend/old-handlers.ts` | `/doc/src/auth/backend/old-handlers.md` |
-| `/src/legacy/module.py` | `/doc/src/legacy/module.md` |
+| `/config/old-settings.yaml` | `/doc/config/old-settings.md` |
+| `/platform/docker/old-compose.yml` | `/doc/platform/docker/old-compose.md` |
+
+**Исключения (не документируются):** `/doc/`, `/.claude/`, `/.git/`, `*.md`, `*.rst`, `*.txt`
 
 **Связанная инструкция:** [documentation.md](/.claude/instructions/src/documentation.md)
 
@@ -110,9 +120,11 @@ triggers:
 
 | Событие | Действие |
 |---------|----------|
-| Удалён файл из `/src/` | Пометить документацию, создать Issue |
-| Удалена папка из `/src/` | Пометить все документы в папке |
+| Удалён файл из проекта | Пометить документацию, создать Issue |
+| Удалена папка из проекта | Пометить все документы в папке |
 | Рефакторинг (файл перемещён) | [/doc-delete](/.claude/skills/doc-delete/SKILL.md) + [/doc-create](/.claude/skills/doc-create/SKILL.md) |
+
+**Исключённые пути:** Файлы в `/doc/`, `/.claude/`, `/.git/` и самоописывающиеся (.md, .rst, .txt)
 
 ---
 
@@ -226,7 +238,10 @@ GitHub Issue: https://github.com/user/repo/issues/123
 | Ошибка | Действие |
 |--------|----------|
 | Путь не указан | Спросить: "Какой файл был удалён?" |
-| Путь не в `/src/` | Сообщить: "Скилл работает только с файлами в /src/" |
+| Путь в `/doc/` | Сообщить: "Нельзя пометить документацию" |
+| Путь в `/.claude/` | Сообщить: "/.claude/ уже содержит документацию" |
+| Путь в `/.git/` | Сообщить: "Служебные файлы Git не документируются" |
+| Путь .md/.rst/.txt | Сообщить: "Файл уже является документацией" |
 | Документация не существует | Сообщить, вызвать только `/links-delete` |
 | Ошибка создания Issue | Сообщить, продолжить без Issue |
 | Ошибка записи | Сообщить, откатить изменения |
@@ -243,6 +258,8 @@ git checkout -- /doc/src/{service}/{path}.md
 ## Чек-лист
 
 - [ ] **Шаг 1:** Получил путь к удалённому файлу
+- [ ] **Шаг 1:** Проверил, что файл НЕ в исключённых путях (/doc/, /.claude/, /.git/)
+- [ ] **Шаг 1:** Проверил, что файл НЕ самоописывающийся (.md, .rst, .txt)
 - [ ] **Шаг 1:** Определил путь документации по маппингу
 - [ ] **Шаг 2:** Проверил существование документации
 - [ ] **Шаг 3:** Добавил пометку в документацию
