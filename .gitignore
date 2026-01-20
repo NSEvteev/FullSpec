@@ -46,8 +46,8 @@ node_modules/
 *.db
 *.sqlite
 *.sqlite3
-data/
-backups/
+/data/
+/backups/
 
 # Торговые данные и секреты
 *.csv
