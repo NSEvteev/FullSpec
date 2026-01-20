@@ -20,11 +20,15 @@ triggers:
 Команда для отметки теста как пройденного.
 
 **Связанные скиллы:**
+- [test-create](/.claude/skills/test-create/SKILL.md) — создание теста
+- [test-update](/.claude/skills/test-update/SKILL.md) — изменение теста
 - [test-execute](/.claude/skills/test-execute/SKILL.md) — выполнение тестов
 - [test-review](/.claude/skills/test-review/SKILL.md) — проверка полноты теста
+- [test-delete](/.claude/skills/test-delete/SKILL.md) — удаление теста
 
 **Связанные инструкции:**
 - [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование Claude Code
+- [tools/project-testing.md](/.claude/instructions/tools/project-testing.md) — тестирование проекта
 
 ## Формат вызова
 

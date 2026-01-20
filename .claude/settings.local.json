@@ -46,7 +46,14 @@
       "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" push)",
       "Bash(xargs:*)",
       "Bash(done)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "WebSearch",
+      "WebFetch(domain:mdmpalace.ru)",
+      "WebFetch(domain:afisha.yandex.ru)",
+      "WebFetch(domain:live.mts.ru)",
+      "WebFetch(domain:www.ticketland.ru)",
+      "Skill(instruction-create)",
+      "Bash(ls:*)"
     ]
   }
 }

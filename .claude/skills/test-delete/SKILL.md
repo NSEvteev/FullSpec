@@ -21,6 +21,9 @@ triggers:
 **Связанные скиллы:**
 - [test-create](/.claude/skills/test-create/SKILL.md) — создание теста
 - [test-update](/.claude/skills/test-update/SKILL.md) — изменение теста
+- [test-execute](/.claude/skills/test-execute/SKILL.md) — выполнение тестов
+- [test-review](/.claude/skills/test-review/SKILL.md) — проверка полноты теста
+- [test-complete](/.claude/skills/test-complete/SKILL.md) — отметка о прохождении
 
 **Связанные инструкции:**
 - [tools/claude-testing.md](/.claude/instructions/tools/claude-testing.md) — тестирование Claude Code
