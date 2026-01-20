@@ -94,6 +94,8 @@ related:
 
 Тестирование скиллов и кода проекта.
 
+> **SSOT:** Определение scope (claude/project) описано в [scope-detection.md](/.claude/templates/scope-detection.md).
+
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
 | [test-create](/.claude/skills/test-create/SKILL.md) | Создание теста с автоопределением scope | `/test-create`, "создай тест" |

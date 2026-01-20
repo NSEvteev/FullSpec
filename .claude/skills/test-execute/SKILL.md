@@ -39,6 +39,7 @@ triggers:
 
 - [Формат вызова](#формат-вызова)
 - [Автоопределение scope](#автоопределение-scope)
+- [Состояние между запусками](#состояние-между-запусками)
 - [Правила](#правила)
 - [Воркфлоу](#воркфлоу)
   - [Шаг 1: Определить цель](#шаг-1-определить-цель)
@@ -55,7 +56,7 @@ triggers:
 ## Формат вызова
 
 ```
-/test-execute [target] [--scope claude|project|all] [--type smoke|functional|all]
+/test-execute [target] [--scope claude|project|all] [--type smoke|functional|all] [--category <name>]
 ```
 
 | Параметр | Описание | По умолчанию |
@@ -63,8 +64,19 @@ triggers:
 | `target` | Путь к объекту или скиллу | Все тесты scope |
 | `--scope` | Область тестов | Авто или спросить |
 | `--type` | Тип тестов | `all` |
+| `--category` | Фильтр по категории (только для scope claude) | Все категории |
+| `--last-failed` | Запустить только failed тесты из последнего запуска | — |
+| `--only-failed` | Алиас для `--last-failed` | — |
 | `--verbose` | Подробный вывод | — |
 | `--dry-run` | Показать план без выполнения | — |
+
+**Категории для `--category`** (из [skills.md](/.claude/instructions/tools/skills.md)):
+- `skill-management` — skill-create, skill-update, skill-delete
+- `instruction-management` — instruction-*, критичные
+- `documentation` — doc-*, links-*, context-*
+- `testing` — test-*
+- `git` — issue-*, критичные
+- `meta` — prompt-update
 
 ---
 
@@ -85,6 +97,50 @@ triggers:
        (см. SSOT)                          [2] project
                                            [3] all
 ```
+
+---
+
+## Состояние между запусками
+
+**Механизм:** После каждого запуска `/test-execute` результаты сохраняются для использования `--last-failed`.
+
+**Файл состояния:** `.claude/state/last-test-run.json`
+
+```json
+{
+  "timestamp": "2026-01-20T16:00:00Z",
+  "scope": "claude",
+  "category": null,
+  "results": {
+    "passed": [
+      ".claude/skills/test-create/SKILL.md",
+      ".claude/skills/test-delete/SKILL.md"
+    ],
+    "failed": [
+      ".claude/skills/test-update/SKILL.md",
+      ".claude/skills/test-review/SKILL.md"
+    ],
+    "not_run": [
+      ".claude/skills/issue-create/SKILL.md"
+    ]
+  }
+}
+```
+
+**Использование `--last-failed`:**
+
+```bash
+# Первый запуск — полный
+/test-execute --scope claude
+# Результат: 2 failed (test-update, test-review)
+# Состояние сохранено в .claude/state/last-test-run.json
+
+# Второй запуск — только failed
+/test-execute --last-failed
+# Автоматически запустит: test-update, test-review
+```
+
+**Правило:** Файл состояния перезаписывается при каждом запуске (кроме `--last-failed`).
 
 ---
 
@@ -386,6 +442,61 @@ Project:
 > 1
 
 Выполняю тесты scope: claude...
+```
+
+### Пример 6: Фильтрация по категории
+
+**Вызов:**
+```
+/test-execute --scope claude --category testing
+```
+
+**Результат:**
+```
+📊 Результаты тестирования
+
+Scope: claude
+Категория: testing
+Найдено скиллов: 6
+
+┌────────────────────────┬──────────┬─────────────┐
+│ Скилл                  │ Тип      │ Результат   │
+├────────────────────────┼──────────┼─────────────┤
+│ test-create            │ smoke    │ ✅ PASSED   │
+│ test-update            │ smoke    │ ✅ PASSED   │
+│ test-review            │ smoke    │ ✅ PASSED   │
+│ test-execute           │ smoke    │ ✅ PASSED   │
+│ test-complete          │ smoke    │ ✅ PASSED   │
+│ test-delete            │ smoke    │ ✅ PASSED   │
+├────────────────────────┴──────────┴─────────────┤
+│ Итого: 6 passed, 0 failed                       │
+└─────────────────────────────────────────────────┘
+```
+
+### Пример 7: Только критичные скиллы
+
+**Вызов:**
+```
+/test-execute --scope claude --category git --category skill-management
+```
+
+**Результат:**
+```
+📊 Результаты тестирования
+
+Scope: claude
+Категории: git, skill-management (критичные)
+Найдено скиллов: 9
+
+issue-*:       6 скиллов (3 с тестами)
+skill-*:       3 скилла (2 с тестами)
+
+✅ issue-create      PASSED
+✅ issue-execute     PASSED
+⬜ issue-update      NOT RUN (нет тестов)
+...
+
+Итого: 5 passed, 0 failed, 4 without tests
 ```
 
 ---

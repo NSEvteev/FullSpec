@@ -33,6 +33,7 @@ triggers:
 - [git/workflow.md](/.claude/instructions/git/workflow.md) — правила работы с ветками и PR
 - [git/commits.md](/.claude/instructions/git/commits.md) — формат сообщений коммитов
 - [git/issues.md](/.claude/instructions/git/issues.md) — правила работы с Issues
+- [git/ci.md](/.claude/instructions/git/ci.md) — CI pipeline, проверка статуса перед закрытием
 
 ## Оглавление
 
@@ -179,6 +180,27 @@ gh issue close 123 --reason completed
    [2] Закрыть без PR (задача выполнена иначе)
    ```
 
+4. **Проверить CI статус** (если есть PR):
+   ```bash
+   gh pr checks {pr-number}
+   ```
+
+   - Если все checks passed → продолжить
+   - Если есть failed checks:
+     ```
+     ⚠️ CI checks не прошли для PR #456
+
+     Failed:
+     - ❌ test (exit code 1)
+     - ❌ lint (exit code 1)
+
+     Варианты:
+     [1] Закрыть Issue всё равно (checks неактуальны)
+     [2] Отменить закрытие и исправить CI
+     ```
+
+   > **Связь с CI:** См. [ci.md](/.claude/instructions/git/ci.md#faq--troubleshooting) для диагностики failed checks.
+
 ### Шаг 5: Добавить комментарий
 
 Сформировать комментарий:
@@ -237,7 +259,7 @@ gh issue comment 123 --body "✅ Выполнено в PR #456"
 ✅ Шаг 1: Получил номер Issue
 ✅ Шаг 2: Проверил статус (открыт, in-progress)
 ✅ Шаг 3: Проверил выполнение критериев готовности
-✅ Шаг 4: Нашёл связанный PR
+✅ Шаг 4: Нашёл связанный PR + проверил CI статус
 ✅ Шаг 5: Добавил комментарий
 ✅ Шаг 6: Закрыл Issue
 ✅ Шаг 7: Обновил документацию

@@ -250,6 +250,28 @@ triggers:
 Создать Issue для исправления? [Y/n]
 ```
 
+**При failed на критичном скилле:**
+
+> **Критичные скиллы:** `skill-*`, `instruction-*`, `issue-*` (см. [CLAUDE.md](/CLAUDE.md#критичные-скиллы))
+
+```
+🚨 Тест провален: skill-create (КРИТИЧНЫЙ)
+
+Скилл skill-create относится к критичным (skill-management).
+Failed тест критичного скилла требует немедленного внимания.
+
+Рекомендации:
+1. Проверить: /test-review .claude/skills/skill-create/SKILL.md
+2. Исправить: /test-update .claude/skills/skill-create/SKILL.md --reason fix
+
+⚠️ Рекомендуется создать Issue с высоким приоритетом.
+
+Создать Issue? [Y/n]
+> Y
+
+/issue-create --title "[CRITICAL] Fix test: skill-create" --label "priority:high"
+```
+
 **При первом passed после failed:**
 ```
 🎉 Тест восстановлен: issue-create

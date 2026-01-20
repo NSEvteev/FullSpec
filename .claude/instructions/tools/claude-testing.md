@@ -19,11 +19,14 @@ related:
   - [Типы тестов](#типы-тестов)
   - [Smoke tests](#smoke-tests)
   - [Тестирование скиллов](#тестирование-скиллов)
+  - [Тестирование скиллов со side effects](#тестирование-скиллов-со-side-effects)
+  - [Изоляция внешних зависимостей](#изоляция-внешних-зависимостей)
   - [Тестирование инструкций](#тестирование-инструкций)
 - [Чек-листы](#чек-листы)
 - [Примеры](#примеры)
 - [Скиллы](#скиллы)
 - [FAQ / Troubleshooting](#faq--troubleshooting)
+- [Интеграция с Git Hooks](#интеграция-с-git-hooks)
 - [Связанные инструкции](#связанные-инструкции)
 
 ---
@@ -70,6 +73,88 @@ related:
 | Откат | При ошибке изменения откатываются |
 
 **Формат теста:** см. [Шаблон: Functional test](/.claude/templates/test-formats.md#шаблон-functional-test)
+
+### Тестирование скиллов со side effects
+
+**Правило:** Скиллы с побочными эффектами тестируются через cleanup.
+
+**Подход:** Cleanup после теста — тест создаёт → проверяет → удаляет.
+
+**Workflow:**
+```
+1. Запомнить начальное состояние
+2. Выполнить скилл (создать файл/issue/etc)
+3. Проверить результат
+4. Удалить созданное (cleanup)
+5. Проверить, что состояние восстановлено
+```
+
+**Пример теста для issue-create:**
+```
+📋 Functional test: issue-create (с cleanup)
+
+Шаги:
+1. Запомнить количество открытых issues: `gh issue list --state open | wc -l`
+2. Выполнить: `/issue-create --title "Test issue" --service auth`
+3. Проверить: issue создан с правильными labels
+4. Cleanup: `gh issue close <issue-number> --reason "not planned"`
+5. Проверить: количество issues вернулось к исходному
+
+Cleanup команда: gh issue close {number} --reason "not planned"
+```
+
+**Когда использовать:**
+| Тип скилла | Подход |
+|------------|--------|
+| Создаёт файлы | Удалить файлы после теста |
+| Создаёт issues | Закрыть issue как "not planned" |
+| Изменяет git | `git checkout --` для отката |
+| Внешние API | Использовать test endpoints или cleanup API |
+
+### Изоляция внешних зависимостей
+
+**Правило:** Внешние зависимости изолируются через комбинацию подходов.
+
+**Уровни изоляции:**
+
+| Уровень | Подход | Когда использовать |
+|---------|--------|-------------------|
+| **Smoke** | `--dry-run` + проверка вывода | Быстрая проверка |
+| **Functional** | `TEST_MODE=true` | Скилл сам обрабатывает |
+| **Integration** | Fixture файлы | Воспроизводимость |
+
+**Реализация TEST_MODE:**
+
+В скилле:
+```bash
+if [[ "$TEST_MODE" == "true" ]]; then
+  echo "[TEST] Would create issue: $title"
+  echo "[TEST] Labels: $labels"
+  exit 0
+fi
+```
+
+В тесте:
+```
+TEST_MODE=true /issue-create "Test issue" --service auth
+# Проверить: вывод содержит "[TEST] Would create issue"
+```
+
+**Fixture файлы для внешних API:**
+```
+/.claude/fixtures/
+  gh-issue-list.json      # Ответ gh issue list
+  gh-pr-checks.json       # Ответ gh pr checks
+```
+
+Использование:
+```bash
+if [[ "$TEST_MODE" == "true" ]]; then
+  cat .claude/fixtures/gh-issue-list.json
+else
+  gh issue list --json number,title
+fi
+```
 
 ### Тестирование инструкций
 
@@ -340,8 +425,76 @@ d3c0f0e feat: Создан скилл issue-review...
 
 ---
 
+## Интеграция с Git Hooks
+
+Тесты можно автоматизировать через git hooks или Claude Code hooks.
+
+### Pre-commit: быстрые проверки
+
+```bash
+# .git/hooks/pre-commit (или claude hooks)
+#!/bin/bash
+
+# Запустить smoke тесты критичных скиллов
+/test-execute --scope claude --category skill-management --category git --type smoke --auto
+
+# При failed — отменить коммит
+if [ $? -ne 0 ]; then
+  echo "❌ Тесты не прошли. Коммит отменён."
+  exit 1
+fi
+```
+
+### Pre-push: полные проверки
+
+```bash
+# .git/hooks/pre-push
+#!/bin/bash
+
+# Запустить все тесты проекта
+/test-execute --scope project --type smoke --auto
+
+# При failed — отменить push
+if [ $? -ne 0 ]; then
+  echo "❌ Тесты не прошли. Push отменён."
+  echo "Запустите /test-execute --scope project для деталей."
+  exit 1
+fi
+```
+
+### Claude Code hooks (settings.json)
+
+```json
+{
+  "hooks": {
+    "pre-commit": [
+      {
+        "command": "/test-execute --scope claude --category skill-management --type smoke --auto",
+        "on_failure": "block"
+      }
+    ]
+  }
+}
+```
+
+### Рекомендации по hooks
+
+| Hook | Что запускать | Время |
+|------|---------------|-------|
+| `pre-commit` | Smoke тесты критичных скиллов | < 30 сек |
+| `pre-push` | Smoke тесты проекта | < 2 мин |
+| `post-merge` | Полные тесты (фоном) | Async |
+
+**Важно:**
+- Используйте `--auto` чтобы не ждать подтверждений
+- Не запускайте полные тесты в pre-commit — это замедлит работу
+- Для CI используйте [ci.md](/.claude/instructions/git/ci.md) вместо hooks
+
+---
+
 ## Связанные инструкции
 
 - [skills.md](/.claude/instructions/tools/skills.md) — Индекс скиллов, категории
 - [agents.md](/.claude/instructions/tools/agents.md) — Индекс агентов
 - [project-testing.md](/.claude/instructions/tests/project-testing.md) — Тестирование проекта (unit, e2e, load)
+- [ci.md](/.claude/instructions/git/ci.md) — CI/CD pipeline

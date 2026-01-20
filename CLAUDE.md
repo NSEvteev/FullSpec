@@ -190,7 +190,46 @@ make lint          # Линтинг
 ## 📌 При следующем запуске
 
 > **Дата:** 2026-01-20
-> **Статус:** Анализ и улучшение test-* скиллов завершено
+> **Статус:** Все три сессии улучшения test-* скиллов завершены
+
+---
+
+### ✅ ВЫПОЛНЕНО (2026-01-20) — Сессия 3: Улучшения workflow
+
+#### Новые параметры в скиллах
+
+| Скилл | Параметр | Назначение |
+|-------|----------|------------|
+| test-execute | `--category` | Фильтр по категории (batch-операции) |
+| test-execute | `--last-failed` | Запуск только failed тестов |
+| test-review | `--last-failed` | Проверка только failed тестов |
+
+#### Изменённые файлы
+
+| Файл | Изменения |
+|------|-----------|
+| test-delete/SKILL.md | +FAQ (7 вопросов) |
+| test-update/SKILL.md | +FAQ (одновременное изменение, rollback) |
+| test-execute/SKILL.md | +--category, +--last-failed, +состояние между запусками |
+| test-review/SKILL.md | +--last-failed |
+| test-complete/SKILL.md | +alert для критичных скиллов |
+| test-formats.md | +диагностика flaky vs реальная ошибка |
+| claude-testing.md | +side effects, +мокирование, +git hooks интеграция |
+| skills.md | +ссылка на SSOT scope-detection |
+| issue-complete/SKILL.md | +проверка CI перед закрытием |
+
+#### Новые механизмы
+
+| Механизм | Описание |
+|----------|----------|
+| Состояние между запусками | `.claude/state/last-test-run.json` |
+| Git hooks интеграция | pre-commit, pre-push с автозапуском тестов |
+| Диагностика flaky | Критерии: 3+ переключений за 7 дней |
+| CI проверка | issue-complete проверяет статус CI перед закрытием |
+
+#### Файл отслеживания
+
+`/.claude/discussions/2026-01-20-improvements-session.md` — детальный прогресс сессии
 
 ---
 
@@ -296,9 +335,15 @@ make lint          # Линтинг
 - [x] project-testing.md перемещён в tests/
 - [x] Инструкции тестирования имеют раздел "Скиллы"
 - [x] Создан SSOT scope-detection.md
-- [x] Все test-* скиллы имеют FAQ (кроме test-delete)
+- [x] Все test-* скиллы имеют FAQ
 - [x] Все test-* скиллы имеют "Следующие шаги"
 - [x] ci.md связан с test-execute
 - [x] Критичные скиллы определены в CLAUDE.md
+- [x] test-execute поддерживает batch-операции (--category)
+- [x] test-execute и test-review поддерживают --last-failed
+- [x] Документирована интеграция с git hooks
+- [x] claude-testing.md содержит раздел side effects и мокирование
+- [x] test-formats.md содержит диагностику flaky
+- [x] issue-complete проверяет CI статус
 - [ ] Все инструкции имеют раздел "Скиллы"
 - [ ] Созданы инструкции tests/*.md (6 файлов)
