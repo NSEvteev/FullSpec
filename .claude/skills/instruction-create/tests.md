@@ -42,7 +42,6 @@
 - [ ] Создан файл `/.claude/instructions/tests/example.md`
 - [ ] Frontmatter содержит: type, description, related
 - [ ] Обновлён статус в `README.md`
-- [ ] Обновлён статус в `refactoring.md`
 - [ ] Вызван `/links-update`
 
 **Фактический результат:** —
@@ -166,7 +165,6 @@
 
 **Проверки:**
 - [ ] README.md обновлён
-- [ ] refactoring.md обновлён
 - [ ] Связанные скиллы обновлены (если найдены)
 
 **Статус:** ⬜ Не выполнен

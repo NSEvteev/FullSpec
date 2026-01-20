@@ -1,5 +1,5 @@
 # Makefile — интерфейс команд проекта
-# Подробнее: refactoring.md (раздел "Makefile")
+# Подробнее: README.md
 
 .PHONY: dev stop build test test-e2e test-load lint clean help
 

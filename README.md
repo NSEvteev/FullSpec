@@ -19,7 +19,6 @@
 | [CLAUDE.md](CLAUDE.md) | Точка входа для Claude Code |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Руководство для контрибьюторов |
 | [SECURITY.md](SECURITY.md) | Политика безопасности |
-| [refactoring.md](refactoring.md) | План рефакторинга |
 
 ---
 
@@ -39,9 +38,56 @@
 ├── CONTRIBUTING.md             # Как внести вклад
 ├── Makefile                    # Команды проекта
 ├── README.md                   # Описание проекта (этот файл)
-├── refactoring.md              # План рефакторинга
 └── SECURITY.md                 # Политика безопасности
 ```
+
+### Связи между папками
+
+```mermaid
+graph LR
+    subgraph "Код"
+        SRC["/src/"]
+        SHARED["/shared/"]
+    end
+
+    subgraph "Запуск"
+        PLATFORM["/platform/"]
+        CONFIG["/config/"]
+    end
+
+    DOC["/doc/"]
+    TESTS["/tests/"]
+    CLAUDE["/.claude/"]
+
+    SRC -->|использует| SHARED
+    SRC -->|запускается| PLATFORM
+    PLATFORM -->|читает| CONFIG
+    TESTS -->|тестирует| SRC
+
+    DOC -.->|зеркалирует| SRC
+    DOC -.->|зеркалирует| SHARED
+    DOC -.->|зеркалирует| PLATFORM
+
+    CLAUDE -.->|правила для| SRC
+    CLAUDE -.->|правила для| DOC
+    CLAUDE -.->|правила для| SHARED
+    CLAUDE -.->|правила для| CONFIG
+    CLAUDE -.->|правила для| PLATFORM
+    CLAUDE -.->|правила для| TESTS
+```
+
+### Принцип разделения
+
+| Папка | Отвечает за | Критерий попадания |
+|-------|-------------|-------------------|
+| `/src/` | Исполняемый код | Запускается как процесс |
+| `/doc/` | Документация | Читается человеком/LLM, не исполняется |
+| `/shared/` | Переиспользуемое | Используется 2+ сервисами |
+| `/config/` | Настройки окружений | Меняется между dev/staging/prod |
+| `/platform/` | Инфраструктура | Не бизнес-логика, а "как запускать" |
+| `/tests/` | Системные тесты | Тестирует взаимодействие сервисов |
+| `/.claude/` | Инструменты LLM | Используется только Claude |
+| `/.github/` | CI/CD | GitHub-специфичное |
 
 | Папка | Назначение | Инструкции |
 |-------|------------|------------|
@@ -240,25 +286,48 @@ make build         # Собрать для production
 
 ---
 
+## Ключевые решения
+
+Сокращённая таблица архитектурных решений проекта:
+
+| Область | Решение |
+|---------|---------|
+| **API** | REST URL-версионирование (`/api/v1/`), gRPC package versioning |
+| **Архитектура** | Database per Service, Docker DNS для discovery |
+| **Auth между сервисами** | JWT с service accounts |
+| **Gateway** | Traefik (CORS, rate limiting централизованно) |
+| **Контракты** | `/shared/contracts/` (REST, gRPC, Events) |
+| **Очереди** | События `{service}.{entity}.{action}`, DLQ для failed |
+| **Кэширование** | Redis, cache-aside, ключи `{service}:{entity}:{id}` |
+| **Observability** | Logs (Loki), Metrics (Prometheus), Traces (Tempo) |
+| **Корреляция** | `request_id` + `trace_id` во всех логах |
+| **Тесты** | Unit/integration в `/src/{service}/tests/`, e2e/load в `/tests/` |
+| **Деплой** | Rolling update по умолчанию, blue-green для критичных |
+
+Полная таблица решений: [CLAUDE.md](CLAUDE.md#ключевые-решения)
+
+---
+
 ## Статус
 
-> **Проект в процессе рефакторинга**
+> **Инструкции созданы:** 53 из 53 (100%) ✅
 
-| Папка | Статус |
-|-------|:------:|
-| `/.claude/` | ✅ |
-| `/config/` | ❌ |
-| `/doc/` | ❌ |
-| `/platform/` | ❌ |
-| `/shared/` | ❌ |
-| `/src/` | ❌ |
-| `/tests/` | ❌ |
+| Папка | Инструкции | Статус |
+|-------|------------|:------:|
+| `/.claude/` | 6 файлов | ✅ |
+| `/config/` | 2 файла | ✅ |
+| `/doc/` | 1 файл | ✅ |
+| `/platform/` | 10 файлов | ✅ |
+| `/shared/` | 5 файлов | ✅ |
+| `/src/` | 17 файлов | ✅ |
+| `/tests/` | 7 файлов | ✅ |
+| `/git/` | 5 файлов | ✅ |
 
 **Архивные папки** (удалить после рефакторинга):
 - `.claude_old/`
 - `llm_instructions_old/`
 
-Подробнее: [refactoring.md](refactoring.md)
+Подробнее: [CLAUDE.md](CLAUDE.md)
 
 ---
 

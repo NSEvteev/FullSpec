@@ -469,14 +469,14 @@ git checkout -- путь/к/файлу.md
 
 **Вызов:**
 ```
-/context-update refactoring.md --depth 3
+/context-update README.md --depth 3
 ```
 
 **Результат:**
 ```
 📋 Предложения по обновлению контекста
 
-Источник: refactoring.md
+Источник: README.md
 Инкремент: Изменена структура папок проекта
 Глубина анализа: 3 уровня
 

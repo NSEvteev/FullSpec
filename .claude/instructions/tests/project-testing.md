@@ -61,12 +61,12 @@ make test-smoke     # Smoke-тесты (быстрые)
 
 | Инструкция | Описание | Тип | Статус |
 |------------|----------|-----|:------:|
-| [unit.md](../tests/unit.md) | Unit-тесты: изоляция, моки, покрытие | standard | ⬜ |
-| [integration.md](../tests/integration.md) | Интеграционные тесты: БД, API, сервисы | standard | ⬜ |
-| [e2e.md](../tests/e2e.md) | End-to-end тесты: сценарии пользователя | standard | ⬜ |
-| [smoke.md](../tests/smoke.md) | Smoke-тесты: быстрая проверка работоспособности | standard | ⬜ |
-| [load.md](../tests/load.md) | Нагрузочные тесты: k6, пороги производительности | standard | ⬜ |
-| [fixtures.md](../tests/fixtures.md) | Тестовые данные: фикстуры, фабрики, seeds | standard | ⬜ |
+| [unit.md](../tests/unit.md) | Unit-тесты: изоляция, моки, покрытие | standard | ✅ |
+| [integration.md](../tests/integration.md) | Интеграционные тесты: БД, API, сервисы | standard | ✅ |
+| [e2e.md](../tests/e2e.md) | End-to-end тесты: сценарии пользователя | standard | ✅ |
+| [smoke.md](../tests/smoke.md) | Smoke-тесты: быстрая проверка работоспособности | standard | ✅ |
+| [load.md](../tests/load.md) | Нагрузочные тесты: k6, пороги производительности | standard | ✅ |
+| [fixtures.md](../tests/fixtures.md) | Тестовые данные: фикстуры, фабрики, seeds | standard | ✅ |
 
 ---
 
