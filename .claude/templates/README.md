@@ -49,3 +49,4 @@ Single Source of Truth шаблоны, используемые скиллами
 
 - [/.claude/README.md](/.claude/README.md) — хаб навигации
 - [/.claude/skills/README.md](/.claude/skills/README.md) — индекс скиллов
+- [/.claude/instructions/doc/structure.md](/.claude/instructions/doc/structure.md) — структура документации /doc/

@@ -535,6 +535,19 @@ const response = await fetch(`${process.env.API_URL}/api/users`);
 
 ---
 
+## Скиллы
+
+Скиллы для автоматизации работы с интеграционными тестами:
+
+| Скилл | Назначение |
+|-------|------------|
+| [/test-create](/.claude/skills/test-create/SKILL.md) | Создание нового интеграционного теста |
+| [/test-execute](/.claude/skills/test-execute/SKILL.md) | Запуск интеграционных тестов |
+| [/test-review](/.claude/skills/test-review/SKILL.md) | Проверка качества теста |
+| [/environment-check](/.claude/skills/environment-check/SKILL.md) | Проверка тестового окружения |
+
+---
+
 ## Связанные инструкции
 
 - [project-testing.md](./project-testing.md) — индекс тестирования

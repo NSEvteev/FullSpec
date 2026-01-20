@@ -347,6 +347,20 @@ it('should return processed data', async () => {
 
 ---
 
+## Скиллы
+
+Скиллы для автоматизации работы с unit-тестами:
+
+| Скилл | Назначение |
+|-------|------------|
+| [/test-create](/.claude/skills/test-create/SKILL.md) | Создание нового unit-теста |
+| [/test-update](/.claude/skills/test-update/SKILL.md) | Обновление существующего теста |
+| [/test-execute](/.claude/skills/test-execute/SKILL.md) | Запуск тестов |
+| [/test-review](/.claude/skills/test-review/SKILL.md) | Проверка качества теста |
+| [/test-coverage](/.claude/skills/test-coverage/SKILL.md) | Анализ покрытия тестами |
+
+---
+
 ## Связанные инструкции
 
 | Инструкция | Содержание |

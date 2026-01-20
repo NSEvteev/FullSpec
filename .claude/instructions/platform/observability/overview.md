@@ -554,11 +554,13 @@ func recordMetricWithExemplar(method, path, status string, duration float64, ctx
 
 ## Скиллы
 
-Скиллы для работы с этой инструкцией:
+Скиллы для автоматизации наблюдаемости:
 
-| Скилл | Описание |
-|-------|----------|
-| — | Пока нет специализированных скиллов |
+| Скилл | Назначение |
+|-------|------------|
+| [/health-check](/.claude/skills/health-check/SKILL.md) | Проверка целостности проекта Claude |
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Создание документации для мониторинга |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации при изменении метрик |
 
 ---
 

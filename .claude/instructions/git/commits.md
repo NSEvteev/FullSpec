@@ -227,7 +227,9 @@ ci: add automated security scanning
 
 | Скилл | Описание |
 |-------|----------|
+| [/issue-create](/.claude/skills/issue-create/SKILL.md) | Создание Issue (ссылка в коммите: `Closes #123`) |
 | [/issue-execute](/.claude/skills/issue-execute/SKILL.md) | Автоматическое создание коммитов при выполнении Issue |
+| [/issue-review](/.claude/skills/issue-review/SKILL.md) | Ревью коммитов перед закрытием Issue |
 | [/issue-complete](/.claude/skills/issue-complete/SKILL.md) | Финальный коммит при закрытии Issue |
 
 ---

@@ -108,6 +108,7 @@ related:
 | После выполнения | Проверить качество решения | [/issue-review](/.claude/skills/issue-review/SKILL.md) |
 | Ревью пройдено | Закрыть Issue как выполненный | [/issue-complete](/.claude/skills/issue-complete/SKILL.md) |
 | Задача неактуальна | Закрыть Issue как not planned | [/issue-delete](/.claude/skills/issue-delete/SKILL.md) |
+| Преждевременное закрытие | Переоткрыть закрытый Issue | [/issue-reopen](/.claude/skills/issue-reopen/SKILL.md) |
 
 ---
 
@@ -123,6 +124,7 @@ related:
 | [/issue-review](/.claude/skills/issue-review/SKILL.md) | Ревью решения перед закрытием |
 | [/issue-complete](/.claude/skills/issue-complete/SKILL.md) | Закрытие Issue как выполненного |
 | [/issue-delete](/.claude/skills/issue-delete/SKILL.md) | Закрытие Issue как неактуального |
+| [/issue-reopen](/.claude/skills/issue-reopen/SKILL.md) | Переоткрытие закрытого Issue |
 
 ### /issue-create
 

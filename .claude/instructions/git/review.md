@@ -188,6 +188,8 @@ blocker: отсутствует валидация входных данных, 
 | Скилл | Назначение |
 |-------|------------|
 | [/issue-review](/.claude/skills/issue-review/SKILL.md) | Автоматическое ревью решения перед закрытием Issue |
+| [/issue-complete](/.claude/skills/issue-complete/SKILL.md) | Закрытие Issue после успешного ревью |
+| [/issue-execute](/.claude/skills/issue-execute/SKILL.md) | Взятие Issue в работу (вызывает issue-review после выполнения) |
 
 ---
 

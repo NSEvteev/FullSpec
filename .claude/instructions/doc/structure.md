@@ -624,6 +624,7 @@ def login(request):
 ## Связанные инструкции
 
 - [git/issues.md](../git/issues.md) — создание Issue при удалении документации
+- [/.claude/templates/README.md](/.claude/templates/README.md) — SSOT шаблоны документации
 
 ---
 

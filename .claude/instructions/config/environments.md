@@ -245,6 +245,18 @@ debug:
 
 ---
 
+## Скиллы
+
+Скиллы для автоматизации работы с окружениями:
+
+| Скилл | Назначение |
+|-------|------------|
+| [/environment-check](/.claude/skills/environment-check/SKILL.md) | Проверка окружения (gh, git, python) |
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Создание документации для нового окружения |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации при изменении конфигурации |
+
+---
+
 ## Связанные инструкции
 
 - [feature-flags.md](./feature-flags.md) — флаги функций

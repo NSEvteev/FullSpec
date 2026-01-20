@@ -442,6 +442,8 @@ gh run view <run-id> --log-failed
 | [/test-execute](/.claude/skills/test-execute/SKILL.md) | Выполнение тестов локально |
 | [/test-review](/.claude/skills/test-review/SKILL.md) | Анализ failed тестов |
 | [/test-update](/.claude/skills/test-update/SKILL.md) | Исправление тестов |
+| [/issue-create](/.claude/skills/issue-create/SKILL.md) | Создание Issue при обнаружении бага в CI |
+| [/issue-complete](/.claude/skills/issue-complete/SKILL.md) | Закрытие Issue (проверяет CI статус перед закрытием) |
 | `ci-check` | Проверка статуса CI *(планируется)* |
 | `ci-fix` | Исправление ошибок CI *(планируется)* |
 | `ci-rerun` | Перезапуск failed jobs *(планируется)* |

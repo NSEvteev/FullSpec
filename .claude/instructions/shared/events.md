@@ -471,6 +471,18 @@ def on_user_created(event: dict):
 
 ---
 
+## Скиллы
+
+Скиллы для автоматизации работы с событиями:
+
+| Скилл | Назначение |
+|-------|------------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Создание документации для нового события |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации при изменении схемы события |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка ссылок в документации событий |
+
+---
+
 ## Связанные инструкции
 
 - [contracts.md](contracts.md) — API контракты (JSON Schema для событий)
