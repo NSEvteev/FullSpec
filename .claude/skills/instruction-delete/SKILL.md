@@ -29,7 +29,7 @@ triggers:
 
 **Связанные инструкции:**
 - [README.md](/.claude/instructions/README.md) — индекс инструкций, статусы заполнения
-- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+- [output-formats.md](/.claude/instructions/skills/output.md) — форматы вывода (SSOT)
 
 **Utility-скиллы:**
 - [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением
@@ -335,7 +335,7 @@ related:
 
 ## Обработка ошибок
 
-> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+> **SSOT:** [error-handling.md](/.claude/instructions/skills/errors.md)
 
 | Ошибка | Действие |
 |--------|----------|

@@ -5,6 +5,7 @@ related:
   - /.claude/skills/README.md
   - /.claude/agents/README.md
   - /.claude/instructions/tests/project-testing.md
+  - /.claude/instructions/tests/claude-functional.md
 ---
 
 # Тестирование Claude Code
@@ -18,9 +19,6 @@ related:
 - [Правила](#правила)
   - [Типы тестов](#типы-тестов)
   - [Smoke tests](#smoke-tests)
-  - [Тестирование скиллов](#тестирование-скиллов)
-  - [Тестирование скиллов со side effects](#тестирование-скиллов-со-side-effects)
-  - [Изоляция внешних зависимостей](#изоляция-внешних-зависимостей)
   - [Тестирование инструкций](#тестирование-инструкций)
 - [Чек-листы](#чек-листы)
 - [Примеры](#примеры)
@@ -47,6 +45,8 @@ related:
 
 ### Smoke tests
 
+> **Шаблон:** [/.claude/templates/tests/smoke-test.md](/.claude/templates/tests/smoke-test.md)
+
 **Правило:** Каждый скилл должен проходить базовую проверку.
 
 **Критерии smoke test:**
@@ -57,104 +57,7 @@ related:
 
 **Формат проверки:** см. [Шаблон: Smoke test](/.claude/templates/test-formats.md#шаблон-smoke-test)
 
-### Тестирование скиллов
-
-**Правило:** Функциональный тест проверяет полный воркфлоу скилла.
-
-**Что проверять:**
-
-| Аспект | Проверка |
-|--------|----------|
-| Входные данные | Все параметры обрабатываются корректно |
-| Валидация | Некорректные данные отклоняются с понятным сообщением |
-| Воркфлоу | Все шаги выполняются в правильном порядке |
-| Результат | Выходные данные соответствуют ожиданиям |
-| Побочные эффекты | Файлы создаются/изменяются корректно |
-| Откат | При ошибке изменения откатываются |
-
-**Формат теста:** см. [Шаблон: Functional test](/.claude/templates/test-formats.md#шаблон-functional-test)
-
-### Тестирование скиллов со side effects
-
-**Правило:** Скиллы с побочными эффектами тестируются через cleanup.
-
-**Подход:** Cleanup после теста — тест создаёт → проверяет → удаляет.
-
-**Workflow:**
-```
-1. Запомнить начальное состояние
-2. Выполнить скилл (создать файл/issue/etc)
-3. Проверить результат
-4. Удалить созданное (cleanup)
-5. Проверить, что состояние восстановлено
-```
-
-**Пример теста для issue-create:**
-```
-📋 Functional test: issue-create (с cleanup)
-
-Шаги:
-1. Запомнить количество открытых issues: `gh issue list --state open | wc -l`
-2. Выполнить: `/issue-create --title "Test issue" --service auth`
-3. Проверить: issue создан с правильными labels
-4. Cleanup: `gh issue close <issue-number> --reason "not planned"`
-5. Проверить: количество issues вернулось к исходному
-
-Cleanup команда: gh issue close {number} --reason "not planned"
-```
-
-**Когда использовать:**
-| Тип скилла | Подход |
-|------------|--------|
-| Создаёт файлы | Удалить файлы после теста |
-| Создаёт issues | Закрыть issue как "not planned" |
-| Изменяет git | `git checkout --` для отката |
-| Внешние API | Использовать test endpoints или cleanup API |
-
-### Изоляция внешних зависимостей
-
-**Правило:** Внешние зависимости изолируются через комбинацию подходов.
-
-**Уровни изоляции:**
-
-| Уровень | Подход | Когда использовать |
-|---------|--------|-------------------|
-| **Smoke** | `--dry-run` + проверка вывода | Быстрая проверка |
-| **Functional** | `TEST_MODE=true` | Скилл сам обрабатывает |
-| **Integration** | Fixture файлы | Воспроизводимость |
-
-**Реализация TEST_MODE:**
-
-В скилле:
-```bash
-if [[ "$TEST_MODE" == "true" ]]; then
-  echo "[TEST] Would create issue: $title"
-  echo "[TEST] Labels: $labels"
-  exit 0
-fi
-```
-
-В тесте:
-```
-TEST_MODE=true /issue-create "Test issue" --service auth
-# Проверить: вывод содержит "[TEST] Would create issue"
-```
-
-**Fixture файлы для внешних API:**
-```
-/.claude/fixtures/
-  gh-issue-list.json      # Ответ gh issue list
-  gh-pr-checks.json       # Ответ gh pr checks
-```
-
-Использование:
-```bash
-if [[ "$TEST_MODE" == "true" ]]; then
-  cat .claude/fixtures/gh-issue-list.json
-else
-  gh issue list --json number,title
-fi
-```
+> **Functional tests:** [claude-functional.md](./claude-functional.md) — функциональное, интеграционное и регрессионное тестирование скиллов.
 
 ### Тестирование инструкций
 
@@ -181,6 +84,7 @@ fi
 ## Чек-листы
 
 > **Базовые чек-листы:** см. [test-formats.md](/.claude/templates/test-formats.md#чек-листы)
+> **Чек-листы functional/integration/regression тестов:** см. [claude-functional.md](./claude-functional.md#чек-листы)
 
 ### Чек-лист smoke test для скилла (расширенный)
 
@@ -190,14 +94,6 @@ fi
 - [ ] Скилл выводит описание при вызове без аргументов
 - [ ] Скилл корректно обрабатывает `--help` (если поддерживает)
 - [ ] Скилл не падает с ошибкой при базовом вызове
-
-### Чек-лист функционального теста (расширенный)
-
-- [ ] **Позитивный сценарий:** основной use case работает
-- [ ] **Негативный сценарий:** некорректные данные обрабатываются
-- [ ] **Граничные случаи:** пустые значения, максимальные длины
-- [ ] **Идемпотентность:** повторный вызов не ломает систему
-- [ ] **Откат:** при ошибке состояние восстанавливается
 
 ### Чек-лист тестирования инструкции
 
@@ -211,7 +107,9 @@ fi
 
 ## Примеры
 
-### Пример 1: Smoke test для issue-create
+> **Примеры functional/integration/regression тестов:** см. [claude-functional.md](./claude-functional.md#примеры)
+
+### Пример: Smoke test для issue-create
 
 ```
 📋 Smoke test: issue-create
@@ -238,43 +136,7 @@ fi
 Статус: ✅ Passed
 ```
 
-### Пример 2: Функциональный тест skill-create
-
-```
-📋 Functional test: skill-create
-
-Сценарий: Создание нового скилла test-create
-
-Входные данные:
-- name: test-create
-- category: testing
-
-Шаги:
-1. /skill-create test-create
-2. Выбрать категорию: testing
-3. Подтвердить метаданные
-4. Проверить результат
-
-Ожидаемый результат:
-- Создан файл .claude/skills/test-create/SKILL.md
-- Скилл добавлен в skills/README.md
-- Связанные скиллы обновлены
-
-Проверка:
-$ ls .claude/skills/test-create/
-SKILL.md
-
-$ grep "test-create" .claude/skills/README.md
-| test-create | ... |
-
-Статус: ✅ Passed
-
-Cleanup:
-$ rm -rf .claude/skills/test-create/
-$ git checkout -- .claude/skills/README.md
-```
-
-### Пример 3: Тест инструкции git/commits.md
+### Пример: Тест инструкции git/commits.md
 
 ```
 📋 Instruction test: git/commits.md
@@ -300,61 +162,9 @@ d3c0f0e feat: Создан скилл issue-review...
 Статус: ✅ Passed
 ```
 
-### Пример 4: Интеграционный тест воркфлоу
-
-```
-📋 Integration test: instruction-create → skill-create chain
-
-Сценарий: Создание инструкции с последующим созданием скиллов
-
-Шаги:
-1. /instruction-create test/example.md
-2. Согласиться на создание предложенных скиллов
-3. Проверить, что скиллы созданы через /skill-create
-
-Ожидание:
-- Инструкция создана
-- Скиллы созданы через /skill-create
-- Связи между инструкцией и скиллами установлены
-
-Проверка:
-- [ ] Файл .claude/instructions/test/example.md существует
-- [ ] Предложенные скиллы созданы
-- [ ] В скиллах есть ссылка на инструкцию
-- [ ] В инструкции есть раздел "Связанные скиллы"
-
-Статус: ✅ Passed / ❌ Failed
-```
-
-### Пример 5: Регрессионный тест
-
-```
-📋 Regression test: После изменения skill-create
-
-Что изменилось:
-- Добавлен обязательный шаг обновления инструкций
-
-Проверяемые сценарии:
-
-1. Создание скилла в категории git
-   - [ ] Скилл создаётся
-   - [ ] Предлагается обновить git/issues.md
-   - [ ] Ссылка добавляется в инструкцию
-
-2. Создание скилла в категории documentation
-   - [ ] Скилл создаётся
-   - [ ] Предлагается обновить doc/structure.md
-
-3. Создание скилла без связанных инструкций
-   - [ ] Скилл создаётся
-   - [ ] Шаг обновления инструкций пропускается
-
-Статус: ✅ All passed / ❌ {N} failed
-```
-
 ---
 
-## Автоматизация
+## Скиллы
 
 Скиллы для работы с этой инструкцией:
 
@@ -610,6 +420,7 @@ fi
 
 ## Связанные инструкции
 
+- [claude-functional.md](./claude-functional.md) — Функциональное, интеграционное и регрессионное тестирование
 - [skills/README.md](/.claude/skills/README.md) — Индекс скиллов, категории
 - [agents/README.md](/.claude/agents/README.md) — Индекс агентов
 - [project-testing.md](./project-testing.md) — Тестирование проекта (unit, e2e, load)

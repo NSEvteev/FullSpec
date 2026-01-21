@@ -1,52 +1,62 @@
-# Шаблоны (SSOT)
+# Шаблоны
 
-Single Source of Truth шаблоны, используемые скиллами и инструкциями.
+Шаблоны документов для генерации скиллами и ручного использования.
 
 ## Назначение
 
-Шаблоны — это SSOT документы, на которые ссылаются скиллы. Изменение шаблона автоматически влияет на все скиллы, которые его используют.
+Шаблоны — это готовые структуры документов, которые используются:
+- Скиллами для генерации файлов (doc-create, spec-create и др.)
+- Вручную для создания типовых документов
 
-## Шаблоны
-
-| Шаблон | Описание | Используется в |
-|--------|----------|----------------|
-| [output-formats.md](./output-formats.md) | Форматы вывода (✅❌⚠️📋) | Все 37 скиллов |
-| [error-handling.md](./error-handling.md) | Обработка ошибок, откат, retry | Все 37 скиллов |
-| [scope-detection.md](./scope-detection.md) | Определение scope (claude/project) | test-*, doc-* |
-| [test-formats.md](./test-formats.md) | Форматы тестов (smoke, functional) | test-* |
-| [workflow-template.md](./workflow-template.md) | Шаблон структуры воркфлоу | skill-create, instruction-create |
-| [doc-rules.md](./doc-rules.md) | Правила документирования | doc-* |
-
-## Структура шаблона
-
-```markdown
-# Название шаблона
-
-{Описание назначения}
-
-## Использование
-
-{Как ссылаться на шаблон из скилла}
-
-## Правила
-
-{Правила, которые описывает шаблон}
-
-## Примеры
-
-{Примеры использования}
-```
-
-## Ссылка из скилла
-
-```markdown
-> **SSOT:** [output-formats.md](/.claude/templates/output-formats.md)
-```
+> **Примечание:** Инструкции (правила для скиллов) перенесены в [/.claude/instructions/](/.claude/instructions/).
 
 ---
 
-## Связанные инструкции
+## Индекс шаблонов
 
-- [/.claude/README.md](/.claude/README.md) — хаб навигации
+### /doc/ — Шаблоны документации
+
+| Шаблон | Описание | Используется в |
+|--------|----------|----------------|
+| [backend-template.md](./doc/backend-template.md) | Шаблон для handlers, services, controllers | doc-create |
+| [database-template.md](./doc/database-template.md) | Шаблон для schema, migrations | doc-create |
+| [frontend-template.md](./doc/frontend-template.md) | Шаблон для components, pages | doc-create |
+| [minimal-template.md](./doc/minimal-template.md) | Минимальный шаблон для утилит, констант | doc-create |
+
+### /git/ — Шаблоны Git
+
+| Шаблон | Описание | Используется в |
+|--------|----------|----------------|
+| [codeowners.md](./git/codeowners.md) | Шаблон CODEOWNERS | Ручное использование |
+| [commit-message.md](./git/commit-message.md) | Формат commit message | issue-execute |
+| [pr-template.md](./git/pr-template.md) | Шаблон Pull Request | issue-execute |
+
+### /platform/ — Шаблоны инфраструктуры
+
+| Шаблон | Описание | Используется в |
+|--------|----------|----------------|
+| [runbook-template.md](./platform/runbook-template.md) | Шаблон runbook для операций | Ручное использование |
+
+### /specs/ — Шаблоны спецификаций
+
+| Шаблон | Описание | Используется в |
+|--------|----------|----------------|
+| [discussion.md](./specs/discussion.md) | Шаблон дискуссии | spec-create |
+| [impact.md](./specs/impact.md) | Шаблон импакт-анализа | spec-create |
+| [adr.md](./specs/adr.md) | Шаблон ADR | spec-create |
+| [plan.md](./specs/plan.md) | Шаблон плана реализации | spec-create |
+| [architecture.md](./specs/architecture.md) | Шаблон архитектуры сервиса | spec-create |
+
+### /tests/ — Шаблоны тестов
+
+| Шаблон | Описание | Используется в |
+|--------|----------|----------------|
+| [smoke-test.md](./tests/smoke-test.md) | Шаблон smoke-теста для скиллов | test-create |
+
+---
+
+## Связанные ресурсы
+
+- [/.claude/instructions/](/.claude/instructions/) — инструкции (правила для скиллов)
 - [/.claude/skills/README.md](/.claude/skills/README.md) — индекс скиллов
-- [/.claude/instructions/doc/structure.md](/.claude/instructions/doc/structure.md) — структура документации /doc/
+- [/.claude/instructions/doc/templates.md](/.claude/instructions/doc/templates.md) — правила выбора шаблона документации

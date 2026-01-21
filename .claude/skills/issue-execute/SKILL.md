@@ -35,10 +35,10 @@ triggers:
 - [git/workflow.md](/.claude/instructions/git/workflow.md) — правила работы с ветками и PR
 - [git/commits.md](/.claude/instructions/git/commits.md) — формат сообщений коммитов
 - [git/issues.md](/.claude/instructions/git/issues.md) — правила работы с Issues
-- [output-formats.md](/.claude/templates/output-formats.md) — SSOT форматы вывода
+- [output-formats.md](/.claude/instructions/skills/output.md) — SSOT форматы вывода
 
 **Шаблоны:**
-- [workflow-template.md](/.claude/templates/workflow-template.md) — SSOT структуры воркфлоу
+- [workflow-template.md](/.claude/instructions/skills/workflow.md) — SSOT структуры воркфлоу
 
 **Utility-скиллы:**
 - [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением (Шаг 0)
@@ -319,7 +319,7 @@ EOF
 
 ## Обработка ошибок
 
-> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+> **SSOT:** [error-handling.md](/.claude/instructions/skills/errors.md)
 
 | Ошибка | Действие |
 |--------|----------|

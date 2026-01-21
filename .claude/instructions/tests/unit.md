@@ -253,6 +253,8 @@ npm test -- --coverage --coverageThreshold='{"global":{"lines":80}}'
 
 ## Примеры соответствия стандартам
 
+> **Шаблон:** [/.claude/templates/tests/unit-test-example.ts](/.claude/templates/tests/unit-test-example.ts)
+
 ### Эталонный тест (соответствует всем стандартам)
 
 ```typescript

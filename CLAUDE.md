@@ -175,6 +175,45 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Правило:** При работе с папкой `/X/` — читать `/.claude/instructions/X/README.md`.
 
+### Дерево README.md в /.claude/
+
+```
+/.claude/
+├── README.md                           # Индекс папки .claude
+├── instructions/
+│   ├── README.md                       # Главный индекс инструкций (75 файлов)
+│   ├── config/                         # (2 файла, README не нужен)
+│   ├── doc/
+│   │   └── README.md                   # Документация: structure, templates
+│   ├── git/
+│   │   └── README.md                   # Git: commits, issues, workflow, review, ci
+│   ├── platform/
+│   │   └── README.md                   # Инфраструктура: docker, deployment, observability
+│   ├── shared/
+│   │   └── README.md                   # Общий код: contracts, events, libs
+│   ├── specs/
+│   │   └── README.md                   # Спецификации: discussions, impact, adr, plans
+│   ├── src/
+│   │   ├── README.md                   # Правила разработки (главный)
+│   │   ├── api/README.md               # API: design, versioning, deprecation
+│   │   ├── data/README.md              # Данные: errors, logging, pagination
+│   │   ├── dev/README.md               # Разработка: local, testing, performance
+│   │   ├── runtime/README.md           # Runtime: database, health, resilience
+│   │   └── security/README.md          # Безопасность: auth, audit
+│   └── tests/
+│       └── README.md                   # Тестирование: unit, e2e, claude-testing
+├── skills/
+│   └── README.md                       # Индекс скиллов
+├── templates/
+│   ├── specs/                          # Шаблоны спецификаций (5)
+│   ├── git/                            # Шаблоны git (4)
+│   ├── platform/                       # Шаблоны инфраструктуры (5)
+│   ├── doc/                            # Шаблоны документации (4)
+│   └── tests/                          # Шаблоны тестов (3)
+└── discussions/
+    └── README.md                       # Индекс дискуссий
+```
+
 ## Ключевые файлы
 
 | Файл | Назначение |

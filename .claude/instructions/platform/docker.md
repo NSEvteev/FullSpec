@@ -276,6 +276,8 @@ docker scout cves myapp:latest
 
 ### Пример 1: Node.js приложение
 
+> **Шаблон Node.js:** [/.claude/templates/platform/dockerfile-node.template](/.claude/templates/platform/dockerfile-node.template)
+
 ```dockerfile
 # syntax=docker/dockerfile:1
 FROM node:20-alpine AS base
@@ -304,6 +306,8 @@ CMD ["dumb-init", "node", "dist/server.js"]
 ```
 
 ### Пример 2: Python приложение
+
+> **Шаблон Python:** [/.claude/templates/platform/dockerfile-python.template](/.claude/templates/platform/dockerfile-python.template)
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -352,6 +356,8 @@ ENTRYPOINT ["/server"]
 ```
 
 ### Пример 4: docker-compose для разработки
+
+> **Шаблон:** [/.claude/templates/platform/docker-compose.template](/.claude/templates/platform/docker-compose.template)
 
 ```yaml
 # docker-compose.dev.yml

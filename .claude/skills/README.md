@@ -108,7 +108,7 @@ related:
 
 Тестирование скиллов и кода проекта.
 
-> **SSOT:** Определение scope (claude/project) описано в [scope-detection.md](/.claude/templates/scope-detection.md).
+> **SSOT:** Определение scope (claude/project) описано в [scope-detection.md](/.claude/instructions/shared/scope.md).
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|

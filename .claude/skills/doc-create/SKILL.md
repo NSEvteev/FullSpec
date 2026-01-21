@@ -21,7 +21,7 @@ triggers:
 
 Команда для автоматического создания документации при добавлении нового файла в проект.
 
-> **SSOT:** Правила маппинга путей и валидации см. в [doc-rules.md](/.claude/templates/doc-rules.md)
+> **SSOT:** Правила маппинга путей и валидации см. в [doc-rules.md](/.claude/instructions/doc/rules.md)
 
 **Связанные скиллы:**
 - [doc-update](/.claude/skills/doc-update/SKILL.md) — обновление документации
@@ -31,9 +31,9 @@ triggers:
 
 **Связанные инструкции:**
 - [doc/structure.md](/.claude/instructions/doc/structure.md) — структура и документирование кода
-- [scope-detection.md](/.claude/templates/scope-detection.md) — SSOT для определения scope (раздел "Scope для документации")
-- [workflow-template.md](/.claude/templates/workflow-template.md) — SSOT шаблон воркфлоу
-- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+- [scope-detection.md](/.claude/instructions/shared/scope.md) — SSOT для определения scope (раздел "Scope для документации")
+- [workflow-template.md](/.claude/instructions/skills/workflow.md) — SSOT шаблон воркфлоу
+- [output-formats.md](/.claude/instructions/skills/output.md) — форматы вывода (SSOT)
 
 **Utility-скиллы:**
 - [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением
@@ -106,7 +106,7 @@ triggers:
 
 ### Маппинг путей
 
-**SSOT:** [doc-rules.md](/.claude/templates/doc-rules.md#маппинг-путей)
+**SSOT:** [doc-rules.md](/.claude/instructions/doc/rules.md#маппинг-путей)
 
 **Правило:** Документация зеркалирует структуру проекта в `/doc/`.
 
@@ -298,7 +298,7 @@ triggers:
 
 ## Обработка ошибок
 
-> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+> **SSOT:** [error-handling.md](/.claude/instructions/skills/errors.md)
 
 | Ошибка | Действие |
 |--------|----------|

@@ -31,6 +31,8 @@ related:
 
 ### Runbooks
 
+> **Шаблон:** [/.claude/templates/platform/runbook-template.md](/.claude/templates/platform/runbook-template.md)
+
 **Правило:** Каждый алерт имеет связанный runbook.
 
 | Компонент runbook | Описание |
@@ -149,34 +151,9 @@ kubectl rollout undo deployment/api-server
 
 ### Severity Levels
 
-**Правило:** Severity определяет приоритет и SLA.
-
-| Severity | Описание | Примеры | Response SLA | Resolution SLA |
-|----------|----------|---------|--------------|----------------|
-| P1/Critical | Полный outage | Сайт недоступен, потеря данных | 5 минут | 1 час |
-| P2/High | Значительная деградация | Основная функция не работает | 15 минут | 4 часа |
-| P3/Medium | Частичная деградация | Второстепенная функция | 1 час | 24 часа |
-| P4/Low | Минимальное влияние | Косметический баг | 4 часа | 1 неделя |
+**Severity levels:** см. [alerting.md](./observability/alerting.md#severity-levels)
 
 **Правило:** Severity устанавливается при triage и может меняться.
-
-```yaml
-# Автоматическое определение severity
-severity_rules:
-  P1:
-    - error_rate > 50%
-    - availability < 95%
-    - data_loss = true
-  P2:
-    - error_rate > 10%
-    - latency_p99 > 5s
-    - core_feature_down = true
-  P3:
-    - error_rate > 5%
-    - latency_p99 > 2s
-  P4:
-    - default
-```
 
 ### Incident Response
 

@@ -31,9 +31,9 @@ triggers:
 - [tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**
-- [test-formats.md](/.claude/templates/test-formats.md) — форматы тестов, статусы
-- [scope-detection.md](/.claude/templates/scope-detection.md) — определение scope (SSOT)
-- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+- [test-formats.md](/.claude/instructions/tests/formats.md) — форматы тестов, статусы
+- [scope-detection.md](/.claude/instructions/shared/scope.md) — определение scope (SSOT)
+- [output-formats.md](/.claude/instructions/skills/output.md) — форматы вывода (SSOT)
 
 ## Оглавление
 

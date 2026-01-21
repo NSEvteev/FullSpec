@@ -31,10 +31,10 @@ triggers:
 - [tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**
-- [test-formats.md](/.claude/templates/test-formats.md) — форматы тестов, статусы, чек-листы
-- [scope-detection.md](/.claude/templates/scope-detection.md) — определение scope (SSOT)
-- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
-- [workflow-template.md](/.claude/templates/workflow-template.md) — SSOT структуры воркфлоу
+- [test-formats.md](/.claude/instructions/tests/formats.md) — форматы тестов, статусы, чек-листы
+- [scope-detection.md](/.claude/instructions/shared/scope.md) — определение scope (SSOT)
+- [output-formats.md](/.claude/instructions/skills/output.md) — форматы вывода (SSOT)
+- [workflow-template.md](/.claude/instructions/skills/workflow.md) — SSOT структуры воркфлоу
 
 **Utility-скиллы:**
 - [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением
@@ -75,7 +75,7 @@ triggers:
 
 ## Автоопределение scope
 
-> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/templates/scope-detection.md).
+> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/instructions/shared/scope.md).
 
 **Принцип:** Один набор скиллов test-* для всех типов тестов. Scope определяется **автоматически по пути**.
 

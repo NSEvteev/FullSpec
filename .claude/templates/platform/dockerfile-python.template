@@ -1,0 +1,107 @@
+# Multi-stage Python Dockerfile Template
+
+# Источник: /.claude/instructions/platform/docker.md
+
+# syntax=docker/dockerfile:1
+
+# ============================================
+# Stage 1: Base - базовый образ
+# ============================================
+FROM python:3.12-slim AS base
+WORKDIR /app
+
+# Оптимизация Python
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# ============================================
+# Stage 2: Builder - сборка зависимостей
+# ============================================
+FROM base AS builder
+
+# Установка poetry
+RUN pip install poetry
+
+# Копирование файлов зависимостей
+COPY pyproject.toml poetry.lock ./
+
+# Экспорт requirements.txt
+RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
+
+# Альтернатива без poetry:
+# COPY requirements.txt ./
+
+# ============================================
+# Stage 3: Production - финальный образ
+# ============================================
+FROM base AS production
+
+# Метаданные
+LABEL org.opencontainers.image.source="https://github.com/org/repo"
+LABEL org.opencontainers.image.description="Service description"
+LABEL org.opencontainers.image.version="1.0.0"
+
+# Установка зависимостей
+COPY --from=builder /app/requirements.txt .
+RUN pip install -r requirements.txt
+
+# Копирование кода
+COPY . .
+
+# Создание пользователя (безопасность)
+RUN adduser --disabled-password --gecos '' appuser
+
+# Переключение на непривилегированного пользователя
+USER appuser
+
+# Порт
+EXPOSE 8000
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Запуск через gunicorn
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "app:app"]
+
+# Альтернативные варианты запуска:
+# FastAPI с uvicorn:
+# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+#
+# Django:
+# CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
+#
+# Flask:
+# CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "app:create_app()"]
+
+
+# ============================================
+# .dockerignore (создать рядом с Dockerfile)
+# ============================================
+# .git
+# .gitignore
+# *.md
+# !README.md
+# __pycache__
+# *.pyc
+# *.pyo
+# .env*
+# .vscode
+# .idea
+# .pytest_cache
+# .coverage
+# htmlcov
+# dist
+# *.egg-info
+# venv
+# .venv
+# ============================================
+
+
+# Сборка:
+# docker build -t myapp:v1.0.0 --target production .
+#
+# Запуск:
+# docker run -p 8000:8000 -e API_KEY=$API_KEY myapp:v1.0.0

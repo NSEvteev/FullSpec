@@ -34,9 +34,9 @@ triggers:
 - [tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**
-- [test-formats.md](/.claude/templates/test-formats.md) — форматы тестов, статусы
-- [scope-detection.md](/.claude/templates/scope-detection.md) — определение scope (SSOT)
-- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+- [test-formats.md](/.claude/instructions/tests/formats.md) — форматы тестов, статусы
+- [scope-detection.md](/.claude/instructions/shared/scope.md) — определение scope (SSOT)
+- [output-formats.md](/.claude/instructions/skills/output.md) — форматы вывода (SSOT)
 
 **Utility-скиллы:**
 - [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением
@@ -84,7 +84,7 @@ triggers:
 
 ## Автоопределение scope
 
-> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/templates/scope-detection.md).
+> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/instructions/shared/scope.md).
 
 **Краткая таблица:**
 
@@ -576,7 +576,7 @@ git checkout путь-к-тесту
 
 ### Scope определён неверно
 
-> **SSOT:** См. [scope-detection.md](/.claude/templates/scope-detection.md)
+> **SSOT:** См. [scope-detection.md](/.claude/instructions/shared/scope.md)
 
 Используйте явное указание scope:
 ```bash

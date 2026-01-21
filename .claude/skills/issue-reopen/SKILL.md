@@ -42,8 +42,8 @@ triggers:
 - [input-validate](/.claude/skills/input-validate/SKILL.md) — валидация номера Issue (Шаг 0)
 
 **Шаблоны:**
-- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
-- [error-handling.md](/.claude/templates/error-handling.md) — обработка ошибок (SSOT)
+- [output-formats.md](/.claude/instructions/skills/output.md) — форматы вывода (SSOT)
+- [error-handling.md](/.claude/instructions/skills/errors.md) — обработка ошибок (SSOT)
 
 ## Оглавление
 
@@ -399,7 +399,7 @@ URL:       https://github.com/{owner}/{repo}/issues/{номер}
 
 ## Обработка ошибок
 
-> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+> **SSOT:** [error-handling.md](/.claude/instructions/skills/errors.md)
 
 | Ошибка | Причина | Действие |
 |--------|---------|----------|

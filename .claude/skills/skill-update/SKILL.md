@@ -33,7 +33,7 @@ triggers:
 - [skills/README.md](/.claude/skills/README.md) — индекс скиллов, категории
 - [agents/README.md](/.claude/agents/README.md) — агенты используют скиллы
 - [tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование скиллов после изменений
-- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+- [output-formats.md](/.claude/instructions/skills/output.md) — форматы вывода (SSOT)
 
 **Utility-скиллы:**
 - [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением
@@ -324,7 +324,7 @@ triggers:
 
 ## Обработка ошибок
 
-> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+> **SSOT:** [error-handling.md](/.claude/instructions/skills/errors.md)
 
 | Ошибка | Действие |
 |--------|----------|

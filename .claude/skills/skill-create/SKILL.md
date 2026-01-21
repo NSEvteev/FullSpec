@@ -34,8 +34,8 @@ triggers:
 **Связанные инструкции:**
 - [skills/README.md](/.claude/skills/README.md) — индекс скиллов, категории
 - [tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование скиллов после создания
-- [workflow-template.md](/.claude/templates/workflow-template.md) — SSOT шаблон воркфлоу для скиллов
-- [output-formats.md](/.claude/templates/output-formats.md) — SSOT форматы вывода (Шаг 12)
+- [workflow-template.md](/.claude/instructions/skills/workflow.md) — SSOT шаблон воркфлоу для скиллов
+- [output-formats.md](/.claude/instructions/skills/output.md) — SSOT форматы вывода (Шаг 12)
 
 **Utility-скиллы:**
 - [input-validate](/.claude/skills/input-validate/SKILL.md) — валидация названия скилла (Шаг 0b)
@@ -572,7 +572,7 @@ mkdir -p .claude/skills/{название}
 
 ## Обработка ошибок
 
-> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md) — паттерны обработки ошибок
+> **SSOT:** [error-handling.md](/.claude/instructions/skills/errors.md) — паттерны обработки ошибок
 
 Если на любом шаге произошла ошибка:
 

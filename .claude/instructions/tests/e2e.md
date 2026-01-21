@@ -350,6 +350,8 @@ test('should show dashboard', async ({ authenticatedPage }) => {
 
 ## Примеры
 
+> **Шаблон:** [/.claude/templates/tests/e2e-example.spec.ts](/.claude/templates/tests/e2e-example.spec.ts)
+
 ### Пример 1: Полный сценарий покупки
 
 ```typescript

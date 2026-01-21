@@ -24,7 +24,7 @@ triggers:
 - [links-delete](/.claude/skills/links-delete/SKILL.md) — пометка битых ссылок (синтаксис)
 
 **Шаблоны:**
-- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+- [output-formats.md](/.claude/instructions/skills/output.md) — форматы вывода (SSOT)
 
 ## Оглавление
 
@@ -288,7 +288,7 @@ triggers:
 
 ## Обработка ошибок
 
-> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+> **SSOT:** [error-handling.md](/.claude/instructions/skills/errors.md)
 
 | Ошибка | Действие |
 |--------|----------|

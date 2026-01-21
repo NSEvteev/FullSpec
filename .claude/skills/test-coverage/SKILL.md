@@ -28,7 +28,7 @@ triggers:
 **Связанные инструкции:**
 - [tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование Claude скиллов
 - [tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
-- [scope-detection.md](/.claude/templates/scope-detection.md) — определение scope
+- [scope-detection.md](/.claude/instructions/shared/scope.md) — определение scope
 
 ## Оглавление
 

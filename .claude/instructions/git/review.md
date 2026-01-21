@@ -55,6 +55,8 @@ related:
 
 ### CODEOWNERS
 
+> **Шаблон:** [/.claude/templates/git/codeowners.md](/.claude/templates/git/codeowners.md)
+
 **Правило:** Файл `.github/CODEOWNERS` определяет ответственных за код.
 
 ```
@@ -229,6 +231,8 @@ blocker: отсутствует валидация входных данных, 
 ```
 
 ### Пример 2: PR template с чек-листом
+
+> **Шаблон:** [/.claude/templates/git/pr-template.md](/.claude/templates/git/pr-template.md)
 
 ```markdown
 <!-- .github/pull_request_template.md -->

@@ -123,6 +123,8 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ## Примеры
 
+> **Шаблон:** [/.claude/templates/git/commit-message.md](/.claude/templates/git/commit-message.md)
+
 ### Пример 1: Новая функциональность
 
 ```
@@ -221,7 +223,7 @@ ci: add automated security scanning
 
 ---
 
-## Автоматизация
+## Скиллы
 
 Скиллы для работы с этой инструкцией:
 

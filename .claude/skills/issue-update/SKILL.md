@@ -32,7 +32,7 @@ triggers:
 - [git/workflow.md](/.claude/instructions/git/workflow.md) — правила работы с ветками и PR
 - [git/commits.md](/.claude/instructions/git/commits.md) — формат сообщений коммитов
 - [git/issues.md](/.claude/instructions/git/issues.md) — правила работы с Issues
-- [output-formats.md](/.claude/templates/output-formats.md) — форматы вывода (SSOT)
+- [output-formats.md](/.claude/instructions/skills/output.md) — форматы вывода (SSOT)
 
 **Utility-скиллы:**
 - [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением (Шаг 0)
@@ -194,7 +194,7 @@ URL: https://github.com/user/repo/issues/123
 
 ## Обработка ошибок
 
-> **SSOT:** [error-handling.md](/.claude/templates/error-handling.md)
+> **SSOT:** [error-handling.md](/.claude/instructions/skills/errors.md)
 
 | Ошибка | Действие |
 |--------|----------|

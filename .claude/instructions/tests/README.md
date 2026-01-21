@@ -14,7 +14,9 @@ related:
 
 | Инструкция | Описание | Тип |
 |------------|----------|-----|
-| [claude-testing.md](./claude-testing.md) | Тестирование скиллов и инструкций Claude | standard |
+| [formats.md](./formats.md) | **Форматы тестов: статусы, типы, шаблоны** | standard |
+| [claude-testing.md](./claude-testing.md) | Тестирование скиллов и инструкций Claude (smoke tests) | standard |
+| [claude-functional.md](./claude-functional.md) | Функциональное тестирование скиллов Claude | standard |
 | [project-testing.md](./project-testing.md) | Общие правила тестирования проекта | project |
 | [unit.md](./unit.md) | Стандарты unit-тестов | standard |
 | [integration.md](./integration.md) | Стандарты интеграционных тестов | standard |
@@ -45,7 +47,7 @@ related:
 | Типы тестов | smoke, functional, integration | unit, integration, e2e |
 | Инструмент | Claude Code | Jest, pytest, etc. |
 
-> **SSOT:** Определение scope описано в [scope-detection.md](/.claude/templates/scope-detection.md).
+> **SSOT:** Определение scope описано в [shared/scope.md](../shared/scope.md).
 
 ---
 
