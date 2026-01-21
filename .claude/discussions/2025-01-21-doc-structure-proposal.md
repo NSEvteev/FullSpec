@@ -6,10 +6,10 @@
 
 ## Следующие шаги
 
-1. [ ] Создать папку `/specs/` со структурой
+1. [x] Создать папку `/specs/` со структурой
 2. [ ] Создать инструкции `/.claude/instructions/specs/`
 3. [ ] Рефакторить `/.claude/instructions/doc/`
-4. [ ] Создать шаблоны в `/.claude/templates/specs/`
+4. [x] Создать шаблоны в `/.claude/templates/specs/`
 5. [ ] Создать скиллы
 6. [ ] Перенести дискуссии из `/.claude/discussions/` в `/specs/discussions/`
 
@@ -711,26 +711,9 @@ Impact (🔍 REVIEW → 🆗 APPROVED)
 
 > **Примечание:** Статус SUPERSEDED для Discussion фактически невозможен. Каждая дискуссия заканчивается либо в DONE (успешная реализация), либо в REJECTED (отклонена). "Замена" дискуссии — это просто новая дискуссия.
 
-## 4.5. Формат README.md
+## 4.5. README.md
 
-```markdown
-# Дискуссии
-
-## Все дискуссии
-
-| # | Тема | Статус | Impact | Дата |
-|---|------|--------|--------|------|
-| [001](001-auth-strategy.md) | Auth Strategy | 🆗 APPROVED | [001](/specs/impact/001-auth-strategy.md) | 2025-01-21 |
-| [002](002-payments.md) | Payments | 🔍 REVIEW | — | 2025-01-20 |
-
-## По статусам
-
-### 🔍 REVIEW
-- [002-payments](002-payments.md) — обсуждение платежей
-
-### 🆗 APPROVED
-- [001-auth-strategy](001-auth-strategy.md) → Impact создан
-```
+> **Индекс:** [/specs/discussions/README.md](/specs/discussions/README.md)
 
 ## 4.6. Чек-листы переходов Discussion
 
@@ -1020,26 +1003,9 @@ ADR в статусе REVIEW
 - Форматы данных для пользователей
 - Интеграционные контракты
 
-## 5.7. Формат README.md
+## 5.7. README.md
 
-```markdown
-# Импакт-анализы
-
-## Все импакты
-
-| # | Тема | Discussion | Статус | Сервисы |
-|---|------|------------|--------|---------|
-| [001](001-auth-flow.md) | Auth Flow | [001](../discussions/001-auth-strategy.md) | 🆗 APPROVED | auth, gateway, users |
-| [002](002-payments.md) | Payments | [002](../discussions/002-payments.md) | 🔍 REVIEW | payments, billing |
-
-## По статусам
-
-### 🔍 REVIEW
-- [002-payments](002-payments.md) — анализ в процессе
-
-### 🆗 APPROVED
-- [001-auth-flow](001-auth-flow.md) — все ADR готовы
-```
+> **Индекс:** [/specs/impact/README.md](/specs/impact/README.md)
 
 ## 5.8. Чек-листы переходов Impact
 
