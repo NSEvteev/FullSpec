@@ -69,7 +69,12 @@
       "Bash(do echo \"$skill\")",
       "Bash(git check-ignore:*)",
       "Bash(do if ! grep -q \"^related:\" \"$file\")",
-      "Bash(then echo \"$file\")"
+      "Bash(then echo \"$file\")",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" diff --stat)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" status -sb)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" log --oneline -3)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" add .claude/discussions/2025-01-21-doc-structure-proposal.md)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" commit -m \"$\\(cat <<''EOF''\nrefactor: Перенос чек-листов из statuses в секции типов документов\n\n- Чек-листы Discussion → секция 4.6\n- Чек-листы Impact → секция 5.8\n- Чек-листы ADR → секция 6.10\n- Чек-листы Plan → секция 7.10\n- Секция 2.9 заменена на ссылки\n- Обновлена навигация документа\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }
