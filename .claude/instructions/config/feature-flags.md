@@ -281,6 +281,13 @@ Unleash UI:
 
 ---
 
+## Скиллы
+
+> Специфичные скиллы для фича-флагов отсутствуют.
+> Используйте [/environment-check](/.claude/skills/environment-check/SKILL.md) для проверки окружения.
+
+---
+
 ## Связанные инструкции
 
 - [environments.md](./environments.md) — конфигурации окружений

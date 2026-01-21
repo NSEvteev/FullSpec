@@ -181,6 +181,16 @@ doc-delete → issue-create → links-delete
 
 ---
 
+## Скиллы
+
+| Скилл | Назначение |
+|-------|------------|
+| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Создание документации |
+| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации |
+| [/doc-delete](/.claude/skills/doc-delete/SKILL.md) | Удаление документации |
+
+---
+
 ## Связанные инструкции
 
 - [structure.md](./structure.md) — структура /doc/, workflow

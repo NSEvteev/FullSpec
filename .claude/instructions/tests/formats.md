@@ -210,6 +210,16 @@ Scope: {claude|project|all}
 
 ---
 
+## Скиллы
+
+| Скилл | Назначение |
+|-------|------------|
+| [/test-create](/.claude/skills/test-create/SKILL.md) | Создание теста |
+| [/test-execute](/.claude/skills/test-execute/SKILL.md) | Выполнение тестов |
+| [/test-review](/.claude/skills/test-review/SKILL.md) | Проверка качества теста |
+
+---
+
 ## Связанные инструкции
 
 - [claude-testing.md](./claude-testing.md) — тестирование скиллов

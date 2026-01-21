@@ -610,6 +610,16 @@ function createOrder(overrides) {
 
 ---
 
+## Скиллы
+
+| Скилл | Назначение |
+|-------|------------|
+| [/test-create](/.claude/skills/test-create/SKILL.md) | Создание теста |
+| [/test-execute](/.claude/skills/test-execute/SKILL.md) | Выполнение тестов |
+| [/test-review](/.claude/skills/test-review/SKILL.md) | Проверка качества теста |
+
+---
+
 ## Связанные инструкции
 
 - [project-testing.md](./project-testing.md) — индекс тестирования
