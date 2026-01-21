@@ -2585,45 +2585,54 @@ ADR 002-jwt-tokens (⏳ RUNNING)
 
 ## 10.2. Скиллы для автоматизации
 
-> **Правило:** Все изменения статусов документов в `/specs/` выполняются ТОЛЬКО через скиллы.
+> **Правило:** Все изменения в `/specs/` выполняются ТОЛЬКО через скиллы. Прямое редактирование заблокировано hook'ом.
 
-### Создание документов
-
-| Скилл | Назначение | Создаёт |
-|-------|------------|---------|
-| `/discussion-create` | Создать Discussion | `/specs/discussions/NNN-{topic}.md` в статусе DRAFT |
-| `/impact-create <discussion>` | Создать Impact для Discussion | `/specs/impact/NNN-{topic}.md` в статусе DRAFT |
-| `/adr-create <impact> <service>` | Создать ADR для Impact и сервиса | `/specs/services/{service}/adr/NNN-{topic}.md` в статусе DRAFT |
-| `/plan-create <adr>` | Создать Plan для ADR | `/specs/services/{service}/plans/{topic}-plan.md` в статусе DRAFT |
-
-### Изменение статусов
-
-| Скилл | Назначение | Проверяет чек-лист | Каскадные действия |
-|-------|------------|-------------------|-------------------|
-| `/discussion-status <id> review` | Discussion → REVIEW | Да | — |
-| `/discussion-status <id> approved` | Discussion → APPROVED | Да | Предлагает создать Impact |
-| `/discussion-status <id> rejected` | Discussion → REJECTED | Да | — |
-| `/impact-status <id> review` | Impact → REVIEW | Да | — |
-| `/impact-status <id> approved` | Impact → APPROVED | Да (все ADR APPROVED) | — |
-| `/impact-status <id> rejected` | Impact → REJECTED | Да | Предлагает действия для Discussion |
-| `/adr-status <id> review` | ADR → REVIEW | Да | — |
-| `/adr-status <id> approved` | ADR → APPROVED | Да (бизнес-логика) | Проверяет Impact → APPROVED |
-| `/adr-status <id> done` | ADR → DONE | Да (architecture.md) | Проверяет Impact/Discussion → DONE |
-| `/adr-status <id> rejected` | ADR → REJECTED | Да | Impact остаётся REVIEW |
-| `/adr-status <id> superseded <new-adr>` | ADR → SUPERSEDED | Да | Проверяет Impact |
-| `/plan-status <id> review` | Plan → REVIEW | Да | — |
-| `/plan-status <id> approved` | Plan → APPROVED | Да (согласование) | ADR/Impact → RUNNING |
-| `/plan-status <id> running` | Plan → RUNNING | Да | Discussion → RUNNING (если первый) |
-| `/plan-status <id> done` | Plan → DONE | Да (Issues закрыты) | ADR → DONE |
-| `/plan-status <id> rejected` | Plan → REJECTED | Да | ADR → APPROVED |
-
-### Работа с документами
+### Три универсальных скилла
 
 | Скилл | Назначение |
 |-------|------------|
-| `/spec-update <path>` | Основной скилл работы с документом (редактирование, валидация, переход по workflow) |
+| `/spec-create <type> [parent] [options]` | Создание документов |
+| `/spec-status <path> <status>` | Изменение статуса |
+| `/spec-update <path>` | Работа с документом (редактирование, валидация, переход) |
 
-> **`/spec-update`** — универсальный скилл для работы с любым документом в `/specs/`. Тип документа определяется автоматически по пути.
+> **Тип документа определяется автоматически** по пути. Один скилл вместо четырёх.
+
+### /spec-create — создание документов
+
+```
+/spec-create discussion "Auth Strategy"
+/spec-create impact 001-auth-strategy
+/spec-create adr 001-auth-strategy auth
+/spec-create plan auth/002-jwt-tokens
+```
+
+| Тип | Parent | Результат |
+|-----|--------|-----------|
+| `discussion` | — | `/specs/discussions/NNN-{topic}.md` |
+| `impact` | discussion ID | `/specs/impact/NNN-{topic}.md` |
+| `adr` | impact ID + service | `/specs/services/{service}/adr/NNN-{topic}.md` |
+| `plan` | adr path | `/specs/services/{service}/plans/{topic}-plan.md` |
+
+### /spec-status — изменение статуса
+
+```
+/spec-status discussions/001 review
+/spec-status impact/002 approved
+/spec-status auth/adr/003 done
+/spec-status auth/plans/jwt-migration rejected
+```
+
+**Каскадные переходы выполняются автоматически:**
+
+| Переход | Каскад |
+|---------|--------|
+| Plan → APPROVED | ADR → RUNNING, Impact → RUNNING |
+| Plan → RUNNING | Discussion → RUNNING (если первый план) |
+| Plan → DONE | ADR → DONE → Impact → DONE → Discussion → DONE |
+
+### /spec-update — работа с документом
+
+> **Основной скилл** для редактирования документов. Вызывает `/spec-status` при переходе по workflow.
 
 #### Методология работы с документами
 
@@ -2719,40 +2728,56 @@ LLM проверяет чек-лист для перехода:
 ### Паттерн скиллов
 
 ```
-/{type}-create [parent] [options]    # Создать документ
-/{type}-status <id> <status>         # Изменить статус
-/spec-update <path>                  # Работа с документом (универсальный)
+/spec-create <type> [parent] [options]   # Создать документ
+/spec-status <path> <status>             # Изменить статус
+/spec-update <path>                      # Работа с документом
 ```
 
 ### Workflow через скиллы
 
 ```
-/discussion-create "Auth Strategy"
+/spec-create discussion "Auth Strategy"
     ↓
-/discussion-status 001 review
+/spec-status discussions/001 review
     ↓
-/discussion-status 001 approved
+/spec-status discussions/001 approved
     ↓
-/impact-create 001-auth-strategy
+/spec-create impact 001-auth-strategy
     ↓
-/impact-status 001 review
+/spec-status impact/001 review
     ↓
-/adr-create 001-auth-strategy auth
+/spec-create adr 001-auth-strategy auth
     ↓
-/adr-status auth/001 review
+/spec-status auth/adr/001 review
     ↓
-/adr-status auth/001 approved
+/spec-status auth/adr/001 approved
     ↓  (когда все ADR approved → impact автоматически approved)
-/plan-create auth/001-jwt-tokens
+/spec-create plan auth/001-jwt-tokens
     ↓
-/plan-status jwt-migration review
+/spec-status auth/plans/jwt-migration review
     ↓
-/plan-status jwt-migration approved
+/spec-status auth/plans/jwt-migration approved
     ↓  (ADR/Impact → RUNNING)
-/plan-status jwt-migration running
+/spec-status auth/plans/jwt-migration running
     ↓  (Discussion → RUNNING)
-/plan-status jwt-migration done
-    ↓  (ADR → DONE, проверка Impact/Discussion)
+/spec-status auth/plans/jwt-migration done
+    ↓  (каскад: ADR → DONE → Impact → DONE → Discussion → DONE)
+```
+
+### Hook защиты /specs/
+
+Прямое редактирование файлов в `/specs/` заблокировано hook'ом `protect-specs.py`.
+
+```
+Попытка Write/Edit в /specs/
+    │
+    ▼
+Hook проверяет путь
+    │
+    ├── Путь содержит /specs/ → ❌ Блокировка
+    │   "Используй /spec-create, /spec-update, /spec-status"
+    │
+    └── Другой путь → ✅ Разрешено
 ```
 
 ## 10.3. Шаблоны
@@ -2938,6 +2963,9 @@ README.md индексы группируют документы по стату
 | 2025-01-21 | Добавлен скилл `/spec-update` — универсальный скилл работы с документами |
 | 2025-01-21 | Добавлена секция "Методология работы с документами" (workflow LLM с пользователем) |
 | 2025-01-21 | Обновлён паттерн скиллов: `/{type}-update` → `/spec-update` |
+| 2025-01-21 | Объединены все скиллы в 3: `/spec-create`, `/spec-status`, `/spec-update` |
+| 2025-01-21 | Добавлен hook `protect-specs.py` — блокировка прямого редактирования /specs/ |
+| 2025-01-21 | Добавлено правило защиты /specs/ в CLAUDE.md |
 
 ---
 

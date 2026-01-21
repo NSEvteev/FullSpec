@@ -50,6 +50,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | `/.claude/skills/*/SKILL.md` | `/skill-create` | ❌ ЗАПРЕЩЕНО |
 | `/.claude/instructions/**/*.md` | `/instruction-create` | ❌ ЗАПРЕЩЕНО |
 | `/.claude/agents/*.md` | спросить пользователя | ⚠️ уточнить |
+| `/specs/**` | `/spec-create`, `/spec-update`, `/spec-status` | ❌ ЗАПРЕЩЕНО (hook) |
+
+> **Hook защиты:** Файлы в `/specs/` защищены hook'ом `protect-specs.py`. Попытка прямого редактирования будет заблокирована.
 
 ---
 
