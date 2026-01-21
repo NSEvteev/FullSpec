@@ -25,6 +25,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    - Создать документ → /doc-create
    - Создать issue → /issue-create
    - Обновить ссылки → /links-update
+   - Создать спецификацию → /spec-create
+   - Изменить статус спецификации → /spec-status
+   - Работать со спецификацией → /spec-update
    - И т.д.
 5. Если скилл ЕСТЬ → использую скилл
 6. Если скилла НЕТ → выполняю вручную
@@ -50,7 +53,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | `/.claude/skills/*/SKILL.md` | `/skill-create` | ❌ ЗАПРЕЩЕНО |
 | `/.claude/instructions/**/*.md` | `/instruction-create` | ❌ ЗАПРЕЩЕНО |
 | `/.claude/agents/*.md` | спросить пользователя | ⚠️ уточнить |
-| `/specs/**` | `/spec-create`, `/spec-update`, `/spec-status` | ❌ ЗАПРЕЩЕНО (hook) |
+| `/specs/**` | [/spec-create](/.claude/skills/spec-create/SKILL.md), [/spec-update](/.claude/skills/spec-update/SKILL.md), [/spec-status](/.claude/skills/spec-status/SKILL.md) | ❌ ЗАПРЕЩЕНО (hook) |
 
 > **Hook защиты:** Файлы в `/specs/` защищены hook'ом `protect-specs.py`. Попытка прямого редактирования будет заблокирована.
 

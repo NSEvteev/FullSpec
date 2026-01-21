@@ -148,7 +148,7 @@ Architecture Decision Records — фиксация архитектурных р
 
 Единое место для терминов проекта. Обеспечивает консистентность терминологии во всех документах.
 
-**Содержание:** структура термина, категории, пороги масштабирования, правила ведения, скиллы (`/glossary-candidates`, `/glossary-review`, `/glossary-link`).
+**Содержание:** структура термина, категории, пороги масштабирования, правила ведения, скиллы ([/glossary-candidates](/.claude/skills/glossary-candidates/SKILL.md), [/glossary-review](/.claude/skills/glossary-review/SKILL.md), [/glossary-link](/.claude/skills/glossary-link/SKILL.md)).
 
 **Особенность:** Без статусов. Управляется отдельными скиллами, не входящими в систему `/spec-*`.
 
@@ -164,12 +164,12 @@ Architecture Decision Records — фиксация архитектурных р
 
 | Скилл | Назначение |
 |-------|------------|
-| `/spec-create` | Создание документов |
-| `/spec-status` | Изменение статуса |
-| `/spec-update` | Работа с документом |
-| `/specs-health` | Проверка целостности |
-| `/specs-sync` | Синхронизация статусов |
-| `/specs-index` | Обновление индексов |
+| [/spec-create](/.claude/skills/spec-create/SKILL.md) | Создание документов |
+| [/spec-status](/.claude/skills/spec-status/SKILL.md) | Изменение статуса |
+| [/spec-update](/.claude/skills/spec-update/SKILL.md) | Работа с документом |
+| [/specs-health](/.claude/skills/specs-health/SKILL.md) | Проверка целостности |
+| [/specs-sync](/.claude/skills/specs-sync/SKILL.md) | Синхронизация статусов |
+| [/specs-index](/.claude/skills/specs-index/SKILL.md) | Обновление индексов |
 
 **Инструкция:** [rules.md](./rules.md)
 

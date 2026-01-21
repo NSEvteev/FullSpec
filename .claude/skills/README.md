@@ -134,6 +134,29 @@ Git операции.
 | [issue-delete](./issue-delete/SKILL.md) | Закрытие Issue как неактуального | `/issue-delete`, "удали задачу" |
 | [issue-reopen](./issue-reopen/SKILL.md) | Переоткрытие закрытого Issue | `/issue-reopen`, "переоткрой задачу" |
 
+### specs
+
+Работа с документами спецификаций /specs/.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [spec-create](./spec-create/SKILL.md) | Создание документов /specs/ (Discussion, Impact, ADR, Plan) | `/spec-create`, "создай спецификацию" |
+| [spec-status](./spec-status/SKILL.md) | Изменение статуса документа /specs/ | `/spec-status`, "статус спецификации" |
+| [spec-update](./spec-update/SKILL.md) | Работа с документом /specs/ | `/spec-update`, "обнови спецификацию" |
+| [specs-health](./specs-health/SKILL.md) | Проверка целостности /specs/ | `/specs-health`, "проверь спецификации" |
+| [specs-sync](./specs-sync/SKILL.md) | Синхронизация каскадных статусов | `/specs-sync`, "синхронизируй статусы" |
+| [specs-index](./specs-index/SKILL.md) | Обновление индексов README.md в /specs/ | `/specs-index`, "обнови индексы" |
+
+### glossary
+
+Работа с глоссарием /specs/glossary.md.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [glossary-candidates](./glossary-candidates/SKILL.md) | Поиск терминов-кандидатов в документе | `/glossary-candidates`, "найди термины" |
+| [glossary-review](./glossary-review/SKILL.md) | Интерактивная обработка кандидатов | `/glossary-review`, "проверь термины" |
+| [glossary-link](./glossary-link/SKILL.md) | Добавление ссылок на глоссарий в документы | `/glossary-link`, "расставь ссылки" |
+
 ---
 
 ## Справочник allowed-tools

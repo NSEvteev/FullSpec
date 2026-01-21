@@ -34,9 +34,9 @@ related:
 
 | Скилл | Назначение |
 |-------|------------|
-| `/spec-create <type> [parent] [options]` | Создание документов |
-| `/spec-status <path> <status>` | Изменение статуса |
-| `/spec-update <path>` | Работа с документом (редактирование, валидация, переход) |
+| [/spec-create](/.claude/skills/spec-create/SKILL.md) `<type> [parent] [options]` | Создание документов |
+| [/spec-status](/.claude/skills/spec-status/SKILL.md) `<path> <status>` | Изменение статуса |
+| [/spec-update](/.claude/skills/spec-update/SKILL.md) `<path>` | Работа с документом (редактирование, валидация, переход) |
 
 > **Тип документа определяется автоматически** по пути. Один скилл вместо четырёх.
 
@@ -98,9 +98,9 @@ related:
 
 | Скилл | Назначение |
 |-------|------------|
-| `/specs-health` | Проверить целостность: статусы, ссылки, "застрявшие" документы |
-| `/specs-sync` | Синхронизировать каскадные статусы (пересчитать все зависимости) |
-| `/specs-index` | Обновить все README.md индексы в /specs/ |
+| [/specs-health](/.claude/skills/specs-health/SKILL.md) | Проверить целостность: статусы, ссылки, "застрявшие" документы |
+| [/specs-sync](/.claude/skills/specs-sync/SKILL.md) | Синхронизировать каскадные статусы (пересчитать все зависимости) |
+| [/specs-index](/.claude/skills/specs-index/SKILL.md) | Обновить все README.md индексы в /specs/ |
 
 ### Проверки /specs-health
 

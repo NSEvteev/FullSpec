@@ -12,7 +12,7 @@ related:
 
 Глоссарий — единое место для терминов проекта. Обеспечивает консистентность терминологии во всех документах.
 
-> **⚠️ Без статусов:** Glossary — единый живой документ. Он не имеет статусов DRAFT/REVIEW/DONE. Управляется отдельными скиллами `/glossary-candidates`, `/glossary-review`, `/glossary-link`. Эти скиллы НЕ входят в систему `/spec-*`.
+> **⚠️ Без статусов:** Glossary — единый живой документ. Он не имеет статусов DRAFT/REVIEW/DONE. Управляется отдельными скиллами [/glossary-candidates](/.claude/skills/glossary-candidates/SKILL.md), [/glossary-review](/.claude/skills/glossary-review/SKILL.md), [/glossary-link](/.claude/skills/glossary-link/SKILL.md). Эти скиллы НЕ входят в систему `/spec-*`.
 
 ## Оглавление
 
@@ -168,9 +168,9 @@ related:
 
 | Скилл | Назначение |
 |-------|------------|
-| `/glossary-candidates <file>` | Найти термины в документе, добавить в "Кандидаты" |
-| `/glossary-review` | Интерактивно обработать кандидатов (добавить/отложить/удалить) |
-| `/glossary-link` | Добавить ссылки `[📖 Термин]` во все .md файлы проекта |
+| [/glossary-candidates](/.claude/skills/glossary-candidates/SKILL.md) `<file>` | Найти термины в документе, добавить в "Кандидаты" |
+| [/glossary-review](/.claude/skills/glossary-review/SKILL.md) | Интерактивно обработать кандидатов (добавить/отложить/удалить) |
+| [/glossary-link](/.claude/skills/glossary-link/SKILL.md) | Добавить ссылки `[📖 Термин]` во все .md файлы проекта |
 
 ### Workflow глоссария
 
