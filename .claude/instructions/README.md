@@ -14,6 +14,8 @@
 - [/config/ — Правила конфигураций](#config--правила-конфигураций)
 - [/doc/ — Правила документации](#doc--правила-документации)
 - [/git/ — Правила Git](#git--правила-git)
+- [/instructions/ — Мета-инструкции](#instructions--мета-инструкции)
+- [/links/ — Правила работы со ссылками](#links--правила-работы-со-ссылками)
 - [/platform/ — Правила инфраструктуры](#platform--правила-инфраструктуры)
 - [/shared/ — Правила общего кода](#shared--правила-общего-кода)
 - [/skills/ — Правила скиллов](#skills--правила-скиллов)
@@ -90,7 +92,7 @@
 
 ## Начало работы
 
-> **Статус:** Создано **92 из 92** инструкций (100%). Все инструкции созданы и заполнены.
+> **Статус:** Создано **104 из 104** инструкций (100%). Все инструкции созданы и заполнены.
 >
 > **Обновлено 2025-01-21:** Добавлены README.md индексы для всех папок (10 файлов).
 > **Обновлено 2025-01-21:** Добавлена папка `/skills/` (7 файлов), scope.md, formats.md, claude-functional.md.
@@ -121,7 +123,7 @@
 
 ## Дерево инструкций
 
-> ✅ Все папки и файлы созданы. Прогресс: 100% (92 инструкции, включая 12 README индексов).
+> ✅ Все папки и файлы созданы. Прогресс: 100% (104 инструкции, включая 14 README индексов).
 
 ```
 /.claude/instructions/
@@ -144,6 +146,23 @@
     issues.md                           # задачи (префиксы, метки)
     review.md                           # code review: чек-лист, CODEOWNERS, правила
     workflow.md                         # рабочий процесс (ветки, PR)
+
+  /instructions/                        # мета-инструкции
+    README.md                           # индекс мета-инструкций
+    structure.md                        # расположение инструкций
+    types.md                            # типы (standard/project)
+    validation.md                       # валидация формата
+    statuses.md                         # система статусов
+    workflow.md                         # жизненный цикл
+    patterns.md                         # паттерны поиска
+
+  /links/                               # правила работы со ссылками
+    README.md                           # индекс ссылок
+    format.md                           # форматы ссылок
+    patterns.md                         # regex-паттерны
+    workflow.md                         # жизненный цикл
+    validation.md                       # правила валидации
+    edge-cases.md                       # граничные случаи
 
   /platform/                            # правила инфраструктуры
     README.md                           # индекс инфраструктуры
@@ -261,6 +280,31 @@
 | [issues.md](./git/issues.md) | GitHub Issues: префиксы ([AUTH], [NOTIFY]), labels, gh commands | standard | ✅ | ✅ |
 | [review.md](./git/review.md) | Code review: чек-лист, CODEOWNERS, правила approve | standard | ✅ | ✅ |
 | [workflow.md](./git/workflow.md) | Git workflow: GitHub Flow, ветки (main + feature/fix), PR | standard | ✅ | ✅ |
+
+---
+
+## /instructions/ — Мета-инструкции
+
+| Инструкция | Описание | Тип | Создано | Заполнено |
+|------------|----------|-----|:-------:|:---------:|
+| [structure.md](./instructions/structure.md) | Расположение и допустимые папки | standard | ✅ | ✅ |
+| [types.md](./instructions/types.md) | Типы инструкций (standard/project) | standard | ✅ | ✅ |
+| [validation.md](./instructions/validation.md) | Валидация путей и формата | standard | ✅ | ✅ |
+| [statuses.md](./instructions/statuses.md) | Система статусов в README.md | standard | ✅ | ✅ |
+| [workflow.md](./instructions/workflow.md) | Жизненный цикл (CREATE, UPDATE, DEACTIVATE) | standard | ✅ | ✅ |
+| [patterns.md](./instructions/patterns.md) | Паттерны поиска ссылок | standard | ✅ | ✅ |
+
+---
+
+## /links/ — Правила работы со ссылками
+
+| Инструкция | Описание | Тип | Создано | Заполнено |
+|------------|----------|-----|:-------:|:---------:|
+| [format.md](./links/format.md) | Форматы ссылок (standard, folder, marked) | standard | ✅ | ✅ |
+| [patterns.md](./links/patterns.md) | Regex-паттерны поиска | standard | ✅ | ✅ |
+| [workflow.md](./links/workflow.md) | Жизненный цикл (CREATE → UPDATE → DELETE → VALIDATE) | standard | ✅ | ✅ |
+| [validation.md](./links/validation.md) | Правила валидации ссылок | standard | ✅ | ✅ |
+| [edge-cases.md](./links/edge-cases.md) | Граничные случаи | standard | ✅ | ✅ |
 
 ---
 
