@@ -17,9 +17,10 @@
 |-------------|--------------|:-----------:|:--------:|:-------------:|:-------------:|
 | **service/** | | | | | |
 | `service/*.md` | `services/*.md` | ⬜ | ⬜ | ⬜ | ⬜ |
-| `service/api/` | `src/api/` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `service/api/` | `src/api/` + `src/runtime/realtime.md` | ⬜ | ⬜ | ⬜ | ⬜ |
 | `service/data/` | `src/data/` | ⬜ | ⬜ | ⬜ | ⬜ |
 | `service/database/` | `src/runtime/database.md` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `service/dev/` | `src/dev/` (local.md, performance.md) | ⬜ | ⬜ | ⬜ | ⬜ |
 | `service/health/` | `src/runtime/health.md` | ⬜ | ⬜ | ⬜ | ⬜ |
 | `service/resilience/` | `src/runtime/resilience.md` | ⬜ | ⬜ | ⬜ | ⬜ |
 | `service/security/` | `src/security/` | ⬜ | ⬜ | ⬜ | ⬜ |
@@ -85,6 +86,7 @@
 | Папка | Описание |
 |-------|----------|
 | `service/database/` | База данных (из runtime/) |
+| `service/dev/` | Локальная разработка (из src/dev/, без testing.md) |
 | `service/health/` | Health checks (из runtime/) |
 | `service/resilience/` | Устойчивость (из runtime/) |
 | `service/frontend/` | Клиентский код (опционально) |
@@ -98,7 +100,8 @@
 
 | Папка | Причина |
 |-------|---------|
-| `src/runtime/` | Разбита на `service/database/`, `service/health/`, `service/resilience/` |
+| `src/runtime/` | Разбита на `service/database/`, `service/health/`, `service/resilience/`, + realtime.md → `service/api/` |
+| `src/dev/` | Разбита на `service/dev/` (local, performance) и `service/testing/` (testing) |
 
 ### Перемещение файлов
 
@@ -109,8 +112,11 @@
 | `src/runtime/database.md` | `src/runtime/` | `service/database/` |
 | `src/runtime/health.md` | `src/runtime/` | `service/health/` |
 | `src/runtime/resilience.md` | `src/runtime/` | `service/resilience/` |
+| `src/runtime/realtime.md` | `src/runtime/` | `service/api/realtime.md` |
 | `src/security/*.md` | `src/security/` | `service/security/` |
 | `src/dev/testing.md` | `src/dev/` | `service/testing/testing.md` |
+| `src/dev/local.md` | `src/dev/` | `service/dev/local.md` |
+| `src/dev/performance.md` | `src/dev/` | `service/dev/performance.md` |
 | `services/lifecycle.md` | `services/` | `service/lifecycle.md` |
 | `services/structure.md` | `services/` | `service/structure.md` |
 | `services/dependencies.md` | `services/` | `service/dependencies.md` |
@@ -129,11 +135,14 @@
 
 ### Фаза 2: Миграция service/
 
-- [ ] Создать `service/` с подпапками: `api/`, `data/`, `database/`, `health/`, `resilience/`, `security/`, `testing/`, `frontend/`
+- [ ] Создать `service/` с подпапками: `api/`, `data/`, `database/`, `dev/`, `health/`, `resilience/`, `security/`, `testing/`, `frontend/`
 - [ ] Переместить `services/*.md` → `service/*.md` (lifecycle, structure, dependencies)
 - [ ] Переместить `src/api/` → `service/api/`
+- [ ] Переместить `src/runtime/realtime.md` → `service/api/realtime.md`
 - [ ] Переместить `src/data/` → `service/data/`
 - [ ] Переместить `src/runtime/database.md` → `service/database/`
+- [ ] Переместить `src/dev/local.md` → `service/dev/local.md`
+- [ ] Переместить `src/dev/performance.md` → `service/dev/performance.md`
 - [ ] Переместить `src/runtime/health.md` → `service/health/`
 - [ ] Переместить `src/runtime/resilience.md` → `service/resilience/`
 - [ ] Переместить `src/security/` → `service/security/`
@@ -198,3 +207,67 @@
 - [ ] CLAUDE.md обновлён
 - [ ] README.md в instructions/ обновлён
 - [ ] Скиллы работают корректно
+
+---
+
+## 5. Миграция templates/
+
+Шаблоны должны отражать структуру инструкций (4 scope).
+
+> Все пути относительно `/.claude/templates/`
+
+### Таблица миграции templates/
+
+| Новая папка | Старая папка | Миграция |
+|-------------|--------------|:--------:|
+| **service/** | | |
+| `service/` | `services/` | ⬜ |
+| **system/** | | |
+| `system/platform/` | `platform/` | ⬜ |
+| `system/tests/` | `tests/` | ⬜ |
+| **workflow/** | | |
+| `workflow/docs/` | `docs/` | ⬜ |
+| `workflow/git/` | `git/` | ⬜ |
+| `workflow/specs/` | `specs/` | ⬜ |
+| **meta/** | | |
+| `meta/instructions/` | `instructions/` | ⬜ |
+| `meta/skills/` | `skills/` | ⬜ |
+
+### Перемещение файлов templates/
+
+| Файл | Было | Стало |
+|------|------|-------|
+| `backend-template.md` | `docs/` | `workflow/docs/` |
+| `database-template.md` | `docs/` | `workflow/docs/` |
+| `frontend-template.md` | `docs/` | `workflow/docs/` |
+| `minimal-template.md` | `docs/` | `workflow/docs/` |
+| `codeowners.md` | `git/` | `workflow/git/` |
+| `commit-message.md` | `git/` | `workflow/git/` |
+| `pr-template.md` | `git/` | `workflow/git/` |
+| `instruction.md` | `instructions/` | `meta/instructions/` |
+| `readme.md` | `instructions/` | `meta/instructions/` |
+| `runbook-template.md` | `platform/` | `system/platform/` |
+| `skill.md` | `skills/` | `meta/skills/` |
+| `adr.md` | `specs/` | `workflow/specs/` |
+| `architecture.md` | `specs/` | `workflow/specs/` |
+| `discussion.md` | `specs/` | `workflow/specs/` |
+| `impact.md` | `specs/` | `workflow/specs/` |
+| `plan.md` | `specs/` | `workflow/specs/` |
+| `smoke-test.md` | `tests/` | `system/tests/` |
+
+### Фаза миграции templates/
+
+- [ ] Создать `templates/service/`
+- [ ] Создать `templates/system/` с подпапками: `platform/`, `tests/`
+- [ ] Создать `templates/workflow/` с подпапками: `docs/`, `git/`, `specs/`
+- [ ] Создать `templates/meta/` с подпапками: `instructions/`, `skills/`
+- [ ] Переместить `templates/services/` → `templates/service/`
+- [ ] Переместить `templates/platform/` → `templates/system/platform/`
+- [ ] Переместить `templates/tests/` → `templates/system/tests/`
+- [ ] Переместить `templates/docs/` → `templates/workflow/docs/`
+- [ ] Переместить `templates/git/` → `templates/workflow/git/`
+- [ ] Переместить `templates/specs/` → `templates/workflow/specs/`
+- [ ] Переместить `templates/instructions/` → `templates/meta/instructions/`
+- [ ] Переместить `templates/skills/` → `templates/meta/skills/`
+- [ ] Обновить README.md в templates/
+- [ ] Обновить ссылки на шаблоны в скиллах

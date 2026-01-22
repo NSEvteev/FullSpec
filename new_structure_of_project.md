@@ -31,11 +31,13 @@
 ├── service/                     # Разработка внутри сервиса (scope = service)
 │   ├── *.md                     #   Управление сервисом: lifecycle, structure, dependencies
 │   ├── api/
-│   │   └── *.md                 #   Проектирование API: design, versioning, deprecation
+│   │   └── *.md                 #   Проектирование API: design, versioning, deprecation, realtime
 │   ├── data/
 │   │   └── *.md                 #   Форматы данных: errors, logging, validation, pagination
 │   ├── database/
 │   │   └── *.md                 #   База данных: schema, migrations, transactions, pooling
+│   ├── dev/
+│   │   └── *.md                 #   Локальная разработка: local, performance, hot reload
 │   ├── health/
 │   │   └── *.md                 #   Health checks: /health, /ready, graceful shutdown
 │   ├── resilience/
@@ -210,8 +212,26 @@
     │   └── */SKILL.md           #   Скиллы: skill-create/, docs-update/
     ├── agents/
     │   └── *.md                 #   Агенты: researcher.md, coder.md
-    ├── templates/
-    │   └── *.*                  #   Шаблоны: specs/, docs/, git/
+    ├── templates/               #   Шаблоны (структура отражает инструкции)
+    │   ├── service/             #   Шаблоны для сервисов
+    │   │   └── *.md
+    │   ├── system/              #   Шаблоны для системы
+    │   │   ├── platform/        #     Runbooks, deployment templates
+    │   │   │   └── *.md
+    │   │   └── tests/           #     Smoke tests, e2e templates
+    │   │       └── *.md
+    │   ├── workflow/            #   Шаблоны для процессов
+    │   │   ├── docs/            #     Шаблоны документации: backend, frontend, database
+    │   │   │   └── *.md
+    │   │   ├── git/             #     Шаблоны git: commit-message, pr-template, codeowners
+    │   │   │   └── *.md
+    │   │   └── specs/           #     Шаблоны спецификаций: adr, discussion, impact, plan
+    │   │       └── *.md
+    │   └── meta/                #   Шаблоны для meta-сущностей
+    │       ├── instructions/    #     Шаблоны инструкций
+    │       │   └── *.md
+    │       └── skills/          #     Шаблоны скиллов
+    │           └── *.md
     ├── scripts/
     │   └── *.py                 #   Скрипты автоматизации: protect-specs.py, validate-deps.py
     └── state/
@@ -225,9 +245,10 @@
 | Инструкция | Папка проекта | Описание |
 |------------|---------------|----------|
 | **service/** | `/src/{service}/` | Разработка внутри сервиса |
-| `service/api/` | `/src/{service}/backend/v*/` | Проектирование API |
+| `service/api/` | `/src/{service}/backend/v*/` | Проектирование API (+ realtime) |
 | `service/data/` | `/src/{service}/backend/` | Форматы данных |
 | `service/database/` | `/src/{service}/database/` | База данных |
+| `service/dev/` | `/src/{service}/` | Локальная разработка, производительность |
 | `service/health/` | `/src/{service}/backend/health/` | Health checks |
 | `service/resilience/` | `/src/{service}/backend/` | Устойчивость |
 | `service/security/` | `/src/{service}/backend/` | Безопасность сервиса |
@@ -300,7 +321,7 @@ flowchart LR
 | **3. Проектирование** | Архитектура, ADR | `workflow/specs/` (adr, architecture) |
 | **4. Планирование** | План, задачи | `workflow/specs/` (plans) + `workflow/github/issues/` |
 | **5. Создание** | Scaffold сервиса | `service/` (lifecycle, structure) |
-| **6. Разработка** | Код, API, БД | `service/` (api, data, database, health, resilience, security) |
+| **6. Разработка** | Код, API, БД | `service/` (api, data, database, dev, health, resilience, security) |
 | **7. Тестирование** | Unit, integration, e2e | `service/testing/` + `system/tests/` |
 | **8. Документация** | API docs, README | `workflow/docs/` |
 | **9. Code Review** | PR, review | `workflow/git/` (review) |
