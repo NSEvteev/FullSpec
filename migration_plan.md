@@ -4,6 +4,51 @@
 
 **Связанные документы:**
 - [new_structure_of_project.md](./new_structure_of_project.md) — целевая структура
+- [refactoting-claude-and-instructions.md](./refactoting-claude-and-instructions.md) — история рефакторинга
+
+---
+
+## 0. Таблица миграции
+
+| Новая папка | Старая папка | Мигрировано | Верификация 1 | Верификация 2 |
+|-------------|--------------|:-----------:|:-------------:|:-------------:|
+| **service/** | | | | |
+| `service/*.md` | `services/*.md` | ⬜ | ⬜ | ⬜ |
+| `service/api/` | `src/api/` | ⬜ | ⬜ | ⬜ |
+| `service/data/` | `src/data/` | ⬜ | ⬜ | ⬜ |
+| `service/database/` | `src/runtime/database.md` | ⬜ | ⬜ | ⬜ |
+| `service/health/` | `src/runtime/health.md` | ⬜ | ⬜ | ⬜ |
+| `service/resilience/` | `src/runtime/resilience.md` | ⬜ | ⬜ | ⬜ |
+| `service/security/` | `src/security/` | ⬜ | ⬜ | ⬜ |
+| `service/testing/` | `src/dev/testing.md` | ⬜ | ⬜ | ⬜ |
+| `service/frontend/` | — (новая) | ⬜ | ⬜ | ⬜ |
+| **system/** | | | | |
+| `system/platform/` | `platform/` | ⬜ | ⬜ | ⬜ |
+| `system/platform/observability/` | `platform/observability/` | ⬜ | ⬜ | ⬜ |
+| `system/tests/` | `tests/` | ⬜ | ⬜ | ⬜ |
+| `system/shared/` | `shared/` | ⬜ | ⬜ | ⬜ |
+| `system/config/` | `config/` | ⬜ | ⬜ | ⬜ |
+| **workflow/** | | | | |
+| `workflow/git/` | `git/` (без ci.md) | ⬜ | ⬜ | ⬜ |
+| `workflow/github/` | — (новая) | ⬜ | ⬜ | ⬜ |
+| `workflow/github/issues/` | `issues/` | ⬜ | ⬜ | ⬜ |
+| `workflow/specs/` | `specs/` | ⬜ | ⬜ | ⬜ |
+| `workflow/docs/` | `docs/` | ⬜ | ⬜ | ⬜ |
+| **meta/** | | | | |
+| `meta/instructions/` | `instructions/` | ⬜ | ⬜ | ⬜ |
+| `meta/links/` | `links/` | ⬜ | ⬜ | ⬜ |
+| `meta/skills/` | `skills/` | ⬜ | ⬜ | ⬜ |
+| `meta/agents/` | — (новая) | ⬜ | ⬜ | ⬜ |
+| `meta/scripts/` | — (новая) | ⬜ | ⬜ | ⬜ |
+| `meta/state/` | — (новая) | ⬜ | ⬜ | ⬜ |
+| `meta/templates/` | — (новая) | ⬜ | ⬜ | ⬜ |
+
+**Легенда:**
+- ⬜ Не начато
+- 🔄 В процессе
+- ✅ Готово
+- **Верификация 1:** Проверка файлов без кросс-верификации
+- **Верификация 2:** Кросс-верификация ссылок в новой структуре
 
 ---
 
@@ -39,6 +84,7 @@
 | `meta/agents/` | Правила агентов |
 | `meta/scripts/` | Правила скриптов |
 | `meta/state/` | Правила состояний |
+| `meta/templates/` | Правила шаблонов |
 
 ### Удаляемые папки
 
@@ -56,7 +102,7 @@
 | `src/runtime/health.md` | `src/runtime/` | `service/health/` |
 | `src/runtime/resilience.md` | `src/runtime/` | `service/resilience/` |
 | `src/security/*.md` | `src/security/` | `service/security/` |
-| `src/dev/testing.md` | `src/dev/` | `service/testing/` |
+| `src/dev/testing.md` | `src/dev/` | `service/testing/testing.md` |
 | `services/lifecycle.md` | `services/` | `service/lifecycle.md` |
 | `services/structure.md` | `services/` | `service/structure.md` |
 | `services/dependencies.md` | `services/` | `service/dependencies.md` |
@@ -75,9 +121,16 @@
 
 ### Фаза 2: Миграция service/
 
-- [ ] Создать `service/` с подпапками: `api/`, `data/`, `runtime/`, `security/`, `testing/`
-- [ ] Переместить файлы из `src/` в `service/`
-- [ ] Переместить файлы из `services/` в `service/`
+- [ ] Создать `service/` с подпапками: `api/`, `data/`, `database/`, `health/`, `resilience/`, `security/`, `testing/`, `frontend/`
+- [ ] Переместить `services/*.md` → `service/*.md` (lifecycle, structure, dependencies)
+- [ ] Переместить `src/api/` → `service/api/`
+- [ ] Переместить `src/data/` → `service/data/`
+- [ ] Переместить `src/runtime/database.md` → `service/database/`
+- [ ] Переместить `src/runtime/health.md` → `service/health/`
+- [ ] Переместить `src/runtime/resilience.md` → `service/resilience/`
+- [ ] Переместить `src/security/` → `service/security/`
+- [ ] Переместить `src/dev/testing.md` → `service/testing/`
+- [ ] Создать `service/frontend/` (пустая, опционально)
 - [ ] Обновить ссылки в перемещённых файлах
 - [ ] Удалить старые папки `src/`, `services/`
 
@@ -103,11 +156,11 @@
 
 ### Фаза 5: Миграция meta/
 
-- [ ] Создать `meta/` с подпапками: `instructions/`, `links/`, `skills/`, `agents/`, `scripts/`, `state/`
+- [ ] Создать `meta/` с подпапками: `instructions/`, `links/`, `skills/`, `agents/`, `scripts/`, `state/`, `templates/`
 - [ ] Переместить `instructions/` → `meta/instructions/`
 - [ ] Переместить `links/` → `meta/links/`
 - [ ] Переместить `skills/` → `meta/skills/`
-- [ ] Создать новые: `meta/agents/`, `meta/scripts/`, `meta/state/`
+- [ ] Создать новые: `meta/agents/`, `meta/scripts/`, `meta/state/`, `meta/templates/`
 - [ ] Обновить ссылки
 
 ### Фаза 6: Финализация
