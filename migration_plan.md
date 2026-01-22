@@ -16,36 +16,36 @@
 | Новая папка | Старая папка | Рефакторинг | Миграция | Верификация 1 | Верификация 2 |
 |-------------|--------------|:-----------:|:--------:|:-------------:|:-------------:|
 | **service/** | | | | | |
-| `service/*.md` | `services/*.md` | ⬜ | ✅ | ⬜ | ⬜ |
-| `service/api/` | `src/api/` + `src/runtime/realtime.md` | ⬜ | ✅ | ⬜ | ⬜ |
-| `service/data/` | `src/data/` | ⬜ | ✅ | ⬜ | ⬜ |
-| `service/database/` | `src/runtime/database.md` | ⬜ | ✅ | ⬜ | ⬜ |
-| `service/dev/` | `src/dev/` (local.md, performance.md) | ⬜ | ✅ | ⬜ | ⬜ |
-| `service/health/` | `src/runtime/health.md` | ⬜ | ✅ | ⬜ | ⬜ |
-| `service/resilience/` | `src/runtime/resilience.md` | ⬜ | ✅ | ⬜ | ⬜ |
-| `service/security/` | `src/security/` | ⬜ | ✅ | ⬜ | ⬜ |
-| `service/testing/` | `src/dev/testing.md` + `tests/unit.md` | ⬜ | ✅ | ⬜ | ⬜ |
-| `service/frontend/` | — (новая) | — | ✅ | ⬜ | ⬜ |
+| `service/*.md` | `services/*.md` | ⬜ | ✅ | ✅ | ✅ |
+| `service/api/` | `src/api/` + `src/runtime/realtime.md` | ⬜ | ✅ | ✅ | ✅ |
+| `service/data/` | `src/data/` | ⬜ | ✅ | ✅ | ✅ |
+| `service/database/` | `src/runtime/database.md` | ⬜ | ✅ | ✅ | ✅ |
+| `service/dev/` | `src/dev/` (local.md, performance.md) | ⬜ | ✅ | ✅ | ✅ |
+| `service/health/` | `src/runtime/health.md` | ⬜ | ✅ | ✅ | ✅ |
+| `service/resilience/` | `src/runtime/resilience.md` | ⬜ | ✅ | ✅ | ✅ |
+| `service/security/` | `src/security/` | ⬜ | ✅ | ✅ | ✅ |
+| `service/testing/` | `src/dev/testing.md` + `tests/unit.md` | ⬜ | ✅ | ✅ | ✅ |
+| `service/frontend/` | — (новая) | — | ✅ | ✅ | ✅ |
 | **system/** | | | | | |
-| `system/platform/` | `platform/` | ⬜ | ✅ | ⬜ | ⬜ |
-| `system/platform/observability/` | `platform/observability/` | ⬜ | ✅ | ⬜ | ⬜ |
-| `system/tests/` | `tests/` (без unit.md, claude-*.md) | ⬜ | ✅ | ⬜ | ⬜ |
-| `system/shared/` | `shared/` (без scope.md) | ⬜ | ✅ | ⬜ | ⬜ |
-| `system/config/` | `config/` | ⬜ | ✅ | ⬜ | ⬜ |
+| `system/platform/` | `platform/` | ⬜ | ✅ | ✅ | ✅ |
+| `system/platform/observability/` | `platform/observability/` | ⬜ | ✅ | ✅ | ✅ |
+| `system/tests/` | `tests/` (без unit.md, claude-*.md) | ⬜ | ✅ | ✅ | ✅ |
+| `system/shared/` | `shared/` (без scope.md) | ⬜ | ✅ | ✅ | ✅ |
+| `system/config/` | `config/` | ⬜ | ✅ | ✅ | ✅ |
 | **workflow/** | | | | | |
-| `workflow/git/` | `git/` (без ci.md) | ⬜ | ✅ | ⬜ | ⬜ |
-| `workflow/github/` | — (новая, + git/ci.md) | — | ✅ | ⬜ | ⬜ |
-| `workflow/github/issues/` | `issues/` | ⬜ | ✅ | ⬜ | ⬜ |
-| `workflow/specs/` | `specs/` | ✅ | ✅ | ⬜ | ⬜ |
-| `workflow/docs/` | `docs/` | ⬜ | ✅ | ⬜ | ⬜ |
+| `workflow/git/` | `git/` (без ci.md) | ⬜ | ✅ | ✅ | ✅ |
+| `workflow/github/` | — (новая, + git/ci.md) | — | ✅ | ✅ | ✅ |
+| `workflow/github/issues/` | `issues/` | ⬜ | ✅ | ✅ | ✅ |
+| `workflow/specs/` | `specs/` | ✅ | ✅ | ✅ | ✅ |
+| `workflow/docs/` | `docs/` | ⬜ | ✅ | ✅ | ✅ |
 | **meta/** | | | | | |
-| `meta/instructions/` | `instructions/` | ✅ | ✅ | ⬜ | ⬜ |
-| `meta/links/` | `links/` | ✅ | ✅ | ⬜ | ⬜ |
-| `meta/skills/` | `skills/` | 🔄 | ✅ | ⬜ | ⬜ |
-| `meta/agents/` | — (новая) | — | ✅ | ⬜ | ⬜ |
-| `meta/scripts/` | — (новая) | — | ✅ | ⬜ | ⬜ |
-| `meta/state/` | — (новая) | — | ✅ | ⬜ | ⬜ |
-| `meta/templates/` | — (новая) | — | ✅ | ⬜ | ⬜ |
+| `meta/instructions/` | `instructions/` | ✅ | ✅ | ✅ | ✅ |
+| `meta/links/` | `links/` | ✅ | ✅ | ✅ | ✅ |
+| `meta/skills/` | `skills/` | 🔄 | ✅ | ✅ | ✅ |
+| `meta/agents/` | — (новая) | — | ✅ | ✅ | ✅ |
+| `meta/scripts/` | — (новая) | — | ✅ | ✅ | ✅ |
+| `meta/state/` | — (новая) | — | ✅ | ✅ | ✅ |
+| `meta/templates/` | — (новая) | — | ✅ | ✅ | ✅ |
 
 **Легенда:**
 - ⬜ Не начато
