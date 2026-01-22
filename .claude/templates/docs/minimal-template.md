@@ -1,6 +1,6 @@
 # Minimal Template
 
-> **Источник:** [/.claude/instructions/doc/structure.md](/.claude/instructions/doc/structure.md#шаблон-минимальный)
+> **Источник:** [/.claude/instructions/docs/structure.md](/.claude/instructions/docs/structure.md#шаблон-минимальный)
 
 Минимальный шаблон документации для простых файлов: утилиты, константы, хелперы.
 

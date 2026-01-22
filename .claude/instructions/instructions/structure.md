@@ -39,7 +39,7 @@ related:
 | /src/ | /.claude/instructions/src/ |
 | /platform/ | /.claude/instructions/platform/ |
 | /tests/ | /.claude/instructions/tests/ |
-| /doc/ | /.claude/instructions/doc/ |
+| /doc/ | /.claude/instructions/docs/ |
 | /shared/ | /.claude/instructions/shared/ |
 | /config/ | /.claude/instructions/config/ |
 
@@ -66,6 +66,7 @@ related:
 | skills/ | Скиллы Claude |
 | agents/ | Агенты Claude |
 | specs/ | Спецификации |
+| services/ | Управление сервисами (создание, структура, lifecycle) |
 | instructions/ | Мета-инструкции (эта папка) |
 
 ---

@@ -14,9 +14,11 @@
 - [/config/ — Правила конфигураций](#config--правила-конфигураций)
 - [/doc/ — Правила документации](#doc--правила-документации)
 - [/git/ — Правила Git](#git--правила-git)
+- [/issues/ — Правила GitHub Issues](#issues--правила-github-issues)
 - [/instructions/ — Мета-инструкции](#instructions--мета-инструкции)
 - [/links/ — Правила работы со ссылками](#links--правила-работы-со-ссылками)
 - [/platform/ — Правила инфраструктуры](#platform--правила-инфраструктуры)
+- [/services/ — Управление сервисами](#services--управление-сервисами)
 - [/shared/ — Правила общего кода](#shared--правила-общего-кода)
 - [/skills/ — Правила скиллов](#skills--правила-скиллов)
 - [/specs/ — Правила спецификаций](#specs--правила-спецификаций)
@@ -32,7 +34,7 @@
 | Папка проекта | Инструкции |
 |---------------|------------|
 | `/src/` | `/.claude/instructions/src/` |
-| `/doc/` | `/.claude/instructions/doc/` |
+| `/doc/` | `/.claude/instructions/docs/` |
 | `/shared/` | `/.claude/instructions/shared/` |
 | `/config/` | `/.claude/instructions/config/` |
 | `/platform/` | `/.claude/instructions/platform/` |
@@ -92,7 +94,7 @@
 
 ## Начало работы
 
-> **Статус:** Создано **104 из 104** инструкций (100%). Все инструкции созданы и заполнены.
+> **Статус:** Создано **107 из 107** инструкций (100%). Все инструкции созданы и заполнены.
 >
 > **Обновлено 2025-01-21:** Добавлены README.md индексы для всех папок (10 файлов).
 > **Обновлено 2025-01-21:** Добавлена папка `/skills/` (7 файлов), scope.md, formats.md, claude-functional.md.
@@ -123,7 +125,7 @@
 
 ## Дерево инструкций
 
-> ✅ Все папки и файлы созданы. Прогресс: 100% (104 инструкции, включая 14 README индексов).
+> ✅ Все папки и файлы созданы. Прогресс: 100% (107 инструкций, включая 15 README индексов).
 
 ```
 /.claude/instructions/
@@ -146,6 +148,15 @@
     issues.md                           # задачи (префиксы, метки)
     review.md                           # code review: чек-лист, CODEOWNERS, правила
     workflow.md                         # рабочий процесс (ветки, PR)
+
+  /issues/                              # правила GitHub Issues (SSOT для issue-* скиллов)
+    README.md                           # индекс инструкций Issues
+    format.md                           # формат заголовка, префиксы, шаблон тела
+    labels.md                           # система меток (сервис, тип, приоритет, статус)
+    workflow.md                         # жизненный цикл Issue, состояния, цепочки
+    commands.md                         # команды gh CLI
+    errors.md                           # обработка ошибок
+    examples.md                         # примеры использования
 
   /instructions/                        # мета-инструкции
     README.md                           # индекс мета-инструкций
@@ -177,6 +188,12 @@
       tracing.md                        # трейсы (OpenTelemetry, span)
     operations.md                       # runbooks, incidents, postmortems
     security.md                         # безопасность инфраструктуры
+
+  /services/                            # управление сервисами
+    README.md                           # индекс управления сервисами
+    lifecycle.md                        # создание, обновление, удаление сервиса
+    structure.md                        # структура папок /src/{service}/
+    dependencies.md                     # dependencies.yaml, граф зависимостей
 
   /shared/                              # правила общего кода
     README.md                           # индекс общего кода
@@ -283,6 +300,19 @@
 
 ---
 
+## /issues/ — Правила GitHub Issues
+
+| Инструкция | Описание | Тип | Создано | Заполнено |
+|------------|----------|-----|:-------:|:---------:|
+| [format.md](./issues/format.md) | Формат заголовка, префиксы сервисов, шаблон тела Issue | standard | ✅ | ✅ |
+| [labels.md](./issues/labels.md) | Система меток (сервис, тип, приоритет, статус) | standard | ✅ | ✅ |
+| [workflow.md](./issues/workflow.md) | Жизненный цикл Issue, состояния, цепочки скиллов | standard | ✅ | ✅ |
+| [commands.md](./issues/commands.md) | Команды gh CLI для работы с Issues | standard | ✅ | ✅ |
+| [errors.md](./issues/errors.md) | Обработка ошибок issue-* скиллов | standard | ✅ | ✅ |
+| [examples.md](./issues/examples.md) | Примеры использования скиллов | standard | ✅ | ✅ |
+
+---
+
 ## /instructions/ — Мета-инструкции
 
 | Инструкция | Описание | Тип | Создано | Заполнено |
@@ -323,6 +353,16 @@
 | [tracing.md](./platform/observability/tracing.md) | Distributed tracing: OpenTelemetry, span, W3C traceparent | standard | ✅ | ✅ |
 | [operations.md](./platform/operations.md) | Операции: runbooks, incidents, postmortems | standard | ✅ | ✅ |
 | [security.md](./platform/security.md) | Безопасность: Dependabot, GitLeaks, Semgrep, scanning в CI | standard | ✅ | ✅ |
+
+---
+
+## /services/ — Управление сервисами
+
+| Инструкция | Описание | Тип | Создано | Заполнено |
+|------------|----------|-----|:-------:|:---------:|
+| [lifecycle.md](./services/lifecycle.md) | Создание, обновление, удаление сервиса | standard | ✅ | ✅ |
+| [structure.md](./services/structure.md) | Структура папок /src/{service}/ | standard | ✅ | ✅ |
+| [dependencies.md](./services/dependencies.md) | dependencies.yaml, граф зависимостей | standard | ✅ | ✅ |
 
 ---
 

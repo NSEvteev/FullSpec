@@ -1,6 +1,6 @@
 # Frontend Template
 
-> **Источник:** [/.claude/instructions/doc/structure.md](/.claude/instructions/doc/structure.md#шаблон-frontend-components-pages)
+> **Источник:** [/.claude/instructions/docs/structure.md](/.claude/instructions/docs/structure.md#шаблон-frontend-components-pages)
 
 Шаблон документации для frontend-компонентов и страниц.
 

@@ -1,6 +1,6 @@
 # Database Template
 
-> **Источник:** [/.claude/instructions/doc/structure.md](/.claude/instructions/doc/structure.md#шаблон-database-schema-migrations)
+> **Источник:** [/.claude/instructions/docs/structure.md](/.claude/instructions/docs/structure.md#шаблон-database-schema-migrations)
 
 Шаблон документации для схем баз данных и миграций.
 

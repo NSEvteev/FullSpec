@@ -1,13 +1,16 @@
 ---
 type: project
 description: Структура /doc/, документирование кода, шаблоны, workflow
+governed-by: docs/README.md
 related:
-  - git/issues.md   # создание Issue при удалении документации
+  - docs/rules.md
+  - docs/templates.md
+  - git/issues.md
 ---
 
 # Структура и документирование
 
-Правила организации документации в `/doc/` и документирования кода в `/src/`.
+Правила организации зеркалирования документации в директорию `/doc/`.
 
 ## Оглавление
 
@@ -50,27 +53,26 @@ related:
 
 | Папка | Зеркалируется | Причина |
 |-------|:-------------:|---------|
-| `/src/` | ✅ | Сервисы требуют документации: API, архитектура, ADR, runbooks |
+| `/src/` | ✅ | Сервисы требуют документации: API, runbooks |
 | `/shared/` | ✅ | Библиотеки и контракты нужно документировать для потребителей |
 | `/platform/` | ✅ | Инфраструктура требует runbooks, инструкций по деплою |
 | `/config/` | ❌ | Конфиги самодокументируемы (комментарии внутри YAML) |
 | `/tests/` | ❌ | Тесты сами являются документацией (код = спецификация) |
 | `/.github/` | ❌ | Workflows самодокументируемы (YAML с комментариями) |
 
-### Типы документов
+### Типы документов в /doc/
 
 **Правило:** Каждый тип документа имеет своё место в структуре.
 
 | Тип | Расположение | Назначение |
 |-----|--------------|------------|
 | README.md | Корень каждой папки | Точка входа: обзор, ссылки, быстрый старт |
-| ADR | `/doc/src/{service}/specs/adr/` | Фиксация архитектурных решений |
+| API docs | `/doc/src/{service}/backend/` | Документация API, handlers |
+| Schema docs | `/doc/src/{service}/database/` | Документация схемы БД |
 | Runbooks | `/doc/runbooks/`, `/doc/src/{service}/runbooks/` | Инструкции по эксплуатации |
-| Specs | `/doc/src/{service}/specs/` | Архитектура, планы реализации |
 
-**Формат ADR:**
-- Название: `NNNN-название.md`
-- Содержит: контекст, решение, последствия
+> **Примечание:** Спецификации сервисов (ADR, Plans, Architecture) хранятся в `/specs/`.
+> См. [/.claude/instructions/specs/](../specs/README.md)
 
 ### Дерево /doc/
 
@@ -87,11 +89,6 @@ related:
   /src/
     /auth/
       README.md             # обзор сервиса
-      /specs/               # спецификации
-        /architecture/      # архитектурные описания
-        /adr/               # ADR этого сервиса
-          0001-jwt-tokens.md
-        /plans/             # планы реализации
       /backend/
         handlers.md
         api.md
@@ -128,62 +125,24 @@ related:
 
 ## 2. ГДЕ: Структура сервиса /src/
 
-Каждый сервис в `/src/{service}/` имеет стандартную структуру.
+> **SSOT:** Структура сервиса описана в [services/structure.md](../services/structure.md)
 
-### Дерево файлов сервиса
+Каждый сервис в `/src/{service}/` имеет стандартную структуру:
 
 ```
 /src/{service}/
-  README.md               ← точка входа, ссылка на документацию
-  Makefile                ← команды сервиса (build, test, run)
-  dependencies.yaml       ← зависимости от других сервисов
-  .env.example            ← шаблон переменных окружения
-
-  /backend/               ← серверный код
-    /v1/                  ← версия API
-    /v2/
-    /shared/              ← общая логика между версиями
-    /health/              ← health check endpoints
-
-  /frontend/              ← клиентский код (если есть)
-
-  /database/              ← работа с БД
-    schema.sql            ← текущая схема
-    /migrations/          ← миграции
-    /seeds/               ← тестовые данные
-
-  /tests/                 ← unit/integration тесты
+├── README.md               # Точка входа
+├── Makefile                # Команды сервиса
+├── dependencies.yaml       # Зависимости
+├── .env.example            # Переменные окружения
+├── /backend/               # Серверный код
+├── /database/              # Схема и миграции
+└── /tests/                 # Unit тесты
 ```
 
-### Обязательные файлы
-
-| Файл | Назначение | Документировать |
-|------|------------|:---------------:|
-| `README.md` | Точка входа в сервис | ❌ (сам является документацией) |
-| `Makefile` | Команды сервиса | ✅ в README |
-| `dependencies.yaml` | Зависимости от других сервисов | ✅ в README |
-| `.env.example` | Шаблон переменных окружения | ✅ в README |
-
-### dependencies.yaml
-
-Описывает зависимости сервиса от других сервисов:
-
-```yaml
-# /src/auth/dependencies.yaml
-dependencies:
-  services:
-    - name: users
-      required: true
-      description: Получение данных пользователя
-    - name: notification
-      required: false
-      description: Отправка email при регистрации
-
-  external:
-    - name: redis
-      required: true
-      description: Хранение сессий
-```
+> См. также:
+> - [services/lifecycle.md](../services/lifecycle.md) — создание и удаление сервиса
+> - [services/dependencies.md](../services/dependencies.md) — формат dependencies.yaml
 
 ---
 
@@ -191,60 +150,9 @@ dependencies:
 
 ### README.md сервиса
 
-Каждый сервис содержит `README.md` — точку входа с полной информацией:
+Каждый сервис содержит `README.md` — точку входа.
 
-```markdown
-# {Service} Service
-
-{Краткое описание назначения сервиса — 1-2 предложения}
-
-📖 **Документация:** [/doc/src/{service}/](/doc/src/{service}/)
-
-## Быстрый старт
-
-\`\`\`bash
-# Запуск для разработки
-make dev
-
-# Запуск тестов
-make test
-\`\`\`
-
-## Зависимости
-
-| Сервис | Обязательный | Назначение |
-|--------|:------------:|------------|
-| users | ✅ | Получение данных пользователя |
-| notification | ❌ | Отправка email |
-
-**Внешние:**
-- Redis — хранение сессий
-
-## Переменные окружения
-
-См. [.env.example](.env.example)
-
-| Переменная | Описание | По умолчанию |
-|------------|----------|--------------|
-| `PORT` | Порт сервиса | `8080` |
-| `DATABASE_URL` | URL базы данных | — |
-| `JWT_SECRET` | Секрет для JWT | — |
-
-## Команды
-
-| Команда | Описание |
-|---------|----------|
-| `make dev` | Запуск для разработки |
-| `make test` | Запуск тестов |
-| `make build` | Сборка |
-| `make migrate` | Применить миграции |
-
-## API
-
-- Swagger UI: `GET /docs`
-- Health check: `GET /health`
-- Readiness: `GET /ready`
-```
+> **SSOT:** Шаблон README.md сервиса — в [services/structure.md](../services/structure.md#readmemd-сервиса)
 
 ### Ссылки в коде
 
@@ -289,27 +197,18 @@ counter += 1
 
 ## 4. Workflow документации
 
-### Этапы от идеи до документации
+### Область ответственности /doc/
+
+`/doc/` отвечает **только за документирование кода** — зеркалирование `/src/`, `/shared/`, `/platform/`.
 
 ```
-Дискуссия (/.claude/discussions/)
-    ↓ (решение принято)
-/doc/src/{service}/specs/adr/       # ADR
-    ↓
-/doc/src/{service}/specs/plans/     # план реализации
-    ↓
 /src/{service}/                     # код
-    ↓
-/doc/src/{service}/backend/         # документация кода
+    ↓ (docs-create)
+/doc/src/{service}/                 # документация кода
 ```
 
-**Этапы:**
-
-1. **Дискуссия** — обсуждение подхода в `/.claude/discussions/`
-2. **ADR** — фиксация решения в `/doc/src/{service}/specs/adr/`
-3. **План** — детальный план в `/doc/src/{service}/specs/plans/`
-4. **Код** — реализация в `/src/{service}/`
-5. **Документация** — описание API в `/doc/src/{service}/`
+> **Полный workflow разработки** (от идеи до реализации) описан в [/.claude/instructions/specs/workflow.md](../specs/workflow.md).
+> Спецификации (Discussion → Impact → ADR → Plan) живут в `/specs/`.
 
 ### Связь src ↔ doc
 
@@ -325,9 +224,9 @@ counter += 1
 
 | Событие | Действие | Скилл |
 |---------|----------|-------|
-| Создан файл в `/src/` | Создать документацию в `/doc/src/` | `/doc-create` |
-| Изменён файл в `/src/` | Обновить документацию | `/doc-update` |
-| Удалён файл из `/src/` | Пометить документацию, создать Issue | `/doc-delete` |
+| Создан файл в `/src/` | Создать документацию в `/doc/src/` | `/docs-create` |
+| Изменён файл в `/src/` | Обновить документацию | `/docs-update` |
+| Удалён файл из `/src/` | Пометить документацию, создать Issue | `/docs-delete` |
 
 ---
 
@@ -345,25 +244,25 @@ counter += 1
 
 | Скилл | Назначение |
 |-------|------------|
-| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Создание документации для нового файла в /src/ |
-| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации при изменении кода |
-| [/doc-delete](/.claude/skills/doc-delete/SKILL.md) | Пометка документации при удалении файла |
-| [/doc-reindex](/.claude/skills/doc-reindex/SKILL.md) | Полная переиндексация документации |
+| [/docs-create](/.claude/skills/docs-create/SKILL.md) | Создание документации для нового файла в /src/ |
+| [/docs-update](/.claude/skills/docs-update/SKILL.md) | Обновление документации при изменении кода |
+| [/docs-delete](/.claude/skills/docs-delete/SKILL.md) | Пометка документации при удалении файла |
+| [/docs-reindex](/.claude/skills/docs-reindex/SKILL.md) | Полная переиндексация документации |
 
-### /doc-create
+### /docs-create
 
 Создаёт:
 1. Файл `/doc/src/{service}/{path}.md` по шаблону
 2. Ссылку на документацию в исходном файле
 
-### /doc-update
+### /docs-update
 
 Обновляет документацию при изменении:
 - Сигнатур функций/методов
 - Структуры модуля
 - Зависимостей
 
-### /doc-delete
+### /docs-delete
 
 При удалении файла из `/src/`:
 1. Помечает документацию в `/doc/` как требующую ревью
@@ -381,11 +280,6 @@ counter += 1
 ```
 /doc/src/auth/
   README.md                     # обзор сервиса
-  /specs/
-    /adr/
-      0001-jwt-tokens.md        # решение по токенам
-    /plans/
-      oauth-implementation.md   # план реализации OAuth
   /backend/
     handlers.md                 # документация handlers.ts
     api.md                      # описание API
@@ -393,33 +287,10 @@ counter += 1
     token-issues.md             # что делать при проблемах с токенами
 ```
 
-### Пример 2: ADR
+> **Спецификации сервиса** (ADR, Plans, Architecture) создаются в `/specs/services/auth/`.
+> См. [/.claude/instructions/specs/](../specs/README.md)
 
-**Файл:** `/doc/src/auth/specs/adr/0001-jwt-tokens.md`
-
-```markdown
-# 0001: Использование JWT токенов
-
-## Статус
-
-Принято
-
-## Контекст
-
-Нужен механизм аутентификации для микросервисной архитектуры.
-
-## Решение
-
-Использовать JWT токены с коротким временем жизни (15 мин) и refresh токены.
-
-## Последствия
-
-- (+) Stateless аутентификация
-- (+) Легко масштабируется
-- (-) Нельзя отозвать токен до истечения
-```
-
-### Пример 3: Runbook
+### Пример 2: Runbook
 
 **Файл:** `/doc/src/auth/runbooks/token-issues.md`
 
@@ -442,30 +313,7 @@ counter += 1
 2. Если секрет изменился — перезапустить сервис
 ```
 
-### Пример 4: README.md сервиса
-
-**Файл:** `/src/auth/README.md`
-
-```markdown
-# Auth Service
-
-Сервис аутентификации и авторизации.
-
-📖 **Документация:** [/doc/src/auth/](/doc/src/auth/)
-
-## Быстрый старт
-
-\`\`\`bash
-make dev
-\`\`\`
-
-## Зависимости
-
-- users (обязательный)
-- redis (внешний)
-```
-
-### Пример 5: Файл с обработчиками
+### Пример 3: Файл с обработчиками
 
 **Файл:** `/src/auth/backend/handlers.py`
 
@@ -501,4 +349,4 @@ def login(request):
 
 ---
 
-> **Путь:** `/.claude/instructions/doc/structure.md`
+> **Путь:** `/.claude/instructions/docs/structure.md`

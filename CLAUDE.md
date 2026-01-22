@@ -160,9 +160,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | **Patterns** (Паттерны) | `/.claude/instructions/` | Как делать: стандарты, правила |
 | **Entities** (Сущности) | `/src/`, `/shared/`, `/platform/` | Что есть: код, контракты, инфраструктура |
 | **Entity Docs** (Описания) | `/doc/src/`, `/doc/shared/` | Документация сущностей |
-| **Tech Context** (Контекст) | `/doc/src/{service}/specs/architecture/` | Архитектура сервиса |
-| **ADR** (Решения) | `/doc/src/{service}/specs/adr/` | Архитектурные решения |
-| **Progress** (Прогресс) | `/doc/src/{service}/specs/plans/` | Планы и roadmap |
+| **Tech Context** (Контекст) | `/specs/services/{service}/architecture.md` | Архитектура сервиса |
+| **ADR** (Решения) | `/specs/services/{service}/adr/` | Архитектурные решения |
+| **Progress** (Прогресс) | `/specs/services/{service}/plans/` | Планы и roadmap |
 | **Active Context** | GitHub Issues | Текущие задачи |
 | **Glossary** (Глоссарий) | `/doc/glossary.md` | Термины проекта |
 | **Discussions** (Дискуссии) | `/.claude/discussions/` | Обсуждения и заметки |
@@ -220,7 +220,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 |------|------------|
 | `/doc/glossary.md` | Глоссарий терминов |
 | `/.claude/discussions/` | Активные дискуссии |
-| `/doc/src/{service}/specs/adr/` | ADR сервиса |
+| `/specs/services/{service}/adr/` | ADR сервиса |
 
 ## Задачи
 

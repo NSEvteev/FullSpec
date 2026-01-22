@@ -59,4 +59,4 @@
 
 - [/.claude/instructions/](/.claude/instructions/) — инструкции (правила для скиллов)
 - [/.claude/skills/README.md](/.claude/skills/README.md) — индекс скиллов
-- [/.claude/instructions/doc/templates.md](/.claude/instructions/doc/templates.md) — правила выбора шаблона документации
+- [/.claude/instructions/docs/templates.md](/.claude/instructions/docs/templates.md) — правила выбора шаблона документации

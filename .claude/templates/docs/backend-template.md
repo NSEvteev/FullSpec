@@ -1,6 +1,6 @@
 # Backend Template
 
-> **Источник:** [/.claude/instructions/doc/structure.md](/.claude/instructions/doc/structure.md#шаблон-backend-handlers-services-controllers)
+> **Источник:** [/.claude/instructions/docs/structure.md](/.claude/instructions/docs/structure.md#шаблон-backend-handlers-services-controllers)
 
 Шаблон документации для backend-кода: handlers, services, controllers.
 

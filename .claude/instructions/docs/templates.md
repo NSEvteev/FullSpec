@@ -1,8 +1,10 @@
 ---
 type: standard
 description: Шаблоны документации для различных типов файлов
+governed-by: docs/README.md
 related:
-  - doc/structure.md   # основная инструкция по документации
+  - docs/structure.md
+  - docs/rules.md
 ---
 
 # Шаблоны документации
@@ -19,14 +21,14 @@ related:
 
 ## Файлы шаблонов
 
-> **SSOT:** Шаблоны находятся в [/.claude/templates/doc/](/.claude/templates/doc/)
+> **SSOT:** Шаблоны находятся в [/.claude/templates/docs/](/.claude/templates/docs/)
 
 | Шаблон | Файл | Назначение |
 |--------|------|------------|
-| Backend | [backend-template.md](/.claude/templates/doc/backend-template.md) | handlers, services, controllers |
-| Database | [database-template.md](/.claude/templates/doc/database-template.md) | schema, migrations |
-| Frontend | [frontend-template.md](/.claude/templates/doc/frontend-template.md) | components, pages |
-| Minimal | [minimal-template.md](/.claude/templates/doc/minimal-template.md) | утилиты, константы |
+| Backend | [backend-template.md](/.claude/templates/docs/backend-template.md) | handlers, services, controllers |
+| Database | [database-template.md](/.claude/templates/docs/database-template.md) | schema, migrations |
+| Frontend | [frontend-template.md](/.claude/templates/docs/frontend-template.md) | components, pages |
+| Minimal | [minimal-template.md](/.claude/templates/docs/minimal-template.md) | утилиты, константы |
 
 ---
 
@@ -47,9 +49,9 @@ related:
 
 | Скилл | Назначение |
 |-------|------------|
-| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Создание документации |
-| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации |
-| [/doc-delete](/.claude/skills/doc-delete/SKILL.md) | Удаление документации |
+| [/docs-create](/.claude/skills/docs-create/SKILL.md) | Создание документации |
+| [/docs-update](/.claude/skills/docs-update/SKILL.md) | Обновление документации |
+| [/docs-delete](/.claude/skills/docs-delete/SKILL.md) | Удаление документации |
 
 ---
 
@@ -60,4 +62,4 @@ related:
 
 ---
 
-> **Путь:** `/.claude/instructions/doc/templates.md`
+> **Путь:** `/.claude/instructions/docs/templates.md`

@@ -1,15 +1,16 @@
 ---
 type: standard
-description: Правила документации для doc-* скиллов — маппинг путей, валидация, языки
+description: Правила документации для docs-* скиллов — маппинг путей, валидация, языки
+governed-by: docs/README.md
 related:
-  - doc/structure.md
-  - doc/templates.md
+  - docs/structure.md
+  - docs/templates.md
   - shared/scope.md
 ---
 
 # Правила документации
 
-Общие правила для всех doc-* скиллов (doc-create, doc-update, doc-delete).
+Общие правила для всех docs-* скиллов (docs-create, docs-update, docs-delete).
 
 ## Оглавление
 
@@ -167,10 +168,10 @@ related:
 
 | Событие | Скилл |
 |---------|-------|
-| Создан новый файл | `/doc-create` |
-| Изменён файл | `/doc-update` |
-| Удалён файл | `/doc-delete` |
-| Перемещён файл | `/doc-delete` + `/doc-create` |
+| Создан новый файл | `/docs-create` |
+| Изменён файл | `/docs-update` |
+| Удалён файл | `/docs-delete` |
+| Перемещён файл | `/docs-delete` + `/docs-create` |
 
 **Цепочки вызовов:**
 ```
@@ -185,9 +186,9 @@ doc-delete → issue-create → links-delete
 
 | Скилл | Назначение |
 |-------|------------|
-| [/doc-create](/.claude/skills/doc-create/SKILL.md) | Создание документации |
-| [/doc-update](/.claude/skills/doc-update/SKILL.md) | Обновление документации |
-| [/doc-delete](/.claude/skills/doc-delete/SKILL.md) | Удаление документации |
+| [/docs-create](/.claude/skills/docs-create/SKILL.md) | Создание документации |
+| [/docs-update](/.claude/skills/docs-update/SKILL.md) | Обновление документации |
+| [/docs-delete](/.claude/skills/docs-delete/SKILL.md) | Удаление документации |
 
 ---
 
@@ -199,4 +200,4 @@ doc-delete → issue-create → links-delete
 
 ---
 
-> **Путь:** `/.claude/instructions/doc/rules.md`
+> **Путь:** `/.claude/instructions/docs/rules.md`
