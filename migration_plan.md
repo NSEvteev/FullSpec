@@ -5,48 +5,56 @@
 **Связанные документы:**
 - [new_structure_of_project.md](./new_structure_of_project.md) — целевая структура
 - [refactoting-claude-and-instructions.md](./refactoting-claude-and-instructions.md) — история рефакторинга
+- [workflow-refactoring.md](./workflow-refactoring.md) — воркфлоу рефакторинга
 
 ---
 
 ## 0. Таблица миграции
 
-| Новая папка | Старая папка | Мигрировано | Верификация 1 | Верификация 2 |
-|-------------|--------------|:-----------:|:-------------:|:-------------:|
-| **service/** | | | | |
-| `service/*.md` | `services/*.md` | ⬜ | ⬜ | ⬜ |
-| `service/api/` | `src/api/` | ⬜ | ⬜ | ⬜ |
-| `service/data/` | `src/data/` | ⬜ | ⬜ | ⬜ |
-| `service/database/` | `src/runtime/database.md` | ⬜ | ⬜ | ⬜ |
-| `service/health/` | `src/runtime/health.md` | ⬜ | ⬜ | ⬜ |
-| `service/resilience/` | `src/runtime/resilience.md` | ⬜ | ⬜ | ⬜ |
-| `service/security/` | `src/security/` | ⬜ | ⬜ | ⬜ |
-| `service/testing/` | `src/dev/testing.md` | ⬜ | ⬜ | ⬜ |
-| `service/frontend/` | — (новая) | ⬜ | ⬜ | ⬜ |
-| **system/** | | | | |
-| `system/platform/` | `platform/` | ⬜ | ⬜ | ⬜ |
-| `system/platform/observability/` | `platform/observability/` | ⬜ | ⬜ | ⬜ |
-| `system/tests/` | `tests/` | ⬜ | ⬜ | ⬜ |
-| `system/shared/` | `shared/` | ⬜ | ⬜ | ⬜ |
-| `system/config/` | `config/` | ⬜ | ⬜ | ⬜ |
-| **workflow/** | | | | |
-| `workflow/git/` | `git/` (без ci.md) | ⬜ | ⬜ | ⬜ |
-| `workflow/github/` | — (новая) | ⬜ | ⬜ | ⬜ |
-| `workflow/github/issues/` | `issues/` | ⬜ | ⬜ | ⬜ |
-| `workflow/specs/` | `specs/` | ⬜ | ⬜ | ⬜ |
-| `workflow/docs/` | `docs/` | ⬜ | ⬜ | ⬜ |
-| **meta/** | | | | |
-| `meta/instructions/` | `instructions/` | ⬜ | ⬜ | ⬜ |
-| `meta/links/` | `links/` | ⬜ | ⬜ | ⬜ |
-| `meta/skills/` | `skills/` | ⬜ | ⬜ | ⬜ |
-| `meta/agents/` | — (новая) | ⬜ | ⬜ | ⬜ |
-| `meta/scripts/` | — (новая) | ⬜ | ⬜ | ⬜ |
-| `meta/state/` | — (новая) | ⬜ | ⬜ | ⬜ |
-| `meta/templates/` | — (новая) | ⬜ | ⬜ | ⬜ |
+> Все пути относительно `/.claude/instructions/`
+
+| Новая папка | Старая папка | Рефакторинг | Миграция | Верификация 1 | Верификация 2 |
+|-------------|--------------|:-----------:|:--------:|:-------------:|:-------------:|
+| **service/** | | | | | |
+| `service/*.md` | `services/*.md` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `service/api/` | `src/api/` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `service/data/` | `src/data/` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `service/database/` | `src/runtime/database.md` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `service/health/` | `src/runtime/health.md` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `service/resilience/` | `src/runtime/resilience.md` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `service/security/` | `src/security/` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `service/testing/` | `src/dev/testing.md` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `service/frontend/` | — (новая) | — | ⬜ | ⬜ | ⬜ |
+| **system/** | | | | | |
+| `system/platform/` | `platform/` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `system/platform/observability/` | `platform/observability/` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `system/tests/` | `tests/` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `system/shared/` | `shared/` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `system/config/` | `config/` | ⬜ | ⬜ | ⬜ | ⬜ |
+| **workflow/** | | | | | |
+| `workflow/git/` | `git/` (без ci.md) | ⬜ | ⬜ | ⬜ | ⬜ |
+| `workflow/github/` | — (новая, + git/ci.md) | — | ⬜ | ⬜ | ⬜ |
+| `workflow/github/issues/` | `issues/` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `workflow/specs/` | `specs/` | ✅ | ⬜ | ⬜ | ⬜ |
+| `workflow/docs/` | `docs/` | ⬜ | ⬜ | ⬜ | ⬜ |
+| **meta/** | | | | | |
+| `meta/instructions/` | `instructions/` | ✅ | ⬜ | ⬜ | ⬜ |
+| `meta/links/` | `links/` | ✅ | ⬜ | ⬜ | ⬜ |
+| `meta/skills/` | `skills/` | 🔄 | ⬜ | ⬜ | ⬜ |
+| `meta/agents/` | — (новая) | — | ⬜ | ⬜ | ⬜ |
+| `meta/scripts/` | — (новая) | — | ⬜ | ⬜ | ⬜ |
+| `meta/state/` | — (новая) | — | ⬜ | ⬜ | ⬜ |
+| `meta/templates/` | — (новая) | — | ⬜ | ⬜ | ⬜ |
 
 **Легенда:**
 - ⬜ Не начато
 - 🔄 В процессе
 - ✅ Готово
+- — Не применимо (новая папка)
+
+**Колонки:**
+- **Рефакторинг:** Внутренняя переработка содержимого (SSOT, README, скиллы)
+- **Миграция:** Перемещение в новую структуру папок
 - **Верификация 1:** Проверка файлов без кросс-верификации
 - **Верификация 2:** Кросс-верификация ссылок в новой структуре
 
