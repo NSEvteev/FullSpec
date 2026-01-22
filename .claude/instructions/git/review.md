@@ -1,5 +1,7 @@
 ---
-type: standard
+type: instruction
+status: active
+priority: required
 description: Code review: чек-лист, CODEOWNERS, правила approve
 related:
   - git/workflow.md

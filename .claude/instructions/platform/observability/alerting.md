@@ -29,6 +29,8 @@ related:
 
 ## Правила
 
+> **Шаблон:** [/.claude/templates/platform/prometheus-rules.template](/.claude/templates/platform/prometheus-rules.template)
+
 ### Severity Levels
 
 **Правило:** Чёткая классификация severity.

@@ -1,5 +1,7 @@
 ---
-type: standard
+type: instruction
+status: active
+priority: required
 description: CI/CD pipeline структура, GitHub Actions, quality gates
 related:
   - git/workflow.md

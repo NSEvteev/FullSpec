@@ -222,6 +222,8 @@ test.describe.parallel('Smoke Tests', () => {
 
 ## Примеры
 
+> **Шаблон:** [/.claude/templates/tests/smoke-test.md](/.claude/templates/tests/smoke-test.md)
+
 ### Пример 1: Health checks
 
 ```typescript

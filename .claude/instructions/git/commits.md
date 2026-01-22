@@ -1,5 +1,7 @@
 ---
-type: standard
+type: instruction
+status: active
+priority: required
 description: Conventional commits: feat/fix/breaking, автогенерация CHANGELOG
 related:
   - git/workflow.md

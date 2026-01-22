@@ -1,5 +1,7 @@
 ---
-type: standard
+type: instruction
+status: active
+priority: required
 description: Git workflow: GitHub Flow, ветки (main + feature/fix), PR
 related:
   - git/issues.md

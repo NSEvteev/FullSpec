@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/scripts/protect-specs.py"
+            "command": "python .claude/scripts/protect-specs.py"
           }
         ]
       }

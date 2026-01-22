@@ -1,5 +1,7 @@
 ---
-type: standard
+type: instruction
+status: active
+priority: required
 description: GitHub Issues: префиксы, метки, команды gh
 related:
   - git/workflow.md
