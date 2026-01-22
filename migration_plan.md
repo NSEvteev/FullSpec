@@ -24,13 +24,13 @@
 | `service/health/` | `src/runtime/health.md` | ⬜ | ⬜ | ⬜ | ⬜ |
 | `service/resilience/` | `src/runtime/resilience.md` | ⬜ | ⬜ | ⬜ | ⬜ |
 | `service/security/` | `src/security/` | ⬜ | ⬜ | ⬜ | ⬜ |
-| `service/testing/` | `src/dev/testing.md` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `service/testing/` | `src/dev/testing.md` + `tests/unit.md` | ⬜ | ⬜ | ⬜ | ⬜ |
 | `service/frontend/` | — (новая) | — | ⬜ | ⬜ | ⬜ |
 | **system/** | | | | | |
 | `system/platform/` | `platform/` | ⬜ | ⬜ | ⬜ | ⬜ |
 | `system/platform/observability/` | `platform/observability/` | ⬜ | ⬜ | ⬜ | ⬜ |
-| `system/tests/` | `tests/` | ⬜ | ⬜ | ⬜ | ⬜ |
-| `system/shared/` | `shared/` | ⬜ | ⬜ | ⬜ | ⬜ |
+| `system/tests/` | `tests/` (без unit.md, claude-*.md) | ⬜ | ⬜ | ⬜ | ⬜ |
+| `system/shared/` | `shared/` (без scope.md) | ⬜ | ⬜ | ⬜ | ⬜ |
 | `system/config/` | `config/` | ⬜ | ⬜ | ⬜ | ⬜ |
 | **workflow/** | | | | | |
 | `workflow/git/` | `git/` (без ci.md) | ⬜ | ⬜ | ⬜ | ⬜ |
@@ -103,6 +103,14 @@
 | `src/runtime/` | Разбита на `service/database/`, `service/health/`, `service/resilience/`, + realtime.md → `service/api/` |
 | `src/dev/` | Разбита на `service/dev/` (local, performance) и `service/testing/` (testing) |
 
+### Удаляемые файлы (не мигрируют)
+
+| Файл | Причина |
+|------|---------|
+| `shared/scope.md` | Избыточен, правила определения scope не нужны |
+| `tests/claude-testing.md` | Тестирование Claude удаляется из проекта |
+| `tests/claude-functional.md` | Тестирование Claude удаляется из проекта |
+
 ### Перемещение файлов
 
 | Файл | Было | Стало |
@@ -122,6 +130,7 @@
 | `services/dependencies.md` | `services/` | `service/dependencies.md` |
 | `git/ci.md` | `git/` | `workflow/github/actions.md` |
 | `issues/*.md` | `issues/` | `workflow/github/issues/` |
+| `tests/unit.md` | `tests/` | `service/testing/unit.md` |
 
 ---
 
