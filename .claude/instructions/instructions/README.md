@@ -18,10 +18,11 @@
 | — | [workflow-create.md](./workflow-create.md) | Детальный воркфлоу CREATE |
 | — | [workflow-update.md](./workflow-update.md) | Детальный воркфлоу UPDATE |
 | — | [workflow-deactivate.md](./workflow-deactivate.md) | Детальный воркфлоу DEACTIVATE |
-| [6. Паттерны](#6-паттерны) | [patterns.md](./patterns.md) | Поиск ссылок на инструкции |
-| [7. Шаблоны](#7-шаблоны) | — | Шаблоны для инструкций |
-| [8. Скиллы](#8-скиллы) | — | Скиллы для инструкций |
-| [9. Скрипты](#9-скрипты) | — | Скрипты автоматизации |
+| [6. Связи](#6-связи) | [relations.md](./relations.md) | governed-by и related |
+| [7. Паттерны](#7-паттерны) | [patterns.md](./patterns.md) | Поиск ссылок на инструкции |
+| [8. Шаблоны](#8-шаблоны) | — | Шаблоны для инструкций |
+| [9. Скиллы](#9-скиллы) | — | Скиллы для инструкций |
+| [10. Скрипты](#10-скрипты) | — | Скрипты автоматизации |
 
 ```
 /.claude/instructions/instructions/
@@ -34,6 +35,7 @@
 ├── workflow-create.md      # Детальный воркфлоу CREATE
 ├── workflow-update.md      # Детальный воркфлоу UPDATE
 ├── workflow-deactivate.md  # Детальный воркфлоу DEACTIVATE
+├── relations.md            # Связи (governed-by, related)
 └── patterns.md             # Паттерны поиска
 ```
 
@@ -80,8 +82,10 @@
 - [Навигационные ссылки](./validation.md#навигационные-ссылки)
 - [Frontmatter](./validation.md#frontmatter)
 - [governed-by](./validation.md#governed-by)
-- [Примеры](./validation.md#примеры)
+- [Скрипт валидации](./validation.md#скрипт-валидации)
+- [Ошибки валидации](./validation.md#ошибки-валидации)
 - [Скиллы](./validation.md#скиллы)
+- [Связанные инструкции](./validation.md#связанные-инструкции)
 
 **Инструкция:** [validation.md](./validation.md)
 
@@ -104,7 +108,7 @@
 
 # 5. Жизненный цикл
 
-Жизненный цикл инструкций: CREATE, UPDATE, DEACTIVATE.
+Жизненный цикл инструкций: CREATE, UPDATE, DEACTIVATE, MIGRATE.
 
 **Оглавление:**
 - [Диаграмма](./workflow.md#диаграмма)
@@ -112,6 +116,7 @@
 - [Фаза CREATE](./workflow.md#фаза-create)
 - [Фаза UPDATE](./workflow.md#фаза-update)
 - [Фаза DEACTIVATE](./workflow.md#фаза-deactivate)
+- [Фаза MIGRATE](./workflow.md#фаза-migrate)
 - [Граф зависимостей](./workflow.md#граф-зависимостей)
 - [Скиллы](./workflow.md#скиллы)
 
@@ -124,7 +129,23 @@
 
 ---
 
-# 6. Паттерны
+# 6. Связи
+
+Работа со связями между инструкциями (governed-by, related).
+
+**Оглавление:**
+- [governed-by](./relations.md#governed-by)
+- [related](./relations.md#related)
+- [Правила обновления](./relations.md#правила-обновления)
+- [Примеры](./relations.md#примеры)
+- [Скиллы](./relations.md#скиллы)
+- [Связанные инструкции](./relations.md#связанные-инструкции)
+
+**Инструкция:** [relations.md](./relations.md)
+
+---
+
+# 7. Паттерны
 
 Паттерны поиска ссылок на инструкции.
 
@@ -139,7 +160,7 @@
 
 ---
 
-# 7. Шаблоны
+# 8. Шаблоны
 
 Шаблоны для создания инструкций.
 
@@ -150,7 +171,7 @@
 
 ---
 
-# 8. Скиллы
+# 9. Скиллы
 
 Скиллы для работы с инструкциями.
 
@@ -162,7 +183,7 @@
 
 ---
 
-# 9. Скрипты
+# 10. Скрипты
 
 Скрипты автоматизации для инструкций.
 

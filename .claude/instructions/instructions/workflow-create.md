@@ -6,6 +6,7 @@ related:
   - instructions/workflow.md
   - instructions/validation.md
   - instructions/structure.md
+  - instructions/relations.md
 ---
 
 # Воркфлоу создания инструкции
@@ -84,14 +85,14 @@ fi
 - `standard` — стандарты качества (КАК делать)
 - `project` — специфика проекта (ЧТО есть)
 
-**Заполнить frontmatter:**
+**Заполнить frontmatter** согласно [relations.md](./relations.md):
 ```yaml
 ---
 type: {standard | project}
 description: {описание}
-governed-by: instructions/README.md
+governed-by: {папка}/README.md   # путь к README папки
 related:
-  - {связанные инструкции}
+  - {связанные инструкции}       # пути относительно /.claude/instructions/
 ---
 ```
 
@@ -241,3 +242,4 @@ Write → /.claude/instructions/{путь}
 - [structure.md](./structure.md) — структура папок
 - [types.md](./types.md) — типы инструкций
 - [statuses.md](./statuses.md) — система статусов
+- [relations.md](./relations.md) — работа со связями (governed-by, related)

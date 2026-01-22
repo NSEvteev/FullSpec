@@ -5,6 +5,7 @@ governed-by: instructions/README.md
 related:
   - instructions/workflow.md
   - instructions/validation.md
+  - instructions/relations.md
 ---
 
 # Воркфлоу обновления инструкции
@@ -214,3 +215,4 @@ Glob → {паттерн зоны}
 - [workflow.md](./workflow.md) — обзор жизненного цикла
 - [validation.md](./validation.md) — правила валидации
 - [patterns.md](./patterns.md) — паттерны поиска
+- [relations.md](./relations.md) — работа со связями (governed-by, related)

@@ -53,6 +53,7 @@ triggers:
 > 1. [workflow-update.md](/.claude/instructions/instructions/workflow-update.md) — **детальный воркфлоу UPDATE (12 шагов)**
 > 2. [validation.md](/.claude/instructions/instructions/validation.md) — формат файлов
 > 3. [patterns.md](/.claude/instructions/instructions/patterns.md) — паттерны поиска
+> 4. [relations.md](/.claude/instructions/instructions/relations.md) — проверка связей (governed-by, related)
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 

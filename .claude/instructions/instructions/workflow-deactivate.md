@@ -5,6 +5,7 @@ governed-by: instructions/README.md
 related:
   - instructions/workflow.md
   - instructions/statuses.md
+  - instructions/relations.md
 ---
 
 # Воркфлоу деактивации инструкции
@@ -222,3 +223,4 @@ related:
 - [workflow.md](./workflow.md) — обзор жизненного цикла
 - [statuses.md](./statuses.md) — система статусов
 - [workflow-create.md](./workflow-create.md) — воркфлоу создания
+- [relations.md](./relations.md) — работа со связями (governed-by, related)

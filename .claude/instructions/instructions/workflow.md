@@ -1,15 +1,16 @@
 ---
 type: standard
-description: Жизненный цикл инструкций: CREATE, UPDATE, DEACTIVATE
+description: Жизненный цикл инструкций: CREATE, UPDATE, DEACTIVATE, MIGRATE
 governed-by: instructions/README.md
 related:
   - instructions/statuses.md
   - instructions/patterns.md
+  - instructions/relations.md
 ---
 
 # Жизненный цикл инструкций
 
-Фазы работы с инструкциями: создание, обновление, деактивация.
+Фазы работы с инструкциями: создание, обновление, деактивация, миграция.
 
 **Индекс:** [/.claude/instructions/README.md](/.claude/instructions/README.md) | **Папка:** [instructions/README.md](./README.md)
 
@@ -20,6 +21,7 @@ related:
 - [Фаза CREATE](#фаза-create)
 - [Фаза UPDATE](#фаза-update)
 - [Фаза DEACTIVATE](#фаза-deactivate)
+- [Фаза MIGRATE](#фаза-migrate)
 - [Граф зависимостей](#граф-зависимостей)
 - [Скиллы](#скиллы)
 - [Связанные инструкции](#связанные-инструкции)
@@ -134,6 +136,46 @@ related:
 
 ---
 
+## Фаза MIGRATE
+
+**Когда использовать:** Переименование или перемещение инструкции в другую папку.
+
+**Нет отдельного скилла.** Миграция выполняется вручную с использованием базовых операций.
+
+**Шаги:**
+1. Создать инструкцию по новому пути → `/instruction-create`
+2. Скопировать содержимое из старой инструкции
+3. Обновить `governed-by` (если изменилась папка)
+4. Обновить `related` (пути к связанным инструкциям)
+5. Обновить ссылки во всём проекте → `/links-update`
+6. Деактивировать старую инструкцию → `/instruction-deactivate`
+
+**Что обновляется:**
+
+| Элемент | Действие |
+|---------|----------|
+| Новая инструкция | Создать |
+| Старая инструкция | Деактивировать |
+| README папки (старой) | Обновить |
+| README папки (новой) | Создать/обновить |
+| Главный README | Обновить статусы |
+| Ссылки в проекте | Обновить через `/links-update` |
+| Связи в других инструкциях | Обновить `related` |
+
+**Пример миграции:**
+
+```
+# Перемещаем src/api/auth.md → src/security/auth.md
+
+1. /instruction-create src/security/auth.md
+2. Скопировать содержимое
+3. governed-by: src/security/README.md (было src/api/README.md)
+4. /links-update src/api/auth.md → src/security/auth.md
+5. /instruction-deactivate src/api/auth.md
+```
+
+---
+
 ## Граф зависимостей
 
 ```
@@ -153,6 +195,11 @@ instruction-update
 instruction-deactivate
     |-> README папки (обновить)
     |-> Главный README (сбросить статус)
+
+MIGRATE (комбинация операций)
+    |-> instruction-create (новый путь)
+    |-> links-update
+    |-> instruction-deactivate (старый путь)
 ```
 
 ---
@@ -174,3 +221,4 @@ instruction-deactivate
 - [workflow-deactivate.md](./workflow-deactivate.md) — детальный воркфлоу DEACTIVATE
 - [statuses.md](./statuses.md) — система статусов
 - [patterns.md](./patterns.md) — паттерны поиска ссылок
+- [relations.md](./relations.md) — работа со связями (governed-by, related)

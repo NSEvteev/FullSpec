@@ -51,6 +51,7 @@ triggers:
 > Прочитать инструкции SSOT:
 > 1. [workflow-deactivate.md](/.claude/instructions/instructions/workflow-deactivate.md) — **детальный воркфлоу DEACTIVATE (10 шагов)**
 > 2. [statuses.md](/.claude/instructions/instructions/statuses.md) — система статусов
+> 3. [relations.md](/.claude/instructions/instructions/relations.md) — обновление обратных ссылок в related
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 

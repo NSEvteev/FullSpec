@@ -49,8 +49,9 @@ triggers:
 > 1. [structure.md](/.claude/instructions/instructions/structure.md) — расположение и допустимые папки
 > 2. [types.md](/.claude/instructions/instructions/types.md) — типы (standard/project)
 > 3. [validation.md](/.claude/instructions/instructions/validation.md) — формат названия и секций
-> 4. [workflow-create.md](/.claude/instructions/instructions/workflow-create.md) — **детальный воркфлоу CREATE (15 шагов)**
-> 5. [statuses.md](/.claude/instructions/instructions/statuses.md) — статусы в README.md
+> 4. [relations.md](/.claude/instructions/instructions/relations.md) — заполнение governed-by и related
+> 5. [workflow-create.md](/.claude/instructions/instructions/workflow-create.md) — **детальный воркфлоу CREATE (15 шагов)**
+> 6. [statuses.md](/.claude/instructions/instructions/statuses.md) — статусы в README.md
 >
 > **Шаблоны:**
 > - [instruction.md](/.claude/templates/instructions/instruction.md) — шаблон инструкции
