@@ -55,7 +55,7 @@
 │   ├── tests/
 │   │   └── *.md                 #   Системные тесты: e2e, load, smoke
 │   ├── shared/
-│   │   └── *.md                 #   Общий код: contracts, events, libs
+│   │   └── *.md                 #   Общий код: contracts, events, libs, assets, i18n
 │   └── config/
 │       └── *.md                 #   Конфигурации: environments, feature-flags
 │
@@ -82,8 +82,10 @@
     │   └── *.md                 #   Правила агентов: structure, prompts, tools
     ├── scripts/
     │   └── *.md                 #   Правила скриптов: naming, structure, hooks
-    └── state/
-        └── *.md                 #   Правила состояний: format, lifecycle, cleanup
+    ├── state/
+    │   └── *.md                 #   Правила состояний: format, lifecycle, cleanup
+    └── templates/
+        └── *.md                 #   Правила шаблонов: structure, usage, maintenance
 ```
 
 ---
@@ -249,52 +251,43 @@
 | `meta/agents/` | `/.claude/agents/` | Правила агентов |
 | `meta/scripts/` | `/.claude/scripts/` | Правила скриптов |
 | `meta/state/` | `/.claude/state/` | Правила состояний |
+| `meta/templates/` | `/.claude/templates/` | Правила шаблонов |
 | `meta/links/` | — | Правила ссылок |
 
 ---
 
 ## 4. Диаграмма связей
 
+```mermaid
+flowchart LR
+    subgraph INSTR["ИНСТРУКЦИИ"]
+        service["service/"]
+        system["system/"]
+        workflow["workflow/"]
+        meta["meta/"]
+    end
+
+    subgraph PROJECT["ПРОЕКТ"]
+        src["/src/{service}/"]
+        infra["/platform/<br>/tests/<br>/shared/<br>/config/"]
+        docs["/specs/<br>/doc/<br>/.github/"]
+        claude["/.claude/"]
+    end
+
+    service --> src
+    system --> infra
+    workflow --> docs
+    meta --> claude
 ```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                            ИНСТРУКЦИИ                                    │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│   service/           system/            workflow/          meta/         │
-│   ┌────────┐        ┌──────────┐       ┌──────────┐      ┌───────┐      │
-│   │ api    │        │ platform │       │ git      │←proc │ instr.│      │
-│   │ data   │        │  observ. │       │ github   │←tool │ links │      │
-│   │database│        │ tests    │       │  issues  │      │ skills│      │
-│   │ health │        │ shared   │       │ specs    │      │ agents│      │
-│   │ resil. │        │ config   │       │ docs     │      │scripts│      │
-│   │ secur. │        │          │       │          │      │ state │      │
-│   │ testing│        │          │       │          │      │       │      │
-│   │frontend│        │          │       │          │      │       │      │
-│   └───┬────┘        └────┬─────┘       └────┬─────┘      └───┬───┘      │
-│       │                  │                  │                │           │
-└───────┼──────────────────┼──────────────────┼────────────────┼───────────┘
-        │                  │                  │                │
-        ▼                  ▼                  ▼                ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│                             ПРОЕКТ                                       │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│   /src/{service}/    /platform/         /specs/           /.claude/      │
-│   ┌────────┐        ┌──────────┐       ┌──────────┐      ┌───────┐      │
-│   │backend │        │ docker   │       │ discuss. │      │ instr.│      │
-│   │  v1/v2 │        │ gateway  │       │ impact   │      │ skills│      │
-│   │  health│        │ monitor. │       │ services │      │ agents│      │
-│   │database│        ├──────────┤       ├──────────┤      │ templ.│      │
-│   │tests   │        │ /tests/  │       │ /doc/    │      │scripts│      │
-│   └────────┘        │ /shared/ │       ├──────────┤      │ state │      │
-│                     │ /config/ │       │ /.github/│⚠️    └───────┘      │
-│                     └──────────┘       └──────────┘                      │
-│                                                                          │
-│   ⚠️ /.github/ — путь фиксирован платформой GitHub                       │
-│   ←proc = ПРОЦЕССЫ, ←tool = ИНСТРУМЕНТ                                   │
-│                                                                          │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+| Инструкция | → | Папка проекта |
+|------------|---|---------------|
+| `service/` | → | `/src/{service}/` |
+| `system/` | → | `/platform/`, `/tests/`, `/shared/`, `/config/` |
+| `workflow/` | → | `/specs/`, `/doc/`, `/.github/` ⚠️ |
+| `meta/` | → | `/.claude/` |
+
+> ⚠️ `/.github/` — путь фиксирован платформой GitHub
 
 ---
 
