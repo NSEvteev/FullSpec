@@ -1,7 +1,7 @@
 ---
 type: standard
 description: Правила валидации ссылок в проекте
-governed-by: instructions/README.md
+governed-by: links/README.md
 related:
   - links/workflow.md
   - links/patterns.md

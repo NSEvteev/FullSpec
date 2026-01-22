@@ -1,7 +1,7 @@
 ---
 type: standard
 description: Жизненный цикл ссылок: CREATE, UPDATE, DELETE, VALIDATE
-governed-by: instructions/README.md
+governed-by: links/README.md
 related:
   - links/format.md
   - links/edge-cases.md

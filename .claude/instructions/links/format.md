@@ -1,7 +1,7 @@
 ---
 type: standard
 description: Форматы ссылок в markdown-документах
-governed-by: instructions/README.md
+governed-by: links/README.md
 related:
   - links/patterns.md
   - links/workflow.md

@@ -1,7 +1,7 @@
 ---
 type: standard
 description: Граничные случаи при работе со ссылками
-governed-by: instructions/README.md
+governed-by: links/README.md
 related:
   - links/workflow.md
   - links/validation.md

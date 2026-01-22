@@ -1,7 +1,7 @@
 ---
 type: standard
 description: Regex-паттерны для поиска и замены ссылок
-governed-by: instructions/README.md
+governed-by: links/README.md
 related:
   - links/format.md
   - links/workflow.md
