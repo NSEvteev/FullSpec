@@ -28,7 +28,7 @@
 | `links/` | ✅ Готово | ✅ | Вынесено из links-* скиллов, governed-by исправлен |
 | `specs/` | ✅ Готово | ✅ | 16 файлов SSOT, README переформатирован, relations.md добавлен |
 | `config/` | ⬜ Не начато | — | |
-| `docs/` | ✅ Готово | ✅ | 7 файлов SSOT, README переформатирован, governed-by добавлен |
+| `docs/` | ⬜ Не начато | — | |
 | `git/` | ⬜ Не начато | — | |
 | `platform/` | ⬜ Не начато | — | |
 | `services/` | ⬜ Не начато | — | |
@@ -44,7 +44,7 @@
 | `links-*` | ✅ Готово | ✅ | 60% сокращение, SSOT в instructions/links/ |
 | `skill-*` | ✅ Готово | ✅ | 80% сокращение (612 строк), SSOT в instructions/skills/ |
 | `spec-*` | ✅ Готово | ✅ | 54% сокращение (1440→656 строк), SSOT в instructions/specs/ |
-| `docs-*` | ✅ Готово | ✅ | ШАГ 0 добавлен, SSOT-ссылки, tests.md исправлены |
+| `docs-*` | ⬜ Не начато | — | |
 | `test-*` | ⬜ Не начато | — | |
 | `issue-*` | ⬜ Не начато | — | |
 | `services-*` | ⬜ Не начато | — | |
@@ -332,60 +332,6 @@
 #### 5. Итоговая рекомендация
 
 **Система ЗАВЕРШЕНА.** Все spec-* скиллы рефакторены по паттерну SSOT.
-
----
-
-### Сводка: docs-* (2025-01-22)
-
-#### 1. Изменения скиллов
-
-| Скилл | Строк | Изменение |
-|-------|-------|-----------|
-| docs-create | 128 | ШАГ 0, SSOT-ссылки |
-| docs-update | 120 | ШАГ 0, SSOT-ссылки |
-| docs-delete | 109 | ШАГ 0, SSOT-ссылки |
-| docs-reindex | 117 | ШАГ 0, SSOT-ссылки |
-| **Итого** | **474** | |
-
-#### 2. Инструкции (SSOT)
-
-```
-/.claude/instructions/docs/
-├── README.md           # Индекс (переформатирован по шаблону)
-├── rules.md            # Маппинг путей, валидация
-├── structure.md        # Структура /doc/, дерево
-├── templates.md        # Выбор шаблона документации
-├── workflow.md         # Детальные воркфлоу скиллов
-├── errors.md           # Обработка ошибок
-└── examples.md         # Примеры (вынесены из скиллов)
-```
-
-**Всего:** 7 файлов SSOT.
-
-#### 3. Структурные изменения
-
-- **README.md** переформатирован по шаблону `templates/instructions/readme.md`
-- **governed-by** добавлен во все файлы инструкций
-- **Ссылки исправлены** doc-* → docs-* во всех файлах
-- **ШАГ 0** добавлен во все docs-* скиллы с блокирующим чтением SSOT
-- **tests.md** — исправлены все ссылки doc-* → docs-*
-
-#### 4. SSOT-ссылки в скиллах
-
-| Скилл | Ссылается на |
-|-------|--------------|
-| docs-create | rules.md, workflow.md, templates.md, structure.md, examples.md |
-| docs-update | rules.md, workflow.md, errors.md, examples.md |
-| docs-delete | rules.md, workflow.md, errors.md, examples.md |
-| docs-reindex | structure.md, workflow.md, errors.md, rules.md, examples.md |
-
-#### 5. Дополнения к workflow
-
-- **PHASE 2.1** добавлена в workflow-refactoring.md — обязательное сравнение скиллов с SSOT перед рефакторингом
-
-#### 6. Итоговая рекомендация
-
-**Система ЗАВЕРШЕНА.** Все docs-* скиллы рефакторены по паттерну SSOT.
 
 ---
 

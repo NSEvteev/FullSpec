@@ -81,7 +81,10 @@
       "Bash(if [ -f \"$dir/README.md\" ])",
       "Bash(then)",
       "Bash(else)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(dir \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\instructions\\\\instructions\")",
+      "Bash(dir \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\instructions\\\\doc\")",
+      "Bash(powershell -Command \"Get-Content ''.claude/skills/spec-create/SKILL.md'', ''.claude/skills/spec-status/SKILL.md'', ''.claude/skills/spec-update/SKILL.md'', ''.claude/skills/specs-health/SKILL.md'', ''.claude/skills/specs-sync/SKILL.md'', ''.claude/skills/specs-index/SKILL.md'' | Measure-Object -Line | Select-Object -ExpandProperty Lines\")"
     ]
   }
 }
