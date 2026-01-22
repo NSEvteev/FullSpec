@@ -1,6 +1,7 @@
 ---
 type: standard
 description: Унифицированная система статусов документов /specs/
+governed-by: specs/README.md
 related:
   - specs/workflow.md
   - specs/discussions.md
@@ -16,6 +17,8 @@ related:
 - Impact
 - ADR
 - Plan
+
+**Индекс:** [/.claude/instructions/README.md](/.claude/instructions/README.md) | **Папка:** [specs/README.md](./README.md)
 
 ## Оглавление
 

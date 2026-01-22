@@ -1,6 +1,7 @@
 ---
 type: standard
 description: Architecture Decision Records — фиксация архитектурных решений для сервисов
+governed-by: specs/README.md
 related:
   - specs/statuses.md
   - specs/workflow.md
@@ -12,6 +13,8 @@ related:
 # ADR /specs/services/{service}/adr/
 
 ADR (Architecture Decision Records) — фиксация архитектурных решений для конкретного сервиса. Каждый ADR обязательно ссылается на родительский Impact.
+
+**Индекс:** [/.claude/instructions/README.md](/.claude/instructions/README.md) | **Папка:** [specs/README.md](./README.md)
 
 ## Оглавление
 

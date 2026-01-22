@@ -1,6 +1,7 @@
 ---
 type: standard
 description: Формат, статусы и чек-листы переходов для дискуссий /specs/discussions/
+governed-by: specs/README.md
 related:
   - specs/statuses.md
   - specs/workflow.md
@@ -10,6 +11,8 @@ related:
 # Дискуссии /specs/discussions/
 
 Дискуссии — точка входа для новых идей и изменений. Исследование проблемы, сбор информации, принятие решения о дальнейших действиях.
+
+**Индекс:** [/.claude/instructions/README.md](/.claude/instructions/README.md) | **Папка:** [specs/README.md](./README.md)
 
 ## Оглавление
 

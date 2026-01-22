@@ -26,17 +26,12 @@ triggers:
 - [specs-sync](/.claude/skills/specs-sync/SKILL.md) — синхронизация статусов
 - [specs-index](/.claude/skills/specs-index/SKILL.md) — обновление индексов
 
-**Связанные инструкции:**
-- [specs/statuses.md](/.claude/instructions/specs/statuses.md) — система статусов
-- [specs/rules.md](/.claude/instructions/specs/rules.md) — правила работы
-
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)
-- [Проверки](#проверки)
 - [Воркфлоу](#воркфлоу)
-- [Формат отчёта](#формат-отчёта)
-- [Примеры использования](#примеры-использования)
+- [Чек-лист](#чек-лист)
+- [Примеры](#примеры)
 
 ---
 
@@ -53,128 +48,56 @@ triggers:
 
 ---
 
-## Проверки
-
-| Проблема | Описание | Рекомендация |
-|----------|----------|--------------|
-| **Orphan Discussion** | Discussion в APPROVED без Impact >7 дней | Создать Impact или REJECTED |
-| **Orphan Impact** | Impact в REVIEW без ADR >7 дней | Создать ADR или REJECTED |
-| **Stuck ADR** | ADR в APPROVED без Plan >14 дней | Создать Plan |
-| **Stuck Plan** | Plan в RUNNING с закрытыми Issues | Перевести в DONE |
-| **Inconsistent status** | Дочерние завершены, родитель нет | Обновить родителя |
-| **Broken links** | Ссылки на несуществующие документы | Исправить ссылки |
-| **Missing backlinks** | Родитель не ссылается на дочерний | Добавить backlink |
-| **Service without specs** | Сервис в /src/ без /specs/services/ | Создать ADR |
-
----
-
 ## Воркфлоу
 
-### Шаг 1: Собрать все документы
+> ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
+>
+> Прочитать инструкции SSOT:
+> 1. [specs/statuses.md](/.claude/instructions/specs/statuses.md) — статусы, каскадные проверки
+> 2. [specs/rules.md](/.claude/instructions/specs/rules.md#проверки-specs-health) — типы проблем
+> 3. [specs/relations.md](/.claude/instructions/specs/relations.md) — связи документов
+> 4. [specs/errors.md](/.claude/instructions/specs/errors.md#specs-health) — обработка ошибок
+>
+> **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
-```bash
-find /specs -name "*.md" -not -name "README.md"
-```
+### Шаг 1: Собрать все документы /specs/
+
+> **SSOT:** [specs/README.md](/.claude/instructions/specs/README.md#1-структура-specs)
 
 ### Шаг 2: Проверить каждый документ
 
-Для каждого документа:
-1. Прочитать статус
-2. Проверить ссылки
-3. Проверить даты
-4. Проверить связи с дочерними/родительскими
+> **SSOT:** [specs/rules.md](/.claude/instructions/specs/rules.md#проверки-specs-health)
 
 ### Шаг 3: Проверить консистентность статусов
 
-Для каждой цепочки Discussion → Impact → ADR → Plan:
-- Все дочерние в финальном статусе → родитель тоже должен быть
-- Родитель в RUNNING → хотя бы один дочерний в RUNNING
+> **SSOT:** [specs/statuses.md](/.claude/instructions/specs/statuses.md#каскадные-проверки)
 
 ### Шаг 4: Проверить сервисы
 
-Сравнить `/src/` с `/specs/services/`:
-- Каждый сервис должен иметь папку в specs
+> **SSOT:** [specs/relations.md](/.claude/instructions/specs/relations.md#связь-specs--doc)
 
 ### Шаг 5: Сформировать отчёт
 
----
+> **SSOT:** [specs/output.md](/.claude/instructions/specs/output.md#specs-health)
 
-## Формат отчёта
+### Шаг 6: При `--fix` — предложить исправления
 
-```
-📋 Проверка целостности /specs/
-
-Проверено документов: 24
-Проверено сервисов: 5
-
-🔴 Критичные проблемы (3):
-
-1. Inconsistent status
-   Impact 001-auth-strategy: RUNNING
-   Но все ADR в финальном статусе:
-   - auth/001: ✅ DONE
-   - gateway/001: ✅ DONE
-   → Рекомендация: /spec-status impact/001 done
-
-2. Stuck Plan
-   Plan auth/jwt-migration: ⏳ RUNNING (14 дней)
-   Все GitHub Issues закрыты
-   → Рекомендация: /spec-status auth/plans/jwt-migration done
-
-3. Service without specs
-   /src/payments/ существует
-   /specs/services/payments/ не найден
-   → Рекомендация: /spec-create adr для payments
-
-🟡 Предупреждения (2):
-
-1. Orphan Discussion
-   Discussion 003-caching: 🆗 APPROVED (10 дней без Impact)
-   → Рекомендация: /spec-create impact 003-caching
-
-2. Missing backlink
-   ADR auth/002 ссылается на Impact 001
-   Impact 001 не содержит ссылку на ADR auth/002
-   → Рекомендация: добавить backlink
-
-✅ Без проблем: 19 документов
-
-Исправить проблемы? [все / критичные / выборочно / пропустить]
-```
+> **SSOT:** [specs/errors.md](/.claude/instructions/specs/errors.md#specs-health)
 
 ---
 
-## Примеры использования
+## Чек-лист
 
-### Пример 1: Базовая проверка
+- [ ] Прочитал SSOT инструкции (ШАГ 0)
+- [ ] Собраны все документы
+- [ ] Проверен каждый документ
+- [ ] Проверена консистентность статусов
+- [ ] Проверены сервисы
+- [ ] Сформирован отчёт
+- [ ] При `--fix` — предложены исправления
 
-```
-/specs-health
+---
 
-📋 Проверка целостности /specs/
+## Примеры
 
-Проверено документов: 12
-Проверено сервисов: 3
-
-✅ Проблем не обнаружено
-```
-
-### Пример 2: С исправлениями
-
-```
-/specs-health --fix
-
-📋 Проверка целостности /specs/
-...
-
-🔴 Критичные проблемы (1):
-
-1. Inconsistent status
-   Impact 001: RUNNING, но все ADR DONE
-
-Исправить? [Y/n] Y
-
-Выполняю: /spec-status impact/001 done
-
-✅ Исправлено: Impact 001 → DONE
-```
+> **SSOT:** [specs/examples.md](/.claude/instructions/specs/examples.md#specs-health)

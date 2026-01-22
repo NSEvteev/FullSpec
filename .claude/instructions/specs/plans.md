@@ -1,6 +1,7 @@
 ---
 type: standard
 description: Планы реализации — декомпозиция ADR на задачи с GitHub Issues
+governed-by: specs/README.md
 related:
   - specs/statuses.md
   - specs/workflow.md
@@ -11,6 +12,8 @@ related:
 # Планы /specs/services/{service}/plans/
 
 План — декомпозиция ADR на конкретные задачи. Создаётся после APPROVED ADR, требует согласования с пользователем.
+
+**Индекс:** [/.claude/instructions/README.md](/.claude/instructions/README.md) | **Папка:** [specs/README.md](./README.md)
 
 ## Оглавление
 

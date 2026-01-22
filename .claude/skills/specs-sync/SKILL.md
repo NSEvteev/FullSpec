@@ -25,16 +25,12 @@ triggers:
 - [spec-status](/.claude/skills/spec-status/SKILL.md) — изменение отдельного статуса
 - [specs-health](/.claude/skills/specs-health/SKILL.md) — диагностика проблем
 
-**Связанные инструкции:**
-- [specs/statuses.md](/.claude/instructions/specs/statuses.md) — правила статусов
-- [specs/workflow.md](/.claude/instructions/specs/workflow.md) — каскадные переходы
-
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)
-- [Правила синхронизации](#правила-синхронизации)
 - [Воркфлоу](#воркфлоу)
-- [Примеры использования](#примеры-использования)
+- [Чек-лист](#чек-лист)
+- [Примеры](#примеры)
 
 ---
 
@@ -50,104 +46,46 @@ triggers:
 
 ---
 
-## Правила синхронизации
-
-### Снизу вверх
-
-```
-Plan изменился
-    ↓
-Проверить ADR (все планы в финальном?)
-    ↓
-Проверить Impact (все ADR в финальном?)
-    ↓
-Проверить Discussion (Impact в финальном?)
-```
-
-### Правила переходов
-
-| Условие | Действие |
-|---------|----------|
-| ВСЕ ADR Impact в APPROVED | Impact → APPROVED |
-| ВСЕ планы Impact в APPROVED | ADR → RUNNING, Impact → RUNNING |
-| Первый Plan → RUNNING | Discussion → RUNNING |
-| ВСЕ ADR в финальном + минимум 1 DONE | Impact → DONE |
-| Impact → DONE | Discussion → DONE |
-
-### Финальные статусы
-
-Документ в **финальном статусе** если:
-- DONE
-- REJECTED
-- SUPERSEDED
-
----
-
 ## Воркфлоу
 
-### Шаг 1: Собрать все цепочки
+> ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
+>
+> Прочитать инструкции SSOT:
+> 1. [specs/statuses.md](/.claude/instructions/specs/statuses.md) — правила статусов, финальные статусы
+> 2. [specs/workflow.md](/.claude/instructions/specs/workflow.md) — каскадные переходы
+> 3. [specs/relations.md](/.claude/instructions/specs/relations.md) — граф зависимостей
+> 4. [specs/errors.md](/.claude/instructions/specs/errors.md#specs-sync) — обработка ошибок
+>
+> **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
-Построить граф: Discussion → Impact → ADR → Plan
+### Шаг 1: Собрать все цепочки документов
 
-### Шаг 2: Для каждой цепочки (снизу вверх)
+> **SSOT:** [specs/relations.md](/.claude/instructions/specs/relations.md#граф-зависимостей)
 
-1. Собрать статусы всех Plans
-2. Определить ожидаемый статус ADR
-3. Собрать статусы всех ADR
-4. Определить ожидаемый статус Impact
-5. Определить ожидаемый статус Discussion
+### Шаг 2: Для каждой цепочки определить ожидаемые статусы
+
+> **SSOT:** [specs/statuses.md](/.claude/instructions/specs/statuses.md#каскадные-проверки)
 
 ### Шаг 3: Найти расхождения
 
-Сравнить текущие статусы с ожидаемыми.
+> **SSOT:** [specs/statuses.md](/.claude/instructions/specs/statuses.md#порядок-проверки-снизу-вверх)
 
 ### Шаг 4: Применить изменения
 
-Для каждого расхождения — вызвать `/spec-status`.
+> **SSOT:** [specs/output.md](/.claude/instructions/specs/output.md#specs-sync)
 
 ---
 
-## Примеры использования
+## Чек-лист
 
-### Пример 1: Синхронизация
+- [ ] Прочитал SSOT инструкции (ШАГ 0)
+- [ ] Собраны все цепочки
+- [ ] Определены ожидаемые статусы
+- [ ] Найдены расхождения
+- [ ] Применены изменения (или показан план)
 
-```
-/specs-sync
+---
 
-📋 Синхронизация статусов /specs/
+## Примеры
 
-Проверено цепочек: 3
-Найдено расхождений: 2
-
-Изменения:
-
-1. Impact 001-auth-strategy
-   Текущий: ⏳ RUNNING
-   Ожидаемый: ✅ DONE
-   Причина: Все ADR в финальном статусе (auth/001 DONE, gateway/001 DONE)
-
-2. Discussion 001-auth-strategy
-   Текущий: ⏳ RUNNING
-   Ожидаемый: ✅ DONE
-   Причина: Impact 001 → DONE
-
-Применить? [Y/n] Y
-
-✅ Синхронизация завершена
-- Impact 001: RUNNING → DONE
-- Discussion 001: RUNNING → DONE
-```
-
-### Пример 2: Dry-run
-
-```
-/specs-sync --dry-run
-
-📋 Синхронизация статусов (dry-run)
-
-Будет изменено:
-- Impact 001: RUNNING → DONE
-- Discussion 001: RUNNING → DONE
-
-ℹ️ Изменения НЕ применены (--dry-run)
-```
+> **SSOT:** [specs/examples.md](/.claude/instructions/specs/examples.md#specs-sync)

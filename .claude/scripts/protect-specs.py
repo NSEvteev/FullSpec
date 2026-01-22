@@ -19,11 +19,22 @@ except json.JSONDecodeError:
 # Получаем путь к файлу
 file_path = data.get('tool_input', {}).get('file_path', '')
 
+# Разрешённые пути (инструкции, шаблоны)
+allowed_patterns = [
+    '.claude/instructions/specs/',
+    '.claude\\instructions\\specs\\',
+    '.claude/templates/specs/',
+    '.claude\\templates\\specs\\',
+]
+
+# Проверяем, разрешён ли путь
+is_allowed = any(pattern in file_path for pattern in allowed_patterns)
+
 # Запрещённые папки (разные форматы путей)
 forbidden_paths = ['/specs/', '\\specs\\', '/specs\\', '\\specs/']
 
-# Проверяем наличие запрещённых путей
-if any(forbidden in file_path for forbidden in forbidden_paths):
+# Проверяем наличие запрещённых путей (только если не в разрешённых)
+if not is_allowed and any(forbidden in file_path for forbidden in forbidden_paths):
     print("❌ Прямое редактирование файлов в /specs/ запрещено", file=sys.stderr)
     print(f"   Файл: {file_path}", file=sys.stderr)
     print("", file=sys.stderr)

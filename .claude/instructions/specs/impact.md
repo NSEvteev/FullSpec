@@ -1,6 +1,7 @@
 ---
 type: standard
 description: Импакт-анализ: какие сервисы затронуты, бизнес-логика изменений
+governed-by: specs/README.md
 related:
   - specs/statuses.md
   - specs/workflow.md
@@ -11,6 +12,8 @@ related:
 # Импакт-анализ /specs/impact/
 
 Impact-анализ определяет какие сервисы затронуты изменением и описывает бизнес-логику. Один Impact может создать несколько ADR для разных сервисов.
+
+**Индекс:** [/.claude/instructions/README.md](/.claude/instructions/README.md) | **Папка:** [specs/README.md](./README.md)
 
 ## Оглавление
 

@@ -26,12 +26,12 @@
 |----------|--------|----------------|-------------|
 | `instructions/` | ✅ Готово | ✅ | SSOT для инструкций, workflow-*.md, relations.md |
 | `links/` | ✅ Готово | ✅ | Вынесено из links-* скиллов, governed-by исправлен |
+| `specs/` | ✅ Готово | ✅ | 16 файлов SSOT, README переформатирован, relations.md добавлен |
 | `config/` | ⬜ Не начато | — | |
 | `doc/` | ⬜ Не начато | — | |
 | `git/` | ⬜ Не начато | — | |
 | `platform/` | ⬜ Не начато | — | |
 | `shared/` | ⬜ Не начато | — | |
-| `specs/` | ⬜ Не начато | — | |
 | `src/` | ⬜ Не начато | — | |
 | `tests/` | ⬜ Не начато | — | |
 
@@ -42,11 +42,11 @@
 | `instruction-*` | ✅ Готово | ✅ | 84% сокращение, relations.md добавлен в SSOT |
 | `links-*` | ✅ Готово | ✅ | 60% сокращение, SSOT в instructions/links/ |
 | `skill-*` | ✅ Готово | ✅ | 80% сокращение (612 строк), SSOT в instructions/skills/ |
+| `spec-*` | ✅ Готово | ✅ | 54% сокращение (1440→656 строк), SSOT в instructions/specs/ |
 | `doc-*` | ⬜ Не начато | — | |
 | `test-*` | ⬜ Не начато | — | |
 | `issue-*` | ⬜ Не начато | — | |
 | `context-*` | ⬜ Не начато | — | |
-| `spec-*` | ⬜ Не начато | — | |
 | `glossary-*` | ⬜ Не начато | — | |
 | `health-check` | ⬜ Не начато | — | |
 | `prompt-update` | ⬜ Не начато | — | |
@@ -270,6 +270,69 @@
 
 ---
 
+### Сводка: spec-* (2025-01-22)
+
+#### 1. Изменения скиллов
+
+| Скилл | Было | Стало | Изменение |
+|-------|------|-------|-----------|
+| spec-create | 408 строк | 125 строк | −69% |
+| spec-status | 304 строки | 119 строк | −61% |
+| spec-update | 229 строк | 109 строк | −52% |
+| specs-health | 181 строка | 109 строк | −40% |
+| specs-sync | 154 строки | 102 строки | −34% |
+| specs-index | 164 строки | 92 строки | −44% |
+| **Скиллы итого** | **1440 строк** | **656 строк** | **−54%** |
+
+#### 2. Инструкции (SSOT)
+
+```
+/.claude/instructions/specs/
+├── README.md           # Индекс (переформатирован по шаблону)
+├── statuses.md         # Статусы, переходы, каскадные проверки
+├── workflow.md         # Discussion → Impact → ADR → Plan
+├── discussions.md      # Формат, чек-листы
+├── impact.md           # Формат, связь с ADR
+├── adr.md              # Формат, проверка бизнес-логики
+├── plans.md            # Формат, GitHub Issues
+├── architecture.md     # Живой документ
+├── glossary.md         # Глоссарий терминов
+├── rules.md            # Скиллы, запреты, принятые решения
+├── naming.md           # Нумерация, сокращённые пути
+├── indexes.md          # Форматы README-таблиц
+├── errors.md           # Обработка ошибок (дополнен specs-sync, specs-index)
+├── output.md           # Форматы вывода
+├── examples.md         # Примеры
+└── relations.md        # Граф зависимостей (создан из README)
+```
+
+**Всего:** 16 файлов SSOT.
+
+#### 3. Структурные изменения
+
+- **README.md** полностью переформатирован по шаблону `templates/instructions/readme.md`
+- **relations.md** — вынесен из README (секции "Связи документов", "Связь /specs/ ↔ /doc/")
+- **rules.md** — добавлена секция "Принятые решения" (из README)
+- **errors.md** — добавлены секции specs-sync, specs-index
+- **ШАГ 0** добавлен во все spec-* скиллы с блокирующим чтением SSOT
+
+#### 4. SSOT-ссылки в скиллах
+
+| Скилл | Ссылается на |
+|-------|--------------|
+| spec-create | README.md, naming.md, relations.md, errors.md, rules.md, output.md, examples.md |
+| spec-status | statuses.md, workflow.md, naming.md, errors.md, indexes.md, output.md, examples.md |
+| spec-update | README.md, workflow.md, rules.md, errors.md, naming.md, output.md, examples.md |
+| specs-health | statuses.md, rules.md, relations.md, errors.md, README.md, output.md, examples.md |
+| specs-sync | statuses.md, workflow.md, relations.md, errors.md, output.md, examples.md |
+| specs-index | indexes.md, statuses.md, errors.md, output.md, examples.md |
+
+#### 5. Итоговая рекомендация
+
+**Система ЗАВЕРШЕНА.** Все spec-* скиллы рефакторены по паттерну SSOT.
+
+---
+
 ## Связанные файлы
 
 - [workflow-refactoring.md](./workflow-refactoring.md) — воркфлоу рефакторинга (5 фаз)
@@ -278,6 +341,7 @@
 
 ## История изменений
 
+- **2025-01-22**: Рефакторинг spec-* скиллов (6 скиллов, −54%), переформатирован README.md по шаблону, создан relations.md
 - **2025-01-22**: Добавлен формат SSOT для шагов с вызовом скиллов (`→ /{skill}` → `SKILL.md`), исправлены instruction-create и instruction-update
 - **2025-01-22**: Добавлены SSOT-ссылки ко всем шагам в links-* и instruction-* скиллах (skill-* уже имели)
 - **2025-01-22**: Добавлена валидация скиллов по шаблону в workflow-refactoring.md (PHASE 5, шаг 7)
