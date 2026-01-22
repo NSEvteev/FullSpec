@@ -305,7 +305,7 @@ agent-management (1):
   ⚠️ Нет agent-update, agent-delete
 
 instruction-management (3):
-  • instruction-create, instruction-update, instruction-delete
+  • instruction-create, instruction-update, instruction-deactivate
   • Тесты: 3/3 (100%)
 
 documentation (10):

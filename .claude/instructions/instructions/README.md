@@ -15,6 +15,9 @@
 | [3. Валидация](#3-валидация) | [validation.md](./validation.md) | Формат файлов и frontmatter |
 | [4. Статусы](#4-статусы) | [statuses.md](./statuses.md) | Система статусов в README.md |
 | [5. Жизненный цикл](#5-жизненный-цикл) | [workflow.md](./workflow.md) | CREATE, UPDATE, DEACTIVATE |
+| — | [workflow-create.md](./workflow-create.md) | Детальный воркфлоу CREATE |
+| — | [workflow-update.md](./workflow-update.md) | Детальный воркфлоу UPDATE |
+| — | [workflow-deactivate.md](./workflow-deactivate.md) | Детальный воркфлоу DEACTIVATE |
 | [6. Паттерны](#6-паттерны) | [patterns.md](./patterns.md) | Поиск ссылок на инструкции |
 | [7. Шаблоны](#7-шаблоны) | — | Шаблоны для инструкций |
 | [8. Скиллы](#8-скиллы) | — | Скиллы для инструкций |
@@ -22,13 +25,16 @@
 
 ```
 /.claude/instructions/instructions/
-├── README.md           # Этот файл (индекс)
-├── structure.md        # Расположение инструкций
-├── types.md            # Типы (standard/project)
-├── validation.md       # Валидация файлов
-├── statuses.md         # Статусы в README.md
-├── workflow.md         # Жизненный цикл
-└── patterns.md         # Паттерны поиска
+├── README.md               # Этот файл (индекс)
+├── structure.md            # Расположение инструкций
+├── types.md                # Типы (standard/project)
+├── validation.md           # Валидация файлов
+├── statuses.md             # Статусы в README.md
+├── workflow.md             # Жизненный цикл (обзор)
+├── workflow-create.md      # Детальный воркфлоу CREATE
+├── workflow-update.md      # Детальный воркфлоу UPDATE
+├── workflow-deactivate.md  # Детальный воркфлоу DEACTIVATE
+└── patterns.md             # Паттерны поиска
 ```
 
 ---
@@ -110,6 +116,11 @@
 - [Скиллы](./workflow.md#скиллы)
 
 **Инструкция:** [workflow.md](./workflow.md)
+
+**Детальные воркфлоу:**
+- [workflow-create.md](./workflow-create.md) — 15 шагов создания
+- [workflow-update.md](./workflow-update.md) — 12 шагов обновления
+- [workflow-deactivate.md](./workflow-deactivate.md) — 10 шагов деактивации
 
 ---
 

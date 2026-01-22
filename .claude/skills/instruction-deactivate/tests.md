@@ -1,4 +1,4 @@
-# Тесты: instruction-delete
+# Тесты: instruction-deactivate
 
 > **Scope:** claude
 > **Категория:** instruction-management
@@ -8,10 +8,10 @@
 
 ## Smoke test
 
-📋 **Smoke test: instruction-delete**
+📋 **Smoke test: instruction-deactivate**
 
-**Команда:** `/instruction-delete`
-**Триггер:** "удали инструкцию"
+**Команда:** `/instruction-deactivate`
+**Триггер:** "деактивируй инструкцию"
 
 **Ожидание:**
 - [ ] Скилл запускается без ошибок
@@ -36,7 +36,7 @@
 **Шаги:**
 1. Создать тестовую инструкцию с ссылками
 2. Удалить файл инструкции
-3. Вызвать `/instruction-delete tests/example-deleted.md`
+3. Вызвать `/instruction-deactivate tests/example-deleted.md`
 
 **Ожидаемый результат:**
 - [ ] Найдены все ссылки на инструкцию
@@ -60,7 +60,7 @@
 - Путь: `/.claude/skills/README.md` (существует)
 
 **Шаги:**
-1. Вызвать `/instruction-delete /.claude/skills/README.md`
+1. Вызвать `/instruction-deactivate /.claude/skills/README.md`
 
 **Ожидаемый результат:**
 - [ ] Выводится предупреждение "Инструкция ещё существует"
@@ -83,7 +83,7 @@
 - Путь: `src/api/unused.md` (изолированная инструкция)
 
 **Шаги:**
-1. Вызвать `/instruction-delete src/api/unused.md`
+1. Вызвать `/instruction-deactivate src/api/unused.md`
 
 **Ожидаемый результат:**
 - [ ] Выводится сообщение "Ссылки не найдены"
@@ -107,7 +107,7 @@
 
 **Шаги:**
 1. Удалить файл инструкции
-2. Вызвать `/instruction-delete`
+2. Вызвать `/instruction-deactivate`
 3. Проверить README.md
 
 **Ожидаемый результат:**
@@ -123,9 +123,9 @@
 
 ## Чек-лист smoke test
 
-- [ ] Вызывается по команде `/instruction-delete`
-- [ ] Вызывается по фразе "удали инструкцию"
-- [ ] Вызывается по фразе "delete instruction"
+- [ ] Вызывается по команде `/instruction-deactivate`
+- [ ] Вызывается по фразе "деактивируй инструкцию"
+- [ ] Вызывается по фразе "deactivate instruction"
 - [ ] Запрашивает путь при вызове без аргументов
 - [ ] Проверяет существование файла
 - [ ] Не падает с ошибкой при базовом вызове

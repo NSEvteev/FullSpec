@@ -620,7 +620,7 @@ git checkout {commit-hash}^ -- {путь-к-тесту}
 
 **Критичные скиллы** определены в [CLAUDE.md](/CLAUDE.md#критичные-скиллы):
 - `skill-*` (skill-create, skill-update, skill-delete)
-- `instruction-*` (instruction-create, instruction-update, instruction-delete)
+- `instruction-*` (instruction-create, instruction-update, instruction-deactivate)
 - `issue-*` (issue-create, issue-update, issue-execute, issue-review, issue-complete, issue-delete)
 
 **Защита:** Нельзя удалить **единственный тест** критичного скилла.

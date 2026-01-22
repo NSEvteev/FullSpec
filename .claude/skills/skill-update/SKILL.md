@@ -531,7 +531,7 @@ git checkout -- /.claude/skills/  # откатить все скиллы
    ```diff
    **Связанные скиллы:**
    - [instruction-update] — обновление
-   - [instruction-delete] — удаление
+   - [instruction-deactivate] — удаление
    + - [doc-create](/.claude/skills/doc-create/SKILL.md) — создание документов
    ```
 

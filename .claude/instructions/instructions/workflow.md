@@ -72,9 +72,11 @@ related:
 10. Обновить контекст
 11. Проверить соответствие проекта
 12. Обновить связанные скиллы
-13. Результат
+13. Анализ и предложение новых скиллов
+14. Проверка по чек-листу
+15. Результат
 
-**Подробности:** [instruction-create/SKILL.md](/.claude/skills/instruction-create/SKILL.md)
+**Подробности:** [workflow-create.md](./workflow-create.md)
 
 ---
 
@@ -93,9 +95,10 @@ related:
 8. **Обновить README папки**
 9. Обновить контекст скиллов
 10. Проверить тесты
-11. Результат
+11. Проверка по чек-листу
+12. Результат
 
-**Подробности:** [instruction-update/SKILL.md](/.claude/skills/instruction-update/SKILL.md)
+**Подробности:** [workflow-update.md](./workflow-update.md)
 
 ---
 
@@ -116,7 +119,8 @@ related:
 6. Сохранить файл
 7. **Обновить README папки**
 8. **Сбросить статус в главном README**
-9. Результат
+9. Проверка по чек-листу
+10. Результат
 
 **Что происходит при деактивации:**
 - Файл остаётся (не удаляется)
@@ -125,6 +129,8 @@ related:
 - Добавляется предупреждение: `> **ВАЖНО:** В проекте не используется...`
 
 **Пример:** [shared/i18n.md](../shared/i18n.md)
+
+**Подробности:** [workflow-deactivate.md](./workflow-deactivate.md)
 
 ---
 
@@ -163,5 +169,8 @@ instruction-deactivate
 
 ## Связанные инструкции
 
+- [workflow-create.md](./workflow-create.md) — детальный воркфлоу CREATE
+- [workflow-update.md](./workflow-update.md) — детальный воркфлоу UPDATE
+- [workflow-deactivate.md](./workflow-deactivate.md) — детальный воркфлоу DEACTIVATE
 - [statuses.md](./statuses.md) — система статусов
 - [patterns.md](./patterns.md) — паттерны поиска ссылок

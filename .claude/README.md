@@ -224,7 +224,7 @@ create    update    delete    execute   review    complete execute
 | skill-delete | skill-update, links-delete |
 | instruction-create | links-create, context-update, instruction-update |
 | instruction-update | context-update, links-update, test-update |
-| instruction-delete | links-delete, context-delete |
+| instruction-deactivate | links-delete, context-delete |
 | doc-create | links-create |
 | doc-update | links-update, context-update |
 | doc-delete | links-delete, context-delete |
@@ -257,7 +257,7 @@ create    update    delete    execute   review    complete execute
 | Категория | Скиллы | Количество |
 |-----------|--------|------------|
 | skill-management | skill-create, skill-update, skill-delete, skill-migrate, skill-report | 5 |
-| instruction-management | instruction-create, instruction-update, instruction-delete | 3 |
+| instruction-management | instruction-create, instruction-update, instruction-deactivate | 3 |
 | documentation | doc-create, doc-update, doc-delete, links-create, links-update, links-delete, links-validate, context-update, context-delete, doc-reindex | 10 |
 | testing | test-create, test-update, test-review, test-execute, test-complete, test-delete, test-coverage | 7 |
 | git | issue-create, issue-update, issue-execute, issue-review, issue-complete, issue-delete, issue-reopen | 7 |

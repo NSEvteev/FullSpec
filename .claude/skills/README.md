@@ -67,7 +67,7 @@ related:
 |-------|----------|----------|
 | [instruction-create](./instruction-create/SKILL.md) | Создание новой инструкции | `/instruction-create`, "создай инструкцию" |
 | [instruction-update](./instruction-update/SKILL.md) | Проверка файлов на соответствие инструкции | `/instruction-update`, "проверь инструкцию" |
-| [instruction-delete](./instruction-delete/SKILL.md) | Очистка ссылок при удалении инструкции | `/instruction-delete`, "удали инструкцию" |
+| [instruction-deactivate](./instruction-deactivate/SKILL.md) | Очистка ссылок при удалении инструкции | `/instruction-deactivate`, "удали инструкцию" |
 
 ### documentation
 

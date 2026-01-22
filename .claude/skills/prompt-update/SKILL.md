@@ -330,7 +330,7 @@ triggers:
 |----------------|-------|----------|
 | "создай инструкцию", "новая инструкция" | [instruction-create](/.claude/skills/instruction-create/SKILL.md) | Предложить использовать |
 | "обнови инструкцию", "проверь инструкцию" | [instruction-update](/.claude/skills/instruction-update/SKILL.md) | Предложить использовать |
-| "удали инструкцию" | [instruction-delete](/.claude/skills/instruction-delete/SKILL.md) | Предложить использовать |
+| "удали инструкцию" | [instruction-deactivate](/.claude/skills/instruction-deactivate/SKILL.md) | Предложить использовать |
 
 **Документация (documentation):**
 
