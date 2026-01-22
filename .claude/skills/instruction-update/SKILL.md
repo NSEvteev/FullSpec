@@ -27,6 +27,13 @@ triggers:
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
 - [test-update](/.claude/skills/test-update/SKILL.md) — обновление связанных тестов
 
+## Оглавление
+
+- [Формат вызова](#формат-вызова)
+- [Воркфлоу](#воркфлоу)
+- [Чек-лист](#чек-лист)
+- [Примеры](#примеры)
+
 ---
 
 ## Формат вызова
@@ -59,25 +66,47 @@ triggers:
 
 ### Шаг 1: Получить путь
 
+> **SSOT:** [workflow-update.md](/.claude/instructions/instructions/workflow-update.md#шаг-1-получить-путь)
+
 ### Шаг 2: Определить зону ответственности (согласно workflow-update.md)
+
+> **SSOT:** [workflow-update.md](/.claude/instructions/instructions/workflow-update.md#шаг-2-определить-зону-ответственности)
 
 ### Шаг 3: Найти файлы в зоне
 
+> **SSOT:** [workflow-update.md](/.claude/instructions/instructions/workflow-update.md#шаг-3-найти-файлы-в-зоне)
+
 ### Шаг 4: Извлечь правила из инструкции
+
+> **SSOT:** [workflow-update.md](/.claude/instructions/instructions/workflow-update.md#шаг-4-извлечь-правила)
 
 ### Шаг 5: Проверить файлы на соответствие
 
+> **SSOT:** [workflow-update.md](/.claude/instructions/instructions/workflow-update.md#шаг-5-проверить-файлы)
+
 ### Шаг 6: Сформировать список несоответствий
+
+> **SSOT:** [workflow-update.md](/.claude/instructions/instructions/workflow-update.md#шаг-6-сформировать-список-несоответствий)
 
 ### Шаг 7: Внести изменения в инструкцию (добавить TODO или изменить правила)
 
+> **SSOT:** [workflow-update.md](/.claude/instructions/instructions/workflow-update.md#шаг-7-внести-изменения-в-инструкцию)
+
 ### Шаг 8: Обновить README папки
+
+> **SSOT:** [workflow-update.md](/.claude/instructions/instructions/workflow-update.md#шаг-8-обновить-readme-папки)
 
 ### Шаг 9: Обновить контекст скиллов → /context-update
 
+> **SSOT:** [SKILL.md](/.claude/skills/context-update/SKILL.md)
+
 ### Шаг 10: Проверить связанные тесты → /test-update
 
+> **SSOT:** [SKILL.md](/.claude/skills/test-update/SKILL.md)
+
 ### Шаг 11: Проверка по чек-листу
+
+См. [Чек-лист](#чек-лист) ниже.
 
 ### Шаг 12: Результат
 
@@ -111,3 +140,9 @@ triggers:
 - [ ] Вызвал /context-update
 - [ ] Проверил связанные тесты
 - [ ] Вывел итоговый отчёт
+
+---
+
+## Примеры
+
+> **SSOT:** [examples.md](/.claude/instructions/instructions/examples.md#instruction-update)

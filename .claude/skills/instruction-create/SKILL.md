@@ -25,6 +25,13 @@ triggers:
 - [instruction-update](/.claude/skills/instruction-update/SKILL.md) — проверка соответствия
 - [instruction-deactivate](/.claude/skills/instruction-deactivate/SKILL.md) — деактивация
 
+## Оглавление
+
+- [Формат вызова](#формат-вызова)
+- [Воркфлоу](#воркфлоу)
+- [Чек-лист](#чек-лист)
+- [Примеры](#примеры)
+
 ---
 
 ## Формат вызова
@@ -61,31 +68,59 @@ triggers:
 
 ### Шаг 1: Получить путь
 
+> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-1-получить-путь)
+
 ### Шаг 2: Fail-fast проверки (согласно validation.md)
+
+> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-2-fail-fast-проверки)
 
 ### Шаг 3: Проверить существование
 
+> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-3-проверить-существование)
+
 ### Шаг 4: Сгенерировать содержимое (согласно types.md)
+
+> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-4-сгенерировать-содержимое)
 
 ### Шаг 5: Создать файл инструкции
 
+> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-5-создать-файл-инструкции)
+
 ### Шаг 6: Создать/обновить README папки
+
+> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-6-создатьобновить-readme-папки)
 
 ### Шаг 7: Обновить главный README (согласно statuses.md)
 
+> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-7-обновить-главный-readme)
+
 ### Шаг 8: Ревью
+
+> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-8-ревью)
 
 ### Шаг 9: Синхронизировать ссылки → /links-update
 
+> **SSOT:** [SKILL.md](/.claude/skills/links-update/SKILL.md)
+
 ### Шаг 10: Обновить контекст → /context-update
+
+> **SSOT:** [SKILL.md](/.claude/skills/context-update/SKILL.md)
 
 ### Шаг 11: Проверить соответствие проекта → /instruction-update
 
+> **SSOT:** [SKILL.md](/.claude/skills/instruction-update/SKILL.md)
+
 ### Шаг 12: Обновить связанные скиллы (ОБЯЗАТЕЛЬНО)
+
+> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-12-обновить-связанные-скиллы)
 
 ### Шаг 13: Анализ и предложение новых скиллов → /skill-create
 
+> **SSOT:** [SKILL.md](/.claude/skills/skill-create/SKILL.md)
+
 ### Шаг 14: Проверка по чек-листу
+
+См. [Чек-лист](#чек-лист) ниже.
 
 ### Шаг 15: Результат
 
@@ -121,3 +156,9 @@ triggers:
 - [ ] Обновил связанные скиллы
 - [ ] Проанализировал и предложил новые скиллы
 - [ ] Вывел итоговый отчёт
+
+---
+
+## Примеры
+
+> **SSOT:** [examples.md](/.claude/instructions/instructions/examples.md#instruction-create)

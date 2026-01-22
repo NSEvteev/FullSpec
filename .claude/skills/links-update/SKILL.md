@@ -27,6 +27,13 @@ triggers:
 **Скрипты:**
 - [update_links.py](/.claude/scripts/update_links.py) — массовая замена
 
+## Оглавление
+
+- [Формат вызова](#формат-вызова)
+- [Воркфлоу](#воркфлоу)
+- [Чек-лист](#чек-лист)
+- [Примеры](#примеры)
+
 ---
 
 ## Формат вызова
@@ -56,15 +63,29 @@ triggers:
 
 ### Шаг 1: Определить источник и тип
 
+> **SSOT:** [workflow.md](/.claude/instructions/links/workflow.md#фаза-update)
+
 ### Шаг 2: Найти связанные документы
+
+> **SSOT:** [patterns.md](/.claude/instructions/links/patterns.md#поиск-ссылок)
 
 ### Шаг 3: Определить тип обновления (add/update/none)
 
+> **SSOT:** [edge-cases.md](/.claude/instructions/links/edge-cases.md#оба-файла-существуют)
+
 ### Шаг 4: Обновить документы
+
+> **SSOT:** [format.md](/.claude/instructions/links/format.md#стандартная-ссылка)
 
 ### Шаг 5: Восстановить помеченные (если --old-name)
 
-### Шаг 6: Результат
+> **SSOT:** [format.md](/.claude/instructions/links/format.md#помеченная-ссылка)
+
+### Шаг 6: Проверка по чек-листу
+
+См. [Чек-лист](#чек-лист) ниже.
+
+### Шаг 7: Результат
 
 ```
 ✅ Ссылки обновлены для {источник}
@@ -83,3 +104,9 @@ triggers:
 - [ ] Определил тип обновления
 - [ ] Обновил документы
 - [ ] Вывел отчёт
+
+---
+
+## Примеры
+
+> **SSOT:** [examples.md](/.claude/instructions/links/examples.md#links-update)

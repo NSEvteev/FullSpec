@@ -49,7 +49,6 @@ related:
 | [skill-update](./skill-update/SKILL.md) | Обновление скиллов при добавлении нового | `/skill-update`, "обнови скиллы" |
 | [skill-delete](./skill-delete/SKILL.md) | Обновление существующих скиллов при удалении скилла | `/skill-delete`, "удали скилл" |
 | [skill-migrate](./skill-migrate/SKILL.md) | Переименование скилла с обновлением всех ссылок | `/skill-migrate`, "мигрируй скилл" |
-| [skill-report](./skill-report/SKILL.md) | Генерация отчёта по скиллам проекта | `/skill-report`, "отчёт по скиллам" |
 
 ### agent-management
 

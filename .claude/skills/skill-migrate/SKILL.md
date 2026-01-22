@@ -1,209 +1,113 @@
 ---
 name: skill-migrate
-category: skill-management
-trigger: /skill-migrate
 description: Переименование скилла с обновлением всех ссылок
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep
+category: skill-management
 critical: true
+triggers:
+  commands:
+    - /skill-migrate
+  phrases:
+    ru:
+      - мигрируй скилл
+      - переименуй скилл
+    en:
+      - migrate skill
+      - rename skill
 ---
 
-# /skill-migrate
+# Миграция скилла
 
-Безопасное переименование или перемещение скилла в другую категорию с автоматическим обновлением всех ссылок и зависимостей.
+Переименование или перемещение скилла с автоматическим обновлением всех ссылок.
 
-## Триггеры
+**Связанные скиллы:**
+- [skill-create](/.claude/skills/skill-create/SKILL.md) — создание скилла
+- [skill-delete](/.claude/skills/skill-delete/SKILL.md) — удаление скилла
+- [links-update](/.claude/skills/links-update/SKILL.md) — обновление ссылок
 
-- `/skill-migrate <old-name> <new-name>` — переименовать скилл
-- `/skill-migrate <old-name> --category <new-category>` — переместить в другую категорию
+## Оглавление
 
-## Параметры
+- [Формат вызова](#формат-вызова)
+- [Воркфлоу](#воркфлоу)
+- [Чек-лист](#чек-лист)
+- [Примеры](#примеры)
 
-| Параметр | Описание | Обязательный |
+---
+
+## Формат вызова
+
+```
+/skill-migrate <old-name> <new-name> [--category <category>] [--dry-run]
+```
+
+| Параметр | Описание | По умолчанию |
 |----------|----------|--------------|
-| `<old-name>` | Текущее имя скилла | Да |
-| `<new-name>` | Новое имя скилла | Да (если не --category) |
-| `--category` | Новая категория | Нет |
-| `--dry-run` | Показать план без изменений | Нет |
-| `--json` | JSON формат вывода | Нет |
-| `--verbose` | Подробный вывод | Нет |
+| `old-name` | Текущее имя | — (обязательный) |
+| `new-name` | Новое имя | — (обязательный) |
+| `--category` | Новая категория | Без изменения |
+| `--dry-run` | Показать план | false |
+
+---
 
 ## Воркфлоу
 
-### Шаг 0: Проверки
+> ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
+>
+> Прочитать SSOT-инструкции:
+> 1. [rules.md](/.claude/instructions/skills/rules.md) — правила именования
+> 2. [integration.md](/.claude/instructions/skills/integration.md) — типы ссылок
+> 3. [errors.md](/.claude/instructions/skills/errors.md) — обработка ошибок
+>
+> **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
-1. **input-validate:**
-   - `old-name` — существующий скилл
-   - `new-name` — валидное имя (kebab-case, не занято)
+<!--
+ПРАВИЛО: Шаги содержат ТОЛЬКО название и ссылку на SSOT.
+Детали, алгоритмы, примеры — в SSOT-инструкциях.
+LLM ОБЯЗАН прочитать SSOT перед выполнением шага.
+-->
 
-2. **Проверка критичности:**
-   - Если скилл критичный — предупреждение
+### Шаг 1: Проверки
 
-### Шаг 1: Анализ зависимостей
+> **SSOT:** [validation.md](/.claude/instructions/skills/validation.md#проверка-имён)
 
-1. Найти все файлы, ссылающиеся на скилл:
-   ```
-   Grep: /old-name
-   Grep: old-name
-   Grep: /.claude/skills/old-name/
-   ```
+### Шаг 2: Анализ зависимостей
 
-2. Вывести список зависимостей:
-   ```
-   📋 Зависимости скилла old-name
+> **SSOT:** [integration.md](/.claude/instructions/skills/integration.md#типы-ссылок)
 
-   Ссылки на скилл:
-   - /.claude/skills/README.md:42
-   - /.claude/skills/other-skill/SKILL.md:15
-   - /CLAUDE.md:123
+### Шаг 3: Подтверждение
 
-   Всего: {N} файлов
-   ```
+> **SSOT:** [workflow.md](/.claude/instructions/skills/workflow.md#подтверждение-пользователя)
 
-### Шаг 2: Подтверждение (--dry-run или интерактив)
+### Шаг 4: Переименование папки
 
-```
-⚠️ Миграция скилла
+> **SSOT:** [workflow.md](/.claude/instructions/skills/workflow.md#переименование-скилла)
 
-Было: /old-name
-Станет: /new-name
+### Шаг 5: Обновление ссылок
 
-Будет изменено:
-- /.claude/skills/old-name/ → /.claude/skills/new-name/
-- {N} файлов с ссылками
+> **SSOT:** [integration.md](/.claude/instructions/skills/integration.md#обновление-ссылок)
 
-Продолжить? [Y/n]
-```
+### Шаг 6: Проверка по чек-листу
 
-### Шаг 3: Переименование папки
-
-1. Создать новую папку:
-   ```bash
-   mkdir /.claude/skills/new-name/
-   ```
-
-2. Скопировать файлы с обновлением:
-   - SKILL.md — обновить name, trigger
-   - tests.md — скопировать
-
-3. Проверить корректность
-
-4. Удалить старую папку
-
-### Шаг 4: Обновление ссылок
-
-1. Вызвать `/links-update --old-name old-name --new-name new-name`
-
-2. Обновить:
-   - `/.claude/skills/README.md`
-   - Все скиллы, вызывающие old-name
-   - CLAUDE.md если есть ссылки
-
-### Шаг 5: Обновление категории (если --category)
-
-1. Обновить поле `category` в SKILL.md
-2. Обновить группировку в skills.md
-
-### Шаг 6: Валидация
-
-1. Проверить новый скилл:
-   - Файлы существуют
-   - SKILL.md валиден
-   - tests.md существует
-
-2. Запустить `/links-validate /.claude/skills/new-name/`
+См. [Чек-лист](#чек-лист) ниже.
 
 ### Шаг 7: Результат
 
-**Успех:**
-```
-✅ Скилл мигрирован успешно
-
-Было: /old-name (category: old-category)
-Стало: /new-name (category: new-category)
-
-Обновлено файлов: {N}
-
-Следующие шаги:
-- Проверить работу скилла: /new-name --help
-- Запустить тесты: /test-execute new-name
-```
-
-**Ошибка:**
-```
-❌ Ошибка миграции
-
-Причина: {описание}
-Состояние: Откат выполнен, изменения отменены
-
-Решение: {рекомендация}
-```
+> **SSOT:** [workflow.md](/.claude/instructions/skills/workflow.md#формат-результата)
 
 ---
 
-## Примеры использования
+## Чек-лист
 
-### Переименование скилла
-
-```
-/skill-migrate my-old-skill my-new-skill
-```
-
-### Перемещение в другую категорию
-
-```
-/skill-migrate utility-skill --category documentation
-```
-
-### Предварительный просмотр
-
-```
-/skill-migrate my-skill new-name --dry-run
-```
-
-**Результат:**
-```
-📋 Предварительный просмотр (--dry-run)
-
-Будет переименовано:
-- /.claude/skills/my-skill/ → /.claude/skills/new-name/
-
-Будет обновлено:
-- /.claude/skills/README.md
-- /.claude/skills/other-skill/SKILL.md
-
-ℹ️ Изменения НЕ применены (--dry-run)
-```
+- [ ] Прочитал SSOT инструкции (ШАГ 0)
+- [ ] Проверил имена (старое и новое)
+- [ ] Проанализировал зависимости
+- [ ] Получил подтверждение
+- [ ] Переименовал папку
+- [ ] Обновил ссылки
+- [ ] Вывел итоговый отчёт
 
 ---
 
-## Связи с другими скиллами
+## Примеры
 
-| Скилл | Связь |
-|-------|-------|
-| `/skill-create` | Создание нового скилла |
-| `/skill-delete` | Удаление скилла |
-| `/skill-update` | Обновление существующих скиллов |
-| `/links-update` | Вызывается для обновления ссылок |
-| `/links-validate` | Вызывается для проверки |
-
----
-
-## FAQ
-
-### Можно ли откатить миграцию?
-
-Да, используйте `/skill-migrate new-name old-name` — обратная миграция.
-
-### Что если скилл критичный?
-
-Миграция критичных скиллов требует дополнительного подтверждения и автоматически создаёт Issue для отслеживания.
-
-### Обновляются ли тесты?
-
-Да, tests.md копируется и проверяется после миграции.
-
----
-
-## SSOT
-
-- [output-formats.md](/.claude/instructions/skills/output.md) — формат вывода
-- [error-handling.md](/.claude/instructions/skills/errors.md) — обработка ошибок
+> **SSOT:** [examples.md](/.claude/instructions/skills/examples.md#skill-migrate)

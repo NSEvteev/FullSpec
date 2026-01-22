@@ -24,6 +24,13 @@ triggers:
 - [links-update](/.claude/skills/links-update/SKILL.md) — восстановление ссылок
 - [context-delete](/.claude/skills/context-delete/SKILL.md) — очистка контекста
 
+## Оглавление
+
+- [Формат вызова](#формат-вызова)
+- [Воркфлоу](#воркфлоу)
+- [Чек-лист](#чек-лист)
+- [Примеры](#примеры)
+
 ---
 
 ## Формат вызова
@@ -53,13 +60,25 @@ triggers:
 
 ### Шаг 1: Получить путь, проверить несуществование
 
+> **SSOT:** [workflow.md](/.claude/instructions/links/workflow.md#фаза-delete)
+
 ### Шаг 2: Найти все ссылки на путь
+
+> **SSOT:** [patterns.md](/.claude/instructions/links/patterns.md#поиск-ссылок)
 
 ### Шаг 3: Показать diff для подтверждения
 
+> **SSOT:** [edge-cases.md](/.claude/instructions/links/edge-cases.md#массовые-изменения)
+
 ### Шаг 4: Применить пометки (согласно format.md)
 
-### Шаг 5: Результат
+> **SSOT:** [format.md](/.claude/instructions/links/format.md#помеченная-ссылка)
+
+### Шаг 5: Проверка по чек-листу
+
+См. [Чек-лист](#чек-лист) ниже.
+
+### Шаг 6: Результат
 
 ```
 ✅ Ссылки помечены как удалённые
@@ -84,3 +103,9 @@ triggers:
 - [ ] Показал diff
 - [ ] Применил пометки
 - [ ] Вывел отчёт
+
+---
+
+## Примеры
+
+> **SSOT:** [examples.md](/.claude/instructions/links/examples.md#links-delete)

@@ -1,6 +1,7 @@
 ---
 type: standard
 description: Правила скиллов — одно действие, именование, структура
+governed-by: skills/README.md
 related:
   - skills/workflow.md
   - skills/parameters.md
@@ -39,6 +40,8 @@ related:
 - `migrate` — миграция (переименование + обновление ссылок): `skill-migrate`
 
 **Правило:** Если пользователь просит "управление X" (create + update + delete) — разделить на 3 скилла.
+
+**Важно:** Скилл может вызывать другие скиллы в рамках своего воркфлоу — это НЕ нарушает правило одного действия. Пример: `/instruction-create` вызывает `/links-update` после создания инструкции.
 
 ---
 

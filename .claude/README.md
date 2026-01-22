@@ -256,7 +256,7 @@ create    update    delete    execute   review    complete execute
 
 | Категория | Скиллы | Количество |
 |-----------|--------|------------|
-| skill-management | skill-create, skill-update, skill-delete, skill-migrate, skill-report | 5 |
+| skill-management | skill-create, skill-update, skill-delete, skill-migrate | 4 |
 | instruction-management | instruction-create, instruction-update, instruction-deactivate | 3 |
 | documentation | doc-create, doc-update, doc-delete, links-create, links-update, links-delete, links-validate, context-update, context-delete, doc-reindex | 10 |
 | testing | test-create, test-update, test-review, test-execute, test-complete, test-delete, test-coverage | 7 |

@@ -26,6 +26,13 @@ triggers:
 - [instruction-create](/.claude/skills/instruction-create/SKILL.md) — создание инструкций
 - [instruction-update](/.claude/skills/instruction-update/SKILL.md) — проверка соответствия
 
+## Оглавление
+
+- [Формат вызова](#формат-вызова)
+- [Воркфлоу](#воркфлоу)
+- [Чек-лист](#чек-лист)
+- [Примеры](#примеры)
+
 ---
 
 ## Формат вызова
@@ -57,21 +64,39 @@ triggers:
 
 ### Шаг 1: Получить путь
 
+> **SSOT:** [workflow-deactivate.md](/.claude/instructions/instructions/workflow-deactivate.md#шаг-1-получить-путь)
+
 ### Шаг 2: Проверить существование
+
+> **SSOT:** [workflow-deactivate.md](/.claude/instructions/instructions/workflow-deactivate.md#шаг-2-проверить-существование)
 
 ### Шаг 3: Прочитать содержимое
 
+> **SSOT:** [workflow-deactivate.md](/.claude/instructions/instructions/workflow-deactivate.md#шаг-3-прочитать-содержимое)
+
 ### Шаг 4: Добавить предупреждение
+
+> **SSOT:** [workflow-deactivate.md](/.claude/instructions/instructions/workflow-deactivate.md#шаг-4-добавить-предупреждение)
 
 ### Шаг 5: Закомментировать содержимое
 
+> **SSOT:** [workflow-deactivate.md](/.claude/instructions/instructions/workflow-deactivate.md#шаг-5-закомментировать-содержимое)
+
 ### Шаг 6: Сохранить файл
+
+> **SSOT:** [workflow-deactivate.md](/.claude/instructions/instructions/workflow-deactivate.md#шаг-6-сохранить-файл)
 
 ### Шаг 7: Обновить README папки
 
+> **SSOT:** [workflow-deactivate.md](/.claude/instructions/instructions/workflow-deactivate.md#шаг-7-обновить-readme-папки)
+
 ### Шаг 8: Сбросить статус в главном README
 
+> **SSOT:** [workflow-deactivate.md](/.claude/instructions/instructions/workflow-deactivate.md#шаг-8-сбросить-статус-в-главном-readme)
+
 ### Шаг 9: Проверка по чек-листу
+
+См. [Чек-лист](#чек-лист) ниже.
 
 ### Шаг 10: Результат
 
@@ -99,3 +124,9 @@ README папки обновлён
 - [ ] Обновил README папки
 - [ ] Сбросил статус в главном README
 - [ ] Вывел итоговый отчёт
+
+---
+
+## Примеры
+
+> **SSOT:** [examples.md](/.claude/instructions/instructions/examples.md#instruction-deactivate)

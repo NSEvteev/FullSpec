@@ -24,6 +24,13 @@ triggers:
 - [links-update](/.claude/skills/links-update/SKILL.md) — обновление ссылок
 - [links-delete](/.claude/skills/links-delete/SKILL.md) — пометка битых ссылок
 
+## Оглавление
+
+- [Формат вызова](#формат-вызова)
+- [Воркфлоу](#воркфлоу)
+- [Чек-лист](#чек-лист)
+- [Примеры](#примеры)
+
 ---
 
 ## Формат вызова
@@ -52,13 +59,25 @@ triggers:
 
 ### Шаг 1: Получить документ
 
+> **SSOT:** [workflow.md](/.claude/instructions/links/workflow.md#фаза-create)
+
 ### Шаг 2: Найти упоминания (согласно patterns.md)
+
+> **SSOT:** [patterns.md](/.claude/instructions/links/patterns.md#поиск-упоминаний)
 
 ### Шаг 3: Проверить существование файлов
 
+> **SSOT:** [patterns.md](/.claude/instructions/links/patterns.md#исключения)
+
 ### Шаг 4: Создать ссылки (согласно format.md)
 
-### Шаг 5: Результат
+> **SSOT:** [format.md](/.claude/instructions/links/format.md#стандартная-ссылка)
+
+### Шаг 5: Проверка по чек-листу
+
+См. [Чек-лист](#чек-лист) ниже.
+
+### Шаг 6: Результат
 
 ```
 ✅ Ссылки созданы в {файл}
@@ -78,3 +97,9 @@ triggers:
 - [ ] Проверил существование
 - [ ] Создал ссылки
 - [ ] Вывел отчёт
+
+---
+
+## Примеры
+
+> **SSOT:** [examples.md](/.claude/instructions/links/examples.md#links-create)

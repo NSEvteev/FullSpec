@@ -15,6 +15,13 @@ critical: false
 - [links-delete](/.claude/skills/links-delete/SKILL.md) — пометка битых
 - [health-check](/.claude/skills/health-check/SKILL.md) — использует этот скилл
 
+## Оглавление
+
+- [Формат вызова](#формат-вызова)
+- [Воркфлоу](#воркфлоу)
+- [Чек-лист](#чек-лист)
+- [Примеры](#примеры)
+
 ---
 
 ## Формат вызова
@@ -45,15 +52,29 @@ critical: false
 
 ### Шаг 1: Найти .md файлы в scope
 
+> **SSOT:** [workflow.md](/.claude/instructions/links/workflow.md#фаза-validate)
+
 ### Шаг 2: Извлечь все ссылки (согласно patterns.md)
+
+> **SSOT:** [patterns.md](/.claude/instructions/links/patterns.md#поиск-ссылок)
 
 ### Шаг 3: Валидировать каждую (согласно validation.md)
 
+> **SSOT:** [validation.md](/.claude/instructions/links/validation.md#правила-проверки)
+
 ### Шаг 4: Сформировать отчёт
+
+> **SSOT:** [validation.md](/.claude/instructions/links/validation.md#типы-ссылок)
 
 ### Шаг 5: (--fix) Предложить исправления
 
-### Шаг 6: Результат
+> **SSOT:** [validation.md](/.claude/instructions/links/validation.md#режим---fix)
+
+### Шаг 6: Проверка по чек-листу
+
+См. [Чек-лист](#чек-лист) ниже.
+
+### Шаг 7: Результат
 
 ```
 📋 Валидация ссылок
@@ -72,3 +93,9 @@ critical: false
 - [ ] Извлёк ссылки
 - [ ] Провалидировал
 - [ ] Сформировал отчёт
+
+---
+
+## Примеры
+
+> **SSOT:** [examples.md](/.claude/instructions/links/examples.md#links-validate)
