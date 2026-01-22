@@ -26,9 +26,9 @@ triggers:
 - [health-check](/.claude/skills/health-check/SKILL.md) — общая проверка проекта
 
 **Связанные инструкции:**
-- [tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование Claude скиллов
-- [tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
-- [scope-detection.md](/.claude/instructions/shared/scope.md) — определение scope
+- [tests/claude-testing.md](/.claude/instructions/system/tests/claude-testing.md) — тестирование Claude скиллов
+- [tests/project-testing.md](/.claude/instructions/system/tests/project-testing.md) — тестирование проекта
+- [scope-detection.md](/.claude/instructions/system/shared/scope.md) — определение scope
 
 ## Оглавление
 

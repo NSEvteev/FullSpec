@@ -35,7 +35,7 @@ triggers:
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
 
 **Шаблоны:**
-- [output-formats.md](/.claude/instructions/skills/output.md) — форматы вывода (SSOT)
+- [output-formats.md](/.claude/instructions/meta/skills/output.md) — форматы вывода (SSOT)
 
 ## Оглавление
 

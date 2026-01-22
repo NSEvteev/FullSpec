@@ -59,40 +59,40 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [specs/README.md](/.claude/instructions/specs/README.md) — индекс инструкций
-> 2. [specs/naming.md](/.claude/instructions/specs/naming.md) — формат имён, нумерация
-> 3. [specs/relations.md](/.claude/instructions/specs/relations.md) — связи, backlinks
-> 4. [specs/errors.md](/.claude/instructions/specs/errors.md) — обработка ошибок
+> 1. [specs/README.md](/.claude/instructions/workflow/specs/README.md) — индекс инструкций
+> 2. [specs/naming.md](/.claude/instructions/workflow/specs/naming.md) — формат имён, нумерация
+> 3. [specs/relations.md](/.claude/instructions/workflow/specs/relations.md) — связи, backlinks
+> 4. [specs/errors.md](/.claude/instructions/workflow/specs/errors.md) — обработка ошибок
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Определить тип документа
 
-> **SSOT:** [specs/rules.md](/.claude/instructions/specs/rules.md#spec-create--создание-документов)
+> **SSOT:** [specs/rules.md](/.claude/instructions/workflow/specs/rules.md#spec-create--создание-документов)
 
 ### Шаг 2: Получить и валидировать родителя
 
-> **SSOT:** [specs/relations.md](/.claude/instructions/specs/relations.md#обязательные-ссылки)
+> **SSOT:** [specs/relations.md](/.claude/instructions/workflow/specs/relations.md#обязательные-ссылки)
 
 ### Шаг 3: Получить тему и определить номер
 
-> **SSOT:** [specs/naming.md](/.claude/instructions/specs/naming.md)
+> **SSOT:** [specs/naming.md](/.claude/instructions/workflow/specs/naming.md)
 
 ### Шаг 4: Для ADR — определить сервис
 
-> **SSOT:** [specs/impact.md](/.claude/instructions/specs/impact.md#создание-нового-сервиса)
+> **SSOT:** [specs/impact.md](/.claude/instructions/workflow/specs/impact.md#создание-нового-сервиса)
 
 ### Шаг 5: Прочитать шаблон и создать документ
 
-> **SSOT:** Шаблоны в [specs/README.md](/.claude/instructions/specs/README.md#17-шаблоны)
+> **SSOT:** Шаблоны в [specs/README.md](/.claude/instructions/workflow/specs/README.md#17-шаблоны)
 
 ### Шаг 6: Обновить индекс README.md
 
-> **SSOT:** [specs/indexes.md](/.claude/instructions/specs/indexes.md)
+> **SSOT:** [specs/indexes.md](/.claude/instructions/workflow/specs/indexes.md)
 
 ### Шаг 7: Добавить backlink в родителя
 
-> **SSOT:** [specs/relations.md](/.claude/instructions/specs/relations.md#обратные-ссылки-backlinks)
+> **SSOT:** [specs/relations.md](/.claude/instructions/workflow/specs/relations.md#обратные-ссылки-backlinks)
 
 ### Шаг 8: Проверка по чек-листу
 
@@ -100,7 +100,7 @@ triggers:
 
 ### Шаг 9: Результат
 
-> **SSOT:** [specs/output.md](/.claude/instructions/specs/output.md#spec-create)
+> **SSOT:** [specs/output.md](/.claude/instructions/workflow/specs/output.md#spec-create)
 
 ---
 
@@ -122,4 +122,4 @@ triggers:
 
 ## Примеры
 
-> **SSOT:** [specs/examples.md](/.claude/instructions/specs/examples.md#spec-create)
+> **SSOT:** [specs/examples.md](/.claude/instructions/workflow/specs/examples.md#spec-create)

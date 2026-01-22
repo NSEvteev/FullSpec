@@ -51,28 +51,28 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [specs/statuses.md](/.claude/instructions/specs/statuses.md) — правила статусов, финальные статусы
-> 2. [specs/workflow.md](/.claude/instructions/specs/workflow.md) — каскадные переходы
-> 3. [specs/relations.md](/.claude/instructions/specs/relations.md) — граф зависимостей
-> 4. [specs/errors.md](/.claude/instructions/specs/errors.md#specs-sync) — обработка ошибок
+> 1. [specs/statuses.md](/.claude/instructions/workflow/specs/statuses.md) — правила статусов, финальные статусы
+> 2. [specs/workflow.md](/.claude/instructions/workflow/specs/workflow.md) — каскадные переходы
+> 3. [specs/relations.md](/.claude/instructions/workflow/specs/relations.md) — граф зависимостей
+> 4. [specs/errors.md](/.claude/instructions/workflow/specs/errors.md#specs-sync) — обработка ошибок
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Собрать все цепочки документов
 
-> **SSOT:** [specs/relations.md](/.claude/instructions/specs/relations.md#граф-зависимостей)
+> **SSOT:** [specs/relations.md](/.claude/instructions/workflow/specs/relations.md#граф-зависимостей)
 
 ### Шаг 2: Для каждой цепочки определить ожидаемые статусы
 
-> **SSOT:** [specs/statuses.md](/.claude/instructions/specs/statuses.md#каскадные-проверки)
+> **SSOT:** [specs/statuses.md](/.claude/instructions/workflow/specs/statuses.md#каскадные-проверки)
 
 ### Шаг 3: Найти расхождения
 
-> **SSOT:** [specs/statuses.md](/.claude/instructions/specs/statuses.md#порядок-проверки-снизу-вверх)
+> **SSOT:** [specs/statuses.md](/.claude/instructions/workflow/specs/statuses.md#порядок-проверки-снизу-вверх)
 
 ### Шаг 4: Применить изменения
 
-> **SSOT:** [specs/output.md](/.claude/instructions/specs/output.md#specs-sync)
+> **SSOT:** [specs/output.md](/.claude/instructions/workflow/specs/output.md#specs-sync)
 
 ---
 
@@ -88,4 +88,4 @@ triggers:
 
 ## Примеры
 
-> **SSOT:** [specs/examples.md](/.claude/instructions/specs/examples.md#specs-sync)
+> **SSOT:** [specs/examples.md](/.claude/instructions/workflow/specs/examples.md#specs-sync)

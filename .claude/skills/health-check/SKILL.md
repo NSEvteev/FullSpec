@@ -247,5 +247,5 @@ jobs:
 
 ## SSOT
 
-- [output-formats.md](/.claude/instructions/skills/output.md) — формат вывода
-- [error-handling.md](/.claude/instructions/skills/errors.md) — обработка ошибок
+- [output-formats.md](/.claude/instructions/meta/skills/output.md) — формат вывода
+- [error-handling.md](/.claude/instructions/meta/skills/errors.md) — обработка ошибок

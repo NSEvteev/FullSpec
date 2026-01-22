@@ -8,50 +8,82 @@
 - Скиллами для генерации файлов (doc-create, spec-create и др.)
 - Вручную для создания типовых документов
 
-> **Примечание:** Инструкции (правила для скиллов) перенесены в [/.claude/instructions/](/.claude/instructions/).
+> **Структура:** Шаблоны организованы по 4 scope: service, system, workflow, meta.
 
 ---
 
 ## Индекс шаблонов
 
-### /doc/ — Шаблоны документации
+### service/ — Шаблоны сервисов
 
 | Шаблон | Описание | Используется в |
 |--------|----------|----------------|
-| [backend-template.md](./doc/backend-template.md) | Шаблон для handlers, services, controllers | doc-create |
-| [database-template.md](./doc/database-template.md) | Шаблон для schema, migrations | doc-create |
-| [frontend-template.md](./doc/frontend-template.md) | Шаблон для components, pages | doc-create |
-| [minimal-template.md](./doc/minimal-template.md) | Минимальный шаблон для утилит, констант | doc-create |
+| [dependencies.yaml](./service/dependencies.yaml) | Шаблон зависимостей сервиса | service-create |
 
-### /git/ — Шаблоны Git
+### system/ — Шаблоны системы
 
-| Шаблон | Описание | Используется в |
-|--------|----------|----------------|
-| [codeowners.md](./git/codeowners.md) | Шаблон CODEOWNERS | Ручное использование |
-| [commit-message.md](./git/commit-message.md) | Формат commit message | issue-execute |
-| [pr-template.md](./git/pr-template.md) | Шаблон Pull Request | issue-execute |
-
-### /platform/ — Шаблоны инфраструктуры
+#### system/platform/ — Инфраструктура
 
 | Шаблон | Описание | Используется в |
 |--------|----------|----------------|
-| [runbook-template.md](./platform/runbook-template.md) | Шаблон runbook для операций | Ручное использование |
+| [runbook-template.md](./system/platform/runbook-template.md) | Шаблон runbook для операций | Ручное использование |
+| [docker-compose.template](./system/platform/docker-compose.template) | Шаблон docker-compose | platform-create |
+| [dockerfile-node.template](./system/platform/dockerfile-node.template) | Dockerfile для Node.js | platform-create |
+| [dockerfile-python.template](./system/platform/dockerfile-python.template) | Dockerfile для Python | platform-create |
+| [prometheus-rules.template](./system/platform/prometheus-rules.template) | Правила Prometheus | alerting-create |
 
-### /specs/ — Шаблоны спецификаций
-
-| Шаблон | Описание | Используется в |
-|--------|----------|----------------|
-| [discussion.md](./specs/discussion.md) | Шаблон дискуссии | spec-create |
-| [impact.md](./specs/impact.md) | Шаблон импакт-анализа | spec-create |
-| [adr.md](./specs/adr.md) | Шаблон ADR | spec-create |
-| [plan.md](./specs/plan.md) | Шаблон плана реализации | spec-create |
-| [architecture.md](./specs/architecture.md) | Шаблон архитектуры сервиса | spec-create |
-
-### /tests/ — Шаблоны тестов
+#### system/tests/ — Тесты
 
 | Шаблон | Описание | Используется в |
 |--------|----------|----------------|
-| [smoke-test.md](./tests/smoke-test.md) | Шаблон smoke-теста для скиллов | test-create |
+| [smoke-test.md](./system/tests/smoke-test.md) | Шаблон smoke-теста | test-create |
+| [e2e-example.spec.ts](./system/tests/e2e-example.spec.ts) | Пример e2e теста | test-create |
+| [unit-test-example.ts](./system/tests/unit-test-example.ts) | Пример unit теста | test-create |
+
+### workflow/ — Шаблоны процессов
+
+#### workflow/docs/ — Документация
+
+| Шаблон | Описание | Используется в |
+|--------|----------|----------------|
+| [backend-template.md](./workflow/docs/backend-template.md) | Шаблон для handlers, services, controllers | docs-create |
+| [database-template.md](./workflow/docs/database-template.md) | Шаблон для schema, migrations | docs-create |
+| [frontend-template.md](./workflow/docs/frontend-template.md) | Шаблон для components, pages | docs-create |
+| [minimal-template.md](./workflow/docs/minimal-template.md) | Минимальный шаблон для утилит, констант | docs-create |
+
+#### workflow/git/ — Git
+
+| Шаблон | Описание | Используется в |
+|--------|----------|----------------|
+| [codeowners.md](./workflow/git/codeowners.md) | Шаблон CODEOWNERS | Ручное использование |
+| [commit-message.md](./workflow/git/commit-message.md) | Формат commit message | issue-execute |
+| [pr-template.md](./workflow/git/pr-template.md) | Шаблон Pull Request | issue-execute |
+| [github-actions-ci.yml](./workflow/git/github-actions-ci.yml) | Шаблон CI workflow | github-actions |
+
+#### workflow/specs/ — Спецификации
+
+| Шаблон | Описание | Используется в |
+|--------|----------|----------------|
+| [discussion.md](./workflow/specs/discussion.md) | Шаблон дискуссии | spec-create |
+| [impact.md](./workflow/specs/impact.md) | Шаблон импакт-анализа | spec-create |
+| [adr.md](./workflow/specs/adr.md) | Шаблон ADR | spec-create |
+| [plan.md](./workflow/specs/plan.md) | Шаблон плана реализации | spec-create |
+| [architecture.md](./workflow/specs/architecture.md) | Шаблон архитектуры сервиса | spec-create |
+
+### meta/ — Шаблоны meta-сущностей
+
+#### meta/instructions/ — Инструкции
+
+| Шаблон | Описание | Используется в |
+|--------|----------|----------------|
+| [instruction.md](./meta/instructions/instruction.md) | Шаблон инструкции | instruction-create |
+| [readme.md](./meta/instructions/readme.md) | Шаблон README папки инструкций | instruction-create |
+
+#### meta/skills/ — Скиллы
+
+| Шаблон | Описание | Используется в |
+|--------|----------|----------------|
+| [skill.md](./meta/skills/skill.md) | Шаблон SKILL.md | skill-create |
 
 ---
 
@@ -59,4 +91,4 @@
 
 - [/.claude/instructions/](/.claude/instructions/) — инструкции (правила для скиллов)
 - [/.claude/skills/README.md](/.claude/skills/README.md) — индекс скиллов
-- [/.claude/instructions/docs/templates.md](/.claude/instructions/docs/templates.md) — правила выбора шаблона документации
+- [/.claude/instructions/workflow/docs/templates.md](/.claude/instructions/workflow/docs/templates.md) — правила выбора шаблона документации

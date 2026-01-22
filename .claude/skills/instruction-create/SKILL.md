@@ -53,50 +53,50 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [structure.md](/.claude/instructions/instructions/structure.md) — расположение и допустимые папки
-> 2. [types.md](/.claude/instructions/instructions/types.md) — типы (standard/project)
-> 3. [validation.md](/.claude/instructions/instructions/validation.md) — формат названия и секций
-> 4. [relations.md](/.claude/instructions/instructions/relations.md) — заполнение governed-by и related
-> 5. [workflow-create.md](/.claude/instructions/instructions/workflow-create.md) — **детальный воркфлоу CREATE (15 шагов)**
-> 6. [statuses.md](/.claude/instructions/instructions/statuses.md) — статусы в README.md
+> 1. [structure.md](/.claude/instructions/meta/instructions/structure.md) — расположение и допустимые папки
+> 2. [types.md](/.claude/instructions/meta/instructions/types.md) — типы (standard/project)
+> 3. [validation.md](/.claude/instructions/meta/instructions/validation.md) — формат названия и секций
+> 4. [relations.md](/.claude/instructions/meta/instructions/relations.md) — заполнение governed-by и related
+> 5. [workflow-create.md](/.claude/instructions/meta/instructions/workflow-create.md) — **детальный воркфлоу CREATE (15 шагов)**
+> 6. [statuses.md](/.claude/instructions/meta/instructions/statuses.md) — статусы в README.md
 >
 > **Шаблоны:**
-> - [instruction.md](/.claude/templates/instructions/instruction.md) — шаблон инструкции
-> - [readme.md](/.claude/templates/instructions/readme.md) — шаблон README папки
+> - [instruction.md](/.claude/templates/meta/instructions/instruction.md) — шаблон инструкции
+> - [readme.md](/.claude/templates/meta/instructions/readme.md) — шаблон README папки
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Получить путь
 
-> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-1-получить-путь)
+> **SSOT:** [workflow-create.md](/.claude/instructions/meta/instructions/workflow-create.md#шаг-1-получить-путь)
 
 ### Шаг 2: Fail-fast проверки (согласно validation.md)
 
-> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-2-fail-fast-проверки)
+> **SSOT:** [workflow-create.md](/.claude/instructions/meta/instructions/workflow-create.md#шаг-2-fail-fast-проверки)
 
 ### Шаг 3: Проверить существование
 
-> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-3-проверить-существование)
+> **SSOT:** [workflow-create.md](/.claude/instructions/meta/instructions/workflow-create.md#шаг-3-проверить-существование)
 
 ### Шаг 4: Сгенерировать содержимое (согласно types.md)
 
-> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-4-сгенерировать-содержимое)
+> **SSOT:** [workflow-create.md](/.claude/instructions/meta/instructions/workflow-create.md#шаг-4-сгенерировать-содержимое)
 
 ### Шаг 5: Создать файл инструкции
 
-> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-5-создать-файл-инструкции)
+> **SSOT:** [workflow-create.md](/.claude/instructions/meta/instructions/workflow-create.md#шаг-5-создать-файл-инструкции)
 
 ### Шаг 6: Создать/обновить README папки
 
-> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-6-создатьобновить-readme-папки)
+> **SSOT:** [workflow-create.md](/.claude/instructions/meta/instructions/workflow-create.md#шаг-6-создатьобновить-readme-папки)
 
 ### Шаг 7: Обновить главный README (согласно statuses.md)
 
-> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-7-обновить-главный-readme)
+> **SSOT:** [workflow-create.md](/.claude/instructions/meta/instructions/workflow-create.md#шаг-7-обновить-главный-readme)
 
 ### Шаг 8: Ревью
 
-> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-8-ревью)
+> **SSOT:** [workflow-create.md](/.claude/instructions/meta/instructions/workflow-create.md#шаг-8-ревью)
 
 ### Шаг 9: Синхронизировать ссылки → /links-update
 
@@ -112,7 +112,7 @@ triggers:
 
 ### Шаг 12: Обновить связанные скиллы (ОБЯЗАТЕЛЬНО)
 
-> **SSOT:** [workflow-create.md](/.claude/instructions/instructions/workflow-create.md#шаг-12-обновить-связанные-скиллы)
+> **SSOT:** [workflow-create.md](/.claude/instructions/meta/instructions/workflow-create.md#шаг-12-обновить-связанные-скиллы)
 
 ### Шаг 13: Анализ и предложение новых скиллов → /skill-create
 
@@ -161,4 +161,4 @@ triggers:
 
 ## Примеры
 
-> **SSOT:** [examples.md](/.claude/instructions/instructions/examples.md#instruction-create)
+> **SSOT:** [examples.md](/.claude/instructions/meta/instructions/examples.md#instruction-create)

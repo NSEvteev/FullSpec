@@ -27,11 +27,11 @@ triggers:
 
 | Аспект | Инструкция |
 |--------|------------|
-| Критерии ревью | [issues/workflow.md#issue-review](/.claude/instructions/issues/workflow.md#issue-review) |
-| Чек-лист self-review | [git/review.md#чек-лист-self-review](/.claude/instructions/git/review.md#чек-лист-self-review) |
-| Команды gh CLI | [issues/commands.md](/.claude/instructions/issues/commands.md) |
-| Обработка ошибок | [issues/errors.md](/.claude/instructions/issues/errors.md) |
-| Примеры использования | [issues/examples.md](/.claude/instructions/issues/examples.md) |
+| Критерии ревью | [issues/workflow.md#issue-review](/.claude/instructions/workflow/github/issues/workflow.md#issue-review) |
+| Чек-лист self-review | [git/review.md#чек-лист-self-review](/.claude/instructions/workflow/git/review.md#чек-лист-self-review) |
+| Команды gh CLI | [issues/commands.md](/.claude/instructions/workflow/github/issues/commands.md) |
+| Обработка ошибок | [issues/errors.md](/.claude/instructions/workflow/github/issues/errors.md) |
+| Примеры использования | [issues/examples.md](/.claude/instructions/workflow/github/issues/examples.md) |
 
 ---
 
@@ -60,7 +60,7 @@ triggers:
 
 ## Воркфлоу (краткий)
 
-> **Детали:** [issues/workflow.md#issue-review](/.claude/instructions/issues/workflow.md#issue-review)
+> **Детали:** [issues/workflow.md#issue-review](/.claude/instructions/workflow/github/issues/workflow.md#issue-review)
 
 ```
 Шаг 1: Получить контекст (Issue, файлы)

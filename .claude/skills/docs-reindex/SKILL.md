@@ -56,31 +56,31 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать SSOT-инструкции:
-> 1. [structure.md](/.claude/instructions/docs/structure.md) — структура /doc/
-> 2. [workflow.md#docs-reindex](/.claude/instructions/docs/workflow.md#docs-reindex) — детальный воркфлоу
-> 3. [errors.md](/.claude/instructions/docs/errors.md) — обработка ошибок
+> 1. [structure.md](/.claude/instructions/workflow/docs/structure.md) — структура /doc/
+> 2. [workflow.md#docs-reindex](/.claude/instructions/workflow/docs/workflow.md#docs-reindex) — детальный воркфлоу
+> 3. [errors.md](/.claude/instructions/workflow/docs/errors.md) — обработка ошибок
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Сканировать /src/
 
-> **SSOT:** [workflow.md#docs-reindex](/.claude/instructions/docs/workflow.md#docs-reindex)
+> **SSOT:** [workflow.md#docs-reindex](/.claude/instructions/workflow/docs/workflow.md#docs-reindex)
 
 ### Шаг 2: Сканировать /doc/src/
 
-> **SSOT:** [structure.md#дерево-doc](/.claude/instructions/docs/structure.md#дерево-doc)
+> **SSOT:** [structure.md#дерево-doc](/.claude/instructions/workflow/docs/structure.md#дерево-doc)
 
 ### Шаг 3: Построить карту соответствий
 
-> **SSOT:** [rules.md#маппинг-путей](/.claude/instructions/docs/rules.md#маппинг-путей)
+> **SSOT:** [rules.md#маппинг-путей](/.claude/instructions/workflow/docs/rules.md#маппинг-путей)
 
 ### Шаг 4: Выявить проблемы
 
-> **SSOT:** [workflow.md#типы-проблем](/.claude/instructions/docs/workflow.md#типы-проблем)
+> **SSOT:** [workflow.md#типы-проблем](/.claude/instructions/workflow/docs/workflow.md#типы-проблем)
 
 ### Шаг 5: Вывести отчёт / исправить
 
-> **SSOT:** [workflow.md#режим---fix](/.claude/instructions/docs/workflow.md#режим---fix)
+> **SSOT:** [workflow.md#режим---fix](/.claude/instructions/workflow/docs/workflow.md#режим---fix)
 
 ### Шаг 6: Проверка по чек-листу
 
@@ -113,4 +113,4 @@ Outdated: {N} (обновлено)
 
 ## Примеры
 
-> **SSOT:** [examples.md#переиндексация](/.claude/instructions/docs/examples.md#переиндексация)
+> **SSOT:** [examples.md#переиндексация](/.claude/instructions/workflow/docs/examples.md#переиндексация)

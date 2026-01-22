@@ -31,11 +31,11 @@ triggers:
 
 | Аспект | Инструкция |
 |--------|------------|
-| Жизненный цикл Issue | [issues/workflow.md#lifecycle](/.claude/instructions/issues/workflow.md#lifecycle) |
-| Детальный workflow | [issues/workflow.md#issue-reopen](/.claude/instructions/issues/workflow.md#issue-reopen) |
-| Команды gh CLI | [issues/commands.md](/.claude/instructions/issues/commands.md) |
-| Обработка ошибок | [issues/errors.md](/.claude/instructions/issues/errors.md) |
-| Примеры использования | [issues/examples.md](/.claude/instructions/issues/examples.md) |
+| Жизненный цикл Issue | [issues/workflow.md#lifecycle](/.claude/instructions/workflow/github/issues/workflow.md#lifecycle) |
+| Детальный workflow | [issues/workflow.md#issue-reopen](/.claude/instructions/workflow/github/issues/workflow.md#issue-reopen) |
+| Команды gh CLI | [issues/commands.md](/.claude/instructions/workflow/github/issues/commands.md) |
+| Обработка ошибок | [issues/errors.md](/.claude/instructions/workflow/github/issues/errors.md) |
+| Примеры использования | [issues/examples.md](/.claude/instructions/workflow/github/issues/examples.md) |
 
 ---
 
@@ -66,7 +66,7 @@ triggers:
 
 ## Воркфлоу (краткий)
 
-> **Детали:** [issues/workflow.md#issue-reopen](/.claude/instructions/issues/workflow.md#issue-reopen)
+> **Детали:** [issues/workflow.md#issue-reopen](/.claude/instructions/workflow/github/issues/workflow.md#issue-reopen)
 
 ```
 Шаг 0: /environment-check github --fix

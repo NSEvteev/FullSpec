@@ -24,7 +24,7 @@ triggers:
 - [links-delete](/.claude/skills/links-delete/SKILL.md) — пометка битых ссылок (синтаксис)
 
 **Шаблоны:**
-- [output-formats.md](/.claude/instructions/skills/output.md) — форматы вывода (SSOT)
+- [output-formats.md](/.claude/instructions/meta/skills/output.md) — форматы вывода (SSOT)
 
 ## Оглавление
 
@@ -288,7 +288,7 @@ triggers:
 
 ## Обработка ошибок
 
-> **SSOT:** [error-handling.md](/.claude/instructions/skills/errors.md)
+> **SSOT:** [error-handling.md](/.claude/instructions/meta/skills/errors.md)
 
 | Ошибка | Действие |
 |--------|----------|
@@ -469,14 +469,14 @@ rm doc/drafts/old-notes.md
 
 **Вызов:**
 ```
-/context-delete .claude/instructions/src/patterns.md
+/context-delete .claude/instructions/service/patterns.md
 ```
 
 **Результат:**
 ```
 📋 Очистка контекста перед удалением
 
-Удаляемый файл: .claude/instructions/src/patterns.md
+Удаляемый файл: .claude/instructions/service/patterns.md
 Название: Паттерны кода
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

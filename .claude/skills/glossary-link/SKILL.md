@@ -26,7 +26,7 @@ triggers:
 - [glossary-review](/.claude/skills/glossary-review/SKILL.md) — обработка кандидатов
 
 **Связанные инструкции:**
-- [specs/glossary.md](/.claude/instructions/specs/glossary.md) — правила глоссария
+- [specs/glossary.md](/.claude/instructions/workflow/specs/glossary.md) — правила глоссария
 
 ## Оглавление
 

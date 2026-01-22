@@ -2,455 +2,311 @@
 
 Индекс всех инструкций проекта. Единая точка входа.
 
-**Полное описание структуры:** [README.md](/README.md)
+## Структура
 
-## Оглавление
+Инструкции организованы по **4 scope**:
 
-- [Паттерн](#паттерн)
-- [Правила структуры проекта](#правила-структуры-проекта)
-- [Начало работы](#начало-работы)
-- [Workflow статусы](#workflow-статусы)
-- [Дерево инструкций](#дерево-инструкций)
-- [/config/ — Правила конфигураций](#config--правила-конфигураций)
-- [/doc/ — Правила документации](#doc--правила-документации)
-- [/git/ — Правила Git](#git--правила-git)
-- [/issues/ — Правила GitHub Issues](#issues--правила-github-issues)
-- [/instructions/ — Мета-инструкции](#instructions--мета-инструкции)
-- [/links/ — Правила работы со ссылками](#links--правила-работы-со-ссылками)
-- [/platform/ — Правила инфраструктуры](#platform--правила-инфраструктуры)
-- [/services/ — Управление сервисами](#services--управление-сервисами)
-- [/shared/ — Правила общего кода](#shared--правила-общего-кода)
-- [/skills/ — Правила скиллов](#skills--правила-скиллов)
-- [/specs/ — Правила спецификаций](#specs--правила-спецификаций)
-- [/src/ — Правила разработки сервисов](#src--правила-разработки-сервисов)
-- [/tests/ — Правила тестирования](#tests--правила-тестирования)
-
----
-
-## Паттерн
-
-Инструкции для папки `/X/` находятся в `/.claude/instructions/X/`.
-
-| Папка проекта | Инструкции |
-|---------------|------------|
-| `/src/` | `/.claude/instructions/src/` |
-| `/doc/` | `/.claude/instructions/docs/` |
-| `/shared/` | `/.claude/instructions/shared/` |
-| `/config/` | `/.claude/instructions/config/` |
-| `/platform/` | `/.claude/instructions/platform/` |
-| `/tests/` | `/.claude/instructions/tests/` |
-
-**Внутренние инструкции:**
-- `/.claude/instructions/git/` — Git workflow, коммиты, issues
-- `/.claude/instructions/tools/` — документирование кода
-- `/.claude/instructions/tests/` — тестирование (включая Claude Code)
-
----
-
-## Правила структуры проекта
-
-### Какие файлы должны быть в корне
-
-**Правило:** В корне только файлы, которые:
-- Нужны инструментам, ожидающим их в корне (git, Docker, IDE)
-- Являются точками входа для людей или LLM
-
-| Категория | Файлы | Почему в корне |
-|-----------|-------|----------------|
-| Точки входа | README.md, CLAUDE.md | Первое, что видит человек/LLM |
-| Запуск проекта | docker-compose.*, Makefile | Docker и make ищут в корне |
-| Git | .gitignore, .pre-commit-config.yaml | Git ожидает в корне |
-| Docker | .dockerignore | Docker ожидает в корне |
-| IDE/редакторы | .editorconfig, .prettierrc, .eslintrc.js | IDE ищут конфиги в корне |
-| Метаданные | LICENSE, CHANGELOG.md | Стандартное расположение |
-
-### Чеклист: добавление файла в корень
-
-Перед добавлением файла в корень:
-1. ❓ Инструмент требует файл именно в корне?
-2. ❓ Это точка входа (README, CLAUDE.md)?
-3. ❓ Файл относится ко всему проекту, а не к конкретной папке?
-
-**Если нет — файл должен быть в соответствующей папке:**
-- Конфиги окружений → `/config/`
-- Скрипты → `/platform/scripts/` или `/.claude/scripts/`
-- Документация → `/doc/`
-
-### Чеклист: добавление новой папки в корень
-
-**Правило:** Новая корневая папка — исключение, не норма.
-
-Перед созданием:
-1. ❓ Можно ли поместить в существующую папку?
-2. ❓ Будет ли использоваться регулярно (не одноразово)?
-3. ❓ Есть ли чёткая зона ответственности, не пересекающаяся с другими?
-
-**Если ответ "да" на все три:**
-1. Добавить папку в `/README.md` (раздел "Структура проекта")
-2. Создать `/.claude/instructions/{название}/` с инструкциями
-3. Обновить таблицу связей папок и инструкций
-
----
-
-## Начало работы
-
-> **Статус:** Создано **107 из 107** инструкций (100%). Все инструкции созданы и заполнены.
->
-> **Обновлено 2025-01-21:** Добавлены README.md индексы для всех папок (10 файлов).
-> **Обновлено 2025-01-21:** Добавлена папка `/skills/` (7 файлов), scope.md, formats.md, claude-functional.md.
-
-| Ситуация | Команда | Описание |
-|----------|---------|----------|
-| Создание инструкции | `/instruction-create` | Создаёт файл и генерирует содержимое |
-| Изменение инструкции | `/instruction-update` | Проверяет файлы проекта на соответствие новым правилам |
-
-**Рекомендуемый порядок:** начинать с инструкций типа `standard`, затем `project`.
-
----
-
-## Workflow статусы
-
-| Статус | Значение |
-|--------|----------|
-| ⬜ | Не выполнено |
-| ✅ | Выполнено |
-
-| Столбец | Что означает |
-|---------|--------------|
-| Тип | `standard` — требования (как делать), `project` — специфика (что есть) |
-| Создано | Файл существует |
-| Заполнено | Содержимое написано |
+| Раздел | Scope | Описание | Папка проекта |
+|--------|-------|----------|---------------|
+| [service/](#service--разработка-сервиса) | Один сервис | Разработка внутри `/src/{service}/` | `/src/{service}/` |
+| [system/](#system--система) | Вся система | Инфраструктура, тесты, конфиги | `/platform/`, `/tests/`, `/shared/`, `/config/` |
+| [workflow/](#workflow--процессы) | Процессы | Git, GitHub, спецификации, документация | `/specs/`, `/doc/`, `/.github/` |
+| [meta/](#meta--claude-сущности) | Claude | Правила для инструкций, скиллов, агентов | `/.claude/` |
 
 ---
 
 ## Дерево инструкций
 
-> ✅ Все папки и файлы созданы. Прогресс: 100% (107 инструкций, включая 15 README индексов).
-
 ```
 /.claude/instructions/
-  README.md                             # индекс всех инструкций
-
-  /config/                              # правила конфигураций
-    environments.md                     # окружения (dev/staging/prod)
-    feature-flags.md                    # флаги функций (когда использовать)
-
-  /doc/                                 # правила документации
-    README.md                           # индекс документации
-    structure.md                        # структура (зеркалирование, ссылки на код)
-    templates.md                        # шаблоны документации
-    rules.md                            # правила для doc-* скиллов
-
-  /git/                                 # правила Git
-    README.md                           # индекс Git инструкций
-    ci.md                               # CI/CD pipeline, GitHub Actions, quality gates
-    commits.md                          # коммиты (conventional, changelog)
-    issues.md                           # задачи (префиксы, метки)
-    review.md                           # code review: чек-лист, CODEOWNERS, правила
-    workflow.md                         # рабочий процесс (ветки, PR)
-
-  /issues/                              # правила GitHub Issues (SSOT для issue-* скиллов)
-    README.md                           # индекс инструкций Issues
-    format.md                           # формат заголовка, префиксы, шаблон тела
-    labels.md                           # система меток (сервис, тип, приоритет, статус)
-    workflow.md                         # жизненный цикл Issue, состояния, цепочки
-    commands.md                         # команды gh CLI
-    errors.md                           # обработка ошибок
-    examples.md                         # примеры использования
-
-  /instructions/                        # мета-инструкции
-    README.md                           # индекс мета-инструкций
-    structure.md                        # расположение инструкций
-    types.md                            # типы (standard/project)
-    validation.md                       # валидация формата
-    statuses.md                         # система статусов
-    workflow.md                         # жизненный цикл
-    patterns.md                         # паттерны поиска
-
-  /links/                               # правила работы со ссылками
-    README.md                           # индекс ссылок
-    format.md                           # форматы ссылок
-    patterns.md                         # regex-паттерны
-    workflow.md                         # жизненный цикл
-    validation.md                       # правила валидации
-    edge-cases.md                       # граничные случаи
-
-  /platform/                            # правила инфраструктуры
-    README.md                           # индекс инфраструктуры
-    caching.md                          # кэширование (Redis, TTL, инвалидация)
-    deployment.md                       # деплой (rolling, blue-green, откат)
-    docker.md                           # работа с Docker (образы, compose)
-    /observability/                     # наблюдаемость
-      alerting.md                       # алерты (severity, маршрутизация)
-      logging.md                        # логи (Loki, корреляция)
-      metrics.md                        # метрики (Prometheus, labels)
-      overview.md                       # обзор (логи, метрики, трейсы)
-      tracing.md                        # трейсы (OpenTelemetry, span)
-    operations.md                       # runbooks, incidents, postmortems
-    security.md                         # безопасность инфраструктуры
-
-  /services/                            # управление сервисами
-    README.md                           # индекс управления сервисами
-    lifecycle.md                        # создание, обновление, удаление сервиса
-    structure.md                        # структура папок /src/{service}/
-    dependencies.md                     # dependencies.yaml, граф зависимостей
-
-  /shared/                              # правила общего кода
-    README.md                           # индекс общего кода
-    scope.md                            # определение scope (claude/project)
-    assets.md                           # статика (иконки, шрифты, брендинг)
-    contracts.md                        # контракты (OpenAPI, Protobuf, JSON Schema)
-    events.md                           # события (именование, идемпотентность, DLQ)
-    i18n.md                             # локализация (формат ключей)
-    libs.md                             # общие библиотеки (ошибки, логи, валидация)
-
-  /skills/                              # правила скиллов
-    README.md                           # индекс правил скиллов
-    rules.md                            # правило одного действия, форматы
-    parameters.md                       # стандартные параметры (--dry-run, --auto)
-    workflow.md                         # шаблоны воркфлоу
-    errors.md                           # обработка ошибок
-    output.md                           # форматы вывода
-    state.md                            # временные файлы (.claude/state/)
-
-  /specs/                               # правила спецификаций /specs/
-    README.md                           # индекс, структура, связи
-    statuses.md                         # унифицированная система статусов
-    workflow.md                         # полный workflow от идеи до реализации
-    discussions.md                      # формат и чек-листы дискуссий
-    impact.md                           # импакт-анализ, связь с ADR
-    adr.md                              # ADR, breaking changes, конфликты
-    plans.md                            # планы реализации, GitHub Issues
-    architecture.md                     # архитектура сервиса (живой документ)
-    glossary.md                         # глоссарий терминов
-    rules.md                            # скиллы, шаблоны, запреты
-
-  /src/                                 # правила разработки сервисов
-    README.md                           # индекс правил разработки
-    /api/                               # проектирование API
-      README.md                         # индекс API
-      deprecation.md                    # вывод API (заголовки, сроки, миграция)
-      design.md                         # URL, методы, статусы, частичное обновление
-      swagger.md                        # документация API (OpenAPI, /docs)
-      versioning.md                     # версионирование (/v1/, /v2/)
-    /data/                              # форматы данных
-      README.md                         # индекс форматов данных
-      errors.md                         # формат ошибок (code, message, details)
-      logging.md                        # формат логов (JSON, request_id)
-      pagination.md                     # формат пагинации (page, limit, total)
-      validation.md                     # валидация входных данных
-    /dev/                               # разработка
-      README.md                         # индекс разработки
-      local.md                          # локальный запуск (hot reload, отладка)
-      performance.md                    # производительность (профилирование, лимиты)
-      testing.md                        # тесты (unit, integration, моки)
-    /runtime/                           # поведение в runtime
-      README.md                         # индекс runtime
-      database.md                       # работа с БД (пул, миграции, транзакции)
-      health.md                         # проверки (/health, /ready, завершение)
-      realtime.md                       # real-time (polling, SSE, WebSocket)
-      resilience.md                     # устойчивость (таймауты, повторы, предохранитель)
-    /security/                          # безопасность
-      README.md                         # индекс безопасности
-      audit.md                          # аудит (кто/что/когда, PII, GDPR)
-      auth.md                           # аутентификация (JWT между сервисами)
-
-  /tests/                               # правила тестирования
-    README.md                           # индекс тестирования
-    formats.md                          # форматы тестов (статусы, типы, шаблоны)
-    claude-testing.md                   # тестирование Claude Code (smoke tests)
-    claude-functional.md                # функциональное тестирование скиллов
-    e2e.md                              # e2e тесты (сценарии, инструменты)
-    fixtures.md                         # тестовые данные (фикстуры, фабрики)
-    integration.md                      # интеграционные тесты (БД, API)
-    load.md                             # нагрузочные тесты (k6, пороги)
-    project-testing.md                  # тестирование проекта (индекс)
-    smoke.md                            # smoke-тесты (быстрая проверка)
-    unit.md                             # unit-тесты (изоляция, моки)
+├── README.md                    # Этот файл
+│
+├── service/                     # Разработка внутри сервиса
+│   ├── *.md                     #   lifecycle, structure, dependencies
+│   ├── api/                     #   Проектирование API
+│   ├── data/                    #   Форматы данных
+│   ├── database/                #   База данных
+│   ├── dev/                     #   Локальная разработка
+│   ├── health/                  #   Health checks
+│   ├── resilience/              #   Устойчивость
+│   ├── security/                #   Безопасность
+│   ├── testing/                 #   Unit/integration тесты
+│   └── frontend/                #   Клиентский код (опционально)
+│
+├── system/                      # Общее для всей системы
+│   ├── platform/                #   Инфраструктура
+│   │   └── observability/       #     Наблюдаемость
+│   ├── tests/                   #   Системные тесты
+│   ├── shared/                  #   Общий код
+│   └── config/                  #   Конфигурации
+│
+├── workflow/                    # Процессы и документация
+│   ├── git/                     #   Git процессы
+│   ├── github/                  #   GitHub платформа
+│   │   └── issues/              #     GitHub Issues
+│   ├── specs/                   #   Спецификации
+│   └── docs/                    #   Документация
+│
+└── meta/                        # Правила для Claude-сущностей
+    ├── instructions/            #   Правила инструкций
+    ├── links/                   #   Правила ссылок
+    ├── skills/                  #   Правила скиллов
+    ├── agents/                  #   Правила агентов
+    ├── scripts/                 #   Правила скриптов
+    ├── state/                   #   Правила состояний
+    └── templates/               #   Правила шаблонов
 ```
 
 ---
 
-## /config/ — Правила конфигураций
+## service/ — Разработка сервиса
 
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [environments.md](./config/environments.md) | Окружения: development.yaml, staging.yaml, production.yaml | project | ✅ | ✅ |
-| [feature-flags.md](./config/feature-flags.md) | Feature flags: когда использовать, YAML vs Unleash | standard | ✅ | ✅ |
+Scope: код и конфигурация **одного** сервиса в `/src/{service}/`.
 
----
+### service/*.md — Управление сервисом
 
-## /doc/ — Правила документации
+| Инструкция | Описание |
+|------------|----------|
+| [lifecycle.md](./service/lifecycle.md) | Создание, обновление, удаление сервиса |
+| [structure.md](./service/structure.md) | Структура папок /src/{service}/ |
+| [dependencies.md](./service/dependencies.md) | dependencies.yaml, граф зависимостей |
 
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [structure.md](./doc/structure.md) | Структура /doc/, документирование кода, шаблоны, workflow | project | ✅ | ✅ |
+### service/api/ — Проектирование API
 
----
+| Инструкция | Описание |
+|------------|----------|
+| [design.md](./service/api/design.md) | URL, методы, статусы, partial update |
+| [versioning.md](./service/api/versioning.md) | Версионирование (/v1/, /v2/) |
+| [deprecation.md](./service/api/deprecation.md) | Вывод API (Sunset header, сроки) |
+| [swagger.md](./service/api/swagger.md) | OpenAPI, Swagger UI на /docs |
+| [realtime.md](./service/api/realtime.md) | WebSocket, SSE, polling |
 
-## /git/ — Правила Git
+### service/data/ — Форматы данных
 
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [ci.md](./git/ci.md) | CI/CD: pipeline структура, GitHub Actions, quality gates | standard | ✅ | ✅ |
-| [commits.md](./git/commits.md) | Conventional commits: feat/fix/breaking, автогенерация CHANGELOG | standard | ✅ | ✅ |
-| [issues.md](./git/issues.md) | GitHub Issues: префиксы ([AUTH], [NOTIFY]), labels, gh commands | standard | ✅ | ✅ |
-| [review.md](./git/review.md) | Code review: чек-лист, CODEOWNERS, правила approve | standard | ✅ | ✅ |
-| [workflow.md](./git/workflow.md) | Git workflow: GitHub Flow, ветки (main + feature/fix), PR | standard | ✅ | ✅ |
+| Инструкция | Описание |
+|------------|----------|
+| [errors.md](./service/data/errors.md) | Формат ошибок (code, message, details) |
+| [logging.md](./service/data/logging.md) | Формат логов (JSON, request_id) |
+| [pagination.md](./service/data/pagination.md) | Пагинация (page, limit, total) |
+| [validation.md](./service/data/validation.md) | Валидация входных данных |
 
----
+### service/database/ — База данных
 
-## /issues/ — Правила GitHub Issues
+| Инструкция | Описание |
+|------------|----------|
+| [database.md](./service/database/database.md) | Schema, migrations, transactions, pooling |
 
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [format.md](./issues/format.md) | Формат заголовка, префиксы сервисов, шаблон тела Issue | standard | ✅ | ✅ |
-| [labels.md](./issues/labels.md) | Система меток (сервис, тип, приоритет, статус) | standard | ✅ | ✅ |
-| [workflow.md](./issues/workflow.md) | Жизненный цикл Issue, состояния, цепочки скиллов | standard | ✅ | ✅ |
-| [commands.md](./issues/commands.md) | Команды gh CLI для работы с Issues | standard | ✅ | ✅ |
-| [errors.md](./issues/errors.md) | Обработка ошибок issue-* скиллов | standard | ✅ | ✅ |
-| [examples.md](./issues/examples.md) | Примеры использования скиллов | standard | ✅ | ✅ |
+### service/dev/ — Локальная разработка
 
----
+| Инструкция | Описание |
+|------------|----------|
+| [local.md](./service/dev/local.md) | Локальный запуск, hot reload, отладка |
+| [performance.md](./service/dev/performance.md) | Профилирование, бенчмарки, лимиты |
 
-## /instructions/ — Мета-инструкции
+### service/health/ — Health checks
 
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [structure.md](./instructions/structure.md) | Расположение и допустимые папки | standard | ✅ | ✅ |
-| [types.md](./instructions/types.md) | Типы инструкций (standard/project) | standard | ✅ | ✅ |
-| [validation.md](./instructions/validation.md) | Валидация путей и формата | standard | ✅ | ✅ |
-| [statuses.md](./instructions/statuses.md) | Система статусов в README.md | standard | ✅ | ✅ |
-| [workflow.md](./instructions/workflow.md) | Жизненный цикл (CREATE, UPDATE, DEACTIVATE) | standard | ✅ | ✅ |
-| [patterns.md](./instructions/patterns.md) | Паттерны поиска ссылок | standard | ✅ | ✅ |
+| Инструкция | Описание |
+|------------|----------|
+| [health.md](./service/health/health.md) | /health, /ready, graceful shutdown |
 
----
+### service/resilience/ — Устойчивость
 
-## /links/ — Правила работы со ссылками
+| Инструкция | Описание |
+|------------|----------|
+| [resilience.md](./service/resilience/resilience.md) | Timeouts, retries, circuit breaker |
 
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [format.md](./links/format.md) | Форматы ссылок (standard, folder, marked) | standard | ✅ | ✅ |
-| [patterns.md](./links/patterns.md) | Regex-паттерны поиска | standard | ✅ | ✅ |
-| [workflow.md](./links/workflow.md) | Жизненный цикл (CREATE → UPDATE → DELETE → VALIDATE) | standard | ✅ | ✅ |
-| [validation.md](./links/validation.md) | Правила валидации ссылок | standard | ✅ | ✅ |
-| [edge-cases.md](./links/edge-cases.md) | Граничные случаи | standard | ✅ | ✅ |
+### service/security/ — Безопасность
 
----
+| Инструкция | Описание |
+|------------|----------|
+| [auth.md](./service/security/auth.md) | JWT, аутентификация между сервисами |
+| [audit.md](./service/security/audit.md) | Аудит-логи, PII, GDPR |
 
-## /platform/ — Правила инфраструктуры
+### service/testing/ — Тестирование сервиса
 
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [caching.md](./platform/caching.md) | Redis: cache-aside, TTL, key naming ({service}:{entity}:{id}) | standard | ✅ | ✅ |
-| [deployment.md](./platform/deployment.md) | Деплой: rolling update, blue-green, canary, автооткат | standard | ✅ | ✅ |
-| [docker.md](./platform/docker.md) | Dockerfile best practices, docker-compose, образы, multi-stage | standard | ✅ | ✅ |
-| **observability/** | Наблюдаемость (три столпа) ||||
-| [alerting.md](./platform/observability/alerting.md) | Алертинг: severity levels, routing, связь с runbooks | standard | ✅ | ✅ |
-| [logging.md](./platform/observability/logging.md) | Централизованные логи: Loki, корреляция с request_id | standard | ✅ | ✅ |
-| [metrics.md](./platform/observability/metrics.md) | Prometheus метрики: naming, labels, типы (counter, gauge, histogram) | standard | ✅ | ✅ |
-| [overview.md](./platform/observability/overview.md) | Обзор: logs (Loki), metrics (Prometheus), traces (Tempo) | standard | ✅ | ✅ |
-| [tracing.md](./platform/observability/tracing.md) | Distributed tracing: OpenTelemetry, span, W3C traceparent | standard | ✅ | ✅ |
-| [operations.md](./platform/operations.md) | Операции: runbooks, incidents, postmortems | standard | ✅ | ✅ |
-| [security.md](./platform/security.md) | Безопасность: Dependabot, GitLeaks, Semgrep, scanning в CI | standard | ✅ | ✅ |
+| Инструкция | Описание |
+|------------|----------|
+| [testing.md](./service/testing/testing.md) | Unit и integration тесты, моки |
+| [unit.md](./service/testing/unit.md) | Стандарты unit-тестов |
+
+### service/frontend/ — Клиентский код
+
+> Папка создана, инструкции будут добавлены при необходимости.
 
 ---
 
-## /services/ — Управление сервисами
+## system/ — Система
 
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [lifecycle.md](./services/lifecycle.md) | Создание, обновление, удаление сервиса | standard | ✅ | ✅ |
-| [structure.md](./services/structure.md) | Структура папок /src/{service}/ | standard | ✅ | ✅ |
-| [dependencies.md](./services/dependencies.md) | dependencies.yaml, граф зависимостей | standard | ✅ | ✅ |
+Scope: инфраструктура, общий код, конфигурации — всё, что **не принадлежит одному сервису**.
 
----
+### system/platform/ — Инфраструктура
 
-## /shared/ — Правила общего кода
+| Инструкция | Описание |
+|------------|----------|
+| [docker.md](./system/platform/docker.md) | Dockerfile, docker-compose, multi-stage |
+| [deployment.md](./system/platform/deployment.md) | Rolling update, blue-green, canary |
+| [caching.md](./system/platform/caching.md) | Redis, TTL, cache-aside |
+| [operations.md](./system/platform/operations.md) | Runbooks, incidents, postmortems |
+| [security.md](./system/platform/security.md) | Dependabot, GitLeaks, Semgrep |
 
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [scope.md](./shared/scope.md) | **Определение scope (claude/project)** — SSOT для test-*/doc-* скиллов | standard | ✅ | ✅ |
-| [assets.md](./shared/assets.md) | Статические ресурсы: иконки, шрифты, брендинг | project | ✅ | ✅ |
-| [contracts.md](./shared/contracts.md) | API контракты: OpenAPI, Protobuf, JSON Schema | standard | ✅ | ✅ |
-| [events.md](./shared/events.md) | События: naming ({service}.{entity}.{action}), идемпотентность, DLQ | standard | ✅ | ✅ |
-| [i18n.md](./shared/i18n.md) | Локализация: формат ключей, структура /shared/i18n/{locale}/ | standard | ✅ | ✅ |
-| [libs.md](./shared/libs.md) | Общие библиотеки: errors, logging, validation | project | ✅ | ✅ |
+### system/platform/observability/ — Наблюдаемость
 
----
+| Инструкция | Описание |
+|------------|----------|
+| [overview.md](./system/platform/observability/overview.md) | Logs, metrics, traces — три столпа |
+| [logging.md](./system/platform/observability/logging.md) | Loki, корреляция с request_id |
+| [metrics.md](./system/platform/observability/metrics.md) | Prometheus, labels, типы метрик |
+| [tracing.md](./system/platform/observability/tracing.md) | OpenTelemetry, W3C traceparent |
+| [alerting.md](./system/platform/observability/alerting.md) | Severity levels, routing, runbooks |
 
-## /skills/ — Правила скиллов
+### system/tests/ — Системные тесты
 
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [rules.md](./skills/rules.md) | Правило одного действия, форматы названий, allowed-tools, категории | standard | ✅ | ✅ |
-| [parameters.md](./skills/parameters.md) | Стандартные параметры (--dry-run, --auto, --json, --verbose) | standard | ✅ | ✅ |
-| [workflow.md](./skills/workflow.md) | Шаблоны воркфлоу, структура шагов, fail-fast проверки | standard | ✅ | ✅ |
-| [errors.md](./skills/errors.md) | Коды ошибок, паттерны обработки, откат изменений | standard | ✅ | ✅ |
-| [output.md](./skills/output.md) | Форматы вывода, иконки, JSON формат | standard | ✅ | ✅ |
-| [state.md](./skills/state.md) | Временные файлы (.claude/state/), кэш, логи | standard | ✅ | ✅ |
+| Инструкция | Описание |
+|------------|----------|
+| [e2e.md](./system/tests/e2e.md) | End-to-end сценарии |
+| [integration.md](./system/tests/integration.md) | Интеграция между сервисами |
+| [load.md](./system/tests/load.md) | Нагрузочные тесты (k6) |
+| [smoke.md](./system/tests/smoke.md) | Быстрая проверка работоспособности |
+| [fixtures.md](./system/tests/fixtures.md) | Тестовые данные, фабрики |
+| [formats.md](./system/tests/formats.md) | Форматы тестов |
+| [project-testing.md](./system/tests/project-testing.md) | Индекс тестирования проекта |
 
----
+### system/shared/ — Общий код
 
-## /specs/ — Правила спецификаций
+| Инструкция | Описание |
+|------------|----------|
+| [contracts.md](./system/shared/contracts.md) | OpenAPI, Protobuf, JSON Schema |
+| [events.md](./system/shared/events.md) | Схемы событий, идемпотентность |
+| [libs.md](./system/shared/libs.md) | Общие библиотеки (errors, logging) |
+| [assets.md](./system/shared/assets.md) | Иконки, шрифты, брендинг |
+| [i18n.md](./system/shared/i18n.md) | Локализация |
 
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [README.md](./specs/README.md) | Индекс инструкций /specs/, структура, связи | standard | ✅ | ✅ |
-| [statuses.md](./specs/statuses.md) | Унифицированная система статусов документов | standard | ✅ | ✅ |
-| [workflow.md](./specs/workflow.md) | Полный workflow от идеи до реализации | standard | ✅ | ✅ |
-| [discussions.md](./specs/discussions.md) | Формат и чек-листы для дискуссий | standard | ✅ | ✅ |
-| [impact.md](./specs/impact.md) | Импакт-анализ, связь с ADR | standard | ✅ | ✅ |
-| [adr.md](./specs/adr.md) | ADR, проверка бизнес-логики, breaking changes | standard | ✅ | ✅ |
-| [plans.md](./specs/plans.md) | Планы реализации, GitHub Issues | standard | ✅ | ✅ |
-| [architecture.md](./specs/architecture.md) | Архитектура сервиса (живой документ) | standard | ✅ | ✅ |
-| [glossary.md](./specs/glossary.md) | Глоссарий терминов проекта | standard | ✅ | ✅ |
-| [rules.md](./specs/rules.md) | Скиллы, шаблоны, запреты | standard | ✅ | ✅ |
+### system/config/ — Конфигурации
 
----
-
-## /src/ — Правила разработки сервисов
-
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| **api/** | Проектирование REST API ||||
-| [deprecation.md](./src/api/deprecation.md) | Вывод API: Sunset header, Deprecation header, сроки, migration guide | standard | ✅ | ✅ |
-| [design.md](./src/api/design.md) | URL naming (kebab-case), HTTP методы, статус-коды, partial update, bulk operations | standard | ✅ | ✅ |
-| [swagger.md](./src/api/swagger.md) | OpenAPI спецификация, Swagger UI на /docs, автогенерация | standard | ✅ | ✅ |
-| [versioning.md](./src/api/versioning.md) | Версионирование API через URL (/v1/, /v2/), gRPC package versioning | standard | ✅ | ✅ |
-| **data/** | Форматы данных ||||
-| [errors.md](./src/data/errors.md) | Единый формат ошибок: {error: {code, message, details, request_id}} | standard | ✅ | ✅ |
-| [logging.md](./src/data/logging.md) | Structured JSON logging: timestamp, level, service, request_id, message | standard | ✅ | ✅ |
-| [pagination.md](./src/data/pagination.md) | Формат пагинации: {data, pagination: {page, limit, total, total_pages}} | standard | ✅ | ✅ |
-| [validation.md](./src/data/validation.md) | Валидация входных данных, формат ошибок по полям, JSON Schema | standard | ✅ | ✅ |
-| **dev/** | Разработка ||||
-| [local.md](./src/dev/local.md) | Локальная разработка: make dev, hot reload, debug порты, IDE | project | ✅ | ✅ |
-| [performance.md](./src/dev/performance.md) | Профилирование, бенчмарки, лимиты: p99 < 200ms, память < 512MB | standard | ✅ | ✅ |
-| [testing.md](./src/dev/testing.md) | Unit и integration тесты, моки, покрытие, расположение тестов | standard | ✅ | ✅ |
-| **runtime/** | Поведение сервисов в runtime ||||
-| [database.md](./src/runtime/database.md) | Connection pooling, миграции, транзакции, saga pattern, snake_case | standard | ✅ | ✅ |
-| [health.md](./src/runtime/health.md) | Health checks: /health, /ready, graceful shutdown (SIGTERM, 30s) | standard | ✅ | ✅ |
-| [realtime.md](./src/runtime/realtime.md) | Real-time: polling vs SSE vs WebSocket, когда что использовать | standard | ✅ | ✅ |
-| [resilience.md](./src/runtime/resilience.md) | Устойчивость: таймауты, повторы (retry), circuit breaker, fallbacks | standard | ✅ | ✅ |
-| **security/** | Безопасность ||||
-| [audit.md](./src/security/audit.md) | Аудит-логи (кто/что/когда), PII, GDPR, data retention | standard | ✅ | ✅ |
-| [auth.md](./src/security/auth.md) | Аутентификация между сервисами: JWT, service accounts | standard | ✅ | ✅ |
+| Инструкция | Описание |
+|------------|----------|
+| [environments.md](./system/config/environments.md) | dev, staging, production |
+| [feature-flags.md](./system/config/feature-flags.md) | Feature flags, rollout |
 
 ---
 
-## /tests/ — Правила тестирования
+## workflow/ — Процессы
 
-| Инструкция | Описание | Тип | Создано | Заполнено |
-|------------|----------|-----|:-------:|:---------:|
-| [formats.md](./tests/formats.md) | **Форматы тестов: статусы, типы, шаблоны** | standard | ✅ | ✅ |
-| [claude-testing.md](./tests/claude-testing.md) | Тестирование Claude Code: smoke tests, скиллы, инструкции | standard | ✅ | ✅ |
-| [claude-functional.md](./tests/claude-functional.md) | Функциональное тестирование скиллов Claude | standard | ✅ | ✅ |
-| [e2e.md](./tests/e2e.md) | End-to-end тесты: сценарии пользователя, инструменты | standard | ✅ | ✅ |
-| [fixtures.md](./tests/fixtures.md) | Тестовые данные: фикстуры, фабрики, seeds | standard | ✅ | ✅ |
-| [integration.md](./tests/integration.md) | Интеграционные тесты: БД, API, сервисы | standard | ✅ | ✅ |
-| [load.md](./tests/load.md) | Нагрузочные тесты: k6, пороги производительности | standard | ✅ | ✅ |
-| [project-testing.md](./tests/project-testing.md) | Тестирование проекта (индекс, unit, e2e, load) | project | ✅ | ✅ |
-| [smoke.md](./tests/smoke.md) | Smoke-тесты: быстрая проверка работоспособности | standard | ✅ | ✅ |
-| [unit.md](./tests/unit.md) | Unit-тесты: изоляция, моки, покрытие | standard | ✅ | ✅ |
+Scope: **как работаем** — git, GitHub, спецификации, документация.
+
+### workflow/git/ — Git процессы
+
+| Инструкция | Описание |
+|------------|----------|
+| [commits.md](./workflow/git/commits.md) | Conventional commits |
+| [workflow.md](./workflow/git/workflow.md) | GitHub Flow, ветки, PR |
+| [review.md](./workflow/git/review.md) | Code review, CODEOWNERS |
+| [issues.md](./workflow/git/issues.md) | Связь с GitHub Issues |
+
+### workflow/github/ — GitHub платформа
+
+| Инструкция | Описание |
+|------------|----------|
+| [actions.md](./workflow/github/actions.md) | CI/CD, GitHub Actions |
+
+### workflow/github/issues/ — GitHub Issues
+
+| Инструкция | Описание |
+|------------|----------|
+| [format.md](./workflow/github/issues/format.md) | Формат заголовка, префиксы |
+| [labels.md](./workflow/github/issues/labels.md) | Система меток |
+| [workflow.md](./workflow/github/issues/workflow.md) | Жизненный цикл Issue |
+| [commands.md](./workflow/github/issues/commands.md) | Команды gh CLI |
+| [errors.md](./workflow/github/issues/errors.md) | Обработка ошибок |
+| [examples.md](./workflow/github/issues/examples.md) | Примеры использования |
+
+### workflow/specs/ — Спецификации
+
+| Инструкция | Описание |
+|------------|----------|
+| [discussions.md](./workflow/specs/discussions.md) | Формат дискуссий |
+| [impact.md](./workflow/specs/impact.md) | Импакт-анализ |
+| [adr.md](./workflow/specs/adr.md) | ADR, архитектурные решения |
+| [plans.md](./workflow/specs/plans.md) | Планы реализации |
+| [architecture.md](./workflow/specs/architecture.md) | Архитектура сервиса |
+| [glossary.md](./workflow/specs/glossary.md) | Глоссарий терминов |
+| [statuses.md](./workflow/specs/statuses.md) | Система статусов |
+| [workflow.md](./workflow/specs/workflow.md) | Полный workflow |
+| [rules.md](./workflow/specs/rules.md) | Правила и запреты |
+| [naming.md](./workflow/specs/naming.md) | Именование файлов |
+| [indexes.md](./workflow/specs/indexes.md) | Индексы документов |
+| [relations.md](./workflow/specs/relations.md) | Связи между документами |
+| [output.md](./workflow/specs/output.md) | Форматы вывода |
+| [errors.md](./workflow/specs/errors.md) | Обработка ошибок |
+| [examples.md](./workflow/specs/examples.md) | Примеры |
+
+### workflow/docs/ — Документация
+
+| Инструкция | Описание |
+|------------|----------|
+| [structure.md](./workflow/docs/structure.md) | Структура /doc/ |
+| [rules.md](./workflow/docs/rules.md) | Правила документации |
+| [templates.md](./workflow/docs/templates.md) | Выбор шаблона |
+| [workflow.md](./workflow/docs/workflow.md) | Workflow docs-* скиллов |
+| [errors.md](./workflow/docs/errors.md) | Обработка ошибок |
+| [examples.md](./workflow/docs/examples.md) | Примеры |
 
 ---
+
+## meta/ — Claude-сущности
+
+Scope: **как создавать и поддерживать** инструкции, скиллы, агенты и другие Claude-артефакты.
+
+### meta/instructions/ — Правила инструкций
+
+| Инструкция | Описание |
+|------------|----------|
+| [structure.md](./meta/instructions/structure.md) | Расположение и допустимые папки |
+| [types.md](./meta/instructions/types.md) | Типы (standard/project) |
+| [validation.md](./meta/instructions/validation.md) | Валидация формата |
+| [statuses.md](./meta/instructions/statuses.md) | Система статусов |
+| [workflow.md](./meta/instructions/workflow.md) | Жизненный цикл |
+| [workflow-create.md](./meta/instructions/workflow-create.md) | CREATE workflow |
+| [workflow-update.md](./meta/instructions/workflow-update.md) | UPDATE workflow |
+| [workflow-deactivate.md](./meta/instructions/workflow-deactivate.md) | DEACTIVATE workflow |
+| [patterns.md](./meta/instructions/patterns.md) | Паттерны поиска |
+| [relations.md](./meta/instructions/relations.md) | Связи между инструкциями |
+| [examples.md](./meta/instructions/examples.md) | Примеры |
+
+### meta/links/ — Правила ссылок
+
+| Инструкция | Описание |
+|------------|----------|
+| [format.md](./meta/links/format.md) | Форматы ссылок |
+| [patterns.md](./meta/links/patterns.md) | Regex-паттерны |
+| [workflow.md](./meta/links/workflow.md) | Жизненный цикл |
+| [validation.md](./meta/links/validation.md) | Правила валидации |
+| [edge-cases.md](./meta/links/edge-cases.md) | Граничные случаи |
+| [examples.md](./meta/links/examples.md) | Примеры |
+
+### meta/skills/ — Правила скиллов
+
+| Инструкция | Описание |
+|------------|----------|
+| [rules.md](./meta/skills/rules.md) | Правило одного действия |
+| [parameters.md](./meta/skills/parameters.md) | Стандартные параметры |
+| [workflow.md](./meta/skills/workflow.md) | Шаблоны воркфлоу |
+| [errors.md](./meta/skills/errors.md) | Коды ошибок |
+| [output.md](./meta/skills/output.md) | Форматы вывода |
+| [state.md](./meta/skills/state.md) | Временные файлы |
+| [integration.md](./meta/skills/integration.md) | Интеграция скиллов |
+| [validation.md](./meta/skills/validation.md) | Валидация |
+| [examples.md](./meta/skills/examples.md) | Примеры |
+
+### meta/agents/, meta/scripts/, meta/state/, meta/templates/
+
+> Папки созданы, инструкции будут добавлены при необходимости.
+
+---
+
+## Связанные ресурсы
+
+- [CLAUDE.md](/CLAUDE.md) — точка входа для Claude
+- [/.claude/skills/README.md](/.claude/skills/README.md) — индекс скиллов
+- [/.claude/templates/README.md](/.claude/templates/README.md) — шаблоны
+- [new_structure_of_project.md](/new_structure_of_project.md) — описание 4-scope структуры

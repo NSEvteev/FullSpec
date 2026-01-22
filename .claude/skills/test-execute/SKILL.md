@@ -28,13 +28,13 @@ triggers:
 - [test-delete](/.claude/skills/test-delete/SKILL.md) — удаление теста
 
 **Связанные инструкции:**
-- [tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование Claude Code
-- [tests/project-testing.md](/.claude/instructions/tests/project-testing.md) — тестирование проекта
+- [tests/claude-testing.md](/.claude/instructions/system/tests/claude-testing.md) — тестирование Claude Code
+- [tests/project-testing.md](/.claude/instructions/system/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**
-- [test-formats.md](/.claude/instructions/tests/formats.md) — форматы отчётов, статусы тестов
-- [scope-detection.md](/.claude/instructions/shared/scope.md) — определение scope (SSOT)
-- [output-formats.md](/.claude/instructions/skills/output.md) — форматы вывода (SSOT)
+- [test-formats.md](/.claude/instructions/system/tests/formats.md) — форматы отчётов, статусы тестов
+- [scope-detection.md](/.claude/instructions/system/shared/scope.md) — определение scope (SSOT)
+- [output-formats.md](/.claude/instructions/meta/skills/output.md) — форматы вывода (SSOT)
 
 ## Оглавление
 
@@ -148,7 +148,7 @@ Ctrl+C для выхода
 
 ## Автоопределение scope
 
-> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/instructions/shared/scope.md).
+> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/instructions/system/shared/scope.md).
 
 ```
                     /test-execute [target] [--scope]
@@ -569,7 +569,7 @@ skill-*:       3 скилла (2 с тестами)
 
 ## CI интеграция
 
-> Связь с CI pipeline описана в [ci.md](/.claude/instructions/git/ci.md#интеграция-с-тестированием).
+> Связь с CI pipeline описана в [ci.md](/.claude/instructions/workflow/git/ci.md#интеграция-с-тестированием).
 
 ### Маппинг на CI
 
