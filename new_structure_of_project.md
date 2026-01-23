@@ -233,7 +233,7 @@
     │       └── skills/          #     Шаблоны скиллов
     │           └── *.md
     ├── scripts/
-    │   └── *.py                 #   Скрипты автоматизации: protect-specs.py, validate-deps.py
+    │   └── *.py                 #   Скрипты автоматизации: validate-deps.py
     └── state/
         └── *.json               #   Состояния агентов: agent-progress.json (не в git)
 ```
