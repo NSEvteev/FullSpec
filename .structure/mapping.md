@@ -29,9 +29,9 @@
 | `.github/` | `/.github/` | GitHub платформа |
 | `.github/issues/` | `/.github/ISSUE_TEMPLATE/` | GitHub Issues |
 | `.claude/` | `/.claude/` | Claude-сущности |
-| `.claude/git/` | — | Git правила (commits, branches, review) |
+| `.github/git/` | — | Git правила (commits, branches, review) |
 | `.claude/.instructions/` | `/.claude/.instructions/` | Правила инструкций |
-| `.claude/links/` | — | Правила ссылок |
+| `.structure/links/` | — | Правила ссылок |
 | `.claude/skills/` | `/.claude/skills/` | Правила скиллов |
 | `.claude/agents/` | `/.claude/agents/` | Правила агентов |
 | `.claude/scripts/` | `/.claude/scripts/` | Правила скриптов |

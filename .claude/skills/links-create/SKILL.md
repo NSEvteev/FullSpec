@@ -51,27 +51,27 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [format.md](/.claude/.instructions/.claude/links/format.md) — форматы ссылок
-> 2. [patterns.md](/.claude/.instructions/.claude/links/patterns.md) — паттерны поиска и исключения
-> 3. [workflow.md](/.claude/.instructions/.claude/links/workflow.md#фаза-create) — фаза CREATE
+> 1. [format.md](/.claude/.instructions/.structure/links/format.md) — форматы ссылок
+> 2. [patterns.md](/.claude/.instructions/.structure/links/patterns.md) — паттерны поиска и исключения
+> 3. [workflow.md](/.claude/.instructions/.structure/links/workflow.md#фаза-create) — фаза CREATE
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все три файла.
 
 ### Шаг 1: Получить документ
 
-> **SSOT:** [workflow.md](/.claude/.instructions/.claude/links/workflow.md#фаза-create)
+> **SSOT:** [workflow.md](/.claude/.instructions/.structure/links/workflow.md#фаза-create)
 
 ### Шаг 2: Найти упоминания (согласно patterns.md)
 
-> **SSOT:** [patterns.md](/.claude/.instructions/.claude/links/patterns.md#поиск-упоминаний)
+> **SSOT:** [patterns.md](/.claude/.instructions/.structure/links/patterns.md#поиск-упоминаний)
 
 ### Шаг 3: Проверить существование файлов
 
-> **SSOT:** [patterns.md](/.claude/.instructions/.claude/links/patterns.md#исключения)
+> **SSOT:** [patterns.md](/.claude/.instructions/.structure/links/patterns.md#исключения)
 
 ### Шаг 4: Создать ссылки (согласно format.md)
 
-> **SSOT:** [format.md](/.claude/.instructions/.claude/links/format.md#стандартная-ссылка)
+> **SSOT:** [format.md](/.claude/.instructions/.structure/links/format.md#стандартная-ссылка)
 
 ### Шаг 5: Проверка по чек-листу
 
@@ -102,4 +102,4 @@ triggers:
 
 ## Примеры
 
-> **SSOT:** [examples.md](/.claude/.instructions/.claude/links/examples.md#links-create)
+> **SSOT:** [examples.md](/.claude/.instructions/.structure/links/examples.md#links-create)

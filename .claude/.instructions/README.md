@@ -315,14 +315,14 @@ Scope: GitHub-специфичные настройки в `/.github/`.
 
 Scope: правила (git, links...) и Claude-артефакты в `/.claude/`.
 
-### .claude/git/ — Git правила
+### .github/git/ — Git правила
 
 | Инструкция | Описание |
 |------------|----------|
-| [commits.md](./.claude/git/commits.md) | Conventional commits |
-| [workflow.md](./.claude/git/workflow.md) | GitHub Flow, ветки, PR |
-| [review.md](./.claude/git/review.md) | Code review, CODEOWNERS |
-| [issues.md](./.claude/git/issues.md) | Связь с GitHub Issues |
+| [commits.md](./.github/git/commits.md) | Conventional commits |
+| [workflow.md](./.github/git/workflow.md) | GitHub Flow, ветки, PR |
+| [review.md](./.github/git/review.md) | Code review, CODEOWNERS |
+| [issues.md](./.github/git/issues.md) | Связь с GitHub Issues |
 
 ### .claude/docs/ — Правила документации
 
@@ -351,16 +351,16 @@ Scope: правила (git, links...) и Claude-артефакты в `/.claude/
 | [relations.md](./.claude/.instructions/relations.md) | Связи между инструкциями |
 | [examples.md](./.claude/.instructions/examples.md) | Примеры |
 
-### .claude/links/ — Правила ссылок
+### .structure/links/ — Правила ссылок
 
 | Инструкция | Описание |
 |------------|----------|
-| [format.md](./.claude/links/format.md) | Форматы ссылок |
-| [patterns.md](./.claude/links/patterns.md) | Regex-паттерны |
-| [workflow.md](./.claude/links/workflow.md) | Жизненный цикл |
-| [validation.md](./.claude/links/validation.md) | Правила валидации |
-| [edge-cases.md](./.claude/links/edge-cases.md) | Граничные случаи |
-| [examples.md](./.claude/links/examples.md) | Примеры |
+| [format.md](./.structure/links/format.md) | Форматы ссылок |
+| [patterns.md](./.structure/links/patterns.md) | Regex-паттерны |
+| [workflow.md](./.structure/links/workflow.md) | Жизненный цикл |
+| [validation.md](./.structure/links/validation.md) | Правила валидации |
+| [edge-cases.md](./.structure/links/edge-cases.md) | Граничные случаи |
+| [examples.md](./.structure/links/examples.md) | Примеры |
 
 ### .claude/skills/ — Правила скиллов
 

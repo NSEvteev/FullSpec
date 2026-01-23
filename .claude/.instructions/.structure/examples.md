@@ -103,7 +103,7 @@
 - Про правила/процессы Claude? ДА → `.claude/`
 - Про Git? ДА → `git/`
 
-**Решение:** `/.claude/.instructions/.claude/git/commits.md`
+**Решение:** `/.claude/.instructions/.github/git/commits.md`
 
 ---
 
@@ -183,6 +183,6 @@
 | E2E тесты | `tests/e2e/` |
 | Docker | `platform/docker/` |
 | Мониторинг | `platform/observability/` |
-| Git правила | `.claude/git/` |
+| Git правила | `.github/git/` |
 | Правила скиллов | `.claude/skills/` |
 | Правила инструкций | `.claude/.instructions/` |

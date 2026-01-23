@@ -16,7 +16,7 @@
 | **6. Разработка** | Код, API, БД | `src/` (api, data, database, dev, health, resilience, security) |
 | **7. Тестирование** | Unit, integration, e2e | `src/testing/` + `tests/` |
 | **8. Документация** | API docs, README | `src/docs/`, `shared/docs/`, `platform/docs/` |
-| **9. Code Review** | PR, review | `.claude/git/` (review) |
+| **9. Code Review** | PR, review | `.github/git/` (review) |
 | **10. CI/CD** | Сборка, деплой | `.github/` (actions) + `platform/` |
 | **11. Мониторинг** | Логи, метрики, трейсы | `platform/observability/` |
 | **12. Алертинг** | Уведомления | `platform/observability/` (alerting) |
@@ -47,7 +47,7 @@
 │                                                                 │
 │  9. Review ──► 10. CI/CD ──► 11. Мониторинг ──► 12. Алертинг   │
 │     │              │               │                 │          │
-│  .claude/git/    .github/ +      platform/          platform/       │
+│  .github/git/    .github/ +      platform/          platform/       │
 │               platform/      observability/     observability/  │
 │                                                                 │
 ├─────────────────────────────────────────────────────────────────┤

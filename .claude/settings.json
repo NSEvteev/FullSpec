@@ -1,6 +1,6 @@
 {
   "language": "russian",
-  "plansDirectory": "./claude/plans",
+  "plansDirectory": "./.claude/plans",
   "permissions": {
     "allow": [
       "Bash(cd:*)",

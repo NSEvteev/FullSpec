@@ -73,16 +73,16 @@
 
 | Папка | IN | OUT |
 |-------|-----|-----|
-| `.github/` | actions, workflows, templates, CODEOWNERS | Git правила → .claude/git/ |
+| `.github/` | actions, workflows, templates, CODEOWNERS | Git правила → .github/git/ |
 | `.github/issues/` | format, labels, workflow, commands | Спецификации → specs/ |
 
 ### .claude/ — Правила и Claude-сущности
 
 | Папка | IN | OUT |
 |-------|-----|-----|
-| `.claude/git/` | commits, branches, review, merge | GitHub Actions → .github/ |
+| `.github/git/` | commits, branches, review, merge | GitHub Actions → .github/ |
 | `.claude/.instructions/` | types, validation, workflow, relations | Содержимое инструкций |
-| `.claude/links/` | format, patterns, validation | Конкретные ссылки в файлах |
+| `.structure/links/` | format, patterns, validation | Конкретные ссылки в файлах |
 | `.claude/skills/` | rules, parameters, errors, state | Код скиллов → /.claude/skills/ |
 | `.claude/agents/` | structure, prompts, tools | Код агентов → /.claude/agents/ |
 | `.claude/scripts/` | naming, structure, hooks | Код скриптов → /.claude/scripts/ |

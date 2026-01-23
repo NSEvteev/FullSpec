@@ -140,7 +140,7 @@
 │
 └─ Правила/процессы Claude?
    └─ .claude/
-      ├─ Git правила → .claude/git/
+      ├─ Git правила → .github/git/
       ├─ Скиллы → .claude/skills/
       └─ Инструкции → .claude/.instructions/
 ```

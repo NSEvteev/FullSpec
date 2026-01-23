@@ -52,27 +52,27 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [format.md](/.claude/.instructions/.claude/links/format.md) — форматы ссылок (секция "Помеченная ссылка")
-> 2. [patterns.md](/.claude/.instructions/.claude/links/patterns.md) — паттерны поиска
-> 3. [workflow.md](/.claude/.instructions/.claude/links/workflow.md#фаза-delete) — фаза DELETE
+> 1. [format.md](/.claude/.instructions/.structure/links/format.md) — форматы ссылок (секция "Помеченная ссылка")
+> 2. [patterns.md](/.claude/.instructions/.structure/links/patterns.md) — паттерны поиска
+> 3. [workflow.md](/.claude/.instructions/.structure/links/workflow.md#фаза-delete) — фаза DELETE
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все три файла.
 
 ### Шаг 1: Получить путь, проверить несуществование
 
-> **SSOT:** [workflow.md](/.claude/.instructions/.claude/links/workflow.md#фаза-delete)
+> **SSOT:** [workflow.md](/.claude/.instructions/.structure/links/workflow.md#фаза-delete)
 
 ### Шаг 2: Найти все ссылки на путь
 
-> **SSOT:** [patterns.md](/.claude/.instructions/.claude/links/patterns.md#поиск-ссылок)
+> **SSOT:** [patterns.md](/.claude/.instructions/.structure/links/patterns.md#поиск-ссылок)
 
 ### Шаг 3: Показать diff для подтверждения
 
-> **SSOT:** [edge-cases.md](/.claude/.instructions/.claude/links/edge-cases.md#массовые-изменения)
+> **SSOT:** [edge-cases.md](/.claude/.instructions/.structure/links/edge-cases.md#массовые-изменения)
 
 ### Шаг 4: Применить пометки (согласно format.md)
 
-> **SSOT:** [format.md](/.claude/.instructions/.claude/links/format.md#помеченная-ссылка)
+> **SSOT:** [format.md](/.claude/.instructions/.structure/links/format.md#помеченная-ссылка)
 
 ### Шаг 5: Проверка по чек-листу
 
@@ -108,4 +108,4 @@ triggers:
 
 ## Примеры
 
-> **SSOT:** [examples.md](/.claude/.instructions/.claude/links/examples.md#links-delete)
+> **SSOT:** [examples.md](/.claude/.instructions/.structure/links/examples.md#links-delete)
