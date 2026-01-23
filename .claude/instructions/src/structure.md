@@ -49,7 +49,9 @@ related:
 │   ├── /migrations/        # Миграции
 │   └── /seeds/             # Тестовые данные
 │
-└── /tests/                 # Unit/integration тесты
+├── /tests/                 # Unit/integration тесты
+│
+└── /docs/                  # Документация сервиса
 ```
 
 ---
@@ -76,7 +78,7 @@ related:
 
 {Краткое описание назначения сервиса — 1-2 предложения}
 
-📖 **Документация:** [/doc/src/{service}/](/doc/src/{service}/)
+📖 **Документация:** [docs/](./docs/)
 📋 **Спецификации:** [/specs/services/{service}/](/specs/services/{service}/)
 
 ## Быстрый старт
@@ -288,4 +290,4 @@ Unit и integration тесты сервиса.
 
 - [lifecycle.md](./lifecycle.md) — создание и удаление сервиса
 - [dependencies.md](./dependencies.md) — зависимости между сервисами
-- [docs/structure.md](../docs/structure.md) — документация сервиса в /doc/
+- [docs/structure.md](../meta/docs/structure.md) — правила документации

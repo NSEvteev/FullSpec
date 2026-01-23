@@ -56,10 +56,9 @@ related:
 
 | Папка | Назначение |
 |-------|------------|
-| `/src/{service}/` | Код сервиса |
+| `/src/{service}/` | Код сервиса (включая `docs/`) |
 | `/tests/{service}/` | Тесты сервиса |
 | `/specs/services/{service}/` | Спецификации (ADR, планы, архитектура) |
-| `/doc/src/{service}/` | Документация кода |
 
 ### Структура /src/{service}/
 
@@ -74,7 +73,8 @@ related:
 ├── /backend/               # Серверный код
 ├── /frontend/              # Клиентский код (опционально)
 ├── /database/              # Схема и миграции
-└── /tests/                 # Unit тесты
+├── /tests/                 # Unit тесты
+└── /docs/                  # Документация сервиса
 ```
 
 ### Структура /specs/services/{service}/
@@ -88,15 +88,6 @@ related:
 │   └── 001-initial.md      # Начальный ADR
 └── plans/
     └── README.md           # Индекс планов
-```
-
-### Структура /doc/src/{service}/
-
-```
-/doc/src/{service}/
-├── README.md               # Обзор документации сервиса
-├── /backend/               # Документация кода backend
-└── /runbooks/              # Runbooks сервиса
 ```
 
 ---
@@ -127,14 +118,12 @@ Impact определяет: нужен новый сервис
     │
     ├── Создаёт /tests/{service}/
     │
-    ├── Создаёт /specs/services/{service}/
-    │   ├── README.md
-    │   ├── architecture.md
-    │   ├── adr/README.md
-    │   ├── adr/001-initial.md
-    │   └── plans/README.md
-    │
-    └── Создаёт /doc/src/{service}/README.md
+    └── Создаёт /specs/services/{service}/
+        ├── README.md
+        ├── architecture.md
+        ├── adr/README.md
+        ├── adr/001-initial.md
+        └── plans/README.md
     │
     ▼
 ADR 001-initial.md в статусе DRAFT
@@ -204,10 +193,9 @@ migration: See ADR auth/005-merge-users
 /spec-create adr 003-notification-system notifications --new
 
 # Результат:
-# ✅ /src/notifications/ создан
+# ✅ /src/notifications/ создан (включая docs/)
 # ✅ /tests/notifications/ создан
 # ✅ /specs/services/notifications/ создан
-# ✅ /doc/src/notifications/README.md создан
 # ✅ ADR 001-initial.md создан (DRAFT)
 ```
 
@@ -239,4 +227,4 @@ migration: See ADR auth/005-merge-users
 - [structure.md](./structure.md) — структура папок сервиса
 - [dependencies.md](./dependencies.md) — зависимости между сервисами
 - [specs/impact.md](../specs/impact.md) — Impact-анализ (определение необходимости сервиса)
-- [docs/structure.md](../docs/structure.md) — документация сервиса
+- [docs/structure.md](../meta/docs/structure.md) — правила документации

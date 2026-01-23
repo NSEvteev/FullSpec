@@ -139,30 +139,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   /drafts/                  # Черновики, SSOT-документы
   settings.json             # Настройки Claude
 
-/src/                       # Код сервисов
-/doc/                       # Документация
-/shared/                    # Общий код
+/src/                       # Код сервисов (+ docs/ внутри каждого)
+/shared/                    # Общий код (+ docs/)
 /config/                    # Конфигурации окружений
-/platform/                  # Инфраструктура
+/platform/                  # Инфраструктура (+ docs/, runbooks/)
 /tests/                     # Системные тесты
 /specs/                     # Спецификации проекта
 ```
-
-## MemoryBank — структурированная память проекта
-
-**MemoryBank** — структурированная память проекта для LLM. Концепты, описывающие что есть в проекте, как принято делать, почему так решили и над чем работаем.
-
-| Компонент | Расположение | Описание |
-|-----------|--------------|----------|
-| **Patterns** (Паттерны) | `/.claude/instructions/` | Как делать: стандарты, правила |
-| **Entities** (Сущности) | `/src/`, `/shared/`, `/platform/` | Что есть: код, контракты, инфраструктура |
-| **Entity Docs** (Описания) | `/doc/src/`, `/doc/shared/` | Документация сущностей |
-| **Tech Context** (Контекст) | `/specs/services/{service}/architecture.md` | Архитектура сервиса |
-| **ADR** (Решения) | `/specs/services/{service}/adr/` | Архитектурные решения |
-| **Progress** (Прогресс) | `/specs/services/{service}/plans/` | Планы и roadmap |
-| **Active Context** | GitHub Issues | Текущие задачи |
-| **Glossary** (Глоссарий) | `/specs/glossary.md` | Термины проекта |
-| **Drafts** (Черновики) | `/.claude/drafts/` | Планы, заметки, исследования |
 
 ---
 

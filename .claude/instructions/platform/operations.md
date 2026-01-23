@@ -95,11 +95,11 @@ kubectl rollout undo deployment/api-server
 - P1 не решён за 1 час → @engineering-lead
 ```
 
-**Правило:** Runbooks хранятся рядом с кодом в `/doc/runbooks/`.
+**Правило:** Runbooks хранятся в `/platform/runbooks/`.
 
 ```
-/doc/runbooks/
-  index.md              # Индекс всех runbooks
+/platform/runbooks/
+  README.md             # Индекс всех runbooks
   api/
     high-error-rate.md
     high-latency.md
