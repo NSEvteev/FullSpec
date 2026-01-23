@@ -13,7 +13,7 @@
 | [1. Принципы](#1-принципы) | [principles.md](./principles.md) | Зеркалирование, общие правила, SSOT |
 | [2. README-индексы](#2-readme-индексы) | [readme-index.md](./readme-index.md) | Правило "1 уровень", формат |
 | [3. Жизненный цикл](#3-жизненный-цикл) | [lifecycle.md](./lifecycle.md) | Этапы и покрытие инструкциями |
-| [4. Зоны ответственности](#4-зоны-ответственности) | [responsibilities.md](./responsibilities.md) | IN/OUT матрицы |
+| [4. Зоны ответственности](#4-зоны-ответственности) | [responsibilities.md](./responsibilities.md) | Правила определения IN/OUT |
 | [5. Примеры](#5-примеры) | [examples.md](./examples.md) | Decision Tree |
 | [6. Ссылки](#6-ссылки) | [links/](./links/) | → [README.md](./links/README.md) |
 | [7. Шаблоны](#7-шаблоны) | — | Шаблоны |
@@ -76,11 +76,15 @@
 
 # 4. Зоны ответственности
 
-IN/OUT матрицы для папок и инструкций.
+Правила определения зон ответственности (формат IN/OUT).
+
+> **SSOT фактов:** [/.structure/responsibilities.md](/.structure/responsibilities.md) — конкретные IN/OUT для всех папок
 
 **Оглавление:**
-- [Инструкции](./responsibilities.md#1-инструкции)
-- [Папки проекта](./responsibilities.md#2-папки-проекта)
+- [Формат IN/OUT](./responsibilities.md#формат-inout)
+- [Как определить ответственность](./responsibilities.md#как-определить-ответственность)
+- [Примеры заполнения](./responsibilities.md#примеры-заполнения)
+- [Типичные ошибки](./responsibilities.md#типичные-ошибки)
 
 **Инструкция:** [responsibilities.md](./responsibilities.md)
 

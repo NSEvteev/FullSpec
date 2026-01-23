@@ -176,7 +176,26 @@
 
 ---
 
-# 9. Шаблоны
+# 9. Ответственность
+
+IN и границы для всех инструкций проекта.
+
+**Оглавление:**
+- [.structure/](./responsibilities.md#structure--правила-организации-структуры)
+- [src/](./responsibilities.md#src--разработка-сервисов)
+- [platform/](./responsibilities.md#platform--инфраструктура)
+- [tests/](./responsibilities.md#tests--системные-тесты)
+- [shared/](./responsibilities.md#shared--общий-код)
+- [config/](./responsibilities.md#config--конфигурации)
+- [specs/](./responsibilities.md#specs--спецификации)
+- [.github/](./responsibilities.md#github--github-платформа)
+- [.claude/](./responsibilities.md#claude--правила-и-claude-сущности)
+
+**Инструкция:** [responsibilities.md](./responsibilities.md)
+
+---
+
+# 10. Шаблоны
 
 Шаблоны для создания инструкций.
 
@@ -187,7 +206,7 @@
 
 ---
 
-# 10. Скиллы
+# 11. Скиллы
 
 Скиллы для работы с инструкциями.
 
@@ -199,7 +218,7 @@
 
 ---
 
-# 11. Скрипты
+# 12. Скрипты
 
 Скрипты автоматизации для инструкций.
 

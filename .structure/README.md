@@ -8,6 +8,7 @@
 |------|----------|
 | [project.md](./project.md) | Структура папок проекта |
 | [mapping.md](./mapping.md) | Маппинг: инструкции ↔ папки проекта |
+| [responsibilities.md](./responsibilities.md) | Зоны ответственности папок |
 
 ## Связи
 
