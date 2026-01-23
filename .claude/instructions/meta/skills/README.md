@@ -171,7 +171,7 @@
 
 | Шаблон | Назначение |
 |--------|------------|
-| [skill.md](/.claude/templates/skills/skill.md) | Шаблон SKILL.md |
+| [template-skill.md](/.claude/instructions/meta/skills/template-skill.md) | Шаблон SKILL.md |
 
 ---
 

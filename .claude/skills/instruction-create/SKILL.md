@@ -61,8 +61,8 @@ triggers:
 > 6. [statuses.md](/.claude/instructions/meta/instructions/statuses.md) — статусы в README.md
 >
 > **Шаблоны:**
-> - [instruction.md](/.claude/templates/meta/instructions/instruction.md) — шаблон инструкции
-> - [readme.md](/.claude/templates/meta/instructions/readme.md) — шаблон README папки
+> - [template-instruction.md](/.claude/instructions/meta/instructions/template-instruction.md) — шаблон инструкции
+> - [template-readme.md](/.claude/instructions/meta/instructions/template-readme.md) — шаблон README папки
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 

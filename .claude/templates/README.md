@@ -72,18 +72,20 @@
 
 ### meta/ — Шаблоны meta-сущностей
 
-#### meta/instructions/ — Инструкции
+> **Перенесено в:** `/.claude/instructions/meta/`
+
+#### instructions/ — Инструкции
 
 | Шаблон | Описание | Используется в |
 |--------|----------|----------------|
-| [instruction.md](./meta/instructions/instruction.md) | Шаблон инструкции | instruction-create |
-| [readme.md](./meta/instructions/readme.md) | Шаблон README папки инструкций | instruction-create |
+| [template-instruction.md](/.claude/instructions/meta/instructions/template-instruction.md) | Шаблон инструкции | instruction-create |
+| [template-readme.md](/.claude/instructions/meta/instructions/template-readme.md) | Шаблон README папки инструкций | instruction-create |
 
-#### meta/skills/ — Скиллы
+#### skills/ — Скиллы
 
 | Шаблон | Описание | Используется в |
 |--------|----------|----------------|
-| [skill.md](./meta/skills/skill.md) | Шаблон SKILL.md | skill-create |
+| [template-skill.md](/.claude/instructions/meta/skills/template-skill.md) | Шаблон SKILL.md | skill-create |
 
 ---
 
