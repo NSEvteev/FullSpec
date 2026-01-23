@@ -1,7 +1,5 @@
 # Маппинг: Инструкции ↔ Папки проекта
 
-**SSOT:** [new_structure_of_project_v3.md](/.claude/drafts/new_structure_of_project_v3.md) — §5
-
 ---
 
 ## Таблица маппинга
