@@ -126,12 +126,6 @@
     │   └── */SKILL.md           #   Скиллы: skill-create/, docs-update/
     ├── agents/
     │   └── *.md                 #   Агенты: researcher.md, coder.md
-    ├── templates/               #   Шаблоны (по категориям)
-    │   ├── specs/               #     Шаблоны спецификаций: adr, discussion, impact, plan
-    │   ├── git/                 #     Шаблоны git: commit-message, pr-template
-    │   ├── platform/            #     Шаблоны инфраструктуры: runbooks, deployment
-    │   ├── doc/                 #     Шаблоны документации: backend, frontend, database
-    │   └── tests/               #     Шаблоны тестов: smoke, e2e
     ├── scripts/
     │   └── *.py                 #   Скрипты автоматизации: validate-deps.py
     ├── state/

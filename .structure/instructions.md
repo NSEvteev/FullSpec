@@ -19,7 +19,8 @@
 /.claude/.instructions/
 │
 ├── .structure/                  # → /.structure/ (правила организации)
-│   └── *.md                     #   lifecycle, responsibilities, examples
+│   ├── *.md                     #   lifecycle, responsibilities, examples
+│   └── links/                   #   Правила ссылок в документации
 │
 ├── src/                         # → /src/{service}/
 │   ├── *.md                     #   lifecycle, structure, dependencies
@@ -83,13 +84,12 @@
 │
 ├── .github/                     # → /.github/
 │   ├── *.md                     #   actions, templates, CODEOWNERS
+│   ├── git/                     #   Git правила: commits, branches, review
 │   ├── workflows/               # → workflows/
 │   └── issues/                  # → ISSUE_TEMPLATE/
 │
 └── .claude/                     # → /.claude/
     ├── .instructions/           #   Правила инструкций
-    ├── git/                     #   Git правила: commits, branches, review
-    ├── links/                   #   Правила ссылок
     ├── skills/                  #   Правила скиллов
     ├── agents/                  #   Правила агентов
     ├── scripts/                 #   Правила скриптов
