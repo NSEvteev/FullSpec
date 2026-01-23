@@ -130,12 +130,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```
 /.claude/                   # Инструменты Claude
-  /instructions/            # Инструкции для LLM
-  /agents/                  # Агенты
+  /instructions/            # Инструкции для LLM (5 разделов)
   /skills/                  # Скиллы
-  /scripts/                 # Скрипты Python
+  /agents/                  # Агенты
   /templates/               # Шаблоны
-  /discussions/             # Дискуссии
+  /scripts/                 # Скрипты Python
+  /state/                   # Состояния агентов (не в git)
+  /drafts/                  # Черновики, SSOT-документы
+  settings.json             # Настройки Claude
 
 /src/                       # Код сервисов
 /doc/                       # Документация
@@ -143,6 +145,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 /config/                    # Конфигурации окружений
 /platform/                  # Инфраструктура
 /tests/                     # Системные тесты
+/specs/                     # Спецификации проекта
 ```
 
 ## MemoryBank — структурированная память проекта
@@ -158,8 +161,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | **ADR** (Решения) | `/specs/services/{service}/adr/` | Архитектурные решения |
 | **Progress** (Прогресс) | `/specs/services/{service}/plans/` | Планы и roadmap |
 | **Active Context** | GitHub Issues | Текущие задачи |
-| **Glossary** (Глоссарий) | `/doc/glossary.md` | Термины проекта |
-| **Discussions** (Дискуссии) | `/.claude/discussions/` | Обсуждения и заметки |
+| **Glossary** (Глоссарий) | `/specs/glossary.md` | Термины проекта |
+| **Drafts** (Черновики) | `/.claude/drafts/` | Планы, заметки, исследования |
 
 ---
 
@@ -204,16 +207,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │   ├── platform/                       # Шаблоны инфраструктуры (5)
 │   ├── doc/                            # Шаблоны документации (4)
 │   └── tests/                          # Шаблоны тестов (3)
-└── discussions/
-    └── README.md                       # Индекс дискуссий
+└── drafts/
+    └── README.md                       # Черновики, SSOT-документы
 ```
 
 ## Ключевые файлы
 
 | Файл | Назначение |
 |------|------------|
-| `/doc/glossary.md` | Глоссарий терминов |
-| `/.claude/discussions/` | Активные дискуссии |
+| `/specs/glossary.md` | Глоссарий терминов |
+| `/.claude/drafts/` | Черновики, SSOT-документы |
 | `/specs/services/{service}/adr/` | ADR сервиса |
 
 ## Задачи
