@@ -13,7 +13,7 @@ instruction-validate.py — Валидация пути инструкции.
 Проверки:
     - Путь соответствует допустимым папкам (или папка уже существует)
     - Файл имеет расширение .md
-    - Папка .claude/instructions/ существует
+    - Папка .claude/.instructions/ существует
     - Файл README.md инструкций существует
 
 Возвращает:
@@ -93,7 +93,7 @@ def validate_path(
     # Проверка 1: папка instructions существует
     if not instructions_dir.exists():
         result["errors"].append(
-            f"Папка .claude/instructions/ не существует в {repo_root}"
+            f"Папка .claude/.instructions/ не существует в {repo_root}"
         )
         result["valid"] = False
         return result
@@ -102,7 +102,7 @@ def validate_path(
     readme_path = instructions_dir / "README.md"
     if not readme_path.exists():
         result["warnings"].append(
-            "Файл .claude/instructions/README.md не найден"
+            "Файл .claude/.instructions/README.md не найден"
         )
 
     # Нормализация пути
@@ -156,7 +156,7 @@ def main():
     )
     parser.add_argument(
         "path",
-        help="Путь к инструкции (относительно .claude/instructions/)"
+        help="Путь к инструкции (относительно .claude/.instructions/)"
     )
     parser.add_argument(
         "--repo",

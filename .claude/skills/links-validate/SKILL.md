@@ -44,31 +44,31 @@ critical: false
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [validation.md](/.claude/instructions/meta/links/validation.md) — правила валидации
-> 2. [patterns.md](/.claude/instructions/meta/links/patterns.md) — паттерны поиска
-> 3. [workflow.md](/.claude/instructions/meta/links/workflow.md#фаза-validate) — фаза VALIDATE
+> 1. [validation.md](/.claude/.instructions/.claude/links/validation.md) — правила валидации
+> 2. [patterns.md](/.claude/.instructions/.claude/links/patterns.md) — паттерны поиска
+> 3. [workflow.md](/.claude/.instructions/.claude/links/workflow.md#фаза-validate) — фаза VALIDATE
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все три файла.
 
 ### Шаг 1: Найти .md файлы в scope
 
-> **SSOT:** [workflow.md](/.claude/instructions/meta/links/workflow.md#фаза-validate)
+> **SSOT:** [workflow.md](/.claude/.instructions/.claude/links/workflow.md#фаза-validate)
 
 ### Шаг 2: Извлечь все ссылки (согласно patterns.md)
 
-> **SSOT:** [patterns.md](/.claude/instructions/meta/links/patterns.md#поиск-ссылок)
+> **SSOT:** [patterns.md](/.claude/.instructions/.claude/links/patterns.md#поиск-ссылок)
 
 ### Шаг 3: Валидировать каждую (согласно validation.md)
 
-> **SSOT:** [validation.md](/.claude/instructions/meta/links/validation.md#правила-проверки)
+> **SSOT:** [validation.md](/.claude/.instructions/.claude/links/validation.md#правила-проверки)
 
 ### Шаг 4: Сформировать отчёт
 
-> **SSOT:** [validation.md](/.claude/instructions/meta/links/validation.md#типы-ссылок)
+> **SSOT:** [validation.md](/.claude/.instructions/.claude/links/validation.md#типы-ссылок)
 
 ### Шаг 5: (--fix) Предложить исправления
 
-> **SSOT:** [validation.md](/.claude/instructions/meta/links/validation.md#режим---fix)
+> **SSOT:** [validation.md](/.claude/.instructions/.claude/links/validation.md#режим---fix)
 
 ### Шаг 6: Проверка по чек-листу
 
@@ -98,4 +98,4 @@ critical: false
 
 ## Примеры
 
-> **SSOT:** [examples.md](/.claude/instructions/meta/links/examples.md#links-validate)
+> **SSOT:** [examples.md](/.claude/.instructions/.claude/links/examples.md#links-validate)

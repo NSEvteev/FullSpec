@@ -333,7 +333,7 @@ def main():
     )
     parser.add_argument(
         "path",
-        help="Путь к инструкции (относительно .claude/instructions/)"
+        help="Путь к инструкции (относительно .claude/.instructions/)"
     )
     parser.add_argument(
         "description",

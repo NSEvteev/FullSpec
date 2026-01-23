@@ -29,13 +29,13 @@ triggers:
 - [test-delete](/.claude/skills/test-delete/SKILL.md) — удаление теста
 
 **Связанные инструкции:**
-- [tests/claude-testing.md](/.claude/instructions/system/tests/claude-testing.md) — тестирование Claude Code
-- [tests/project-testing.md](/.claude/instructions/system/tests/project-testing.md) — тестирование проекта
+- [tests/claude-testing.md](/.claude/.instructions/system/tests/claude-testing.md) — тестирование Claude Code
+- [tests/project-testing.md](/.claude/.instructions/system/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**
-- [test-formats.md](/.claude/instructions/system/tests/formats.md) — форматы тестов, чек-листы
-- [scope-detection.md](/.claude/instructions/system/shared/scope.md) — определение scope (SSOT)
-- [output-formats.md](/.claude/instructions/meta/skills/output.md) — форматы вывода (SSOT)
+- [test-formats.md](/.claude/.instructions/system/tests/formats.md) — форматы тестов, чек-листы
+- [scope-detection.md](/.claude/.instructions/system/shared/scope.md) — определение scope (SSOT)
+- [output-formats.md](/.claude/.instructions/.claude/skills/output.md) — форматы вывода (SSOT)
 
 ## Оглавление
 
@@ -594,7 +594,7 @@ describe('revokeToken'):
 
 ### Scope определён неверно
 
-> **SSOT:** См. [scope-detection.md](/.claude/instructions/system/shared/scope.md)
+> **SSOT:** См. [scope-detection.md](/.claude/.instructions/system/shared/scope.md)
 
 Используйте явное указание:
 ```bash

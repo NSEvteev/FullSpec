@@ -28,13 +28,13 @@ triggers:
 - [test-delete](/.claude/skills/test-delete/SKILL.md) — удаление теста
 
 **Связанные инструкции:**
-- [tests/claude-testing.md](/.claude/instructions/system/tests/claude-testing.md) — тестирование Claude Code
-- [tests/project-testing.md](/.claude/instructions/system/tests/project-testing.md) — тестирование проекта
+- [tests/claude-testing.md](/.claude/.instructions/system/tests/claude-testing.md) — тестирование Claude Code
+- [tests/project-testing.md](/.claude/.instructions/system/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**
-- [test-formats.md](/.claude/instructions/system/tests/formats.md) — форматы отчётов, статусы тестов
-- [scope-detection.md](/.claude/instructions/system/shared/scope.md) — определение scope (SSOT)
-- [output-formats.md](/.claude/instructions/meta/skills/output.md) — форматы вывода (SSOT)
+- [test-formats.md](/.claude/.instructions/system/tests/formats.md) — форматы отчётов, статусы тестов
+- [scope-detection.md](/.claude/.instructions/system/shared/scope.md) — определение scope (SSOT)
+- [output-formats.md](/.claude/.instructions/.claude/skills/output.md) — форматы вывода (SSOT)
 
 ## Оглавление
 
@@ -84,7 +84,7 @@ triggers:
 
 Отслеживаемые файлы:
 - /.claude/skills/**/*.md
-- /.claude/instructions/**/*.md
+- /.claude/.instructions/**/*.md
 
 [10:30:15] Запуск тестов... ✅ 15/15 passed
 [10:32:45] Изменён: skill-create/SKILL.md
@@ -99,7 +99,7 @@ Ctrl+C для выхода
 
 | Scope | Отслеживаемые пути |
 |-------|-------------------|
-| `claude` | `/.claude/skills/**`, `/.claude/instructions/**`, `/.claude/templates/**` |
+| `claude` | `/.claude/skills/**`, `/.claude/.instructions/**`, `/.claude/templates/**` |
 | `project` | `/src/**`, `/tests/**`, `/config/**` |
 | `all` | Все вышеперечисленные |
 
@@ -148,7 +148,7 @@ Ctrl+C для выхода
 
 ## Автоопределение scope
 
-> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/instructions/system/shared/scope.md).
+> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/.instructions/system/shared/scope.md).
 
 ```
                     /test-execute [target] [--scope]
@@ -569,7 +569,7 @@ skill-*:       3 скилла (2 с тестами)
 
 ## CI интеграция
 
-> Связь с CI pipeline описана в [ci.md](/.claude/instructions/workflow/git/ci.md#интеграция-с-тестированием).
+> Связь с CI pipeline описана в [ci.md](/.claude/.instructions/workflow/git/ci.md#интеграция-с-тестированием).
 
 ### Маппинг на CI
 

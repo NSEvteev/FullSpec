@@ -30,13 +30,13 @@ triggers:
 - [issue-create](/.claude/skills/issue-create/SKILL.md) — создание Issue при failed критичного скилла
 
 **Связанные инструкции:**
-- [tests/claude-testing.md](/.claude/instructions/system/tests/claude-testing.md) — тестирование Claude Code
-- [tests/project-testing.md](/.claude/instructions/system/tests/project-testing.md) — тестирование проекта
+- [tests/claude-testing.md](/.claude/.instructions/system/tests/claude-testing.md) — тестирование Claude Code
+- [tests/project-testing.md](/.claude/.instructions/system/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**
-- [test-formats.md](/.claude/instructions/system/tests/formats.md) — форматы тестов, статусы, история запусков
-- [scope-detection.md](/.claude/instructions/system/shared/scope.md) — определение scope (SSOT)
-- [output-formats.md](/.claude/instructions/meta/skills/output.md) — форматы вывода (SSOT)
+- [test-formats.md](/.claude/.instructions/system/tests/formats.md) — форматы тестов, статусы, история запусков
+- [scope-detection.md](/.claude/.instructions/system/shared/scope.md) — определение scope (SSOT)
+- [output-formats.md](/.claude/.instructions/.claude/skills/output.md) — форматы вывода (SSOT)
 
 ## Оглавление
 
@@ -567,7 +567,7 @@ Failed тест критичного скилла требует немедле�
 
 ### Scope определён неверно
 
-> **SSOT:** См. [scope-detection.md](/.claude/instructions/system/shared/scope.md)
+> **SSOT:** См. [scope-detection.md](/.claude/.instructions/system/shared/scope.md)
 
 Используйте явное указание:
 ```bash

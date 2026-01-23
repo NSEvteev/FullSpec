@@ -273,7 +273,7 @@
 ```
 /input-validate skill-name test-skill --required
 /input-validate dir-path /.claude/skills/ --required
-/input-validate md-file /.claude/instructions/README.md
+/input-validate md-file /.claude/.instructions/README.md
 ```
 
 **Ожидание:**

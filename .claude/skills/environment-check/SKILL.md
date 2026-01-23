@@ -31,7 +31,7 @@ triggers:
 - [issue-delete](/.claude/skills/issue-delete/SKILL.md) — проверка gh перед закрытием
 
 **Шаблоны:**
-- [output-formats.md](/.claude/instructions/meta/skills/output.md) — форматы вывода (SSOT)
+- [output-formats.md](/.claude/.instructions/.claude/skills/output.md) — форматы вывода (SSOT)
 
 ## Оглавление
 
@@ -213,7 +213,7 @@ python --version 2>/dev/null || python3 --version 2>/dev/null
 
 ## Обработка ошибок
 
-> **SSOT:** [error-handling.md](/.claude/instructions/meta/skills/errors.md)
+> **SSOT:** [error-handling.md](/.claude/.instructions/.claude/skills/errors.md)
 
 | Ошибка | Код | Действие |
 |--------|-----|----------|

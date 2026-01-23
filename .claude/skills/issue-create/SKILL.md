@@ -27,12 +27,12 @@ triggers:
 
 | Аспект | Инструкция |
 |--------|------------|
-| Формат заголовка, префиксы | [issues/format.md](/.claude/instructions/workflow/github/issues/format.md) |
-| Система меток | [issues/labels.md](/.claude/instructions/workflow/github/issues/labels.md) |
-| Детальный workflow | [issues/workflow.md#issue-create](/.claude/instructions/workflow/github/issues/workflow.md#issue-create) |
-| Команды gh CLI | [issues/commands.md](/.claude/instructions/workflow/github/issues/commands.md) |
-| Обработка ошибок | [issues/errors.md](/.claude/instructions/workflow/github/issues/errors.md) |
-| Примеры использования | [issues/examples.md](/.claude/instructions/workflow/github/issues/examples.md) |
+| Формат заголовка, префиксы | [issues/format.md](/.claude/.instructions/workflow/.github/issues/format.md) |
+| Система меток | [issues/labels.md](/.claude/.instructions/workflow/.github/issues/labels.md) |
+| Детальный workflow | [issues/workflow.md#issue-create](/.claude/.instructions/workflow/.github/issues/workflow.md#issue-create) |
+| Команды gh CLI | [issues/commands.md](/.claude/.instructions/workflow/.github/issues/commands.md) |
+| Обработка ошибок | [issues/errors.md](/.claude/.instructions/workflow/.github/issues/errors.md) |
+| Примеры использования | [issues/examples.md](/.claude/.instructions/workflow/.github/issues/examples.md) |
 
 ---
 
@@ -62,7 +62,7 @@ triggers:
 
 ## Воркфлоу (краткий)
 
-> **Детали:** [issues/workflow.md#issue-create](/.claude/instructions/workflow/github/issues/workflow.md#issue-create)
+> **Детали:** [issues/workflow.md#issue-create](/.claude/.instructions/workflow/.github/issues/workflow.md#issue-create)
 
 ```
 Шаг 0: /environment-check github --fix

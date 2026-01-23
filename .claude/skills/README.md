@@ -3,8 +3,8 @@ type: project
 description: Индекс скиллов, правила создания, параметры
 related:
   - /.claude/agents/README.md
-  - /.claude/instructions/system/tests/claude-testing.md
-  - /.claude/instructions/system/tests/project-testing.md
+  - /.claude/.instructions/system/tests/claude-testing.md
+  - /.claude/.instructions/system/tests/project-testing.md
 ---
 
 # Индекс скиллов
@@ -107,7 +107,7 @@ related:
 
 Тестирование скиллов и кода проекта.
 
-> **SSOT:** Определение scope (claude/project) описано в [scope-detection.md](/.claude/instructions/system/shared/scope.md).
+> **SSOT:** Определение scope (claude/project) описано в [scope-detection.md](/.claude/.instructions/system/shared/scope.md).
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
@@ -333,5 +333,5 @@ Git операции.
 ## Связанные инструкции
 
 - [agents/README.md](/.claude/agents/README.md) — индекс агентов
-- [instructions/system/tests/claude-testing.md](/.claude/instructions/system/tests/claude-testing.md) — тестирование Claude Code
-- [instructions/system/tests/project-testing.md](/.claude/instructions/system/tests/project-testing.md) — тестирование проекта
+- [instructions/system/tests/claude-testing.md](/.claude/.instructions/system/tests/claude-testing.md) — тестирование Claude Code
+- [instructions/system/tests/project-testing.md](/.claude/.instructions/system/tests/project-testing.md) — тестирование проекта

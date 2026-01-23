@@ -10,8 +10,8 @@
 | Создать инструкцию | `/instruction-create` |
 | Создать документацию | `/doc-create` |
 | Создать Issue | `/issue-create` |
-| Найти правила для /src/ | [instructions/src/](./instructions/src/) |
-| Найти правила для /platform/ | [instructions/platform/](./instructions/platform/) |
+| Найти правила для /src/ | [instructions/src/](./.instructions/src/) |
+| Найти правила для /platform/ | [instructions/platform/](./.instructions/platform/) |
 | Проверить целостность | `/health-check` |
 
 ---
@@ -20,7 +20,7 @@
 
 | Папка | Назначение | Индекс |
 |-------|------------|--------|
-| [instructions/](./instructions/) | Правила и стандарты | [README.md](./instructions/README.md) |
+| [instructions/](./.instructions/) | Правила и стандарты | [README.md](./.instructions/README.md) |
 | [skills/](./skills/) | Автоматизация (37 скиллов) | [README.md](./skills/README.md) |
 | [templates/](./templates/) | SSOT шаблоны | [README.md](./templates/README.md) |
 | [agents/](./agents/) | Помощники | [README.md](./agents/README.md) |
@@ -42,10 +42,10 @@
                                   │
                                   ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    /.claude/instructions/                            │
+│                    /.claude/.instructions/                            │
 │                                                                      │
 │  ┌───────────┐ ┌─────────┐ ┌─────────┐ ┌──────────┐ ┌─────────┐    │
-│  │structure/ │ │service/ │ │ system/ │ │workflow/ │ │  meta/  │    │
+│  │structure/ │ │service/ │ │ system/ │ │workflow/ │ │  .claude/  │    │
 │  └─────┬─────┘ └────┬────┘ └────┬────┘ └────┬─────┘ └────┬────┘    │
 └────────┼────────────┼───────────┼───────────┼────────────┼─────────┘
          │            │           │           │            │

@@ -27,14 +27,14 @@ triggers:
 - [test-delete](/.claude/skills/test-delete/SKILL.md) — удаление теста
 
 **Связанные инструкции:**
-- [tests/claude-testing.md](/.claude/instructions/system/tests/claude-testing.md) — тестирование Claude Code
-- [tests/project-testing.md](/.claude/instructions/system/tests/project-testing.md) — тестирование проекта
+- [tests/claude-testing.md](/.claude/.instructions/system/tests/claude-testing.md) — тестирование Claude Code
+- [tests/project-testing.md](/.claude/.instructions/system/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**
-- [test-formats.md](/.claude/instructions/system/tests/formats.md) — форматы тестов, статусы, чек-листы
-- [scope-detection.md](/.claude/instructions/system/shared/scope.md) — определение scope (SSOT)
-- [output-formats.md](/.claude/instructions/meta/skills/output.md) — форматы вывода (SSOT)
-- [workflow-template.md](/.claude/instructions/meta/skills/workflow.md) — SSOT структуры воркфлоу
+- [test-formats.md](/.claude/.instructions/system/tests/formats.md) — форматы тестов, статусы, чек-листы
+- [scope-detection.md](/.claude/.instructions/system/shared/scope.md) — определение scope (SSOT)
+- [output-formats.md](/.claude/.instructions/.claude/skills/output.md) — форматы вывода (SSOT)
+- [workflow-template.md](/.claude/.instructions/.claude/skills/workflow.md) — SSOT структуры воркфлоу
 
 **Utility-скиллы:**
 - [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением
@@ -75,7 +75,7 @@ triggers:
 
 ## Автоопределение scope
 
-> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/instructions/system/shared/scope.md).
+> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/.instructions/system/shared/scope.md).
 
 **Принцип:** Один набор скиллов test-* для всех типов тестов. Scope определяется **автоматически по пути**.
 

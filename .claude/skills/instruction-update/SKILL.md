@@ -44,7 +44,7 @@ triggers:
 
 | Параметр | Описание | По умолчанию |
 |----------|----------|--------------|
-| `путь` | Путь к инструкции (относительно `/.claude/instructions/`) | — (обязательный) |
+| `путь` | Путь к инструкции (относительно `/.claude/.instructions/`) | — (обязательный) |
 
 **Примеры:**
 - `/instruction-update src/api/design.md`
@@ -57,44 +57,44 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [workflow-update.md](/.claude/instructions/meta/instructions/workflow-update.md) — **детальный воркфлоу UPDATE (12 шагов)**
-> 2. [validation.md](/.claude/instructions/meta/instructions/validation.md) — формат файлов
-> 3. [patterns.md](/.claude/instructions/meta/instructions/patterns.md) — паттерны поиска
-> 4. [relations.md](/.claude/instructions/meta/instructions/relations.md) — проверка связей (governed-by, related)
+> 1. [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md) — **детальный воркфлоу UPDATE (12 шагов)**
+> 2. [validation.md](/.claude/.instructions/.claude/.instructions/validation.md) — формат файлов
+> 3. [patterns.md](/.claude/.instructions/.claude/.instructions/patterns.md) — паттерны поиска
+> 4. [relations.md](/.claude/.instructions/.claude/.instructions/relations.md) — проверка связей (governed-by, related)
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Получить путь
 
-> **SSOT:** [workflow-update.md](/.claude/instructions/meta/instructions/workflow-update.md#шаг-1-получить-путь)
+> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-1-получить-путь)
 
 ### Шаг 2: Определить зону ответственности (согласно workflow-update.md)
 
-> **SSOT:** [workflow-update.md](/.claude/instructions/meta/instructions/workflow-update.md#шаг-2-определить-зону-ответственности)
+> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-2-определить-зону-ответственности)
 
 ### Шаг 3: Найти файлы в зоне
 
-> **SSOT:** [workflow-update.md](/.claude/instructions/meta/instructions/workflow-update.md#шаг-3-найти-файлы-в-зоне)
+> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-3-найти-файлы-в-зоне)
 
 ### Шаг 4: Извлечь правила из инструкции
 
-> **SSOT:** [workflow-update.md](/.claude/instructions/meta/instructions/workflow-update.md#шаг-4-извлечь-правила)
+> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-4-извлечь-правила)
 
 ### Шаг 5: Проверить файлы на соответствие
 
-> **SSOT:** [workflow-update.md](/.claude/instructions/meta/instructions/workflow-update.md#шаг-5-проверить-файлы)
+> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-5-проверить-файлы)
 
 ### Шаг 6: Сформировать список несоответствий
 
-> **SSOT:** [workflow-update.md](/.claude/instructions/meta/instructions/workflow-update.md#шаг-6-сформировать-список-несоответствий)
+> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-6-сформировать-список-несоответствий)
 
 ### Шаг 7: Внести изменения в инструкцию (добавить TODO или изменить правила)
 
-> **SSOT:** [workflow-update.md](/.claude/instructions/meta/instructions/workflow-update.md#шаг-7-внести-изменения-в-инструкцию)
+> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-7-внести-изменения-в-инструкцию)
 
 ### Шаг 8: Обновить README папки
 
-> **SSOT:** [workflow-update.md](/.claude/instructions/meta/instructions/workflow-update.md#шаг-8-обновить-readme-папки)
+> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-8-обновить-readme-папки)
 
 ### Шаг 9: Обновить контекст скиллов → /context-update
 
@@ -113,7 +113,7 @@ triggers:
 ```
 ✅ Проверка инструкции завершена
 
-Инструкция: /.claude/instructions/{путь}
+Инструкция: /.claude/.instructions/{путь}
 Зона ответственности: {зона}
 
 Статистика:
@@ -145,4 +145,4 @@ triggers:
 
 ## Примеры
 
-> **SSOT:** [examples.md](/.claude/instructions/meta/instructions/examples.md#instruction-update)
+> **SSOT:** [examples.md](/.claude/.instructions/.claude/.instructions/examples.md#instruction-update)

@@ -43,7 +43,7 @@ triggers:
 
 | Параметр | Описание | По умолчанию |
 |----------|----------|--------------|
-| `путь` | Путь к инструкции (относительно `/.claude/instructions/`) | — (обязательный) |
+| `путь` | Путь к инструкции (относительно `/.claude/.instructions/`) | — (обязательный) |
 
 **Примеры:**
 - `/instruction-deactivate shared/i18n.md`
@@ -56,43 +56,43 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [workflow-deactivate.md](/.claude/instructions/meta/instructions/workflow-deactivate.md) — **детальный воркфлоу DEACTIVATE (10 шагов)**
-> 2. [statuses.md](/.claude/instructions/meta/instructions/statuses.md) — система статусов
-> 3. [relations.md](/.claude/instructions/meta/instructions/relations.md) — обновление обратных ссылок в related
+> 1. [workflow-deactivate.md](/.claude/.instructions/.claude/.instructions/workflow-deactivate.md) — **детальный воркфлоу DEACTIVATE (10 шагов)**
+> 2. [statuses.md](/.claude/.instructions/.claude/.instructions/statuses.md) — система статусов
+> 3. [relations.md](/.claude/.instructions/.claude/.instructions/relations.md) — обновление обратных ссылок в related
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Получить путь
 
-> **SSOT:** [workflow-deactivate.md](/.claude/instructions/meta/instructions/workflow-deactivate.md#шаг-1-получить-путь)
+> **SSOT:** [workflow-deactivate.md](/.claude/.instructions/.claude/.instructions/workflow-deactivate.md#шаг-1-получить-путь)
 
 ### Шаг 2: Проверить существование
 
-> **SSOT:** [workflow-deactivate.md](/.claude/instructions/meta/instructions/workflow-deactivate.md#шаг-2-проверить-существование)
+> **SSOT:** [workflow-deactivate.md](/.claude/.instructions/.claude/.instructions/workflow-deactivate.md#шаг-2-проверить-существование)
 
 ### Шаг 3: Прочитать содержимое
 
-> **SSOT:** [workflow-deactivate.md](/.claude/instructions/meta/instructions/workflow-deactivate.md#шаг-3-прочитать-содержимое)
+> **SSOT:** [workflow-deactivate.md](/.claude/.instructions/.claude/.instructions/workflow-deactivate.md#шаг-3-прочитать-содержимое)
 
 ### Шаг 4: Добавить предупреждение
 
-> **SSOT:** [workflow-deactivate.md](/.claude/instructions/meta/instructions/workflow-deactivate.md#шаг-4-добавить-предупреждение)
+> **SSOT:** [workflow-deactivate.md](/.claude/.instructions/.claude/.instructions/workflow-deactivate.md#шаг-4-добавить-предупреждение)
 
 ### Шаг 5: Закомментировать содержимое
 
-> **SSOT:** [workflow-deactivate.md](/.claude/instructions/meta/instructions/workflow-deactivate.md#шаг-5-закомментировать-содержимое)
+> **SSOT:** [workflow-deactivate.md](/.claude/.instructions/.claude/.instructions/workflow-deactivate.md#шаг-5-закомментировать-содержимое)
 
 ### Шаг 6: Сохранить файл
 
-> **SSOT:** [workflow-deactivate.md](/.claude/instructions/meta/instructions/workflow-deactivate.md#шаг-6-сохранить-файл)
+> **SSOT:** [workflow-deactivate.md](/.claude/.instructions/.claude/.instructions/workflow-deactivate.md#шаг-6-сохранить-файл)
 
 ### Шаг 7: Обновить README папки
 
-> **SSOT:** [workflow-deactivate.md](/.claude/instructions/meta/instructions/workflow-deactivate.md#шаг-7-обновить-readme-папки)
+> **SSOT:** [workflow-deactivate.md](/.claude/.instructions/.claude/.instructions/workflow-deactivate.md#шаг-7-обновить-readme-папки)
 
 ### Шаг 8: Сбросить статус в главном README
 
-> **SSOT:** [workflow-deactivate.md](/.claude/instructions/meta/instructions/workflow-deactivate.md#шаг-8-сбросить-статус-в-главном-readme)
+> **SSOT:** [workflow-deactivate.md](/.claude/.instructions/.claude/.instructions/workflow-deactivate.md#шаг-8-сбросить-статус-в-главном-readme)
 
 ### Шаг 9: Проверка по чек-листу
 
@@ -103,7 +103,7 @@ triggers:
 ```
 ✅ Инструкция деактивирована
 
-Файл: /.claude/instructions/{путь}
+Файл: /.claude/.instructions/{путь}
 Статус: Не используется
 
 README папки обновлён
@@ -129,4 +129,4 @@ README папки обновлён
 
 ## Примеры
 
-> **SSOT:** [examples.md](/.claude/instructions/meta/instructions/examples.md#instruction-deactivate)
+> **SSOT:** [examples.md](/.claude/.instructions/.claude/.instructions/examples.md#instruction-deactivate)

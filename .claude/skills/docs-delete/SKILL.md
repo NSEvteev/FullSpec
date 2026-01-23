@@ -55,19 +55,19 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать SSOT-инструкции:
-> 1. [rules.md](/.claude/instructions/workflow/docs/rules.md) — маппинг путей, формат пометки
-> 2. [workflow.md#docs-delete](/.claude/instructions/workflow/docs/workflow.md#docs-delete) — детальный воркфлоу
-> 3. [errors.md](/.claude/instructions/workflow/docs/errors.md) — обработка ошибок
+> 1. [rules.md](/.claude/.instructions/workflow/docs/rules.md) — маппинг путей, формат пометки
+> 2. [workflow.md#docs-delete](/.claude/.instructions/workflow/docs/workflow.md#docs-delete) — детальный воркфлоу
+> 3. [errors.md](/.claude/.instructions/workflow/docs/errors.md) — обработка ошибок
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Найти документацию для удалённого файла
 
-> **SSOT:** [rules.md#маппинг-путей](/.claude/instructions/workflow/docs/rules.md#маппинг-путей)
+> **SSOT:** [rules.md#маппинг-путей](/.claude/.instructions/workflow/docs/rules.md#маппинг-путей)
 
 ### Шаг 2: Добавить пометку о требовании ревью
 
-> **SSOT:** [rules.md#формат-пометки-doc-delete](/.claude/instructions/workflow/docs/rules.md#формат-пометки-doc-delete)
+> **SSOT:** [rules.md#формат-пометки-doc-delete](/.claude/.instructions/workflow/docs/rules.md#формат-пометки-doc-delete)
 
 ### Шаг 3: Создать GitHub Issue → /issue-create
 
@@ -105,4 +105,4 @@ Issue: #{number}
 
 ## Примеры
 
-> **SSOT:** [examples.md#удаление-документации](/.claude/instructions/workflow/docs/examples.md#удаление-документации)
+> **SSOT:** [examples.md#удаление-документации](/.claude/.instructions/workflow/docs/examples.md#удаление-документации)

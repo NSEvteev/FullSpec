@@ -54,40 +54,40 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [specs/README.md](/.claude/instructions/workflow/specs/README.md) — индекс инструкций
-> 2. [specs/workflow.md](/.claude/instructions/workflow/specs/workflow.md) — триггеры переходов
-> 3. [specs/rules.md](/.claude/instructions/workflow/specs/rules.md) — правила работы
-> 4. [specs/errors.md](/.claude/instructions/workflow/specs/errors.md) — обработка ошибок
+> 1. [specs/README.md](/.claude/.instructions/workflow/specs/README.md) — индекс инструкций
+> 2. [specs/workflow.md](/.claude/.instructions/workflow/specs/workflow.md) — триггеры переходов
+> 3. [specs/rules.md](/.claude/.instructions/workflow/specs/rules.md) — правила работы
+> 4. [specs/errors.md](/.claude/.instructions/workflow/specs/errors.md) — обработка ошибок
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Найти документ по пути
 
-> **SSOT:** [specs/naming.md](/.claude/instructions/workflow/specs/naming.md#сокращённые-пути)
+> **SSOT:** [specs/naming.md](/.claude/.instructions/workflow/specs/naming.md#сокращённые-пути)
 
 ### Шаг 2: Прочитать документ и метаданные
 
 > **SSOT:** Формат документа по типу:
-> - [discussions.md](/.claude/instructions/workflow/specs/discussions.md#формат-документа)
-> - [impact.md](/.claude/instructions/workflow/specs/impact.md#формат-документа)
-> - [adr.md](/.claude/instructions/workflow/specs/adr.md#формат-документа)
-> - [plans.md](/.claude/instructions/workflow/specs/plans.md#формат-документа)
+> - [discussions.md](/.claude/.instructions/workflow/specs/discussions.md#формат-документа)
+> - [impact.md](/.claude/.instructions/workflow/specs/impact.md#формат-документа)
+> - [adr.md](/.claude/.instructions/workflow/specs/adr.md#формат-документа)
+> - [plans.md](/.claude/.instructions/workflow/specs/plans.md#формат-документа)
 
 ### Шаг 3: Показать контекст документа
 
-> **SSOT:** [specs/output.md](/.claude/instructions/workflow/specs/output.md#spec-update)
+> **SSOT:** [specs/output.md](/.claude/.instructions/workflow/specs/output.md#spec-update)
 
 ### Шаг 4: Интерактивная работа (редактирование)
 
-> **SSOT:** [specs/rules.md](/.claude/instructions/workflow/specs/rules.md#режим-валидации---validate)
+> **SSOT:** [specs/rules.md](/.claude/.instructions/workflow/specs/rules.md#режим-валидации---validate)
 
 ### Шаг 5: Обработка триггеров перехода
 
-> **SSOT:** [specs/rules.md](/.claude/instructions/workflow/specs/rules.md#spec-update--работа-с-документом)
+> **SSOT:** [specs/rules.md](/.claude/.instructions/workflow/specs/rules.md#spec-update--работа-с-документом)
 
 ### Шаг 6: Сохранение изменений
 
-> **SSOT:** [specs/errors.md](/.claude/instructions/workflow/specs/errors.md#spec-update)
+> **SSOT:** [specs/errors.md](/.claude/.instructions/workflow/specs/errors.md#spec-update)
 
 ---
 
@@ -104,4 +104,4 @@ triggers:
 
 ## Примеры
 
-> **SSOT:** [specs/examples.md](/.claude/instructions/workflow/specs/examples.md#spec-update)
+> **SSOT:** [specs/examples.md](/.claude/.instructions/workflow/specs/examples.md#spec-update)

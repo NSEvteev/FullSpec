@@ -27,13 +27,13 @@ triggers:
 - [test-complete](/.claude/skills/test-complete/SKILL.md) — отметка о прохождении
 
 **Связанные инструкции:**
-- [tests/claude-testing.md](/.claude/instructions/system/tests/claude-testing.md) — тестирование Claude Code
-- [tests/project-testing.md](/.claude/instructions/system/tests/project-testing.md) — тестирование проекта
+- [tests/claude-testing.md](/.claude/.instructions/system/tests/claude-testing.md) — тестирование Claude Code
+- [tests/project-testing.md](/.claude/.instructions/system/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**
-- [test-formats.md](/.claude/instructions/system/tests/formats.md) — форматы тестов, статусы
-- [scope-detection.md](/.claude/instructions/system/shared/scope.md) — определение scope (SSOT)
-- [output-formats.md](/.claude/instructions/meta/skills/output.md) — форматы вывода (SSOT)
+- [test-formats.md](/.claude/.instructions/system/tests/formats.md) — форматы тестов, статусы
+- [scope-detection.md](/.claude/.instructions/system/shared/scope.md) — определение scope (SSOT)
+- [output-formats.md](/.claude/.instructions/.claude/skills/output.md) — форматы вывода (SSOT)
 
 ## Оглавление
 
@@ -255,7 +255,7 @@ rm src/auth/services/tests/old-feature.test.ts
 📋 Найдены ссылки на удалённый тест
 
 Файлы со ссылками:
-- .claude/instructions/system/tests/claude-testing.md:45 — пример теста
+- .claude/.instructions/system/tests/claude-testing.md:45 — пример теста
 - .claude/skills/other-skill/SKILL.md:78 — связанный тест
 
 Действие:

@@ -27,11 +27,11 @@ triggers:
 
 | Аспект | Инструкция |
 |--------|------------|
-| Жизненный цикл Issue | [issues/workflow.md#lifecycle](/.claude/instructions/workflow/github/issues/workflow.md#lifecycle) |
-| Детальный workflow | [issues/workflow.md#issue-delete](/.claude/instructions/workflow/github/issues/workflow.md#issue-delete) |
-| Команды gh CLI | [issues/commands.md](/.claude/instructions/workflow/github/issues/commands.md) |
-| Обработка ошибок | [issues/errors.md](/.claude/instructions/workflow/github/issues/errors.md) |
-| Примеры использования | [issues/examples.md](/.claude/instructions/workflow/github/issues/examples.md) |
+| Жизненный цикл Issue | [issues/workflow.md#lifecycle](/.claude/.instructions/workflow/.github/issues/workflow.md#lifecycle) |
+| Детальный workflow | [issues/workflow.md#issue-delete](/.claude/.instructions/workflow/.github/issues/workflow.md#issue-delete) |
+| Команды gh CLI | [issues/commands.md](/.claude/.instructions/workflow/.github/issues/commands.md) |
+| Обработка ошибок | [issues/errors.md](/.claude/.instructions/workflow/.github/issues/errors.md) |
+| Примеры использования | [issues/examples.md](/.claude/.instructions/workflow/.github/issues/examples.md) |
 
 ---
 
@@ -57,7 +57,7 @@ triggers:
 
 ## Воркфлоу (краткий)
 
-> **Детали:** [issues/workflow.md#issue-delete](/.claude/instructions/workflow/github/issues/workflow.md#issue-delete)
+> **Детали:** [issues/workflow.md#issue-delete](/.claude/.instructions/workflow/.github/issues/workflow.md#issue-delete)
 
 ```
 Шаг 0: /environment-check github --fix

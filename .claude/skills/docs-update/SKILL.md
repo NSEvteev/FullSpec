@@ -55,31 +55,31 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать SSOT-инструкции:
-> 1. [rules.md](/.claude/instructions/workflow/docs/rules.md) — маппинг путей, валидация
-> 2. [workflow.md#docs-update](/.claude/instructions/workflow/docs/workflow.md#docs-update) — детальный воркфлоу
-> 3. [errors.md](/.claude/instructions/workflow/docs/errors.md) — обработка ошибок
+> 1. [rules.md](/.claude/.instructions/workflow/docs/rules.md) — маппинг путей, валидация
+> 2. [workflow.md#docs-update](/.claude/.instructions/workflow/docs/workflow.md#docs-update) — детальный воркфлоу
+> 3. [errors.md](/.claude/.instructions/workflow/docs/errors.md) — обработка ошибок
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Определить изменённые файлы
 
-> **SSOT:** [workflow.md#docs-update](/.claude/instructions/workflow/docs/workflow.md#docs-update)
+> **SSOT:** [workflow.md#docs-update](/.claude/.instructions/workflow/docs/workflow.md#docs-update)
 
 ### Шаг 2: Найти соответствующую документацию
 
-> **SSOT:** [rules.md#маппинг-путей](/.claude/instructions/workflow/docs/rules.md#маппинг-путей)
+> **SSOT:** [rules.md#маппинг-путей](/.claude/.instructions/workflow/docs/rules.md#маппинг-путей)
 
 ### Шаг 3: Проанализировать изменения
 
-> **SSOT:** [workflow.md#типы-изменений-api](/.claude/instructions/workflow/docs/workflow.md#типы-изменений-api)
+> **SSOT:** [workflow.md#типы-изменений-api](/.claude/.instructions/workflow/docs/workflow.md#типы-изменений-api)
 
 ### Шаг 4: Сгенерировать обновления
 
-> **SSOT:** [workflow.md#docs-update](/.claude/instructions/workflow/docs/workflow.md#docs-update)
+> **SSOT:** [workflow.md#docs-update](/.claude/.instructions/workflow/docs/workflow.md#docs-update)
 
 ### Шаг 5: Показать diff / применить
 
-> **SSOT:** [workflow.md#режим---diff](/.claude/instructions/workflow/docs/workflow.md#режим---diff)
+> **SSOT:** [workflow.md#режим---diff](/.claude/.instructions/workflow/docs/workflow.md#режим---diff)
 
 ### Шаг 6: Обновление ссылок → /links-update
 
@@ -116,4 +116,4 @@ triggers:
 
 ## Примеры
 
-> **SSOT:** [examples.md#обновление-документации](/.claude/instructions/workflow/docs/examples.md#обновление-документации)
+> **SSOT:** [examples.md#обновление-документации](/.claude/.instructions/workflow/docs/examples.md#обновление-документации)

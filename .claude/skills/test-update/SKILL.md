@@ -30,13 +30,13 @@ triggers:
 - [instruction-update](/.claude/skills/instruction-update/SKILL.md) — вызывает test-update при изменении инструкции
 
 **Связанные инструкции:**
-- [tests/claude-testing.md](/.claude/instructions/system/tests/claude-testing.md) — тестирование Claude Code
-- [tests/project-testing.md](/.claude/instructions/system/tests/project-testing.md) — тестирование проекта
+- [tests/claude-testing.md](/.claude/.instructions/system/tests/claude-testing.md) — тестирование Claude Code
+- [tests/project-testing.md](/.claude/.instructions/system/tests/project-testing.md) — тестирование проекта
 
 **Шаблоны:**
-- [test-formats.md](/.claude/instructions/system/tests/formats.md) — форматы тестов, статусы
-- [scope-detection.md](/.claude/instructions/system/shared/scope.md) — определение scope (SSOT)
-- [output-formats.md](/.claude/instructions/meta/skills/output.md) — форматы вывода (SSOT)
+- [test-formats.md](/.claude/.instructions/system/tests/formats.md) — форматы тестов, статусы
+- [scope-detection.md](/.claude/.instructions/system/shared/scope.md) — определение scope (SSOT)
+- [output-formats.md](/.claude/.instructions/.claude/skills/output.md) — форматы вывода (SSOT)
 
 **Utility-скиллы:**
 - [environment-check](/.claude/skills/environment-check/SKILL.md) — проверка gh/git перед выполнением
@@ -84,14 +84,14 @@ triggers:
 
 ## Автоопределение scope
 
-> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/instructions/system/shared/scope.md).
+> **SSOT:** Полная логика определения scope описана в [scope-detection.md](/.claude/.instructions/system/shared/scope.md).
 
 **Краткая таблица:**
 
 | Путь начинается с | Scope | Формат теста |
 |-------------------|-------|--------------|
 | `.claude/skills/*` | `claude` | Раздел "Тестирование" в SKILL.md |
-| `.claude/instructions/*` | `claude` | `*.test.md` |
+| `.claude/.instructions/*` | `claude` | `*.test.md` |
 | `src/*` | `project` | `*.test.ts` рядом или в `tests/` |
 | `tests/*` | `project` | `*.test.ts` |
 | `shared/*` | `project` | `*.test.ts` |
@@ -576,7 +576,7 @@ git checkout путь-к-тесту
 
 ### Scope определён неверно
 
-> **SSOT:** См. [scope-detection.md](/.claude/instructions/system/shared/scope.md)
+> **SSOT:** См. [scope-detection.md](/.claude/.instructions/system/shared/scope.md)
 
 Используйте явное указание scope:
 ```bash

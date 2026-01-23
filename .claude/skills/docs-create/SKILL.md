@@ -54,39 +54,39 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать SSOT-инструкции:
-> 1. [rules.md](/.claude/instructions/workflow/docs/rules.md) — маппинг путей, валидация
-> 2. [workflow.md#docs-create](/.claude/instructions/workflow/docs/workflow.md#docs-create) — детальный воркфлоу
-> 3. [templates.md](/.claude/instructions/workflow/docs/templates.md) — выбор шаблона
+> 1. [rules.md](/.claude/.instructions/workflow/docs/rules.md) — маппинг путей, валидация
+> 2. [workflow.md#docs-create](/.claude/.instructions/workflow/docs/workflow.md#docs-create) — детальный воркфлоу
+> 3. [templates.md](/.claude/.instructions/workflow/docs/templates.md) — выбор шаблона
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Валидация пути
 
-> **SSOT:** [rules.md#валидация-путей](/.claude/instructions/workflow/docs/rules.md#валидация-путей)
+> **SSOT:** [rules.md#валидация-путей](/.claude/.instructions/workflow/docs/rules.md#валидация-путей)
 
 ### Шаг 2: Определение типа файла
 
-> **SSOT:** [rules.md#поддерживаемые-языки](/.claude/instructions/workflow/docs/rules.md#поддерживаемые-языки)
+> **SSOT:** [rules.md#поддерживаемые-языки](/.claude/.instructions/workflow/docs/rules.md#поддерживаемые-языки)
 
 ### Шаг 3: Выбор шаблона
 
-> **SSOT:** [templates.md#выбор-шаблона](/.claude/instructions/workflow/docs/templates.md#выбор-шаблона)
+> **SSOT:** [templates.md#выбор-шаблона](/.claude/.instructions/workflow/docs/templates.md#выбор-шаблона)
 
 ### Шаг 4: Анализ исходного файла
 
-> **SSOT:** [workflow.md#шаги-подробно](/.claude/instructions/workflow/docs/workflow.md#шаги-подробно)
+> **SSOT:** [workflow.md#шаги-подробно](/.claude/.instructions/workflow/docs/workflow.md#шаги-подробно)
 
 ### Шаг 5: Генерация документации
 
-> **SSOT:** [rules.md#шаблон-документации](/.claude/instructions/workflow/docs/rules.md#шаблон-документации)
+> **SSOT:** [rules.md#шаблон-документации](/.claude/.instructions/workflow/docs/rules.md#шаблон-документации)
 
 ### Шаг 6: Создание директорий и файла
 
-> **SSOT:** [workflow.md#docs-create](/.claude/instructions/workflow/docs/workflow.md#docs-create)
+> **SSOT:** [workflow.md#docs-create](/.claude/.instructions/workflow/docs/workflow.md#docs-create)
 
 ### Шаг 7: Добавление ссылки в исходный файл
 
-> **SSOT:** [structure.md#ссылки-в-коде](/.claude/instructions/workflow/docs/structure.md#ссылки-в-коде)
+> **SSOT:** [structure.md#ссылки-в-коде](/.claude/.instructions/workflow/docs/structure.md#ссылки-в-коде)
 
 ### Шаг 8: Обновление ссылок → /links-update
 
@@ -124,4 +124,4 @@ triggers:
 
 ## Примеры
 
-> **SSOT:** [examples.md#создание-документации](/.claude/instructions/workflow/docs/examples.md#создание-документации)
+> **SSOT:** [examples.md#создание-документации](/.claude/.instructions/workflow/docs/examples.md#создание-документации)

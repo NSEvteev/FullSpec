@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Точка входа для Claude Code. **Справочная информация** о проекте.
 
 > 📖 **CLAUDE.md** — справочник со ссылками и статусами.
-> 📋 **/.claude/instructions/** — инструкции для LLM (правила работы).
+> 📋 **/.claude/.instructions/** — инструкции для LLM (правила работы).
 
 ---
 
@@ -51,7 +51,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | Путь | Скилл | Ручное создание |
 |------|-------|-----------------|
 | `/.claude/skills/*/SKILL.md` | `/skill-create` | ❌ ЗАПРЕЩЕНО |
-| `/.claude/instructions/**/*.md` | `/instruction-create` | ❌ ЗАПРЕЩЕНО |
+| `/.claude/.instructions/**/*.md` | `/instruction-create` | ❌ ЗАПРЕЩЕНО |
 | `/.claude/agents/*.md` | спросить пользователя | ⚠️ уточнить |
 | `/specs/**` | [/spec-create](/.claude/skills/spec-create/SKILL.md), [/spec-update](/.claude/skills/spec-update/SKILL.md), [/spec-status](/.claude/skills/spec-status/SKILL.md) | ❌ ЗАПРЕЩЕНО |
 
@@ -115,7 +115,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Инициализация проекта
 
-> **Блокирующее требование:** Все инструкции из [/.claude/instructions/README.md](/.claude/instructions/README.md) должны быть созданы и заполнены перед началом работы с проектом.
+> **Блокирующее требование:** Все инструкции из [/.claude/.instructions/README.md](/.claude/.instructions/README.md) должны быть созданы и заполнены перед началом работы с проектом.
 
 Для создания инструкции используйте `/instruction-create <путь>`.
 
@@ -151,9 +151,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Инструкции
 
-**Индекс:** [/.claude/instructions/README.md](/.claude/instructions/README.md)
+**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md)
 
-**Правило:** При работе с папкой `/X/` — читать `/.claude/instructions/X/README.md`.
+**Правило:** При работе с папкой `/X/` — читать `/.claude/.instructions/X/README.md`.
 
 ### Дерево README.md в /.claude/
 

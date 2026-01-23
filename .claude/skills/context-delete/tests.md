@@ -133,7 +133,7 @@
 - Файл: инструкция, на которую ссылаются >10 документов
 
 **Шаги:**
-1. Вызвать `/context-delete .claude/instructions/patterns.md`
+1. Вызвать `/context-delete .claude/.instructions/patterns.md`
 2. Просмотреть предложения
 
 **Ожидаемый результат:**

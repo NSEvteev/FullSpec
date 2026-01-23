@@ -26,7 +26,7 @@ triggers:
 - [glossary-link](/.claude/skills/glossary-link/SKILL.md) — расстановка ссылок
 
 **Связанные инструкции:**
-- [specs/glossary.md](/.claude/instructions/workflow/specs/glossary.md) — правила глоссария
+- [specs/glossary.md](/.claude/.instructions/workflow/specs/glossary.md) — правила глоссария
 
 ## Оглавление
 

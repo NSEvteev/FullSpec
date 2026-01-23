@@ -52,23 +52,23 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [specs/indexes.md](/.claude/instructions/workflow/specs/indexes.md) — список индексов, форматы таблиц
-> 2. [specs/statuses.md](/.claude/instructions/workflow/specs/statuses.md) — отображение статусов
-> 3. [specs/errors.md](/.claude/instructions/workflow/specs/errors.md#specs-index) — обработка ошибок
+> 1. [specs/indexes.md](/.claude/.instructions/workflow/specs/indexes.md) — список индексов, форматы таблиц
+> 2. [specs/statuses.md](/.claude/.instructions/workflow/specs/statuses.md) — отображение статусов
+> 3. [specs/errors.md](/.claude/.instructions/workflow/specs/errors.md#specs-index) — обработка ошибок
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Найти все README.md в /specs/
 
-> **SSOT:** [specs/indexes.md](/.claude/instructions/workflow/specs/indexes.md#список-индексов)
+> **SSOT:** [specs/indexes.md](/.claude/.instructions/workflow/specs/indexes.md#список-индексов)
 
 ### Шаг 2: Для каждого README
 
-> **SSOT:** [specs/indexes.md](/.claude/instructions/workflow/specs/indexes.md#workflow-обновления)
+> **SSOT:** [specs/indexes.md](/.claude/.instructions/workflow/specs/indexes.md#workflow-обновления)
 
 ### Шаг 3: Результат
 
-> **SSOT:** [specs/output.md](/.claude/instructions/workflow/specs/output.md#specs-index)
+> **SSOT:** [specs/output.md](/.claude/.instructions/workflow/specs/output.md#specs-index)
 
 ---
 
@@ -83,4 +83,4 @@ triggers:
 
 ## Примеры
 
-> **SSOT:** [specs/examples.md](/.claude/instructions/workflow/specs/examples.md#specs-index)
+> **SSOT:** [specs/examples.md](/.claude/.instructions/workflow/specs/examples.md#specs-index)

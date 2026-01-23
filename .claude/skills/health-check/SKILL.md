@@ -32,12 +32,12 @@ critical: false
 
 1. **Обязательные папки:**
    - `/.claude/skills/` — существует
-   - `/.claude/instructions/` — существует
+   - `/.claude/.instructions/` — существует
    - `/.claude/templates/` — существует
 
 2. **Обязательные файлы:**
    - `CLAUDE.md` — существует
-   - `/.claude/instructions/README.md` — существует
+   - `/.claude/.instructions/README.md` — существует
    - `/.claude/skills/README.md` — существует
 
 ### Шаг 2: Проверка скиллов
@@ -58,7 +58,7 @@ critical: false
 
 ### Шаг 3: Проверка инструкций
 
-Для каждой инструкции в `/.claude/instructions/**/*.md`:
+Для каждой инструкции в `/.claude/.instructions/**/*.md`:
 
 1. **Frontmatter:**
    - [ ] type указан (standard/project)
@@ -247,5 +247,5 @@ jobs:
 
 ## SSOT
 
-- [output-formats.md](/.claude/instructions/meta/skills/output.md) — формат вывода
-- [error-handling.md](/.claude/instructions/meta/skills/errors.md) — обработка ошибок
+- [output-formats.md](/.claude/.instructions/.claude/skills/output.md) — формат вывода
+- [error-handling.md](/.claude/.instructions/.claude/skills/errors.md) — обработка ошибок

@@ -53,36 +53,36 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [specs/statuses.md](/.claude/instructions/workflow/specs/statuses.md) — статусы, каскадные проверки
-> 2. [specs/rules.md](/.claude/instructions/workflow/specs/rules.md#проверки-specs-health) — типы проблем
-> 3. [specs/relations.md](/.claude/instructions/workflow/specs/relations.md) — связи документов
-> 4. [specs/errors.md](/.claude/instructions/workflow/specs/errors.md#specs-health) — обработка ошибок
+> 1. [specs/statuses.md](/.claude/.instructions/workflow/specs/statuses.md) — статусы, каскадные проверки
+> 2. [specs/rules.md](/.claude/.instructions/workflow/specs/rules.md#проверки-specs-health) — типы проблем
+> 3. [specs/relations.md](/.claude/.instructions/workflow/specs/relations.md) — связи документов
+> 4. [specs/errors.md](/.claude/.instructions/workflow/specs/errors.md#specs-health) — обработка ошибок
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Собрать все документы /specs/
 
-> **SSOT:** [specs/README.md](/.claude/instructions/workflow/specs/README.md#1-структура-specs)
+> **SSOT:** [specs/README.md](/.claude/.instructions/workflow/specs/README.md#1-структура-specs)
 
 ### Шаг 2: Проверить каждый документ
 
-> **SSOT:** [specs/rules.md](/.claude/instructions/workflow/specs/rules.md#проверки-specs-health)
+> **SSOT:** [specs/rules.md](/.claude/.instructions/workflow/specs/rules.md#проверки-specs-health)
 
 ### Шаг 3: Проверить консистентность статусов
 
-> **SSOT:** [specs/statuses.md](/.claude/instructions/workflow/specs/statuses.md#каскадные-проверки)
+> **SSOT:** [specs/statuses.md](/.claude/.instructions/workflow/specs/statuses.md#каскадные-проверки)
 
 ### Шаг 4: Проверить сервисы
 
-> **SSOT:** [specs/relations.md](/.claude/instructions/workflow/specs/relations.md#связь-specs--doc)
+> **SSOT:** [specs/relations.md](/.claude/.instructions/workflow/specs/relations.md#связь-specs--doc)
 
 ### Шаг 5: Сформировать отчёт
 
-> **SSOT:** [specs/output.md](/.claude/instructions/workflow/specs/output.md#specs-health)
+> **SSOT:** [specs/output.md](/.claude/.instructions/workflow/specs/output.md#specs-health)
 
 ### Шаг 6: При `--fix` — предложить исправления
 
-> **SSOT:** [specs/errors.md](/.claude/instructions/workflow/specs/errors.md#specs-health)
+> **SSOT:** [specs/errors.md](/.claude/.instructions/workflow/specs/errors.md#specs-health)
 
 ---
 
@@ -100,4 +100,4 @@ triggers:
 
 ## Примеры
 
-> **SSOT:** [specs/examples.md](/.claude/instructions/workflow/specs/examples.md#specs-health)
+> **SSOT:** [specs/examples.md](/.claude/.instructions/workflow/specs/examples.md#specs-health)

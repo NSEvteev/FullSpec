@@ -32,7 +32,7 @@ triggers:
 - [context-delete](/.claude/skills/context-delete/SKILL.md) — очистка контекста при удалении
 
 **Шаблоны:**
-- [output-formats.md](/.claude/instructions/meta/skills/output.md) — форматы вывода (SSOT)
+- [output-formats.md](/.claude/.instructions/.claude/skills/output.md) — форматы вывода (SSOT)
 
 ## Оглавление
 
@@ -303,7 +303,7 @@ triggers:
 
 ## Обработка ошибок
 
-> **SSOT:** [error-handling.md](/.claude/instructions/meta/skills/errors.md)
+> **SSOT:** [error-handling.md](/.claude/.instructions/.claude/skills/errors.md)
 
 | Ошибка | Действие |
 |--------|----------|
@@ -494,7 +494,7 @@ git checkout -- путь/к/файлу.md
 📄 CLAUDE.md (уровень 1, высокая)
    Предложение: Обновить структуру проекта в разделе "Структура"
 
-📄 /.claude/instructions/README.md (уровень 1, высокая)
+📄 /.claude/.instructions/README.md (уровень 1, высокая)
    Предложение: Обновить дерево папок инструкций
 
 📄 skills.md (уровень 1, высокая)
@@ -509,7 +509,7 @@ git checkout -- путь/к/файлу.md
 
 Применено изменений: 3
 - CLAUDE.md — обновлена структура проекта
-- /.claude/instructions/README.md — обновлено дерево папок
+- /.claude/.instructions/README.md — обновлено дерево папок
 - skills.md — обновлены пути
 
 Пропущено (низкая релевантность): 22

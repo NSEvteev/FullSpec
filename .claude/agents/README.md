@@ -3,7 +3,7 @@ type: standard
 description: Индекс агентов, правила создания, теги
 related:
   - /.claude/skills/README.md
-  - /.claude/instructions/tests/claude-testing.md
+  - /.claude/.instructions/tests/claude-testing.md
 ---
 
 # Индекс агентов
@@ -94,4 +94,4 @@ skills: [{скилл1}, {скилл2}, ...]
 ## Связанные инструкции
 
 - [skills/README.md](/.claude/skills/README.md) — индекс скиллов
-- [instructions/tests/claude-testing.md](/.claude/instructions/tests/claude-testing.md) — тестирование агентов
+- [instructions/tests/claude-testing.md](/.claude/.instructions/tests/claude-testing.md) — тестирование агентов

@@ -39,7 +39,7 @@
 3. Подтвердить ревью
 
 **Ожидаемый результат:**
-- [ ] Создан файл `/.claude/instructions/system/tests/example.md`
+- [ ] Создан файл `/.claude/.instructions/system/tests/example.md`
 - [ ] Frontmatter содержит: type, description, related
 - [ ] Обновлён статус в `README.md`
 - [ ] Вызван `/links-update`

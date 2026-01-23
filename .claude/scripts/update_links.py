@@ -13,7 +13,7 @@ update_links.py — Массовое обновление ссылок в markdo
     python update_links.py tools/documentation.md doc/structure.md
 
     # Обновить ссылки на папку
-    python update_links.py /.claude/instructions/tools/ /.claude/skills/ --dry-run
+    python update_links.py /.claude/.instructions/tools/ /.claude/skills/ --dry-run
 
 Функции:
     - Обновляет markdown ссылки: [text](old_path) → [text](new_path)

@@ -35,7 +35,7 @@ triggers:
 - [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
 
 **Шаблоны:**
-- [output-formats.md](/.claude/instructions/meta/skills/output.md) — форматы вывода (SSOT)
+- [output-formats.md](/.claude/.instructions/.claude/skills/output.md) — форматы вывода (SSOT)
 
 ## Оглавление
 
@@ -143,7 +143,7 @@ triggers:
 
 **3.1. Контекст проекта:**
 - Прочитать [CLAUDE.md](/CLAUDE.md) для понимания структуры
-- Определить релевантные инструкции из `/.claude/instructions/`
+- Определить релевантные инструкции из `/.claude/.instructions/`
 
 **3.2. Контекст задачи:**
 - Найти упомянутые файлы/компоненты

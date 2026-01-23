@@ -90,7 +90,9 @@
       "Bash(where gh:*)",
       "Bash(dir \"C:\\\\Program Files\\\\GitHub CLI\")",
       "Bash(dir \"C:\\\\Users\\\\*\\\\AppData\\\\Local\\\\Programs\\\\GitHub CLI\")",
-      "WebFetch(domain:habr.com)"
+      "WebFetch(domain:habr.com)",
+      "Bash(Remove-Item -Recurse -Force \".claude/.instructions/.claude/docs\", \".claude/.instructions/.claude/templates\")",
+      "Bash(powershell -Command \"Get-ChildItem -Path ''.claude'' -Recurse -Filter ''*.md'' | ForEach-Object { \\(Get-Content $_FullName -Raw\\) -replace ''instructions/.claude/'', ''instructions/.claude/'' | Set-Content $_FullName -NoNewline }\")"
     ]
   }
 }

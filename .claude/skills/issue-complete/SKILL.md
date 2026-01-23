@@ -27,12 +27,12 @@ triggers:
 
 | Аспект | Инструкция |
 |--------|------------|
-| Жизненный цикл Issue | [issues/workflow.md#lifecycle](/.claude/instructions/workflow/github/issues/workflow.md#lifecycle) |
-| Детальный workflow | [issues/workflow.md#issue-complete](/.claude/instructions/workflow/github/issues/workflow.md#issue-complete) |
-| Команды gh CLI | [issues/commands.md](/.claude/instructions/workflow/github/issues/commands.md) |
-| CI pipeline | [git/ci.md](/.claude/instructions/workflow/git/ci.md) |
-| Обработка ошибок | [issues/errors.md](/.claude/instructions/workflow/github/issues/errors.md) |
-| Примеры использования | [issues/examples.md](/.claude/instructions/workflow/github/issues/examples.md) |
+| Жизненный цикл Issue | [issues/workflow.md#lifecycle](/.claude/.instructions/workflow/.github/issues/workflow.md#lifecycle) |
+| Детальный workflow | [issues/workflow.md#issue-complete](/.claude/.instructions/workflow/.github/issues/workflow.md#issue-complete) |
+| Команды gh CLI | [issues/commands.md](/.claude/.instructions/workflow/.github/issues/commands.md) |
+| CI pipeline | [git/ci.md](/.claude/.instructions/workflow/git/ci.md) |
+| Обработка ошибок | [issues/errors.md](/.claude/.instructions/workflow/.github/issues/errors.md) |
+| Примеры использования | [issues/examples.md](/.claude/.instructions/workflow/.github/issues/examples.md) |
 
 ---
 
@@ -61,7 +61,7 @@ triggers:
 
 ## Воркфлоу (краткий)
 
-> **Детали:** [issues/workflow.md#issue-complete](/.claude/instructions/workflow/github/issues/workflow.md#issue-complete)
+> **Детали:** [issues/workflow.md#issue-complete](/.claude/.instructions/workflow/.github/issues/workflow.md#issue-complete)
 
 ```
 Шаг 1: Получить номер Issue

@@ -54,32 +54,32 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [format.md](/.claude/instructions/meta/links/format.md) — форматы ссылок (включая помеченные)
-> 2. [patterns.md](/.claude/instructions/meta/links/patterns.md) — паттерны поиска
-> 3. [workflow.md](/.claude/instructions/meta/links/workflow.md#фаза-update) — фаза UPDATE
-> 4. [edge-cases.md](/.claude/instructions/meta/links/edge-cases.md) — граничные случаи
+> 1. [format.md](/.claude/.instructions/.claude/links/format.md) — форматы ссылок (включая помеченные)
+> 2. [patterns.md](/.claude/.instructions/.claude/links/patterns.md) — паттерны поиска
+> 3. [workflow.md](/.claude/.instructions/.claude/links/workflow.md#фаза-update) — фаза UPDATE
+> 4. [edge-cases.md](/.claude/.instructions/.claude/links/edge-cases.md) — граничные случаи
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все четыре файла.
 
 ### Шаг 1: Определить источник и тип
 
-> **SSOT:** [workflow.md](/.claude/instructions/meta/links/workflow.md#фаза-update)
+> **SSOT:** [workflow.md](/.claude/.instructions/.claude/links/workflow.md#фаза-update)
 
 ### Шаг 2: Найти связанные документы
 
-> **SSOT:** [patterns.md](/.claude/instructions/meta/links/patterns.md#поиск-ссылок)
+> **SSOT:** [patterns.md](/.claude/.instructions/.claude/links/patterns.md#поиск-ссылок)
 
 ### Шаг 3: Определить тип обновления (add/update/none)
 
-> **SSOT:** [edge-cases.md](/.claude/instructions/meta/links/edge-cases.md#оба-файла-существуют)
+> **SSOT:** [edge-cases.md](/.claude/.instructions/.claude/links/edge-cases.md#оба-файла-существуют)
 
 ### Шаг 4: Обновить документы
 
-> **SSOT:** [format.md](/.claude/instructions/meta/links/format.md#стандартная-ссылка)
+> **SSOT:** [format.md](/.claude/.instructions/.claude/links/format.md#стандартная-ссылка)
 
 ### Шаг 5: Восстановить помеченные (если --old-name)
 
-> **SSOT:** [format.md](/.claude/instructions/meta/links/format.md#помеченная-ссылка)
+> **SSOT:** [format.md](/.claude/.instructions/.claude/links/format.md#помеченная-ссылка)
 
 ### Шаг 6: Проверка по чек-листу
 
@@ -109,4 +109,4 @@ triggers:
 
 ## Примеры
 
-> **SSOT:** [examples.md](/.claude/instructions/meta/links/examples.md#links-update)
+> **SSOT:** [examples.md](/.claude/.instructions/.claude/links/examples.md#links-update)
