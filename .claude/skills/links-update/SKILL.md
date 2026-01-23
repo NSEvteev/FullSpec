@@ -22,7 +22,6 @@ triggers:
 **Связанные скиллы:**
 - [links-create](/.claude/skills/links-create/SKILL.md) — создание ссылок
 - [links-delete](/.claude/skills/links-delete/SKILL.md) — пометка битых ссылок
-- [context-update](/.claude/skills/context-update/SKILL.md) — обновление семантики
 
 **Скрипты:**
 - [update_links.py](/.claude/scripts/update_links.py) — массовая замена

@@ -24,8 +24,6 @@ triggers:
 **Связанные скиллы:**
 - [instruction-create](/.claude/skills/instruction-create/SKILL.md) — создание инструкций
 - [instruction-deactivate](/.claude/skills/instruction-deactivate/SKILL.md) — деактивация инструкций
-- [context-update](/.claude/skills/context-update/SKILL.md) — распространение контекста
-- [test-update](/.claude/skills/test-update/SKILL.md) — обновление связанных тестов
 
 ## Оглавление
 
@@ -57,58 +55,50 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md) — **детальный воркфлоу UPDATE (12 шагов)**
-> 2. [validation.md](/.claude/.instructions/.claude/.instructions/validation.md) — формат файлов
-> 3. [patterns.md](/.claude/.instructions/.claude/.instructions/patterns.md) — паттерны поиска
-> 4. [relations.md](/.claude/.instructions/.claude/.instructions/relations.md) — проверка связей (governed-by, related)
+> 1. [workflow-update.md](/.instructions/workflow-update.md) — **детальный воркфлоу UPDATE (12 шагов)**
+> 2. [validation.md](/.instructions/validation.md) — формат файлов
+> 3. [patterns.md](/.instructions/patterns.md) — паттерны поиска
+> 4. [relations.md](/.instructions/relations.md) — проверка связей (governed-by, related)
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
 ### Шаг 1: Получить путь
 
-> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-1-получить-путь)
+> **SSOT:** [workflow-update.md](/.instructions/workflow-update.md#шаг-1-получить-путь)
 
 ### Шаг 2: Определить зону ответственности (согласно workflow-update.md)
 
-> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-2-определить-зону-ответственности)
+> **SSOT:** [workflow-update.md](/.instructions/workflow-update.md#шаг-2-определить-зону-ответственности)
 
 ### Шаг 3: Найти файлы в зоне
 
-> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-3-найти-файлы-в-зоне)
+> **SSOT:** [workflow-update.md](/.instructions/workflow-update.md#шаг-3-найти-файлы-в-зоне)
 
 ### Шаг 4: Извлечь правила из инструкции
 
-> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-4-извлечь-правила)
+> **SSOT:** [workflow-update.md](/.instructions/workflow-update.md#шаг-4-извлечь-правила)
 
 ### Шаг 5: Проверить файлы на соответствие
 
-> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-5-проверить-файлы)
+> **SSOT:** [workflow-update.md](/.instructions/workflow-update.md#шаг-5-проверить-файлы)
 
 ### Шаг 6: Сформировать список несоответствий
 
-> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-6-сформировать-список-несоответствий)
+> **SSOT:** [workflow-update.md](/.instructions/workflow-update.md#шаг-6-сформировать-список-несоответствий)
 
 ### Шаг 7: Внести изменения в инструкцию (добавить TODO или изменить правила)
 
-> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-7-внести-изменения-в-инструкцию)
+> **SSOT:** [workflow-update.md](/.instructions/workflow-update.md#шаг-7-внести-изменения-в-инструкцию)
 
 ### Шаг 8: Обновить README папки
 
-> **SSOT:** [workflow-update.md](/.claude/.instructions/.claude/.instructions/workflow-update.md#шаг-8-обновить-readme-папки)
+> **SSOT:** [workflow-update.md](/.instructions/workflow-update.md#шаг-8-обновить-readme-папки)
 
-### Шаг 9: Обновить контекст скиллов → /context-update
-
-> **SSOT:** [SKILL.md](/.claude/skills/context-update/SKILL.md)
-
-### Шаг 10: Проверить связанные тесты → /test-update
-
-> **SSOT:** [SKILL.md](/.claude/skills/test-update/SKILL.md)
-
-### Шаг 11: Проверка по чек-листу
+### Шаг 9: Проверка по чек-листу
 
 См. [Чек-лист](#чек-лист) ниже.
 
-### Шаг 12: Результат
+### Шаг 10: Результат
 
 ```
 ✅ Проверка инструкции завершена
@@ -137,12 +127,10 @@ triggers:
 - [ ] Сформировал список несоответствий
 - [ ] Внёс изменения в инструкцию (если требуется)
 - [ ] Обновил README папки
-- [ ] Вызвал /context-update
-- [ ] Проверил связанные тесты
 - [ ] Вывел итоговый отчёт
 
 ---
 
 ## Примеры
 
-> **SSOT:** [examples.md](/.claude/.instructions/.claude/.instructions/examples.md#instruction-update)
+> **SSOT:** [examples.md](/.instructions/examples.md#instruction-update)

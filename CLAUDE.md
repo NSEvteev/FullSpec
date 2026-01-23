@@ -4,12 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Точка входа для Claude Code. **Справочная информация** о проекте.
 
-> 📖 **CLAUDE.md** — справочник со ссылками и статусами.
-> 📋 **/.claude/.instructions/** — инструкции для LLM (правила работы).
-
 ---
 
-## ⚠️ ШАГ 0: Проверка скиллов (ОБЯЗАТЕЛЬНО)
+## Проверка скиллов (ОБЯЗАТЕЛЬНО)
 
 > **КРИТИЧЕСКОЕ ПРАВИЛО:** Перед выполнением ЛЮБОГО запроса пользователя — проверить скиллы!
 
@@ -22,201 +19,77 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 4. Проверяю: есть ли скилл для этой задачи?
    - Создать инструкцию → /instruction-create
    - Создать скилл → /skill-create
-   - Создать документ → /doc-create
-   - Создать issue → /issue-create
-   - Обновить ссылки → /links-update
    - Создать спецификацию → /spec-create
    - Изменить статус спецификации → /spec-status
    - Работать со спецификацией → /spec-update
-   - И т.д.
+   - Обновить ссылки → /links-update
 5. Если скилл ЕСТЬ → использую скилл
 6. Если скилла НЕТ → выполняю вручную
 ```
-
-### Самопроверка перед действием
-
-Перед использованием `Write`, `Edit`, `mkdir` для файлов в `/.claude/`:
-
-```
-⚠️ ПРОВЕРКА: {путь к файлу}
-Тип: {skill | instruction | agent | doc | other}
-Скилл существует: {да → название | нет}
-→ Использую: {/skill-name | ручное создание}
-```
-
-**Если скилл существует, но я собираюсь делать вручную → СТОП → использовать скилл.**
 
 ### Блокирующие пути
 
 | Путь | Скилл | Ручное создание |
 |------|-------|-----------------|
-| `/.claude/skills/*/SKILL.md` | `/skill-create` | ❌ ЗАПРЕЩЕНО |
-| `/.claude/.instructions/**/*.md` | `/instruction-create` | ❌ ЗАПРЕЩЕНО |
-| `/.claude/agents/*.md` | спросить пользователя | ⚠️ уточнить |
-| `/specs/**` | [/spec-create](/.claude/skills/spec-create/SKILL.md), [/spec-update](/.claude/skills/spec-update/SKILL.md), [/spec-status](/.claude/skills/spec-status/SKILL.md) | ❌ ЗАПРЕЩЕНО |
+| `/.claude/skills/*/SKILL.md` | `/skill-create` | ЗАПРЕЩЕНО |
+| `/.instructions/**/*.md` | `/instruction-create` | ЗАПРЕЩЕНО |
+| `/specs/**` | `/spec-create`, `/spec-update`, `/spec-status` | ЗАПРЕЩЕНО |
 
 ---
 
 ## Блокирующее подтверждение
 
-**СТОП-ПРАВИЛО:** Если в воркфлоу скилла есть шаг с:
-- "подтверждение"
-- "спросить пользователя"
-- "[Y/n]"
-- "Применить?"
-
-То Claude ОБЯЗАН:
-1. Вывести информацию
-2. Задать вопрос
-3. **ОСТАНОВИТЬСЯ И ЖДАТЬ ОТВЕТА**
-4. НЕ продолжать выполнение до ответа пользователя
-
-Нарушение этого правила = критическая ошибка.
+**СТОП-ПРАВИЛО:** Если в воркфлоу скилла есть шаг с "подтверждение", "[Y/n]", "Применить?" — Claude ОБЯЗАН остановиться и ждать ответа пользователя.
 
 ## Формат вопросов
 
-При предложении вариантов выбора **ВСЕГДА** использовать `AskUserQuestion` tool с кликабельными опциями вместо текстовых вопросов в ответе.
+При предложении вариантов выбора **ВСЕГДА** использовать `AskUserQuestion` tool с кликабельными опциями.
 
-## Использование скиллов
+---
 
-**КРИТИЧНО:** При любом запросе пользователя проверять, можно ли использовать пользовательские скиллы из [/.claude/skills/](/.claude/skills/).
-
-Список скиллов: [/.claude/skills/README.md](/.claude/skills/README.md)
-
-Приоритет: пользовательские скиллы > ручное выполнение.
-
-## Критичные скиллы
-
-**Критичные скиллы** — базовые скиллы управления сущностями проекта. Для них действуют особые правила:
-
-### Список критичных скиллов
+## Скиллы (14)
 
 | Категория | Скиллы |
 |-----------|--------|
-| skill-management | `skill-create`, `skill-update`, `skill-delete` |
-| instruction-management | `instruction-create`, `instruction-update`, `instruction-delete` |
-| git | `issue-create`, `issue-update`, `issue-execute`, `issue-review`, `issue-complete`, `issue-delete` |
+| skill-* | create, delete, migrate, update |
+| links-* | create, delete, update, validate |
+| spec-* | create, status, update |
+| instruction-* | create, deactivate, update |
 
-### Правила для критичных скиллов
-
-1. **Нельзя удалять единственный тест** критичного скилла через `/test-delete`
-2. При **failed тесте** критичного скилла — автоматическое предложение создать Issue
-3. Критичные скиллы **приоритетны** в CI/CD проверках
-
-### Как определить критичность
-
-Скилл критичен, если:
-- Паттерн имени: `skill-*`, `instruction-*`, `issue-*`
-- Или поле `critical: true` в frontmatter SKILL.md
-
-## Статус проекта
-
-Структура проекта описана в [README.md](README.md).
-
-**Временные папки (для примеров):**
-- `.claude_old/` — старая структура Claude
-- `llm_instructions_old/` — старые инструкции
-
-## Инициализация проекта
-
-> **Блокирующее требование:** Все инструкции из [/.claude/.instructions/README.md](/.claude/.instructions/README.md) должны быть созданы и заполнены перед началом работы с проектом.
-
-Для создания инструкции используйте `/instruction-create <путь>`.
-
-### Типы инструкций
-
-| Тип | Назначение | При инициализации |
-|-----|------------|-------------------|
-| `standard` | Стандарты качества (КАК делать) | Использовать as-is |
-| `project` | Специфика проекта (ЧТО есть) | Заполнить под проект |
-
-## Структура проекта
-
-```
-/.claude/                   # Инструменты Claude
-  /instructions/            # Инструкции для LLM (5 разделов)
-  /skills/                  # Скиллы
-  /agents/                  # Агенты
-  /templates/               # Шаблоны
-  /scripts/                 # Скрипты Python
-  /state/                   # Состояния агентов (не в git)
-  /drafts/                  # Черновики, SSOT-документы
-  settings.json             # Настройки Claude
-
-/src/                       # Код сервисов (+ docs/ внутри каждого)
-/shared/                    # Общий код (+ docs/)
-/config/                    # Конфигурации окружений
-/platform/                  # Инфраструктура (+ docs/, runbooks/)
-/tests/                     # Системные тесты
-/specs/                     # Спецификации проекта
-```
+Полный список: [/.claude/skills/README.md](/.claude/skills/README.md)
 
 ---
 
 ## Инструкции
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md)
+> **Инструкции = ТОЛЬКО стандарты (КАК делать).**
+> Они НЕ описывают структуру папок — это делает README.
 
-**Правило:** При работе с папкой `/X/` — читать `/.claude/.instructions/X/README.md`.
+| Область | Путь |
+|---------|------|
+| Как писать инструкции | `/.instructions/` |
+| Как писать скиллы | `/.claude/.instructions/skills/` |
+| Как писать specs | `/specs/.instructions/` |
 
-### Дерево README.md в /.claude/
+**Покрытие:** [/.instructions/coverage.md](/.instructions/coverage.md) — папки для создания .instructions/
+
+---
+
+## Структура
 
 ```
 /.claude/
-├── README.md                           # Индекс папки .claude
-├── instructions/
-│   ├── README.md                       # Главный индекс инструкций (75 файлов)
-│   ├── config/                         # (2 файла, README не нужен)
-│   ├── doc/
-│   │   └── README.md                   # Документация: structure, templates
-│   ├── git/
-│   │   └── README.md                   # Git: commits, issues, workflow, review, ci
-│   ├── platform/
-│   │   └── README.md                   # Инфраструктура: docker, deployment, observability
-│   ├── shared/
-│   │   └── README.md                   # Общий код: contracts, events, libs
-│   ├── specs/
-│   │   └── README.md                   # Спецификации: discussions, impact, adr, plans
-│   ├── src/
-│   │   ├── README.md                   # Правила разработки (главный)
-│   │   ├── api/README.md               # API: design, versioning, deprecation
-│   │   ├── data/README.md              # Данные: errors, logging, pagination
-│   │   ├── dev/README.md               # Разработка: local, testing, performance
-│   │   ├── runtime/README.md           # Runtime: database, health, resilience
-│   │   └── security/README.md          # Безопасность: auth, audit
-│   └── tests/
-│       └── README.md                   # Тестирование: unit, e2e, claude-testing
-├── skills/
-│   └── README.md                       # Индекс скиллов
-├── templates/
-│   ├── specs/                          # Шаблоны спецификаций (5)
-│   ├── git/                            # Шаблоны git (4)
-│   ├── platform/                       # Шаблоны инфраструктуры (5)
-│   ├── doc/                            # Шаблоны документации (4)
-│   └── tests/                          # Шаблоны тестов (3)
-└── drafts/
-    └── README.md                       # Черновики, SSOT-документы
+├── .instructions/skills/    # Как писать скиллы
+├── skills/                  # Скиллы (14)
+├── agents/                  # Агенты
+├── drafts/                  # Черновики (в git)
+└── settings.json            # Настройки
+
+/.instructions/              # Как писать инструкции
+/specs/.instructions/        # Как писать specs
 ```
 
-## Ключевые файлы
-
-| Файл | Назначение |
-|------|------------|
-| `/specs/glossary.md` | Глоссарий терминов |
-| `/.claude/drafts/` | Черновики, SSOT-документы |
-| `/specs/services/{service}/adr/` | ADR сервиса |
-
-## Задачи
-
-Задачи ведутся через GitHub Issues с префиксами:
-- `[AUTH]`, `[NOTIFY]`, `[PAY]` — по сервисам
-- `[INFRA]` — инфраструктура
-- `[DOCS]` — документация
-
-```bash
-gh issue list --state open
-gh issue create --label "service:auth" --title "[AUTH] Описание"
-```
+---
 
 ## Команды
 
@@ -228,76 +101,14 @@ make test          # Запустить тесты
 make lint          # Линтинг
 ```
 
-## Полная структура проекта
-
-**Полное описание структуры:** [README.md](README.md)
-
----
-
-## Граф зависимостей скиллов
-
-**Полный граф:** [/.claude/README.md](/.claude/README.md)
-
-### Оркестраторы (вызывают другие скиллы)
-
-```
-skill-create → links-update, skill-update, input-validate, environment-check
-instruction-create → links-update, context-update, instruction-update
-doc-create/update → links-update, input-validate
-doc-delete → issue-create, links-delete
-```
-
-### Утилиты (вызываются другими)
-
-| Скилл | Вызывается из |
-|-------|---------------|
-| `links-update` | 6+ скиллов (самый частый) |
-| `environment-check` | 7+ скиллов |
-| `input-validate` | 3+ скиллов |
-| `context-update` | 3 скилла |
-
----
-
-## Матрица выбора скиллов
-
-### Когда использовать какой скилл
-
-| Ситуация | Скилл |
-|----------|-------|
-| Создать новый скилл | `/skill-create` |
-| Переименовать/переместить скилл | `/skill-migrate` |
-| Проверить все ссылки в проекте | `/links-validate` |
-| Переиндексировать документацию | `/doc-reindex` |
-| Проверить целостность проекта | `/health-check` |
-| Переоткрыть закрытый Issue | `/issue-reopen` |
-| Путь изменился | `/links-update` |
-| Содержимое изменилось | `/context-update` |
-
-### links-update vs context-update
-
-| Аспект | links-update | context-update |
-|--------|--------------|----------------|
-| **Что обновляет** | Синтаксис `[text](path)` | Семантический контекст |
-| **Глубина** | Прямые ссылки | Транзитивные связи (A→B→C) |
-| **Когда** | После создания/переименования | После изменения содержимого |
-
 ---
 
 ## Запрет архивирования инструкций
 
 **ПРАВИЛО:** Архивирование инструкций ЗАПРЕЩЕНО.
 
-**Причина:** Архивирование создаёт "мёртвый код" в документации, усложняет поиск и поддержку.
-
 **Вместо архивирования:**
-1. **Удалить** через `/instruction-delete` — очистит ссылки и статусы
-2. **Заменить** — создать новую инструкцию, удалить старую
-3. **Объединить** — перенести контент в другую инструкцию
-
-**Если инструкция устарела:**
-```
-1. /instruction-delete <путь>
-2. (скилл автоматически очистит ссылки и обновит README.md)
-```
+1. **Удалить** через `/instruction-deactivate` — комментирует содержимое
+2. **Заменить** — создать новую инструкцию, деактивировать старую
 
 ---
