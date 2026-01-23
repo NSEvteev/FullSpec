@@ -1,15 +1,35 @@
-# Спецификации
+# /specs/ — Спецификации проекта
 
-> Проектная документация: решения, планы, архитектура.
+## Зона ответственности
 
-## Навигация
+Спецификации, архитектурные решения, планы развития проекта.
 
-| Раздел | Описание |
-|--------|----------|
-| [discussions/](discussions/) | Дискуссии и исследования |
-| [impact/](impact/) | Импакт-анализ изменений |
-| [services/](services/) | Спецификации по сервисам (ADR, планы, архитектура) |
-| [glossary.md](glossary.md) | Глоссарий терминов |
+**IN:** discussions/, impact/, services/, glossary.md
+
+**Границы:**
+- архитектура, планы, решения → здесь
+- документация кода → */docs/
+- README файлы → в соответствующих папках
+- инструкции для LLM → /.claude/.instructions/
+
+> **Все зоны:** [/.structure/responsibilities.md](/.structure/responsibilities.md)
+
+---
+
+## Структура
+
+```
+specs/
+├── discussions/          # Обсуждения фич (DISC-*.md)
+├── impact/               # Импакт-анализ (IMPACT-*.md)
+├── services/             # Спецификации по сервисам
+│   └── {service}/
+│       ├── adr/          # Архитектурные решения (ADR-*.md)
+│       └── plans/        # Планы реализации (PLAN-*.md)
+└── glossary.md           # Глоссарий терминов
+```
+
+---
 
 ## Workflow
 
@@ -17,13 +37,8 @@
 Discussion → Impact → ADR → Plan → Implementation
 ```
 
-## Связь с /doc/
+---
 
-| Папка | Назначение |
-|-------|------------|
-| `/specs/` | **ПОЧЕМУ и ЧТО** решили делать |
-| `/doc/` | **КАК** это сделано сейчас |
+## Связи
 
-## Инструкции
-
-- [/.claude/instructions/specs/](/.claude/instructions/specs/) — правила работы с документами
+- **Инструкции:** [/.claude/.instructions/specs/](/.claude/.instructions/specs/)

@@ -1,8 +1,19 @@
 # /config/ — Конфигурации окружений
 
-| IN | OUT |
-|----|-----|
-| environments, feature-flags | .env сервисов (→ `/src/{service}/`) |
+## Зона ответственности
+
+Общие конфигурации окружений и feature flags.
+
+**IN:** *.yaml (development, staging, production), feature-flags/
+
+**Границы:**
+- общие конфигурации окружений → здесь
+- .env файлы сервиса → /src/{service}/
+- секреты → vault / env vars
+
+> **Все зоны:** [/.structure/responsibilities.md](/.structure/responsibilities.md)
+
+---
 
 ## Структура
 
@@ -12,4 +23,11 @@ config/
 ├── staging.yaml        # Staging окружение
 ├── production.yaml     # Production окружение
 └── feature-flags/      # Feature flags
+    └── flags.yaml
 ```
+
+---
+
+## Связи
+
+- **Инструкции:** [/.claude/.instructions/config/](/.claude/.instructions/config/)

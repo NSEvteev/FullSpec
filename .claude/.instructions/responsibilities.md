@@ -25,7 +25,7 @@ IN и границы для всех инструкций проекта.
 
 ## .structure/ — Правила организации структуры
 
-**SSOT:** `/.structure/` — фактическая структура (project.md, mapping.md, responsibilities.md)
+**SSOT:** `/.structure/` — фактическая структура (project.md, responsibilities.md)
 
 ---
 

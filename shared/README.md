@@ -1,18 +1,39 @@
 # /shared/ — Общий код между сервисами
 
-| IN | OUT |
-|----|-----|
-| contracts, events, libs, assets, i18n | Код сервисов (→ `/src/`) |
+## Зона ответственности
+
+Код, используемый несколькими сервисами: контракты, библиотеки, ресурсы.
+
+**IN:** contracts/, events/, libs/, assets/, i18n/, docs/
+
+**Границы:**
+- код для нескольких сервисов → здесь
+- код конкретного сервиса → /src/{service}/
+- реализация handlers → /src/
+
+> **Все зоны:** [/.structure/responsibilities.md](/.structure/responsibilities.md)
+
+---
 
 ## Структура
 
 ```
 shared/
-├── contracts/     # API контракты
-│   ├── openapi/   # REST (*.yaml)
-│   └── protobuf/  # gRPC (*.proto)
-├── events/        # Схемы событий
-├── libs/          # Общие библиотеки
-├── assets/        # Статические ресурсы
-└── i18n/          # Локализация
+├── contracts/        # API контракты
+│   ├── openapi/      # REST (*.yaml)
+│   └── protobuf/     # gRPC (*.proto)
+├── events/           # Схемы событий
+├── libs/             # Общие библиотеки
+│   ├── errors/
+│   ├── logging/
+│   └── validation/
+├── assets/           # Статические ресурсы
+├── i18n/             # Локализация
+└── docs/             # Документация shared
 ```
+
+---
+
+## Связи
+
+- **Инструкции:** [/.claude/.instructions/shared/](/.claude/.instructions/shared/)

@@ -1,25 +1,40 @@
 # /src/ — Исходный код сервисов
 
-Корень сервисов проекта.
+## Зона ответственности
 
-## Содержимое
+Исходный код всех сервисов проекта. Каждый сервис — отдельная папка.
 
-| IN | OUT |
-|----|-----|
-| Папки сервисов (`{service}/`) | Общий код (→ `/shared/`) |
+**IN:** Папки сервисов (auth/, notify/, pay/), каждая — независимый сервис
+
+**Границы:**
+- код конкретного сервиса → здесь
+- общий код между сервисами → /shared/
+- спецификации и ADR → /specs/services/{service}/
+- системные тесты → /tests/
+
+> **Все зоны:** [/.structure/responsibilities.md](/.structure/responsibilities.md)
+
+---
 
 ## Структура сервиса
 
 ```
 {service}/
-├── backend/          # Бэкенд: handlers, routes, services
-├── database/         # БД: schema.sql, migrations/
-├── frontend/         # Фронтенд (опционально)
-└── tests/            # Unit и integration тесты
+├── README.md         # Описание, как запустить
+├── Makefile          # Команды: dev, test, build
+├── backend/          # Серверный код
+│   ├── v*/           # Версионированный API
+│   ├── shared/       # Общий код между версиями
+│   └── health/       # Health endpoints
+├── database/         # Схемы и миграции
+├── frontend/         # Клиентский код (опционально)
+├── tests/            # Unit и integration тесты
+└── docs/             # Документация сервиса
 ```
 
-## Связанные ресурсы
+---
 
-- [Инструкции](/.claude/instructions/service/) — правила разработки
-- [Документация](/doc/src/) — документация сервисов
-- [Спецификации](/specs/services/) — архитектура сервисов
+## Связи
+
+- **Инструкции:** [/.claude/.instructions/src/](/.claude/.instructions/src/)
+- **Спецификации:** [/specs/services/](/specs/services/)

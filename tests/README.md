@@ -1,16 +1,33 @@
 # /tests/ — Системные тесты
 
-| IN | OUT |
-|----|-----|
-| e2e, integration, load, smoke, fixtures | Unit тесты (→ `/src/{service}/tests/`) |
+## Зона ответственности
+
+Тесты всей системы: e2e, интеграция между сервисами, нагрузка.
+
+**IN:** e2e/, integration/, load/, smoke/, fixtures/, conftest.py
+
+**Границы:**
+- системные тесты → здесь
+- unit тесты сервиса → /src/{service}/tests/
+- integration тесты внутри сервиса → /src/{service}/tests/integration/
+
+> **Все зоны:** [/.structure/responsibilities.md](/.structure/responsibilities.md)
+
+---
 
 ## Структура
 
 ```
 tests/
-├── e2e/           # End-to-end сценарии
-├── integration/   # Тесты между сервисами
-├── load/          # Нагрузочные тесты (k6)
-├── smoke/         # Smoke тесты
-└── fixtures/      # Общие тестовые данные
+├── e2e/              # End-to-end сценарии
+├── integration/      # Тесты между сервисами
+├── load/             # Нагрузочные тесты (k6)
+├── smoke/            # Smoke тесты
+└── fixtures/         # Общие тестовые данные
 ```
+
+---
+
+## Связи
+
+- **Инструкции:** [/.claude/.instructions/tests/](/.claude/.instructions/tests/)
