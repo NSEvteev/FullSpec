@@ -1,15 +1,25 @@
 {
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python .claude/scripts/protect-specs.py"
-          }
-        ]
-      }
+  "language": "russian",
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(ls:*)",
+      "Bash(tree:*)",
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(python:*)",
+      "Bash(make:*)",
+      "Bash(npm:*)",
+      "Bash(pnpm:*)",
+      "Bash(node:*)",
+      "Bash(docker:*)",
+      "Bash(docker-compose:*)",
+      "WebSearch"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(rm -r /*)",
+      "Bash(> /dev/sda:*)"
     ]
   }
 }

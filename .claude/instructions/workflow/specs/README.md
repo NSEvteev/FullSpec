@@ -28,7 +28,6 @@
 | [16. Связи](#16-связи) | [relations.md](./relations.md) | Граф зависимостей, связь /specs/ ↔ /doc/ |
 | [17. Шаблоны](#17-шаблоны) | — | Шаблоны документов |
 | [18. Скиллы](#18-скиллы) | — | Скиллы для работы с /specs/ |
-| [19. Скрипты](#19-скрипты) | — | Скрипты автоматизации |
 
 ```
 /.claude/instructions/specs/
@@ -206,7 +205,6 @@ Architecture Decision Records — фиксация архитектурных р
 
 **Оглавление:**
 - [Скиллы автоматизации](./rules.md#скиллы-автоматизации)
-- [Hook защиты /specs/](./rules.md#hook-защиты-specs)
 - [Шаблоны](./rules.md#шаблоны)
 - [Запреты (миграция, удаление, архивирование)](./rules.md#запрет-миграции)
 - [Принятые решения](./rules.md#принятые-решения)
@@ -332,13 +330,3 @@ Architecture Decision Records — фиксация архитектурных р
 | [/specs-health](/.claude/skills/specs-health/SKILL.md) | Проверка целостности |
 | [/specs-sync](/.claude/skills/specs-sync/SKILL.md) | Синхронизация статусов |
 | [/specs-index](/.claude/skills/specs-index/SKILL.md) | Обновление индексов |
-
----
-
-# 19. Скрипты
-
-Скрипты автоматизации для `/specs/`.
-
-| Скрипт | Назначение |
-|--------|------------|
-| [protect-specs.py](/.claude/scripts/protect-specs.py) | Hook защиты от прямого редактирования |
