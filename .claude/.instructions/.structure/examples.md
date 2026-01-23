@@ -1,4 +1,21 @@
+---
+type: standard
+description: Примеры использования структуры проекта (Decision Tree)
+governed-by: .structure/README.md
+related:
+  - .structure/principles.md
+  - .structure/responsibilities.md
+---
+
 # Примеры использования
+
+**Индекс:** [README.md](./README.md)
+
+## Оглавление
+
+- [Куда положить файл?](#куда-положить-файл)
+- [Где написать инструкцию?](#где-написать-инструкцию)
+- [Быстрая шпаргалка](#быстрая-шпаргалка)
 
 ---
 

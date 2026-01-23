@@ -136,11 +136,4 @@
     └── settings.local.json      #   Локальные настройки (не в git)
 ```
 
----
-
-## Общие правила
-
-1. **README.md обязателен** — каждая папка ДОЛЖНА иметь README.md как индекс
-2. **SSOT в drafts/** — документы-первоисточники хранятся в `/.claude/drafts/`
-3. **settings.local.json не в git** — локальные настройки игнорируются
-4. **state/ не в git** — состояния агентов игнорируются
+> **Правила:** [/.claude/.instructions/.structure/principles.md](/.claude/.instructions/.structure/principles.md)

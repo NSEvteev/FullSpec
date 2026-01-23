@@ -7,6 +7,7 @@ related:
   - instructions/validation.md
   - instructions/structure.md
   - instructions/relations.md
+  - .structure/readme-index.md
 ---
 
 # Воркфлоу создания инструкции
@@ -112,13 +113,21 @@ Write → /.claude/.instructions/{путь}
 
 ### Шаг 6: Создать/обновить README папки
 
+**Правила:** [/.claude/.instructions/.structure/readme-index.md](/.claude/.instructions/.structure/readme-index.md)
+
 **Если README папки не существует:**
-- Создать по шаблону [readme.md](/.claude/templates/instructions/readme.md)
+1. Создать папку по [principles.md](/.claude/.instructions/.structure/principles.md)
+2. Создать README.md по правилам [readme-index.md](/.claude/.instructions/.structure/readme-index.md)
+3. Использовать шаблон [template-readme.md](./template-readme.md)
 
 **Если README папки существует:**
-- Добавить инструкцию в список
+- Добавить новую секцию для инструкции
+- Обновить таблицу оглавления
+- Обновить дерево файлов
 
 **Путь:** `/.claude/.instructions/{папка}/README.md`
+
+**Важно:** Соблюдать правило "1 уровень" — подпапки показывать только как ссылку на их README.md.
 
 ---
 

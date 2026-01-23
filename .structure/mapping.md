@@ -1,5 +1,7 @@
 # Маппинг: Инструкции ↔ Папки проекта
 
+> **SSOT инструкций:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md)
+
 ---
 
 ## Таблица маппинга
@@ -79,4 +81,4 @@ flowchart LR
     dotclaude --> claude
 ```
 
-**Принцип:** Инструкция `X/` → Папка `/X/` (зеркальная структура).
+> **Правила:** [/.claude/.instructions/.structure/principles.md](/.claude/.instructions/.structure/principles.md)
