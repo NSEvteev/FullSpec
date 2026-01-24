@@ -11,7 +11,7 @@
 - .env файлы сервиса → /src/{service}/
 - секреты → vault / env vars
 
-> **Все зоны:** [/.structure/responsibilities.md](/.structure/responsibilities.md)
+> [Разделение ответственности всех папок проекта](/.structure/README.md)
 
 ---
 

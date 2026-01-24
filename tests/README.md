@@ -11,7 +11,7 @@
 - unit тесты сервиса → /src/{service}/tests/
 - integration тесты внутри сервиса → /src/{service}/tests/integration/
 
-> **Все зоны:** [/.structure/responsibilities.md](/.structure/responsibilities.md)
+> [Разделение ответственности всех папок проекта](/.structure/README.md)
 
 ---
 

@@ -12,7 +12,7 @@
 - README файлы → в соответствующих папках
 - инструкции для LLM → /.claude/.instructions/
 
-> **Все зоны:** [/.structure/responsibilities.md](/.structure/responsibilities.md)
+> [Разделение ответственности всех папок проекта](/.structure/README.md)
 
 ---
 

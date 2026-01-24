@@ -11,7 +11,7 @@
 - код конкретного сервиса → /src/{service}/
 - реализация handlers → /src/
 
-> **Все зоны:** [/.structure/responsibilities.md](/.structure/responsibilities.md)
+> [Разделение ответственности всех папок проекта](/.structure/README.md)
 
 ---
 

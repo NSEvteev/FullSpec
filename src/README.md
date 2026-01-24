@@ -12,7 +12,7 @@
 - спецификации и ADR → /specs/services/{service}/
 - системные тесты → /tests/
 
-> **Все зоны:** [/.structure/responsibilities.md](/.structure/responsibilities.md)
+> [Разделение ответственности всех папок проекта](/.structure/README.md)
 
 ---
 

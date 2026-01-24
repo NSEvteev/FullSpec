@@ -11,7 +11,7 @@
 - код проекта → /src/
 - скрипты деплоя → /platform/scripts/
 
-> **Все зоны:** [/.structure/responsibilities.md](/.structure/responsibilities.md)
+> [Разделение ответственности всех папок проекта](/.structure/README.md)
 
 ---
 

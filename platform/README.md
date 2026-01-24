@@ -11,7 +11,7 @@
 - бизнес-код сервисов → /src/
 - скрипты Claude → /.claude/scripts/
 
-> **Все зоны:** [/.structure/responsibilities.md](/.structure/responsibilities.md)
+> [Разделение ответственности всех папок проекта](/.structure/README.md)
 
 ---
 
