@@ -13,7 +13,7 @@ related:
 
 План — декомпозиция ADR на конкретные задачи. Создаётся после APPROVED ADR, требует согласования с пользователем.
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md) | **Папка:** [specs/README.md](./README.md)
+> [Планы в specs](../../README.md)
 
 ## Оглавление
 

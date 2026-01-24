@@ -5,14 +5,14 @@ governed-by: .structure/.instructions/README.md
 related:
   - .structure/.instructions/format.md
   - .structure/.instructions/validation.md
-  - .structure/.instructions/workflow-add.md
+  - .structure/.instructions/workflow-create.md
 ---
 
 # Воркфлоу удаления папки
 
 Шаги удаления папки из SSOT структуры проекта.
 
-**Индекс:** [/.instructions/README.md](/.instructions/README.md) | **Папка:** [.structure/.instructions/README.md](./README.md)
+> [Инструкции по работе со структурой проекта](./README.md)
 
 ## Оглавление
 
@@ -126,4 +126,4 @@ grep -r "legacy/" .
 
 - [format.md](./format.md) — формат описания папок
 - [validation.md](./validation.md) — проверка согласованности
-- [workflow-add.md](./workflow-add.md) — добавление папки
+- [workflow-create.md](./workflow-create.md) — создание папки

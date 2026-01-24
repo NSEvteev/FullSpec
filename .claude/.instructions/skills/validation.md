@@ -12,7 +12,7 @@ related:
 
 Правила валидации скиллов: предварительные проверки, структура, ревью.
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md) | **Папка:** [skills/README.md](./README.md)
+> [Инструкции по работе со скиллами](./README.md)
 
 ## Оглавление
 

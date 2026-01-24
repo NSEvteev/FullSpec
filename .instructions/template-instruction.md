@@ -10,7 +10,7 @@ related:
 
 {Краткое описание — что регулирует эта инструкция, 1-2 предложения.}
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md) | **Папка:** [{папка}/README.md](./README.md)
+> [Инструкции {область}](./README.md)
 
 ## Оглавление
 

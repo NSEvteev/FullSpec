@@ -15,7 +15,7 @@ related:
 
 Правила автоматизации, скиллы, шаблоны и запреты для работы с документами `/specs/`.
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md) | **Папка:** [specs/README.md](./README.md)
+> [Инструкции по работе со спецификациями](./README.md)
 
 ## Оглавление
 

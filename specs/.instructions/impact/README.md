@@ -13,7 +13,7 @@ related:
 
 Impact-анализ определяет какие сервисы затронуты изменением и описывает бизнес-логику. Один Impact может создать несколько ADR для разных сервисов.
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md) | **Папка:** [specs/README.md](./README.md)
+> [Инструкции по работе со спецификациями](../README.md)
 
 ## Оглавление
 

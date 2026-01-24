@@ -11,7 +11,7 @@ related:
 
 Форматы таблиц в README.md индексах для разных типов документов и алгоритм обновления.
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md) | **Папка:** [specs/README.md](./README.md)
+> [Инструкции по работе со спецификациями](./README.md)
 
 ## Оглавление
 

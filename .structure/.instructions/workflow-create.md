@@ -1,17 +1,17 @@
 ---
 type: standard
-description: Воркфлоу добавления новой папки в структуру проекта
+description: Воркфлоу создания новой папки в структуре проекта
 governed-by: .structure/.instructions/README.md
 related:
   - .structure/.instructions/format.md
   - .structure/.instructions/validation.md
 ---
 
-# Воркфлоу добавления папки
+# Воркфлоу создания папки
 
-Шаги добавления новой папки в SSOT структуры проекта.
+Шаги создания новой папки в SSOT структуры проекта.
 
-**Индекс:** [/.instructions/README.md](/.instructions/README.md) | **Папка:** [.structure/.instructions/README.md](./README.md)
+> [Инструкции по работе со структурой проекта](./README.md)
 
 ## Оглавление
 
@@ -132,4 +132,4 @@ related:
 
 - [format.md](./format.md) — формат описания папок
 - [validation.md](./validation.md) — проверка согласованности
-- [workflow-remove.md](./workflow-remove.md) — удаление папки
+- [workflow-delete.md](./workflow-delete.md) — удаление папки

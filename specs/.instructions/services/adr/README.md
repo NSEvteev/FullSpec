@@ -14,7 +14,7 @@ related:
 
 ADR (Architecture Decision Records) — фиксация архитектурных решений для конкретного сервиса. Каждый ADR обязательно ссылается на родительский Impact.
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md) | **Папка:** [specs/README.md](./README.md)
+> [ADR в specs](../../README.md)
 
 ## Оглавление
 

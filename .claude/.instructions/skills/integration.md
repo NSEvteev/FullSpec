@@ -11,7 +11,7 @@ related:
 
 Правила интеграции новых скиллов в существующие и управления зависимостями между скиллами.
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md) | **Папка:** [skills/README.md](./README.md)
+> [Инструкции по работе со скиллами](./README.md)
 
 ## Оглавление
 

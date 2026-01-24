@@ -4,6 +4,8 @@
 
 **Содержание:** структура папок, типы инструкций, валидация, статусы, жизненный цикл, паттерны поиска.
 
+> [Разделение ответственности всех папок проекта](/.structure/README.md)
+
 ---
 
 ## Оглавление
@@ -178,20 +180,9 @@
 
 # 9. Ответственность
 
-IN и границы для всех инструкций проекта.
+IN и границы для всех папок проекта.
 
-**Оглавление:**
-- [.structure/](./responsibilities.md#structure--правила-организации-структуры)
-- [src/](./responsibilities.md#src--разработка-сервисов)
-- [platform/](./responsibilities.md#platform--инфраструктура)
-- [tests/](./responsibilities.md#tests--системные-тесты)
-- [shared/](./responsibilities.md#shared--общий-код)
-- [config/](./responsibilities.md#config--конфигурации)
-- [specs/](./responsibilities.md#specs--спецификации)
-- [.github/](./responsibilities.md#github--github-платформа)
-- [.claude/](./responsibilities.md#claude--правила-и-claude-сущности)
-
-**Инструкция:** [responsibilities.md](./responsibilities.md)
+**SSOT:** [/.structure/README.md](/.structure/README.md) — описание всех папок и их зон ответственности.
 
 ---
 

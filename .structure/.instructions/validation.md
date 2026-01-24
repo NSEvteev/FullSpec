@@ -4,15 +4,15 @@ description: Правила валидации согласованности с
 governed-by: .structure/.instructions/README.md
 related:
   - .structure/.instructions/format.md
-  - .structure/.instructions/workflow-add.md
-  - .structure/.instructions/workflow-remove.md
+  - .structure/.instructions/workflow-create.md
+  - .structure/.instructions/workflow-delete.md
 ---
 
 # Валидация структуры
 
 Правила проверки согласованности SSOT структуры проекта.
 
-**Индекс:** [/.instructions/README.md](/.instructions/README.md) | **Папка:** [.structure/.instructions/README.md](./README.md)
+> [Инструкции по работе со структурой проекта](./README.md)
 
 ## Оглавление
 
@@ -129,5 +129,5 @@ related:
 ## Связанные инструкции
 
 - [format.md](./format.md) — формат описания папок
-- [workflow-add.md](./workflow-add.md) — добавление папки
-- [workflow-remove.md](./workflow-remove.md) — удаление папки
+- [workflow-create.md](./workflow-create.md) — создание папки
+- [workflow-delete.md](./workflow-delete.md) — удаление папки

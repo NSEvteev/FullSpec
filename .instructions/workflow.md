@@ -12,7 +12,7 @@ related:
 
 Фазы работы с инструкциями: создание, обновление, деактивация, миграция.
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md) | **Папка:** [instructions/README.md](./README.md)
+> [Инструкции по работе с инструкциями](./README.md)
 
 ## Оглавление
 

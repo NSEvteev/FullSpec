@@ -11,7 +11,7 @@ related:
 
 Классификация инструкций по назначению.
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md) | **Папка:** [instructions/README.md](./README.md)
+> [Инструкции по работе с инструкциями](./README.md)
 
 ## Оглавление
 

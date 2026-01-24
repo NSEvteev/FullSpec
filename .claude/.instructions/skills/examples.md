@@ -11,7 +11,7 @@ related:
 
 Примеры использования скиллов для управления скиллами Claude Code.
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md) | **Папка:** [skills/README.md](./README.md)
+> [Инструкции по работе со скиллами](./README.md)
 
 ## Оглавление
 

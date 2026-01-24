@@ -11,7 +11,7 @@ related:
 
 Стандартные форматы вывода результатов для всех скиллов и диалоги подтверждения.
 
-**Индекс:** [/.claude/.instructions/README.md](/.claude/.instructions/README.md) | **Папка:** [specs/README.md](./README.md)
+> [Инструкции по работе со спецификациями](./README.md)
 
 ## Оглавление
 
