@@ -3,7 +3,7 @@ type: standard
 description: Воркфлоу обновления папки — переименование и перемещение
 governed-by: .structure/.instructions/README.md
 related:
-  - .structure/.instructions/format.md
+  - .structure/.instructions/readme-standard.md
   - .structure/.instructions/validation.md
   - .structure/.instructions/workflow-create.md
   - .structure/.instructions/workflow-delete.md
@@ -13,7 +13,9 @@ related:
 
 Шаги переименования и перемещения папки в структуре проекта.
 
-> [Инструкции по работе со структурой проекта](./README.md)
+**Полезные ссылки:**
+- [Инструкции для .structure](./README.md)
+- [SSOT структуры проекта](../README.md)
 
 ## Оглавление
 
@@ -185,7 +187,8 @@ mv src/common/ shared/libs/
 
 # /shared/libs/ — Общие библиотеки
 
-> [Разделение ответственности при работе с shared](../README.md)
+**Полезные ссылки:**
+- [Разделение ответственности при работе с shared](../README.md)
 ```
 
 **Шаг 6:** Обновление ссылок
@@ -205,7 +208,7 @@ mv src/common/ shared/libs/
 
 ## Связанные инструкции
 
-- [format.md](./format.md) — формат описания папок, ссылки на ответственность
+- [readme-standard.md](./readme-standard.md) — формат описания папок, ссылки на ответственность
 - [validation.md](./validation.md) — проверка согласованности
 - [workflow-create.md](./workflow-create.md) — создание папки
 - [workflow-delete.md](./workflow-delete.md) — удаление папки

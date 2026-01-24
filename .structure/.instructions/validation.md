@@ -3,7 +3,7 @@ type: standard
 description: Правила валидации согласованности структуры проекта
 governed-by: .structure/.instructions/README.md
 related:
-  - .structure/.instructions/format.md
+  - .structure/.instructions/readme-standard.md
   - .structure/.instructions/workflow-create.md
   - .structure/.instructions/workflow-delete.md
 ---
@@ -12,7 +12,9 @@ related:
 
 Правила проверки согласованности SSOT структуры проекта.
 
-> [Инструкции по работе со структурой проекта](./README.md)
+**Полезные ссылки:**
+- [Инструкции для .structure](./README.md)
+- [SSOT структуры проекта](../README.md)
 
 ## Оглавление
 
@@ -46,7 +48,7 @@ related:
 
 ### Согласованность описаний
 
-Описания папок должны соответствовать [format.md](./format.md):
+Описания папок должны соответствовать [readme-standard.md](./readme-standard.md):
 
 - Заголовок с иконкой 🔗
 - Ссылка на README
@@ -128,6 +130,6 @@ related:
 
 ## Связанные инструкции
 
-- [format.md](./format.md) — формат описания папок
+- [readme-standard.md](./readme-standard.md) — формат описания папок
 - [workflow-create.md](./workflow-create.md) — создание папки
 - [workflow-delete.md](./workflow-delete.md) — удаление папки

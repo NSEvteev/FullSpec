@@ -3,7 +3,7 @@ type: standard
 description: Воркфлоу удаления папки из структуры проекта
 governed-by: .structure/.instructions/README.md
 related:
-  - .structure/.instructions/format.md
+  - .structure/.instructions/readme-standard.md
   - .structure/.instructions/validation.md
   - .structure/.instructions/workflow-create.md
 ---
@@ -12,7 +12,9 @@ related:
 
 Шаги удаления папки из SSOT структуры проекта.
 
-> [Инструкции по работе со структурой проекта](./README.md)
+**Полезные ссылки:**
+- [Инструкции для .structure](./README.md)
+- [SSOT структуры проекта](../README.md)
 
 ## Оглавление
 
@@ -124,6 +126,6 @@ grep -r "legacy/" .
 
 ## Связанные инструкции
 
-- [format.md](./format.md) — формат описания папок
+- [readme-standard.md](./readme-standard.md) — формат описания папок
 - [validation.md](./validation.md) — проверка согласованности
 - [workflow-create.md](./workflow-create.md) — создание папки

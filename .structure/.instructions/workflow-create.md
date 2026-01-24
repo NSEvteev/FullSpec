@@ -3,7 +3,7 @@ type: standard
 description: Воркфлоу создания новой папки в структуре проекта
 governed-by: .structure/.instructions/README.md
 related:
-  - .structure/.instructions/format.md
+  - .structure/.instructions/readme-standard.md
   - .structure/.instructions/validation.md
 ---
 
@@ -11,7 +11,9 @@ related:
 
 Шаги создания новой папки в SSOT структуры проекта.
 
-> [Инструкции по работе со структурой проекта](./README.md)
+**Полезные ссылки:**
+- [Инструкции для .structure](./README.md)
+- [SSOT структуры проекта](../README.md)
 
 ## Оглавление
 
@@ -30,7 +32,7 @@ related:
 
 Это гарантирует, что структура всегда документирована в момент создания.
 
-**Шаблон:** [template-readme.md](./template-readme.md)
+**Шаблон:** [readme-standard.md](./readme-standard.md)
 
 ---
 
@@ -43,7 +45,7 @@ related:
 
 ### Шаг 2: Добавить секцию в "Корневые папки"
 
-Добавить описание папки в секцию "1. Корневые папки" по формату [format.md](./format.md).
+Добавить описание папки в секцию "1. Корневые папки" по формату [readme-standard.md](./readme-standard.md).
 
 **Расположение:** в алфавитном порядке среди папок.
 
@@ -130,6 +132,6 @@ related:
 
 ## Связанные инструкции
 
-- [format.md](./format.md) — формат описания папок
+- [readme-standard.md](./readme-standard.md) — формат описания папок
 - [validation.md](./validation.md) — проверка согласованности
 - [workflow-delete.md](./workflow-delete.md) — удаление папки
