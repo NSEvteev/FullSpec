@@ -183,5 +183,5 @@
 
 - `/.instructions/coverage.md` — трекер прогресса
 - `/.instructions/template-instruction.md` — шаблон (добавить SSOT)
-- `/.instructions/template-readme.md` — шаблон индекса
+- `/.structure/.instructions/template-readme.md` — шаблон README папки
 - `/.claude/skills/instruction-create/SKILL.md` — скилл создания

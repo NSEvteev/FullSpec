@@ -1,6 +1,6 @@
 <!--
-Шаблон README-индекса для папки инструкций.
-Правила: /.claude/.instructions/.structure/readme-index.md
+Шаблон README для папки.
+SSOT: /.structure/.instructions/format.md
 -->
 
 # Инструкции /{папка}/
@@ -23,7 +23,7 @@
 | [6. Скрипты](#6-скрипты) | — | Скрипты автоматизации |
 
 ```
-/.claude/.instructions/{папка}/
+/{папка}/.instructions/
 ├── README.md           # Этот файл (индекс)
 ├── {file1}.md          # {краткое описание}
 ├── {file2}.md          # {краткое описание}

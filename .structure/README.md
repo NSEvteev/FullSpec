@@ -40,11 +40,11 @@
 
 Стандарты написания инструкций: структура, типы, валидация, статусы, связи между инструкциями, шаблоны, воркфлоу создания/обновления/деактивации.
 
-### 🔗 .structure/
+### 🔗 .structure/ (этот файл)
 
 **SSOT структуры проекта.**
 
-Единый источник истины о структуре папок проекта — этот файл.
+Инструкции по работе со структурой (`.instructions/`), единый источник истины о структуре папок проекта (этот файл).
 
 ### 🔗 [config/](../config/README.md)
 
@@ -116,6 +116,7 @@
 ├── .instructions/                       # Мета: как писать инструкции
 │
 ├── .structure/                          # SSOT структуры проекта
+│   ├── .instructions/                   #   Как работать со структурой
 │   └── README.md                        #   Этот файл
 │
 ├── config/                              # Конфигурации окружений
@@ -177,4 +178,42 @@
     ├── integration/                     #   Интеграция между сервисами
     ├── load/                            #   Нагрузочные тесты (k6)
     └── smoke/                           #   Smoke тесты
+```
+
+---
+
+## 4. Диаграмма
+
+```mermaid
+graph TD
+    subgraph "Инфраструктура"
+        CLAUDE[.claude/]
+        GITHUB[.github/]
+        INSTRUCTIONS[.instructions/]
+        STRUCTURE[.structure/]
+    end
+
+    subgraph "Конфигурация"
+        CONFIG[config/]
+        PLATFORM[platform/]
+    end
+
+    subgraph "Код"
+        SRC[src/]
+        SHARED[shared/]
+        TESTS[tests/]
+    end
+
+    subgraph "Документация"
+        SPECS[specs/]
+    end
+
+    CLAUDE --> |скиллы| SRC
+    CLAUDE --> |скиллы| SPECS
+    INSTRUCTIONS --> |стандарты| SRC
+    INSTRUCTIONS --> |стандарты| TESTS
+    SHARED --> |контракты| SRC
+    SPECS --> |планы| SRC
+    CONFIG --> |переменные| PLATFORM
+    PLATFORM --> |деплой| SRC
 ```

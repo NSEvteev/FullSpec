@@ -118,7 +118,7 @@ Write → /.claude/.instructions/{путь}
 **Если README папки не существует:**
 1. Создать папку по [principles.md](/.claude/.instructions/.structure/principles.md)
 2. Создать README.md по правилам [readme-index.md](/.claude/.instructions/.structure/readme-index.md)
-3. Использовать шаблон [template-readme.md](./template-readme.md)
+3. Использовать шаблон [template-readme.md](/.structure/.instructions/template-readme.md)
 
 **Если README папки существует:**
 - Добавить новую секцию для инструкции

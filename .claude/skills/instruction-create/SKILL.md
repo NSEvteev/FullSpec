@@ -62,7 +62,7 @@ triggers:
 >
 > **Шаблоны:**
 > - [template-instruction.md](/.instructions/template-instruction.md) — шаблон инструкции
-> - [template-readme.md](/.instructions/template-readme.md) — шаблон README папки
+> - [template-readme.md](/.structure/.instructions/template-readme.md) — шаблон README папки
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 

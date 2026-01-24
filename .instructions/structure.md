@@ -26,6 +26,7 @@
 
 | Папка проекта | Локальные инструкции |
 |---------------|---------------------|
+| `/.structure/` | `/.structure/.instructions/` |
 | `/src/` | `/src/.instructions/` |
 | `/platform/` | `/platform/.instructions/` |
 | `/tests/` | `/tests/.instructions/` |
