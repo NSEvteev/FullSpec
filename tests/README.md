@@ -11,7 +11,8 @@
 - unit тесты сервиса → /src/{service}/tests/
 - integration тесты внутри сервиса → /src/{service}/tests/integration/
 
-> [Разделение ответственности всех папок проекта](/.structure/README.md)
+**Полезные ссылки:**
+- [Структура проекта](/.structure/README.md)
 
 ---
 
