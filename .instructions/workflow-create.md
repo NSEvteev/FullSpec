@@ -1,13 +1,7 @@
 ---
-type: standard
 description: Детальный воркфлоу создания инструкции (фаза CREATE)
-governed-by: instructions/README.md
-related:
-  - instructions/workflow.md
-  - instructions/validation.md
-  - instructions/structure.md
-  - instructions/relations.md
-  - .structure/readme-index.md
+standard: .instructions/instruction-standard.md
+index: .instructions/README.md
 ---
 
 # Воркфлоу создания инструкции
@@ -87,7 +81,7 @@ fi
 
 **Формат:** `{Название темы}: [SSOT]({путь}).`
 
-**Подробнее:** [relations.md](./relations.md#ссылка-на-ssot-не-дублировать)
+**Подробнее:** [validation.md](./validation.md#ссылка-на-ssot-не-дублировать)
 
 ---
 
@@ -99,14 +93,12 @@ fi
 - `standard` — стандарты качества (КАК делать)
 - `project` — специфика проекта (ЧТО есть)
 
-**Заполнить frontmatter** согласно [relations.md](./relations.md):
+**Заполнить frontmatter** согласно [frontmatter.md](/.structure/.instructions/frontmatter.md):
 ```yaml
 ---
-type: {standard | project}
 description: {описание}
-governed-by: {папка}/README.md   # путь к README папки
-related:
-  - {связанные инструкции}       # пути относительно /.claude/.instructions/
+standard: .instructions/instruction-standard.md
+index: {папка}/.instructions/README.md
 ---
 ```
 
@@ -131,7 +123,7 @@ Write → /.claude/.instructions/{путь}
 **Если README папки не существует:**
 1. Создать папку по [principles.md](/.claude/.instructions/.structure/principles.md)
 2. Создать README.md по правилам [readme-index.md](/.claude/.instructions/.structure/readme-index.md)
-3. Использовать шаблон [template-readme.md](/.structure/.instructions/template-readme.md)
+3. Использовать стандарт [readme-standard.md](/.structure/.instructions/readme-standard.md)
 
 **Если README папки существует:**
 - Добавить новую секцию для инструкции
@@ -264,4 +256,3 @@ Write → /.claude/.instructions/{путь}
 - [structure.md](./structure.md) — структура папок
 - [types.md](./types.md) — типы инструкций
 - [statuses.md](./statuses.md) — система статусов
-- [relations.md](./relations.md) — работа со связями (governed-by, related)

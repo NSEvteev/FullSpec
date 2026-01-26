@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Обработка ошибок в скиллах /specs/ и откат изменений
-governed-by: specs/README.md
-related:
-  - specs/rules.md
-  - specs/output.md
+standard: .instructions/instruction-standard.md
+index: specs/.instructions/README.md
 ---
 
 # Обработка ошибок /specs/

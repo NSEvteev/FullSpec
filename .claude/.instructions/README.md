@@ -346,7 +346,6 @@ Scope: правила (git, links...) и Claude-артефакты в `/.claude/
 | [workflow-update.md](./.claude/.instructions/workflow-update.md) | UPDATE workflow |
 | [workflow-deactivate.md](./.claude/.instructions/workflow-deactivate.md) | DEACTIVATE workflow |
 | [patterns.md](./.claude/.instructions/patterns.md) | Паттерны поиска |
-| [relations.md](./.claude/.instructions/relations.md) | Связи между инструкциями |
 | [examples.md](./.claude/.instructions/examples.md) | Примеры |
 
 ### .structure/links/ — Правила ссылок

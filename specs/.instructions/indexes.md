@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Форматы индексов README.md в /specs/ и workflow обновления
-governed-by: specs/README.md
-related:
-  - specs/naming.md
-  - specs/statuses.md
+standard: .instructions/instruction-standard.md
+index: specs/.instructions/README.md
 ---
 
 # Индексы README.md в /specs/

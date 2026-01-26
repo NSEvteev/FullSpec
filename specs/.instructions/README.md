@@ -1,3 +1,9 @@
+---
+description: Индекс инструкций для работы с документами спецификаций
+standard: .structure/.instructions/readme-standard.md
+index: specs/.instructions/README.md
+---
+
 # Инструкции /specs/
 
 Индекс инструкций для работы с документами спецификаций `/specs/`.

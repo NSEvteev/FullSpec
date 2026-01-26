@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Примеры использования скиллов /specs/
-governed-by: specs/README.md
-related:
-  - specs/rules.md
-  - specs/output.md
+standard: .instructions/instruction-standard.md
+index: specs/.instructions/README.md
 ---
 
 # Примеры использования скиллов /specs/

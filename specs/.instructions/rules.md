@@ -1,14 +1,7 @@
 ---
-type: standard
 description: Правила работы с /specs/ — скиллы, шаблоны, запреты
-governed-by: specs/README.md
-related:
-  - specs/statuses.md
-  - specs/workflow.md
-  - specs/discussions.md
-  - specs/impact.md
-  - specs/adr.md
-  - specs/plans.md
+standard: .instructions/instruction-standard.md
+index: specs/.instructions/README.md
 ---
 
 # Правила работы с /specs/

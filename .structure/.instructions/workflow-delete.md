@@ -1,11 +1,7 @@
 ---
-type: standard
 description: Воркфлоу удаления папки из структуры проекта
-governed-by: .structure/.instructions/README.md
-related:
-  - .structure/.instructions/readme-standard.md
-  - .structure/.instructions/validation.md
-  - .structure/.instructions/workflow-create.md
+standard: .instructions/instruction-standard.md
+index: .structure/.instructions/README.md
 ---
 
 # Воркфлоу удаления папки

@@ -1,11 +1,7 @@
 ---
-type: standard
 description: Жизненный цикл инструкций: CREATE, UPDATE, DEACTIVATE, MIGRATE
-governed-by: instructions/README.md
-related:
-  - instructions/statuses.md
-  - instructions/patterns.md
-  - instructions/relations.md
+standard: .instructions/instruction-standard.md
+index: .instructions/README.md
 ---
 
 # Жизненный цикл инструкций
@@ -146,7 +142,7 @@ related:
 **Шаги:**
 1. Создать инструкцию по новому пути → `/instruction-create`
 2. Скопировать содержимое из старой инструкции
-3. Обновить `governed-by` (если изменилась папка)
+3. Обновить `standard` (если изменилась папка)
 4. Обновить `related` (пути к связанным инструкциям)
 5. Обновить ссылки во всём проекте → `/links-update`
 6. Деактивировать старую инструкцию → `/instruction-deactivate`
@@ -170,7 +166,7 @@ related:
 
 1. /instruction-create src/security/auth.md
 2. Скопировать содержимое
-3. governed-by: src/security/README.md (было src/api/README.md)
+3. standard: src/security/README.md (было src/api/README.md)
 4. /links-update src/api/auth.md → src/security/auth.md
 5. /instruction-deactivate src/api/auth.md
 ```
@@ -222,4 +218,3 @@ MIGRATE (комбинация операций)
 - [workflow-deactivate.md](./workflow-deactivate.md) — детальный воркфлоу DEACTIVATE
 - [statuses.md](./statuses.md) — система статусов
 - [patterns.md](./patterns.md) — паттерны поиска ссылок
-- [relations.md](./relations.md) — работа со связями (governed-by, related)

@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Воркфлоу создания новой папки в структуре проекта
-governed-by: .structure/.instructions/README.md
-related:
-  - .structure/.instructions/readme-standard.md
-  - .structure/.instructions/validation.md
+standard: .instructions/instruction-standard.md
+index: .structure/.instructions/README.md
 ---
 
 # Воркфлоу создания папки
@@ -41,7 +38,7 @@ related:
 ### Шаг 1: Создать папку и README (одновременно)
 
 1. Создать папку в файловой системе
-2. **Сразу** создать `README.md` по [шаблону](./template-readme.md)
+2. **Сразу** создать `README.md` по [стандарту](./readme-standard.md)
 
 ### Шаг 2: Добавить секцию в "Корневые папки"
 

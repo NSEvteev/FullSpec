@@ -1,11 +1,7 @@
 ---
-type: standard
 description: Формат, статусы и чек-листы переходов для дискуссий /specs/discussions/
-governed-by: specs/README.md
-related:
-  - specs/statuses.md
-  - specs/workflow.md
-  - specs/impact.md
+standard: .instructions/instruction-standard.md
+index: specs/.instructions/discussions/README.md
 ---
 
 # Дискуссии /specs/discussions/

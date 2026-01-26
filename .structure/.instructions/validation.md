@@ -1,11 +1,7 @@
 ---
-type: standard
 description: Правила валидации согласованности структуры проекта
-governed-by: .structure/.instructions/README.md
-related:
-  - .structure/.instructions/readme-standard.md
-  - .structure/.instructions/workflow-create.md
-  - .structure/.instructions/workflow-delete.md
+standard: .instructions/instruction-standard.md
+index: .structure/.instructions/README.md
 ---
 
 # Валидация структуры

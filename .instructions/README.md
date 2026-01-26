@@ -1,3 +1,9 @@
+---
+description: Индекс инструкций для работы с инструкциями проекта
+standard: .structure/.instructions/readme-standard.md
+index: .instructions/README.md
+---
+
 # Инструкции /instructions/
 
 Индекс инструкций для работы с инструкциями проекта.
@@ -21,15 +27,15 @@
 | — | [workflow-create.md](./workflow-create.md) | Детальный воркфлоу CREATE |
 | — | [workflow-update.md](./workflow-update.md) | Детальный воркфлоу UPDATE |
 | — | [workflow-deactivate.md](./workflow-deactivate.md) | Детальный воркфлоу DEACTIVATE |
-| [6. Связи](#6-связи) | [relations.md](./relations.md) | governed-by и related |
-| [7. Паттерны](#7-паттерны) | [patterns.md](./patterns.md) | Поиск ссылок на инструкции |
-| [8. Примеры](#8-примеры) | [examples.md](./examples.md) | Правила создания examples.md |
+| [6. Паттерны](#6-паттерны) | [patterns.md](./patterns.md) | Поиск ссылок на инструкции |
+| [7. Примеры](#7-примеры) | [examples.md](./examples.md) | Правила создания examples.md |
+| [8. Ответственность](#8-ответственность) | — | IN и границы папок |
 | [9. Шаблоны](#9-шаблоны) | — | Шаблоны для инструкций |
 | [10. Скиллы](#10-скиллы) | — | Скиллы для инструкций |
 | [11. Скрипты](#11-скрипты) | — | Скрипты автоматизации |
 
 ```
-/.claude/.instructions/instructions/
+/.instructions/
 ├── README.md               # Этот файл (индекс)
 ├── structure.md            # Расположение инструкций
 ├── types.md                # Типы (standard/project)
@@ -39,9 +45,10 @@
 ├── workflow-create.md      # Детальный воркфлоу CREATE
 ├── workflow-update.md      # Детальный воркфлоу UPDATE
 ├── workflow-deactivate.md  # Детальный воркфлоу DEACTIVATE
-├── relations.md            # Связи (governed-by, related)
 ├── patterns.md             # Паттерны поиска
-└── examples.md             # Правила создания примеров
+├── examples.md             # Правила создания примеров
+├── coverage.md             # Покрытие папок инструкциями
+└── instruction-standard.md # Стандарт формата инструкций
 ```
 
 ---
@@ -86,7 +93,7 @@
 - [Обязательные секции](./validation.md#обязательные-секции)
 - [Навигационные ссылки](./validation.md#навигационные-ссылки)
 - [Frontmatter](./validation.md#frontmatter)
-- [governed-by](./validation.md#governed-by)
+- [standard](./validation.md#standard)
 - [Скрипт валидации](./validation.md#скрипт-валидации)
 - [Ошибки валидации](./validation.md#ошибки-валидации)
 - [Скиллы](./validation.md#скиллы)
@@ -134,23 +141,7 @@
 
 ---
 
-# 6. Связи
-
-Работа со связями между инструкциями (governed-by, related).
-
-**Оглавление:**
-- [governed-by](./relations.md#governed-by)
-- [related](./relations.md#related)
-- [Правила обновления](./relations.md#правила-обновления)
-- [Примеры](./relations.md#примеры)
-- [Скиллы](./relations.md#скиллы)
-- [Связанные инструкции](./relations.md#связанные-инструкции)
-
-**Инструкция:** [relations.md](./relations.md)
-
----
-
-# 7. Паттерны
+# 6. Паттерны
 
 Паттерны поиска ссылок на инструкции.
 
@@ -165,7 +156,7 @@
 
 ---
 
-# 8. Примеры
+# 7. Примеры
 
 Правила создания файлов examples.md в папках инструкций.
 
@@ -179,7 +170,7 @@
 
 ---
 
-# 9. Ответственность
+# 8. Ответственность
 
 IN и границы для всех папок проекта.
 
@@ -187,7 +178,7 @@ IN и границы для всех папок проекта.
 
 ---
 
-# 10. Шаблоны
+# 9. Шаблоны
 
 Шаблоны для создания инструкций.
 
@@ -198,7 +189,7 @@ IN и границы для всех папок проекта.
 
 ---
 
-# 11. Скиллы
+# 10. Скиллы
 
 Скиллы для работы с инструкциями.
 
@@ -210,7 +201,7 @@ IN и границы для всех папок проекта.
 
 ---
 
-# 12. Скрипты
+# 11. Скрипты
 
 Скрипты автоматизации для инструкций.
 

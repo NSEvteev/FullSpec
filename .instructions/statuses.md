@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Система статусов инструкций в README.md
-governed-by: instructions/README.md
-related:
-  - instructions/workflow.md
-  - instructions/structure.md
+standard: .instructions/instruction-standard.md
+index: .instructions/README.md
 ---
 
 # Система статусов

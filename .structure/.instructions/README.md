@@ -1,3 +1,9 @@
+---
+description: Индекс инструкций для SSOT структуры проекта
+standard: .structure/.instructions/readme-standard.md
+index: .structure/.instructions/README.md
+---
+
 # Инструкции /.structure/
 
 Индекс инструкций для SSOT структуры проекта.

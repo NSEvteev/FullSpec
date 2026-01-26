@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Примеры использования скиллов skill-*
-governed-by: skills/README.md
-related:
-  - skills/workflow.md
-  - skills/rules.md
+standard: .instructions/instruction-standard.md
+index: .claude/.instructions/skills/README.md
 ---
 
 # Примеры: Скиллы

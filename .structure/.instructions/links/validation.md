@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Валидация ссылок в документах проекта
-governed-by: .structure/.instructions/links/README.md
-related:
-  - .structure/.instructions/links/types.md
-  - .structure/.instructions/links/format.md
+standard: .instructions/instruction-standard.md
+index: .structure/.instructions/links/README.md
 ---
 
 # Валидация ссылок

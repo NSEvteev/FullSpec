@@ -1,11 +1,7 @@
 ---
-type: standard
 description: Детальный воркфлоу деактивации инструкции (фаза DEACTIVATE)
-governed-by: instructions/README.md
-related:
-  - instructions/workflow.md
-  - instructions/statuses.md
-  - instructions/relations.md
+standard: .instructions/instruction-standard.md
+index: .instructions/README.md
 ---
 
 # Воркфлоу деактивации инструкции
@@ -181,7 +177,7 @@ README папки обновлён
 ---
 type: standard
 description: {оригинальное описание}
-governed-by: instructions/README.md
+standard: instructions/README.md
 related:
   - {связанные инструкции}
 ---
@@ -224,4 +220,3 @@ related:
 - [workflow.md](./workflow.md) — обзор жизненного цикла
 - [statuses.md](./statuses.md) — система статусов
 - [workflow-create.md](./workflow-create.md) — воркфлоу создания
-- [relations.md](./relations.md) — работа со связями (governed-by, related)

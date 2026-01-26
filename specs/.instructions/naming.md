@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Именование документов /specs/ — нумерация, формат названия, сокращённые пути
-governed-by: specs/README.md
-related:
-  - specs/rules.md
-  - specs/indexes.md
+standard: .instructions/instruction-standard.md
+index: specs/.instructions/README.md
 ---
 
 # Именование документов /specs/

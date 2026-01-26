@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Валидация путей и формата файлов инструкций
-governed-by: instructions/README.md
-related:
-  - instructions/structure.md
-  - instructions/types.md
+standard: .instructions/instruction-standard.md
+index: .instructions/README.md
 ---
 
 # Валидация инструкций
@@ -20,7 +17,7 @@ related:
 - [Обязательные секции](#обязательные-секции)
 - [Ссылка на контекст](#ссылка-на-контекст)
 - [Frontmatter](#frontmatter)
-- [governed-by](#governed-by)
+- [Ссылка на SSOT (не дублировать)](#ссылка-на-ssot-не-дублировать)
 - [Скрипт валидации](#скрипт-валидации)
 - [Ошибки валидации](#ошибки-валидации)
 - [Скиллы](#скиллы)
@@ -67,45 +64,7 @@ related:
 
 ## Frontmatter
 
-**Обязательные поля:**
-
-
-
-| Поле | Обязательно | Описание |
-|------|-------------|----------|
-| type | Да | standard или project |
-| description | Да | Краткое описание |
-| governed-by | Да | Ссылка на мета-инструкцию |
-| related | Нет | Список связанных инструкций |
-
----
-
-## governed-by
-
-Поле `governed-by` указывает на мета-инструкцию, которая управляет данной инструкцией.
-
-**Формат:**
-```yaml
-governed-by: {путь-к-мета-инструкции}
-```
-
-**Правила:**
-- Путь относительно `/.claude/.instructions/`
-- Мета-инструкция должна существовать
-- Обычно указывает на README.md папки
-
-**Примеры:**
-
-| Инструкция | governed-by |
-|------------|-------------|
-| `src/api/design.md` | `src/api/README.md` |
-| `git/commits.md` | `git/README.md` |
-| `instructions/validation.md` | `instructions/README.md` |
-
-**Зачем нужно:**
-- Определяет иерархию инструкций
-- Помогает найти связанные инструкции
-- Используется при обновлении контекста
+**SSOT:** [/.structure/.instructions/frontmatter.md](/.structure/.instructions/frontmatter.md)
 
 ---
 
@@ -156,4 +115,4 @@ governed-by: {путь-к-мета-инструкции}
 
 - [structure.md](./structure.md) — допустимые папки
 - [types.md](./types.md) — типы инструкций
-- [relations.md](./relations.md) — работа со связями (related, governed-by)
+- [frontmatter.md](/.structure/.instructions/frontmatter.md) — правила frontmatter

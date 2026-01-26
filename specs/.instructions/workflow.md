@@ -1,14 +1,7 @@
 ---
-type: standard
 description: Полный workflow от идеи до реализации с точками возврата
-governed-by: specs/README.md
-related:
-  - specs/statuses.md
-  - specs/relations.md
-  - specs/discussions.md
-  - specs/impact.md
-  - specs/adr.md
-  - specs/plans.md
+standard: .instructions/instruction-standard.md
+index: specs/.instructions/README.md
 ---
 
 # Workflow документов /specs/

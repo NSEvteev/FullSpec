@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Форматы ссылок в документах проекта
-governed-by: .structure/.instructions/links/README.md
-related:
-  - .structure/.instructions/links/types.md
-  - .structure/.instructions/links/validation.md
+standard: .instructions/instruction-standard.md
+index: .structure/.instructions/links/README.md
 ---
 
 # Форматы ссылок
@@ -223,9 +220,8 @@ YAML-файлы окружений, feature flags (`feature-flags/`).
 ### Ссылки в frontmatter
 
 ```yaml
-governed-by: .structure/.instructions/links/README.md
-related:
-  - .structure/.instructions/links/types.md
+standard: .instructions/instruction-standard.md
+index: .structure/.instructions/links/README.md
 ```
 
 **Важно:** в frontmatter БЕЗ квадратных скобок и ведущего `/`.

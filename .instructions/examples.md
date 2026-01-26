@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Примеры использования скиллов instruction-*
-governed-by: instructions/README.md
-related:
-  - instructions/workflow.md
-  - instructions/validation.md
+standard: .instructions/instruction-standard.md
+index: .instructions/README.md
 ---
 
 # Примеры: Инструкции
@@ -42,7 +39,7 @@ related:
 Тип: standard
 
 Описание: Правила проведения code review
-governed-by: git/README.md
+standard: git/README.md
 
 Подтвердить? [Y/n]
 
@@ -256,7 +253,7 @@ governed-by: git/README.md
 ---
 type: standard
 description: Примеры использования скиллов {область}
-governed-by: {область}/README.md
+standard: {область}/README.md
 ---
 
 # Примеры: {Область}

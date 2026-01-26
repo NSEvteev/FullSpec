@@ -1,3 +1,9 @@
+---
+description: Индекс инструкций для работы со ссылками в документах
+standard: .structure/.instructions/readme-standard.md
+index: .structure/.instructions/links/README.md
+---
+
 # Инструкции /.structure/.instructions/links/
 
 Правила работы со ссылками в документах проекта.

@@ -1,3 +1,9 @@
+---
+description: Правила расположения инструкций в проекте
+standard: .instructions/instruction-standard.md
+index: .instructions/README.md
+---
+
 # Структура инструкций
 
 Правила расположения инструкций в проекте.

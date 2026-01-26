@@ -56,13 +56,13 @@ triggers:
 > 1. [structure.md](/.instructions/structure.md) — расположение и допустимые папки
 > 2. [types.md](/.instructions/types.md) — типы (standard/project)
 > 3. [validation.md](/.instructions/validation.md) — формат названия и секций
-> 4. [relations.md](/.instructions/relations.md) — заполнение governed-by и related
+> 4. [frontmatter.md](/.structure/.instructions/frontmatter.md) — заполнение frontmatter
 > 5. [workflow-create.md](/.instructions/workflow-create.md) — **детальный воркфлоу CREATE (15 шагов)**
 > 6. [statuses.md](/.instructions/statuses.md) — статусы в README.md
 >
 > **Шаблоны:**
-> - [template-instruction.md](/.instructions/template-instruction.md) — шаблон инструкции
-> - [template-readme.md](/.structure/.instructions/template-readme.md) — шаблон README папки
+> - [instruction-standard.md](/.instructions/instruction-standard.md) — шаблон инструкции
+> - [readme-standard.md](/.structure/.instructions/readme-standard.md) — шаблон README папки
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 

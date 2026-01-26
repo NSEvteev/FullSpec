@@ -1,11 +1,7 @@
 ---
-type: standard
 description: Валидация скиллов — fail-fast проверки, чек-листы, ревью
-governed-by: skills/README.md
-related:
-  - skills/rules.md
-  - skills/workflow.md
-  - skills/errors.md
+standard: .instructions/instruction-standard.md
+index: .claude/.instructions/skills/README.md
 ---
 
 # Валидация скиллов

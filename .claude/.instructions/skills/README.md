@@ -1,3 +1,9 @@
+---
+description: Индекс инструкций для создания и поддержки скиллов
+standard: .structure/.instructions/readme-standard.md
+index: .claude/.instructions/skills/README.md
+---
+
 # Инструкции /skills/
 
 Индекс инструкций для создания и поддержки скиллов Claude Code.

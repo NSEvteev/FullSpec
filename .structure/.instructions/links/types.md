@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Типы ссылок в документах проекта
-governed-by: .structure/.instructions/links/README.md
-related:
-  - .structure/.instructions/links/format.md
-  - .structure/.instructions/links/validation.md
+standard: .instructions/instruction-standard.md
+index: .structure/.instructions/links/README.md
 ---
 
 # Типы ссылок

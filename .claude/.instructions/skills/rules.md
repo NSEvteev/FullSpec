@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Правила скиллов — одно действие, именование, структура
-governed-by: skills/README.md
-related:
-  - skills/workflow.md
-  - skills/parameters.md
+standard: .instructions/instruction-standard.md
+index: .claude/.instructions/skills/README.md
 ---
 
 # Правила скиллов

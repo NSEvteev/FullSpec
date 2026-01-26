@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Связи между документами /specs/ и разделение с /doc/
-governed-by: specs/README.md
-related:
-  - specs/workflow.md
-  - specs/statuses.md
+standard: .instructions/instruction-standard.md
+index: specs/.instructions/README.md
 ---
 
 # Связи между документами /specs/

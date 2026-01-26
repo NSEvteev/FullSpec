@@ -1,6 +1,7 @@
 ---
 description: Стандарт оформления README — формат и шаблон
-standard: .structure/.instructions/README.md
+standard: .instructions/instruction-standard.md
+index: .structure/.instructions/README.md
 ---
 
 # Стандарт README

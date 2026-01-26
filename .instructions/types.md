@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Типы инструкций (standard/project)
-governed-by: instructions/README.md
-related:
-  - instructions/structure.md
-  - instructions/validation.md
+standard: .instructions/instruction-standard.md
+index: .instructions/README.md
 ---
 
 # Типы инструкций
@@ -92,7 +89,7 @@ related:
 ---
 type: standard
 description: Правила проектирования REST API
-governed-by: instructions/README.md
+standard: instructions/README.md
 related:
   - src/api/versioning.md
   - src/data/errors.md
@@ -107,7 +104,7 @@ related:
 ---
 type: project
 description: Конфигурация окружений проекта
-governed-by: instructions/README.md
+standard: instructions/README.md
 related:
   - platform/deployment.md
 ---

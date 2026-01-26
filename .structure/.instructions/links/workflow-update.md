@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Воркфлоу обновления ссылок при изменении путей
-governed-by: .structure/.instructions/links/README.md
-related:
-  - .structure/.instructions/links/validation.md
-  - .structure/.instructions/workflow-update.md
+standard: .instructions/instruction-standard.md
+index: .structure/.instructions/links/README.md
 ---
 
 # Воркфлоу обновления ссылок

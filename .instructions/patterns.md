@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Паттерны поиска ссылок на инструкции
-governed-by: instructions/README.md
-related:
-  - instructions/workflow.md
-  - instructions/statuses.md
+standard: .instructions/instruction-standard.md
+index: .instructions/README.md
 ---
 
 # Паттерны поиска ссылок

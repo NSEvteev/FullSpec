@@ -1,12 +1,7 @@
 ---
-type: standard
 description: Импакт-анализ: какие сервисы затронуты, бизнес-логика изменений
-governed-by: specs/README.md
-related:
-  - specs/statuses.md
-  - specs/workflow.md
-  - specs/discussions.md
-  - specs/adr.md
+standard: .instructions/instruction-standard.md
+index: specs/.instructions/impact/README.md
 ---
 
 # Импакт-анализ /specs/impact/

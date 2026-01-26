@@ -1,10 +1,7 @@
 ---
-type: standard
 description: Форматы вывода результатов скиллов /specs/ и диалоги подтверждения
-governed-by: specs/README.md
-related:
-  - specs/errors.md
-  - specs/rules.md
+standard: .instructions/instruction-standard.md
+index: specs/.instructions/README.md
 ---
 
 # Форматы вывода /specs/

@@ -1,13 +1,7 @@
 ---
-type: standard
 description: Architecture Decision Records — фиксация архитектурных решений для сервисов
-governed-by: specs/README.md
-related:
-  - specs/statuses.md
-  - specs/workflow.md
-  - specs/impact.md
-  - specs/plans.md
-  - specs/architecture.md
+standard: .instructions/instruction-standard.md
+index: specs/.instructions/services/adr/README.md
 ---
 
 # ADR /specs/services/{service}/adr/
