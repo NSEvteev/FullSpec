@@ -23,9 +23,6 @@ triggers:
 - [links-create](/.claude/skills/links-create/SKILL.md) — создание ссылок
 - [links-delete](/.claude/skills/links-delete/SKILL.md) — пометка битых ссылок
 
-**Скрипты:**
-- [update_links.py](/.claude/scripts/update_links.py) — массовая замена
-
 ## Оглавление
 
 - [Формат вызова](#формат-вызова)
@@ -53,32 +50,30 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [format.md](/.claude/.instructions/.structure/links/format.md) — форматы ссылок (включая помеченные)
-> 2. [patterns.md](/.claude/.instructions/.structure/links/patterns.md) — паттерны поиска
-> 3. [workflow.md](/.claude/.instructions/.structure/links/workflow.md#фаза-update) — фаза UPDATE
-> 4. [edge-cases.md](/.claude/.instructions/.structure/links/edge-cases.md) — граничные случаи
+> 1. [standard-links.md](/.structure/.instructions/standard-links.md) — типы и форматы ссылок
+> 2. [workflow-modify.md](/.structure/.instructions/workflow-modify.md) — воркфлоу изменения папок
 >
-> **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все четыре файла.
+> **НЕ ПРОДОЛЖАТЬ** пока инструкции не прочитаны.
 
 ### Шаг 1: Определить источник и тип
 
-> **SSOT:** [workflow.md](/.claude/.instructions/.structure/links/workflow.md#фаза-update)
+> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md)
 
 ### Шаг 2: Найти связанные документы
 
-> **SSOT:** [patterns.md](/.claude/.instructions/.structure/links/patterns.md#поиск-ссылок)
+> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md#1-типы-ссылок)
 
 ### Шаг 3: Определить тип обновления (add/update/none)
 
-> **SSOT:** [edge-cases.md](/.claude/.instructions/.structure/links/edge-cases.md#оба-файла-существуют)
+> **SSOT:** [workflow-modify.md](/.structure/.instructions/workflow-modify.md#переименование)
 
 ### Шаг 4: Обновить документы
 
-> **SSOT:** [format.md](/.claude/.instructions/.structure/links/format.md#стандартная-ссылка)
+> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md#4-ссылки-на-файлы)
 
 ### Шаг 5: Восстановить помеченные (если --old-name)
 
-> **SSOT:** [format.md](/.claude/.instructions/.structure/links/format.md#помеченная-ссылка)
+> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md#5-якорные-ссылки)
 
 ### Шаг 6: Проверка по чек-листу
 

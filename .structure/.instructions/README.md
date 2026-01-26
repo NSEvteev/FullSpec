@@ -11,7 +11,7 @@ index: .structure/.instructions/README.md
 **Полезные ссылки:**
 - [SSOT структуры проекта](../README.md)
 
-**Содержание:** формат описания папок, воркфлоу создания/удаления/обновления, валидация, ссылки.
+**Содержание:** стандарты README и frontmatter, воркфлоу создания и изменения, валидация.
 
 ---
 
@@ -19,35 +19,31 @@ index: .structure/.instructions/README.md
 
 | Секция | Инструкция | Описание |
 |--------|------------|----------|
-| [1. Стандарт README](#1-стандарт-readme) | [standard-readme.md](./standard-readme.md) | Формат и шаблон README |
-| [2. Создание папки](#2-создание-папки) | [workflow-create.md](./workflow-create.md) | Воркфлоу создания новой папки |
-| [3. Удаление папки](#3-удаление-папки) | [workflow-delete.md](./workflow-delete.md) | Воркфлоу удаления папки |
-| [4. Обновление папки](#4-обновление-папки) | [workflow-update.md](./workflow-update.md) | Переименование и перемещение |
-| [5. Валидация](#5-валидация) | [validation-structure.md](./validation-structure.md) | Проверка согласованности структуры |
-| [6. Ссылки](#6-ссылки) | [links/](./links/) | Типы, форматы, валидация ссылок |
-| [7. Обязательные обновления](#7-обязательные-обновления) | — | Что обновлять при изменении структуры |
-| [8. Шаблоны](#8-шаблоны) | — | Шаблоны для создания README |
-| [9. Скиллы](#9-скиллы) | — | Скиллы для этой области |
+| [1. Стандарты](#1-стандарты) | — | Форматы и правила |
+| [2. Воркфлоу](#2-воркфлоу) | — | Создание и изменение |
+| [3. Валидация](#3-валидация) | [validation-structure.md](./validation-structure.md) | Проверка согласованности |
+| [4. Скрипты](#4-скрипты) | — | Автоматизация |
+| [5. Скиллы](#5-скиллы) | — | Скиллы для этой области |
 
 ```
 /.structure/.instructions/
-├── README.md              # Этот файл (индекс)
-├── standard-readme.md     # Стандарт README (формат + шаблон)
-├── workflow-create.md     # Воркфлоу создания папки
-├── workflow-delete.md     # Воркфлоу удаления папки
-├── workflow-update.md     # Воркфлоу обновления папки
-├── validation-structure.md # Валидация согласованности
-└── links/                 # Работа со ссылками
-    ├── README.md          #   Индекс
-    ├── types.md           #   Типы ссылок
-    ├── format.md          #   Форматы ссылок
-    ├── validation.md      #   Валидация ссылок
-    └── workflow-update.md #   Обновление ссылок
+├── README.md                # Этот файл (индекс)
+├── standard-frontmatter.md  # Стандарт frontmatter
+├── standard-links.md        # Стандарт ссылок
+├── standard-readme.md       # Стандарт README
+├── validation-structure.md  # Валидация согласованности
+├── workflow-create.md       # Создание папки
+├── workflow-modify.md       # Изменение папки (rename/move/delete)
+└── .scripts/
+    ├── generate-readme.py   # Генерация шаблона README
+    └── validate-structure.py # Валидация структуры
 ```
 
 ---
 
-# 1. Стандарт README
+# 1. Стандарты
+
+## 1.1. Стандарт README
 
 Формат и шаблон оформления README для папок проекта и папок инструкций.
 
@@ -59,46 +55,59 @@ index: .structure/.instructions/README.md
 
 **Инструкция:** [standard-readme.md](./standard-readme.md)
 
+## 1.2. Стандарт frontmatter
+
+Формат и правила для frontmatter в Markdown-файлах.
+
+**Оглавление:**
+- [Обязательные поля](./standard-frontmatter.md#обязательные-поля)
+- [Правила заполнения](./standard-frontmatter.md#правила-заполнения)
+
+**Инструкция:** [standard-frontmatter.md](./standard-frontmatter.md)
+
+## 1.3. Стандарт ссылок
+
+Типы и форматы ссылок в документах проекта.
+
+**Оглавление:**
+- [Типы ссылок](./standard-links.md#1-типы-ссылок)
+- [Абсолютные vs относительные](./standard-links.md#2-абсолютные-vs-относительные)
+- [Ссылки в SSOT](./standard-links.md#6-ссылки-в-ssot-структуры)
+
+**Инструкция:** [standard-links.md](./standard-links.md)
+
 ---
 
-# 2. Создание папки
+# 2. Воркфлоу
+
+## 2.1. Создание папки
 
 Воркфлоу создания новой папки в структуре проекта.
+
+> **Принцип:** README.md создаётся ВМЕСТЕ с папкой. Папка без README не существует.
 
 **Оглавление:**
 - [Шаги воркфлоу](./workflow-create.md#шаги)
 - [Чек-лист](./workflow-create.md#чек-лист)
+- [Скрипты](./workflow-create.md#скрипты)
 
 **Инструкция:** [workflow-create.md](./workflow-create.md)
 
----
+## 2.2. Изменение папки
 
-# 3. Удаление папки
-
-Воркфлоу удаления папки из структуры проекта.
+Воркфлоу переименования, перемещения и удаления папки.
 
 **Оглавление:**
-- [Шаги воркфлоу](./workflow-delete.md#шаги)
-- [Чек-лист](./workflow-delete.md#чек-лист)
+- [Переименование](./workflow-modify.md#переименование)
+- [Перемещение](./workflow-modify.md#перемещение)
+- [Удаление](./workflow-modify.md#удаление)
+- [Чек-лист](./workflow-modify.md#чек-лист)
 
-**Инструкция:** [workflow-delete.md](./workflow-delete.md)
-
----
-
-# 4. Обновление папки
-
-Воркфлоу переименования и перемещения папки.
-
-**Оглавление:**
-- [Переименование](./workflow-update.md#переименование)
-- [Перемещение](./workflow-update.md#перемещение)
-- [Чек-лист](./workflow-update.md#чек-лист)
-
-**Инструкция:** [workflow-update.md](./workflow-update.md)
+**Инструкция:** [workflow-modify.md](./workflow-modify.md)
 
 ---
 
-# 5. Валидация
+# 3. Валидация
 
 Проверка согласованности структуры проекта.
 
@@ -112,21 +121,32 @@ index: .structure/.instructions/README.md
 
 ---
 
-# 6. Ссылки
+# 4. Скрипты
 
-Правила работы со ссылками в документах проекта.
+| Скрипт | Назначение | Использование |
+|--------|------------|---------------|
+| [generate-readme.py](./.scripts/generate-readme.py) | Генерация шаблона README | `python .structure/.instructions/.scripts/generate-readme.py <путь>` |
+| [validate-structure.py](./.scripts/validate-structure.py) | Валидация структуры | `python .structure/.instructions/.scripts/validate-structure.py` |
 
-**Оглавление:**
-- [Типы ссылок](./links/types.md)
-- [Форматы](./links/format.md)
-- [Валидация](./links/validation.md)
-- [Обновление](./links/workflow-update.md)
-
-**Индекс:** [links/README.md](./links/README.md)
+**Воркфлоу LLM:**
+1. `generate-readme.py <путь>` → получить шаблон с плейсхолдерами
+2. Заполнить `{PLACEHOLDER}` реальными значениями
+3. Записать через Write tool
+4. `validate-structure.py` → проверить согласованность
 
 ---
 
-# 7. Обязательные обновления
+# 5. Скиллы
+
+| Скилл | Назначение |
+|-------|------------|
+| [/links-update](/.claude/skills/links-update/SKILL.md) | Обновление ссылок при переименовании/перемещении |
+| [/links-delete](/.claude/skills/links-delete/SKILL.md) | Пометка битых ссылок при удалении |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка всех ссылок в проекте |
+
+---
+
+# 6. Обязательные обновления
 
 > **ПРАВИЛО:** При любом изменении структуры проекта — обновить связанные документы.
 
@@ -139,22 +159,3 @@ index: .structure/.instructions/README.md
 **Связанные документы:**
 - [/.instructions/coverage.md](/.instructions/coverage.md) — таблица покрытия инструкциями
 - [/.instructions/structure.md](/.instructions/structure.md) — допустимые папки для инструкций
-
----
-
-# 8. Шаблоны
-
-Шаблоны включены в [standard-readme.md](./standard-readme.md) — формат и шаблон объединены в один файл.
-
-> **Принцип SSOT:** README.md создаётся ВМЕСТЕ с папкой. Папка без README не существует.
-
----
-
-# 9. Скиллы
-
-**Планируемые скиллы:**
-
-| Скилл | Назначение | Статус |
-|-------|------------|--------|
-| `/structure-create` | Автоматизация создания папки в SSOT | TODO |
-| `/structure-validate` | Проверка согласованности структуры | TODO |

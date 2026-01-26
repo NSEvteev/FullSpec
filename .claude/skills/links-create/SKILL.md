@@ -51,27 +51,25 @@ triggers:
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [format.md](/.claude/.instructions/.structure/links/format.md) — форматы ссылок
-> 2. [patterns.md](/.claude/.instructions/.structure/links/patterns.md) — паттерны поиска и исключения
-> 3. [workflow.md](/.claude/.instructions/.structure/links/workflow.md#фаза-create) — фаза CREATE
+> 1. [standard-links.md](/.structure/.instructions/standard-links.md) — типы и форматы ссылок
 >
-> **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все три файла.
+> **НЕ ПРОДОЛЖАТЬ** пока инструкция не прочитана.
 
 ### Шаг 1: Получить документ
 
-> **SSOT:** [workflow.md](/.claude/.instructions/.structure/links/workflow.md#фаза-create)
+> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md)
 
 ### Шаг 2: Найти упоминания (согласно patterns.md)
 
-> **SSOT:** [patterns.md](/.claude/.instructions/.structure/links/patterns.md#поиск-упоминаний)
+> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md#1-типы-ссылок)
 
 ### Шаг 3: Проверить существование файлов
 
-> **SSOT:** [patterns.md](/.claude/.instructions/.structure/links/patterns.md#исключения)
+> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md#3-ссылки-на-папки)
 
 ### Шаг 4: Создать ссылки (согласно format.md)
 
-> **SSOT:** [format.md](/.claude/.instructions/.structure/links/format.md#стандартная-ссылка)
+> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md#4-ссылки-на-файлы)
 
 ### Шаг 5: Проверка по чек-листу
 

@@ -44,31 +44,30 @@ critical: false
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
 > Прочитать инструкции SSOT:
-> 1. [validation.md](/.claude/.instructions/.structure/links/validation.md) — правила валидации
-> 2. [patterns.md](/.claude/.instructions/.structure/links/patterns.md) — паттерны поиска
-> 3. [workflow.md](/.claude/.instructions/.structure/links/workflow.md#фаза-validate) — фаза VALIDATE
+> 1. [standard-links.md](/.structure/.instructions/standard-links.md) — типы и форматы ссылок
+> 2. [validation-structure.md](/.structure/.instructions/validation-structure.md) — валидация структуры
 >
-> **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все три файла.
+> **НЕ ПРОДОЛЖАТЬ** пока инструкции не прочитаны.
 
 ### Шаг 1: Найти .md файлы в scope
 
-> **SSOT:** [workflow.md](/.claude/.instructions/.structure/links/workflow.md#фаза-validate)
+> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md)
 
 ### Шаг 2: Извлечь все ссылки (согласно patterns.md)
 
-> **SSOT:** [patterns.md](/.claude/.instructions/.structure/links/patterns.md#поиск-ссылок)
+> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md#1-типы-ссылок)
 
 ### Шаг 3: Валидировать каждую (согласно validation.md)
 
-> **SSOT:** [validation.md](/.claude/.instructions/.structure/links/validation.md#правила-проверки)
+> **SSOT:** [validation-structure.md](/.structure/.instructions/validation-structure.md#шаг-3-проверить-ссылки)
 
 ### Шаг 4: Сформировать отчёт
 
-> **SSOT:** [validation.md](/.claude/.instructions/.structure/links/validation.md#типы-ссылок)
+> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md#1-типы-ссылок)
 
 ### Шаг 5: (--fix) Предложить исправления
 
-> **SSOT:** [validation.md](/.claude/.instructions/.structure/links/validation.md#режим---fix)
+> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md#8-скиллы)
 
 ### Шаг 6: Проверка по чек-листу
 

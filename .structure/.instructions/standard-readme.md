@@ -15,8 +15,7 @@ index: .structure/.instructions/README.md
 **Связанные инструкции:**
 - [Правила валидации структуры - validation-structure.md](./validation-structure.md)
 - [Процесс создания README - workflow-create.md](./workflow-create.md) 
-- [Процесс обновления README - workflow-update.md](./workflow-update.md) 
-- [Процесс удаления README - workflow-delete.md](./workflow-delete.md) 
+- [Воркфлоу изменения - workflow-modify.md](./workflow-modify.md) 
 
 ## Оглавление
 
@@ -196,9 +195,8 @@ graph TD
 
 **README папки инструкций** — индекс инструкций для области: какие инструкции есть, оглавление каждой, связанные скиллы.
 
-**Эталоны:**
-- Уровень 1: [/.structure/.instructions/README.md](./README.md)
-- Уровень 2+: [/.structure/.instructions/links/README.md](./links/README.md)
+**Эталон:**
+- [/.structure/.instructions/README.md](./README.md)
 
 **Структура каждого файла должна содержать разделы:**
 
@@ -405,9 +403,8 @@ graph TD
 - [Инструкции для .structure](./README.md)
 - [Структура проекта](../README.md)
 
-<!-- Файл в подпапке: /.structure/.instructions/links/format.md -->
+<!-- Файл в подпапке: /.structure/.instructions/.scripts/validate-structure.py -->
 **Полезные ссылки:**
-- [Инструкции по ссылкам](./README.md)
 - [Инструкции для .structure](../README.md)
 - [Структура проекта](../../README.md)
 ```

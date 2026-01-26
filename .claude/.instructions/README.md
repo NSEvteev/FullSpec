@@ -348,16 +348,13 @@ Scope: правила (git, links...) и Claude-артефакты в `/.claude/
 | [patterns.md](./.claude/.instructions/patterns.md) | Паттерны поиска |
 | [examples.md](./.claude/.instructions/examples.md) | Примеры |
 
-### .structure/links/ — Правила ссылок
+### .structure/.instructions/ — Стандарты структуры
 
 | Инструкция | Описание |
 |------------|----------|
-| [format.md](./.structure/links/format.md) | Форматы ссылок |
-| [patterns.md](./.structure/links/patterns.md) | Regex-паттерны |
-| [workflow.md](./.structure/links/workflow.md) | Жизненный цикл |
-| [validation.md](./.structure/links/validation.md) | Правила валидации |
-| [edge-cases.md](./.structure/links/edge-cases.md) | Граничные случаи |
-| [examples.md](./.structure/links/examples.md) | Примеры |
+| [standard-links.md](/.structure/.instructions/standard-links.md) | Типы и форматы ссылок |
+| [standard-readme.md](/.structure/.instructions/standard-readme.md) | Стандарт README |
+| [workflow-modify.md](/.structure/.instructions/workflow-modify.md) | Изменение папок |
 
 ### .claude/skills/ — Правила скиллов
 

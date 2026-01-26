@@ -15,7 +15,7 @@ index: .structure/.instructions/README.md
 **Связанные инструкции:**
 - [standard-readme.md](./standard-readme.md) — формат описания папок
 - [workflow-create.md](./workflow-create.md) — создание папки
-- [workflow-delete.md](./workflow-delete.md) — удаление папки
+- [workflow-modify.md](./workflow-modify.md) — изменение папки
 
 ## Оглавление
 
@@ -36,8 +36,7 @@ index: .structure/.instructions/README.md
 После любого изменения в `/.structure/README.md`:
 
 - Создание папки → [workflow-create.md](./workflow-create.md)
-- Удаление папки → [workflow-delete.md](./workflow-delete.md)
-- Переименование/перемещение → [workflow-update.md](./workflow-update.md)
+- Удаление/переименование/перемещение → [workflow-modify.md](./workflow-modify.md)
 
 ---
 
