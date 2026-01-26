@@ -1,7 +1,6 @@
 ---
-type: readme
 description: SSOT структуры проекта — единый источник правды о папках и файлах
-governed-by: .structure/.instructions/readme-standard.md
+standard: .structure/.instructions/readme-standard.md
 ---
 
 # /.structure/ — Структура проекта
@@ -15,6 +14,8 @@ governed-by: .structure/.instructions/readme-standard.md
 - [Главный README](../README.md)
 
 ---
+
+## Оглавление
 
 - [1. Корневые папки](#1-корневые-папки)
   - [.claude/](#-claude)
@@ -248,10 +249,9 @@ graph TD
 
     CLAUDE --> |скиллы| SRC
     CLAUDE --> |скиллы| SPECS
-    INSTRUCTIONS --> |стандарты| SRC
-    INSTRUCTIONS --> |стандарты| TESTS
     SHARED --> |контракты| SRC
     SPECS --> |планы| SRC
     CONFIG --> |переменные| PLATFORM
     PLATFORM --> |деплой| SRC
+    SRC --> |код| TESTS
 ```
