@@ -1,6 +1,6 @@
 ---
 description: Примеры использования скиллов /specs/
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/README.md
 ---
 

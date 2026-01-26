@@ -1,6 +1,6 @@
 ---
 description: Детальный воркфлоу деактивации инструкции (фаза DEACTIVATE)
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .instructions/README.md
 ---
 

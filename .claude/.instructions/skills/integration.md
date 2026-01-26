@@ -1,6 +1,6 @@
 ---
 description: Правила интеграции скиллов между собой
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .claude/.instructions/skills/README.md
 ---
 

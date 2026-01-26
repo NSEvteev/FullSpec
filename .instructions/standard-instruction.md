@@ -1,6 +1,6 @@
 ---
 description: Стандарт формата файлов инструкций — структура и шаблон
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .instructions/README.md
 ---
 
@@ -9,7 +9,7 @@ index: .instructions/README.md
 ---
 type: {standard | project}
 description: {Краткое описание — одно предложение}
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: {папка}/.instructions/README.md
 ---
 

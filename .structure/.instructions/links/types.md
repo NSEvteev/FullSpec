@@ -1,6 +1,6 @@
 ---
 description: Типы ссылок в документах проекта
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .structure/.instructions/links/README.md
 ---
 
@@ -129,7 +129,7 @@ index: .structure/.instructions/links/README.md
 
 ```markdown
 [Шаги создания](./workflow-create.md#шаги)
-[Формат секции](../readme-standard.md#раздел-содержание)
+[Формат секции](../standard-readme.md#раздел-содержание)
 ```
 
 ---

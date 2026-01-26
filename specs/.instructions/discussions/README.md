@@ -1,6 +1,6 @@
 ---
 description: Формат, статусы и чек-листы переходов для дискуссий /specs/discussions/
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/discussions/README.md
 ---
 

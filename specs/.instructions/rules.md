@@ -1,6 +1,6 @@
 ---
 description: Правила работы с /specs/ — скиллы, шаблоны, запреты
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/README.md
 ---
 

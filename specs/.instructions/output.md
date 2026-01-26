@@ -1,6 +1,6 @@
 ---
 description: Форматы вывода результатов скиллов /specs/ и диалоги подтверждения
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/README.md
 ---
 

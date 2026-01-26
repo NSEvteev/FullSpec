@@ -1,6 +1,6 @@
 ---
 description: Валидация путей и формата файлов инструкций
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .instructions/README.md
 ---
 
@@ -64,13 +64,13 @@ index: .instructions/README.md
 
 ## Frontmatter
 
-**SSOT:** [/.structure/.instructions/frontmatter.md](/.structure/.instructions/frontmatter.md)
+**SSOT:** [standard-frontmatter.md](/.structure/.instructions/standard-frontmatter.md)
 
 ---
 
 ## Скрипт валидации
 
-**Путь:** /.claude/scripts/instruction-validate.py
+**Путь:** /.instructions/.scripts/instruction-validate.py
 
 **Использование:**
 
@@ -107,7 +107,7 @@ index: .instructions/README.md
 | [/instruction-create](/.claude/skills/instruction-create/SKILL.md) | Валидирует путь при создании |
 | [/instruction-update](/.claude/skills/instruction-update/SKILL.md) | Проверяет соответствие формату |
 
-**Скрипт:** [instruction-validate.py](/.claude/scripts/instruction-validate.py)
+**Скрипт:** [instruction-validate.py](/.instructions/.scripts/instruction-validate.py)
 
 ---
 
@@ -115,4 +115,4 @@ index: .instructions/README.md
 
 - [structure.md](./structure.md) — допустимые папки
 - [types.md](./types.md) — типы инструкций
-- [frontmatter.md](/.structure/.instructions/frontmatter.md) — правила frontmatter
+- [standard-frontmatter.md](/.structure/.instructions/standard-frontmatter.md) — правила frontmatter

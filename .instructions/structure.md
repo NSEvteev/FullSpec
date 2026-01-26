@@ -1,6 +1,6 @@
 ---
 description: Правила расположения инструкций в проекте
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .instructions/README.md
 ---
 

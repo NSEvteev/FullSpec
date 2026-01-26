@@ -1,6 +1,6 @@
 ---
 description: Примеры использования скиллов instruction-*
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .instructions/README.md
 ---
 

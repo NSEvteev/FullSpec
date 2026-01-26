@@ -1,6 +1,6 @@
 ---
 description: Правила скиллов — одно действие, именование, структура
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .claude/.instructions/skills/README.md
 ---
 

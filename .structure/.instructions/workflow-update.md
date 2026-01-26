@@ -1,6 +1,6 @@
 ---
 description: Воркфлоу обновления папки — переименование и перемещение
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .structure/.instructions/README.md
 ---
 
@@ -74,7 +74,7 @@ mv old-name/ new-name/
 
 ### Шаг 6: Валидация
 
-Проверить согласно [validation.md](./validation.md).
+Проверить согласно [validation-structure.md](./validation-structure.md).
 
 ---
 
@@ -117,7 +117,7 @@ mv src/utils/ shared/utils/
 
 ### Шаг 7: Валидация
 
-Проверить согласно [validation.md](./validation.md).
+Проверить согласно [validation-structure.md](./validation-structure.md).
 
 ---
 
@@ -203,7 +203,7 @@ mv src/common/ shared/libs/
 
 ## Связанные инструкции
 
-- [readme-standard.md](./readme-standard.md) — формат описания папок, ссылки на ответственность
-- [validation.md](./validation.md) — проверка согласованности
+- [standard-readme.md](./standard-readme.md) — формат описания папок, ссылки на ответственность
+- [validation-structure.md](./validation-structure.md) — проверка согласованности
 - [workflow-create.md](./workflow-create.md) — создание папки
 - [workflow-delete.md](./workflow-delete.md) — удаление папки

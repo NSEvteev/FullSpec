@@ -1,6 +1,6 @@
 ---
 description: Индекс инструкций для работы с документами спецификаций
-standard: .structure/.instructions/readme-standard.md
+standard: .structure/.instructions/standard-readme.md
 index: specs/.instructions/README.md
 ---
 

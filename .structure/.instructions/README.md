@@ -1,6 +1,6 @@
 ---
 description: Индекс инструкций для SSOT структуры проекта
-standard: .structure/.instructions/readme-standard.md
+standard: .structure/.instructions/standard-readme.md
 index: .structure/.instructions/README.md
 ---
 
@@ -19,11 +19,11 @@ index: .structure/.instructions/README.md
 
 | Секция | Инструкция | Описание |
 |--------|------------|----------|
-| [1. Стандарт README](#1-стандарт-readme) | [readme-standard.md](./readme-standard.md) | Формат и шаблон README |
+| [1. Стандарт README](#1-стандарт-readme) | [standard-readme.md](./standard-readme.md) | Формат и шаблон README |
 | [2. Создание папки](#2-создание-папки) | [workflow-create.md](./workflow-create.md) | Воркфлоу создания новой папки |
 | [3. Удаление папки](#3-удаление-папки) | [workflow-delete.md](./workflow-delete.md) | Воркфлоу удаления папки |
 | [4. Обновление папки](#4-обновление-папки) | [workflow-update.md](./workflow-update.md) | Переименование и перемещение |
-| [5. Валидация](#5-валидация) | [validation.md](./validation.md) | Проверка согласованности структуры |
+| [5. Валидация](#5-валидация) | [validation-structure.md](./validation-structure.md) | Проверка согласованности структуры |
 | [6. Ссылки](#6-ссылки) | [links/](./links/) | Типы, форматы, валидация ссылок |
 | [7. Обязательные обновления](#7-обязательные-обновления) | — | Что обновлять при изменении структуры |
 | [8. Шаблоны](#8-шаблоны) | — | Шаблоны для создания README |
@@ -32,11 +32,11 @@ index: .structure/.instructions/README.md
 ```
 /.structure/.instructions/
 ├── README.md              # Этот файл (индекс)
-├── readme-standard.md     # Стандарт README (формат + шаблон)
+├── standard-readme.md     # Стандарт README (формат + шаблон)
 ├── workflow-create.md     # Воркфлоу создания папки
 ├── workflow-delete.md     # Воркфлоу удаления папки
 ├── workflow-update.md     # Воркфлоу обновления папки
-├── validation.md          # Валидация согласованности
+├── validation-structure.md # Валидация согласованности
 └── links/                 # Работа со ссылками
     ├── README.md          #   Индекс
     ├── types.md           #   Типы ссылок
@@ -52,12 +52,12 @@ index: .structure/.instructions/README.md
 Формат и шаблон оформления README для папок проекта и папок инструкций.
 
 **Оглавление:**
-- [Два типа README](./readme-standard.md#1-два-типа-readme)
-- [README папок проекта](./readme-standard.md#2-readme-папок-проекта)
-- [README папок инструкций](./readme-standard.md#3-readme-папок-инструкций)
-- [Правила контекстных ссылок](./readme-standard.md#4-правила-работы-с-контекстными-ссылками)
+- [Два типа README](./standard-readme.md#1-два-типа-readme)
+- [README папок проекта](./standard-readme.md#2-readme-папок-проекта)
+- [README папок инструкций](./standard-readme.md#3-readme-папок-инструкций)
+- [Правила контекстных ссылок](./standard-readme.md#4-правила-работы-с-контекстными-ссылками)
 
-**Инструкция:** [readme-standard.md](./readme-standard.md)
+**Инструкция:** [standard-readme.md](./standard-readme.md)
 
 ---
 
@@ -103,10 +103,12 @@ index: .structure/.instructions/README.md
 Проверка согласованности структуры проекта.
 
 **Оглавление:**
-- [Правила валидации](./validation.md#правила)
-- [Типы проверок](./validation.md#типы-проверок)
+- [Когда валидировать](./validation-structure.md#когда-валидировать)
+- [Шаги проверки](./validation-structure.md#шаги)
+- [Чек-лист](./validation-structure.md#чек-лист)
+- [Типичные ошибки](./validation-structure.md#типичные-ошибки)
 
-**Инструкция:** [validation.md](./validation.md)
+**Инструкция:** [validation-structure.md](./validation-structure.md)
 
 ---
 
@@ -142,7 +144,7 @@ index: .structure/.instructions/README.md
 
 # 8. Шаблоны
 
-Шаблоны включены в [readme-standard.md](./readme-standard.md) — формат и шаблон объединены в один файл.
+Шаблоны включены в [standard-readme.md](./standard-readme.md) — формат и шаблон объединены в один файл.
 
 > **Принцип SSOT:** README.md создаётся ВМЕСТЕ с папкой. Папка без README не существует.
 

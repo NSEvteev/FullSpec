@@ -1,6 +1,6 @@
 ---
 description: Примеры использования скиллов skill-*
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .claude/.instructions/skills/README.md
 ---
 

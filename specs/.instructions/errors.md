@@ -1,6 +1,6 @@
 ---
 description: Обработка ошибок в скиллах /specs/ и откат изменений
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/README.md
 ---
 

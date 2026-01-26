@@ -1,6 +1,6 @@
 ---
 description: Связи между документами /specs/ и разделение с /doc/
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/README.md
 ---
 

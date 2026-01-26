@@ -1,6 +1,6 @@
 ---
 description: Импакт-анализ: какие сервисы затронуты, бизнес-логика изменений
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/impact/README.md
 ---
 

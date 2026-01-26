@@ -1,6 +1,6 @@
 ---
 description: Форматы ссылок в документах проекта
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .structure/.instructions/links/README.md
 ---
 
@@ -201,7 +201,7 @@ YAML-файлы окружений, feature flags (`feature-flags/`).
 
 ## Навигационные ссылки
 
-**SSOT:** [readme-standard.md#4-правила-работы-с-контекстными-ссылками](../readme-standard.md#4-правила-работы-с-контекстными-ссылками)
+**SSOT:** [standard-readme.md#4-правила-работы-с-контекстными-ссылками](../standard-readme.md#4-правила-работы-с-контекстными-ссылками)
 
 Блок "Полезные ссылки" в шапке документов — правила формирования цепочек ссылок для README папок и файлов инструкций.
 
@@ -220,7 +220,7 @@ YAML-файлы окружений, feature flags (`feature-flags/`).
 ### Ссылки в frontmatter
 
 ```yaml
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .structure/.instructions/links/README.md
 ```
 

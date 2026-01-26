@@ -1,6 +1,6 @@
 ---
 description: Стандарт оформления README — формат и шаблон
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .structure/.instructions/README.md
 ---
 
@@ -13,7 +13,7 @@ index: .structure/.instructions/README.md
 - [SSOT структуры проекта](../README.md)
 
 **Связанные инструкции:**
-- [Правила валидации README - validation.md](./validation.md)
+- [Правила валидации структуры - validation-structure.md](./validation-structure.md)
 - [Процесс создания README - workflow-create.md](./workflow-create.md) 
 - [Процесс обновления README - workflow-update.md](./workflow-update.md) 
 - [Процесс удаления README - workflow-delete.md](./workflow-delete.md) 
@@ -86,7 +86,7 @@ index: .structure/.instructions/README.md
 
 **Назначение:** Метаданные документа в YAML-формате.
 
-**SSOT:** [frontmatter.md](./frontmatter.md)
+**SSOT:** [standard-frontmatter.md](./standard-frontmatter.md)
 
 #### Раздел "Заголовок"
 
@@ -225,7 +225,7 @@ graph TD
 
 **Назначение:** Метаданные документа в YAML-формате.
 
-**SSOT:** [frontmatter.md](./frontmatter.md)
+**SSOT:** [standard-frontmatter.md](./standard-frontmatter.md)
 
 ---
 
@@ -400,7 +400,7 @@ graph TD
 **Полезные ссылки:**
 - [Структура проекта](../README.md)
 
-<!-- Файл инструкции: /.structure/.instructions/readme-standard.md -->
+<!-- Файл инструкции: /.structure/.instructions/standard-readme.md -->
 **Полезные ссылки:**
 - [Инструкции для .structure](./README.md)
 - [Структура проекта](../README.md)

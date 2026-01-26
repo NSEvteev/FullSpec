@@ -1,6 +1,6 @@
 ---
 description: Типы инструкций (standard/project)
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .instructions/README.md
 ---
 

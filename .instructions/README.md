@@ -1,6 +1,6 @@
 ---
 description: Индекс инструкций для работы с инструкциями проекта
-standard: .structure/.instructions/readme-standard.md
+standard: .structure/.instructions/standard-readme.md
 index: .instructions/README.md
 ---
 
@@ -48,7 +48,7 @@ index: .instructions/README.md
 ├── patterns.md             # Паттерны поиска
 ├── examples.md             # Правила создания примеров
 ├── coverage.md             # Покрытие папок инструкциями
-└── instruction-standard.md # Стандарт формата инструкций
+└── standard-instruction.md # Стандарт формата инструкций
 ```
 
 ---

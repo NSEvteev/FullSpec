@@ -1,4 +1,4 @@
-# Драфт: Доработка readme-standard.md
+# Драфт: Доработка standard-readme.md
 
 **Дата:** 2026-01-25
 **Статус:** TODO
@@ -9,13 +9,13 @@
 
 Сделано:
 - `.structure/README.md` — SSOT структуры проекта
-- `.structure/.instructions/readme-standard.md` — стандарт оформления README (формат + шаблон)
+- `.structure/.instructions/standard-readme.md` — стандарт оформления README (формат + шаблон)
 
 ---
 
 ## Задачи
 
-### 1. Доработать readme-standard.md ✅
+### 1. Доработать standard-readme.md ✅
 
 - [x] **Добавить раздел Frontmatter** — правила заполнения frontmatter для README файлов
 - [x] **Добавить раздел "Скиллы и скрипты"** — объединённый блок:
@@ -38,7 +38,7 @@
 - Правила для README папок инструкций
 - Чек-листы валидации
 
-### 3. Использовать readme-standard.md как основу для других инструкций
+### 3. Использовать standard-readme.md как основу для других инструкций
 
 После доработки — применить этот формат к:
 - `/.instructions/` — мета-инструкции
@@ -49,7 +49,7 @@
 
 ## Порядок выполнения
 
-1. Доработать readme-standard.md (задача 1)
+1. Доработать standard-readme.md (задача 1)
 2. Переработать validation.md (задача 2)
 3. Обновить workflow-create.md и workflow-update.md — добавить ссылки на правила из validation.md
 4. Применить формат к другим инструкциям (задача 3)

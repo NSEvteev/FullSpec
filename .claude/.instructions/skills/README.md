@@ -1,6 +1,6 @@
 ---
 description: Индекс инструкций для создания и поддержки скиллов
-standard: .structure/.instructions/readme-standard.md
+standard: .structure/.instructions/standard-readme.md
 index: .claude/.instructions/skills/README.md
 ---
 

@@ -1,6 +1,6 @@
 ---
 description: Валидация скиллов — fail-fast проверки, чек-листы, ревью
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .claude/.instructions/skills/README.md
 ---
 

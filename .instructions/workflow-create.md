@@ -1,6 +1,6 @@
 ---
 description: Детальный воркфлоу создания инструкции (фаза CREATE)
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .instructions/README.md
 ---
 
@@ -93,11 +93,11 @@ fi
 - `standard` — стандарты качества (КАК делать)
 - `project` — специфика проекта (ЧТО есть)
 
-**Заполнить frontmatter** согласно [frontmatter.md](/.structure/.instructions/frontmatter.md):
+**Заполнить frontmatter** согласно [standard-frontmatter.md](/.structure/.instructions/standard-frontmatter.md):
 ```yaml
 ---
 description: {описание}
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: {папка}/.instructions/README.md
 ---
 ```
@@ -123,7 +123,7 @@ Write → /.claude/.instructions/{путь}
 **Если README папки не существует:**
 1. Создать папку по [principles.md](/.claude/.instructions/.structure/principles.md)
 2. Создать README.md по правилам [readme-index.md](/.claude/.instructions/.structure/readme-index.md)
-3. Использовать стандарт [readme-standard.md](/.structure/.instructions/readme-standard.md)
+3. Использовать стандарт [standard-readme.md](/.structure/.instructions/standard-readme.md)
 
 **Если README папки существует:**
 - Добавить новую секцию для инструкции

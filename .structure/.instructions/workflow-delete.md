@@ -1,6 +1,6 @@
 ---
 description: Воркфлоу удаления папки из структуры проекта
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .structure/.instructions/README.md
 ---
 
@@ -66,7 +66,7 @@ index: .structure/.instructions/README.md
 
 ### Шаг 8: Валидация
 
-Проверить согласно [validation.md](./validation.md):
+Проверить согласно [validation-structure.md](./validation-structure.md):
 - Нет битых ссылок
 - Дерево соответствует файловой системе
 - Оглавление синхронизировано
@@ -122,6 +122,6 @@ grep -r "legacy/" .
 
 ## Связанные инструкции
 
-- [readme-standard.md](./readme-standard.md) — формат описания папок
-- [validation.md](./validation.md) — проверка согласованности
+- [standard-readme.md](./standard-readme.md) — формат описания папок
+- [validation-structure.md](./validation-structure.md) — проверка согласованности
 - [workflow-create.md](./workflow-create.md) — создание папки

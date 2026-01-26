@@ -1,6 +1,6 @@
 ---
 description: Полный workflow от идеи до реализации с точками возврата
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/README.md
 ---
 

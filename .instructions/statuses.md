@@ -1,6 +1,6 @@
 ---
 description: Система статусов инструкций в README.md
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .instructions/README.md
 ---
 

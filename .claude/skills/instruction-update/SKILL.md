@@ -58,7 +58,7 @@ triggers:
 > 1. [workflow-update.md](/.instructions/workflow-update.md) — **детальный воркфлоу UPDATE (12 шагов)**
 > 2. [validation.md](/.instructions/validation.md) — формат файлов
 > 3. [patterns.md](/.instructions/patterns.md) — паттерны поиска
-> 4. [frontmatter.md](/.structure/.instructions/frontmatter.md) — проверка связей (standard, index)
+> 4. [standard-frontmatter.md](/.structure/.instructions/standard-frontmatter.md) — проверка связей (standard, index)
 >
 > **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 

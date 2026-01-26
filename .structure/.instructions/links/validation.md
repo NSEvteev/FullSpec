@@ -1,6 +1,6 @@
 ---
 description: Валидация ссылок в документах проекта
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .structure/.instructions/links/README.md
 ---
 

@@ -1,6 +1,6 @@
 ---
 description: Жизненный цикл инструкций: CREATE, UPDATE, DEACTIVATE, MIGRATE
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .instructions/README.md
 ---
 

@@ -1,6 +1,6 @@
 ---
 description: Architecture Decision Records — фиксация архитектурных решений для сервисов
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/services/adr/README.md
 ---
 

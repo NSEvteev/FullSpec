@@ -1,6 +1,6 @@
 ---
 description: Воркфлоу создания новой папки в структуре проекта
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .structure/.instructions/README.md
 ---
 
@@ -29,7 +29,7 @@ index: .structure/.instructions/README.md
 
 Это гарантирует, что структура всегда документирована в момент создания.
 
-**Шаблон:** [readme-standard.md](./readme-standard.md)
+**Шаблон:** [standard-readme.md](./standard-readme.md)
 
 ---
 
@@ -38,11 +38,11 @@ index: .structure/.instructions/README.md
 ### Шаг 1: Создать папку и README (одновременно)
 
 1. Создать папку в файловой системе
-2. **Сразу** создать `README.md` по [стандарту](./readme-standard.md)
+2. **Сразу** создать `README.md` по [стандарту](./standard-readme.md)
 
 ### Шаг 2: Добавить секцию в "Корневые папки"
 
-Добавить описание папки в секцию "1. Корневые папки" по формату [readme-standard.md](./readme-standard.md).
+Добавить описание папки в секцию "1. Корневые папки" по формату [standard-readme.md](./standard-readme.md).
 
 **Расположение:** в алфавитном порядке среди папок.
 
@@ -71,7 +71,7 @@ index: .structure/.instructions/README.md
 
 ### Шаг 6: Валидация
 
-Проверить согласно [validation.md](./validation.md):
+Проверить согласно [validation-structure.md](./validation-structure.md):
 - Ссылки корректны
 - Дерево соответствует файловой системе
 - Оглавление синхронизировано
@@ -129,6 +129,6 @@ index: .structure/.instructions/README.md
 
 ## Связанные инструкции
 
-- [readme-standard.md](./readme-standard.md) — формат описания папок
-- [validation.md](./validation.md) — проверка согласованности
+- [standard-readme.md](./standard-readme.md) — формат описания папок
+- [validation-structure.md](./validation-structure.md) — проверка согласованности
 - [workflow-delete.md](./workflow-delete.md) — удаление папки

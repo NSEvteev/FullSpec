@@ -1,6 +1,6 @@
 ---
 description: Планы реализации — декомпозиция ADR на задачи с GitHub Issues
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/services/plans/README.md
 ---
 

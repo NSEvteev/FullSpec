@@ -1,6 +1,6 @@
 ---
 description: Унифицированная система статусов документов /specs/
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/README.md
 ---
 

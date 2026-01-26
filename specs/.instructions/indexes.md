@@ -1,6 +1,6 @@
 ---
 description: Форматы индексов README.md в /specs/ и workflow обновления
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/README.md
 ---
 

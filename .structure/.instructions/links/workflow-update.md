@@ -1,6 +1,6 @@
 ---
 description: Воркфлоу обновления ссылок при изменении путей
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .structure/.instructions/links/README.md
 ---
 

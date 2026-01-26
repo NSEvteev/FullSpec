@@ -1,6 +1,6 @@
 ---
 description: Паттерны поиска ссылок на инструкции
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: .instructions/README.md
 ---
 

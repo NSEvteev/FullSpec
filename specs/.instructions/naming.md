@@ -1,6 +1,6 @@
 ---
 description: Именование документов /specs/ — нумерация, формат названия, сокращённые пути
-standard: .instructions/instruction-standard.md
+standard: .instructions/standard-instruction.md
 index: specs/.instructions/README.md
 ---
 
