@@ -8,7 +8,7 @@
 
 | Область | Папка | Скрипты |
 |---------|-------|---------|
-| Структура проекта | `/.structure/.instructions/.scripts/` | `validate-structure.py` |
+| Структура проекта | `/.structure/.instructions/.scripts/` | `validate-structure.py`, `generate-readme.py` |
 | Мета-инструкции | `/.instructions/.scripts/` | `instruction-validate.py`, `instruction-readme-update.py` |
 
 ## Правило

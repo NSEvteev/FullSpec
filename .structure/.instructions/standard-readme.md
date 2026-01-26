@@ -441,4 +441,20 @@ graph TD
 
 ### Скрипты
 
-**Скрипты автоматизации для этой области отсутствуют.**
+| Скрипт | Назначение | Использование |
+|--------|------------|---------------|
+| [generate-readme.py](./.scripts/generate-readme.py) | Генерация шаблона README | `python .structure/.instructions/.scripts/generate-readme.py <путь>` |
+
+**Пример:**
+```bash
+# Шаблон для папки проекта
+python .structure/.instructions/.scripts/generate-readme.py src/api
+
+# Шаблон для папки инструкций
+python .structure/.instructions/.scripts/generate-readme.py .claude/.instructions/agents
+```
+
+**Воркфлоу LLM:**
+1. Вызвать скрипт → получить шаблон
+2. Заполнить `{PLACEHOLDER}` значениями
+3. Записать через Write tool

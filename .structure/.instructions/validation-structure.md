@@ -124,7 +124,21 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 | Скрипт | Назначение | Использование |
 |--------|------------|---------------|
-| [validate-structure.py](/.structure/.instructions/.scripts/validate-structure.py) | Проверка дерева структуры | `python .structure/.instructions/.scripts/validate-structure.py` |
+| [validate-structure.py](./.scripts/validate-structure.py) | Проверка дерева структуры | `python .structure/.instructions/.scripts/validate-structure.py` |
+
+**Пример:**
+```bash
+# Проверка структуры
+python .structure/.instructions/.scripts/validate-structure.py
+
+# JSON-вывод для автоматизации
+python .structure/.instructions/.scripts/validate-structure.py --json
+```
+
+**Воркфлоу LLM:**
+1. Вызвать скрипт → получить список ошибок
+2. Исправить ошибки в `/.structure/README.md`
+3. Повторить проверку
 
 ---
 
