@@ -18,6 +18,7 @@ index: .structure/.instructions/README.md
 - [Переименование](#переименование)
 - [Перемещение](#перемещение)
 - [Удаление](#удаление)
+- [Обновление ссылок](#обновление-ссылок)
 - [Чек-лист](#чек-лист)
 - [Примеры](#примеры)
 - [Скрипты](#скрипты)
@@ -171,6 +172,86 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 ---
 
+## Обновление ссылок
+
+Детальный воркфлоу обновления ссылок при изменении путей.
+
+### При переименовании/перемещении файла
+
+#### Шаг 1: Найти все ссылки на файл
+
+```bash
+grep -r "old-name.md" --include="*.md" .
+```
+
+**Где искать:**
+- `**/*.md` — все markdown файлы
+- `.yaml` файлы с frontmatter
+
+#### Шаг 2: Выполнить изменение
+
+```bash
+mv old-path/old-name.md new-path/new-name.md
+```
+
+#### Шаг 3: Обновить ссылки
+
+```
+/links-update old-path/old-name.md → new-path/new-name.md
+```
+
+#### Шаг 4: Проверить
+
+```
+/links-validate
+```
+
+### При удалении файла
+
+#### Шаг 1: Найти все ссылки
+
+```bash
+grep -r "file-to-delete.md" --include="*.md" .
+```
+
+#### Шаг 2: Пометить битые ссылки
+
+```
+/links-delete path/to/file.md
+```
+
+#### Шаг 3: Удалить файл
+
+```bash
+rm path/to/file.md
+```
+
+#### Шаг 4: Исправить битые ссылки
+
+Вручную удалить или заменить помеченные ссылки.
+
+### При изменении заголовка
+
+#### Шаг 1: Найти якорные ссылки
+
+```bash
+grep -r "#old-heading" --include="*.md" .
+```
+
+#### Шаг 2: Изменить заголовок
+
+```markdown
+## Old Heading  →  ## New Heading
+```
+
+#### Шаг 3: Обновить якоря
+
+```
+/links-update file.md#old-heading → file.md#new-heading
+```
+
+---
+
 ## Чек-лист
 
 ### Переименование
@@ -200,6 +281,21 @@ python .structure/.instructions/.scripts/validate-structure.py
 - [ ] /links-delete вызван
 - [ ] Папка удалена из файловой системы
 - [ ] Валидация пройдена
+
+### Обновление ссылок (файлы)
+
+- [ ] Найдены все ссылки на файл
+- [ ] Файл переименован/перемещён/удалён
+- [ ] /links-update или /links-delete вызван
+- [ ] /links-validate пройдена
+- [ ] Битые ссылки исправлены (при удалении)
+
+### Изменение заголовка
+
+- [ ] Найдены якорные ссылки
+- [ ] Заголовок изменён
+- [ ] Якоря обновлены
+- [ ] /links-validate пройдена
 
 ---
 
@@ -266,6 +362,38 @@ grep -r "legacy/" .
 /links-delete legacy/
 ```
 
+### Переименование файла: old-api.md → new-api.md
+
+```bash
+# 1. Поиск ссылок
+grep -r "old-api.md" --include="*.md" .
+
+# 2. Переименование
+mv docs/old-api.md docs/new-api.md
+
+# 3. Обновление ссылок
+/links-update docs/old-api.md → docs/new-api.md
+
+# 4. Проверка
+/links-validate
+```
+
+### Изменение заголовка
+
+```bash
+# 1. Поиск якорных ссылок
+grep -r "#old-heading" --include="*.md" .
+
+# 2. Изменение заголовка в файле
+# ## Old Heading → ## New Heading
+
+# 3. Обновление якорей
+/links-update file.md#old-heading → file.md#new-heading
+
+# 4. Проверка
+/links-validate
+```
+
 ---
 
 ## Скрипты
@@ -293,6 +421,7 @@ grep -r "legacy/" .
 
 ## Связанные инструкции
 
+- [standard-links.md](./standard-links.md) — типы, форматы и валидация ссылок
 - [standard-readme.md](./standard-readme.md) — стандарт README
 - [validation-structure.md](./validation-structure.md) — валидация структуры
 - [workflow-create.md](./workflow-create.md) — создание папки
