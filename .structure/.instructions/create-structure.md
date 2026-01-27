@@ -85,14 +85,20 @@ Write → {путь}/README.md
 
 ### Шаг 6: Добавить в SSOT
 
+> **ПРАВИЛО:** ВСЕ папки добавляются в SSOT, включая подпапки.
+
 ```bash
+# Корневая папка
 python .structure/.instructions/.scripts/ssot.py add {папка} --description "Описание"
+
+# Подпапка (родитель должен быть в SSOT)
+python .structure/.instructions/.scripts/ssot.py add {родитель}/{папка} --description "Описание"
 ```
 
 Скрипт автоматически добавляет в `/.structure/README.md`:
 - Секцию папки (алфавитный порядок)
-- Оглавление
-- Дерево
+- Оглавление (с отступом для подпапок)
+- Дерево (внутри родительской папки)
 
 > **После:** Замените `{EXTENDED_DESCRIPTION}` в секции папки.
 
@@ -156,8 +162,13 @@ python .structure/.instructions/.scripts/validate-structure.py
 **Использование:**
 ```bash
 python .structure/.instructions/.scripts/generate-readme.py <путь>
-python .structure/.instructions/.scripts/ssot.py add <папка> --description "Описание"
+python .structure/.instructions/.scripts/ssot.py add <путь> --description "Описание"
 python .structure/.instructions/.scripts/validate-structure.py
+```
+
+**Примеры с вложенными путями:**
+```bash
+python .structure/.instructions/.scripts/ssot.py add test/subtest --description "Тестовая подпапка"
 ```
 
 ---

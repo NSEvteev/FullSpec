@@ -71,14 +71,20 @@ mv old-name/ new-name/
 
 ### Шаг 3: Обновить SSOT
 
+> **ПРАВИЛО:** ВСЕ папки должны быть в SSOT, включая подпапки. Используйте полный путь.
+
 ```bash
+# Корневая папка
 python .structure/.instructions/.scripts/ssot.py rename {старое_имя} {новое_имя} --description "Описание"
+
+# Подпапка
+python .structure/.instructions/.scripts/ssot.py rename {родитель}/{старое} {родитель}/{новое} --description "Описание"
 ```
 
 Скрипт автоматически обновляет в `/.structure/README.md`:
 - Секцию папки (название и ссылка)
-- Оглавление
-- Дерево папок
+- Оглавление (с учётом вложенности)
+- Дерево папок (внутри родителя)
 
 ### Шаг 4: Обновить README папки
 
@@ -124,10 +130,17 @@ mv src/utils/ shared/utils/
 
 ### Шаг 3: Обновить SSOT
 
-В `/.structure/README.md`:
-1. **Секция старого родителя** — удалить упоминание
-2. **Секция нового родителя** — добавить упоминание
-3. **Дерево папок** — переместить ветку
+> **ПРАВИЛО:** ВСЕ папки должны быть в SSOT, включая подпапки. Используйте полный путь.
+
+```bash
+# Удалить старый путь
+python .structure/.instructions/.scripts/ssot.py delete {старый_путь}
+
+# Добавить новый путь
+python .structure/.instructions/.scripts/ssot.py add {новый_путь} --description "Описание"
+```
+
+> **После:** Замените `{EXTENDED_DESCRIPTION}` в новой секции.
 
 ### Шаг 4: Обновить README папки
 
@@ -196,14 +209,20 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 ### Шаг 2: Удалить из SSOT
 
+> **ПРАВИЛО:** ВСЕ папки должны быть в SSOT, включая подпапки. Используйте полный путь.
+
 ```bash
+# Корневая папка
 python .structure/.instructions/.scripts/ssot.py delete {папка}
+
+# Подпапка
+python .structure/.instructions/.scripts/ssot.py delete {родитель}/{папка}
 ```
 
 Скрипт автоматически удаляет из `/.structure/README.md`:
 - Секцию папки
 - Ссылку из оглавления
-- Запись из дерева
+- Запись из дерева (с учётом вложенности)
 
 ### Шаг 3: Обновить README родительской папки
 
@@ -494,9 +513,15 @@ grep -r "#old-heading" --include="*.md" .
 **Использование:**
 ```bash
 python .structure/.instructions/.scripts/find-references.py <паттерн>
-python .structure/.instructions/.scripts/ssot.py rename <старое> <новое> --description "Описание"
-python .structure/.instructions/.scripts/ssot.py delete <папка>
+python .structure/.instructions/.scripts/ssot.py rename <старый_путь> <новый_путь> --description "Описание"
+python .structure/.instructions/.scripts/ssot.py delete <путь>
 python .structure/.instructions/.scripts/validate-structure.py
+```
+
+**Примеры с вложенными путями:**
+```bash
+python .structure/.instructions/.scripts/ssot.py rename test/old test/new --description "Новое имя"
+python .structure/.instructions/.scripts/ssot.py delete test/subtest
 ```
 
 ---
