@@ -75,7 +75,15 @@ python .structure/.instructions/.scripts/generate-readme.py {путь}
 Write → {путь}/README.md
 ```
 
-### Шаг 5: Добавить в SSOT
+### Шаг 5: Обновить README родительской папки
+
+> **SSOT:** [standard-readme.md#52-обновление-readme-родительской-папки](./standard-readme.md#52-обновление-readme-родительской-папки)
+
+В README родительской папки добавить:
+- **Секция "Папки"** — описание новой подпапки
+- **Дерево** — ветку новой подпапки
+
+### Шаг 6: Добавить в SSOT
 
 ```bash
 python .structure/.instructions/.scripts/ssot.py add {папка} --description "Описание"
@@ -88,13 +96,13 @@ python .structure/.instructions/.scripts/ssot.py add {папка} --description 
 
 > **После:** Замените `{EXTENDED_DESCRIPTION}` в секции папки.
 
-### Шаг 6: Валидация структуры
+### Шаг 7: Валидация структуры
 
 ```bash
 python .structure/.instructions/.scripts/validate-structure.py
 ```
 
-### Шаг 7: Валидация ссылок
+### Шаг 8: Валидация ссылок
 
 ```
 /links-validate
@@ -106,7 +114,8 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 - [ ] Папка создана
 - [ ] README.md сгенерирован и заполнен
-- [ ] SSOT обновлён (update-ssot.py)
+- [ ] README родительской папки обновлён
+- [ ] SSOT обновлён (ssot.py add)
 - [ ] {EXTENDED_DESCRIPTION} заполнен
 - [ ] Валидация структуры пройдена
 - [ ] Валидация ссылок пройдена
@@ -124,10 +133,12 @@ python .structure/.instructions/.scripts/generate-readme.py docs
 
 # Шаг 3-4: Заполнить плейсхолдеры, записать README
 
-# Шаг 5: Обновить SSOT
+# Шаг 5: Обновить README родительской папки (секция "Папки", дерево)
+
+# Шаг 6: Обновить SSOT
 python .structure/.instructions/.scripts/ssot.py add docs --description "Документация проекта"
 
-# Шаг 6-7: Валидация
+# Шаг 7-8: Валидация
 python .structure/.instructions/.scripts/validate-structure.py
 /links-validate
 ```
