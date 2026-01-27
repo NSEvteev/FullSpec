@@ -38,7 +38,11 @@ index: .structure/.instructions/README.md
 └── .scripts/
     ├── find-references.py    # Поиск ссылок на папку/файл
     ├── generate-readme.py    # Генерация шаблона README
+    ├── mark-deleted.py       # Пометка DELETE_ при удалении
+    ├── mirror-instructions.py # Зеркалирование .instructions
     ├── ssot.py               # Управление SSOT (add/rename/delete)
+    ├── update-skill-refs.py  # Обновление ссылок в скиллах
+    ├── validate.py           # Единая валидация
     ├── validate-links.py     # Валидация ссылок
     └── validate-structure.py # Валидация структуры
 ```
@@ -145,7 +149,11 @@ index: .structure/.instructions/README.md
 |--------|------------|------------|
 | [find-references.py](./.scripts/find-references.py) | Поиск ссылок на папку/файл | [modify-structure.md](./modify-structure.md) |
 | [generate-readme.py](./.scripts/generate-readme.py) | Генерация шаблона README | [create-structure.md](./create-structure.md) |
+| [mark-deleted.py](./.scripts/mark-deleted.py) | Пометка DELETE_ при удалении | [modify-structure.md](./modify-structure.md) |
+| [mirror-instructions.py](./.scripts/mirror-instructions.py) | Зеркалирование `.instructions` | [create-structure.md](./create-structure.md), [modify-structure.md](./modify-structure.md) |
 | [ssot.py](./.scripts/ssot.py) | Управление SSOT (add/rename/delete) | [create-structure.md](./create-structure.md), [modify-structure.md](./modify-structure.md) |
+| [update-skill-refs.py](./.scripts/update-skill-refs.py) | Обновление ссылок в скиллах | [modify-structure.md](./modify-structure.md), [validation-links.md](./validation-links.md) |
+| [validate.py](./.scripts/validate.py) | Единая валидация | [validation-structure.md](./validation-structure.md), [validation-links.md](./validation-links.md) |
 | [validate-links.py](./.scripts/validate-links.py) | Валидация ссылок | [validation-links.md](./validation-links.md) |
 | [validate-structure.py](./.scripts/validate-structure.py) | Валидация структуры | [validation-structure.md](./validation-structure.md) |
 

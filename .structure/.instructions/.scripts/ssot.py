@@ -99,6 +99,99 @@ def format_tree_line(folder_name: str, description: str, depth: int = 0, is_last
 
 
 # =============================================================================
+# Исправление коннекторов дерева
+# =============================================================================
+
+def fix_tree_connectors(tree_lines: list) -> list:
+    """
+    Исправить коннекторы в дереве (├── vs └──) и разделители (│).
+
+    Правила:
+    - Последняя папка на каждом уровне использует └──
+    - Остальные папки используют ├──
+    - │ ставится между папками одного уровня (не после последней)
+    """
+    if not tree_lines:
+        return tree_lines
+
+    # Парсим дерево в структуру
+    entries = []  # [(line_idx, depth, folder_name, comment, is_folder)]
+
+    for i, line in enumerate(tree_lines):
+        # Пропускаем разделители │
+        if line.strip() == "│" or line == "│":
+            continue
+
+        # Определяем глубину
+        depth = 0
+        pos = 0
+        while line[pos:pos+4] == "│   ":
+            depth += 1
+            pos += 4
+
+        # Ищем папку или файл
+        match = re.match(r'^(│   )*[├└]── ([^/\s]+)(/)?(.*)$', line)
+        if match:
+            name = match.group(2)
+            is_folder = match.group(3) == "/"
+            rest = match.group(4) or ""
+            entries.append({
+                'idx': i,
+                'depth': depth,
+                'name': name,
+                'is_folder': is_folder,
+                'rest': rest,
+                'line': line
+            })
+
+    if not entries:
+        return tree_lines
+
+    # Группируем по глубине и определяем последние элементы
+    # Для каждой глубины находим последний элемент
+    result = []
+
+    # Определяем, какие элементы последние на своём уровне
+    # Элемент последний если после него нет элементов той же глубины
+    # (пока не встретится элемент меньшей глубины)
+
+    for i, entry in enumerate(entries):
+        is_last = True
+        # Проверяем, есть ли после этого элемента другие элементы той же глубины
+        for j in range(i + 1, len(entries)):
+            if entries[j]['depth'] < entry['depth']:
+                # Вышли из родителя — этот элемент последний
+                break
+            if entries[j]['depth'] == entry['depth']:
+                # Есть ещё элемент на том же уровне — не последний
+                is_last = False
+                break
+        entry['is_last'] = is_last
+
+    # Собираем новое дерево
+    for i, entry in enumerate(entries):
+        depth = entry['depth']
+        name = entry['name']
+        is_folder = entry['is_folder']
+        is_last = entry['is_last']
+        rest = entry['rest']
+
+        # Формируем строку
+        indent = "│   " * depth
+        connector = "└── " if is_last else "├── "
+        suffix = "/" if is_folder else ""
+
+        new_line = f"{indent}{connector}{name}{suffix}{rest}"
+        result.append(new_line)
+
+        # Добавляем │ после папки если она не последняя на корневом уровне
+        if is_folder and depth == 0 and not is_last:
+            result.append("│")
+
+    return result
+
+
+# =============================================================================
 # Функции поиска диапазонов
 # =============================================================================
 
@@ -392,6 +485,8 @@ def add_to_tree(lines: list, full_path: str, parent_path: str, description: str,
                 final_lines.append(tree_line)
             new_lines = final_lines
 
+        # Исправляем коннекторы
+        new_lines = fix_tree_connectors(new_lines)
         return lines[:tree_start] + new_lines + lines[tree_end:]
 
     else:
@@ -469,6 +564,13 @@ def add_to_tree(lines: list, full_path: str, parent_path: str, description: str,
         if not inserted:
             # Родитель не найден — ошибка
             print(f"⚠️  Родительская папка '{parent_path}' не найдена в дереве", file=sys.stderr)
+
+        # Исправляем коннекторы в дереве
+        new_tree_start, new_tree_end = find_tree_range(new_lines)
+        if new_tree_start and new_tree_end:
+            tree_portion = new_lines[new_tree_start:new_tree_end]
+            tree_portion = fix_tree_connectors(tree_portion)
+            new_lines = new_lines[:new_tree_start] + tree_portion + new_lines[new_tree_end:]
 
         return new_lines
 
@@ -563,16 +665,36 @@ def rename_in_tree(lines: list, old_path: str, new_path: str, description: str) 
     _, _, old_name, old_depth = parse_folder_path(old_path)
     _, parent_path, new_name, new_depth = parse_folder_path(new_path)
 
-    # Удаляем старую запись
+    # Удаляем старую запись и её детей
     new_lines = lines[:tree_start]
     i = tree_start
+    skip_children = False
+    skip_depth = 0
+
     while i < tree_end:
         line = lines[i]
         line_depth = get_tree_line_depth(line)
         line_folder = extract_folder_from_tree(line)
 
+        # Если пропускаем детей, проверяем глубину
+        if skip_children:
+            # Пропускаем разделители │
+            if line.strip() == "│" or line == "│":
+                i += 1
+                continue
+            # Если вернулись на уровень родителя или выше — прекращаем пропуск
+            if line_depth <= skip_depth:
+                skip_children = False
+            else:
+                # Пропускаем ребёнка
+                i += 1
+                continue
+
         # Пропускаем папку на нужной глубине с нужным именем
         if line_depth == old_depth and line_folder == old_name:
+            # Начинаем пропускать детей
+            skip_children = True
+            skip_depth = old_depth
             i += 1
             # Пропускаем пустую строку после (│)
             if i < tree_end and lines[i] == "│":
@@ -667,13 +789,33 @@ def delete_from_tree(lines: list, folder_path: str) -> list:
 
     new_lines = lines[:tree_start]
     i = tree_start
+    skip_children = False
+    skip_depth = 0
+
     while i < tree_end:
         line = lines[i]
         line_depth = get_tree_line_depth(line)
         line_folder = extract_folder_from_tree(line)
 
+        # Если пропускаем детей, проверяем глубину
+        if skip_children:
+            # Пропускаем разделители │
+            if line.strip() == "│" or line == "│":
+                i += 1
+                continue
+            # Если вернулись на уровень родителя или выше — прекращаем пропуск
+            if line_depth <= skip_depth:
+                skip_children = False
+            else:
+                # Пропускаем ребёнка
+                i += 1
+                continue
+
         # Пропускаем папку на нужной глубине с нужным именем
         if line_depth == depth and line_folder == folder_name:
+            # Начинаем пропускать детей
+            skip_children = True
+            skip_depth = depth
             i += 1
             # Пропускаем пустую строку после (│)
             if i < tree_end and lines[i] == "│":
@@ -683,6 +825,14 @@ def delete_from_tree(lines: list, folder_path: str) -> list:
         i += 1
 
     new_lines.extend(lines[tree_end:])
+
+    # Исправляем коннекторы в дереве
+    new_tree_start, new_tree_end = find_tree_range(new_lines)
+    if new_tree_start and new_tree_end:
+        tree_portion = new_lines[new_tree_start:new_tree_end]
+        tree_portion = fix_tree_connectors(tree_portion)
+        new_lines = new_lines[:new_tree_start] + tree_portion + new_lines[new_tree_end:]
+
     return new_lines
 
 
@@ -725,6 +875,7 @@ def main():
     add_parser = subparsers.add_parser("add", help="Добавить папку в SSOT")
     add_parser.add_argument("folder", help="Путь к папке (например: docs или test/subtest)")
     add_parser.add_argument("--description", "-d", required=True, help="Описание папки")
+    add_parser.add_argument("--extended", "-e", help="Расширенное описание (заменяет {EXTENDED_DESCRIPTION})")
     add_parser.add_argument("--repo", default=".", help="Корень репозитория")
     add_parser.add_argument("--dry-run", action="store_true", help="Показать без записи")
 
@@ -769,8 +920,15 @@ def main():
                 print(f"   Сначала добавьте родителя: python ssot.py add {parent_path} --description \"...\"", file=sys.stderr)
 
         result = cmd_add(ssot_path, folder_path, args.description)
+
+        # Заменяем {EXTENDED_DESCRIPTION} если указан --extended
+        if args.extended:
+            result = result.replace("{EXTENDED_DESCRIPTION}", args.extended)
+            msg_extra = ""
+        else:
+            msg_extra = "\n⚠️  Замените {EXTENDED_DESCRIPTION} в секции папки!"
+
         msg_action = f"Добавлена папка: {full_path}/"
-        msg_extra = "\n⚠️  Замените {EXTENDED_DESCRIPTION} в секции папки!"
 
     elif args.command == "rename":
         old_path = args.old_path.strip("/")
@@ -793,7 +951,8 @@ def main():
         ssot_path.write_text(result, encoding="utf-8")
         print(f"✅ SSOT обновлён: {ssot_path}")
         print(f"   {msg_action}")
-        print(msg_extra)
+        if msg_extra:
+            print(msg_extra)
 
 
 if __name__ == "__main__":

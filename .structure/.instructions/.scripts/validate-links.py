@@ -21,11 +21,17 @@ validate-links.py — Валидация ссылок в markdown-докумен
     E007 — Файл из frontmatter не существует
     E008 — Неверный формат ссылки в SSOT
     E009 — Ссылка в SSOT не на README.md
+    E010 — Папка скилла не существует (ссылка из инструкции)
+    E011 — SKILL.md не найден в папке скилла
+    E012 — SSOT-инструкция в скилле не существует
+    E013 — SSOT-инструкция в скилле помечена DELETE_
 
 Предупреждения:
     W001 — Абсолютный путь для файла в той же папке
     W002 — Относительный путь с длинной цепочкой ../
     W003 — Похожий якорь существует (опечатка?)
+    W004 — Имя скилла в тексте не совпадает с папкой
+    W005 — Скилл ссылается на переименованную инструкцию
 
 Возвращает:
     0 — валидация пройдена
@@ -285,7 +291,137 @@ def validate_file(file_path: Path, repo_root: Path) -> dict:
                     "message": f"Длинная цепочка ../: {href}",
                 })
 
+    # Шаг 7: Проверка ссылок на скиллы (только в .instructions)
+    if ".instructions" in str(file_path):
+        skill_result = validate_skill_links_in_instructions(file_path, content, repo_root)
+        result["errors"].extend(skill_result["errors"])
+        result["warnings"].extend(skill_result["warnings"])
+
     return result
+
+
+def validate_skill_links_in_instructions(file_path: Path, content: str, repo_root: Path) -> dict:
+    """
+    Проверить ссылки на скиллы в инструкциях (Шаг 7).
+
+    Возвращает dict с errors и warnings.
+    """
+    result = {"errors": [], "warnings": []}
+
+    # Ищем ссылки вида [/skill-name](/.claude/skills/skill-name/SKILL.md)
+    pattern = r"\[(/[\w-]+)\]\((/?\.claude/skills/([^/]+)/SKILL\.md)\)"
+
+    for match in re.finditer(pattern, content):
+        skill_text = match.group(1)  # /skill-name
+        skill_path = match.group(2)  # .claude/skills/skill-name/SKILL.md
+        skill_folder = match.group(3)  # skill-name
+
+        # Нормализуем путь
+        if skill_path.startswith("/"):
+            skill_path = skill_path[1:]
+
+        full_skill_path = repo_root / skill_path
+        skill_folder_path = repo_root / ".claude" / "skills" / skill_folder
+
+        # E010: Папка скилла не существует
+        if not skill_folder_path.exists():
+            result["errors"].append({
+                "code": "E010",
+                "message": f"Папка скилла не существует: {skill_folder}/",
+            })
+            continue
+
+        # E011: SKILL.md не найден
+        if not full_skill_path.exists():
+            result["errors"].append({
+                "code": "E011",
+                "message": f"SKILL.md не найден: {skill_path}",
+            })
+            continue
+
+        # W004: Имя скилла в тексте не совпадает с папкой
+        expected_name = f"/{skill_folder}"
+        if skill_text != expected_name:
+            result["warnings"].append({
+                "code": "W004",
+                "message": f"Имя скилла '{skill_text}' не совпадает с папкой '{expected_name}'",
+            })
+
+    return result
+
+
+def validate_ssot_links_in_skills(repo_root: Path) -> list[dict]:
+    """
+    Проверить SSOT-ссылки в скиллах (Шаг 8).
+
+    Возвращает список результатов по файлам.
+    """
+    results = []
+    skills_dir = repo_root / ".claude" / "skills"
+
+    if not skills_dir.exists():
+        return results
+
+    for skill_folder in skills_dir.iterdir():
+        if not skill_folder.is_dir():
+            continue
+
+        # Пропускаем уже удалённые
+        if skill_folder.name.startswith("DELETE_"):
+            continue
+
+        skill_md = skill_folder / "SKILL.md"
+        if not skill_md.exists():
+            continue
+
+        file_result = {
+            "file": str(skill_md.relative_to(repo_root)),
+            "errors": [],
+            "warnings": [],
+        }
+
+        try:
+            content = skill_md.read_text(encoding="utf-8")
+        except Exception:
+            continue
+
+        # Ищем SSOT: ссылки
+        # Паттерн: **SSOT:** [text](path) или SSOT: [text](path)
+        ssot_pattern = r"\*?\*?SSOT:?\*?\*?\s*\[([^\]]+)\]\(([^)]+)\)"
+
+        for match in re.finditer(ssot_pattern, content):
+            link_text = match.group(1)
+            link_path = match.group(2)
+
+            # Нормализуем путь
+            if link_path.startswith("/"):
+                resolved = repo_root / link_path[1:]
+            else:
+                resolved = (skill_md.parent / link_path).resolve()
+
+            # E012: SSOT-инструкция не существует
+            if not resolved.exists():
+                file_result["errors"].append({
+                    "code": "E012",
+                    "message": f"SSOT-инструкция не существует: {link_path}",
+                })
+                continue
+
+            # E013: SSOT-инструкция помечена DELETE_
+            path_str = str(resolved)
+            if "DELETE_" in path_str:
+                file_result["errors"].append({
+                    "code": "E013",
+                    "message": f"SSOT-инструкция помечена DELETE_: {link_path}",
+                })
+
+            # W005: Путь содержит старое имя (возможно, переименовано)
+            # Это сложно определить автоматически, пропускаем
+
+        if file_result["errors"] or file_result["warnings"]:
+            results.append(file_result)
+
+    return results
 
 
 def validate_links(repo_root: Path, target_path: Path | None = None) -> dict:
@@ -344,6 +480,15 @@ def validate_links(repo_root: Path, target_path: Path | None = None) -> dict:
         # Добавляем только файлы с проблемами
         if file_result["errors"] or file_result["warnings"]:
             result["results"].append(file_result)
+
+    # Шаг 8: Проверка SSOT-ссылок в скиллах
+    skill_results = validate_ssot_links_in_skills(repo_root)
+    for skill_result in skill_results:
+        result["results"].append(skill_result)
+        if skill_result["errors"]:
+            result["valid"] = False
+            result["total_errors"] += len(skill_result["errors"])
+        result["total_warnings"] += len(skill_result["warnings"])
 
     return result
 

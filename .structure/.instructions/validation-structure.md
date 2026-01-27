@@ -28,6 +28,7 @@ index: .structure/.instructions/README.md
   - [Шаг 1: Проверить дерево](#шаг-1-проверить-дерево)
   - [Шаг 2: Проверить синхронизацию](#шаг-2-проверить-синхронизацию)
   - [Шаг 3: Проверить ссылки](#шаг-3-проверить-ссылки)
+  - [Шаг 4: Проверить зеркала .instructions](#шаг-4-проверить-зеркала-instructions)
 - [Чек-лист](#чек-лист)
 - [Типичные ошибки](#типичные-ошибки)
 - [Скрипты](#скрипты)
@@ -96,6 +97,33 @@ python .structure/.instructions/.scripts/validate-structure.py
 ### 🔗 [.claude/](../.claude/README.md)
 ```
 
+### Шаг 4: Проверить зеркала `.instructions`
+
+> **ПРАВИЛО:** Папка в SSOT → зеркало в `.instructions`.
+
+**Автоматически:**
+```bash
+python .structure/.instructions/.scripts/validate-structure.py --check-instructions
+```
+
+**Вручную (если нужно):**
+1. Для каждой корневой папки в SSOT проверить:
+   - Существует `{папка}/.instructions/`?
+   - Существует `{папка}/.instructions/README.md`?
+2. Для каждой подпапки в SSOT проверить:
+   - Существует `{корень}/.instructions/{подпуть}/`?
+   - Существует `{корень}/.instructions/{подпуть}/README.md`?
+
+**Пример:**
+```
+src/ в SSOT         → src/.instructions/README.md существует?
+src/auth/ в SSOT    → src/.instructions/auth/README.md существует?
+```
+
+**Исключения:**
+- Папки с префиксом `DELETE_` — помечены как удалённые
+- Папка `.structure/` — не требует зеркала (сама содержит инструкции)
+
 ---
 
 ## Чек-лист
@@ -106,6 +134,7 @@ python .structure/.instructions/.scripts/validate-structure.py
 - [ ] Алфавитный порядок соблюдён везде
 - [ ] Все ссылки ведут на существующие файлы
 - [ ] Все якоря ведут на существующие секции
+- [ ] Все папки в SSOT имеют зеркало `.instructions`
 
 ---
 
@@ -120,6 +149,8 @@ python .structure/.instructions/.scripts/validate-structure.py
 | Нет секции | Забыли создать описание | Добавить секцию по стандарту |
 | Рассинхрон порядка | Добавляли в разное время | Пересортировать все три места |
 | Неверный комментарий | Описание папки изменилось | Синхронизировать с секцией |
+| Нет зеркала `.instructions` | Забыли создать при добавлении папки | `mirror-instructions.py create {путь}` |
+| Зеркало не обновлено | Папка переименована/перемещена | `mirror-instructions.py rename/move` |
 
 ---
 
@@ -128,11 +159,21 @@ python .structure/.instructions/.scripts/validate-structure.py
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [validate-structure.py](./.scripts/validate-structure.py) | Проверка дерева структуры | Этот документ |
+| [validate.py](./.scripts/validate.py) | Единая валидация (структура + ссылки + .instructions) | Этот документ |
+| [mirror-instructions.py](./.scripts/mirror-instructions.py) | Создание/исправление зеркал `.instructions` | [create-structure.md](./create-structure.md) |
 
 **Использование:**
 ```bash
+# Проверка структуры
 python .structure/.instructions/.scripts/validate-structure.py
-python .structure/.instructions/.scripts/validate-structure.py --json
+python .structure/.instructions/.scripts/validate-structure.py --check-instructions
+
+# Единая валидация
+python .structure/.instructions/.scripts/validate.py
+python .structure/.instructions/.scripts/validate.py --path <папка>
+
+# Создание недостающего зеркала
+python .structure/.instructions/.scripts/mirror-instructions.py create <путь>
 ```
 
 ---

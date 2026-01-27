@@ -3,11 +3,12 @@
 validate-structure.py — Валидация согласованности /.structure/README.md.
 
 Использование:
-    python validate-structure.py [--repo <корень>] [--json]
+    python validate-structure.py [--repo <корень>] [--json] [--check-instructions]
 
 Примеры:
     python validate-structure.py
     python validate-structure.py --json
+    python validate-structure.py --check-instructions
     python validate-structure.py --repo /path/to/project
 
 Проверки:
@@ -15,6 +16,7 @@ validate-structure.py — Валидация согласованности /.st
     - Все папки из дерева существуют
     - Все папки из ФС (кроме исключений) есть в дереве
     - Комментарии в дереве соответствуют описаниям в секциях
+    - [--check-instructions] Все папки из SSOT имеют зеркало .instructions
 
 Возвращает:
     0 — валидация пройдена
@@ -211,6 +213,45 @@ def validate_structure(repo_root: Path) -> dict:
     return result
 
 
+def check_instructions_mirrors(repo_root: Path, tree_folders: list[str]) -> dict:
+    """
+    Проверить наличие зеркал .instructions для всех папок в SSOT.
+
+    Возвращает dict с полями:
+        missing_instructions: list — папки без зеркала .instructions
+        errors: list[str]
+    """
+    result = {
+        "missing_instructions": [],
+        "errors": [],
+    }
+
+    for folder in tree_folders:
+        # Пропускаем .structure (сама содержит инструкции)
+        if folder == ".structure":
+            continue
+
+        # Пропускаем папки с DELETE_
+        if folder.startswith("DELETE_"):
+            continue
+
+        instructions_path = repo_root / folder / ".instructions"
+        instructions_readme = instructions_path / "README.md"
+
+        if not instructions_path.exists():
+            result["missing_instructions"].append(folder)
+            result["errors"].append(
+                f"Папка '{folder}/' не имеет зеркала .instructions"
+            )
+        elif not instructions_readme.exists():
+            result["missing_instructions"].append(folder)
+            result["errors"].append(
+                f"Папка '{folder}/.instructions/' не имеет README.md"
+            )
+
+    return result
+
+
 def main():
     # UTF-8 для Windows
     if sys.platform == "win32":
@@ -230,11 +271,24 @@ def main():
         action="store_true",
         help="Вывод в JSON формате"
     )
+    parser.add_argument(
+        "--check-instructions",
+        action="store_true",
+        help="Проверить наличие зеркал .instructions"
+    )
 
     args = parser.parse_args()
 
     repo_root = find_repo_root(Path(args.repo))
     result = validate_structure(repo_root)
+
+    # Проверка зеркал .instructions
+    if args.check_instructions and result["tree_folders"]:
+        instr_result = check_instructions_mirrors(repo_root, result["tree_folders"])
+        result["missing_instructions"] = instr_result["missing_instructions"]
+        result["errors"].extend(instr_result["errors"])
+        if instr_result["errors"]:
+            result["valid"] = False
 
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
@@ -273,6 +327,12 @@ def main():
         print("🗑️  Удалить из дерева (или создать папку):")
         for folder in sorted(result["missing_in_fs"]):
             print(f"   ├── {folder}/")
+        print()
+
+    if result.get("missing_instructions"):
+        print("📋 Создать зеркало .instructions:")
+        for folder in sorted(result["missing_instructions"]):
+            print(f"   python mirror-instructions.py create {folder}")
         print()
 
     sys.exit(1 if not result["valid"] else 0)

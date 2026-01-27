@@ -102,13 +102,41 @@ python .structure/.instructions/.scripts/ssot.py rename {родитель}/{ст
 
 Найти и заменить все вхождения `old-name/` на `new-name/` в markdown-файлах.
 
-### Шаг 7: Валидация структуры
+### Шаг 7: Переименовать зеркало `.instructions`
+
+> **ПРАВИЛО:** При переименовании папки — переименовать зеркало в `.instructions`.
+
+```bash
+python .structure/.instructions/.scripts/mirror-instructions.py rename {старый_путь} {новый_путь}
+```
+
+Скрипт автоматически:
+- Переименовывает папку в `.instructions`
+- Обновляет README внутри
+
+### Шаг 8: Обновить ссылки в скиллах
+
+> **ПРАВИЛО:** Скиллы ссылаются на инструкции через `SSOT:`. При переименовании инструкции — обновить ссылки в скиллах.
+
+```bash
+python .structure/.instructions/.scripts/update-skill-refs.py {старый_путь} {новый_путь}
+```
+
+Скрипт автоматически:
+- Находит все скиллы с `SSOT:` ссылкой на старый путь
+- Обновляет путь на новый
+
+**Вручную (если нужно):**
+1. Найти скиллы: `grep -r "старый_путь" .claude/skills/`
+2. Обновить поле `SSOT:` в SKILL.md
+
+### Шаг 9: Валидация структуры
 
 ```bash
 python .structure/.instructions/.scripts/validate-structure.py
 ```
 
-### Шаг 8: Валидация ссылок
+### Шаг 10: Валидация ссылок
 
 ```
 /links-validate
@@ -183,13 +211,35 @@ index: ../README.md                         # ← путь изменился
 
 Найти и заменить все вхождения `src/utils/` на `shared/utils/` в markdown-файлах.
 
-### Шаг 9: Валидация структуры
+### Шаг 9: Переместить зеркало `.instructions`
+
+> **ПРАВИЛО:** При перемещении папки — переместить зеркало в `.instructions`.
+
+```bash
+python .structure/.instructions/.scripts/mirror-instructions.py move {старый_путь} {новый_путь}
+```
+
+Скрипт автоматически:
+- Перемещает папку из `{старый_корень}/.instructions/` в `{новый_корень}/.instructions/`
+- Обновляет ссылки в README
+
+### Шаг 10: Обновить ссылки в скиллах
+
+> **ПРАВИЛО:** Скиллы ссылаются на инструкции через `SSOT:`. При перемещении инструкции — обновить ссылки в скиллах.
+
+```bash
+python .structure/.instructions/.scripts/update-skill-refs.py {старый_путь} {новый_путь}
+```
+
+См. [Шаг 8 в Переименовании](#шаг-8-обновить-ссылки-в-скиллах).
+
+### Шаг 11: Валидация структуры
 
 ```bash
 python .structure/.instructions/.scripts/validate-structure.py
 ```
 
-### Шаг 10: Валидация ссылок
+### Шаг 12: Валидация ссылок
 
 ```
 /links-validate
@@ -199,6 +249,8 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 ## Удаление
 
+> **ВАЖНО:** Папка инструкций НЕ УДАЛЯЕТСЯ, а помечается префиксом `DELETE_`. Инструкции содержат знания, которые могут понадобиться позже.
+
 ### Шаг 1: Проверить зависимости
 
 Найти все ссылки на удаляемую папку:
@@ -207,24 +259,38 @@ python .structure/.instructions/.scripts/validate-structure.py
 - `**/README.md` — другие README
 - `.instructions/**` — инструкции
 
-### Шаг 2: Удалить из SSOT
+### Шаг 2: Пометить зеркало `.instructions` как удалённое
 
-> **ПРАВИЛО:** ВСЕ папки должны быть в SSOT, включая подпапки. Используйте полный путь.
+> **ПРАВИЛО:** Инструкции НЕ удаляются, а помечаются `DELETE_`.
 
 ```bash
-# Корневая папка
-python .structure/.instructions/.scripts/ssot.py delete {папка}
+python .structure/.instructions/.scripts/mark-deleted.py {путь}
+```
 
-# Подпапка
-python .structure/.instructions/.scripts/ssot.py delete {родитель}/{папка}
+Скрипт автоматически:
+1. Переименовывает папку: `{корень}/.instructions/{папка}/` → `{корень}/.instructions/DELETE_{папка}/`
+2. Переименовывает файлы внутри: `*.md` → `DELETE_*.md`
+3. Находит связанные скиллы и переименовывает: `/.claude/skills/{skill}/` → `/.claude/skills/DELETE_{skill}/`
+
+**Пример:**
+```
+docs/.instructions/api/           → docs/.instructions/DELETE_api/
+docs/.instructions/api/README.md  → docs/.instructions/DELETE_api/DELETE_README.md
+.claude/skills/docs-api-create/   → .claude/skills/DELETE_docs-api-create/
+```
+
+### Шаг 3: Удалить из SSOT
+
+```bash
+python .structure/.instructions/.scripts/ssot.py delete {путь}
 ```
 
 Скрипт автоматически удаляет из `/.structure/README.md`:
 - Секцию папки
 - Ссылку из оглавления
-- Запись из дерева (с учётом вложенности)
+- Запись из дерева
 
-### Шаг 3: Обновить README родительской папки
+### Шаг 4: Обновить README родительской папки
 
 > **SSOT:** [standard-readme.md#52-обновление-readme-родительской-папки](./standard-readme.md#52-обновление-readme-родительской-папки)
 
@@ -232,30 +298,30 @@ python .structure/.instructions/.scripts/ssot.py delete {родитель}/{па
 - **Секция "Папки"** — описание удаляемой подпапки
 - **Дерево** — ветку удаляемой подпапки
 
-### Шаг 4: Обновить связанные документы
+### Шаг 5: Обновить связанные документы
 
 - `CLAUDE.md` — удалить упоминания
 - Другие README — обновить или пометить битые ссылки
 
-### Шаг 5: Пометить битые ссылки
+### Шаг 6: Пометить битые ссылки
 
 Добавить комментарий `<!-- BROKEN: папка удалена -->` к ссылкам на удаляемую папку.
 
-### Шаг 6: Удалить папку
+### Шаг 7: Удалить папку
 
-**Только после обновления документов:**
+**Только после пометки инструкций и обновления документов:**
 
 ```bash
 rm -rf {папка}/
 ```
 
-### Шаг 7: Валидация структуры
+### Шаг 8: Валидация структуры
 
 ```bash
 python .structure/.instructions/.scripts/validate-structure.py
 ```
 
-### Шаг 8: Валидация ссылок
+### Шаг 9: Валидация ссылок
 
 ```
 /links-validate
@@ -353,8 +419,9 @@ grep -r "#old-heading" --include="*.md" .
 - [ ] README папки обновлён
 - [ ] README родительской папки обновлён
 - [ ] Ссылки обновлены вручную
-- [ ] Валидация структуры пройдена
-- [ ] Валидация ссылок пройдена
+- [ ] Зеркало `.instructions` переименовано (mirror-instructions.py rename)
+- [ ] Ссылки в скиллах обновлены (update-skill-refs.py)
+- [ ] Валидация пройдена
 
 ### Перемещение
 
@@ -366,19 +433,21 @@ grep -r "#old-heading" --include="*.md" .
 - [ ] README родительских папок обновлены (старый и новый)
 - [ ] README дочерних папок обновлены
 - [ ] Ссылки обновлены вручную
-- [ ] Валидация структуры пройдена
-- [ ] Валидация ссылок пройдена
+- [ ] Зеркало `.instructions` перемещено (mirror-instructions.py move)
+- [ ] Ссылки в скиллах обновлены (update-skill-refs.py)
+- [ ] Валидация пройдена
 
 ### Удаление
 
 - [ ] Найдены все зависимости
+- [ ] Зеркало `.instructions` помечено DELETE_ (mark-deleted.py)
+- [ ] Связанные скиллы помечены DELETE_
 - [ ] Секция удалена из SSOT
 - [ ] README родительской папки обновлён
 - [ ] Связанные документы обновлены
 - [ ] Битые ссылки помечены
 - [ ] Папка удалена из файловой системы
-- [ ] Валидация структуры пройдена
-- [ ] Валидация ссылок пройдена
+- [ ] Валидация пройдена
 
 ### Обновление ссылок (файлы)
 
@@ -400,17 +469,17 @@ grep -r "#old-heading" --include="*.md" .
 
 ## Примеры
 
-### Переименование: utils/ → helpers/
+### Переименование: shared/utils/ → shared/helpers/
 
 ```bash
 # Шаг 1: Найти ссылки
-python .structure/.instructions/.scripts/find-references.py "utils/"
+python .structure/.instructions/.scripts/find-references.py "shared/utils/"
 
 # Шаг 2: Переименовать папку
 mv shared/utils/ shared/helpers/
 
 # Шаг 3: Обновить SSOT
-python .structure/.instructions/.scripts/ssot.py rename utils helpers --description "Хелперы"
+python .structure/.instructions/.scripts/ssot.py rename shared/utils shared/helpers --description "Хелперы"
 
 # Шаг 4: Обновить README папки (заголовок)
 
@@ -419,7 +488,13 @@ python .structure/.instructions/.scripts/ssot.py rename utils helpers --descript
 # Шаг 6: Обновить ссылки вручную
 # Заменить shared/utils/ на shared/helpers/
 
-# Шаг 7-8: Валидация
+# Шаг 7: Переименовать зеркало .instructions
+python .structure/.instructions/.scripts/mirror-instructions.py rename shared/utils shared/helpers
+
+# Шаг 8: Обновить ссылки в скиллах
+python .structure/.instructions/.scripts/update-skill-refs.py shared/utils shared/helpers
+
+# Шаг 9-10: Валидация
 python .structure/.instructions/.scripts/validate-structure.py
 /links-validate
 ```
@@ -446,24 +521,42 @@ mv src/common/ shared/libs/
 
 **Шаг 8:** Обновление ссылок вручную — найти и заменить `src/common/` на `shared/libs/`.
 
-### Удаление: legacy/
+**Шаг 9:** Перемещение зеркала `.instructions`:
+```bash
+python .structure/.instructions/.scripts/mirror-instructions.py move src/common shared/libs
+# Переместит: src/.instructions/common/ → shared/.instructions/libs/
+```
+
+**Шаг 10:** Обновление ссылок в скиллах:
+```bash
+python .structure/.instructions/.scripts/update-skill-refs.py src/common shared/libs
+```
+
+### Удаление: docs/api/
 
 ```bash
 # Шаг 1: Поиск зависимостей
-python .structure/.instructions/.scripts/find-references.py "legacy/"
+python .structure/.instructions/.scripts/find-references.py "docs/api/"
 
-# Шаг 2: Удалить из SSOT
-python .structure/.instructions/.scripts/ssot.py delete legacy
+# Шаг 2: Пометить инструкции и скиллы как DELETE_
+python .structure/.instructions/.scripts/mark-deleted.py docs/api
+# Результат:
+#   docs/.instructions/api/           → docs/.instructions/DELETE_api/
+#   docs/.instructions/api/README.md  → docs/.instructions/DELETE_api/DELETE_README.md
+#   .claude/skills/docs-api-*/        → .claude/skills/DELETE_docs-api-*/
 
-# Шаг 3: Обновить README родительской папки (секция "Папки", дерево)
+# Шаг 3: Удалить из SSOT
+python .structure/.instructions/.scripts/ssot.py delete docs/api
 
-# Шаг 4-5: Обновить документы, пометить битые ссылки
+# Шаг 4: Обновить README родительской папки (секция "Папки", дерево)
+
+# Шаг 5-6: Обновить документы, пометить битые ссылки
 # <!-- BROKEN: папка удалена -->
 
-# Шаг 6: Удалить папку
-rm -rf legacy/
+# Шаг 7: Удалить папку
+rm -rf docs/api/
 
-# Шаг 7-8: Валидация
+# Шаг 8-9: Валидация
 python .structure/.instructions/.scripts/validate-structure.py
 /links-validate
 ```
@@ -508,20 +601,33 @@ grep -r "#old-heading" --include="*.md" .
 |--------|------------|------------|
 | [find-references.py](./.scripts/find-references.py) | Поиск ссылок на папку/файл | Этот документ |
 | [ssot.py](./.scripts/ssot.py) | Управление SSOT (add/rename/delete) | [create-structure.md](./create-structure.md), Этот документ |
+| [mirror-instructions.py](./.scripts/mirror-instructions.py) | Зеркалирование `.instructions` | [create-structure.md](./create-structure.md), Этот документ |
+| [mark-deleted.py](./.scripts/mark-deleted.py) | Пометка DELETE_ при удалении | Этот документ |
+| [update-skill-refs.py](./.scripts/update-skill-refs.py) | Обновление ссылок в скиллах | Этот документ |
 | [validate-structure.py](./.scripts/validate-structure.py) | Валидация структуры | [validation-structure.md](./validation-structure.md) |
+| [validate-links.py](./.scripts/validate-links.py) | Валидация ссылок | [validation-links.md](./validation-links.md) |
 
 **Использование:**
 ```bash
+# Поиск ссылок
 python .structure/.instructions/.scripts/find-references.py <паттерн>
+
+# SSOT
 python .structure/.instructions/.scripts/ssot.py rename <старый_путь> <новый_путь> --description "Описание"
 python .structure/.instructions/.scripts/ssot.py delete <путь>
-python .structure/.instructions/.scripts/validate-structure.py
-```
 
-**Примеры с вложенными путями:**
-```bash
-python .structure/.instructions/.scripts/ssot.py rename test/old test/new --description "Новое имя"
-python .structure/.instructions/.scripts/ssot.py delete test/subtest
+# Зеркалирование .instructions
+python .structure/.instructions/.scripts/mirror-instructions.py rename <старый_путь> <новый_путь>
+python .structure/.instructions/.scripts/mirror-instructions.py move <старый_путь> <новый_путь>
+
+# Пометка DELETE_ при удалении
+python .structure/.instructions/.scripts/mark-deleted.py <путь>
+
+# Обновление ссылок в скиллах
+python .structure/.instructions/.scripts/update-skill-refs.py <старый_путь> <новый_путь>
+
+# Валидация
+python .structure/.instructions/.scripts/validate-structure.py
 ```
 
 ---

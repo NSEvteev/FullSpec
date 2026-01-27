@@ -345,18 +345,27 @@ def main():
         default=".",
         help="Корень репозитория (по умолчанию: текущая папка)"
     )
+    parser.add_argument(
+        "--create",
+        action="store_true",
+        help="Создать папку если не существует"
+    )
 
     args = parser.parse_args()
 
     repo_root = find_repo_root(Path(args.repo))
 
-    # Проверяем, существует ли папка
+    # Проверяем/создаём папку
     folder_path = args.folder.strip("/").replace("\\", "/")
     full_path = repo_root / folder_path
 
     if not full_path.exists():
-        print(f"⚠️  Папка не существует: {full_path}", file=sys.stderr)
-        print(f"   Шаблон будет сгенерирован для пути: /{folder_path}/", file=sys.stderr)
+        if args.create:
+            full_path.mkdir(parents=True, exist_ok=True)
+            print(f"📁 Папка создана: {full_path}", file=sys.stderr)
+        else:
+            print(f"⚠️  Папка не существует: {full_path}", file=sys.stderr)
+            print(f"   Используйте --create для автоматического создания", file=sys.stderr)
 
     # Генерируем и выводим README
     readme_content = generate_readme(args.folder, repo_root)

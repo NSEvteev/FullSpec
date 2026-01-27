@@ -32,9 +32,11 @@ index: .structure/.instructions/README.md
 
 ---
 
-## Принцип
+## Принципы
 
 > **README.md создаётся ВМЕСТЕ с папкой.** Папка без README не существует.
+
+> **Папка в SSOT → зеркало в `.instructions`.** Если папка добавлена в SSOT, для неё создаётся зеркало инструкций.
 
 Структура документируется в момент создания, не после.
 
@@ -42,21 +44,15 @@ index: .structure/.instructions/README.md
 
 ## Шаги
 
-### Шаг 1: Создать папку
+### Шаг 1: Создать папку и сгенерировать шаблон README
 
 ```bash
-mkdir {путь_к_папке}
+python .structure/.instructions/.scripts/generate-readme.py {путь} --create
 ```
 
-### Шаг 2: Сгенерировать шаблон README
+Флаг `--create` автоматически создаёт папку. Скрипт выводит шаблон в stdout.
 
-```bash
-python .structure/.instructions/.scripts/generate-readme.py {путь}
-```
-
-Скрипт определит тип папки и создаст шаблон с плейсхолдерами.
-
-### Шаг 3: Заполнить плейсхолдеры
+### Шаг 2: Заполнить плейсхолдеры и записать README
 
 Заменить `{PLACEHOLDER}` на реальные значения:
 
@@ -65,17 +61,16 @@ python .structure/.instructions/.scripts/generate-readme.py {путь}
 | `{DESCRIPTION}` | Краткое описание папки |
 | `{FOLDER_PURPOSE}` | Назначение (для заголовка) |
 | `{EXTENDED_DESCRIPTION}` | Расширенное описание |
-| `{FOLDERS_CONTENT}` | Секции подпапок |
-| `{FILES_CONTENT}` | Секции файлов |
-| `{TREE_CONTENT}` | ASCII-дерево |
+| `{FOLDERS_CONTENT}` | Секции подпапок (или *Нет подпапок.*) |
+| `{FILES_CONTENT}` | Секции файлов (или *Нет файлов.*) |
+| `{TREE_CONTENT}` | ASCII-дерево (удалить строку если пусто) |
 
-### Шаг 4: Записать README
-
+Записать:
 ```
 Write → {путь}/README.md
 ```
 
-### Шаг 5: Обновить README родительской папки
+### Шаг 3: Обновить README родительской папки
 
 > **SSOT:** [standard-readme.md#52-обновление-readme-родительской-папки](./standard-readme.md#52-обновление-readme-родительской-папки)
 
@@ -83,70 +78,110 @@ Write → {путь}/README.md
 - **Секция "Папки"** — описание новой подпапки
 - **Дерево** — ветку новой подпапки
 
-### Шаг 6: Добавить в SSOT
+> Для корневых папок — пропустить (родитель = корневой README).
+
+### Шаг 4: Добавить в SSOT
 
 > **ПРАВИЛО:** ВСЕ папки добавляются в SSOT, включая подпапки.
 
 ```bash
-# Корневая папка
-python .structure/.instructions/.scripts/ssot.py add {папка} --description "Описание"
+# С автозаменой {EXTENDED_DESCRIPTION}
+python .structure/.instructions/.scripts/ssot.py add {путь} -d "Описание" -e "Расширенное описание"
 
 # Подпапка (родитель должен быть в SSOT)
-python .structure/.instructions/.scripts/ssot.py add {родитель}/{папка} --description "Описание"
+python .structure/.instructions/.scripts/ssot.py add {родитель}/{папка} -d "Описание" -e "Расширенное описание"
 ```
 
-Скрипт автоматически добавляет в `/.structure/README.md`:
+Флаг `-e` / `--extended` автоматически заменяет `{EXTENDED_DESCRIPTION}` в SSOT.
+
+Скрипт добавляет в `/.structure/README.md`:
 - Секцию папки (алфавитный порядок)
 - Оглавление (с отступом для подпапок)
 - Дерево (внутри родительской папки)
 
-> **После:** Замените `{EXTENDED_DESCRIPTION}` в секции папки.
+### Шаг 5: Создать зеркало `.instructions`
 
-### Шаг 7: Валидация структуры
+> **ПРАВИЛО:** Папка в SSOT → зеркало в `.instructions`.
 
 ```bash
-python .structure/.instructions/.scripts/validate-structure.py
+python .structure/.instructions/.scripts/mirror-instructions.py create {путь}
 ```
 
-### Шаг 8: Валидация ссылок
+**Что создаёт скрипт:**
 
+| Тип папки | Что создаётся |
+|-----------|---------------|
+| Корневая (`docs/`) | `docs/.instructions/README.md` |
+| Подпапка (`docs/api/`) | `docs/.instructions/api/README.md` |
+
+README для `.instructions` содержит индекс инструкций папки.
+
+### Шаг 6: Валидация
+
+```bash
+python .structure/.instructions/.scripts/validate.py --path {путь}
 ```
-/links-validate
-```
+
+Единый скрипт запускает проверки:
+- Структура SSOT
+- Ссылки в markdown
+- Наличие зеркала `.instructions`
 
 ---
 
 ## Чек-лист
 
-- [ ] Папка создана
-- [ ] README.md сгенерирован и заполнен
-- [ ] README родительской папки обновлён
-- [ ] SSOT обновлён (ssot.py add)
-- [ ] {EXTENDED_DESCRIPTION} заполнен
-- [ ] Валидация структуры пройдена
-- [ ] Валидация ссылок пройдена
+- [ ] Папка создана (generate-readme.py --create)
+- [ ] README.md заполнен и записан
+- [ ] README родительской папки обновлён (если не корневая)
+- [ ] SSOT обновлён (ssot.py add -d -e)
+- [ ] Зеркало `.instructions` создано (mirror-instructions.py create)
+- [ ] Валидация пройдена (validate.py)
 
 ---
 
 ## Примеры
 
-### Создание папки docs/
+### Создание корневой папки docs/
 
 ```bash
-# Шаг 1-2: Создать папку и сгенерировать шаблон
-mkdir docs
-python .structure/.instructions/.scripts/generate-readme.py docs
+# Шаг 1: Создать папку и сгенерировать шаблон
+python .structure/.instructions/.scripts/generate-readme.py docs --create
 
-# Шаг 3-4: Заполнить плейсхолдеры, записать README
+# Шаг 2: Заполнить плейсхолдеры, записать README (Write tool)
 
-# Шаг 5: Обновить README родительской папки (секция "Папки", дерево)
+# Шаг 3: Пропускаем (корневая папка)
 
-# Шаг 6: Обновить SSOT
-python .structure/.instructions/.scripts/ssot.py add docs --description "Документация проекта"
+# Шаг 4: Обновить SSOT
+python .structure/.instructions/.scripts/ssot.py add docs -d "Документация проекта" -e "Проектная документация и руководства."
 
-# Шаг 7-8: Валидация
-python .structure/.instructions/.scripts/validate-structure.py
-/links-validate
+# Шаг 5: Создать зеркало .instructions
+python .structure/.instructions/.scripts/mirror-instructions.py create docs
+# Создаст: docs/.instructions/README.md
+
+# Шаг 6: Валидация
+python .structure/.instructions/.scripts/validate.py --path docs
+```
+
+### Создание подпапки docs/api/
+
+```bash
+# Шаг 1: Создать папку и сгенерировать шаблон
+python .structure/.instructions/.scripts/generate-readme.py docs/api --create
+
+# Шаг 2: Заполнить плейсхолдеры, записать README (Write tool)
+
+# Шаг 3: Обновить docs/README.md (секция "Папки", дерево)
+
+# Шаг 4: Обновить SSOT (родитель docs/ должен быть в SSOT)
+python .structure/.instructions/.scripts/ssot.py add docs/api -d "API документация" -e "Документация API."
+
+# Шаг 5: Создать зеркало .instructions
+python .structure/.instructions/.scripts/mirror-instructions.py create docs/api
+# Создаст: docs/.instructions/api/README.md
+
+# Шаг 6: Валидация
+python .structure/.instructions/.scripts/validate.py --path docs
 ```
 
 ---
@@ -157,18 +192,23 @@ python .structure/.instructions/.scripts/validate-structure.py
 |--------|------------|------------|
 | [generate-readme.py](./.scripts/generate-readme.py) | Генерация шаблона README | Этот документ |
 | [ssot.py](./.scripts/ssot.py) | Управление SSOT (add/rename/delete) | Этот документ, [modify-structure.md](./modify-structure.md) |
-| [validate-structure.py](./.scripts/validate-structure.py) | Валидация структуры | [validation-structure.md](./validation-structure.md) |
+| [mirror-instructions.py](./.scripts/mirror-instructions.py) | Зеркалирование `.instructions` | Этот документ, [modify-structure.md](./modify-structure.md) |
+| [validate.py](./.scripts/validate.py) | Единая валидация | [validation-structure.md](./validation-structure.md), [validation-links.md](./validation-links.md) |
 
 **Использование:**
 ```bash
-python .structure/.instructions/.scripts/generate-readme.py <путь>
-python .structure/.instructions/.scripts/ssot.py add <путь> --description "Описание"
-python .structure/.instructions/.scripts/validate-structure.py
-```
+# Генерация README с автосозданием папки
+python .structure/.instructions/.scripts/generate-readme.py <путь> --create
 
-**Примеры с вложенными путями:**
-```bash
-python .structure/.instructions/.scripts/ssot.py add test/subtest --description "Тестовая подпапка"
+# Добавление в SSOT с расширенным описанием
+python .structure/.instructions/.scripts/ssot.py add <путь> -d "Описание" -e "Расширенное описание"
+
+# Создание зеркала .instructions
+python .structure/.instructions/.scripts/mirror-instructions.py create <путь>
+
+# Валидация (все проверки)
+python .structure/.instructions/.scripts/validate.py
+python .structure/.instructions/.scripts/validate.py --path <папка>
 ```
 
 ---
