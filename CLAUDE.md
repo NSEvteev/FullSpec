@@ -6,6 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
+## TODO (28.01.2026)
+
+- [ ] Продолжить тестирование: [/.claude/drafts/test-structure-full.md](/.claude/drafts/test-structure-full.md)
+  - Фаза 3: тестирование зеркалирования `.instructions`
+  - Тесты 1-8 ожидают выполнения
+
+---
+
 ## Проверка скиллов (ОБЯЗАТЕЛЬНО)
 
 > **КРИТИЧЕСКОЕ ПРАВИЛО:** Перед выполнением ЛЮБОГО запроса пользователя — проверить скиллы!
