@@ -65,11 +65,14 @@
 
 ### documentation
 
-Работа с документацией и ссылками.
+Работа с документацией и структурой.
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
 | [links-validate](./links-validate/SKILL.md) | Валидация ссылок в markdown-документах | `/links-validate`, "проверь ссылки" |
+| [structure-create](./structure-create/SKILL.md) | Создание новой папки в структуре | `/structure-create`, "создай папку" |
+| [structure-modify](./structure-modify/SKILL.md) | Изменение папки (rename/move/delete) | `/structure-modify`, "переименуй папку" |
+| [structure-validate](./structure-validate/SKILL.md) | Валидация согласованности SSOT структуры | `/structure-validate`, "проверь структуру" |
 
 ---
 

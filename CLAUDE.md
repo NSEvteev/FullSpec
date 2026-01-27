@@ -23,6 +23,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    - Изменить статус спецификации → /spec-status
    - Работать со спецификацией → /spec-update
    - Проверить ссылки → /links-validate
+   - Создать папку → /structure-create
+   - Изменить папку → /structure-modify
+   - Проверить структуру → /structure-validate
 5. Если скилл ЕСТЬ → использую скилл
 6. Если скилла НЕТ → выполняю вручную
 ```
@@ -47,7 +50,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-## Скиллы (11)
+## Скиллы (14)
 
 | Категория | Скиллы |
 |-----------|--------|
@@ -55,6 +58,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | spec-* | create, status, update |
 | instruction-* | create, deactivate, update |
 | links-* | validate |
+| structure-* | create, modify, validate |
 
 Полный список: [/.claude/skills/README.md](/.claude/skills/README.md)
 
@@ -78,7 +82,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 /.claude/
 ├── .instructions/skills/    # Как писать скиллы
-├── skills/                  # Скиллы (11)
+├── skills/                  # Скиллы (14)
 ├── agents/                  # Агенты
 ├── drafts/                  # Черновики (в git)
 └── settings.json            # Настройки

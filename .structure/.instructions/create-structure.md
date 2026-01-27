@@ -155,4 +155,5 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 | Скилл | Назначение | Инструкция |
 |-------|------------|------------|
+| [/structure-create](/.claude/skills/structure-create/SKILL.md) | Создание папки | Этот документ |
 | [/links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация ссылок | [validation-links.md](./validation-links.md) |

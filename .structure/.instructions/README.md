@@ -156,4 +156,7 @@ index: .structure/.instructions/README.md
 | Скилл | Назначение | Инструкция |
 |-------|------------|------------|
 | [/links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация ссылок | [validation-links.md](./validation-links.md) |
+| [/structure-create](/.claude/skills/structure-create/SKILL.md) | Создание папки | [create-structure.md](./create-structure.md) |
+| [/structure-modify](/.claude/skills/structure-modify/SKILL.md) | Изменение папки | [modify-structure.md](./modify-structure.md) |
+| [/structure-validate](/.claude/skills/structure-validate/SKILL.md) | Валидация структуры | [validation-structure.md](./validation-structure.md) |
 

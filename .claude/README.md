@@ -24,7 +24,8 @@
 | Папка | Назначение | Индекс |
 |-------|------------|--------|
 | [instructions/](./.instructions/) | Правила и стандарты | [README.md](./.instructions/README.md) |
-| [skills/](./skills/) | Автоматизация (37 скиллов) | [README.md](./skills/README.md) |
+| [skills/](./skills/) | Автоматизация (14 скиллов) | [README.md](./skills/README.md) |
+| [rules/](./rules/) | Контекстные правила | — |
 | [templates/](./templates/) | SSOT шаблоны | [README.md](./templates/README.md) |
 | [agents/](./agents/) | Помощники | [README.md](./agents/README.md) |
 | [state/](./state/) | Состояние между вызовами | [README.md](./state/README.md) |

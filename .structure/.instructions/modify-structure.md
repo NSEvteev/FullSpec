@@ -16,7 +16,7 @@ index: .structure/.instructions/README.md
 
 | Тип | Документ |
 |-----|----------|
-| Стандарт | [standard-readme.md](./standard-readme.md), [standard-links.md](./standard-links.md) |
+| Стандарт | [standard-readme.md](./standard-readme.md), [standard-links.md](./standard-links.md), [standard-frontmatter.md](./standard-frontmatter.md) |
 | Валидация | [validation-structure.md](./validation-structure.md), [validation-links.md](./validation-links.md) |
 | Создание | [create-structure.md](./create-structure.md) |
 | Модификация | Этот документ |
@@ -127,21 +127,36 @@ mv src/utils/ shared/utils/
 - Заголовок с новым путём
 - Блок "Полезные ссылки" (цепочка родителей изменилась)
 
-### Шаг 5: Обновить README дочерних папок
+### Шаг 5: Обновить frontmatter
+
+> **SSOT:** [standard-frontmatter.md](./standard-frontmatter.md)
+
+При перемещении относительные пути в frontmatter могут стать невалидными:
+
+```yaml
+---
+standard: ../../.instructions/standard.md  # ← путь изменился
+index: ../README.md                         # ← путь изменился
+---
+```
+
+Проверить и обновить поля `standard` и `index` во всех `.md` файлах перемещённой папки.
+
+### Шаг 6: Обновить README дочерних папок
 
 Если есть подпапки — их "Полезные ссылки" тоже изменились.
 
-### Шаг 6: Обновить ссылки вручную
+### Шаг 7: Обновить ссылки вручную
 
 Найти и заменить все вхождения `src/utils/` на `shared/utils/` в markdown-файлах.
 
-### Шаг 7: Валидация структуры
+### Шаг 8: Валидация структуры
 
 ```bash
 python .structure/.instructions/.scripts/validate-structure.py
 ```
 
-### Шаг 8: Валидация ссылок
+### Шаг 9: Валидация ссылок
 
 ```
 /links-validate
@@ -227,7 +242,13 @@ mv old-path/old-name.md new-path/new-name.md
 
 Найти и заменить все вхождения пути в markdown-файлах.
 
-#### Шаг 4: Проверить
+#### Шаг 4: Обновить frontmatter
+
+> **SSOT:** [standard-frontmatter.md](./standard-frontmatter.md)
+
+Если файл перемещён — проверить и обновить относительные пути в полях `standard` и `index`.
+
+#### Шаг 5: Проверить
 
 ```bash
 grep -r "old-path/old-name.md" --include="*.md" .
@@ -293,6 +314,7 @@ grep -r "#old-heading" --include="*.md" .
 - [ ] Папка перемещена
 - [ ] SSOT обновлён (оба родителя, дерево)
 - [ ] README папки обновлён (путь, "Полезные ссылки")
+- [ ] Frontmatter обновлён (поля `standard`, `index`)
 - [ ] README дочерних папок обновлены
 - [ ] Ссылки обновлены вручную
 - [ ] Валидация структуры пройдена
@@ -313,6 +335,7 @@ grep -r "#old-heading" --include="*.md" .
 - [ ] Найдены все ссылки на файл
 - [ ] Файл переименован/перемещён/удалён
 - [ ] Ссылки обновлены или помечены
+- [ ] Frontmatter обновлён (при перемещении)
 - [ ] Проверка пройдена
 - [ ] Битые ссылки исправлены (при удалении)
 
@@ -441,4 +464,5 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 | Скилл | Назначение | Инструкция |
 |-------|------------|------------|
+| [/structure-modify](/.claude/skills/structure-modify/SKILL.md) | Изменение папки | Этот документ |
 | [/links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация ссылок | [validation-links.md](./validation-links.md) |

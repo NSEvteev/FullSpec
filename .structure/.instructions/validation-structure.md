@@ -139,4 +139,6 @@ python .structure/.instructions/.scripts/validate-structure.py --json
 
 ## Скиллы
 
-**Скиллы для этой области отсутствуют.**
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/structure-validate](/.claude/skills/structure-validate/SKILL.md) | Валидация структуры | Этот документ |
