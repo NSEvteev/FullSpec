@@ -14,8 +14,8 @@ index: .structure/.instructions/README.md
 
 **Связанные инструкции:**
 - [standard-readme.md](./standard-readme.md) — формат описания папок
-- [workflow-create.md](./workflow-create.md) — создание папки
-- [workflow-modify.md](./workflow-modify.md) — изменение папки
+- [create-structure.md](./create-structure.md) — создание папки
+- [modify-structure.md](./modify-structure.md) — изменение папки
 
 ## Оглавление
 
@@ -35,8 +35,8 @@ index: .structure/.instructions/README.md
 
 После любого изменения в `/.structure/README.md`:
 
-- Создание папки → [workflow-create.md](./workflow-create.md)
-- Удаление/переименование/перемещение → [workflow-modify.md](./workflow-modify.md)
+- Создание папки → [create-structure.md](./create-structure.md)
+- Удаление/переименование/перемещение → [modify-structure.md](./modify-structure.md)
 
 ---
 
@@ -143,6 +143,4 @@ python .structure/.instructions/.scripts/validate-structure.py --json
 
 ## Скиллы
 
-| Скилл | Назначение |
-|-------|------------|
-| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Автоматическая проверка всех ссылок в проекте |
+**Скиллы для этой области отсутствуют.**

@@ -1,19 +1,30 @@
 ---
 name: links-validate
+description: Валидация ссылок в markdown-документах
+allowed-tools: Read, Bash, Glob, Grep
 category: documentation
-trigger: /links-validate
-description: Валидация всех ссылок в проекте
-critical: false
+triggers:
+  commands:
+    - /links-validate
+  phrases:
+    ru:
+      - проверь ссылки
+      - валидация ссылок
+      - найди битые ссылки
+      - проверить ссылки
+    en:
+      - validate links
+      - check links
+      - find broken links
 ---
 
-# /links-validate
+# Валидация ссылок
 
-Проверка всех ссылок в markdown-файлах проекта на валидность.
+Проверка ссылок в markdown-документах на соответствие стандарту.
 
-**Связанные скиллы:**
-- [links-update](/.claude/skills/links-update/SKILL.md) — обновление ссылок
-- [links-delete](/.claude/skills/links-delete/SKILL.md) — пометка битых
-- [health-check](/.claude/skills/health-check/SKILL.md) — использует этот скилл
+**Связанные документы:**
+- [validation-links.md](/.structure/.instructions/validation-links.md) — процедура валидации
+- [standard-links.md](/.structure/.instructions/standard-links.md) — стандарт ссылок
 
 ## Оглавление
 
@@ -27,15 +38,13 @@ critical: false
 ## Формат вызова
 
 ```
-/links-validate [путь] [--fix] [--dry-run] [--json]
+/links-validate [--path <файл/папка>] [--json]
 ```
 
 | Параметр | Описание | По умолчанию |
 |----------|----------|--------------|
-| `путь` | Файл или папка | Весь проект |
-| `--fix` | Предложить исправления | false |
-| `--dry-run` | Показать без изменений | false |
-| `--json` | JSON формат | false |
+| `--path` | Файл или папка для проверки | Весь проект |
+| `--json` | JSON-вывод для автоматизации | false |
 
 ---
 
@@ -43,58 +52,109 @@ critical: false
 
 > ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
 >
-> Прочитать инструкции SSOT:
-> 1. [standard-links.md](/.structure/.instructions/standard-links.md) — типы и форматы ссылок
-> 2. [validation-structure.md](/.structure/.instructions/validation-structure.md) — валидация структуры
+> Прочитать SSOT-инструкции:
+> 1. [validation-links.md](/.structure/.instructions/validation-links.md) — что и как проверять
+> 2. [standard-links.md](/.structure/.instructions/standard-links.md) — эталонные форматы
 >
-> **НЕ ПРОДОЛЖАТЬ** пока инструкции не прочитаны.
+> **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
 
-### Шаг 1: Найти .md файлы в scope
+### Шаг 1: Запустить скрипт валидации
 
-> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md)
+```bash
+python .structure/.instructions/.scripts/validate-links.py [--path <путь>] [--json]
+```
 
-### Шаг 2: Извлечь все ссылки (согласно patterns.md)
+> **SSOT:** [validation-links.md#скрипты](/.structure/.instructions/validation-links.md#скрипты)
 
-> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md#1-типы-ссылок)
+### Шаг 2: Проанализировать результаты
 
-### Шаг 3: Валидировать каждую (согласно validation.md)
+> **SSOT:** [validation-links.md#шаги-валидации](/.structure/.instructions/validation-links.md#шаги-валидации)
 
-> **SSOT:** [validation-structure.md](/.structure/.instructions/validation-structure.md#шаг-3-проверить-ссылки)
+Коды ошибок:
+| Код | Описание |
+|-----|----------|
+| E001 | Файл не существует |
+| E002 | Папка не существует |
+| E003 | Якорь не найден |
+| E004 | Ссылка на папку без trailing slash |
+| E005 | Квадратные скобки в frontmatter |
+| E006 | Ведущий / в frontmatter |
+| E007 | Файл из frontmatter не существует |
+| E008 | Неверный формат ссылки в SSOT |
+| E009 | Ссылка в SSOT не на README.md |
 
-### Шаг 4: Сформировать отчёт
+### Шаг 3: Предложить исправления
 
-> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md#1-типы-ссылок)
+Для каждой ошибки:
+1. Показать файл и строку
+2. Показать проблемную ссылку
+3. Предложить исправление по стандарту
 
-### Шаг 5: (--fix) Предложить исправления
+> **SSOT:** [validation-links.md#типичные-ошибки](/.structure/.instructions/validation-links.md#типичные-ошибки)
 
-> **SSOT:** [standard-links.md](/.structure/.instructions/standard-links.md#8-скиллы)
+### Шаг 4: Проверить чек-лист
 
-### Шаг 6: Проверка по чек-листу
+Проверить [Чек-лист](#чек-лист). Если какой-то пункт не выполнен — вернуться на первый невыполненный шаг и переделать, начиная с него.
 
-См. [Чек-лист](#чек-лист) ниже.
-
-### Шаг 7: Результат
+### Шаг 5: Результат
 
 ```
-📋 Валидация ссылок
+✅ Валидация завершена
 
-Проверено: {N} файлов, {M} ссылок
-✅ Валидных: {K}
-❌ Битых: {L}
+Файлов проверено: N
+Ошибок: N
+Предупреждений: N
+```
+
+Или с ошибками:
+
+```
+❌ Найдены ошибки
+
+📄 path/to/file.md
+   ❌ [E001] Файл не существует: ./missing.md
+   ⚠️  [W001] Абсолютный путь для файла в той же папке
+
+Файлов проверено: N
+Ошибок: N
+Предупреждений: N
 ```
 
 ---
 
 ## Чек-лист
 
-- [ ] Прочитал SSOT инструкции
-- [ ] Нашёл файлы
-- [ ] Извлёк ссылки
-- [ ] Провалидировал
-- [ ] Сформировал отчёт
+- [ ] Прочитал SSOT инструкции (ШАГ 0)
+- [ ] Запустил скрипт валидации (Шаг 1)
+- [ ] Проанализировал ошибки (Шаг 2)
+- [ ] Предложил исправления (Шаг 3)
+- [ ] Проверил чек-лист (Шаг 4)
+- [ ] Вывел итоговый отчёт (Шаг 5)
 
 ---
 
 ## Примеры
 
-> **SSOT:** [examples.md](/.claude/.instructions/.structure/links/examples.md#links-validate)
+### Проверка всего проекта
+
+```
+/links-validate
+```
+
+### Проверка конкретного файла
+
+```
+/links-validate --path docs/README.md
+```
+
+### Проверка папки
+
+```
+/links-validate --path .structure/
+```
+
+### JSON-вывод
+
+```
+/links-validate --json
+```

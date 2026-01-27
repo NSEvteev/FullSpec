@@ -21,7 +21,7 @@ index: .structure/.instructions/README.md
 |--------|------------|----------|
 | [1. Стандарты](#1-стандарты) | — | Форматы и правила |
 | [2. Воркфлоу](#2-воркфлоу) | — | Создание и изменение |
-| [3. Валидация](#3-валидация) | [validation-structure.md](./validation-structure.md) | Проверка согласованности |
+| [3. Валидация](#3-валидация) | — | Проверка согласованности |
 | [4. Скрипты](#4-скрипты) | — | Автоматизация |
 | [5. Скиллы](#5-скиллы) | — | Скиллы для этой области |
 
@@ -31,9 +31,10 @@ index: .structure/.instructions/README.md
 ├── standard-frontmatter.md  # Стандарт frontmatter
 ├── standard-links.md        # Стандарт ссылок
 ├── standard-readme.md       # Стандарт README
-├── validation-structure.md  # Валидация согласованности
-├── workflow-create.md       # Создание папки
-├── workflow-modify.md       # Изменение папки (rename/move/delete)
+├── validation-links.md      # Валидация ссылок
+├── validation-structure.md  # Валидация структуры
+├── create-structure.md       # Создание папки
+├── modify-structure.md       # Изменение папки (rename/move/delete)
 └── .scripts/
     ├── generate-readme.py   # Генерация шаблона README
     └── validate-structure.py # Валидация структуры
@@ -87,29 +88,31 @@ index: .structure/.instructions/README.md
 > **Принцип:** README.md создаётся ВМЕСТЕ с папкой. Папка без README не существует.
 
 **Оглавление:**
-- [Шаги воркфлоу](./workflow-create.md#шаги)
-- [Чек-лист](./workflow-create.md#чек-лист)
-- [Скрипты](./workflow-create.md#скрипты)
+- [Шаги воркфлоу](./create-structure.md#шаги)
+- [Чек-лист](./create-structure.md#чек-лист)
+- [Скрипты](./create-structure.md#скрипты)
 
-**Инструкция:** [workflow-create.md](./workflow-create.md)
+**Инструкция:** [create-structure.md](./create-structure.md)
 
 ## 2.2. Изменение папки
 
 Воркфлоу переименования, перемещения и удаления папки.
 
 **Оглавление:**
-- [Переименование](./workflow-modify.md#переименование)
-- [Перемещение](./workflow-modify.md#перемещение)
-- [Удаление](./workflow-modify.md#удаление)
-- [Чек-лист](./workflow-modify.md#чек-лист)
+- [Переименование](./modify-structure.md#переименование)
+- [Перемещение](./modify-structure.md#перемещение)
+- [Удаление](./modify-structure.md#удаление)
+- [Чек-лист](./modify-structure.md#чек-лист)
 
-**Инструкция:** [workflow-modify.md](./workflow-modify.md)
+**Инструкция:** [modify-structure.md](./modify-structure.md)
 
 ---
 
 # 3. Валидация
 
-Проверка согласованности структуры проекта.
+## 3.1. Валидация структуры
+
+Проверка согласованности SSOT структуры проекта.
 
 **Оглавление:**
 - [Когда валидировать](./validation-structure.md#когда-валидировать)
@@ -118,6 +121,18 @@ index: .structure/.instructions/README.md
 - [Типичные ошибки](./validation-structure.md#типичные-ошибки)
 
 **Инструкция:** [validation-structure.md](./validation-structure.md)
+
+## 3.2. Валидация ссылок
+
+Проверка корректности ссылок в markdown-документах.
+
+**Оглавление:**
+- [Когда валидировать](./validation-links.md#когда-валидировать)
+- [Что проверяется](./validation-links.md#что-проверяется)
+- [Шаги проверки](./validation-links.md#шаги)
+- [Типичные ошибки](./validation-links.md#типичные-ошибки)
+
+**Инструкция:** [validation-links.md](./validation-links.md)
 
 ---
 
@@ -138,11 +153,7 @@ index: .structure/.instructions/README.md
 
 # 5. Скиллы
 
-| Скилл | Назначение |
-|-------|------------|
-| [/links-update](/.claude/skills/links-update/SKILL.md) | Обновление ссылок при переименовании/перемещении |
-| [/links-delete](/.claude/skills/links-delete/SKILL.md) | Пометка битых ссылок при удалении |
-| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Проверка всех ссылок в проекте |
+**Скиллы для этой области отсутствуют.**
 
 ---
 

@@ -70,11 +70,9 @@ mv old-name/ new-name/
 
 Обновить заголовок `# /path/new-name/ — ...`
 
-### Шаг 5: Обновить ссылки
+### Шаг 5: Обновить ссылки вручную
 
-```
-/links-update old-name/ → new-name/
-```
+Найти и заменить все вхождения `old-name/` на `new-name/` в markdown-файлах.
 
 ### Шаг 6: Валидация
 
@@ -113,11 +111,9 @@ mv src/utils/ shared/utils/
 
 Если есть подпапки — их "Полезные ссылки" тоже изменились.
 
-### Шаг 6: Обновить ссылки
+### Шаг 6: Обновить ссылки вручную
 
-```
-/links-update src/utils/ → shared/utils/
-```
+Найти и заменить все вхождения `src/utils/` на `shared/utils/` в markdown-файлах.
 
 ### Шаг 7: Валидация
 
@@ -152,9 +148,7 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 ### Шаг 4: Пометить битые ссылки
 
-```
-/links-delete {папка}/
-```
+Добавить комментарий `<!-- BROKEN: папка удалена -->` к ссылкам на удаляемую папку.
 
 ### Шаг 5: Удалить папку
 
@@ -194,16 +188,14 @@ grep -r "old-name.md" --include="*.md" .
 mv old-path/old-name.md new-path/new-name.md
 ```
 
-#### Шаг 3: Обновить ссылки
+#### Шаг 3: Обновить ссылки вручную
 
-```
-/links-update old-path/old-name.md → new-path/new-name.md
-```
+Найти и заменить все вхождения пути в markdown-файлах.
 
 #### Шаг 4: Проверить
 
-```
-/links-validate
+```bash
+grep -r "old-path/old-name.md" --include="*.md" .
 ```
 
 ### При удалении файла
@@ -216,9 +208,7 @@ grep -r "file-to-delete.md" --include="*.md" .
 
 #### Шаг 2: Пометить битые ссылки
 
-```
-/links-delete path/to/file.md
-```
+Добавить комментарий `<!-- BROKEN: файл удалён -->` к найденным ссылкам.
 
 #### Шаг 3: Удалить файл
 
@@ -244,11 +234,9 @@ grep -r "#old-heading" --include="*.md" .
 ## Old Heading  →  ## New Heading
 ```
 
-#### Шаг 3: Обновить якоря
+#### Шаг 3: Обновить якоря вручную
 
-```
-/links-update file.md#old-heading → file.md#new-heading
-```
+Найти и заменить все вхождения `#old-heading` на `#new-heading` в markdown-файлах.
 
 ---
 
@@ -260,7 +248,7 @@ grep -r "#old-heading" --include="*.md" .
 - [ ] Папка переименована
 - [ ] SSOT обновлён (секция, оглавление, дерево)
 - [ ] README папки обновлён
-- [ ] /links-update вызван
+- [ ] Ссылки обновлены вручную
 - [ ] Валидация пройдена
 
 ### Перемещение
@@ -270,7 +258,7 @@ grep -r "#old-heading" --include="*.md" .
 - [ ] SSOT обновлён (оба родителя, дерево)
 - [ ] README папки обновлён (путь, "Полезные ссылки")
 - [ ] README дочерних папок обновлены
-- [ ] /links-update вызван
+- [ ] Ссылки обновлены вручную
 - [ ] Валидация пройдена
 
 ### Удаление
@@ -278,7 +266,7 @@ grep -r "#old-heading" --include="*.md" .
 - [ ] Найдены все зависимости
 - [ ] Секция удалена из SSOT
 - [ ] Связанные документы обновлены
-- [ ] /links-delete вызван
+- [ ] Битые ссылки помечены
 - [ ] Папка удалена из файловой системы
 - [ ] Валидация пройдена
 
@@ -286,8 +274,8 @@ grep -r "#old-heading" --include="*.md" .
 
 - [ ] Найдены все ссылки на файл
 - [ ] Файл переименован/перемещён/удалён
-- [ ] /links-update или /links-delete вызван
-- [ ] /links-validate пройдена
+- [ ] Ссылки обновлены или помечены
+- [ ] Проверка пройдена
 - [ ] Битые ссылки исправлены (при удалении)
 
 ### Изменение заголовка
@@ -295,7 +283,7 @@ grep -r "#old-heading" --include="*.md" .
 - [ ] Найдены якорные ссылки
 - [ ] Заголовок изменён
 - [ ] Якоря обновлены
-- [ ] /links-validate пройдена
+- [ ] Проверка пройдена
 
 ---
 
@@ -319,10 +307,7 @@ mv shared/utils/ shared/helpers/
 │   └── helpers/                  # Хелперы
 ```
 
-**Шаг 5:** Обновление ссылок
-```
-/links-update shared/utils/ → shared/helpers/
-```
+**Шаг 5:** Обновление ссылок вручную — найти и заменить `shared/utils/` на `shared/helpers/`.
 
 ### Перемещение: src/common/ → shared/libs/
 
@@ -340,10 +325,7 @@ mv src/common/ shared/libs/
 - [Структура проекта](/.structure/README.md)
 ```
 
-**Шаг 6:** Обновление ссылок
-```
-/links-update src/common/ → shared/libs/
-```
+**Шаг 6:** Обновление ссылок вручную — найти и заменить `src/common/` на `shared/libs/`.
 
 ### Удаление: legacy/
 
@@ -357,10 +339,7 @@ grep -r "legacy/" .
 - Удалить `- [legacy/](#-legacy)` из Оглавления
 - Удалить из дерева
 
-**Шаг 4:** Пометка ссылок
-```
-/links-delete legacy/
-```
+**Шаг 4:** Пометка ссылок — добавить `<!-- BROKEN: папка удалена -->`.
 
 ### Переименование файла: old-api.md → new-api.md
 
@@ -371,11 +350,11 @@ grep -r "old-api.md" --include="*.md" .
 # 2. Переименование
 mv docs/old-api.md docs/new-api.md
 
-# 3. Обновление ссылок
-/links-update docs/old-api.md → docs/new-api.md
+# 3. Обновление ссылок вручную
+# Заменить old-api.md на new-api.md во всех найденных файлах
 
 # 4. Проверка
-/links-validate
+grep -r "old-api.md" --include="*.md" .
 ```
 
 ### Изменение заголовка
@@ -387,11 +366,11 @@ grep -r "#old-heading" --include="*.md" .
 # 2. Изменение заголовка в файле
 # ## Old Heading → ## New Heading
 
-# 3. Обновление якорей
-/links-update file.md#old-heading → file.md#new-heading
+# 3. Обновление якорей вручную
+# Заменить #old-heading на #new-heading во всех найденных файлах
 
 # 4. Проверка
-/links-validate
+grep -r "#old-heading" --include="*.md" .
 ```
 
 ---
@@ -405,17 +384,14 @@ grep -r "#old-heading" --include="*.md" .
 **Воркфлоу LLM:**
 1. Выполнить изменение (rename/move/delete)
 2. Обновить SSOT и связанные документы
-3. Вызвать соответствующий скилл (/links-update или /links-delete)
+3. Обновить ссылки вручную (grep + replace)
 4. Вызвать validate-structure.py → проверить
 
 ---
 
 ## Скиллы
 
-| Скилл | Назначение |
-|-------|------------|
-| [/links-update](/.claude/skills/links-update/SKILL.md) | Обновление ссылок при переименовании/перемещении |
-| [/links-delete](/.claude/skills/links-delete/SKILL.md) | Пометка битых ссылок при удалении |
+**Скиллы для этой области отсутствуют.**
 
 ---
 
@@ -424,4 +400,4 @@ grep -r "#old-heading" --include="*.md" .
 - [standard-links.md](./standard-links.md) — типы, форматы и валидация ссылок
 - [standard-readme.md](./standard-readme.md) — стандарт README
 - [validation-structure.md](./validation-structure.md) — валидация структуры
-- [workflow-create.md](./workflow-create.md) — создание папки
+- [create-structure.md](./create-structure.md) — создание папки

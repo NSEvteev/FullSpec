@@ -14,8 +14,8 @@ index: .structure/.instructions/README.md
 
 **Связанные инструкции:**
 - [Правила валидации структуры - validation-structure.md](./validation-structure.md)
-- [Процесс создания README - workflow-create.md](./workflow-create.md) 
-- [Воркфлоу изменения - workflow-modify.md](./workflow-modify.md) 
+- [Процесс создания README - create-structure.md](./create-structure.md)
+- [Воркфлоу изменения - modify-structure.md](./modify-structure.md) 
 
 ## Оглавление
 
@@ -429,14 +429,21 @@ graph TD
 
 ### Скиллы
 
-| Скилл | Назначение |
-|-------|------------|
-| [/links-create](/.claude/skills/links-create/SKILL.md) | Создание ссылок на файлы и папки в документе |
-| [/links-update](/.claude/skills/links-update/SKILL.md) | Обновление ссылок при переименовании/перемещении |
-| [/links-delete](/.claude/skills/links-delete/SKILL.md) | Пометка битых ссылок при удалении файлов |
-| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация всех ссылок в проекте |
+#### Создаёт
+
+Эта инструкция не создаёт скиллы.
+
+#### Использует
+
+Эта инструкция не использует скиллы.
 
 ### Скрипты
+
+#### Создаёт
+
+Эта инструкция не создаёт скрипты.
+
+#### Использует
 
 | Скрипт | Назначение | Использование |
 |--------|------------|---------------|

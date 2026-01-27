@@ -92,7 +92,13 @@
       "Bash(dir \"C:\\\\Users\\\\*\\\\AppData\\\\Local\\\\Programs\\\\GitHub CLI\")",
       "WebFetch(domain:habr.com)",
       "Bash(Remove-Item -Recurse -Force \".claude/.instructions/.claude/docs\", \".claude/.instructions/.claude/templates\")",
-      "Bash(powershell -Command \"Get-ChildItem -Path ''.claude'' -Recurse -Filter ''*.md'' | ForEach-Object { \\(Get-Content $_FullName -Raw\\) -replace ''instructions/.claude/'', ''instructions/.claude/'' | Set-Content $_FullName -NoNewline }\")"
+      "Bash(powershell -Command \"Get-ChildItem -Path ''.claude'' -Recurse -Filter ''*.md'' | ForEach-Object { \\(Get-Content $_FullName -Raw\\) -replace ''instructions/.claude/'', ''instructions/.claude/'' | Set-Content $_FullName -NoNewline }\")",
+      "Bash(dir /s /b \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\.instructions\")",
+      "Bash(dir \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\.instructions\" /s /b)",
+      "Bash(dir \"C:\\\\00 Dev\\\\project_template\")",
+      "Skill(spec-create)",
+      "Bash(move \".claude\\\\scripts\\\\structure-validate.py\" \".structure\\\\.instructions\\\\.scripts\"\")",
+      "Bash(Remove-Item -Recurse -Force \".claude/skills/links-create\", \".claude/skills/links-update\", \".claude/skills/links-delete\", \".claude/skills/links-validate\")"
     ]
   }
 }

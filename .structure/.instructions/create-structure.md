@@ -155,5 +155,5 @@ python .structure/.instructions/.scripts/generate-readme.py docs
 ## Связанные инструкции
 
 - [standard-readme.md](./standard-readme.md) — стандарт README
-- [workflow-modify.md](./workflow-modify.md) — изменение папки
+- [modify-structure.md](./modify-structure.md) — изменение папки
 - [validation-structure.md](./validation-structure.md) — валидация структуры

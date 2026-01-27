@@ -53,17 +53,6 @@
 | [instruction-update](./instruction-update/SKILL.md) | Проверка файлов на соответствие инструкции | `/instruction-update`, "проверь инструкцию" |
 | [instruction-deactivate](./instruction-deactivate/SKILL.md) | Деактивация инструкции | `/instruction-deactivate`, "деактивируй инструкцию" |
 
-### documentation
-
-Работа со ссылками.
-
-| Скилл | Описание | Триггеры |
-|-------|----------|----------|
-| [links-create](./links-create/SKILL.md) | Создание ссылок на файлы и папки | `/links-create`, "создай ссылки" |
-| [links-update](./links-update/SKILL.md) | Обновление ссылок в связанных документах | `/links-update`, "обнови ссылки" |
-| [links-delete](./links-delete/SKILL.md) | Пометка битых ссылок при удалении файлов | `/links-delete`, "удали ссылки" |
-| [links-validate](./links-validate/SKILL.md) | Валидация всех ссылок в проекте | `/links-validate`, "проверь ссылки" |
-
 ### specs
 
 Работа с документами спецификаций /specs/.
@@ -73,6 +62,14 @@
 | [spec-create](./spec-create/SKILL.md) | Создание документов /specs/ (Discussion, Impact, ADR, Plan) | `/spec-create`, "создай спецификацию" |
 | [spec-status](./spec-status/SKILL.md) | Изменение статуса документа /specs/ | `/spec-status`, "статус спецификации" |
 | [spec-update](./spec-update/SKILL.md) | Работа с документом /specs/ | `/spec-update`, "обнови спецификацию" |
+
+### documentation
+
+Работа с документацией и ссылками.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [links-validate](./links-validate/SKILL.md) | Валидация ссылок в markdown-документах | `/links-validate`, "проверь ссылки" |
 
 ---
 
