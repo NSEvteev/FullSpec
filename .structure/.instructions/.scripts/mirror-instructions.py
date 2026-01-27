@@ -31,23 +31,45 @@ from pathlib import Path
 INSTRUCTIONS_DIR = ".instructions"
 
 README_TEMPLATE = """---
-description: Инструкции для {folder_name}/
+description: Индекс инструкций для {folder_name}/
+standard: .structure/.instructions/standard-readme.md
 index: {index_path}
 ---
 
-# Инструкции для {folder_name}/
+# Инструкции /{full_path}/
+
+Индекс инструкций для папки {folder_name}/.
 
 **Полезные ссылки:**
-- [{folder_name}/]({folder_readme_path})
-- [Структура проекта](/.structure/README.md)
+{useful_links}
 
-## Документы
+**Содержание:** *добавить темы через запятую.*
 
-*Нет документов.*
+---
 
-## Скрипты
+## Оглавление
 
-*Нет скриптов.*
+| Секция | Инструкция | Описание |
+|--------|------------|----------|
+| [1. Скрипты](#1-скрипты) | — | Автоматизация |
+| [2. Скиллы](#2-скиллы) | — | Скиллы для этой области |
+
+```
+/{instructions_tree_path}/
+└── README.md                # Этот файл (индекс)
+```
+
+---
+
+# 1. Скрипты
+
+**Скрипты для этой области отсутствуют.**
+
+---
+
+# 2. Скиллы
+
+**Скиллы для этой области отсутствуют.**
 """
 
 
@@ -104,27 +126,58 @@ def get_instructions_path(repo_root: Path, folder_path: str) -> Path:
 
 
 def generate_readme_content(folder_path: str, repo_root: Path) -> str:
-    """Сгенерировать содержимое README.md для .instructions."""
+    """Сгенерировать содержимое README.md для .instructions по стандарту."""
     full_path, root_folder, subpath, depth = parse_folder_path(folder_path)
 
     folder_name = full_path.split("/")[-1]
 
-    # Путь к README папки (относительно .instructions/README.md)
+    # Путь к index
     if depth == 0:
-        # docs/.instructions/README.md -> ../README.md
-        folder_readme_path = "../README.md"
+        # docs/.instructions/README.md
         index_path = f"{root_folder}/.instructions/README.md"
+        instructions_tree_path = f"{root_folder}/.instructions"
     else:
-        # docs/.instructions/api/README.md -> ../../api/README.md
-        ups = "../" * (depth + 1)
-        folder_readme_path = f"{ups}{subpath}/README.md"
-        index_path = f"{root_folder}/.instructions/README.md"
+        # docs/.instructions/api/README.md
+        index_path = f"{root_folder}/.instructions/{subpath}/README.md"
+        instructions_tree_path = f"{root_folder}/.instructions/{subpath}"
+
+    # Генерация "Полезные ссылки" по стандарту раздела 3
+    # Цепочка до README родительской папки (не до структуры проекта)
+    useful_links = generate_useful_links(folder_path, depth)
 
     return README_TEMPLATE.format(
         folder_name=folder_name,
-        folder_readme_path=folder_readme_path,
+        full_path=full_path,
         index_path=index_path,
+        useful_links=useful_links,
+        instructions_tree_path=instructions_tree_path,
     )
+
+
+def generate_useful_links(folder_path: str, depth: int) -> str:
+    """
+    Сгенерировать блок "Полезные ссылки" для README инструкций.
+
+    По стандарту standard-readme.md#3:
+    - README инструкций → ../README.md (README родительской папки проекта)
+    - README подпапки инструкций → ../README.md → ../../README.md (цепочка)
+    """
+    parts = folder_path.split("/")
+    lines = []
+
+    if depth == 0:
+        # docs/.instructions/README.md → ссылка на docs/README.md
+        folder_name = parts[0]
+        lines.append(f"- [{folder_name}/](../README.md)")
+    else:
+        # docs/.instructions/api/README.md → цепочка
+        # Первая ссылка — на README родительской .instructions
+        lines.append(f"- [Инструкции {parts[0]}/](../README.md)")
+        # Вторая ссылка — на README папки проекта
+        ups = "../" * 2
+        lines.append(f"- [{parts[0]}/]({ups}README.md)")
+
+    return "\n".join(lines)
 
 
 # =============================================================================
