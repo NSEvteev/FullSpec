@@ -12,6 +12,15 @@ index: .structure/.instructions/README.md
 - [Инструкции для .structure](./README.md)
 - [SSOT структуры проекта](../README.md)
 
+**Связанные документы:**
+
+| Тип | Документ |
+|-----|----------|
+| Стандарт | [standard-readme.md](./standard-readme.md) |
+| Валидация | [validation-structure.md](./validation-structure.md) |
+| Создание | Этот документ |
+| Модификация | [modify-structure.md](./modify-structure.md) |
+
 ## Оглавление
 
 - [Принцип](#принцип)
@@ -20,7 +29,6 @@ index: .structure/.instructions/README.md
 - [Примеры](#примеры)
 - [Скрипты](#скрипты)
 - [Скиллы](#скиллы)
-- [Связанные инструкции](#связанные-инструкции)
 
 ---
 
@@ -69,23 +77,27 @@ Write → {путь}/README.md
 
 ### Шаг 5: Добавить в SSOT
 
-Обновить `/.structure/README.md`:
+```bash
+python .structure/.instructions/.scripts/ssot.py add {папка} --description "Описание"
+```
 
-1. **Секция папки** — добавить в "Корневые папки" (алфавитный порядок)
-2. **Оглавление** — добавить ссылку `- [{папка}/](#-{папка})`
-3. **Дерево** — добавить в ASCII-дерево с комментарием
+Скрипт автоматически добавляет в `/.structure/README.md`:
+- Секцию папки (алфавитный порядок)
+- Оглавление
+- Дерево
 
-### Шаг 6: Обновить связанные документы
+> **После:** Замените `{EXTENDED_DESCRIPTION}` в секции папки.
 
-| Документ | Когда обновлять |
-|----------|-----------------|
-| `CLAUDE.md` | Если папка важна для Claude Code |
-| `/.instructions/coverage.md` | Если планируются инструкции |
-
-### Шаг 7: Валидация
+### Шаг 6: Валидация структуры
 
 ```bash
 python .structure/.instructions/.scripts/validate-structure.py
+```
+
+### Шаг 7: Валидация ссылок
+
+```
+/links-validate
 ```
 
 ---
@@ -94,11 +106,10 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 - [ ] Папка создана
 - [ ] README.md сгенерирован и заполнен
-- [ ] Секция добавлена в SSOT
-- [ ] Оглавление обновлено
-- [ ] Дерево обновлено
-- [ ] Связанные документы обновлены
-- [ ] Валидация пройдена
+- [ ] SSOT обновлён (update-ssot.py)
+- [ ] {EXTENDED_DESCRIPTION} заполнен
+- [ ] Валидация структуры пройдена
+- [ ] Валидация ссылок пройдена
 
 ---
 
@@ -106,54 +117,42 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 ### Создание папки docs/
 
-**Шаг 1-2:** Создать и сгенерировать
 ```bash
+# Шаг 1-2: Создать папку и сгенерировать шаблон
 mkdir docs
 python .structure/.instructions/.scripts/generate-readme.py docs
-```
 
-**Шаг 5:** Добавить в SSOT
+# Шаг 3-4: Заполнить плейсхолдеры, записать README
 
-```markdown
-<!-- Секция в "Корневые папки" -->
-### 🔗 [docs/](../docs/README.md)
+# Шаг 5: Обновить SSOT
+python .structure/.instructions/.scripts/ssot.py add docs --description "Документация проекта"
 
-**Документация проекта.**
-
-Архитектурные схемы (`architecture/`), руководства (`guides/`), API (`api/`).
-
-<!-- Оглавление -->
-- [docs/](#-docs)
-
-<!-- Дерево -->
-├── docs/                    # Документация проекта
+# Шаг 6-7: Валидация
+python .structure/.instructions/.scripts/validate-structure.py
+/links-validate
 ```
 
 ---
 
 ## Скрипты
 
-| Скрипт | Назначение | Использование |
-|--------|------------|---------------|
-| [generate-readme.py](./.scripts/generate-readme.py) | Генерация шаблона README | `python .structure/.instructions/.scripts/generate-readme.py <путь>` |
-| [validate-structure.py](./.scripts/validate-structure.py) | Валидация структуры | `python .structure/.instructions/.scripts/validate-structure.py` |
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [generate-readme.py](./.scripts/generate-readme.py) | Генерация шаблона README | Этот документ |
+| [ssot.py](./.scripts/ssot.py) | Управление SSOT (add/rename/delete) | Этот документ, [modify-structure.md](./modify-structure.md) |
+| [validate-structure.py](./.scripts/validate-structure.py) | Валидация структуры | [validation-structure.md](./validation-structure.md) |
 
-**Воркфлоу LLM:**
-1. Вызвать generate-readme.py → получить шаблон
-2. Заполнить `{PLACEHOLDER}` значениями
-3. Записать через Write tool
-4. Вызвать validate-structure.py → проверить
+**Использование:**
+```bash
+python .structure/.instructions/.scripts/generate-readme.py <путь>
+python .structure/.instructions/.scripts/ssot.py add <папка> --description "Описание"
+python .structure/.instructions/.scripts/validate-structure.py
+```
 
 ---
 
 ## Скиллы
 
-**Скиллы для этой области отсутствуют.**
-
----
-
-## Связанные инструкции
-
-- [standard-readme.md](./standard-readme.md) — стандарт README
-- [modify-structure.md](./modify-structure.md) — изменение папки
-- [validation-structure.md](./validation-structure.md) — валидация структуры
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация ссылок | [validation-links.md](./validation-links.md) |

@@ -71,8 +71,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | Как писать скиллы | `/.claude/.instructions/skills/` |
 | Как писать specs | `/specs/.instructions/` |
 
-**Покрытие:** [/.instructions/coverage.md](/.instructions/coverage.md) — папки для создания .instructions/
-
 ---
 
 ## Структура

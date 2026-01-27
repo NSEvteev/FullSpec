@@ -12,10 +12,14 @@ index: .structure/.instructions/README.md
 - [Инструкции для .structure](./README.md)
 - [SSOT структуры проекта](../README.md)
 
-**Связанные инструкции:**
-- [standard-readme.md](./standard-readme.md) — формат описания папок
-- [create-structure.md](./create-structure.md) — создание папки
-- [modify-structure.md](./modify-structure.md) — изменение папки
+**Связанные документы:**
+
+| Тип | Документ |
+|-----|----------|
+| Стандарт | [standard-readme.md](./standard-readme.md) |
+| Валидация | Этот документ |
+| Создание | [create-structure.md](./create-structure.md) |
+| Модификация | [modify-structure.md](./modify-structure.md) |
 
 ## Оглавление
 
@@ -121,23 +125,15 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 ## Скрипты
 
-| Скрипт | Назначение | Использование |
-|--------|------------|---------------|
-| [validate-structure.py](./.scripts/validate-structure.py) | Проверка дерева структуры | `python .structure/.instructions/.scripts/validate-structure.py` |
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [validate-structure.py](./.scripts/validate-structure.py) | Проверка дерева структуры | Этот документ |
 
-**Пример:**
+**Использование:**
 ```bash
-# Проверка структуры
 python .structure/.instructions/.scripts/validate-structure.py
-
-# JSON-вывод для автоматизации
 python .structure/.instructions/.scripts/validate-structure.py --json
 ```
-
-**Воркфлоу LLM:**
-1. Вызвать скрипт → получить список ошибок
-2. Исправить ошибки в `/.structure/README.md`
-3. Повторить проверку
 
 ---
 

@@ -12,6 +12,15 @@ index: .structure/.instructions/README.md
 - [Инструкции для .structure](./README.md)
 - [SSOT структуры проекта](../README.md)
 
+**Связанные документы:**
+
+| Тип | Документ |
+|-----|----------|
+| Стандарт | [standard-readme.md](./standard-readme.md), [standard-links.md](./standard-links.md) |
+| Валидация | [validation-structure.md](./validation-structure.md), [validation-links.md](./validation-links.md) |
+| Создание | [create-structure.md](./create-structure.md) |
+| Модификация | Этот документ |
+
 ## Оглавление
 
 - [Типы изменений](#типы-изменений)
@@ -23,7 +32,6 @@ index: .structure/.instructions/README.md
 - [Примеры](#примеры)
 - [Скрипты](#скрипты)
 - [Скиллы](#скиллы)
-- [Связанные инструкции](#связанные-инструкции)
 
 ---
 
@@ -43,10 +51,12 @@ index: .structure/.instructions/README.md
 ### Шаг 1: Найти все ссылки
 
 ```bash
-grep -r "old-name/" .
+python .structure/.instructions/.scripts/find-references.py {old-name}/
 ```
 
-**Где искать:**
+Скрипт найдёт все ссылки в markdown-файлах и покажет файл, строку и контекст.
+
+**Где искать (автоматически):**
 - `/.structure/README.md` — SSOT структуры
 - `CLAUDE.md` — точка входа
 - `**/README.md` — README папок
@@ -61,10 +71,14 @@ mv old-name/ new-name/
 
 ### Шаг 3: Обновить SSOT
 
-В `/.structure/README.md`:
-1. **Секция папки** — изменить название и ссылку
-2. **Оглавление** — обновить ссылку
-3. **Дерево папок** — обновить название
+```bash
+python .structure/.instructions/.scripts/ssot.py rename {старое_имя} {новое_имя} --description "Описание"
+```
+
+Скрипт автоматически обновляет в `/.structure/README.md`:
+- Секцию папки (название и ссылка)
+- Оглавление
+- Дерево папок
 
 ### Шаг 4: Обновить README папки
 
@@ -74,10 +88,16 @@ mv old-name/ new-name/
 
 Найти и заменить все вхождения `old-name/` на `new-name/` в markdown-файлах.
 
-### Шаг 6: Валидация
+### Шаг 6: Валидация структуры
 
 ```bash
 python .structure/.instructions/.scripts/validate-structure.py
+```
+
+### Шаг 7: Валидация ссылок
+
+```
+/links-validate
 ```
 
 ---
@@ -115,10 +135,16 @@ mv src/utils/ shared/utils/
 
 Найти и заменить все вхождения `src/utils/` на `shared/utils/` в markdown-файлах.
 
-### Шаг 7: Валидация
+### Шаг 7: Валидация структуры
 
 ```bash
 python .structure/.instructions/.scripts/validate-structure.py
+```
+
+### Шаг 8: Валидация ссылок
+
+```
+/links-validate
 ```
 
 ---
@@ -135,15 +161,18 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 ### Шаг 2: Удалить из SSOT
 
-В `/.structure/README.md`:
-1. **Секция папки** — удалить полностью
-2. **Оглавление** — удалить ссылку
-3. **Дерево папок** — удалить папку и подпапки
+```bash
+python .structure/.instructions/.scripts/ssot.py delete {папка}
+```
+
+Скрипт автоматически удаляет из `/.structure/README.md`:
+- Секцию папки
+- Ссылку из оглавления
+- Запись из дерева
 
 ### Шаг 3: Обновить связанные документы
 
 - `CLAUDE.md` — удалить упоминания
-- `/.instructions/coverage.md` — удалить из таблицы
 - Другие README — обновить или пометить битые ссылки
 
 ### Шаг 4: Пометить битые ссылки
@@ -158,10 +187,16 @@ python .structure/.instructions/.scripts/validate-structure.py
 rm -rf {папка}/
 ```
 
-### Шаг 6: Валидация
+### Шаг 6: Валидация структуры
 
 ```bash
 python .structure/.instructions/.scripts/validate-structure.py
+```
+
+### Шаг 7: Валидация ссылок
+
+```
+/links-validate
 ```
 
 ---
@@ -249,7 +284,8 @@ grep -r "#old-heading" --include="*.md" .
 - [ ] SSOT обновлён (секция, оглавление, дерево)
 - [ ] README папки обновлён
 - [ ] Ссылки обновлены вручную
-- [ ] Валидация пройдена
+- [ ] Валидация структуры пройдена
+- [ ] Валидация ссылок пройдена
 
 ### Перемещение
 
@@ -259,7 +295,8 @@ grep -r "#old-heading" --include="*.md" .
 - [ ] README папки обновлён (путь, "Полезные ссылки")
 - [ ] README дочерних папок обновлены
 - [ ] Ссылки обновлены вручную
-- [ ] Валидация пройдена
+- [ ] Валидация структуры пройдена
+- [ ] Валидация ссылок пройдена
 
 ### Удаление
 
@@ -268,7 +305,8 @@ grep -r "#old-heading" --include="*.md" .
 - [ ] Связанные документы обновлены
 - [ ] Битые ссылки помечены
 - [ ] Папка удалена из файловой системы
-- [ ] Валидация пройдена
+- [ ] Валидация структуры пройдена
+- [ ] Валидация ссылок пройдена
 
 ### Обновление ссылок (файлы)
 
@@ -291,23 +329,23 @@ grep -r "#old-heading" --include="*.md" .
 
 ### Переименование: utils/ → helpers/
 
-**Шаг 2:** Переименование
 ```bash
+# Шаг 1: Найти ссылки
+python .structure/.instructions/.scripts/find-references.py "utils/"
+
+# Шаг 2: Переименовать папку
 mv shared/utils/ shared/helpers/
+
+# Шаг 3: Обновить SSOT
+python .structure/.instructions/.scripts/ssot.py rename utils helpers --description "Хелперы"
+
+# Шаг 5: Обновить ссылки вручную
+# Заменить shared/utils/ на shared/helpers/
+
+# Шаг 6-7: Валидация
+python .structure/.instructions/.scripts/validate-structure.py
+/links-validate
 ```
-
-**Шаг 3:** Обновление SSOT
-```markdown
-# Было
-├── shared/
-│   └── utils/                    # Утилиты
-
-# Стало
-├── shared/
-│   └── helpers/                  # Хелперы
-```
-
-**Шаг 5:** Обновление ссылок вручную — найти и заменить `shared/utils/` на `shared/helpers/`.
 
 ### Перемещение: src/common/ → shared/libs/
 
@@ -329,17 +367,23 @@ mv src/common/ shared/libs/
 
 ### Удаление: legacy/
 
-**Шаг 1:** Поиск зависимостей
 ```bash
-grep -r "legacy/" .
+# Шаг 1: Поиск зависимостей
+python .structure/.instructions/.scripts/find-references.py "legacy/"
+
+# Шаг 2: Удалить из SSOT
+python .structure/.instructions/.scripts/ssot.py delete legacy
+
+# Шаг 3-4: Обновить документы, пометить битые ссылки
+# <!-- BROKEN: папка удалена -->
+
+# Шаг 5: Удалить папку
+rm -rf legacy/
+
+# Шаг 6-7: Валидация
+python .structure/.instructions/.scripts/validate-structure.py
+/links-validate
 ```
-
-**Шаг 2:** Удаление из SSOT
-- Удалить секцию `### 🔗 [legacy/](...)`
-- Удалить `- [legacy/](#-legacy)` из Оглавления
-- Удалить из дерева
-
-**Шаг 4:** Пометка ссылок — добавить `<!-- BROKEN: папка удалена -->`.
 
 ### Переименование файла: old-api.md → new-api.md
 
@@ -377,27 +421,24 @@ grep -r "#old-heading" --include="*.md" .
 
 ## Скрипты
 
-| Скрипт | Назначение | Использование |
-|--------|------------|---------------|
-| [validate-structure.py](./.scripts/validate-structure.py) | Валидация структуры | `python .structure/.instructions/.scripts/validate-structure.py` |
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [find-references.py](./.scripts/find-references.py) | Поиск ссылок на папку/файл | Этот документ |
+| [ssot.py](./.scripts/ssot.py) | Управление SSOT (add/rename/delete) | [create-structure.md](./create-structure.md), Этот документ |
+| [validate-structure.py](./.scripts/validate-structure.py) | Валидация структуры | [validation-structure.md](./validation-structure.md) |
 
-**Воркфлоу LLM:**
-1. Выполнить изменение (rename/move/delete)
-2. Обновить SSOT и связанные документы
-3. Обновить ссылки вручную (grep + replace)
-4. Вызвать validate-structure.py → проверить
+**Использование:**
+```bash
+python .structure/.instructions/.scripts/find-references.py <паттерн>
+python .structure/.instructions/.scripts/ssot.py rename <старое> <новое> --description "Описание"
+python .structure/.instructions/.scripts/ssot.py delete <папка>
+python .structure/.instructions/.scripts/validate-structure.py
+```
 
 ---
 
 ## Скиллы
 
-**Скиллы для этой области отсутствуют.**
-
----
-
-## Связанные инструкции
-
-- [standard-links.md](./standard-links.md) — типы, форматы и валидация ссылок
-- [standard-readme.md](./standard-readme.md) — стандарт README
-- [validation-structure.md](./validation-structure.md) — валидация структуры
-- [create-structure.md](./create-structure.md) — создание папки
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация ссылок | [validation-links.md](./validation-links.md) |

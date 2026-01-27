@@ -33,10 +33,13 @@ index: .structure/.instructions/README.md
 ├── standard-readme.md       # Стандарт README
 ├── validation-links.md      # Валидация ссылок
 ├── validation-structure.md  # Валидация структуры
-├── create-structure.md       # Создание папки
-├── modify-structure.md       # Изменение папки (rename/move/delete)
+├── create-structure.md      # Создание папки
+├── modify-structure.md      # Изменение папки (rename/move/delete)
 └── .scripts/
-    ├── generate-readme.py   # Генерация шаблона README
+    ├── find-references.py    # Поиск ссылок на папку/файл
+    ├── generate-readme.py    # Генерация шаблона README
+    ├── ssot.py               # Управление SSOT (add/rename/delete)
+    ├── validate-links.py     # Валидация ссылок
     └── validate-structure.py # Валидация структуры
 ```
 
@@ -138,35 +141,19 @@ index: .structure/.instructions/README.md
 
 # 4. Скрипты
 
-| Скрипт | Назначение | Использование |
-|--------|------------|---------------|
-| [generate-readme.py](./.scripts/generate-readme.py) | Генерация шаблона README | `python .structure/.instructions/.scripts/generate-readme.py <путь>` |
-| [validate-structure.py](./.scripts/validate-structure.py) | Валидация структуры | `python .structure/.instructions/.scripts/validate-structure.py` |
-
-**Воркфлоу LLM:**
-1. `generate-readme.py <путь>` → получить шаблон с плейсхолдерами
-2. Заполнить `{PLACEHOLDER}` реальными значениями
-3. Записать через Write tool
-4. `validate-structure.py` → проверить согласованность
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [find-references.py](./.scripts/find-references.py) | Поиск ссылок на папку/файл | [modify-structure.md](./modify-structure.md) |
+| [generate-readme.py](./.scripts/generate-readme.py) | Генерация шаблона README | [create-structure.md](./create-structure.md) |
+| [ssot.py](./.scripts/ssot.py) | Управление SSOT (add/rename/delete) | [create-structure.md](./create-structure.md), [modify-structure.md](./modify-structure.md) |
+| [validate-links.py](./.scripts/validate-links.py) | Валидация ссылок | [validation-links.md](./validation-links.md) |
+| [validate-structure.py](./.scripts/validate-structure.py) | Валидация структуры | [validation-structure.md](./validation-structure.md) |
 
 ---
 
 # 5. Скиллы
 
-**Скиллы для этой области отсутствуют.**
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация ссылок | [validation-links.md](./validation-links.md) |
 
----
-
-# 6. Обязательные обновления
-
-> **ПРАВИЛО:** При любом изменении структуры проекта — обновить связанные документы.
-
-| Действие | Что обновить |
-|----------|--------------|
-| Создание папки | `/.instructions/coverage.md` — добавить в таблицу покрытия |
-| Удаление папки | `/.instructions/coverage.md` — удалить из таблицы |
-| Добавление `.instructions/` | `/.instructions/structure.md` — добавить в список локальных |
-
-**Связанные документы:**
-- [/.instructions/coverage.md](/.instructions/coverage.md) — таблица покрытия инструкциями
-- [/.instructions/structure.md](/.instructions/structure.md) — допустимые папки для инструкций

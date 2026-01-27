@@ -12,8 +12,12 @@ index: .structure/.instructions/README.md
 - [Инструкции для .structure](./README.md)
 - [SSOT структуры проекта](../README.md)
 
-**Связанные инструкции:**
-- [standard-links.md](./standard-links.md) — стандарт оформления ссылок
+**Связанные документы:**
+
+| Тип | Документ |
+|-----|----------|
+| Стандарт | [standard-links.md](./standard-links.md), [standard-frontmatter.md](./standard-frontmatter.md) |
+| Валидация | Этот документ |
 
 ## Оглавление
 
@@ -28,9 +32,8 @@ index: .structure/.instructions/README.md
   - [Шаг 6: Ссылки в SSOT](#шаг-6-ссылки-в-ssot)
 - [Чек-лист](#чек-лист)
 - [Типичные ошибки](#типичные-ошибки)
-- [Скиллы и скрипты](#скиллы-и-скрипты)
-  - [Скиллы](#скиллы)
-  - [Скрипты](#скрипты)
+- [Скиллы](#скиллы)
+- [Скрипты](#скрипты)
 
 ---
 
@@ -216,7 +219,7 @@ index: .structure/.instructions/README.md
 
 ### Специальные случаи
 
-- [ ] Ссылки на папки имеют trailing slash или ведут на README.md
+- [ ] Ссылки на папки ведут на README.md (предпочтительно) или заканчиваются на `/`
 - [ ] Frontmatter-ссылки без `[]` и без ведущего `/`
 - [ ] SSOT-ссылки в формате `### 🔗 [папка/](../папка/README.md)`
 
@@ -235,27 +238,24 @@ index: .structure/.instructions/README.md
 
 ---
 
-## Скиллы и скрипты
+## Скиллы
 
-### Скиллы
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация ссылок | Этот документ |
 
-#### Создаёт
+---
 
-| Скилл | Назначение |
-|-------|------------|
-| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация ссылок по этой инструкции |
+## Скрипты
 
-#### Использует
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [validate-links.py](./.scripts/validate-links.py) | Автоматическая проверка ссылок | Этот документ |
 
-Эта инструкция не использует скиллы.
-
-### Скрипты
-
-#### Создаёт
-
-| Скрипт | Назначение | Использование |
-|--------|------------|---------------|
-| [validate-links.py](./.scripts/validate-links.py) | Автоматическая проверка ссылок | `python .structure/.instructions/.scripts/validate-links.py` |
+**Использование:**
+```bash
+python .structure/.instructions/.scripts/validate-links.py
+```
 
 **Примеры:**
 ```bash
@@ -271,7 +271,3 @@ python .structure/.instructions/.scripts/validate-links.py --path .structure/
 # JSON-вывод для автоматизации
 python .structure/.instructions/.scripts/validate-links.py --json
 ```
-
-#### Использует
-
-Эта инструкция не использует скрипты.

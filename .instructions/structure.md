@@ -40,8 +40,6 @@ index: .instructions/README.md
 | `/config/` | `/config/.instructions/` |
 | `/.github/` | `/.github/.instructions/` |
 
-> **Покрытие:** [/.instructions/coverage.md](./coverage.md)
-
 ---
 
 ## Примеры

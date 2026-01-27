@@ -47,7 +47,6 @@ index: .instructions/README.md
 ├── workflow-deactivate.md  # Детальный воркфлоу DEACTIVATE
 ├── patterns.md             # Паттерны поиска
 ├── examples.md             # Правила создания примеров
-├── coverage.md             # Покрытие папок инструкциями
 └── standard-instruction.md # Стандарт формата инструкций
 ```
 
