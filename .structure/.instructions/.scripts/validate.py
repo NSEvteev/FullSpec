@@ -4,16 +4,19 @@ validate.py — Единый скрипт валидации проекта.
 
 Использование:
     python validate.py [--repo <корень>] [--path <папка>]
-    python validate.py --structure  # Только структура
-    python validate.py --links      # Только ссылки
+    python validate.py --structure           # Только структура
+    python validate.py --links               # Только ссылки
+    python validate.py --check-instructions  # Проверка зеркал .instructions
 
 Примеры:
-    python validate.py              # Обе проверки
-    python validate.py --path test/ # Проверки только для test/
+    python validate.py                       # Все проверки
+    python validate.py --path test/          # Проверки только для test/
+    python validate.py --check-instructions  # Папки без .instructions
 
 Запускает:
     - validate-structure.py — согласованность SSOT
     - validate-links.py — валидность ссылок
+    - check_instructions_mirrors() — наличие зеркал .instructions
 
 Возвращает:
     0 — всё валидно
@@ -34,6 +37,81 @@ def find_repo_root(start_path: Path) -> Path:
             return current
         current = current.parent
     return start_path.resolve()
+
+
+def get_project_folders(repo_root: Path) -> list[Path]:
+    """Получить список папок проекта, которые должны иметь .instructions."""
+    # Папки, которые пропускаем
+    skip_names = {
+        ".git", ".venv", "venv", "node_modules", "__pycache__",
+        ".instructions", ".scripts", "DELETE_.instructions",
+    }
+    skip_prefixes = (".", "DELETE_")
+
+    folders = []
+
+    for item in repo_root.iterdir():
+        if not item.is_dir():
+            continue
+        name = item.name
+
+        # Пропускаем системные и скрытые
+        if name in skip_names:
+            continue
+        if name.startswith(skip_prefixes):
+            continue
+
+        folders.append(item)
+
+    return sorted(folders, key=lambda p: p.name)
+
+
+def check_instructions_mirrors(repo_root: Path, json_output: bool = False) -> tuple[bool, str]:
+    """
+    Проверить наличие .instructions зеркал для папок проекта.
+
+    Возвращает (all_valid, output_text).
+    """
+    folders = get_project_folders(repo_root)
+    missing = []
+
+    for folder in folders:
+        instructions_path = folder / ".instructions"
+        readme_path = instructions_path / "README.md"
+
+        if not instructions_path.exists() or not readme_path.exists():
+            missing.append(folder)
+
+    if json_output:
+        import json
+        result = {
+            "total_folders": len(folders),
+            "missing_instructions": [str(f.relative_to(repo_root)) for f in missing],
+            "valid": len(missing) == 0,
+        }
+        return len(missing) == 0, json.dumps(result, indent=2, ensure_ascii=False)
+
+    # Текстовый вывод
+    lines = ["📁 Проверка зеркал .instructions"]
+    lines.append(f"   Папок проверено: {len(folders)}")
+
+    if not missing:
+        lines.append("   ✅ Все папки имеют .instructions")
+    else:
+        lines.append(f"   ❌ Папок без .instructions: {len(missing)}")
+        lines.append("")
+        lines.append("   Недостающие зеркала:")
+        for folder in missing:
+            rel_path = folder.relative_to(repo_root)
+            lines.append(f"   • {rel_path}/")
+
+        lines.append("")
+        lines.append("   Команды для создания:")
+        for folder in missing:
+            rel_path = str(folder.relative_to(repo_root)).replace("\\", "/")
+            lines.append(f"   python .structure/.instructions/.scripts/mirror-instructions.py create {rel_path}")
+
+    return len(missing) == 0, "\n".join(lines)
 
 
 def run_script(script_name: str, repo_root: Path, extra_args: list = None) -> tuple[bool, str]:
@@ -87,23 +165,34 @@ def main():
         action="store_true",
         help="Только проверка ссылок"
     )
+    parser.add_argument(
+        "--check-instructions",
+        action="store_true",
+        dest="check_instructions",
+        help="Проверка зеркал .instructions для папок проекта"
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Вывод в формате JSON (для --check-instructions)"
+    )
 
     args = parser.parse_args()
 
     repo_root = find_repo_root(Path(args.repo))
 
     # Определяем что запускать
-    run_struct = not args.links or args.structure
-    run_links = not args.structure or args.links
+    has_specific = args.structure or args.links or args.check_instructions
 
-    # Если ничего не указано — запускаем обе
-    if not args.structure and not args.links:
-        run_struct = True
-        run_links = True
+    run_struct = args.structure or not has_specific
+    run_links = args.links or not has_specific
+    run_instructions = args.check_instructions
 
     all_valid = True
-    print(f"Проверка: {repo_root}")
-    print()
+
+    if not args.json:
+        print(f"Проверка: {repo_root}")
+        print()
 
     # === Структура ===
     if run_struct:
@@ -124,12 +213,23 @@ def main():
             print(output)
         print()
 
+    # === Зеркала .instructions ===
+    if run_instructions:
+        success, output = check_instructions_mirrors(repo_root, json_output=args.json)
+        if not success:
+            all_valid = False
+        if output:
+            print(output)
+        if not args.json:
+            print()
+
     # Итог
-    print("─" * 40)
-    if all_valid:
-        print("✅ Валидация пройдена")
-    else:
-        print("❌ Валидация не пройдена")
+    if not args.json:
+        print("─" * 40)
+        if all_valid:
+            print("✅ Валидация пройдена")
+        else:
+            print("❌ Валидация не пройдена")
 
     sys.exit(0 if all_valid else 1)
 

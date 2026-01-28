@@ -957,7 +957,7 @@ def rename_in_tree(lines: list, old_path: str, new_path: str, description: str) 
     return add_to_tree(new_lines, new_path, parent_path, description, new_depth)
 
 
-def cmd_rename(ssot_path: Path, old_path: str, new_path: str, description: str) -> str:
+def cmd_rename(ssot_path: Path, old_path: str, new_path: str, description: str, repo_root: Path = None) -> str:
     """Переименовать папку в SSOT."""
     content = ssot_path.read_text(encoding="utf-8")
     lines = content.split("\n")
@@ -965,6 +965,37 @@ def cmd_rename(ssot_path: Path, old_path: str, new_path: str, description: str) 
     lines = rename_in_toc(lines, old_path, new_path)
     lines = rename_in_sections(lines, old_path, new_path, description)
     lines = rename_in_tree(lines, old_path, new_path, description)
+
+    # Обновляем зеркало .instructions в дереве
+    if repo_root:
+        _, _, new_name, new_depth = parse_folder_path(new_path)
+        _, old_parent, old_name, old_depth = parse_folder_path(old_path)
+
+        # Для вложенных папок: зеркало в родительском .instructions/
+        # test/subtest → test/.instructions/subtest
+        if old_parent:
+            parts = new_path.split("/")
+            root_folder = parts[0]
+
+            # Старое зеркало
+            old_mirror_ssot = f"{root_folder}/.instructions/{'/'.join(old_path.split('/')[1:])}"
+            # Новое зеркало
+            new_mirror_ssot = f"{root_folder}/.instructions/{'/'.join(parts[1:])}"
+
+            # Удаляем старое зеркало из дерева
+            lines = delete_from_tree(lines, old_mirror_ssot)
+
+            # Проверяем существование нового зеркала
+            new_mirror_path = repo_root / root_folder / ".instructions" / "/".join(parts[1:])
+            if new_mirror_path.exists() and new_mirror_path.is_dir():
+                # Родитель зеркала
+                if len(parts) == 2:
+                    mirror_parent = f"{root_folder}/.instructions"
+                else:
+                    mirror_parent = f"{root_folder}/.instructions/{'/'.join(parts[1:-1])}"
+                mirror_depth = len(parts)
+                mirror_description = f"Инструкции для {new_name}/"
+                lines = add_to_tree(lines, new_mirror_ssot, mirror_parent, mirror_description, mirror_depth)
 
     return "\n".join(lines)
 
@@ -1084,7 +1115,7 @@ def delete_from_tree(lines: list, folder_path: str) -> list:
     return new_lines
 
 
-def cmd_delete(ssot_path: Path, folder_path: str) -> str:
+def cmd_delete(ssot_path: Path, folder_path: str, repo_root: Path = None) -> str:
     """Удалить папку из SSOT."""
     content = ssot_path.read_text(encoding="utf-8")
     lines = content.split("\n")
@@ -1092,6 +1123,15 @@ def cmd_delete(ssot_path: Path, folder_path: str) -> str:
     lines = delete_from_toc(lines, folder_path)
     lines = delete_from_sections(lines, folder_path)
     lines = delete_from_tree(lines, folder_path)
+
+    # Удаляем зеркало .instructions из дерева для вложенных папок
+    _, parent_path, folder_name, depth = parse_folder_path(folder_path)
+    if parent_path:
+        # Для вложенной папки test/demo зеркало: test/.instructions/demo
+        parts = folder_path.split("/")
+        root_folder = parts[0]
+        mirror_ssot_path = f"{root_folder}/.instructions/{'/'.join(parts[1:])}"
+        lines = delete_from_tree(lines, mirror_ssot_path)
 
     return "\n".join(lines)
 
@@ -1181,7 +1221,7 @@ def main():
     elif args.command == "rename":
         old_path = args.old_path.strip("/")
         new_path = args.new_path.strip("/")
-        result = cmd_rename(ssot_path, old_path, new_path, args.description)
+        result = cmd_rename(ssot_path, old_path, new_path, args.description, repo_root)
         msg_action = f"Переименована папка: {old_path}/ → {new_path}/"
         msg_extra = "\n⚠️  Обновите ссылки в других файлах!"
 
