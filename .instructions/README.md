@@ -1,210 +1,114 @@
 ---
-description: Индекс инструкций для работы с инструкциями проекта
+description: Индекс инструкций для написания инструкций и скриптов
 standard: .structure/.instructions/standard-readme.md
 index: .instructions/README.md
 ---
 
-# Инструкции /instructions/
+# Инструкции /.instructions/
 
-Индекс инструкций для работы с инструкциями проекта.
-
-**Содержание:** структура папок, типы инструкций, валидация, статусы, жизненный цикл, паттерны поиска.
+Стандарты и воркфлоу для написания инструкций и скриптов автоматизации.
 
 **Полезные ссылки:**
+- [CLAUDE.md](/CLAUDE.md) — точка входа
 - [Структура проекта](/.structure/README.md)
 
 ---
 
 ## Оглавление
 
-| Секция | Инструкция | Описание |
-|--------|------------|----------|
-| [1. Расположение](#1-расположение) | [structure.md](./structure.md) | Где хранить инструкции |
-| [2. Типы](#2-типы) | [types.md](./types.md) | standard vs project |
-| [3. Валидация](#3-валидация) | [validation.md](./validation.md) | Формат файлов и frontmatter |
-| [4. Статусы](#4-статусы) | [statuses.md](./statuses.md) | Система статусов в README.md |
-| [5. Жизненный цикл](#5-жизненный-цикл) | [workflow.md](./workflow.md) | CREATE, UPDATE, DEACTIVATE |
-| — | [workflow-create.md](./workflow-create.md) | Детальный воркфлоу CREATE |
-| — | [workflow-update.md](./workflow-update.md) | Детальный воркфлоу UPDATE |
-| — | [workflow-deactivate.md](./workflow-deactivate.md) | Детальный воркфлоу DEACTIVATE |
-| [6. Паттерны](#6-паттерны) | [patterns.md](./patterns.md) | Поиск ссылок на инструкции |
-| [7. Примеры](#7-примеры) | [examples.md](./examples.md) | Правила создания examples.md |
-| [8. Ответственность](#8-ответственность) | — | IN и границы папок |
-| [9. Шаблоны](#9-шаблоны) | — | Шаблоны для инструкций |
-| [10. Скиллы](#10-скиллы) | — | Скиллы для инструкций |
-| [11. Скрипты](#11-скрипты) | — | Скрипты автоматизации |
+- [1. Объекты](#1-объекты)
+- [2. Инструкции](#2-инструкции)
+- [3. Скрипты](#3-скрипты)
+- [4. Скиллы](#4-скиллы)
+- [5. Связанные](#5-связанные)
+
+---
+
+## 1. Объекты
+
+В этой папке описаны 2 объекта:
+
+| Объект | Файлы | Описание |
+|--------|-------|----------|
+| **Инструкции** | `*-instruction.md` | Как писать инструкции |
+| **Скрипты** | `*-script.md` | Как писать скрипты автоматизации |
+
+Каждый объект имеет 4 типа документов:
+
+| Тип | Назначение |
+|-----|------------|
+| `standard-*` | Стандарт формата (КАК оформлять) |
+| `validation-*` | Валидация (проверка соответствия) |
+| `create-*` | Создание (воркфлоу) |
+| `modify-*` | Изменение/удаление (воркфлоу) |
+
+---
+
+## 2. Инструкции
+
+| Файл | Описание |
+|------|----------|
+| [standard-instruction.md](./standard-instruction.md) | Стандарт формата инструкций |
+| [validation-instruction.md](./validation-instruction.md) | Валидация инструкций (коды I001-I031) |
+| [create-instruction.md](./create-instruction.md) | Воркфлоу создания инструкции |
+| [modify-instruction.md](./modify-instruction.md) | Обновление, деактивация, миграция |
+
+### Ключевые правила
+
+- Инструкции = ТОЛЬКО стандарты (КАК делать)
+- README описывает структуру (ЧТО есть)
+- Frontmatter обязателен: `description`, `standard`, `index`
+- Именование: kebab-case, латиница
+
+---
+
+## 3. Скрипты
+
+| Файл | Описание |
+|------|----------|
+| [standard-script.md](./standard-script.md) | Стандарт формата скриптов |
+| [validation-script.md](./validation-script.md) | Валидация скриптов (коды S001-S031) |
+| [create-script.md](./create-script.md) | Воркфлоу создания скрипта |
+| [modify-script.md](./modify-script.md) | Обновление, рефакторинг, удаление |
+
+### Ключевые правила
+
+- Документация в docstring (не frontmatter)
+- Shebang обязателен: `#!/usr/bin/env python3`
+- UTF-8 для Windows в `main()`
+- Exit codes: 0 = успех, 1 = ошибка
+
+---
+
+## 4. Скиллы
+
+**Скиллы для этой области отсутствуют.**
+
+Воркфлоу описаны в инструкциях:
+- [create-instruction.md](./create-instruction.md) — создание
+- [modify-instruction.md](./modify-instruction.md) — обновление, деактивация
+
+---
+
+## 5. Связанные
+
+| Ресурс | Описание |
+|--------|----------|
+| [/.claude/.instructions/skills/](/.claude/.instructions/skills/README.md) | Как писать скиллы |
+| [/specs/.instructions/](/specs/.instructions/README.md) | Как писать specs |
+| [/.structure/.instructions/](/.structure/.instructions/README.md) | Как управлять структурой |
+
+---
 
 ```
 /.instructions/
-├── README.md               # Этот файл (индекс)
-├── structure.md            # Расположение инструкций
-├── types.md                # Типы (standard/project)
-├── validation.md           # Валидация файлов
-├── statuses.md             # Статусы в README.md
-├── workflow.md             # Жизненный цикл (обзор)
-├── workflow-create.md      # Детальный воркфлоу CREATE
-├── workflow-update.md      # Детальный воркфлоу UPDATE
-├── workflow-deactivate.md  # Детальный воркфлоу DEACTIVATE
-├── patterns.md             # Паттерны поиска
-├── examples.md             # Правила создания примеров
-└── standard-instruction.md # Стандарт формата инструкций
+├── README.md                    # Этот файл
+├── standard-instruction.md      # Стандарт инструкций
+├── validation-instruction.md    # Валидация инструкций
+├── create-instruction.md        # Создание инструкции
+├── modify-instruction.md        # Изменение инструкции
+├── standard-script.md           # Стандарт скриптов
+├── validation-script.md         # Валидация скриптов
+├── create-script.md             # Создание скрипта
+└── modify-script.md             # Изменение скрипта
 ```
-
----
-
-# 1. Расположение
-
-Расположение и структура папок инструкций.
-
-**Оглавление:**
-- [Базовая папка](./structure.md#базовая-папка)
-- [Зеркалирование структуры](./structure.md#зеркалирование-структуры)
-- [Допустимые папки](./structure.md#допустимые-папки)
-- [Примеры](./structure.md#примеры)
-- [Скиллы](./structure.md#скиллы)
-
-**Инструкция:** [structure.md](./structure.md)
-
----
-
-# 2. Типы
-
-Типы инструкций (standard/project).
-
-**Оглавление:**
-- [Обзор типов](./types.md#обзор-типов)
-- [standard — стандарты](./types.md#standard--стандарты)
-- [project — специфика проекта](./types.md#project--специфика-проекта)
-- [Как определить тип](./types.md#как-определить-тип)
-- [Примеры](./types.md#примеры)
-- [Скиллы](./types.md#скиллы)
-
-**Инструкция:** [types.md](./types.md)
-
----
-
-# 3. Валидация
-
-Валидация путей и формата файлов инструкций.
-
-**Оглавление:**
-- [Формат названия](./validation.md#формат-названия)
-- [Обязательные секции](./validation.md#обязательные-секции)
-- [Навигационные ссылки](./validation.md#навигационные-ссылки)
-- [Frontmatter](./validation.md#frontmatter)
-- [standard](./validation.md#standard)
-- [Скрипт валидации](./validation.md#скрипт-валидации)
-- [Ошибки валидации](./validation.md#ошибки-валидации)
-- [Скиллы](./validation.md#скиллы)
-- [Связанные инструкции](./validation.md#связанные-инструкции)
-
-**Инструкция:** [validation.md](./validation.md)
-
----
-
-# 4. Статусы
-
-Система статусов инструкций в README.md.
-
-**Оглавление:**
-- [Столбцы таблицы](./statuses.md#столбцы-таблицы)
-- [Значения статусов](./statuses.md#значения-статусов)
-- [Жизненный цикл статусов](./statuses.md#жизненный-цикл-статусов)
-- [Примеры](./statuses.md#примеры)
-- [Скиллы](./statuses.md#скиллы)
-
-**Инструкция:** [statuses.md](./statuses.md)
-
----
-
-# 5. Жизненный цикл
-
-Жизненный цикл инструкций: CREATE, UPDATE, DEACTIVATE, MIGRATE.
-
-**Оглавление:**
-- [Диаграмма](./workflow.md#диаграмма)
-- [Синхронизация README](./workflow.md#синхронизация-readme)
-- [Фаза CREATE](./workflow.md#фаза-create)
-- [Фаза UPDATE](./workflow.md#фаза-update)
-- [Фаза DEACTIVATE](./workflow.md#фаза-deactivate)
-- [Фаза MIGRATE](./workflow.md#фаза-migrate)
-- [Граф зависимостей](./workflow.md#граф-зависимостей)
-- [Скиллы](./workflow.md#скиллы)
-
-**Инструкция:** [workflow.md](./workflow.md)
-
-**Детальные воркфлоу:**
-- [workflow-create.md](./workflow-create.md) — 15 шагов создания
-- [workflow-update.md](./workflow-update.md) — 12 шагов обновления
-- [workflow-deactivate.md](./workflow-deactivate.md) — 10 шагов деактивации
-
----
-
-# 6. Паттерны
-
-Паттерны поиска ссылок на инструкции.
-
-**Оглавление:**
-- [Где искать](./patterns.md#где-искать)
-- [Типы ссылок](./patterns.md#типы-ссылок)
-- [Действия при обнаружении](./patterns.md#действия-при-обнаружении)
-- [Примеры](./patterns.md#примеры)
-- [Скиллы](./patterns.md#скиллы)
-
-**Инструкция:** [patterns.md](./patterns.md)
-
----
-
-# 7. Примеры
-
-Правила создания файлов examples.md в папках инструкций.
-
-**Оглавление:**
-- [Назначение](./examples.md#назначение)
-- [Правила создания](./examples.md#правила-создания)
-- [Структура файла](./examples.md#структура-файла)
-- [Папки без скиллов](./examples.md#папки-без-скиллов)
-
-**Инструкция:** [examples.md](./examples.md)
-
----
-
-# 8. Ответственность
-
-IN и границы для всех папок проекта.
-
-**SSOT:** [/.structure/README.md](/.structure/README.md) — описание всех папок и их зон ответственности.
-
----
-
-# 9. Шаблоны
-
-Шаблоны для создания инструкций.
-
-| Шаблон | Назначение |
-|--------|------------|
-| [instruction.md](/.claude/templates/instructions/instruction.md) | Шаблон инструкции |
-| [readme.md](/.claude/templates/instructions/readme.md) | Шаблон README для папки инструкций |
-
----
-
-# 10. Скиллы
-
-Скиллы для работы с инструкциями.
-
-| Скилл | Назначение |
-|-------|------------|
-| [/instruction-create](/.claude/skills/instruction-create/SKILL.md) | Создание инструкции |
-| [/instruction-update](/.claude/skills/instruction-update/SKILL.md) | Проверка соответствия проекта |
-| [/instruction-deactivate](/.claude/skills/instruction-deactivate/SKILL.md) | Деактивация неиспользуемой |
-
----
-
-# 11. Скрипты
-
-Скрипты автоматизации для инструкций.
-
-| Скрипт | Назначение |
-|--------|------------|
-| instruction-validate.py | Валидация пути и формата |
-| instruction-readme-update.py | Обновление README.md |

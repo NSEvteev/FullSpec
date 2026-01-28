@@ -43,16 +43,6 @@
 | [skill-delete](./skill-delete/SKILL.md) | Удаление скилла | `/skill-delete`, "удали скилл" |
 | [skill-migrate](./skill-migrate/SKILL.md) | Переименование скилла | `/skill-migrate`, "мигрируй скилл" |
 
-### instruction-management
-
-Управление инструкциями.
-
-| Скилл | Описание | Триггеры |
-|-------|----------|----------|
-| [instruction-create](./instruction-create/SKILL.md) | Создание новой инструкции | `/instruction-create`, "создай инструкцию" |
-| [instruction-update](./instruction-update/SKILL.md) | Проверка файлов на соответствие инструкции | `/instruction-update`, "проверь инструкцию" |
-| [instruction-deactivate](./instruction-deactivate/SKILL.md) | Деактивация инструкции | `/instruction-deactivate`, "деактивируй инструкцию" |
-
 ### specs
 
 Работа с документами спецификаций /specs/.

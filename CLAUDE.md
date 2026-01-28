@@ -26,7 +26,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 2. СТОП — не начинаю выполнение
 3. Читаю список скиллов: /.claude/skills/README.md
 4. Проверяю: есть ли скилл для этой задачи?
-   - Создать инструкцию → /instruction-create
    - Создать скилл → /skill-create
    - Создать спецификацию → /spec-create
    - Изменить статус спецификации → /spec-status
@@ -44,7 +43,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | Путь | Скилл | Ручное создание |
 |------|-------|-----------------|
 | `/.claude/skills/*/SKILL.md` | `/skill-create` | ЗАПРЕЩЕНО |
-| `/.instructions/**/*.md` | `/instruction-create` | ЗАПРЕЩЕНО |
 | `/specs/**` | `/spec-create`, `/spec-update`, `/spec-status` | ЗАПРЕЩЕНО |
 
 ---
@@ -59,13 +57,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-## Скиллы (14)
+## Скиллы (11)
 
 | Категория | Скиллы |
 |-----------|--------|
 | skill-* | create, delete, migrate, update |
 | spec-* | create, status, update |
-| instruction-* | create, deactivate, update |
 | links-* | validate |
 | structure-* | create, modify, validate |
 
@@ -119,7 +116,7 @@ make lint          # Линтинг
 **ПРАВИЛО:** Архивирование инструкций ЗАПРЕЩЕНО.
 
 **Вместо архивирования:**
-1. **Удалить** через `/instruction-deactivate` — комментирует содержимое
+1. **Деактивировать** — закомментировать содержимое (см. [modify-instruction.md](/.instructions/modify-instruction.md))
 2. **Заменить** — создать новую инструкцию, деактивировать старую
 
 ---
