@@ -574,38 +574,7 @@ index: .instructions/README.md
 
 27. [ ] Создать `/.claude/rules/instructions.md`
 
-**Концепция Rule:**
-
-```
-Пользователь работает с .instructions/
-         ↓
-Rule автоматически загружается (paths match)
-         ↓
-Rule: "Используй /instruction-create или /instruction-deactivate"
-         ↓
-Skill читает SSOT-инструкцию и выполняет
-```
-
-**Формат rule:**
-
-```markdown
----
-paths:
-  - ".instructions/**"
-  - "**/.instructions/**"
----
-
-# Инструкции
-
-При создании инструкции:
-→ `/instruction-create`
-
-При изменении инструкции:
-→ `/instruction-update` (проверка соответствия)
-
-При деактивации инструкции:
-→ `/instruction-deactivate`
-```
+→ См. [rules-instructions.md](./rules-instructions.md)
 
 ---
 
