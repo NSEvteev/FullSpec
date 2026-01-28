@@ -30,12 +30,20 @@ index: .instructions/README.md
 ├── README.md                    # Этот файл (индекс)
 ├── standard-instruction.md      # Стандарт инструкций
 ├── standard-script.md           # Стандарт скриптов
+├── standard-principles.md       # Стандарт принципов программирования
 ├── create-instruction.md        # Создание инструкции
 ├── create-script.md             # Создание скрипта
 ├── modify-instruction.md        # Изменение инструкции
 ├── modify-script.md             # Изменение скрипта
 ├── validation-instruction.md    # Валидация инструкций
-└── validation-script.md         # Валидация скриптов
+├── validation-script.md         # Валидация скриптов
+├── validation-principles.md     # Валидация принципов
+└── .scripts/
+    ├── list-instructions.py       # Список инструкций
+    ├── create-instruction-file.py # Создание инструкции
+    ├── validate-instruction.py    # Валидация инструкций
+    ├── validate-script.py         # Валидация скриптов
+    └── parse-docstrings.py        # Поиск скриптов по описанию
 ```
 
 ---
@@ -63,6 +71,18 @@ index: .instructions/README.md
 - [Exit codes](./standard-script.md#exit-codes)
 
 **Инструкция:** [standard-script.md](./standard-script.md)
+
+## 1.3. Стандарт принципов программирования
+
+Принципы KISS, DRY, YAGNI, SOLID и другие для скриптов автоматизации.
+
+**Оглавление:**
+- [KISS](./standard-principles.md#1-kiss)
+- [DRY](./standard-principles.md#2-dry)
+- [YAGNI](./standard-principles.md#3-yagni)
+- [Обработка ошибок](./standard-principles.md#7-обработка-ошибок)
+
+**Инструкция:** [standard-principles.md](./standard-principles.md)
 
 ---
 
@@ -136,11 +156,28 @@ index: .instructions/README.md
 
 **Инструкция:** [validation-script.md](./validation-script.md)
 
+## 3.3. Валидация принципов
+
+Проверка соблюдения принципов программирования (коды P001-P008).
+
+**Оглавление:**
+- [Проверка KISS](./validation-principles.md#шаг-1-проверить-kiss)
+- [Проверка DRY](./validation-principles.md#шаг-2-проверить-dry)
+- [Проверка зависимостей](./validation-principles.md#шаг-4-проверить-зависимости)
+
+**Инструкция:** [validation-principles.md](./validation-principles.md)
+
 ---
 
 # 4. Скрипты
 
-*Нет скриптов.*
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [list-instructions.py](./.scripts/list-instructions.py) | Список всех инструкций с описаниями | [create-instruction.md](./create-instruction.md) |
+| [create-instruction-file.py](./.scripts/create-instruction-file.py) | Создание файла инструкции по шаблону | [create-instruction.md](./create-instruction.md) |
+| [validate-instruction.py](./.scripts/validate-instruction.py) | Валидация формата инструкций | [validation-instruction.md](./validation-instruction.md) |
+| [validate-script.py](./.scripts/validate-script.py) | Валидация формата скриптов | [validation-script.md](./validation-script.md) |
+| [parse-docstrings.py](./.scripts/parse-docstrings.py) | Поиск скриптов по описанию | [create-script.md](./create-script.md) |
 
 ---
 
