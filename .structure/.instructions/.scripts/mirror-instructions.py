@@ -20,7 +20,6 @@ mirror-instructions.py — Зеркалирование структуры в .i
 """
 
 import argparse
-import subprocess
 import sys
 from pathlib import Path
 
@@ -216,26 +215,143 @@ def cmd_create(repo_root: Path, folder_path: str, dry_run: bool = False) -> bool
     readme_path.write_text(content, encoding="utf-8")
 
     print(f"✅ Зеркало создано: {readme_path}")
+    print(f"ℹ️  .instructions/ будет добавлена в SSOT при добавлении родительской папки")
 
-    # Добавляем .instructions в SSOT
-    # Путь зеркала: test/.instructions/ или test/.instructions/subtest/
-    ssot_path = str(instructions_path.relative_to(repo_root)).replace("\\", "/")
-    ssot_script = repo_root / ".structure" / ".instructions" / ".scripts" / "ssot.py"
-    if ssot_script.exists():
-        try:
-            folder_name = full_path.split("/")[-1]
-            subprocess.run(
-                [sys.executable, str(ssot_script), "add", ssot_path,
-                 "-d", f"Инструкции для {folder_name}/"],
-                cwd=repo_root,
-                capture_output=True,
-                text=True
-            )
-            print(f"✅ Добавлено в SSOT: {ssot_path}/")
-        except Exception as e:
-            print(f"⚠️  Не удалось добавить в SSOT: {e}", file=sys.stderr)
+    # Обновляем README родительских инструкций (для подпапок)
+    if depth > 0:
+        update_parent_instructions_readme(repo_root, folder_path)
 
     return True
+
+
+def update_parent_instructions_readme(repo_root: Path, folder_path: str) -> bool:
+    """
+    Обновить README родительских инструкций при создании подпапки.
+
+    При создании test/.instructions/subtest/ обновляет test/.instructions/README.md:
+    - Добавляет в таблицу оглавления
+    - Добавляет в дерево
+    """
+    full_path, root_folder, subpath, depth = parse_folder_path(folder_path)
+
+    if depth == 0:
+        return False  # Корневая папка — нет родителя
+
+    # README родительских инструкций
+    parent_readme = repo_root / root_folder / INSTRUCTIONS_DIR / "README.md"
+    if not parent_readme.exists():
+        return False
+
+    folder_name = full_path.split("/")[-1]
+    content = parent_readme.read_text(encoding="utf-8")
+    lines = content.split("\n")
+
+    # 1. Добавляем в таблицу оглавления
+    lines = add_to_instructions_toc(lines, folder_name)
+
+    # 2. Добавляем в дерево
+    lines = add_to_instructions_tree(lines, folder_name)
+
+    parent_readme.write_text("\n".join(lines), encoding="utf-8")
+    print(f"✅ Обновлён README инструкций: {parent_readme}")
+    return True
+
+
+def add_to_instructions_toc(lines: list, folder_name: str) -> list:
+    """Добавить подпапку в таблицу оглавления инструкций."""
+    import re
+
+    # Ищем таблицу оглавления (после "## Оглавление")
+    toc_start = None
+    toc_end = None
+
+    for i, line in enumerate(lines):
+        if line.strip() == "## Оглавление":
+            toc_start = i + 1
+        elif toc_start and line.startswith("```"):
+            toc_end = i
+            break
+
+    if toc_start is None or toc_end is None:
+        return lines
+
+    # Проверяем, есть ли уже эта подпапка
+    for i in range(toc_start, toc_end):
+        if f"[{folder_name}/]" in lines[i]:
+            return lines
+
+    # Ищем позицию для вставки — после заголовка таблицы, но ДО секций (| [N. ...)
+    # Заголовок таблицы: | Секция | Инструкция | Описание |
+    # Разделитель: |--------|------------|----------|
+    insert_idx = None
+    for i in range(toc_start, toc_end):
+        line = lines[i]
+        if line.startswith("|") and "---" in line:
+            # Нашли разделитель таблицы, вставляем после него
+            insert_idx = i + 1
+            break
+
+    if insert_idx is None:
+        return lines
+
+    # Добавляем новую строку в таблицу
+    new_row = f"| [{folder_name}/](./{folder_name}/README.md) | — | Инструкции для {folder_name}/ |"
+
+    result = lines[:insert_idx]
+    result.append(new_row)
+    result.extend(lines[insert_idx:])
+
+    return result
+
+
+def add_to_instructions_tree(lines: list, folder_name: str) -> list:
+    """Добавить подпапку в дерево инструкций."""
+    import re
+
+    # Ищем блок дерева (``` ... ```)
+    tree_start = None
+    tree_end = None
+
+    for i, line in enumerate(lines):
+        if line.strip().startswith("```") and tree_start is None:
+            # Проверяем что это дерево (следующая строка начинается с /)
+            if i + 1 < len(lines) and lines[i + 1].strip().startswith("/"):
+                tree_start = i + 1
+        elif tree_start and line.strip() == "```":
+            tree_end = i
+            break
+
+    if tree_start is None or tree_end is None:
+        return lines
+
+    # Проверяем, есть ли уже эта подпапка
+    for i in range(tree_start, tree_end):
+        if f"── {folder_name}/" in lines[i]:
+            return lines
+
+    # Ищем README.md в дереве
+    readme_idx = None
+    for i in range(tree_start, tree_end):
+        if "── README.md" in lines[i]:
+            readme_idx = i
+            break
+
+    if readme_idx is None:
+        return lines
+
+    # Формируем новую строку дерева
+    tree_line = f"├── {folder_name}/                       # Инструкции для {folder_name}/"
+
+    # Вставляем перед README.md
+    result = lines[:readme_idx]
+    result.append(tree_line)
+
+    # Меняем ├── на └── для README.md (он теперь последний)
+    readme_line = lines[readme_idx].replace("├── ", "└── ")
+    result.append(readme_line)
+    result.extend(lines[readme_idx + 1:])
+
+    return result
 
 
 # =============================================================================

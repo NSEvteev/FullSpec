@@ -1,8 +1,4 @@
 {
-  "statusLine": {
-    "type": "command",
-    "command": "powershell -ExecutionPolicy Bypass -File .claude/statusline.ps1"
-  },
   "permissions": {
     "allow": [
       "Bash(git add:*)",
@@ -107,7 +103,17 @@
       "Bash(powershell -Command \"Remove-Item -Recurse -Force test\")",
       "Bash(powershell -Command \"if \\(Test-Path test\\) { Remove-Item -Recurse -Force test }\")",
       "Skill(links-validate)",
-      "Bash(if exist test rmdir /s /q test)"
+      "Bash(if exist test rmdir /s /q test)",
+      "Bash(if exist test-demo rmdir /s /q test-demo)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(powershell -Command \"if \\(Test-Path test-demo\\) { Remove-Item -Recurse -Force test-demo }\")",
+      "Bash(powershell -Command \"Get-ChildItem -Directory -Filter ''DELETE_*'' -Recurse | Select-Object FullName\")",
+      "Bash(powershell:*)"
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "powershell -ExecutionPolicy Bypass -File .claude/statusline.ps1"
   }
 }

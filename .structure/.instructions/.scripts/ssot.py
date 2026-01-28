@@ -92,7 +92,7 @@ def format_tree_line(folder_name: str, description: str, depth: int = 0, is_last
     prefix = f"{indent}{connector}{folder_name}/"
 
     # Отступ комментария для подпапок
-    comment_prefix = "#" + SUBCOMMENT_PREFIX * (depth + 1) if depth > 0 else "#"
+    comment_prefix = "#" + SUBCOMMENT_PREFIX * depth if depth > 0 else "#"
 
     padding = max(1, COMMENT_COLUMN - len(prefix))
     return f"{prefix}{' ' * padding}{comment_prefix} {description}"
@@ -620,7 +620,7 @@ def add_to_tree(lines: list, full_path: str, parent_path: str, description: str,
         return new_lines
 
 
-def cmd_add(ssot_path: Path, folder_path: str, description: str) -> str:
+def cmd_add(ssot_path: Path, folder_path: str, description: str, repo_root: Path = None) -> str:
     """Добавить папку в SSOT."""
     content = ssot_path.read_text(encoding="utf-8")
     lines = content.split("\n")
@@ -631,7 +631,210 @@ def cmd_add(ssot_path: Path, folder_path: str, description: str) -> str:
     lines = add_to_sections(lines, full_path, parent_path, description, depth)
     lines = add_to_tree(lines, full_path, parent_path, description, depth)
 
+    # Автоматически добавляем .instructions/ если существует
+    if repo_root:
+        # 1. Собственная .instructions/ папки (для корневых папок)
+        instructions_path = repo_root / full_path / ".instructions"
+        if instructions_path.exists() and instructions_path.is_dir():
+            instr_full_path = f"{full_path}/.instructions"
+            instr_description = f"Инструкции для {folder_name}/"
+            lines = add_to_tree(lines, instr_full_path, full_path, instr_description, depth + 1)
+
+        # 2. Зеркало в родительском .instructions/ (для вложенных папок)
+        # test/subtest/ → зеркало test/.instructions/subtest/
+        if parent_path:
+            # Находим корневую папку (первый элемент пути)
+            parts = full_path.split("/")
+            root_folder = parts[0]
+            # Путь зеркала: root/.instructions/остаток_пути
+            mirror_path = repo_root / root_folder / ".instructions" / "/".join(parts[1:])
+            if mirror_path.exists() and mirror_path.is_dir():
+                # Путь в SSOT: root/.instructions/subpath
+                mirror_ssot_path = f"{root_folder}/.instructions/{'/'.join(parts[1:])}"
+                # Родитель: root/.instructions или root/.instructions/parent
+                if len(parts) == 2:
+                    mirror_parent = f"{root_folder}/.instructions"
+                else:
+                    mirror_parent = f"{root_folder}/.instructions/{'/'.join(parts[1:-1])}"
+                mirror_depth = len(parts)  # depth в дереве
+                mirror_description = f"Инструкции для {folder_name}/"
+                lines = add_to_tree(lines, mirror_ssot_path, mirror_parent, mirror_description, mirror_depth)
+
     return "\n".join(lines)
+
+
+# =============================================================================
+# Обновление README родительской папки
+# =============================================================================
+
+def update_parent_readme(repo_root: Path, folder_path: str, description: str) -> bool:
+    """
+    Обновить README родительской папки при добавлении подпапки.
+
+    Добавляет:
+    - Секцию в "## 1. Папки"
+    - Запись в дерево "## 3. Дерево"
+
+    Returns:
+        True если обновлено, False если не требуется (корневая папка)
+    """
+    full_path, parent_path, folder_name, depth = parse_folder_path(folder_path)
+
+    # Корневые папки не имеют родителя для обновления
+    if not parent_path:
+        return False
+
+    parent_readme = repo_root / parent_path / "README.md"
+    if not parent_readme.exists():
+        print(f"⚠️  README родителя не найден: {parent_readme}", file=sys.stderr)
+        return False
+
+    content = parent_readme.read_text(encoding="utf-8")
+    lines = content.split("\n")
+
+    # 1. Добавляем в секцию "Папки"
+    lines = add_subfolder_to_folders_section(lines, folder_name, description)
+
+    # 2. Добавляем в дерево
+    lines = add_subfolder_to_tree_section(lines, folder_name, description)
+
+    # Записываем
+    parent_readme.write_text("\n".join(lines), encoding="utf-8")
+    print(f"✅ Обновлён README родителя: {parent_readme}")
+    return True
+
+
+def add_subfolder_to_folders_section(lines: list, folder_name: str, description: str) -> list:
+    """Добавить подпапку в секцию '## 1. Папки'."""
+    # Ищем секцию "## 1. Папки" и "---" после неё
+    folders_idx = None
+    section_end_idx = None
+
+    for i, line in enumerate(lines):
+        if "## 1. Папки" in line:
+            folders_idx = i
+        elif folders_idx is not None and line.strip() == "---":
+            section_end_idx = i
+            break
+
+    if folders_idx is None:
+        return lines
+
+    if section_end_idx is None:
+        section_end_idx = len(lines)
+
+    # Проверяем, есть ли уже эта подпапка
+    for i in range(folders_idx, section_end_idx):
+        if f"[{folder_name}/]" in lines[i]:
+            return lines  # Уже есть
+
+    # Формируем новую секцию
+    new_section_lines = [
+        f"### 🔗 [{folder_name}/](./{folder_name}/README.md)",
+        "",
+        f"**{description}.**",
+        ""
+    ]
+
+    # Убираем "*Подпапки отсутствуют.*" если есть и собираем результат
+    result = []
+    inserted = False
+
+    for i, line in enumerate(lines):
+        # Пропускаем placeholder
+        if folders_idx < i < section_end_idx:
+            if "*Подпапки отсутствуют.*" in line or "*Нет подпапок.*" in line:
+                continue
+
+        result.append(line)
+
+        # Вставляем после "## 1. Папки"
+        if not inserted and i == folders_idx:
+            result.append("")  # Пустая строка после заголовка
+            result.extend(new_section_lines)
+            inserted = True
+
+    return result
+
+
+def add_subfolder_to_tree_section(lines: list, folder_name: str, description: str) -> list:
+    """Добавить подпапку в секцию '## 3. Дерево'."""
+    # Ищем секцию "## 3. Дерево" и блок ```
+    tree_start = None
+    tree_end = None
+
+    for i, line in enumerate(lines):
+        if "## 3. Дерево" in line:
+            # Ищем начало блока кода
+            for j in range(i, min(i + 5, len(lines))):
+                if lines[j].strip() == "```":
+                    tree_start = j + 2  # После ``` и строки с путём
+                    break
+        if tree_start and line.strip() == "```" and i > tree_start:
+            tree_end = i
+            break
+
+    if not tree_start or not tree_end:
+        return lines
+
+    # Проверяем, есть ли уже эта подпапка
+    for i in range(tree_start, tree_end):
+        if f"── {folder_name}/" in lines[i]:
+            return lines  # Уже есть
+
+    # Формируем строку дерева
+    tree_line = f"├── {folder_name}/"
+    padding = max(1, COMMENT_COLUMN - len(tree_line) - 4)  # -4 для отступа
+    tree_line = f"├── {folder_name}/{' ' * padding}# {description}"
+
+    # Ищем место для вставки (перед README.md)
+    readme_idx = None
+    existing_entries = []
+
+    for i in range(tree_start, tree_end):
+        line = lines[i]
+        if "── README.md" in line:
+            readme_idx = i
+        match = re.search(r'[├└]── ([^/\s]+)/', line)
+        if match:
+            existing_entries.append((i, match.group(1)))
+
+    # Находим позицию для вставки (алфавитный порядок среди папок)
+    insert_idx = readme_idx if readme_idx else tree_end
+    for idx, existing_name in existing_entries:
+        if sort_key(folder_name) < sort_key(existing_name):
+            insert_idx = idx
+            break
+
+    # Вставляем
+    result = lines[:insert_idx]
+    result.append(tree_line)
+    result.extend(lines[insert_idx:])
+
+    # Исправляем коннекторы (├── vs └──)
+    # Находим новый диапазон дерева
+    new_tree_start = None
+    new_tree_end = None
+    for i, line in enumerate(result):
+        if "## 3. Дерево" in line:
+            for j in range(i, min(i + 5, len(result))):
+                if result[j].strip() == "```":
+                    new_tree_start = j + 2
+                    break
+        if new_tree_start and line.strip() == "```" and i > new_tree_start:
+            new_tree_end = i
+            break
+
+    if new_tree_start and new_tree_end:
+        # Последний элемент должен использовать └──
+        for i in range(new_tree_start, new_tree_end):
+            line = result[i]
+            if i == new_tree_end - 1:
+                result[i] = line.replace("├── ", "└── ")
+            else:
+                result[i] = line.replace("└── ", "├── ")
+
+    return result
 
 
 # =============================================================================
@@ -964,7 +1167,7 @@ def main():
                 print(f"⚠️  Родительская папка '{parent_path}/' не найдена в SSOT", file=sys.stderr)
                 print(f"   Сначала добавьте родителя: python ssot.py add {parent_path} --description \"...\"", file=sys.stderr)
 
-        result = cmd_add(ssot_path, folder_path, args.description)
+        result = cmd_add(ssot_path, folder_path, args.description, repo_root)
 
         # Заменяем {EXTENDED_DESCRIPTION} если указан --extended
         if args.extended:
@@ -996,6 +1199,14 @@ def main():
         ssot_path.write_text(result, encoding="utf-8")
         print(f"✅ SSOT обновлён: {ssot_path}")
         print(f"   {msg_action}")
+
+        # Обновляем README родительской папки (для подпапок)
+        if args.command == "add":
+            folder_path = args.folder.strip("/")
+            _, parent_path, _, _ = parse_folder_path(folder_path)
+            if parent_path:
+                update_parent_readme(repo_root, folder_path, args.description)
+
         if msg_extra:
             print(msg_extra)
 

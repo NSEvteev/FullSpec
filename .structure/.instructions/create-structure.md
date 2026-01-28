@@ -70,15 +70,15 @@ python .structure/.instructions/.scripts/generate-readme.py {путь} --create
 Write → {путь}/README.md
 ```
 
-### Шаг 3: Обновить README родительской папки
+### Шаг 3: README родительской папки (автоматически)
 
-> **SSOT:** [standard-readme.md#52-обновление-readme-родительской-папки](./standard-readme.md#52-обновление-readme-родительской-папки)
+> **Автоматизировано в `ssot.py add`** — выполняется автоматически при добавлении подпапки.
 
-В README родительской папки добавить:
-- **Секция "Папки"** — описание новой подпапки
-- **Дерево** — ветку новой подпапки
+При добавлении подпапки (`ssot.py add parent/child`) скрипт автоматически обновляет `parent/README.md`:
+- **Секция "Папки"** — добавляет описание новой подпапки
+- **Дерево** — добавляет ветку новой подпапки
 
-> Для корневых папок — пропустить (родитель = корневой README).
+> Для корневых папок — пропускается (родитель = корневой README).
 
 ### Шаг 4: Добавить в SSOT
 
@@ -133,8 +133,7 @@ python .structure/.instructions/.scripts/validate.py --path {путь}
 
 - [ ] Папка создана (generate-readme.py --create)
 - [ ] README.md заполнен и записан
-- [ ] README родительской папки обновлён (если не корневая)
-- [ ] SSOT обновлён (ssot.py add -d -e)
+- [ ] SSOT обновлён (ssot.py add -d -e) — автоматически обновляет README родителя
 - [ ] Зеркало `.instructions` создано (mirror-instructions.py create)
 - [ ] Валидация пройдена (validate.py)
 
@@ -171,16 +170,15 @@ python .structure/.instructions/.scripts/generate-readme.py docs/api --create
 
 # Шаг 2: Заполнить плейсхолдеры, записать README (Write tool)
 
-# Шаг 3: Обновить docs/README.md (секция "Папки", дерево)
-
-# Шаг 4: Обновить SSOT (родитель docs/ должен быть в SSOT)
+# Шаг 3: Обновить SSOT (родитель docs/ должен быть в SSOT)
+# Автоматически обновит docs/README.md (секция "Папки", дерево)
 python .structure/.instructions/.scripts/ssot.py add docs/api -d "API документация" -e "Документация API."
 
-# Шаг 5: Создать зеркало .instructions
+# Шаг 4: Создать зеркало .instructions
 python .structure/.instructions/.scripts/mirror-instructions.py create docs/api
 # Создаст: docs/.instructions/api/README.md
 
-# Шаг 6: Валидация
+# Шаг 5: Валидация
 python .structure/.instructions/.scripts/validate.py --path docs
 ```
 
