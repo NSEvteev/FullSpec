@@ -12,25 +12,11 @@ triggers:
       - интегрируй скилл
     en:
       - update skills
-      - integrate skill
 ---
 
 # Обновление скиллов
 
-Интеграция нового скилла в существующие. Анализирует применимость и предлагает добавить вызовы.
-
-**Связанные скиллы:**
-- [skill-create](/.claude/skills/skill-create/SKILL.md) — создание скилла (вызывает этот скилл)
-- [skill-delete](/.claude/skills/skill-delete/SKILL.md) — удаление скилла
-
-## Оглавление
-
-- [Формат вызова](#формат-вызова)
-- [Воркфлоу](#воркфлоу)
-- [Чек-лист](#чек-лист)
-- [Примеры](#примеры)
-
----
+**SSOT:** [modify-skill.md](/.claude/.instructions/skills/modify-skill.md)
 
 ## Формат вызова
 
@@ -38,71 +24,24 @@ triggers:
 /skill-update <новый-скилл>
 ```
 
-| Параметр | Описание | По умолчанию |
+| Параметр | Описание | Обязательный |
 |----------|----------|--------------|
-| `новый-скилл` | Имя скилла или путь к SKILL.md | Последний созданный |
-
----
+| `новый-скилл` | Имя скилла или путь к SKILL.md | Нет (последний созданный) |
 
 ## Воркфлоу
 
-> ⚠️ **ШАГ 0: ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ ПЕРЕД ВЫПОЛНЕНИЕМ**
->
-> Прочитать SSOT-инструкции:
-> 1. [integration.md](/.claude/.instructions/skills/integration.md) — матрица применимости, критерии, форматы
-> 2. [workflow.md](/.claude/.instructions/skills/workflow.md) — структура воркфлоу
-> 3. [errors.md](/.claude/.instructions/skills/errors.md) — обработка ошибок
->
-> **НЕ ПРОДОЛЖАТЬ** пока не прочитаны все файлы.
+> ⚠️ **Перед выполнением** прочитать [modify-skill.md](/.claude/.instructions/skills/modify-skill.md)
 
-<!--
-ПРАВИЛО: Шаги содержат ТОЛЬКО название и ссылку на SSOT.
-Детали, алгоритмы, примеры — в SSOT-инструкциях.
-LLM ОБЯЗАН прочитать SSOT перед выполнением шага.
--->
-
-### Шаг 1: Получить новый скилл
-
-> **SSOT:** [workflow.md](/.claude/.instructions/skills/workflow.md#получение-скилла)
-
-### Шаг 2: Загрузить существующие скиллы
-
-> **SSOT:** [integration.md](/.claude/.instructions/skills/integration.md#загрузка-скиллов)
-
-### Шаг 3: Анализ применимости
-
-> **SSOT:** [integration.md](/.claude/.instructions/skills/integration.md#критерии-применимости)
-
-### Шаг 4: Сформировать предложения
-
-> **SSOT:** [integration.md](/.claude/.instructions/skills/integration.md#формат-интеграции-в-воркфлоу)
-
-### Шаг 5: Применить изменения
-
-> **SSOT:** [integration.md](/.claude/.instructions/skills/integration.md#применение-интеграции)
-
-### Шаг 6: Проверка по чек-листу
-
-См. [Чек-лист](#чек-лист) ниже.
-
-### Шаг 7: Результат
-
-> **SSOT:** [workflow.md](/.claude/.instructions/skills/workflow.md#формат-результата)
-
----
+→ Выполнить шаги из SSOT-инструкции (секция "Обновление скилла").
 
 ## Чек-лист
 
-- [ ] Прочитал SSOT инструкции (ШАГ 0)
-- [ ] Получил новый скилл
-- [ ] Загрузил существующие скиллы
-- [ ] Проанализировал применимость
-- [ ] Сформировал предложения
-- [ ] Применил изменения
-- [ ] Вывел итоговый отчёт
-
----
+→ См. [modify-skill.md#5-чек-лист](/.claude/.instructions/skills/modify-skill.md#5-чек-лист)
 
 ## Примеры
 
-> **SSOT:** [examples.md](/.claude/.instructions/skills/examples.md#skill-update)
+```
+/skill-update links-validate
+/skill-update spec-archive
+```
+

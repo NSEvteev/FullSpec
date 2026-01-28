@@ -3337,36 +3337,36 @@ grep -r "/skill-name" --include="*.md"
 
 ### 19.8. План выполнения
 
-#### Фаза A: Создание файлов
+#### Фаза A: Создание файлов ✅
 
-1. [ ] Создать `standard-skill.md`
-2. [ ] Создать `validation-skill.md`
-3. [ ] Создать `create-skill.md`
-4. [ ] Создать `modify-skill.md`
+1. [x] Создать `standard-skill.md`
+2. [x] Создать `validation-skill.md`
+3. [x] Создать `create-skill.md`
+4. [x] Создать `modify-skill.md`
 
-#### Фаза B: README
+#### Фаза B: README ✅
 
-5. [ ] Переработать `README.md` (5 секций, 1 объект)
+5. [x] Переработать `README.md` (5 секций, 1 объект)
 
-#### Фаза C: Удаление старых файлов
+#### Фаза C: Удаление старых файлов ✅
 
-6. [ ] Удалить `template-skill.md`
-7. [ ] Удалить `rules.md`
-8. [ ] Удалить `workflow.md`
-9. [ ] Удалить `parameters.md`
-10. [ ] Удалить `output.md`
-11. [ ] Удалить `errors.md`
-12. [ ] Удалить `state.md`
-13. [ ] Удалить `validation.md` (старый)
-14. [ ] Удалить `integration.md`
-15. [ ] Удалить `examples.md`
+6. [x] Удалить `template-skill.md`
+7. [x] Удалить `rules.md`
+8. [x] Удалить `workflow.md`
+9. [x] Удалить `parameters.md`
+10. [x] Удалить `output.md`
+11. [x] Удалить `errors.md`
+12. [x] Удалить `state.md`
+13. [x] Удалить `validation.md` (старый)
+14. [x] Удалить `integration.md`
+15. [x] Удалить `examples.md`
 
-#### Фаза D: Обновление скиллов skill-*
+#### Фаза D: Обновление скиллов skill-* ✅
 
-16. [ ] Переделать `/skill-create` → сокращённый формат
-17. [ ] Переделать `/skill-update` → сокращённый формат
-18. [ ] Переделать `/skill-delete` → сокращённый формат
-19. [ ] Переделать `/skill-migrate` → сокращённый формат
+16. [x] Переделать `/skill-create` → сокращённый формат
+17. [x] Переделать `/skill-update` → сокращённый формат
+18. [x] Переделать `/skill-delete` → сокращённый формат
+19. [x] Переделать `/skill-migrate` → сокращённый формат
 
 #### Фаза E: Обновление ссылок
 
