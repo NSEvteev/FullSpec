@@ -6,11 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-## TODO (27.01.2026)
+## TODO (28.01.2026)
 
-- [x] ~~Тестирование структуры: [/.claude/drafts/test-structure-full.md](/.claude/drafts/test-structure-full.md)~~
-  - ✅ Фаза 3 завершена — все 8 тестов пройдены
-  - Скрипты зеркалирования `.instructions` работают корректно
+- [x] ~~Тестирование структуры~~ — все 8 тестов пройдены
+- [x] ~~Зеркала `.instructions`~~ — созданы для всех папок
+- [ ] Исправить битые ссылки в скиллах (86 ошибок E012)
+- [ ] Написать инструкции: `/.claude/.instructions/skills/`
 
 ---
 

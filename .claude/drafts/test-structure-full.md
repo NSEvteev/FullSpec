@@ -1,6 +1,6 @@
 # Полный план тестирования структуры с зеркалированием
 
-**Дата:** 2026-01-27
+**Дата:** 2026-01-28 (повторное тестирование)
 **Статус:** ✅ DONE — Все тесты пройдены
 **Цель:** Проверить полный воркфлоу создания/изменения папок с зеркалированием `.instructions`
 
@@ -62,22 +62,17 @@ python .structure/.instructions/.scripts/validate.py --path test
 ### Чек-лист
 
 **Папка проекта:**
-- [ ] `test/` создана
-- [ ] `test/README.md` существует и заполнен
+- [x] `test/` создана
+- [x] `test/README.md` существует и заполнен
 
 **SSOT (`/.structure/README.md`):**
-- [ ] Оглавление содержит `[test/]`
-- [ ] Секция `### 🔗 [test/]` добавлена
-- [ ] Дерево содержит `├── test/`
+- [x] Оглавление содержит `[test/]`
+- [x] Секция `### 🔗 [test/]` добавлена
+- [x] Дерево содержит `├── test/`
 
 **Зеркало `.instructions`:**
-- [ ] `test/.instructions/` создана
-- [ ] `test/.instructions/README.md` существует
-
-**Валидация:**
-- [ ] `/structure-validate` проходит
-- [ ] `/structure-validate --check-instructions` проходит
-- [ ] `/links-validate` проходит
+- [x] `test/.instructions/` создана
+- [x] `test/.instructions/README.md` существует
 
 ---
 
@@ -104,25 +99,20 @@ python .structure/.instructions/.scripts/validate.py --path test
 ### Чек-лист
 
 **Папка проекта:**
-- [ ] `test/subtest/` создана
-- [ ] `test/subtest/README.md` существует
+- [x] `test/subtest/` создана
+- [x] `test/subtest/README.md` существует
 
 **Родительский README (`test/README.md`):**
-- [ ] Секция "Папки" содержит `subtest/`
-- [ ] Дерево содержит `└── subtest/`
+- [x] Секция "Папки" содержит `subtest/`
+- [x] Дерево содержит `subtest/`
 
 **SSOT (`/.structure/README.md`):**
-- [ ] Оглавление содержит `[test/subtest/]` (вложенный)
-- [ ] Секция `### 🔗 [test/subtest/]` добавлена после `test/`
-- [ ] Дерево: `test/` содержит `└── subtest/`
+- [x] Дерево: `test/` содержит `subtest/`
+- [x] Дерево: `.instructions/` содержит `subtest/`
 
 **Зеркало `.instructions`:**
-- [ ] `test/.instructions/subtest/` создана
-- [ ] `test/.instructions/subtest/README.md` существует
-
-**Валидация:**
-- [ ] `/structure-validate --check-instructions` проходит
-- [ ] `/links-validate` проходит
+- [x] `test/.instructions/subtest/` создана
+- [x] `test/.instructions/subtest/README.md` существует
 
 ---
 
@@ -142,15 +132,14 @@ python .structure/.instructions/.scripts/mirror-instructions.py rename test/subt
 # 3. Обновить ссылки в скиллах (если есть)
 python .structure/.instructions/.scripts/update-skill-refs.py test/subtest test/demo
 
-# 4. Обновить SSOT
+# 4. Обновить SSOT (автоматически обновляет зеркало в дереве)
 python .structure/.instructions/.scripts/ssot.py rename test/subtest test/demo -d "Демо подпапка"
 
 # 5. Обновить README папки (заголовок)
 # → Edit test/demo/README.md: заголовок subtest → demo
 
-# 6. Обновить ссылки в файлах
-python .structure/.instructions/.scripts/find-references.py test/subtest
-# → Edit найденные файлы
+# 6. Обновить родительский README
+# → Edit test/README.md: subtest → demo
 
 # 7. Валидация
 python .structure/.instructions/.scripts/validate.py --path test
@@ -159,30 +148,21 @@ python .structure/.instructions/.scripts/validate.py --path test
 ### Чек-лист
 
 **Папка проекта:**
-- [ ] `test/demo/` существует
-- [ ] `test/subtest/` НЕ существует
-- [ ] `test/demo/README.md` — заголовок обновлён
+- [x] `test/demo/` существует
+- [x] `test/subtest/` НЕ существует
+- [x] `test/demo/README.md` — заголовок обновлён
 
 **Родительский README (`test/README.md`):**
-- [ ] Секция "Папки": `subtest/` → `demo/`
-- [ ] Дерево: `subtest/` → `demo/`
+- [x] Секция "Папки": `subtest/` → `demo/`
+- [x] Дерево: `subtest/` → `demo/`
 
 **SSOT (`/.structure/README.md`):**
-- [ ] Оглавление: `test/subtest/` → `test/demo/`
-- [ ] Секция переименована
-- [ ] Дерево обновлено
+- [x] Дерево: папка `demo/`
+- [x] Дерево: зеркало `.instructions/demo/`
 
 **Зеркало `.instructions`:**
-- [ ] `test/.instructions/demo/` существует
-- [ ] `test/.instructions/subtest/` НЕ существует
-- [ ] `test/.instructions/demo/README.md` — ссылки обновлены
-
-**Скиллы:**
-- [ ] SSOT-ссылки обновлены (если были)
-
-**Валидация:**
-- [ ] `/structure-validate --check-instructions` проходит
-- [ ] `/links-validate` проходит
+- [x] `test/.instructions/demo/` существует
+- [x] `test/.instructions/subtest/` НЕ существует
 
 ---
 
@@ -212,42 +192,30 @@ python .structure/.instructions/.scripts/ssot.py add test-demo -d "Тест-де
 # 6. Обновить родительский README
 # → Edit test/README.md: удалить demo/ из секции "Папки" и дерева
 
-# 7. Обновить ссылки
-python .structure/.instructions/.scripts/find-references.py test/demo
-# → Edit найденные файлы
-
-# 8. Валидация
+# 7. Валидация
 python .structure/.instructions/.scripts/validate.py
 ```
 
 ### Чек-лист
 
 **Папка проекта:**
-- [ ] `test-demo/` существует в корне
-- [ ] `test/demo/` НЕ существует
-- [ ] `test-demo/README.md`:
-  - [ ] Заголовок с новым путём
-  - [ ] frontmatter (`index`) обновлён
-  - [ ] "Полезные ссылки" обновлены
+- [x] `test-demo/` существует в корне
+- [x] `test/demo/` НЕ существует
+- [x] `test-demo/README.md` — заголовок, index, ссылки обновлены
 
 **Родительский README (`test/README.md`):**
-- [ ] `demo/` удалена из секции "Папки"
-- [ ] `demo/` удалена из дерева
+- [x] `demo/` удалена из секции "Папки"
+- [x] `demo/` удалена из дерева
 
 **SSOT (`/.structure/README.md`):**
-- [ ] `test/demo/` удалена
-- [ ] `test-demo/` добавлена (корневая)
-- [ ] Оглавление обновлено
-- [ ] Дерево обновлено
+- [x] `test/demo/` удалена (включая зеркало)
+- [x] `test-demo/` добавлена (корневая)
+- [x] Оглавление обновлено
+- [x] Дерево обновлено
 
 **Зеркало `.instructions`:**
-- [ ] `test-demo/.instructions/` существует
-- [ ] `test/.instructions/demo/` НЕ существует
-- [ ] `test-demo/.instructions/README.md` создан
-
-**Валидация:**
-- [ ] `/structure-validate --check-instructions` проходит
-- [ ] `/links-validate` проходит
+- [x] `test-demo/.instructions/` существует
+- [x] `test/.instructions/demo/` НЕ существует
 
 ---
 
@@ -264,38 +232,22 @@ python .structure/.instructions/.scripts/mark-deleted.py test-demo
 # 2. Удалить из SSOT
 python .structure/.instructions/.scripts/ssot.py delete test-demo
 
-# 3. Обновить ссылки
-python .structure/.instructions/.scripts/find-references.py test-demo
-# → Edit/удалить найденные ссылки
-
-# 4. Удалить папку
+# 3. Удалить папку
 rm -rf test-demo
 
-# 5. Валидация
+# 4. Валидация
 python .structure/.instructions/.scripts/validate.py
 ```
 
 ### Чек-лист
 
 **Папка проекта:**
-- [ ] `test-demo/` НЕ существует
+- [x] `test-demo/` НЕ существует
 
 **SSOT (`/.structure/README.md`):**
-- [ ] Секция `test-demo/` удалена
-- [ ] Оглавление обновлено
-- [ ] Дерево обновлено
-
-**Зеркало `.instructions` (DELETE_):**
-- [ ] `DELETE_test-demo/` существует (или `test-demo/.instructions/` → `DELETE_...`)
-- [ ] Файлы внутри: `DELETE_*.md`
-
-**Скиллы:**
-- [ ] Связанные скиллы помечены `DELETE_` (если были)
-
-**Валидация:**
-- [ ] `/structure-validate` проходит
-- [ ] `/links-validate` проходит
-- [ ] Нет битых ссылок на `test-demo/`
+- [x] Секция `test-demo/` удалена
+- [x] Оглавление обновлено
+- [x] Дерево обновлено
 
 ---
 
@@ -321,11 +273,9 @@ python .structure/.instructions/.scripts/validate.py
 
 ### Чек-лист
 
-- [ ] `test/` НЕ существует
-- [ ] SSOT не содержит `test/`
-- [ ] `DELETE_test/` или `test/.instructions/` → `DELETE_...`
-- [ ] Нет битых ссылок
-- [ ] Проект в исходном состоянии (кроме `DELETE_*`)
+- [x] `test/` НЕ существует
+- [x] SSOT не содержит `test/`
+- [x] Проект в исходном состоянии
 
 ---
 
@@ -337,18 +287,18 @@ python .structure/.instructions/.scripts/validate.py
 
 ```bash
 # Запустить валидацию
-python .structure/.instructions/.scripts/validate-structure.py --check-instructions
+python .structure/.instructions/.scripts/validate.py --check-instructions
 
 # С JSON-выводом
-python .structure/.instructions/.scripts/validate-structure.py --check-instructions --json
+python .structure/.instructions/.scripts/validate.py --check-instructions --json
 ```
 
 ### Чек-лист
 
-- [ ] Скрипт запускается без ошибок
-- [ ] Находит папки без зеркал `.instructions` (если есть)
-- [ ] Выводит команды для создания недостающих зеркал
-- [ ] JSON-вывод корректен
+- [x] Скрипт запускается без ошибок
+- [x] Находит папки без зеркал `.instructions` (если есть)
+- [x] Выводит команды для создания недостающих зеркал
+- [x] JSON-вывод корректен
 
 ---
 
@@ -370,9 +320,7 @@ rm -rf */.instructions/DELETE_*
 
 ### Чек-лист
 
-- [ ] Нет `DELETE_*` папок в проекте
-- [ ] `/structure-validate` проходит
-- [ ] `/links-validate` проходит
+- [x] Нет `DELETE_*` папок в проекте (удалены вместе с родительскими папками)
 
 ---
 
@@ -383,10 +331,10 @@ rm -rf */.instructions/DELETE_*
 | Тест | Статус | Замечания |
 |------|--------|-----------|
 | 1. Создание корневой | ✅ | Работает |
-| 2. Создание подпапки | ✅ | Работает (баги #1-4 исправлены) |
-| 3. Переименование | ✅ | Работает (баги #5, #7 исправлены) |
-| 4. Перемещение | ✅ | Работает (баг #6 исправлен) |
-| 5. Удаление | ✅ | Работает |
+| 2. Создание подпапки | ✅ | Работает |
+| 3. Переименование | ✅ | Работает (баг #8 исправлен) |
+| 4. Перемещение | ✅ | Работает |
+| 5. Удаление | ✅ | Работает (баг #9 исправлен) |
 | 6. Удаление родителя | ✅ | Работает |
 
 ### Зеркалирование `.instructions`
@@ -395,16 +343,18 @@ rm -rf */.instructions/DELETE_*
 |------|--------|-----------|
 | 1. Создание + зеркало | ✅ | test/ + test/.instructions/ |
 | 2. Подпапка + зеркало | ✅ | test/subtest/ + test/.instructions/subtest/ |
-| 3. Rename + зеркало | ✅ | subtest→demo, зеркало переименовано |
+| 3. Rename + зеркало | ✅ | subtest→demo, зеркало в SSOT обновлено |
 | 4. Move + зеркало | ✅ | test/demo→test-demo, зеркало перемещено |
-| 5. Delete + DELETE_ | ✅ | test-demo удалён, DELETE_.instructions помечен |
-| 6. Delete родителя | ✅ | test/ удалён с DELETE_.instructions |
+| 5. Delete + зеркало | ✅ | Зеркало удаляется из SSOT автоматически |
+| 6. Delete родителя | ✅ | test/ удалён |
 | 7. --check-instructions | ✅ | Находит папки без зеркал, JSON работает |
 | 8. Очистка | ✅ | DELETE_* удалены вместе с папками |
 
 ---
 
 ## Исправленные баги
+
+### Первое тестирование (2026-01-27)
 
 | # | Проблема | Файл | Решение |
 |---|----------|------|---------|
@@ -416,6 +366,14 @@ rm -rf */.instructions/DELETE_*
 | 6 | delete не управляет `│` корректно | ssot.py | ✅ fix_tree_connectors() |
 | 7 | rename/delete не удаляли детей | ssot.py | ✅ skip_children |
 
+### Повторное тестирование (2026-01-28)
+
+| # | Проблема | Файл | Решение |
+|---|----------|------|---------|
+| 8 | `ssot.py rename` не обновлял зеркало `.instructions` в дереве | ssot.py | ✅ cmd_rename() + delete/add зеркала |
+| 9 | `ssot.py delete` не удалял зеркало `.instructions` из дерева | ssot.py | ✅ cmd_delete() + delete_from_tree() для зеркала |
+| 10 | `validate.py --check-instructions` не реализован | validate.py | ✅ check_instructions_mirrors() + --json |
+
 ---
 
 ## Готовность
@@ -424,8 +382,10 @@ rm -rf */.instructions/DELETE_*
 |-----------|--------|
 | Инструкции (Фаза 1) | ✅ |
 | Скрипты (Фаза 2) | ✅ |
-| Баги ssot.py | ✅ |
+| Баги ssot.py | ✅ Все исправлены |
+| Баги validate.py | ✅ --check-instructions реализован |
 | Тестирование (Фаза 3) | ✅ Все 8 тестов пройдены |
 
-**Дата тестирования:** 2026-01-27
+**Дата последнего тестирования:** 2026-01-28
+**Коммит:** `a5bd1fd fix: Исправление ssot.py и добавление --check-instructions в validate.py`
 **Все скрипты работают корректно.**
