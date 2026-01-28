@@ -1,8 +1,12 @@
 # Драфт: Переработка флоу работы с инструкциями
 
 **Дата:** 2026-01-28
-**Статус:** DRAFT
+**Статус:** ✅ DONE
 **Связано:** [align-structure-instructions.md](./align-structure-instructions.md) (Фаза 5)
+
+**Отложено:**
+- Битые ссылки (414 ошибок) — отдельная сессия
+- Rules → [rules-instructions.md](./rules-instructions.md)
 
 ---
 
@@ -499,7 +503,7 @@ index: .instructions/README.md
 
 > **Примечание:** Новые файлы временно создаём в `/.instructions_new/` для сравнения с текущими.
 
-### Фаза 1: Создание файлов для объекта "Инструкции"
+### Фаза 1: Создание файлов для объекта "Инструкции" ✅
 
 > Создаём в `/.instructions_new/`
 
@@ -512,7 +516,7 @@ index: .instructions/README.md
 4. [ ] Создать `modify-instruction.md`
    - Объединить: workflow-update.md + workflow-deactivate.md + patterns.md + MIGRATE
 
-### Фаза 2: Создание файлов для объекта "Скрипты"
+### Фаза 2: Создание файлов для объекта "Скрипты" ✅
 
 > Создаём в `/.instructions_new/`
 
@@ -525,14 +529,14 @@ index: .instructions/README.md
 8. [ ] Создать `modify-script.md`
    - Воркфлоу изменения скрипта
 
-### Фаза 3: Ревью и README
+### Фаза 3: Ревью и README ✅
 
 > Создаём в `/.instructions_new/`
 
 9. [ ] Ревью: все ли вопросы учтены?
 10. [ ] Создать README.md (5 фиксированных секций, 2 объекта)
 
-### Фаза 4: Создание скриптов
+### Фаза 4: Создание скриптов ⏭️ (пропущено)
 
 > Создаём в `/.instructions_new/.scripts/`
 
@@ -540,7 +544,7 @@ index: .instructions/README.md
 12. [ ] Создать скрипты валидации (если нужны)
 13. [ ] Повторить ревью → пока скрипты не нужны
 
-### Фаза 5: Миграция из временной папки
+### Фаза 5: Миграция из временной папки ✅
 
 14. [ ] Сравнить `/.instructions_new/` с `/.instructions/`
 15. [ ] Удалить старые файлы из `/.instructions/`:
@@ -550,7 +554,7 @@ index: .instructions/README.md
 16. [ ] Переместить файлы из `/.instructions_new/` → `/.instructions/`
 17. [ ] Удалить `/.instructions_new/`
 
-### Фаза 6: Удаление скиллов и шаблонов
+### Фаза 6: Удаление скиллов и шаблонов ✅
 
 18. [ ] Удалить `/.claude/skills/instruction-create/`
 19. [ ] Удалить `/.claude/skills/instruction-update/`
@@ -559,7 +563,7 @@ index: .instructions/README.md
 22. [ ] Обновить `/.claude/skills/README.md`
 23. [ ] Обновить `CLAUDE.md` (убрать instruction-* из списка)
 
-### Фаза 7: Обновление ссылок
+### Фаза 7: Обновление ссылок ⏸️ (отложено)
 
 24. [ ] Запустить `/links-validate`
 25. [ ] Исправить битые ссылки
