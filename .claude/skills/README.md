@@ -53,6 +53,15 @@
 | [spec-status](./spec-status/SKILL.md) | Изменение статуса документа /specs/ | `/spec-status`, "статус спецификации" |
 | [spec-update](./spec-update/SKILL.md) | Работа с документом /specs/ | `/spec-update`, "обнови спецификацию" |
 
+### instructions
+
+Управление инструкциями.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [instruction-create](./instruction-create/SKILL.md) | Создание новой инструкции | `/instruction-create`, "создай инструкцию" |
+| [instruction-modify](./instruction-modify/SKILL.md) | Обновление, деактивация, миграция | `/instruction-modify`, "измени инструкцию" |
+
 ### documentation
 
 Работа с документацией и структурой.

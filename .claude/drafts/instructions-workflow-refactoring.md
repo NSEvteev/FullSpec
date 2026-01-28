@@ -564,9 +564,11 @@ index: .instructions/README.md
 24. [ ] Запустить `/links-validate`
 25. [ ] Исправить битые ссылки
 
-### Фаза 8: Скиллы (отложено)
+### Фаза 8: Скиллы ✅
 
-26. [ ] Создать новые скиллы (облегчённый формат → SSOT)
+26. [x] Создать новые скиллы (облегчённый формат → SSOT)
+    - instruction-create → create-instruction.md
+    - instruction-modify → modify-instruction.md
 
 ### Фаза 9: Rules (отложено)
 

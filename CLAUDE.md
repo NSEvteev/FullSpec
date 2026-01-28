@@ -10,8 +10,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - [x] ~~Тестирование структуры~~ — все 8 тестов пройдены
 - [x] ~~Зеркала `.instructions`~~ — созданы для всех папок
-- [ ] Исправить битые ссылки в скиллах (86 ошибок E012)
-- [ ] Написать инструкции: `/.claude/.instructions/skills/`
+- [x] ~~Написать инструкции: `/.claude/.instructions/skills/`~~ — 4 файла
+- [ ] Исправить битые ссылки (414 ошибок) — отдельная сессия
 
 ---
 
@@ -26,6 +26,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 2. СТОП — не начинаю выполнение
 3. Читаю список скиллов: /.claude/skills/README.md
 4. Проверяю: есть ли скилл для этой задачи?
+   - Создать инструкцию → /instruction-create
+   - Изменить инструкцию → /instruction-modify
    - Создать скилл → /skill-create
    - Создать спецификацию → /spec-create
    - Изменить статус спецификации → /spec-status
@@ -42,6 +44,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 | Путь | Скилл | Ручное создание |
 |------|-------|-----------------|
+| `**/.instructions/**/*.md` | `/instruction-create`, `/instruction-modify` | ЗАПРЕЩЕНО |
 | `/.claude/skills/*/SKILL.md` | `/skill-create` | ЗАПРЕЩЕНО |
 | `/specs/**` | `/spec-create`, `/spec-update`, `/spec-status` | ЗАПРЕЩЕНО |
 
@@ -57,10 +60,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-## Скиллы (11)
+## Скиллы (13)
 
 | Категория | Скиллы |
 |-----------|--------|
+| instruction-* | create, modify |
 | skill-* | create, delete, migrate, update |
 | spec-* | create, status, update |
 | links-* | validate |
