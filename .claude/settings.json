@@ -28,11 +28,11 @@
       "Bash(node:*)",
       "Bash(docker:*)",
       "Bash(docker-compose:*)",
+      "Bash(rm -rf:*)",
+      "Bash(rm -r /*)",
       "WebSearch"
     ],
     "deny": [
-      "Bash(rm -rf:*)",
-      "Bash(rm -r /*)",
       "Bash(> /dev/sda:*)"
     ]
   }

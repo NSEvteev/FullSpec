@@ -1,4 +1,8 @@
 {
+  "statusLine": {
+    "type": "command",
+    "command": "powershell -ExecutionPolicy Bypass -File .claude/statusline.ps1"
+  },
   "permissions": {
     "allow": [
       "Bash(git add:*)",
@@ -98,7 +102,12 @@
       "Bash(dir \"C:\\\\00 Dev\\\\project_template\")",
       "Skill(spec-create)",
       "Bash(move \".claude\\\\scripts\\\\structure-validate.py\" \".structure\\\\.instructions\\\\.scripts\"\")",
-      "Bash(Remove-Item -Recurse -Force \".claude/skills/links-create\", \".claude/skills/links-update\", \".claude/skills/links-delete\", \".claude/skills/links-validate\")"
+      "Bash(Remove-Item -Recurse -Force \".claude/skills/links-create\", \".claude/skills/links-update\", \".claude/skills/links-delete\", \".claude/skills/links-validate\")",
+      "Skill(structure-create)",
+      "Bash(powershell -Command \"Remove-Item -Recurse -Force test\")",
+      "Bash(powershell -Command \"if \\(Test-Path test\\) { Remove-Item -Recurse -Force test }\")",
+      "Skill(links-validate)",
+      "Bash(if exist test rmdir /s /q test)"
     ]
   }
 }

@@ -184,9 +184,21 @@ def fix_tree_connectors(tree_lines: list) -> list:
         new_line = f"{indent}{connector}{name}{suffix}{rest}"
         result.append(new_line)
 
-        # Добавляем │ после папки если она не последняя на корневом уровне
-        if is_folder and depth == 0 and not is_last:
-            result.append("│")
+        # Добавляем │ ПОСЛЕ последнего ребёнка корневой папки (перед следующей корневой)
+        # Проверяем: текущий элемент — последний ребёнок (любой глубины) перед следующей корневой папкой?
+        if depth > 0 and i + 1 < len(entries):
+            next_entry = entries[i + 1]
+            # Следующий элемент на корневом уровне — добавляем разделитель
+            if next_entry['depth'] == 0:
+                result.append("│")
+        # Корневая папка без детей перед следующей корневой
+        elif depth == 0 and is_folder and not is_last:
+            # Проверяем, есть ли дети у этой папки
+            has_children = False
+            if i + 1 < len(entries) and entries[i + 1]['depth'] > 0:
+                has_children = True
+            if not has_children:
+                result.append("│")
 
     return result
 
@@ -268,7 +280,11 @@ def find_tree_range(lines: list) -> tuple:
 # =============================================================================
 
 def add_to_toc(lines: list, full_path: str, parent_path: str, depth: int) -> list:
-    """Добавить папку в оглавление."""
+    """Добавить папку в оглавление. Только для корневых папок (depth=0)."""
+    # Оглавление только для корневых папок
+    if depth > 0:
+        return lines
+
     toc_start, toc_end = find_toc_range(lines)
     if not toc_start or not toc_end:
         return lines
@@ -348,7 +364,11 @@ def add_to_toc(lines: list, full_path: str, parent_path: str, depth: int) -> lis
 
 
 def add_to_sections(lines: list, full_path: str, parent_path: str, description: str, depth: int) -> list:
-    """Добавить секцию папки."""
+    """Добавить секцию папки. Только для корневых папок (depth=0)."""
+    # Секции только для корневых папок
+    if depth > 0:
+        return lines
+
     sections_start, sections_end = find_sections_range(lines)
     if not sections_start or not sections_end:
         return lines
@@ -466,7 +486,6 @@ def add_to_tree(lines: list, full_path: str, parent_path: str, description: str,
         for i in range(tree_start, tree_end):
             if insert_idx is not None and i == insert_idx and not inserted:
                 new_lines.append(tree_line)
-                new_lines.append("│")
                 inserted = True
             new_lines.append(lines[i])
 
@@ -478,7 +497,6 @@ def add_to_tree(lines: list, full_path: str, parent_path: str, description: str,
                 if re.match(r'^[├└]── [^/\s]+$', line.rstrip()):
                     if not file_section_started:
                         final_lines.append(tree_line)
-                        final_lines.append("│")
                         file_section_started = True
                 final_lines.append(line)
             if not file_section_started:
@@ -491,7 +509,8 @@ def add_to_tree(lines: list, full_path: str, parent_path: str, description: str,
 
     else:
         # Вложенная папка — найти родителя и вставить внутрь
-        parent_name = parent_path.split("/")[-1] if parent_path else None
+        # Нужно найти родителя по полному пути, а не только по имени
+        parent_parts = parent_path.split("/") if parent_path else []
         parent_depth = depth - 1
 
         tree_line = format_tree_line(folder_name, description, depth=depth)
@@ -499,6 +518,9 @@ def add_to_tree(lines: list, full_path: str, parent_path: str, description: str,
         new_lines = lines[:tree_start]
         inserted = False
         i = tree_start
+
+        # Отслеживаем текущий путь в дереве (стек предков)
+        path_stack = []  # [(depth, folder_name), ...]
 
         while i < tree_end:
             line = lines[i]
@@ -509,7 +531,23 @@ def add_to_tree(lines: list, full_path: str, parent_path: str, description: str,
                 line_depth = get_tree_line_depth(line)
                 line_folder = extract_folder_from_tree(line)
 
-                if line_depth == parent_depth and line_folder == parent_name:
+                # Обновляем стек пути
+                if line_folder:
+                    # Убираем из стека папки с глубиной >= текущей
+                    while path_stack and path_stack[-1][0] >= line_depth:
+                        path_stack.pop()
+                    path_stack.append((line_depth, line_folder))
+
+                # Проверяем полный путь до текущей папки
+                current_path = [name for _, name in path_stack]
+                is_correct_parent = (
+                    parent_parts and
+                    line_depth == parent_depth and
+                    line_folder == parent_parts[-1] and
+                    current_path == parent_parts
+                )
+
+                if is_correct_parent:
                     # Нашли родителя, ищем место для вставки среди его детей
                     i += 1
                     children = []
@@ -517,6 +555,13 @@ def add_to_tree(lines: list, full_path: str, parent_path: str, description: str,
                     # Собираем детей родителя
                     while i < tree_end:
                         child_line = lines[i]
+
+                        # Пропускаем разделители │
+                        if child_line.strip() == "│" or child_line == "│":
+                            new_lines.append(child_line)
+                            i += 1
+                            continue
+
                         child_depth = get_tree_line_depth(child_line)
 
                         if child_depth <= parent_depth:
@@ -547,9 +592,9 @@ def add_to_tree(lines: list, full_path: str, parent_path: str, description: str,
                             # После последнего ребенка
                             new_lines.append(tree_line)
                         else:
-                            # Сразу после родителя (перед │)
+                            # Сразу после родителя (перед разделителем │)
                             # Проверяем есть ли пустая строка │
-                            if new_lines[-1] == "│":
+                            if new_lines and new_lines[-1].strip() == "│":
                                 new_lines.insert(-1, tree_line)
                             else:
                                 new_lines.append(tree_line)

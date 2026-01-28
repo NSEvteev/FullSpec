@@ -20,6 +20,7 @@ mirror-instructions.py — Зеркалирование структуры в .i
 """
 
 import argparse
+import subprocess
 import sys
 from pathlib import Path
 
@@ -215,6 +216,25 @@ def cmd_create(repo_root: Path, folder_path: str, dry_run: bool = False) -> bool
     readme_path.write_text(content, encoding="utf-8")
 
     print(f"✅ Зеркало создано: {readme_path}")
+
+    # Добавляем .instructions в SSOT
+    # Путь зеркала: test/.instructions/ или test/.instructions/subtest/
+    ssot_path = str(instructions_path.relative_to(repo_root)).replace("\\", "/")
+    ssot_script = repo_root / ".structure" / ".instructions" / ".scripts" / "ssot.py"
+    if ssot_script.exists():
+        try:
+            folder_name = full_path.split("/")[-1]
+            subprocess.run(
+                [sys.executable, str(ssot_script), "add", ssot_path,
+                 "-d", f"Инструкции для {folder_name}/"],
+                cwd=repo_root,
+                capture_output=True,
+                text=True
+            )
+            print(f"✅ Добавлено в SSOT: {ssot_path}/")
+        except Exception as e:
+            print(f"⚠️  Не удалось добавить в SSOT: {e}", file=sys.stderr)
+
     return True
 
 
