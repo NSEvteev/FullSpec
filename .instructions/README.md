@@ -6,109 +6,147 @@ index: .instructions/README.md
 
 # Инструкции /.instructions/
 
-Стандарты и воркфлоу для написания инструкций и скриптов автоматизации.
+Индекс инструкций для написания инструкций и скриптов автоматизации.
 
 **Полезные ссылки:**
 - [CLAUDE.md](/CLAUDE.md) — точка входа
-- [Структура проекта](/.structure/README.md)
+
+**Содержание:** стандарты инструкций и скриптов, воркфлоу создания и изменения, валидация.
 
 ---
 
 ## Оглавление
 
-- [1. Объекты](#1-объекты)
-- [2. Инструкции](#2-инструкции)
-- [3. Скрипты](#3-скрипты)
-- [4. Скиллы](#4-скиллы)
-- [5. Связанные](#5-связанные)
-
----
-
-## 1. Объекты
-
-В этой папке описаны 2 объекта:
-
-| Объект | Файлы | Описание |
-|--------|-------|----------|
-| **Инструкции** | `*-instruction.md` | Как писать инструкции |
-| **Скрипты** | `*-script.md` | Как писать скрипты автоматизации |
-
-Каждый объект имеет 4 типа документов:
-
-| Тип | Назначение |
-|-----|------------|
-| `standard-*` | Стандарт формата (КАК оформлять) |
-| `validation-*` | Валидация (проверка соответствия) |
-| `create-*` | Создание (воркфлоу) |
-| `modify-*` | Изменение/удаление (воркфлоу) |
-
----
-
-## 2. Инструкции
-
-| Файл | Описание |
-|------|----------|
-| [standard-instruction.md](./standard-instruction.md) | Стандарт формата инструкций |
-| [validation-instruction.md](./validation-instruction.md) | Валидация инструкций (коды I001-I031) |
-| [create-instruction.md](./create-instruction.md) | Воркфлоу создания инструкции |
-| [modify-instruction.md](./modify-instruction.md) | Обновление, деактивация, миграция |
-
-### Ключевые правила
-
-- Инструкции = ТОЛЬКО стандарты (КАК делать)
-- README описывает структуру (ЧТО есть)
-- Frontmatter обязателен: `description`, `standard`, `index`
-- Именование: kebab-case, латиница
-
----
-
-## 3. Скрипты
-
-| Файл | Описание |
-|------|----------|
-| [standard-script.md](./standard-script.md) | Стандарт формата скриптов |
-| [validation-script.md](./validation-script.md) | Валидация скриптов (коды S001-S031) |
-| [create-script.md](./create-script.md) | Воркфлоу создания скрипта |
-| [modify-script.md](./modify-script.md) | Обновление, рефакторинг, удаление |
-
-### Ключевые правила
-
-- Документация в docstring (не frontmatter)
-- Shebang обязателен: `#!/usr/bin/env python3`
-- UTF-8 для Windows в `main()`
-- Exit codes: 0 = успех, 1 = ошибка
-
----
-
-## 4. Скиллы
-
-**Скиллы для этой области отсутствуют.**
-
-Воркфлоу описаны в инструкциях:
-- [create-instruction.md](./create-instruction.md) — создание
-- [modify-instruction.md](./modify-instruction.md) — обновление, деактивация
-
----
-
-## 5. Связанные
-
-| Ресурс | Описание |
-|--------|----------|
-| [/.claude/.instructions/skills/](/.claude/.instructions/skills/README.md) | Как писать скиллы |
-| [/specs/.instructions/](/specs/.instructions/README.md) | Как писать specs |
-| [/.structure/.instructions/](/.structure/.instructions/README.md) | Как управлять структурой |
-
----
+| Секция | Инструкция | Описание |
+|--------|------------|----------|
+| [1. Стандарты](#1-стандарты) | — | Форматы и правила |
+| [2. Воркфлоу](#2-воркфлоу) | — | Создание и изменение |
+| [3. Валидация](#3-валидация) | — | Проверка согласованности |
+| [4. Скрипты](#4-скрипты) | — | Автоматизация |
+| [5. Скиллы](#5-скиллы) | — | Скиллы для этой области |
 
 ```
 /.instructions/
-├── README.md                    # Этот файл
+├── README.md                    # Этот файл (индекс)
 ├── standard-instruction.md      # Стандарт инструкций
-├── validation-instruction.md    # Валидация инструкций
-├── create-instruction.md        # Создание инструкции
-├── modify-instruction.md        # Изменение инструкции
 ├── standard-script.md           # Стандарт скриптов
-├── validation-script.md         # Валидация скриптов
+├── create-instruction.md        # Создание инструкции
 ├── create-script.md             # Создание скрипта
-└── modify-script.md             # Изменение скрипта
+├── modify-instruction.md        # Изменение инструкции
+├── modify-script.md             # Изменение скрипта
+├── validation-instruction.md    # Валидация инструкций
+└── validation-script.md         # Валидация скриптов
 ```
+
+---
+
+# 1. Стандарты
+
+## 1.1. Стандарт инструкций
+
+Формат и правила оформления инструкций в папках `.instructions/`.
+
+**Оглавление:**
+- [Формат файла](./standard-instruction.md#4-формат-файла)
+- [Frontmatter](./standard-instruction.md#5-frontmatter)
+- [Правила именования](./standard-instruction.md#правила-именования-файлов)
+
+**Инструкция:** [standard-instruction.md](./standard-instruction.md)
+
+## 1.2. Стандарт скриптов
+
+Формат и правила оформления Python-скриптов автоматизации.
+
+**Оглавление:**
+- [Формат файла](./standard-script.md#3-формат-файла)
+- [Docstring](./standard-script.md#4-docstring)
+- [Exit codes](./standard-script.md#exit-codes)
+
+**Инструкция:** [standard-script.md](./standard-script.md)
+
+---
+
+# 2. Воркфлоу
+
+## 2.1. Создание инструкции
+
+Воркфлоу создания новой инструкции.
+
+**Оглавление:**
+- [Шаги создания](./create-instruction.md#3-шаги-создания)
+- [Чек-лист](./create-instruction.md#5-чек-лист)
+
+**Инструкция:** [create-instruction.md](./create-instruction.md)
+
+## 2.2. Изменение инструкции
+
+Воркфлоу обновления, деактивации и миграции инструкций.
+
+**Оглавление:**
+- [Обновление](./modify-instruction.md#1-обновление-инструкции)
+- [Деактивация](./modify-instruction.md#2-деактивация-инструкции)
+- [Миграция](./modify-instruction.md#3-миграция-инструкции)
+
+**Инструкция:** [modify-instruction.md](./modify-instruction.md)
+
+## 2.3. Создание скрипта
+
+Воркфлоу создания нового скрипта автоматизации.
+
+**Оглавление:**
+- [Шаги создания](./create-script.md#3-шаги-создания)
+- [Чек-лист](./create-script.md#5-чек-лист)
+
+**Инструкция:** [create-script.md](./create-script.md)
+
+## 2.4. Изменение скрипта
+
+Воркфлоу обновления, рефакторинга и удаления скриптов.
+
+**Оглавление:**
+- [Обновление](./modify-script.md#1-обновление-скрипта)
+- [Рефакторинг](./modify-script.md#2-рефакторинг-скрипта)
+- [Удаление](./modify-script.md#3-удаление-скрипта)
+
+**Инструкция:** [modify-script.md](./modify-script.md)
+
+---
+
+# 3. Валидация
+
+## 3.1. Валидация инструкций
+
+Проверка соответствия инструкций стандарту (коды I001-I031).
+
+**Оглавление:**
+- [Когда валидировать](./validation-instruction.md#1-когда-валидировать)
+- [Коды ошибок](./validation-instruction.md#3-коды-ошибок)
+- [Чек-лист](./validation-instruction.md#5-чек-лист)
+
+**Инструкция:** [validation-instruction.md](./validation-instruction.md)
+
+## 3.2. Валидация скриптов
+
+Проверка соответствия скриптов стандарту (коды S001-S031).
+
+**Оглавление:**
+- [Когда валидировать](./validation-script.md#1-когда-валидировать)
+- [Коды ошибок](./validation-script.md#3-коды-ошибок)
+- [Чек-лист](./validation-script.md#5-чек-лист)
+
+**Инструкция:** [validation-script.md](./validation-script.md)
+
+---
+
+# 4. Скрипты
+
+*Нет скриптов.*
+
+---
+
+# 5. Скиллы
+
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/instruction-create](/.claude/skills/instruction-create/SKILL.md) | Создание инструкции | [create-instruction.md](./create-instruction.md) |
+| [/instruction-modify](/.claude/skills/instruction-modify/SKILL.md) | Изменение инструкции | [modify-instruction.md](./modify-instruction.md) |

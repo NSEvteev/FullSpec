@@ -109,7 +109,9 @@
       "Bash(findstr:*)",
       "Bash(powershell -Command \"if \\(Test-Path test-demo\\) { Remove-Item -Recurse -Force test-demo }\")",
       "Bash(powershell -Command \"Get-ChildItem -Directory -Filter ''DELETE_*'' -Recurse | Select-Object FullName\")",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "mcp__puppeteer__puppeteer_navigate",
+      "mcp__puppeteer__puppeteer_screenshot"
     ]
   },
   "statusLine": {
