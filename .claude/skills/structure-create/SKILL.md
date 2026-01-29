@@ -1,6 +1,7 @@
 ---
 name: structure-create
 description: Создание новой папки в структуре проекта
+standard: .claude/.instructions/skills/standard-skill.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 triggers:
   commands:

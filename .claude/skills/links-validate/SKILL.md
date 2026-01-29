@@ -1,6 +1,7 @@
 ---
 name: links-validate
 description: Валидация ссылок в markdown-документах
+standard: .claude/.instructions/skills/standard-skill.md
 allowed-tools: Read, Bash, Glob, Grep
 triggers:
   commands:

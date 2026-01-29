@@ -1,6 +1,7 @@
 ---
 name: skill-validate
 description: Валидация скилла по стандарту
+standard: .claude/.instructions/skills/standard-skill.md
 allowed-tools: Read, Bash, Glob, Grep
 triggers:
   commands:

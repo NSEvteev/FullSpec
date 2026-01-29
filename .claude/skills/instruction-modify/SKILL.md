@@ -1,6 +1,7 @@
 ---
 name: instruction-modify
 description: Обновление, деактивация и миграция инструкций
+standard: .claude/.instructions/skills/standard-skill.md
 allowed-tools: Read, Write, Edit, Glob, Grep
 triggers:
   commands:

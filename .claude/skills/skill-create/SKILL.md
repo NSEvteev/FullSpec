@@ -1,6 +1,7 @@
 ---
 name: skill-create
 description: Создание нового скилла по шаблону
+standard: .claude/.instructions/skills/standard-skill.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 triggers:
   commands:

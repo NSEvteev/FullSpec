@@ -1,6 +1,7 @@
 ---
 name: structure-modify
 description: Изменение папки — переименование, перемещение, удаление
+standard: .claude/.instructions/skills/standard-skill.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 triggers:
   commands:

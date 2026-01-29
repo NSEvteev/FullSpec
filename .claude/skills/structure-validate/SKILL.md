@@ -1,6 +1,7 @@
 ---
 name: structure-validate
 description: Валидация согласованности SSOT структуры проекта
+standard: .claude/.instructions/skills/standard-skill.md
 allowed-tools: Read, Bash, Glob, Grep
 triggers:
   commands:

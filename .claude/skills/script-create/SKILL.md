@@ -1,6 +1,7 @@
 ---
 name: script-create
 description: Создание нового скрипта автоматизации
+standard: .claude/.instructions/skills/standard-skill.md
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 triggers:
   commands:

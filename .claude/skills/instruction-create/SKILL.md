@@ -1,6 +1,7 @@
 ---
 name: instruction-create
 description: Создание новой инструкции по стандарту
+standard: .claude/.instructions/skills/standard-skill.md
 allowed-tools: Read, Write, Edit, Glob, Grep
 triggers:
   commands:

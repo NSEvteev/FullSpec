@@ -1,6 +1,7 @@
 ---
 name: instruction-validate
 description: Валидация формата и структуры инструкций
+standard: .claude/.instructions/skills/standard-skill.md
 allowed-tools: Read, Bash, Glob, Grep
 triggers:
   commands:
