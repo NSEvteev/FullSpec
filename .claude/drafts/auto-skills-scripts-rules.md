@@ -10,6 +10,34 @@
 
 ---
 
+## Принцип типологии
+
+### Инструкции — 4 типа
+
+| Тип | Файл | Назначение |
+|-----|------|------------|
+| standard | `standard-{object}.md` | Стандарт формата |
+| create | `create-{object}.md` | Процесс создания |
+| modify | `modify-{object}.md` | Процесс изменения |
+| validation | `validation-{object}.md` | Процесс валидации |
+
+### Скиллы — ТОЛЬКО 3 типа
+
+| Тип | Скилл | SSOT |
+|-----|-------|------|
+| create | `/{object}-create` | `create-{object}.md` |
+| modify | `/{object}-modify` | `modify-{object}.md` |
+| validate | `/{object}-validate` | `validation-{object}.md` |
+
+> **Важно:** Для `standard-{object}.md` скилл НЕ создаётся
+
+### Скрипты — без ограничений
+
+Скрипты создаются по необходимости, без привязки к типологии.
+Примеры: `validate-*.py`, `create-*.py`, `list-*.py`, `find-*.py`, `generate-*.py`
+
+---
+
 ## Проблема
 
 Сейчас при создании инструкции типа `validation-X.md`:
@@ -58,12 +86,22 @@
 **Путь:** `/.claude/.instructions/skills/`
 
 **Текущее состояние:**
-- `standard-skill.md` — есть
-- `create-skill.md` — есть
-- `modify-skill.md` — есть
-- `validation-skill.md` — есть
+- `standard-skill.md` — есть, **НЕ ПО ФОРМАТУ**
+- `create-skill.md` — есть, **НЕ ПО ФОРМАТУ**
+- `modify-skill.md` — есть, **НЕ ПО ФОРМАТУ**
+- `validation-skill.md` — есть, **НЕ ПО ФОРМАТУ**
 - Скрипты — НЕТ
-- Скиллы — есть (skill-create, skill-update, skill-delete, skill-migrate)
+- Скиллы — есть 4 шт., **НЕ СООТВЕТСТВУЮТ ТИПОЛОГИИ** (нужно 3: create, modify, validate)
+
+**Проблемы формата инструкций:**
+- Нет таблицы "Связанные документы" (есть список "Связанные инструкции")
+- Нет секции "Скрипты"
+- Нет секции "Скиллы"
+
+**Проблемы скиллов:**
+- Типология: только `create`, `modify`, `validate` — но есть update/delete/migrate
+- Формат: не соответствует `standard-skill.md`
+- SSOT-ссылки могут быть устаревшими
 
 **Задачи:**
 
@@ -93,18 +131,27 @@
 
 - Секция "Скрипты" — заполнить таблицу
 
-## 1.2. Проверить скиллы для скиллов
+## 1.2. Переделать скиллы для скиллов
 
-**Существующие скиллы:**
+> **Типология:** Только 3 типа скиллов — `create`, `modify`, `validate`
+
+**Существующие скиллы (НЕ СООТВЕТСТВУЮТ типологии):**
+- `/skill-create` — оставить, переделать по формату
+- `/skill-update` — удалить, объединить в `/skill-modify`
+- `/skill-delete` — удалить, объединить в `/skill-modify`
+- `/skill-migrate` — удалить, объединить в `/skill-modify`
+
+**Целевое состояние:**
 - `/skill-create` — создание скилла
-- `/skill-update` — обновление связанных скиллов
-- `/skill-delete` — удаление скилла
-- `/skill-migrate` — переименование скилла
+- `/skill-modify` — изменение скилла (update + delete + migrate)
+- `/skill-validate` — валидация скилла (НОВЫЙ)
 
-**Проверить:**
-- [ ] SSOT-ссылки актуальны
-- [ ] Воркфлоу соответствует инструкциям
-- [ ] Нет дублирования логики
+**Задачи:**
+- [ ] Переделать `/skill-create` по формату
+- [ ] Создать `/skill-modify` (объединить 3 скилла)
+- [ ] Создать `/skill-validate` (новый)
+- [ ] Удалить skill-update, skill-delete, skill-migrate
+- [ ] Обновить README скиллов
 
 ---
 
@@ -132,12 +179,13 @@
 4. Создать файл
 5. Заполнить содержание
 6. **Автопредложение скрипта** ← НОВЫЙ
-   - Если тип = validation → предложить `validate-{object}.py`
-   - Если тип = create → предложить `create-{object}.py` или `generate-{object}.py`
-   - Если тип = modify → предложить вспомогательные скрипты
+   - Предложить создать скрипт для автоматизации
+   - Название скрипта — на усмотрение (без ограничений)
    - [Y/n] → если Y → вызвать create-script.md
 7. **Автопредложение скилла** ← НОВЫЙ
-   - Если тип = validation/create/modify → предложить `/{area}-{object}-{type}`
+   - Если тип = validation → предложить `/{object}-validate`
+   - Если тип = create → предложить `/{object}-create`
+   - Если тип = modify → предложить `/{object}-modify`
    - [Y/n] → если Y → вызвать /skill-create
 8. Обновить README области
 9. Валидация
@@ -150,20 +198,26 @@
 
 ## 2.3. Создать скиллы для скриптов (НОВЫЕ)
 
+> Типология: 3 скилла — create, modify, validate
+
 **Путь:** `/.claude/skills/`
 
-| Скилл | Назначение |
-|-------|------------|
-| `/script-create` | Создание нового скрипта |
-| `/script-modify` | Изменение скрипта |
+| Скилл | Назначение | SSOT |
+|-------|------------|------|
+| `/script-create` | Создание скрипта | `create-script.md` |
+| `/script-modify` | Изменение скрипта | `modify-script.md` |
+| `/script-validate` | Валидация скрипта | `validation-script.md` |
 
-**SSOT:** `.instructions/create-script.md`, `.instructions/modify-script.md`
+## 2.4. Обновить/создать скиллы для инструкций
 
-## 2.4. Обновить скиллы для инструкций
+> Типология: 3 скилла — create, modify, validate
 
 **Существующие:**
-- `/instruction-create`
-- `/instruction-modify`
+- `/instruction-create` — обновить воркфлоу
+- `/instruction-modify` — обновить воркфлоу
+
+**Создать:**
+- `/instruction-validate` — НОВЫЙ (SSOT: validation-instruction.md)
 
 **Обновить воркфлоу:**
 - Добавить шаг автопредложения скрипта
@@ -193,9 +247,9 @@
 ├── modify-rule.md         # Изменение rule
 ├── validation-rule.md     # Валидация rules
 └── .scripts/
-    ├── validate-rule.py   # Валидация формата
-    ├── create-rule-file.py # Создание по шаблону
-    └── list-rules.py      # Список rules
+    ├── validate-rule.py     # Валидация формата rule
+    ├── create-rule-file.py  # Создание rule по шаблону
+    └── list-rules.py        # Список всех rules
 ```
 
 **Формат rule:**
@@ -214,10 +268,13 @@ description: Краткое описание
 
 ## 3.2. Создать скиллы для rules
 
+> Типология: 3 скилла — create, modify, validate
+
 | Скилл | Назначение | SSOT |
 |-------|------------|------|
-| `/rule-create` | Создание нового rule | `create-rule.md` |
+| `/rule-create` | Создание rule | `create-rule.md` |
 | `/rule-modify` | Изменение rule | `modify-rule.md` |
+| `/rule-validate` | Валидация rule | `validation-rule.md` |
 
 ## 3.3. Создать rules для rules
 
@@ -236,6 +293,9 @@ paths:
 
 При изменении rule:
 → `/rule-modify`
+
+При валидации rule:
+→ `/rule-validate`
 ```
 
 ---
@@ -262,8 +322,14 @@ paths:
 При изменении инструкции:
 → `/instruction-modify`
 
+При валидации инструкции:
+→ `/instruction-validate`
+
 При создании скилла:
 → `/skill-create`
+
+При валидации скилла:
+→ `/skill-validate`
 ```
 
 ## 4.2. Rules для инструкций скриптов
@@ -283,6 +349,9 @@ paths:
 
 При изменении скрипта:
 → `/script-modify`
+
+При валидации скрипта:
+→ `/script-validate`
 ```
 
 ## 4.3. Rules для инструкций инструкций
@@ -303,6 +372,9 @@ paths:
 
 При изменении инструкции:
 → `/instruction-modify`
+
+При валидации инструкции:
+→ `/instruction-validate`
 ```
 
 ## 4.4. Rules для инструкций структуры
@@ -395,7 +467,9 @@ paths:
 | Категория | Количество |
 |-----------|------------|
 | Новых скриптов | ~9 |
-| Новых скиллов | 4 (script-*, rule-*) |
+| Скиллов Фаза 1 | 2 новых (skill-modify, skill-validate), 3 удаляемых |
+| Скиллов Фаза 2 | 4 новых (script-create, script-modify, script-validate, instruction-validate) |
+| Скиллов Фаза 3 | 3 новых (rule-create, rule-modify, rule-validate) |
 | Обновляемых инструкций | ~6 |
 | Новых инструкций (rules) | 5 |
 | Новых rules | 5 |
@@ -427,20 +501,26 @@ paths:
 
 ## Пункты переработки
 
-### Пункт 1: Привести инструкции для скиллов к стандарту
+### Пункт 1: Переделать инструкции для скиллов по стандарту
 
-**Файлы для изменения:**
+> Текущие инструкции НЕ соответствуют `/.instructions/standard-instruction.md`
+
+**Файлы для переделки:**
 - `/.claude/.instructions/skills/standard-skill.md`
 - `/.claude/.instructions/skills/create-skill.md`
 - `/.claude/.instructions/skills/modify-skill.md`
 - `/.claude/.instructions/skills/validation-skill.md`
 - `/.claude/.instructions/skills/README.md`
 
-**Изменения:**
+**Изменения в каждом файле:**
+- [ ] Проверить/добавить frontmatter (description, standard, index)
+- [ ] Проверить H1 заголовок и описание
+- [ ] Добавить "Полезные ссылки"
 - [ ] Заменить "Связанные инструкции" на таблицу "Связанные документы"
+- [ ] Проверить "Оглавление" (ссылки на секции)
 - [ ] Добавить секцию "Скрипты" (пока "*Нет скриптов.*")
 - [ ] Добавить секцию "Скиллы" (ссылки на skill-create, skill-update и т.д.)
-- [ ] Проверить frontmatter (description, standard, index)
+- [ ] Проверить разделители `---` между секциями
 
 ### Пункт 2: Провалидировать структуру
 
@@ -475,18 +555,31 @@ paths:
 - [ ] Обновить секцию "Скрипты" во всех инструкциях
 - [ ] Обновить README.md — добавить таблицу скриптов
 
-### Пункт 6: Создать/обновить скиллы для работы со скиллами
+### Пункт 6: Переделать скиллы для работы со скиллами
 
-**Существующие скиллы (проверить актуальность):**
-- `/skill-create` — создание скилла
-- `/skill-update` — обновление связанных скиллов
-- `/skill-delete` — удаление скилла
-- `/skill-migrate` — переименование скилла
+> **Типология скиллов:** Только 3 типа — `create`, `modify`, `validate`
+
+**Существующие скиллы (НЕ СООТВЕТСТВУЮТ типологии):**
+| Текущий | Проблема | Решение |
+|---------|----------|---------|
+| `/skill-create` | Формат устарел | Переделать по стандарту |
+| `/skill-update` | Нет типа "update" | → Объединить в `/skill-modify` |
+| `/skill-delete` | Нет типа "delete" | → Объединить в `/skill-modify` |
+| `/skill-migrate` | Нет типа "migrate" | → Объединить в `/skill-modify` |
+
+**Целевое состояние (3 скилла):**
+- `/skill-create` — создание скилла (SSOT: create-skill.md)
+- `/skill-modify` — изменение скилла: update, delete, migrate (SSOT: modify-skill.md)
+- `/skill-validate` — валидация скилла (SSOT: validation-skill.md)
 
 **Действия:**
-- [ ] Проверить SSOT-ссылки в каждом скилле
-- [ ] Проверить воркфлоу соответствует инструкциям
-- [ ] Добавить использование скриптов в воркфлоу (после пункта 5)
+- [ ] Прочитать `standard-skill.md` — понять требуемый формат
+- [ ] Переделать `/skill-create/SKILL.md` по формату
+- [ ] Создать `/skill-modify/SKILL.md` (объединить update/delete/migrate)
+- [ ] Создать `/skill-validate/SKILL.md` (новый)
+- [ ] Удалить устаревшие папки: skill-update, skill-delete, skill-migrate
+- [ ] Обновить SSOT-ссылки
+- [ ] Обновить `/.claude/skills/README.md`
 
 ---
 
@@ -515,7 +608,7 @@ paths:
 |----------|-------------------|-----------|
 | Автопредложение скрипта | Нет | Если тип = validation/create/modify → предложить скрипт |
 | Автопредложение скилла | Нет | Если тип = validation/create/modify → предложить скилл |
-| Скиллы для скриптов | Не существуют | `/script-create`, `/script-modify` |
+| Скиллы для скриптов | Не существуют | `/script-create`, `/script-modify`, `/script-validate` |
 
 ## Пункты переработки
 
@@ -554,26 +647,39 @@ paths:
 
 ### Пункт 2.5: Создать инструкции для скриптов (если отсутствуют)
 
+> Инструкции: 4 типа — standard, create, modify, validation
+
 **Проверить/создать:**
+- [ ] `/.instructions/standard-script.md` — проверить существует
+- [ ] `/.instructions/create-script.md` — проверить существует
 - [ ] `/.instructions/modify-script.md` — изменение скрипта
+- [ ] `/.instructions/validation-script.md` — валидация скрипта
 - [ ] Обновить `/.instructions/README.md` — добавить в индекс
 
 ### Пункт 2.6: Создать скиллы для скриптов
 
+> Типология: 3 скилла — create, modify, validate
+
 **Новые скиллы:**
 - [ ] `/script-create` — создание скрипта (SSOT: create-script.md)
 - [ ] `/script-modify` — изменение скрипта (SSOT: modify-script.md)
+- [ ] `/script-validate` — валидация скрипта (SSOT: validation-script.md)
 
 **Действия:**
 - [ ] Создать папки в `/.claude/skills/`
 - [ ] Создать SKILL.md по стандарту
 - [ ] Обновить `/.claude/skills/README.md`
 
-### Пункт 2.7: Обновить скиллы для инструкций
+### Пункт 2.7: Обновить/создать скиллы для инструкций
+
+> Типология: 3 скилла — create, modify, validate
 
 **Существующие скиллы:**
 - [ ] `/instruction-create` — добавить шаги автопредложения
 - [ ] `/instruction-modify` — проверить актуальность
+
+**Создать:**
+- [ ] `/instruction-validate` — НОВЫЙ (SSOT: validation-instruction.md)
 
 ### Пункт 2.8: Валидация Фазы 2
 
@@ -608,7 +714,7 @@ instr. script ление  ление  скрип- script instru-
 | Проблема | Текущее состояние | Требуется |
 |----------|-------------------|-----------|
 | Инструкции для rules | Не существуют | Полный набор standard/create/modify/validation |
-| Скиллы для rules | Не существуют | `/rule-create`, `/rule-modify` |
+| Скиллы для rules | Не существуют | `/rule-create`, `/rule-modify`, `/rule-validate` |
 | Папка rules | `/.claude/rules/` пустая или не существует | Заполнить базовыми rules |
 
 ## Пункты переработки
@@ -636,16 +742,19 @@ instr. script ление  ление  скрип- script instru-
 
 **Папка:** `/.claude/.instructions/rules/.scripts/`
 
-**Скрипты:**
+**Скрипты (по необходимости):**
 - [ ] `validate-rule.py` — валидация формата rule
-- [ ] `create-rule-file.py` — генерация шаблона rule
+- [ ] `create-rule-file.py` — создание rule по шаблону
 - [ ] `list-rules.py` — список всех rules в проекте
 
 ### Пункт 3.4: Создать скиллы для rules
 
+> Типология: 3 скилла — create, modify, validate
+
 **Новые скиллы:**
 - [ ] `/rule-create` — создание rule (SSOT: create-rule.md)
 - [ ] `/rule-modify` — изменение rule (SSOT: modify-rule.md)
+- [ ] `/rule-validate` — валидация rule (SSOT: validation-rule.md)
 
 **Действия:**
 - [ ] Создать папки в `/.claude/skills/`
