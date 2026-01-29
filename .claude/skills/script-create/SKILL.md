@@ -1,0 +1,46 @@
+---
+name: script-create
+description: Создание нового скрипта автоматизации
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
+triggers:
+  commands:
+    - /script-create
+  phrases:
+    ru:
+      - создай скрипт
+      - новый скрипт
+    en:
+      - create script
+---
+
+# Создание скрипта
+
+**SSOT:** [create-script.md](/.instructions/create-script.md)
+
+## Формат вызова
+
+```
+/script-create [название] [--area <область>]
+```
+
+| Параметр | Описание | Обязательный |
+|----------|----------|--------------|
+| `название` | Имя скрипта (kebab-case) | Нет (спросит) |
+| `--area` | Область: `/.instructions/`, `/src/.instructions/` и т.д. | Нет (спросит) |
+
+## Воркфлоу
+
+> ⚠️ **Перед выполнением** прочитать [create-script.md](/.instructions/create-script.md)
+
+→ Выполнить шаги из SSOT-инструкции.
+
+## Чек-лист
+
+→ См. [create-script.md#чек-лист](/.instructions/create-script.md#чек-лист)
+
+## Примеры
+
+```
+/script-create validate-api
+/script-create find-references --area .structure/.instructions
+```

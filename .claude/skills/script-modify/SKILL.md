@@ -1,0 +1,51 @@
+---
+name: script-modify
+description: Обновление, рефакторинг и удаление скриптов
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
+triggers:
+  commands:
+    - /script-modify
+  phrases:
+    ru:
+      - измени скрипт
+      - обнови скрипт
+      - удали скрипт
+    en:
+      - modify script
+      - update script
+---
+
+# Изменение скрипта
+
+**SSOT:** [modify-script.md](/.instructions/modify-script.md)
+
+## Формат вызова
+
+```
+/script-modify <путь> [--action <тип>]
+```
+
+| Параметр | Описание | Обязательный |
+|----------|----------|--------------|
+| `путь` | Путь к скрипту | Да |
+| `--action` | Тип: update, refactor, delete | Нет (спросит) |
+
+## Воркфлоу
+
+> ⚠️ **Перед выполнением** прочитать [modify-script.md](/.instructions/modify-script.md)
+
+→ Выполнить шаги из SSOT-инструкции:
+- Обновление → секция "Обновление"
+- Рефакторинг → секция "Рефакторинг"
+- Удаление → секция "Удаление"
+
+## Чек-лист
+
+→ См. [modify-script.md#чек-лист](/.instructions/modify-script.md#чек-лист)
+
+## Примеры
+
+```
+/script-modify .instructions/.scripts/validate-api.py --action update
+/script-modify .instructions/.scripts/old-script.py --action delete
+```

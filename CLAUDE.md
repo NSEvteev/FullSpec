@@ -19,6 +19,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 4. Проверяю: есть ли скилл для этой задачи?
    - Создать инструкцию → /instruction-create
    - Изменить инструкцию → /instruction-modify
+   - Проверить инструкцию → /instruction-validate
+   - Создать скрипт → /script-create
+   - Изменить скрипт → /script-modify
+   - Проверить скрипт → /script-validate
    - Создать скилл → /skill-create
    - Изменить скилл → /skill-modify
    - Проверить скилл → /skill-validate
@@ -49,11 +53,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-## Скиллы (9)
+## Скиллы (13)
 
 | Категория | Скиллы |
 |-----------|--------|
-| instruction-* | create, modify |
+| instruction-* | create, modify, validate |
+| script-* | create, modify, validate |
 | skill-* | create, modify, validate |
 | links-* | validate |
 | structure-* | create, modify, validate |
@@ -79,7 +84,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 /.claude/
 ├── .instructions/skills/    # Как писать скиллы
-├── skills/                  # Скиллы (9)
+├── skills/                  # Скиллы (13)
 ├── agents/                  # Агенты
 ├── drafts/                  # Черновики (в git)
 └── settings.json            # Настройки

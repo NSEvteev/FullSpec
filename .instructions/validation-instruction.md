@@ -92,6 +92,13 @@ python .instructions/.scripts/validate-instruction.py {path}
 
 ### Шаг 4: Проверить ссылки
 
+**Автоматически:**
+```
+/links-validate {путь к инструкции}
+```
+
+**Вручную (если нужно):**
+
 | Проверка | Обязательно | Описание |
 |----------|:-----------:|----------|
 | Валидность | ✅ | Файлы существуют |
@@ -184,4 +191,7 @@ python .instructions/.scripts/validate-instruction.py --json path/to/instruction
 
 ## Скиллы
 
-*Нет скиллов.*
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/instruction-validate](/.claude/skills/instruction-validate/SKILL.md) | Валидация инструкции | Этот документ |
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация ссылок | [validation-links.md](/.structure/.instructions/validation-links.md) |

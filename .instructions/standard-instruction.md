@@ -821,6 +821,11 @@ python .instructions/.scripts/{script}.py {args}
 
 Если скриптов нет — `*Нет скриптов.*`
 
+**Скиллы для работы со скриптами:**
+- [/script-create](/.claude/skills/script-create/SKILL.md) — создание
+- [/script-modify](/.claude/skills/script-modify/SKILL.md) — обновление, рефакторинг, удаление
+- [/script-validate](/.claude/skills/script-validate/SKILL.md) — валидация
+
 #### Секция "Скиллы"
 
 Таблица скиллов, связанных с инструкцией.

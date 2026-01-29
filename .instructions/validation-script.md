@@ -221,4 +221,6 @@ python .instructions/.scripts/validate-script.py --principles path/to/script.py
 
 ## Скиллы
 
-*Нет скиллов.*
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/script-validate](/.claude/skills/script-validate/SKILL.md) | Валидация скрипта | Этот документ |

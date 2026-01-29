@@ -365,6 +365,11 @@ def add_error(result: dict, code: str, detail: str = "") -> None:
 
 Если скриптов нет — `*Нет скриптов.*`
 
+**Скиллы для работы с инструкциями:**
+- [/instruction-create](/.claude/skills/instruction-create/SKILL.md) — создание инструкции
+- [/instruction-modify](/.claude/skills/instruction-modify/SKILL.md) — обновление инструкции
+- [/instruction-validate](/.claude/skills/instruction-validate/SKILL.md) — валидация инструкции
+
 ---
 
 ## 8. Примеры

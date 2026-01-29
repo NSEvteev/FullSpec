@@ -168,6 +168,7 @@ python .claude/.instructions/skills/.scripts/validate-skill.py structure-create
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
+| [list-skills.py](./.scripts/list-skills.py) | Список скиллов (проверка уникальности) | Этот документ |
 | [validate-skill.py](./.scripts/validate-skill.py) | Валидация скиллов | [validation-skill.md](./validation-skill.md) |
 
 ---

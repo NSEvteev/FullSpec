@@ -173,9 +173,20 @@ python .instructions/.scripts/create-instruction-file.py error-handling standard
 - Шаг требует валидации
 
 **Процесс:**
-1. Проверить существующие скрипты — [create-script.md § Шаг 1](./create-script.md#шаг-1-проверить-существующие-скрипты)
-2. Если нет подходящего — создать по [create-script.md](./create-script.md)
+1. Проверить существующие скрипты:
+   ```bash
+   python .instructions/.scripts/parse-docstrings.py --search "{описание функционала}"
+   ```
+2. Если нет подходящего — создать через скилл `/script-create`
 3. Добавить скрипт в секцию "Скрипты" инструкции
+
+**Скиллы для работы со скриптами:**
+
+| Скилл | Назначение |
+|-------|------------|
+| [/script-create](/.claude/skills/script-create/SKILL.md) | Создание нового скрипта |
+| [/script-modify](/.claude/skills/script-modify/SKILL.md) | Обновление, рефакторинг, удаление |
+| [/script-validate](/.claude/skills/script-validate/SKILL.md) | Валидация формата скрипта |
 
 ### Шаг 7: Обновить README области
 

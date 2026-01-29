@@ -96,11 +96,11 @@ python .claude/.instructions/skills/.scripts/validate-skill.py {name}
 
 ### Шаг 1: Найти все ссылки
 
-Паттерны поиска — см. секцию [Обновление ссылок](#обновление-ссылок).
-
 ```bash
-grep -r "skill-name" --include="*.md"
+python .claude/.instructions/skills/.scripts/find-skill-references.py {skill-name}
 ```
+
+**Если скрипт недоступен:** использовать паттерны из секции [Обновление ссылок](#обновление-ссылок).
 
 ### Шаг 2: Обновить ссылающиеся документы
 
@@ -125,7 +125,11 @@ git commit -m "chore: деактивирован скилл {name} — {прич
 
 ### Шаг 1: Найти все ссылки на старое имя
 
-Паттерны поиска — см. секцию [Обновление ссылок](#обновление-ссылок).
+```bash
+python .claude/.instructions/skills/.scripts/find-skill-references.py {old-name}
+```
+
+**Если скрипт недоступен:** использовать паттерны из секции [Обновление ссылок](#обновление-ссылок).
 
 ### Шаг 2: Создать новый скилл
 
@@ -243,6 +247,7 @@ mv /.claude/skills/skill-old/ /.claude/skills/skill-old_old/
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [validate-skill.py](./.scripts/validate-skill.py) | Валидация скиллов | [validation-skill.md](./validation-skill.md) |
+| [find-skill-references.py](./.scripts/find-skill-references.py) | Поиск всех ссылок на скилл | Этот документ |
 
 ---
 

@@ -50,6 +50,17 @@
 |-------|----------|----------|
 | [instruction-create](./instruction-create/SKILL.md) | Создание новой инструкции | `/instruction-create`, "создай инструкцию" |
 | [instruction-modify](./instruction-modify/SKILL.md) | Обновление, деактивация, миграция | `/instruction-modify`, "измени инструкцию" |
+| [instruction-validate](./instruction-validate/SKILL.md) | Валидация формата инструкции | `/instruction-validate`, "проверь инструкцию" |
+
+### scripts
+
+Управление скриптами автоматизации.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [script-create](./script-create/SKILL.md) | Создание нового скрипта | `/script-create`, "создай скрипт" |
+| [script-modify](./script-modify/SKILL.md) | Обновление, рефакторинг, удаление | `/script-modify`, "измени скрипт" |
+| [script-validate](./script-validate/SKILL.md) | Валидация формата скрипта | `/script-validate`, "проверь скрипт" |
 
 ### documentation
 

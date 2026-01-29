@@ -100,6 +100,8 @@ index: .claude/.instructions/skills/README.md
 | Скрипт | Назначение |
 |--------|------------|
 | [validate-skill.py](./.scripts/validate-skill.py) | Валидация скиллов по стандарту |
+| [list-skills.py](./.scripts/list-skills.py) | Список скиллов с описаниями |
+| [find-skill-references.py](./.scripts/find-skill-references.py) | Поиск всех ссылок на скилл |
 
 ---
 
