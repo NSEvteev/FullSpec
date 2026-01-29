@@ -726,11 +726,42 @@ rule   rules  rules   rule-* rule
 
 ### Пункт 4.3: Создать rule для инструкций
 
+> Источник: выделено из `instructions-workflow-refactoring.md` (Фаза 9)
+
 **Файл:** `/.claude/rules/instructions.md`
 
+**Концепция:**
+```
+Пользователь работает с .instructions/
+         ↓
+Rule автоматически загружается (paths match)
+         ↓
+Rule: "Используй /instruction-create или /instruction-modify"
+         ↓
+Skill читает SSOT-инструкцию и выполняет
+```
+
 **Содержимое:**
-- [ ] paths: `**/.instructions/**` (исключая `.scripts/`)
+```markdown
+---
+paths:
+  - ".instructions/**"
+  - "**/.instructions/**"
+---
+
+# Инструкции
+
+При создании инструкции:
+→ `/instruction-create`
+
+При изменении инструкции:
+→ `/instruction-modify`
+```
+
+**Чек-лист:**
+- [ ] paths: `.instructions/**`, `**/.instructions/**`
 - [ ] Предложения: `/instruction-create`, `/instruction-modify`
+- [ ] Протестировать автозагрузку
 
 ### Пункт 4.4: Создать rule для структуры
 
