@@ -112,7 +112,9 @@
       "Bash(powershell:*)",
       "mcp__puppeteer__puppeteer_navigate",
       "mcp__puppeteer__puppeteer_screenshot",
-      "Bash(if not exist \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\.instructions\\\\skills\\\\.scripts\" mkdir \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\.instructions\\\\skills\\\\.scripts\")"
+      "Bash(if not exist \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\.instructions\\\\skills\\\\.scripts\" mkdir \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\.instructions\\\\skills\\\\.scripts\")",
+      "WebFetch(domain:claudelog.com)",
+      "WebFetch(domain:paddo.dev)"
     ]
   },
   "statusLine": {

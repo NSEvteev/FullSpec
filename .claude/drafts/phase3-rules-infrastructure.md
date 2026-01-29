@@ -4,6 +4,21 @@
 
 ---
 
+## Открытые вопросы
+
+> Решить в процессе создания инструкций или зафиксировать решение здесь.
+
+| # | Вопрос | Где решать | Статус |
+|---|--------|-----------|--------|
+| 1 | **Содержимое rule** — что писать внутри? Формат ссылок на скиллы, максимальный размер, best practices | standard-rule.md | ⏳ |
+| 2 | **CLAUDE.md** — добавить rule-* в блок "Проверка скиллов"? Запретить ручное создание в `/.claude/rules/**`? | 3.7 + CLAUDE.md | ⏳ |
+| 3 | **Конфликты paths** — что если два rule имеют пересекающиеся paths? Оба применятся? Приоритет? | standard-rule.md | ⏳ |
+| 4 | **Тестирование rule** — как проверить, что rule работает после рестарта? `/memory`? | validation-rule.md | ⏳ |
+| 5 | **Подпапки в rules/** — поддерживать организацию в подпапках (`frontend/`, `backend/`)? | standard-rule.md | ⏳ |
+| 6 | **Использование category** — только для list-rules.py или есть другое применение? | standard-rule.md | ⏳ |
+
+---
+
 ## Статус: Готова к выполнению
 
 **Дата:** 2026-01-29
@@ -14,21 +29,75 @@
 ## Цель
 
 Создать инфраструктуру для rules:
-1. Инструкции (standard, create, modify, validation)
-2. Скрипты (validate, list)
+1. Инструкции (standard → validation → create → modify)
+2. Скрипты (validate-rule.py, list-rules.py)
 3. Скиллы (rule-create, rule-modify, rule-validate)
 4. Базовый rule для rules
 
 ---
 
-## Формат rule (ВАЖНО)
+## Контекст выполнения
+
+### Используемые скиллы
+
+| Скилл | Когда использовать |
+|-------|-------------------|
+| `/instruction-create` | Создание инструкций standard, validation, create, modify |
+| `/script-create` | Создание скриптов validate-rule.py, list-rules.py |
+| `/skill-create` | Создание скиллов rule-* |
+| `/instruction-validate` | Валидация созданных инструкций |
+| `/script-validate` | Валидация скриптов |
+| `/skill-validate` | Валидация скиллов |
+| `/links-validate` | Проверка ссылок |
+
+### Порядок создания (БЛОКИРУЮЩИЙ)
+
+> **SSOT:** [standard-instruction.md § 10](/.instructions/standard-instruction.md#10-правила-для-createmodify-инструкций)
+
+```
+standard-rule.md     ← Сначала (нечего валидировать без стандарта)
+     ↓
+validation-rule.md   ← Потом (нечем проверять без валидации)
+     ↓
+create-rule.md       ← Потом (нечего модифицировать без создания)
+     ↓
+modify-rule.md       ← Последний
+```
+
+---
+
+## ⚠️ Критическое правило: Рестарт сессии
+
+> **Rules загружаются ТОЛЬКО при старте сессии Claude Code.**
+
+| Событие | Rules применяются? |
+|---------|:------------------:|
+| Старт сессии | ✅ Все rules загружаются |
+| Создание нового rule-файла | ❌ НЕ применяется до рестарта |
+| Изменение существующего rule | ❌ НЕ применяется до рестарта |
+
+**Правило для отчётов:**
+- После создания/изменения rule — ВСЕГДА сообщать пользователю о необходимости НОВОЙ сессии
+- Это ОБЯЗАТЕЛЬНАЯ часть отчёта, не опциональная
+
+---
+
+## Формат rule (СПРАВКА)
 
 > **Frontmatter для rules отличается от инструкций!**
 
-**Только поле `paths`** (опционально):
+### Официальные поля Claude Code
+
+Claude Code поддерживает **только `paths`** — остальные поля игнорируются.
+
+### Наше расширение
+
+Добавляем `description` и `category` для индексации скриптами:
 
 ```yaml
 ---
+description: Краткое описание rule
+category: structure|skills|instructions|rules|general
 paths:
   - "паттерн/**"
 ---
@@ -38,30 +107,53 @@ paths:
 Содержимое rule.
 ```
 
-**Типы применения:**
+### Поля frontmatter
+
+| Поле | Обязательное | Использует Claude Code | Описание |
+|------|:------------:|:----------------------:|----------|
+| `description` | ✅ | ❌ | Краткое описание для индексации |
+| `category` | ✅ | ❌ | Категория: `structure`, `skills`, `instructions`, `rules`, `general` |
+| `paths` | ❌ | ✅ | Glob-паттерны для условного применения |
+
+### Типы применения
 
 | Тип | Frontmatter | Когда загружается |
 |-----|-------------|-------------------|
 | Глобальный | Без `paths` | Всегда (при старте сессии) |
 | Условный | С `paths` | При работе с файлами по паттерну |
 
-**Паттерны paths:**
-- Glob: `**/*.ts`, `src/**/*`
-- Braces: `{a,b}/**`
-- Относительные от корня проекта
+### Паттерны paths
+
+| Паттерн | Что матчит |
+|---------|------------|
+| `**/*.ts` | Все .ts файлы |
+| `src/**/*` | Всё под src/ |
+| `*.md` | .md файлы в корне |
+| `src/**/*.{ts,tsx}` | .ts и .tsx под src/ |
+| `{src,lib}/**/*.ts` | .ts под src/ и lib/ |
+
+### Категории
+
+| Категория | Применяется к |
+|-----------|---------------|
+| `structure` | `/.structure/**` |
+| `skills` | `/.claude/skills/**` |
+| `instructions` | `**/.instructions/**` |
+| `rules` | `/.claude/rules/**` |
+| `general` | Всё остальное (глобальные правила) |
 
 ---
 
-## Структура
+## Структура результата
 
 ### Инструкции
 ```
 /.claude/.instructions/rules/
 ├── README.md              # Индекс
 ├── standard-rule.md       # Стандарт формата rule
+├── validation-rule.md     # Валидация rules
 ├── create-rule.md         # Создание rule
 ├── modify-rule.md         # Изменение rule
-├── validation-rule.md     # Валидация rules
 └── .scripts/
     ├── validate-rule.py   # Валидация формата
     └── list-rules.py      # Список всех rules
@@ -78,7 +170,8 @@ paths:
 ### Rules
 ```
 /.claude/rules/
-└── rules.md               # Rule для rules
+├── rules.md               # Условный: для работы с rules
+└── ssot.md                # Глобальный: чтение SSOT-файлов
 ```
 
 ---
@@ -86,113 +179,357 @@ paths:
 ## Порядок выполнения
 
 ```
-[ ] 3.1. Создать standard-rule.md
-[ ] 3.2. Создать validation-rule.md + validate-rule.py
-[ ] 3.3. Создать create-rule.md + list-rules.py
-[ ] 3.4. Создать modify-rule.md
-[ ] 3.5. Создать README.md
-[ ] 3.6. Создать скиллы rule-*
-[ ] 3.7. Создать базовый rule (rules.md)
-[ ] 3.8. Обновить CLAUDE.md и /.claude/skills/README.md
-[ ] 3.9. Валидация всей фазы
+[ ] 3.1. standard-rule.md
+[ ] 3.2. validation-rule.md + validate-rule.py + /rule-validate
+[ ] 3.3. create-rule.md + list-rules.py + /rule-create
+[ ] 3.4. modify-rule.md + /rule-modify
+[ ] 3.5. README.md (индекс области)
+[ ] 3.6. Базовый rule (rules.md)
+[ ] 3.7. Обновить CLAUDE.md и /.claude/skills/README.md
+[ ] 3.8. Финальная валидация
 ```
 
 ---
 
 ## 3.1. standard-rule.md
 
-**Секции:**
-1. Назначение — что такое rule, когда создавать
-2. Расположение — `/.claude/rules/{name}.md`
-3. Frontmatter — только `paths` (опционально)
-4. Структура — заголовок + содержимое
-5. Типы применения — глобальный vs условный
-6. Примеры
+**Действие:** `/instruction-create standard-rule --area .claude/.instructions/rules`
+
+**Секции для заполнения:**
+
+| № | Секция | Содержание |
+|---|--------|------------|
+| 1 | Назначение | Что такое rule, когда создавать, когда НЕ создавать |
+| 2 | Расположение | `/.claude/rules/{name}.md`, правила именования |
+| 3 | Frontmatter | Только `paths` (опционально), формат YAML |
+| 4 | Структура | Заголовок H1 + содержимое |
+| 5 | Типы применения | Глобальный (без paths) vs Условный (с paths) |
+| 6 | Примеры | 2-3 примера rules |
+
+**Финальная валидация:**
+```bash
+python .instructions/.scripts/validate-instruction.py .claude/.instructions/rules/standard-rule.md
+```
 
 ---
 
-## 3.2. validation-rule.md + validate-rule.py
+## 3.2. validation-rule.md + validate-rule.py + /rule-validate
+
+### 3.2.1. Инструкция validation-rule.md
+
+**Действие:** `/instruction-create validation-rule --area .claude/.instructions/rules`
+
+**Секции для заполнения:**
+
+| Секция | Содержание |
+|--------|------------|
+| Когда валидировать | После создания/изменения rule |
+| Шаги | Автоматически: `validate-rule.py`, вручную: чек-лист |
+| Чек-лист | Файл, frontmatter, структура, ссылки |
+| Типичные ошибки | Таблица кодов R0xx |
+| Скрипты | validate-rule.py |
+| Скиллы | /rule-validate |
+
+**Коды ошибок R0xx:**
+
+| Код | Описание |
+|-----|----------|
+| R001 | Неверное расположение (не в `/.claude/rules/`) |
+| R002 | Неверное расширение (не `.md`) |
+| R010 | Невалидный frontmatter |
+| R011 | Отсутствует `description` |
+| R012 | Отсутствует `category` |
+| R013 | Неверное значение `category` (не из списка) |
+| R014 | `paths` не массив строк |
+| R015 | Невалидный glob-паттерн в `paths` |
+| R020 | Нет заголовка H1 |
+| R021 | Несколько заголовков H1 |
+
+### 3.2.2. Скрипт validate-rule.py
+
+**Действие:** `/script-create validate-rule --area .claude/.instructions/rules`
+
+**Назначение:** Валидация формата rule
 
 **Проверки:**
 - Файл в `/.claude/rules/`
 - Расширение `.md`
-- Frontmatter валиден (если есть `paths` — массив строк)
-- Есть заголовок H1
-- Паттерны paths валидны
+- Frontmatter валиден:
+  - `description` — присутствует, не пустое
+  - `category` — одно из: `structure`, `skills`, `instructions`, `rules`, `general`
+  - `paths` (если есть) — массив строк с валидными glob-паттернами
+- Есть единственный заголовок H1
 
-**Коды ошибок:** R0xx
+**Обязательно:** `ERROR_CODES` с кодами R0xx
 
-| Код | Описание |
-|-----|----------|
-| R001 | Неверное расположение |
-| R002 | Неверное расширение |
-| R010 | Невалидный frontmatter |
-| R011 | `paths` не массив |
-| R020 | Нет заголовка H1 |
+### 3.2.3. Скилл /rule-validate
+
+**Действие:** `/skill-create rule-validate`
+
+**SSOT:** `/.claude/.instructions/rules/validation-rule.md`
+
+**Триггеры:**
+- Команда: `/rule-validate`
+- Фразы ru: "проверь rule", "валидация rule"
+- Фразы en: "validate rule"
 
 ---
 
-## 3.3. create-rule.md + list-rules.py
+## 3.3. create-rule.md + list-rules.py + /rule-create
+
+### 3.3.1. Инструкция create-rule.md
+
+**Действие:** `/instruction-create create-rule --area .claude/.instructions/rules`
+
+**Секции для заполнения:**
+
+| Секция | Содержание |
+|--------|------------|
+| Принципы | Rule = триггер контекста, не дублировать существующие |
+| Шаги | См. ниже |
+| Чек-лист | Подготовка, создание, проверка |
+| Примеры | Глобальный rule, условный rule |
+| Скрипты | list-rules.py |
+| Скиллы | /rule-create |
 
 **Шаги:**
-1. Проверить существующие rules (list-rules.py)
-2. Выбрать тип применения (глобальный/условный)
-3. Определить имя и паттерны paths
-4. Создать файл
-5. Валидация
-6. Отчёт
 
-**Обязательный шаг выбора типа:**
 ```
-Шаг 2: Выбрать тип применения
+### Шаг 1: Проверить существующие rules
 
-> **ОБЯЗАТЕЛЬНО** — AskUserQuestion
+> **ОБЯЗАТЕЛЬНО** — DRY
 
-Варианты:
-1. Глобальный — rule нужен всегда (без paths)
-2. Условный — rule при работе с файлами (с paths)
+```bash
+python .claude/.instructions/rules/.scripts/list-rules.py
 ```
+
+LLM анализирует: есть ли rule с похожим функционалом?
+
+Если найден похожий — AskUserQuestion:
+1. Расширить существующий → `/rule-modify`
+2. Создать новый
+
+### Шаг 2: Определить область применения
+
+> **LLM автоматически анализирует** и предлагает область.
+
+**Алгоритм LLM:**
+
+1. Проанализировать, для чего создаётся rule:
+   - Для конкретных файлов/папок? → условный с paths
+   - Для всего проекта? → глобальный без paths
+
+2. Определить category:
+   | Контекст rule | category | paths |
+   |--------------|----------|-------|
+   | Структура проекта | `structure` | `.structure/**` |
+   | Скиллы | `skills` | `.claude/skills/**` |
+   | Инструкции | `instructions` | `**/.instructions/**` |
+   | Rules | `rules` | `.claude/rules/**` |
+   | Скрипты | `instructions` | `**/.scripts/**` |
+   | Общие правила | `general` | ❌ нет (глобальный) |
+
+3. Сформировать предложение:
+
+```
+**Предлагаемая область:**
+- Тип: {Глобальный/Условный}
+- Category: {category}
+- Paths: {список паттернов или "нет"}
+
+Причина: {почему выбрана эта область}
+```
+
+**AskUserQuestion:**
+
+1. Подтвердить предложенную область
+2. Изменить тип (глобальный ↔ условный)
+3. Изменить paths
+4. Другое — ввести вручную
+
+### Шаг 3: Определить имя
+
+Имя: kebab-case, описательное
+
+**Формат:** `{область}-{назначение}.md` или `{назначение}.md`
+
+Примеры:
+- `ssot.md` — глобальное правило про SSOT
+- `skills.md` — правила для скиллов
+- `instructions.md` — правила для инструкций
+
+### Шаг 4: Создать файл
+
+```bash
+# Создать файл по шаблону из standard-rule.md
+```
+
+**Шаблон:**
+```yaml
+---
+description: {описание}
+category: {category}
+paths:          # Только для условных rules
+  - "{паттерн}"
+---
+
+# {Заголовок}
+
+{Содержимое}
+```
+
+### Шаг 5: Валидация
+
+```bash
+python .claude/.instructions/rules/.scripts/validate-rule.py {name}
+```
+
+### Шаг 6: Отчёт
+
+```
+## Отчёт о создании rule
+
+**Создан rule:** `{name}.md`
+
+**Тип:** {Глобальный/Условный}
+
+**Category:** {category}
+
+**Paths:** {список или "нет (глобальный)"}
+
+**Валидация:** пройдена ✅
 
 ---
 
-## 3.4. modify-rule.md
+⚠️ **ТРЕБУЕТСЯ НОВАЯ СЕССИЯ**
 
-**Типы изменений:**
-- Обновление — изменить содержимое, paths
-- Деактивация — rule больше не нужен
-- Миграция — переименование
+Для применения rule необходимо:
+1. Завершить текущую сессию
+2. Начать НОВУЮ сессию Claude Code
+
+Rules загружаются при старте сессии. Без рестарта rule НЕ будет работать.
+```
+```
+
+### 3.3.2. Скрипт list-rules.py
+
+**Действие:** `/script-create list-rules --area .claude/.instructions/rules`
+
+**Назначение:** Список всех rules с описаниями
+
+**Функционал:**
+- Сканирует `/.claude/rules/*.md` (включая подпапки)
+- Извлекает из frontmatter: `description`, `category`, `paths`
+- Определяет тип: глобальный (без paths) / условный (с paths)
+- Выводит таблицу для анализа LLM
+
+**Формат вывода:**
+```
+| Rule | Category | Type | Paths | Description |
+|------|----------|------|-------|-------------|
+| rules.md | rules | conditional | .claude/rules/** | Правила работы с rules |
+| general.md | general | global | — | Общие правила проекта |
+```
+
+### 3.3.3. Скилл /rule-create
+
+**Действие:** `/skill-create rule-create`
+
+**SSOT:** `/.claude/.instructions/rules/create-rule.md`
+
+**Триггеры:**
+- Команда: `/rule-create`
+- Фразы ru: "создай rule", "добавь rule"
+- Фразы en: "create rule"
 
 ---
 
-## 3.5. README.md
+## 3.4. modify-rule.md + /rule-modify
+
+### 3.4.1. Инструкция modify-rule.md
+
+**Действие:** `/instruction-create modify-rule --area .claude/.instructions/rules`
+
+**Секции для заполнения:**
+
+| Секция | Содержание |
+|--------|------------|
+| Типы изменений | Обновление, деактивация, миграция |
+| Обновление | Шаги обновления содержимого/paths |
+| Деактивация | Шаги деактивации (переименование в `_old`) |
+| Миграция | Шаги переименования |
+| Обновление ссылок | Где искать ссылки на rule |
+| Чек-лист | По типам изменений |
+| Примеры | Обновление, деактивация, миграция |
+| Скрипты | find-rule-references.py (опционально) |
+| Скиллы | /rule-modify |
+
+**Обязательно в отчёте:**
+```
+⚠️ **ТРЕБУЕТСЯ НОВАЯ СЕССИЯ**
+
+Изменения в rule вступят в силу только после:
+1. Завершения текущей сессии
+2. Начала НОВОЙ сессии Claude Code
+```
+
+### 3.4.2. Скилл /rule-modify
+
+**Действие:** `/skill-create rule-modify`
+
+**SSOT:** `/.claude/.instructions/rules/modify-rule.md`
+
+**Триггеры:**
+- Команда: `/rule-modify`
+- Фразы ru: "измени rule", "обнови rule"
+- Фразы en: "modify rule", "update rule"
+
+---
+
+## 3.5. README.md (индекс области)
 
 **Формат:** стандартный README для папки инструкций
 
+**SSOT:** [standard-readme.md § 3](/.structure/.instructions/standard-readme.md#3-readme-папок-инструкций)
+
 **Содержит:**
-- Описание области
-- Таблица инструкций
-- Таблица скриптов
+
+```markdown
+# Rules — инструкции
+
+Инструкции для создания и управления rules.
+
+## Инструкции
+
+| Инструкция | Тип | Описание |
+|------------|-----|----------|
+| [standard-rule.md](./standard-rule.md) | standard | Стандарт формата rule |
+| [validation-rule.md](./validation-rule.md) | validation | Валидация rules |
+| [create-rule.md](./create-rule.md) | create | Создание rule |
+| [modify-rule.md](./modify-rule.md) | modify | Изменение rule |
+
+## Скрипты
+
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [validate-rule.py](./.scripts/validate-rule.py) | Валидация формата rule | validation-rule.md |
+| [list-rules.py](./.scripts/list-rules.py) | Список всех rules | create-rule.md |
+```
 
 ---
 
-## 3.6. Скиллы rule-*
+## 3.6. Базовые rules
 
-| Скилл | Назначение | SSOT |
-|-------|------------|------|
-| `/rule-create` | Создание rule | `create-rule.md` |
-| `/rule-modify` | Изменение rule | `modify-rule.md` |
-| `/rule-validate` | Валидация rule | `validation-rule.md` |
-
-**Формат:** по стандарту из `standard-skill.md`
-
----
-
-## 3.7. Базовый rule (rules.md)
+### 3.6.1. rules.md (условный)
 
 **Файл:** `/.claude/rules/rules.md`
 
+**Действие:** Создать вручную (первый rule в системе)
+
 ```markdown
 ---
+description: Правила работы с rules
+category: rules
 paths:
   - ".claude/rules/**"
 ---
@@ -209,31 +546,190 @@ paths:
 → `/rule-validate`
 ```
 
+### 3.6.2. ssot.md (глобальный)
+
+**Файл:** `/.claude/rules/ssot.md`
+
+**Действие:** Создать вручную (глобальное правило)
+
+```markdown
+---
+description: Обязательное чтение SSOT-файлов
+category: general
 ---
 
-## 3.8. Обновить документацию
+# SSOT (Single Source of Truth)
 
-- [ ] `/.claude/skills/README.md` — добавить категорию rules
-- [ ] `/CLAUDE.md` — обновить счётчик скиллов (13 → 16)
+> **КРИТИЧЕСКОЕ ПРАВИЛО:** Если в документе есть ссылка вида `**SSOT:** [файл](путь)` —
+> Claude **ОБЯЗАН** прочитать этот файл перед выполнением.
+
+## Правило
+
+1. При обнаружении `**SSOT:**` — немедленно прочитать указанный файл
+2. Нельзя выполнять действие по памяти или предположениям
+3. SSOT-файл содержит актуальные шаги и правила
+
+## Где встречается
+
+- Скиллы: `**SSOT:** [инструкция.md](путь)`
+- Инструкции: поле `standard:` в frontmatter
+- Документация: ссылки на первоисточники
+```
+
+### Валидация базовых rules
+
+```bash
+python .claude/.instructions/rules/.scripts/validate-rule.py rules
+python .claude/.instructions/rules/.scripts/validate-rule.py ssot
+```
+
+### ⚠️ ВАЖНО: Рестарт сессии
+
+> **ОБЯЗАТЕЛЬНО** после создания базовых rules — начать НОВУЮ сессию Claude Code.
+
+**Почему:**
+- Rules загружаются при **старте сессии**
+- Новые rule-файлы НЕ применяются в текущей сессии
+- Без рестарта rules не будут работать
+
+**Сообщить пользователю:**
+```
+⚠️ ТРЕБУЕТСЯ НОВАЯ СЕССИЯ
+
+Созданы базовые rules:
+- rules.md
+- ssot.md
+
+Для применения правил необходимо:
+1. Завершить текущую сессию
+2. Начать НОВУЮ сессию Claude Code
+
+После рестарта rules будут автоматически загружены и применены.
+```
 
 ---
 
-## 3.9. Валидация
+## 3.7. Обновить документацию
 
+### CLAUDE.md
+
+Обновить таблицу скиллов:
+
+```markdown
+| rule-* | create, modify, validate |
+```
+
+Обновить счётчик: `13` → `16`
+
+### /.claude/skills/README.md
+
+Добавить категорию:
+
+```markdown
+## rule-*
+
+| Скилл | Описание | SSOT |
+|-------|----------|------|
+| [/rule-create](./rule-create/SKILL.md) | Создание rule | create-rule.md |
+| [/rule-modify](./rule-modify/SKILL.md) | Изменение rule | modify-rule.md |
+| [/rule-validate](./rule-validate/SKILL.md) | Валидация rule | validation-rule.md |
+```
+
+---
+
+## 3.8. Финальная валидация
+
+### Инструкции
+
+```bash
+python .instructions/.scripts/validate-instruction.py .claude/.instructions/rules/standard-rule.md
+python .instructions/.scripts/validate-instruction.py .claude/.instructions/rules/validation-rule.md
+python .instructions/.scripts/validate-instruction.py .claude/.instructions/rules/create-rule.md
+python .instructions/.scripts/validate-instruction.py .claude/.instructions/rules/modify-rule.md
+```
+
+### Скрипты
+
+```bash
+python .instructions/.scripts/validate-script.py .claude/.instructions/rules/.scripts/validate-rule.py
+python .instructions/.scripts/validate-script.py .claude/.instructions/rules/.scripts/list-rules.py
+```
+
+### Скиллы
+
+```bash
+python .claude/.instructions/skills/.scripts/validate-skill.py rule-create
+python .claude/.instructions/skills/.scripts/validate-skill.py rule-modify
+python .claude/.instructions/skills/.scripts/validate-skill.py rule-validate
+```
+
+### Rules
+
+```bash
+python .claude/.instructions/rules/.scripts/validate-rule.py rules
+python .claude/.instructions/rules/.scripts/validate-rule.py ssot
+```
+
+### Ссылки
+
+```
+/links-validate .claude/.instructions/rules/
+/links-validate .claude/skills/rule-create/
+/links-validate .claude/skills/rule-modify/
+/links-validate .claude/skills/rule-validate/
+```
+
+---
+
+## Чек-лист Фазы 3
+
+### Инструкции
+- [ ] standard-rule.md создан и валиден
+- [ ] validation-rule.md создан и валиден
+- [ ] create-rule.md создан и валиден
+- [ ] modify-rule.md создан и валиден
+- [ ] README.md создан
+
+### Скрипты
+- [ ] validate-rule.py создан и работает
+- [ ] list-rules.py создан и работает
+- [ ] ERROR_CODES присутствует в validate-rule.py
+
+### Скиллы
+- [ ] /rule-create создан и валиден
+- [ ] /rule-modify создан и валиден
+- [ ] /rule-validate создан и валиден
+
+### Rules
+- [ ] rules.md создан и валиден (условный)
+- [ ] ssot.md создан и валиден (глобальный)
+
+### Документация
+- [ ] CLAUDE.md обновлён (16 скиллов)
+- [ ] /.claude/skills/README.md обновлён
+
+### Валидация
 - [ ] Все инструкции проходят validate-instruction.py
-- [ ] Скрипты работают
-- [ ] Скиллы проходят validate-skill.py
-- [ ] Rule rules.md загружается при работе в `.claude/rules/`
+- [ ] Все скрипты проходят validate-script.py
+- [ ] Все скиллы проходят validate-skill.py
+- [ ] rules.md проходит validate-rule.py
+- [ ] ssot.md проходит validate-rule.py
+- [ ] Все ссылки валидны
+
+### Рестарт
+- [ ] Пользователю сообщено о необходимости НОВОЙ сессии
+- [ ] Новая сессия начата
+- [ ] Rules загружены и работают
 
 ---
 
 ## Результат Фазы 3
 
 **Создано:**
-- 5 инструкций (standard, create, modify, validation, README)
+- 5 инструкций (standard, validation, create, modify, README)
 - 2 скрипта (validate-rule.py, list-rules.py)
 - 3 скилла (rule-create, rule-modify, rule-validate)
-- 1 rule (rules.md)
+- 2 rules (rules.md, ssot.md)
 
 **Обновлено:**
 - CLAUDE.md
@@ -243,4 +739,15 @@ paths:
 
 ## После Фазы 3
 
-→ Фаза 4: Rules для областей (instructions, scripts, skills, structure)
+> **Rules для областей создаются вручную** после завершения Фазы 3.
+
+Примеры rules для областей (создать через `/rule-create`):
+
+| Rule | Category | Paths | Назначение |
+|------|----------|-------|------------|
+| `instructions.md` | instructions | `**/.instructions/**` | → `/instruction-*` |
+| `scripts.md` | instructions | `**/.scripts/**` | → `/script-*` |
+| `skills.md` | skills | `.claude/skills/**` | → `/skill-*` |
+| `structure.md` | structure | `.structure/**` | → `/structure-*` |
+
+**Порядок:** Создавать по мере необходимости, используя `/rule-create`.
