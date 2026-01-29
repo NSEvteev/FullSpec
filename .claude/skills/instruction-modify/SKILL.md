@@ -2,7 +2,6 @@
 name: instruction-modify
 description: Обновление, деактивация и миграция инструкций
 allowed-tools: Read, Write, Edit, Glob, Grep
-category: documentation
 triggers:
   commands:
     - /instruction-modify

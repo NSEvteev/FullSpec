@@ -197,6 +197,7 @@ def print_json(scripts_info: list[dict]) -> None:
 # =============================================================================
 
 def main():
+    """Точка входа."""
     if sys.platform == "win32":
         sys.stdout.reconfigure(encoding="utf-8")
         sys.stderr.reconfigure(encoding="utf-8")

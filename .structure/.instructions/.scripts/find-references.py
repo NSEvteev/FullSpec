@@ -116,6 +116,7 @@ def format_results(results: list[dict], pattern: str, use_color: bool = True) ->
 
 
 def main():
+    """Точка входа."""
     if sys.platform == "win32":
         sys.stdout.reconfigure(encoding="utf-8")
         sys.stderr.reconfigure(encoding="utf-8")

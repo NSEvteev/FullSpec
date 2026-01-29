@@ -2,7 +2,6 @@
 name: skill-create
 description: Создание нового скилла по шаблону
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
-category: skill-management
 triggers:
   commands:
     - /skill-create
@@ -37,7 +36,7 @@ triggers:
 
 ## Чек-лист
 
-→ См. [create-skill.md#5-чек-лист](/.claude/.instructions/skills/create-skill.md#5-чек-лист)
+→ См. [create-skill.md#чек-лист](/.claude/.instructions/skills/create-skill.md#чек-лист)
 
 ## Примеры
 

@@ -258,6 +258,7 @@ def cmd_mark_deleted(repo_root: Path, folder_path: str, dry_run: bool = False) -
 # =============================================================================
 
 def main():
+    """Точка входа."""
     if sys.platform == "win32":
         sys.stdout.reconfigure(encoding="utf-8")
         sys.stderr.reconfigure(encoding="utf-8")

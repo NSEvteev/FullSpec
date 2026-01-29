@@ -85,6 +85,9 @@ python .instructions/.scripts/validate-script.py {path}
 | `main()` функция | ✅ | Основная функция |
 | UTF-8 Windows | ⚠️ | Рекомендуется |
 | `sys.exit()` | ⚠️ | Рекомендуется |
+| `ERROR_CODES` | ✅* | Только для `validate-*.py` |
+
+\* См. [standard-script.md § ERROR_CODES](./standard-script.md#error_codes-для-валидаторов)
 
 ### Шаг 4: Проверить принципы
 
@@ -134,6 +137,7 @@ python .instructions/.scripts/validate-script.py {path}
 - [ ] UTF-8 для Windows в `main()`
 - [ ] `sys.exit()` с кодом возврата
 - [ ] Нет голого `except:`
+- [ ] `ERROR_CODES` — только для `validate-*.py` ([стандарт](./standard-script.md#error_codes-для-валидаторов))
 
 ### Принципы
 - [ ] KISS — простой код

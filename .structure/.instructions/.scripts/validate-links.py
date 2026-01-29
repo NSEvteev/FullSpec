@@ -46,6 +46,59 @@ from pathlib import Path
 from difflib import SequenceMatcher
 
 
+# =============================================================================
+# Константы
+# =============================================================================
+
+ERROR_CODES = {
+    # Ошибки (E0xx)
+    "E000": "Не удалось прочитать файл",
+    "E001": "Файл по ссылке не существует",
+    "E002": "Папка по ссылке не существует",
+    "E003": "Якорь не найден в целевом файле",
+    "E004": "Ссылка на папку без trailing slash",
+    "E005": "Квадратные скобки в frontmatter-ссылке",
+    "E006": "Ведущий / в frontmatter-ссылке",
+    "E007": "Файл из frontmatter не существует",
+    "E008": "Неверный формат ссылки в SSOT",
+    "E009": "Ссылка в SSOT не на README.md",
+    "E010": "Папка скилла не существует",
+    "E011": "SKILL.md не найден в папке скилла",
+    "E012": "SSOT-инструкция в скилле не существует",
+    "E013": "SSOT-инструкция в скилле помечена DELETE_",
+    # Предупреждения (W0xx)
+    "W001": "Абсолютный путь для файла в той же папке",
+    "W002": "Относительный путь с длинной цепочкой ../",
+    "W003": "Похожий якорь существует (опечатка?)",
+    "W004": "Имя скилла в тексте не совпадает с папкой",
+    "W005": "Скилл ссылается на переименованную инструкцию",
+}
+
+
+# =============================================================================
+# Хелперы для ошибок
+# =============================================================================
+
+def add_error(result: dict, code: str, detail: str = "") -> None:
+    """Добавить ошибку с кодом из ERROR_CODES."""
+    message = ERROR_CODES.get(code, code)
+    if detail:
+        message = f"{message}: {detail}"
+    result["errors"].append({"code": code, "message": message})
+
+
+def add_warning(result: dict, code: str, detail: str = "") -> None:
+    """Добавить предупреждение с кодом из ERROR_CODES."""
+    message = ERROR_CODES.get(code, code)
+    if detail:
+        message = f"{message}: {detail}"
+    result["warnings"].append({"code": code, "message": message})
+
+
+# =============================================================================
+# Общие функции
+# =============================================================================
+
 def find_repo_root(start_path: Path) -> Path:
     """Найти корень репозитория (папка с .git)."""
     current = start_path.resolve()
@@ -154,10 +207,7 @@ def validate_file(file_path: Path, repo_root: Path) -> dict:
     try:
         content = file_path.read_text(encoding="utf-8")
     except Exception as e:
-        result["errors"].append({
-            "code": "E000",
-            "message": f"Не удалось прочитать файл: {e}",
-        })
+        add_error(result, "E000", str(e))
         return result
 
     # Проверка frontmatter (Шаг 5)
@@ -168,25 +218,16 @@ def validate_file(file_path: Path, repo_root: Path) -> dict:
 
             # E005: Квадратные скобки
             if "[" in value or "]" in value:
-                result["errors"].append({
-                    "code": "E005",
-                    "message": f"Квадратные скобки в frontmatter-ссылке: {field}: {value}",
-                })
+                add_error(result, "E005", f"{field}: {value}")
 
             # E006: Ведущий /
             if value.startswith("/"):
-                result["errors"].append({
-                    "code": "E006",
-                    "message": f"Ведущий / в frontmatter-ссылке: {field}: {value}",
-                })
+                add_error(result, "E006", f"{field}: {value}")
 
             # E007: Файл не существует
             resolved = repo_root / value
             if not resolved.exists():
-                result["errors"].append({
-                    "code": "E007",
-                    "message": f"Файл из frontmatter не существует: {field}: {value}",
-                })
+                add_error(result, "E007", f"{field}: {value}")
 
     # Проверка ссылок в SSOT (Шаг 6)
     is_ssot = file_path == repo_root / ".structure" / "README.md"
@@ -197,17 +238,11 @@ def validate_file(file_path: Path, repo_root: Path) -> dict:
 
             # E008: Название без trailing slash
             if not link_text.endswith("/"):
-                result["errors"].append({
-                    "code": "E008",
-                    "message": f"Неверный формат ссылки в SSOT: [{link_text}] должен заканчиваться на /",
-                })
+                add_error(result, "E008", f"[{link_text}]")
 
             # E009: Путь не на README.md
             if not link_href.endswith("README.md"):
-                result["errors"].append({
-                    "code": "E009",
-                    "message": f"Ссылка в SSOT не на README.md: {link_href}",
-                })
+                add_error(result, "E009", link_href)
 
     # Проверка всех ссылок
     links = extract_links(content)
@@ -229,22 +264,13 @@ def validate_file(file_path: Path, repo_root: Path) -> dict:
             if resolved.is_dir():
                 # E004: Ссылка на папку без trailing slash
                 if not path_part.endswith("/") and not path_part.endswith("README.md"):
-                    result["errors"].append({
-                        "code": "E004",
-                        "message": f"Ссылка на папку без trailing slash: {href}",
-                    })
+                    add_error(result, "E004", href)
             elif not resolved.exists():
                 # Проверяем, это папка или файл
                 if path_part.endswith("/"):
-                    result["errors"].append({
-                        "code": "E002",
-                        "message": f"Папка не существует: {href}",
-                    })
+                    add_error(result, "E002", href)
                 else:
-                    result["errors"].append({
-                        "code": "E001",
-                        "message": f"Файл не существует: {href}",
-                    })
+                    add_error(result, "E001", href)
                 continue  # Не проверяем якорь, если файл не существует
 
         # Шаг 3: Якорные ссылки
@@ -257,18 +283,12 @@ def validate_file(file_path: Path, repo_root: Path) -> dict:
 
                     if anchor not in headings:
                         # E003: Якорь не найден
-                        result["errors"].append({
-                            "code": "E003",
-                            "message": f"Якорь не найден: {href}",
-                        })
+                        add_error(result, "E003", href)
 
                         # W003: Похожий якорь
                         similar = similar_anchor(anchor, headings)
                         if similar:
-                            result["warnings"].append({
-                                "code": "W003",
-                                "message": f"Похожий якорь существует: #{similar} (вместо #{anchor})",
-                            })
+                            add_warning(result, "W003", f"#{similar} (вместо #{anchor})")
                 except Exception:
                     pass
 
@@ -278,18 +298,12 @@ def validate_file(file_path: Path, repo_root: Path) -> dict:
             if path_part.startswith("/"):
                 resolved = repo_root / path_part.lstrip("/")
                 if resolved.parent == file_path.parent:
-                    result["warnings"].append({
-                        "code": "W001",
-                        "message": f"Абсолютный путь для файла в той же папке: {href}",
-                    })
+                    add_warning(result, "W001", href)
 
             # W002: Длинная цепочка ../
             parent_count = path_part.count("../")
             if parent_count >= 3:
-                result["warnings"].append({
-                    "code": "W002",
-                    "message": f"Длинная цепочка ../: {href}",
-                })
+                add_warning(result, "W002", href)
 
     # Шаг 7: Проверка ссылок на скиллы (только в .instructions)
     if ".instructions" in str(file_path):
@@ -325,27 +339,18 @@ def validate_skill_links_in_instructions(file_path: Path, content: str, repo_roo
 
         # E010: Папка скилла не существует
         if not skill_folder_path.exists():
-            result["errors"].append({
-                "code": "E010",
-                "message": f"Папка скилла не существует: {skill_folder}/",
-            })
+            add_error(result, "E010", f"{skill_folder}/")
             continue
 
         # E011: SKILL.md не найден
         if not full_skill_path.exists():
-            result["errors"].append({
-                "code": "E011",
-                "message": f"SKILL.md не найден: {skill_path}",
-            })
+            add_error(result, "E011", skill_path)
             continue
 
         # W004: Имя скилла в тексте не совпадает с папкой
         expected_name = f"/{skill_folder}"
         if skill_text != expected_name:
-            result["warnings"].append({
-                "code": "W004",
-                "message": f"Имя скилла '{skill_text}' не совпадает с папкой '{expected_name}'",
-            })
+            add_warning(result, "W004", f"'{skill_text}' vs '{expected_name}'")
 
     return result
 
@@ -401,19 +406,13 @@ def validate_ssot_links_in_skills(repo_root: Path) -> list[dict]:
 
             # E012: SSOT-инструкция не существует
             if not resolved.exists():
-                file_result["errors"].append({
-                    "code": "E012",
-                    "message": f"SSOT-инструкция не существует: {link_path}",
-                })
+                add_error(file_result, "E012", link_path)
                 continue
 
             # E013: SSOT-инструкция помечена DELETE_
             path_str = str(resolved)
             if "DELETE_" in path_str:
-                file_result["errors"].append({
-                    "code": "E013",
-                    "message": f"SSOT-инструкция помечена DELETE_: {link_path}",
-                })
+                add_error(file_result, "E013", link_path)
 
             # W005: Путь содержит старое имя (возможно, переименовано)
             # Это сложно определить автоматически, пропускаем
@@ -452,7 +451,7 @@ def validate_links(repo_root: Path, target_path: Path | None = None) -> dict:
         else:
             result["results"].append({
                 "file": str(target_path),
-                "errors": [{"code": "E000", "message": "Путь не существует"}],
+                "errors": [{"code": "E000", "message": f"{ERROR_CODES['E000']}: путь не существует"}],
                 "warnings": [],
             })
             result["valid"] = False
@@ -494,6 +493,7 @@ def validate_links(repo_root: Path, target_path: Path | None = None) -> dict:
 
 
 def main():
+    """Точка входа."""
     # UTF-8 для Windows
     if sys.platform == "win32":
         sys.stdout.reconfigure(encoding="utf-8")

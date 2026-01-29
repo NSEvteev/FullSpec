@@ -1,0 +1,48 @@
+---
+name: skill-validate
+description: Валидация скилла по стандарту
+allowed-tools: Read, Bash, Glob, Grep
+triggers:
+  commands:
+    - /skill-validate
+  phrases:
+    ru:
+      - проверь скилл
+      - валидируй скилл
+    en:
+      - validate skill
+---
+
+# Валидация скилла
+
+**SSOT:** [validation-skill.md](/.claude/.instructions/skills/validation-skill.md)
+
+## Формат вызова
+
+```
+/skill-validate [название] [--all] [--json]
+```
+
+| Параметр | Описание | Обязательный |
+|----------|----------|--------------|
+| `название` | Имя скилла для проверки | Нет (если --all) |
+| `--all` | Проверить все скиллы | Нет |
+| `--json` | Вывод в формате JSON | Нет |
+
+## Воркфлоу
+
+> ⚠️ **Перед выполнением** прочитать [validation-skill.md](/.claude/.instructions/skills/validation-skill.md)
+
+→ Выполнить шаги из SSOT-инструкции.
+
+## Чек-лист
+
+→ См. [validation-skill.md#чек-лист](/.claude/.instructions/skills/validation-skill.md#чек-лист)
+
+## Примеры
+
+```
+/skill-validate structure-create
+/skill-validate --all
+/skill-validate links-validate --json
+```

@@ -56,7 +56,7 @@ ERROR_CODES = {
     "P002": "Дублирование кода (DRY)",
     "P003": "Неиспользуемый код (YAGNI)",
     "P004": "Тяжёлая зависимость",
-    "P005": "Голый except:",
+    "P005": "Bare except без типа исключения",
     "P006": "Функция без docstring",
 }
 
@@ -184,28 +184,38 @@ def check_principles(content: str, path: Path) -> list[tuple[str, str]]:
     """Проверить соблюдение принципов программирования."""
     errors = []
 
-    # P001: KISS — вложенные lambda
-    nested_lambda = re.findall(r'lambda.*lambda', content)
-    if nested_lambda:
-        errors.append(("P001", "Найдены вложенные lambda-выражения"))
-
-    # P001: KISS — длинные цепочки
-    long_chains = re.findall(r'\.map\(.*\.filter\(|\.filter\(.*\.map\(', content)
-    if long_chains:
-        errors.append(("P001", "Найдены длинные цепочки map/filter"))
+    # P001: KISS — вложенные lambda и длинные цепочки
+    for i, line in enumerate(content.split('\n'), 1):
+        stripped = line.strip()
+        # Пропускаем комментарии
+        if stripped.startswith('#'):
+            continue
+        # Пропускаем строки с паттернами в кавычках (regex, строки)
+        if "r'" in line or 'r"' in line or "'" in stripped or '"' in stripped:
+            continue
+        # Вложенные lambda: два или более lambda в одной строке
+        if line.count('lambda ') >= 2:
+            errors.append(("P001", f"Вложенные lambda в строке {i}"))
+        # Длинные цепочки map/filter (реальные вызовы, не в строках)
+        if '.map(' in line and '.filter(' in line:
+            errors.append(("P001", f"Длинные цепочки map/filter в строке {i}"))
 
     # P004: Тяжёлые зависимости
     for forbidden in FORBIDDEN_IMPORTS:
         if re.search(rf'^import {forbidden}|^from {forbidden}', content, re.MULTILINE):
             errors.append(("P004", f"Найдена тяжёлая зависимость: {forbidden}"))
 
-    # P005: Голый except
-    bare_except = re.findall(r'except\s*:', content)
-    if bare_except:
-        # Найти номер строки
-        for i, line in enumerate(content.split('\n'), 1):
-            if re.search(r'except\s*:', line):
-                errors.append(("P005", f"Голый except: в строке {i}"))
+    # P005: Голый except (bare except без типа исключения)
+    for i, line in enumerate(content.split('\n'), 1):
+        stripped = line.strip()
+        # Пропускаем комментарии и строки внутри кавычек
+        if stripped.startswith('#'):
+            continue
+        if stripped.startswith('"') or stripped.startswith("'"):
+            continue
+        # Ищем except: в начале строки (с учётом отступов)
+        if re.match(r'^\s*except\s*:\s*(#.*)?$', line):
+            errors.append(("P005", f"Bare except без типа в строке {i}"))
 
     # P006: Функции без docstring
     try:

@@ -2,7 +2,6 @@
 name: structure-modify
 description: Изменение папки — переименование, перемещение, удаление
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
-category: documentation
 triggers:
   commands:
     - /structure-modify

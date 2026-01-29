@@ -44,6 +44,8 @@ ERROR_CODES = {
     "I023": "Отсутствует таблица Связанные документы",
     "I024": "Отсутствует блок Полезные ссылки",
     "I025": "Отсутствует описание после H1",
+    "I026": "Секции standard-инструкции должны быть пронумерованы",
+    "I027": "Отсутствуют нумерованные шаги (### Шаг N:)",
     "I030": "Битая ссылка",
     "I031": "Битый якорь",
 }
@@ -149,7 +151,7 @@ def remove_code_blocks(content: str) -> str:
     return content
 
 
-def check_structure(content: str) -> list[tuple[str, str]]:
+def check_structure(content: str, file_name: str = "") -> list[tuple[str, str]]:
     """Проверить структуру документа."""
     errors = []
 
@@ -188,6 +190,32 @@ def check_structure(content: str) -> list[tuple[str, str]]:
         # Проверить что есть текст (не начинается с ** или ## или |)
         if not first_content or first_content.startswith(('**', '##', '|', '-', '```')):
             errors.append(("I025", "Отсутствует описание после H1"))
+
+    # I026: нумерация секций для standard-инструкций
+    if file_name.startswith("standard-"):
+        # Найти все H2 заголовки (исключая Оглавление, Скрипты, Скиллы)
+        h2_headers = re.findall(r'^## (.+)$', body_no_code, re.MULTILINE)
+        excluded = {"Оглавление", "Скрипты", "Скиллы"}
+        numbered_pattern = re.compile(r'^\d+\.\s+')
+
+        unnumbered = []
+        for header in h2_headers:
+            if header in excluded:
+                continue
+            if not numbered_pattern.match(header):
+                unnumbered.append(header)
+
+        if unnumbered:
+            errors.append(("I026", f"Ненумерованные секции: {', '.join(unnumbered[:3])}{'...' if len(unnumbered) > 3 else ''}"))
+
+    # I027: нумерованные шаги для create/modify/validation инструкций
+    if file_name.startswith(("create-", "modify-", "validation-")):
+        # Проверить наличие ### Шаг N: заголовков
+        step_pattern = re.compile(r'^### Шаг \d+:', re.MULTILINE)
+        steps = step_pattern.findall(body_no_code)
+
+        if not steps:
+            errors.append(("I027", "Отсутствуют нумерованные шаги (### Шаг N:)"))
 
     return errors
 
@@ -277,7 +305,7 @@ def validate_instruction(path: Path, repo_root: Path) -> list[tuple[str, str]]:
 
     # Проверки содержимого
     errors.extend(check_frontmatter(content))
-    errors.extend(check_structure(content))
+    errors.extend(check_structure(content, path.name))
     errors.extend(check_links(content, path, repo_root))
 
     return errors

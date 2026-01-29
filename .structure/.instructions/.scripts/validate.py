@@ -137,6 +137,7 @@ def run_script(script_name: str, repo_root: Path, extra_args: list = None) -> tu
 
 
 def main():
+    """Точка входа."""
     # UTF-8 для Windows
     if sys.platform == "win32":
         sys.stdout.reconfigure(encoding="utf-8")

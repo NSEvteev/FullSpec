@@ -10,8 +10,8 @@
 
 Скилл выполняет **1 действие** над объектом:
 - `create` — создание
-- `update` — обновление
-- `delete` — удаление
+- `modify` — изменение (обновление, деактивация, миграция)
+- `validate` — валидация
 
 ### Формат названия
 
@@ -19,7 +19,7 @@
 {объект}-{действие}
 ```
 
-Примеры: `skill-create`, `links-update`, `spec-status`
+Примеры: `skill-create`, `skill-modify`, `links-validate`
 
 ### Расположение
 
@@ -39,19 +39,8 @@
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
 | [skill-create](./skill-create/SKILL.md) | Создание нового скилла | `/skill-create`, "создай скилл" |
-| [skill-update](./skill-update/SKILL.md) | Обновление скиллов при добавлении нового | `/skill-update`, "обнови скиллы" |
-| [skill-delete](./skill-delete/SKILL.md) | Удаление скилла | `/skill-delete`, "удали скилл" |
-| [skill-migrate](./skill-migrate/SKILL.md) | Переименование скилла | `/skill-migrate`, "мигрируй скилл" |
-
-### specs
-
-Работа с документами спецификаций /specs/.
-
-| Скилл | Описание | Триггеры |
-|-------|----------|----------|
-| [spec-create](./spec-create/SKILL.md) | Создание документов /specs/ (Discussion, Impact, ADR, Plan) | `/spec-create`, "создай спецификацию" |
-| [spec-status](./spec-status/SKILL.md) | Изменение статуса документа /specs/ | `/spec-status`, "статус спецификации" |
-| [spec-update](./spec-update/SKILL.md) | Работа с документом /specs/ | `/spec-update`, "обнови спецификацию" |
+| [skill-modify](./skill-modify/SKILL.md) | Изменение скилла (обновление, деактивация, миграция) | `/skill-modify`, "измени скилл" |
+| [skill-validate](./skill-validate/SKILL.md) | Валидация скилла по стандарту | `/skill-validate`, "проверь скилл" |
 
 ### instructions
 

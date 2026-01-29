@@ -2,7 +2,6 @@
 name: instruction-create
 description: Создание новой инструкции по стандарту
 allowed-tools: Read, Write, Edit, Glob, Grep
-category: documentation
 triggers:
   commands:
     - /instruction-create

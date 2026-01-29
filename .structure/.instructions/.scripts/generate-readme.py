@@ -388,6 +388,7 @@ def generate_readme(folder_path: str, repo_root: Path) -> str:
 
 
 def main():
+    """Точка входа."""
     # UTF-8 для Windows
     if sys.platform == "win32":
         sys.stdout.reconfigure(encoding="utf-8")

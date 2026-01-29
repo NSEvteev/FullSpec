@@ -192,6 +192,7 @@ def cmd_update_refs(repo_root: Path, old_path: str, new_path: str, dry_run: bool
 # =============================================================================
 
 def main():
+    """Точка входа."""
     if sys.platform == "win32":
         sys.stdout.reconfigure(encoding="utf-8")
         sys.stderr.reconfigure(encoding="utf-8")

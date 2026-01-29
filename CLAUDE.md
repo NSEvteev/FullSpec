@@ -20,9 +20,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    - Создать инструкцию → /instruction-create
    - Изменить инструкцию → /instruction-modify
    - Создать скилл → /skill-create
-   - Создать спецификацию → /spec-create
-   - Изменить статус спецификации → /spec-status
-   - Работать со спецификацией → /spec-update
+   - Изменить скилл → /skill-modify
+   - Проверить скилл → /skill-validate
    - Проверить ссылки → /links-validate
    - Создать папку → /structure-create
    - Изменить папку → /structure-modify
@@ -36,8 +35,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | Путь | Скилл | Ручное создание |
 |------|-------|-----------------|
 | `**/.instructions/**/*.md` | `/instruction-create`, `/instruction-modify` | ЗАПРЕЩЕНО |
-| `/.claude/skills/*/SKILL.md` | `/skill-create` | ЗАПРЕЩЕНО |
-| `/specs/**` | `/spec-create`, `/spec-update`, `/spec-status` | ЗАПРЕЩЕНО |
+| `/.claude/skills/*/SKILL.md` | `/skill-create`, `/skill-modify` | ЗАПРЕЩЕНО |
 
 ---
 
@@ -51,13 +49,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-## Скиллы (13)
+## Скиллы (9)
 
 | Категория | Скиллы |
 |-----------|--------|
 | instruction-* | create, modify |
-| skill-* | create, delete, migrate, update |
-| spec-* | create, status, update |
+| skill-* | create, modify, validate |
 | links-* | validate |
 | structure-* | create, modify, validate |
 
@@ -74,7 +71,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 |---------|------|
 | Как писать инструкции | `/.instructions/` |
 | Как писать скиллы | `/.claude/.instructions/skills/` |
-| Как писать specs | `/specs/.instructions/` |
 
 ---
 
@@ -83,13 +79,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 /.claude/
 ├── .instructions/skills/    # Как писать скиллы
-├── skills/                  # Скиллы (14)
+├── skills/                  # Скиллы (9)
 ├── agents/                  # Агенты
 ├── drafts/                  # Черновики (в git)
 └── settings.json            # Настройки
 
 /.instructions/              # Как писать инструкции
-/specs/.instructions/        # Как писать specs
 ```
 
 ---

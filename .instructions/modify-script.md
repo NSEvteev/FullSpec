@@ -79,6 +79,10 @@ index: .instructions/README.md
 
 **Соблюдать принципы** из [standard-principles.md](./standard-principles.md).
 
+**Для скриптов валидации** (`validate-*.py`):
+- Проверить наличие `ERROR_CODES` — см. [standard-script.md § ERROR_CODES](./standard-script.md#error_codes-для-валидаторов)
+- При добавлении новых проверок — добавить коды в `ERROR_CODES`
+
 **Проверка принципов:** [validation-principles.md](./validation-principles.md).
 
 ### Шаг 3: Обновить docstring
@@ -243,6 +247,7 @@ grep -r "script-name" .claude/skills/
 - [ ] Пройдена валидация формата
 - [ ] Протестированы старые сценарии
 - [ ] Протестированы новые сценарии
+- [ ] `ERROR_CODES` актуален (только для `validate-*.py`)
 
 ### Рефакторинг
 - [ ] Добавлены разделители секций
@@ -251,6 +256,7 @@ grep -r "script-name" .claude/skills/
 - [ ] Нет дублирования кода
 - [ ] Нет тяжёлых зависимостей
 - [ ] Все тесты проходят
+- [ ] `ERROR_CODES` присутствует (только для `validate-*.py`)
 
 ### Удаление
 - [ ] Найдены все зависимости

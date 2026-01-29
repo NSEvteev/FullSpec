@@ -2,7 +2,6 @@
 name: structure-create
 description: Создание новой папки в структуре проекта
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
-category: documentation
 triggers:
   commands:
     - /structure-create

@@ -2,7 +2,6 @@
 name: structure-validate
 description: Валидация согласованности SSOT структуры проекта
 allowed-tools: Read, Bash, Glob, Grep
-category: documentation
 triggers:
   commands:
     - /structure-validate

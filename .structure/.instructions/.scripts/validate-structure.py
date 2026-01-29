@@ -12,11 +12,11 @@ validate-structure.py — Валидация согласованности /.st
     python validate-structure.py --repo /path/to/project
 
 Проверки:
-    - Дерево папок соответствует файловой системе
-    - Все папки из дерева существуют
-    - Все папки из ФС (кроме исключений) есть в дереве
-    - Комментарии в дереве соответствуют описаниям в секциях
-    - [--check-instructions] Все папки из SSOT имеют зеркало .instructions
+    T001 — SSOT файл не найден
+    T002 — Папка в ФС, но отсутствует в дереве
+    T003 — Папка в дереве, но не существует в ФС
+    T004 — Комментарий не соответствует описанию в секции
+    T005 — Папка без зеркала .instructions
 
 Возвращает:
     0 — валидация пройдена
@@ -29,6 +29,18 @@ import re
 import sys
 from pathlib import Path
 
+
+# =============================================================================
+# Константы
+# =============================================================================
+
+ERROR_CODES = {
+    "T001": "SSOT файл не найден",
+    "T002": "Папка в ФС, но отсутствует в дереве",
+    "T003": "Папка в дереве, но не существует в ФС",
+    "T004": "Комментарий не соответствует описанию в секции",
+    "T005": "Папка без зеркала .instructions",
+}
 
 # Папки, которые исключаются из проверки
 EXCLUDED_FOLDERS = {
@@ -162,9 +174,7 @@ def validate_structure(repo_root: Path) -> dict:
 
     # Проверка: файл существует
     if not structure_readme.exists():
-        result["errors"].append(
-            f"Файл /.structure/README.md не найден в {repo_root}"
-        )
+        result["errors"].append(f"T001: {ERROR_CODES['T001']}")
         result["valid"] = False
         return result
 
@@ -180,18 +190,14 @@ def validate_structure(repo_root: Path) -> dict:
     for folder in fs_folders:
         if folder not in tree_folders:
             result["missing_in_tree"].append(folder)
-            result["errors"].append(
-                f"Папка '{folder}/' существует в ФС, но отсутствует в дереве"
-            )
+            result["errors"].append(f"T002: {ERROR_CODES['T002']}: {folder}/")
             result["valid"] = False
 
     # Проверка 2: папки из дерева есть в ФС
     for folder in tree_folders:
         if folder not in fs_folders:
             result["missing_in_fs"].append(folder)
-            result["errors"].append(
-                f"Папка '{folder}/' в дереве, но не существует в ФС"
-            )
+            result["errors"].append(f"T003: {ERROR_CODES['T003']}: {folder}/")
             result["valid"] = False
 
     # Проверка 3: комментарии соответствуют секциям
@@ -206,9 +212,7 @@ def validate_structure(repo_root: Path) -> dict:
                     "tree_comment": tree_comment,
                     "section_description": section_desc,
                 })
-                result["warnings"].append(
-                    f"Комментарий для '{folder}/' может не соответствовать описанию в секции"
-                )
+                result["warnings"].append(f"T004: {ERROR_CODES['T004']}: {folder}/")
 
     return result
 
@@ -240,19 +244,16 @@ def check_instructions_mirrors(repo_root: Path, tree_folders: list[str]) -> dict
 
         if not instructions_path.exists():
             result["missing_instructions"].append(folder)
-            result["errors"].append(
-                f"Папка '{folder}/' не имеет зеркала .instructions"
-            )
+            result["errors"].append(f"T005: {ERROR_CODES['T005']}: {folder}/")
         elif not instructions_readme.exists():
             result["missing_instructions"].append(folder)
-            result["errors"].append(
-                f"Папка '{folder}/.instructions/' не имеет README.md"
-            )
+            result["errors"].append(f"T005: {ERROR_CODES['T005']}: {folder}/.instructions/")
 
     return result
 
 
 def main():
+    """Точка входа."""
     # UTF-8 для Windows
     if sys.platform == "win32":
         sys.stdout.reconfigure(encoding="utf-8")

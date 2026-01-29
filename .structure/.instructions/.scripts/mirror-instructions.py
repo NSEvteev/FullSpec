@@ -474,6 +474,7 @@ def cmd_move(repo_root: Path, old_path: str, new_path: str, dry_run: bool = Fals
 # =============================================================================
 
 def main():
+    """Точка входа."""
     if sys.platform == "win32":
         sys.stdout.reconfigure(encoding="utf-8")
         sys.stderr.reconfigure(encoding="utf-8")

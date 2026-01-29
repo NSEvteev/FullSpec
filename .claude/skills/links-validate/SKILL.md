@@ -2,7 +2,6 @@
 name: links-validate
 description: Валидация ссылок в markdown-документах
 allowed-tools: Read, Bash, Glob, Grep
-category: documentation
 triggers:
   commands:
     - /links-validate

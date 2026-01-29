@@ -217,6 +217,9 @@ if __name__ == "__main__":
 - Обработка ошибок — явная
 - Документация — docstring для функций
 
+**Для скриптов валидации** (`validate-*.py`):
+- Добавить константу `ERROR_CODES` — см. [standard-script.md § ERROR_CODES](./standard-script.md#error_codes-для-валидаторов)
+
 ### Шаг 6: Проверить принципы
 
 > **Валидация:** [validation-principles.md](./validation-principles.md)
@@ -277,6 +280,7 @@ python .instructions/.scripts/validate-script.py {path}
 - [ ] Соблюдены принципы (KISS, DRY, YAGNI)
 - [ ] Добавлена функция main() с UTF-8 и argparse
 - [ ] Добавлен `if __name__`
+- [ ] `ERROR_CODES` добавлен (только для `validate-*.py`)
 
 ### Проверка
 - [ ] Пройдена проверка принципов (validation-principles.md)
