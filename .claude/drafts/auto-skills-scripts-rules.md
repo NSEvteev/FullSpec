@@ -150,7 +150,7 @@
 - [ ] Переделать `/skill-create` по формату
 - [ ] Создать `/skill-modify` (объединить 3 скилла)
 - [ ] Создать `/skill-validate` (новый)
-- [ ] Удалить skill-update, skill-delete, skill-migrate
+- [ ] Пометить `_old`: skill-update_old, skill-delete_old, skill-migrate_old
 - [ ] Обновить README скиллов
 
 ---
@@ -434,7 +434,7 @@ paths:
 ```
 [ ] 2.1. Обновить create-instruction.md (автопредложения)
 [ ] 2.2. Обновить create-script.md
-[ ] 2.3. Создать скиллы script-create, script-modify
+[ ] 2.3. Создать скиллы script-create, script-modify, script-validate
 [ ] 2.4. Обновить скиллы instruction-create, instruction-modify
 [ ] 2.5. Обновить create-instruction.md (добавить скиллы)
 ```
@@ -449,7 +449,7 @@ paths:
     [ ] validation-rule.md
     [ ] README.md
     [ ] .scripts/
-[ ] 3.2. Создать скиллы rule-create, rule-modify
+[ ] 3.2. Создать скиллы rule-create, rule-modify, rule-validate
 [ ] 3.3. Создать rules/rules.md
 ```
 
@@ -457,9 +457,11 @@ paths:
 
 ```
 [ ] 4.1. rules/skills-instructions.md
-[ ] 4.2. rules/scripts-instructions.md
+[ ] 4.2. rules/scripts.md
 [ ] 4.3. rules/instructions.md
 [ ] 4.4. rules/structure.md
+[ ] 4.5. Проверить приоритеты rules
+[ ] 4.6. Валидация
 ```
 
 ---
@@ -484,7 +486,7 @@ paths:
 | Скиллов Фаза 3 | 3 новых (rule-create, rule-modify, rule-validate) |
 | Обновляемых инструкций | ~6 |
 | Новых инструкций (rules) | 5 |
-| Новых rules | 5 |
+| Новых rules | 5 (rules, skills-instr, scripts, instructions, structure) |
 
 ---
 
@@ -508,7 +510,7 @@ paths:
 
 9. **Порядок выполнения фаз** — ✅ Строго последовательно
 
-10. **План отката** — ✅ Backup: `auto-skills-scripts-rules_backup_e7bb9f9.md`
+10. **План отката** — ✅ Git: откат к коммиту `e7bb9f9` если нужно
 
 ---
 
@@ -852,11 +854,10 @@ rule   rules  rules   rule-* rule
 
 | Область | Паттерн paths | Скиллы для предложения |
 |---------|---------------|------------------------|
-| Инструкции скиллов | `.claude/.instructions/skills/**` | `/instruction-create`, `/skill-create` |
-| Скрипты | `**/.instructions/.scripts/**` | `/script-create`, `/script-modify` |
-| Инструкции | `**/.instructions/**` | `/instruction-create`, `/instruction-modify` |
+| Инструкции скиллов | `.claude/.instructions/skills/**` | `/instruction-create`, `/skill-create`, `/skill-validate` |
+| Скрипты | `**/.instructions/.scripts/**` | `/script-create`, `/script-modify`, `/script-validate` |
+| Инструкции | `**/.instructions/**` | `/instruction-create`, `/instruction-modify`, `/instruction-validate` |
 | Структура | `.structure/**` | `/structure-create`, `/structure-modify`, `/structure-validate` |
-| Specs | `specs/**` | `/spec-create`, `/spec-update`, `/spec-status` |
 
 ## Пункты переработки
 
@@ -923,22 +924,14 @@ paths:
 - [ ] paths: `.structure/**`
 - [ ] Предложения: `/structure-create`, `/structure-modify`, `/structure-validate`, `/links-validate`
 
-### Пункт 4.5: Создать rule для specs
-
-**Файл:** `/.claude/rules/specs.md`
-
-**Содержимое:**
-- [ ] paths: `specs/**`
-- [ ] Предложения: `/spec-create`, `/spec-update`, `/spec-status`
-
-### Пункт 4.6: Проверить приоритеты rules
+### Пункт 4.5: Проверить приоритеты rules
 
 **Анализ:**
 - [ ] Определить порядок применения при пересечении paths
 - [ ] Проверить что более специфичные rules имеют приоритет
 - [ ] Задокументировать приоритеты в `/.claude/.instructions/rules/standard-rule.md`
 
-### Пункт 4.7: Валидация Фазы 4
+### Пункт 4.6: Валидация Фазы 4
 
 **Проверить:**
 - [ ] Каждый rule загружается при работе в соответствующей области
@@ -951,10 +944,10 @@ paths:
 ## Порядок выполнения Фазы 4
 
 ```
-4.1 → 4.2 → 4.3 → 4.4 → 4.5 → 4.6 → 4.7
- ↓     ↓     ↓     ↓     ↓     ↓     ↓
-skills scripts instr. struct specs приор. валид.
--instr                              иеты
+4.1 → 4.2 → 4.3 → 4.4 → 4.5 → 4.6
+ ↓     ↓     ↓     ↓     ↓     ↓
+skills scripts instr. struct приор. валид.
+-instr                       иеты
 ```
 
 ---
@@ -982,7 +975,7 @@ skills scripts instr. struct specs приор. валид.
                               ↓
 ┌─────────────────────────────────────────────────────────────────┐
 │ Фаза 4: Rules для областей                                      │
-│ [4.1-4.5] → [4.6] → [4.7]                                       │
+│ [4.1-4.4] → [4.5] → [4.6]                                       │
 │ Создание rules → Приоритеты → Валидация                         │
 └─────────────────────────────────────────────────────────────────┘
 ```
