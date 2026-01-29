@@ -4,10 +4,12 @@
 
 ---
 
-## Статус: В процессе (Фаза 1 ✅, Фаза 2 ✅)
+## Статус: В процессе (Фаза 1 ✅, Фаза 2 ✅, доп. улучшения ✅)
 
 **Дата:** 2026-01-29
 **Обновлено:** 2026-01-29
+
+> **Примечание:** Помимо основного плана выполнены дополнительные улучшения — согласование стандартов, правила create/modify, порядок создания инструкций. См. раздел "Дополнительно выполнено".
 
 ---
 
@@ -546,6 +548,22 @@ paths:
 | ERROR_CODES pattern | standard-script.md, validation-script.md, create-script.md, modify-script.md |
 | Шаг проверки "Скрипты" | modify-instruction.md (новый шаг 6) |
 | Обновлён CLAUDE.md | Удалены spec-*, обновлён счётчик скиллов |
+| **4 правила create/modify** | standard-instruction.md (§10), standard-script.md (§9), standard-skill.md (§6) |
+| **Коды ошибок x04x** | validation-instruction.md (I040-I043), validation-script.md (S040-S042), validation-skill.md (K040-K042) |
+| **Поле `standard` в скиллах** | Все 13 SKILL.md + standard-frontmatter.md |
+| **Порядок создания инструкций** | standard-instruction.md, create-instruction.md, validation-instruction.md (I043) |
+| **Согласование шаблонов отчётов** | standard-script.md, standard-instruction.md |
+| **Отчёт как отдельный шаг** | create-instruction.md (Шаг 10) |
+
+## Правила create/modify (детали)
+
+Добавлены 4 обязательных правила для инструкций типа create/modify:
+
+1. **Порядок создания** — standard → validation → create → modify (БЛОКИРУЮЩЕЕ)
+2. **Проверка существующих ресурсов** — DRY, не создавать дубликаты
+3. **Циклы подтверждения** — автор инструкции решает нужен ли цикл
+4. **Отчёт о проделанной работе** — финальный шаг (исключение: validation)
+5. **Связь со скиллом** — секция "Скиллы" непустая (исключение: standard)
 
 ---
 

@@ -111,7 +111,8 @@
       "Bash(powershell -Command \"Get-ChildItem -Directory -Filter ''DELETE_*'' -Recurse | Select-Object FullName\")",
       "Bash(powershell:*)",
       "mcp__puppeteer__puppeteer_navigate",
-      "mcp__puppeteer__puppeteer_screenshot"
+      "mcp__puppeteer__puppeteer_screenshot",
+      "Bash(if not exist \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\.instructions\\\\skills\\\\.scripts\" mkdir \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\.instructions\\\\skills\\\\.scripts\")"
     ]
   },
   "statusLine": {
