@@ -21,7 +21,9 @@ generate-readme.py — Генерация шаблона README.md для пап
     {TOPICS} — темы через запятую (для инструкций)
     {FOLDER_PURPOSE} — назначение папки
 
-Вывод: stdout (LLM заполняет плейсхолдеры и записывает через Write tool)
+Возвращает:
+    0 — успех
+    1 — ошибка (папка не существует и не указан --create)
 """
 
 import argparse
@@ -424,10 +426,12 @@ def main():
         else:
             print(f"⚠️  Папка не существует: {full_path}", file=sys.stderr)
             print(f"   Используйте --create для автоматического создания", file=sys.stderr)
+            sys.exit(1)
 
     # Генерируем и выводим README
     readme_content = generate_readme(args.folder, repo_root)
     print(readme_content)
+    sys.exit(0)
 
 
 if __name__ == "__main__":

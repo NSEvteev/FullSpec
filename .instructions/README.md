@@ -41,9 +41,12 @@ index: .instructions/README.md
 └── .scripts/
     ├── list-instructions.py       # Список инструкций
     ├── create-instruction-file.py # Создание инструкции
+    ├── create-script-file.py      # Создание скрипта
     ├── validate-instruction.py    # Валидация инструкций
     ├── validate-script.py         # Валидация скриптов
-    └── parse-docstrings.py        # Поиск скриптов по описанию
+    ├── parse-docstrings.py        # Поиск скриптов по описанию
+    ├── find-references.py         # Поиск ссылок на файл
+    └── update-references.py       # Замена ссылок
 ```
 
 ---
@@ -175,9 +178,12 @@ index: .instructions/README.md
 |--------|------------|------------|
 | [list-instructions.py](./.scripts/list-instructions.py) | Список всех инструкций с описаниями | [create-instruction.md](./create-instruction.md) |
 | [create-instruction-file.py](./.scripts/create-instruction-file.py) | Создание файла инструкции по шаблону | [create-instruction.md](./create-instruction.md) |
+| [create-script-file.py](./.scripts/create-script-file.py) | Создание файла скрипта по шаблону | [create-script.md](./create-script.md) |
 | [validate-instruction.py](./.scripts/validate-instruction.py) | Валидация формата инструкций | [validation-instruction.md](./validation-instruction.md) |
 | [validate-script.py](./.scripts/validate-script.py) | Валидация формата скриптов | [validation-script.md](./validation-script.md) |
 | [parse-docstrings.py](./.scripts/parse-docstrings.py) | Поиск скриптов по описанию | [create-script.md](./create-script.md) |
+| [find-references.py](./.scripts/find-references.py) | Поиск всех ссылок на файл | [modify-instruction.md](./modify-instruction.md) |
+| [update-references.py](./.scripts/update-references.py) | Замена ссылок (старый → новый путь) | [modify-instruction.md](./modify-instruction.md) |
 
 ---
 

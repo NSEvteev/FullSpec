@@ -137,6 +137,12 @@ python .instructions/.scripts/parse-docstrings.py --search "{описание ф
 
 ### Шаг 4: Создать файл по шаблону
 
+```bash
+python .instructions/.scripts/create-script-file.py {name} [--area {path}] [--description "{text}"]
+```
+
+Или вручную по шаблону:
+
 ```python
 #!/usr/bin/env python3
 """
@@ -321,6 +327,7 @@ python .instructions/.scripts/parse-docstrings.py --search "ссылки"
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [parse-docstrings.py](./.scripts/parse-docstrings.py) | Поиск скриптов по описанию | Этот документ |
+| [create-script-file.py](./.scripts/create-script-file.py) | Создание файла скрипта по шаблону | Этот документ |
 | [validate-script.py](./.scripts/validate-script.py) | Валидация формата скрипта | [validation-script.md](./validation-script.md) |
 
 ---

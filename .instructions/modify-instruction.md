@@ -118,7 +118,11 @@ python .instructions/.scripts/validate-instruction.py {path}
 
 ### Шаг 1: Найти все ссылки
 
-Использовать паттерны из секции [Обновление ссылок](#обновление-ссылок).
+```bash
+python .instructions/.scripts/find-references.py {путь-к-инструкции}
+```
+
+**Если скрипт недоступен:** использовать паттерны из секции [Обновление ссылок](#обновление-ссылок).
 
 ### Шаг 2: Добавить предупреждение
 
@@ -169,7 +173,11 @@ index: {область}/.instructions/README.md
 
 ### Шаг 1: Найти все ссылки на старый путь
 
-Паттерны из секции [Обновление ссылок](#обновление-ссылок).
+```bash
+python .instructions/.scripts/find-references.py {старый-путь}
+```
+
+**Если скрипт недоступен:** использовать паттерны из секции [Обновление ссылок](#обновление-ссылок).
 
 ### Шаг 2: Создать новый файл
 
@@ -181,7 +189,13 @@ index: {область}/.instructions/README.md
 
 ### Шаг 4: Обновить все ссылки
 
-Заменить старый путь на новый во всех документах.
+```bash
+python .instructions/.scripts/update-references.py {старый-путь} {новый-путь}
+# Или с предпросмотром:
+python .instructions/.scripts/update-references.py --dry-run {старый-путь} {новый-путь}
+```
+
+**Если скрипт недоступен:** заменить старый путь на новый во всех документах вручную.
 
 ### Шаг 5: Удалить старый файл
 
@@ -308,6 +322,8 @@ python .instructions/.scripts/validate-instruction.py .instructions/naming-conve
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [validate-instruction.py](./.scripts/validate-instruction.py) | Валидация формата инструкции | [validation-instruction.md](./validation-instruction.md) |
+| [find-references.py](./.scripts/find-references.py) | Поиск всех ссылок на файл | Этот документ |
+| [update-references.py](./.scripts/update-references.py) | Замена ссылок (старый → новый путь) | Этот документ |
 
 ---
 

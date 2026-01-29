@@ -173,7 +173,11 @@ python .instructions/.scripts/validate-script.py {path}
 
 ### Шаг 1: Найти зависимости
 
-Использовать паттерны из секции [Поиск зависимостей](#поиск-зависимостей).
+```bash
+python .instructions/.scripts/find-references.py {путь-к-скрипту}
+```
+
+**Если скрипт недоступен:** использовать паттерны из секции [Поиск зависимостей](#поиск-зависимостей).
 
 ### Шаг 2: Обновить зависимости
 
@@ -303,6 +307,7 @@ grep -r "old-script" --include="*.md"
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [validate-script.py](./.scripts/validate-script.py) | Валидация формата скрипта | [validation-script.md](./validation-script.md) |
+| [find-references.py](./.scripts/find-references.py) | Поиск зависимостей скрипта | Этот документ |
 
 ---
 

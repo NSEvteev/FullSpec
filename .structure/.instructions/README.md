@@ -56,7 +56,7 @@ index: .structure/.instructions/README.md
 Формат и шаблон оформления README для папок проекта и папок инструкций.
 
 **Оглавление:**
-- [Два типа README](./standard-readme.md#1-два-типа-readme)
+- [Определение типа README](./standard-readme.md#1-определение-типа-readme)
 - [README папок проекта](./standard-readme.md#2-readme-папок-проекта)
 - [README папок инструкций](./standard-readme.md#3-readme-папок-инструкций)
 - [Правила контекстных ссылок](./standard-readme.md#4-правила-работы-с-контекстными-ссылками)
@@ -68,8 +68,8 @@ index: .structure/.instructions/README.md
 Формат и правила для frontmatter в Markdown-файлах.
 
 **Оглавление:**
-- [Обязательные поля](./standard-frontmatter.md#обязательные-поля)
-- [Правила заполнения](./standard-frontmatter.md#правила-заполнения)
+- [Обязательные поля](./standard-frontmatter.md#1-обязательные-поля)
+- [Пример](./standard-frontmatter.md#2-пример)
 
 **Инструкция:** [standard-frontmatter.md](./standard-frontmatter.md)
 
@@ -108,7 +108,7 @@ index: .structure/.instructions/README.md
 **Оглавление:**
 - [Переименование](./modify-structure.md#переименование)
 - [Перемещение](./modify-structure.md#перемещение)
-- [Удаление](./modify-structure.md#удаление)
+- [Деактивация](./modify-structure.md#деактивация)
 - [Чек-лист](./modify-structure.md#чек-лист)
 
 **Инструкция:** [modify-structure.md](./modify-structure.md)
@@ -136,7 +136,7 @@ index: .structure/.instructions/README.md
 **Оглавление:**
 - [Когда валидировать](./validation-links.md#когда-валидировать)
 - [Что проверяется](./validation-links.md#что-проверяется)
-- [Шаги проверки](./validation-links.md#шаги)
+- [Шаги валидации](./validation-links.md#шаги-валидации)
 - [Типичные ошибки](./validation-links.md#типичные-ошибки)
 
 **Инструкция:** [validation-links.md](./validation-links.md)

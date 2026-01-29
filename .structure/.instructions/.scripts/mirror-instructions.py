@@ -17,6 +17,10 @@ mirror-instructions.py — Зеркалирование структуры в .i
     python mirror-instructions.py create docs/api
     python mirror-instructions.py rename docs/api docs/endpoints
     python mirror-instructions.py move src/utils shared/utils
+
+Возвращает:
+    0 — успех
+    1 — ошибка
 """
 
 import argparse

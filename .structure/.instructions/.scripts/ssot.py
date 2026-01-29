@@ -19,7 +19,9 @@ ssot.py — Управление SSOT структуры проекта.
     python ssot.py rename utils helpers --description "Хелперы"
     python ssot.py delete legacy
 
-Вывод: изменённый /.structure/README.md
+Возвращает:
+    0 — успех
+    1 — ошибка
 """
 
 import argparse
@@ -1249,6 +1251,8 @@ def main():
 
         if msg_extra:
             print(msg_extra)
+
+    sys.exit(0)
 
 
 if __name__ == "__main__":

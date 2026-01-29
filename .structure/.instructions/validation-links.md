@@ -18,6 +18,8 @@ index: .structure/.instructions/README.md
 |-----|----------|
 | Стандарт | [standard-links.md](./standard-links.md), [standard-frontmatter.md](./standard-frontmatter.md) |
 | Валидация | Этот документ |
+| Создание | — |
+| Модификация | — |
 
 ## Оглавление
 
@@ -34,8 +36,8 @@ index: .structure/.instructions/README.md
   - [Шаг 8: Ссылки в скиллах](#шаг-8-ссылки-в-скиллах)
 - [Чек-лист](#чек-лист)
 - [Типичные ошибки](#типичные-ошибки)
-- [Скиллы](#скиллы)
 - [Скрипты](#скрипты)
+- [Скиллы](#скиллы)
 
 ---
 
@@ -298,16 +300,8 @@ index: .structure/.instructions/README.md
 | `[]` в frontmatter | `standard: [file.md]` | `standard: file.md` |
 | `/` в frontmatter | `index: /path/README.md` | `index: path/README.md` |
 | Длинная цепочка `../` | `[x](../../../file.md)` | Использовать `/абсолютный/путь.md` |
-| Скилл не существует | `[/old-skill](/.claude/skills/old-skill/SKILL.md)` | Удалить ссылку или создать скилл |
+| Скилл не существует | `[/example-skill](…/example-skill/SKILL.md)` | Удалить ссылку или создать скилл |
 | SSOT в скилле устарел | `SSOT: [old.md](DELETE_old.md)` | Обновить ссылку или пометить скилл DELETE_ |
-
----
-
-## Скиллы
-
-| Скилл | Назначение | Инструкция |
-|-------|------------|------------|
-| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация ссылок | Этот документ |
 
 ---
 
@@ -335,3 +329,11 @@ python .structure/.instructions/.scripts/validate-links.py --json
 # Обновить ссылки в скиллах после переименования инструкции
 python .structure/.instructions/.scripts/update-skill-refs.py docs/api docs/endpoints
 ```
+
+---
+
+## Скиллы
+
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/links-validate](/.claude/skills/links-validate/SKILL.md) | Валидация ссылок | Этот документ |

@@ -40,6 +40,7 @@ ERROR_CODES = {
     # Структура (S0xx)
     "S001": "Отсутствует shebang",
     "S002": "Неверный shebang",
+    "S003": "Неверное расположение (не в .scripts/)",
     "S010": "Отсутствует docstring",
     "S011": "Отсутствует первая строка описания",
     "S012": "Неверный формат первой строки",
@@ -77,6 +78,21 @@ def find_repo_root(start_path: Path) -> Path:
 # =============================================================================
 # Проверки структуры (S0xx)
 # =============================================================================
+
+def check_location(path: Path, repo_root: Path) -> list[tuple[str, str]]:
+    """Проверить расположение скрипта в папке .scripts/."""
+    errors = []
+
+    try:
+        rel_path = path.resolve().relative_to(repo_root)
+        parts = rel_path.parts
+        if ".scripts" not in parts:
+            errors.append(("S003", "Файл не в папке .scripts/"))
+    except ValueError:
+        errors.append(("S003", "Не удалось определить расположение"))
+
+    return errors
+
 
 def check_shebang(content: str) -> list[tuple[str, str]]:
     """Проверить shebang."""
@@ -222,6 +238,9 @@ def validate_script(path: Path, repo_root: Path, check_principles_flag: bool) ->
         content = path.read_text(encoding='utf-8')
     except Exception as e:
         return [("S001", f"Ошибка чтения файла: {e}")]
+
+    # Проверка расположения
+    errors.extend(check_location(path, repo_root))
 
     # Проверки структуры
     errors.extend(check_shebang(content))

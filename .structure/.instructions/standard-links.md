@@ -18,6 +18,8 @@ index: .structure/.instructions/README.md
 |-----|----------|
 | Стандарт | Этот документ |
 | Валидация | [validation-links.md](./validation-links.md) |
+| Создание | — |
+| Модификация | — |
 
 ## Оглавление
 
