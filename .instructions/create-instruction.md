@@ -177,6 +177,8 @@ python .instructions/.scripts/create-instruction-file.py error-handling standard
 
 ### Шаг 5: Заполнить содержание
 
+> **Если тип ≠ standard:** прочитать `standard-{object}.md` области как SSOT перед заполнением содержания.
+
 Содержание зависит от типа инструкции — см. [standard-instruction.md](./standard-instruction.md):
 - standard → [§ 2](./standard-instruction.md#2-инструкции-типа-standard)
 - create → [§ 3](./standard-instruction.md#3-инструкции-типа-create)
@@ -340,6 +342,7 @@ python .instructions/.scripts/validate-instruction.py {path}
 - [ ] Проверены SSOT (не дублируем)
 - [ ] Создан файл по шаблону
 - [ ] Заполнен frontmatter
+- [ ] Прочитан стандарт области (для типов ≠ standard)
 - [ ] Написано содержание
 - [ ] Добавлена таблица "Связанные документы"
 
