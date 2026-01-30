@@ -81,7 +81,7 @@ index: .claude/.instructions/agents/README.md
 ### Шаг 1: Найти агента
 
 ```
-/.claude/agents/{agent-name}.yaml
+/.claude/agents/{agent-name}/AGENT.md
 ```
 
 ### Шаг 2: Проанализировать конфигурацию
@@ -109,10 +109,14 @@ index: .claude/.instructions/agents/README.md
 | Изменение | Что обновить |
 |-----------|--------------|
 | Добавить ограничение | Секция `## Ограничения` в промпте |
-| Изменить модель | Поле `settings.model` |
-| Добавить скилл | Секция `## Доступные скиллы` в промпте |
-| Изменить max_turns | Поле `settings.max_turns` |
+| Изменить модель | Поле `model` во frontmatter |
+| Добавить инструмент | Поле `tools` во frontmatter |
+| Запретить инструмент | Поле `disallowedTools` во frontmatter |
+| Изменить режим разрешений | Поле `permissionMode` во frontmatter |
+| Добавить скилл | Поле `skills` во frontmatter + секция в промпте |
+| Изменить max_turns | Поле `max_turns` во frontmatter |
 | Обновить SSOT-ссылки | Секция `## Инструкции и SSOT` в промпте |
+| Добавить hook | Поле `hooks` во frontmatter |
 
 ### Шаг 4: Подтверждение изменений
 
@@ -185,11 +189,11 @@ grep -r "{agent-name}" --include="*.md" --include="*.yaml" .
 
 ### Шаг 2: Пометить агента как удалённого
 
-> **ПРАВИЛО:** Файлы конфигурации НЕ удаляются, а помечаются `DELETE_`.
+> **ПРАВИЛО:** Папки агентов НЕ удаляются, а помечаются `DELETE_`.
 
-Переименовать файл:
+Переименовать папку:
 ```bash
-mv .claude/agents/{agent-name}.yaml .claude/agents/DELETE_{agent-name}.yaml
+mv .claude/agents/{agent-name} .claude/agents/DELETE_{agent-name}
 ```
 
 ### Шаг 3: Обновить README
@@ -243,15 +247,15 @@ python .claude/.instructions/agents/.scripts/find-agent-refs.py {old-agent-name}
 grep -r "{old-agent-name}" --include="*.md" --include="*.yaml" .
 ```
 
-### Шаг 2: Переименовать файл
+### Шаг 2: Переименовать папку
 
 ```bash
-mv .claude/agents/{old-name}.yaml .claude/agents/{new-name}.yaml
+mv .claude/agents/{old-name} .claude/agents/{new-name}
 ```
 
 ### Шаг 3: Обновить поле name
 
-В файле `{new-name}.yaml`:
+В файле `{new-name}/AGENT.md` обновить frontmatter:
 ```yaml
 name: {new-name}  # было: {old-name}
 ```
@@ -302,7 +306,7 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{n
 | Индекс агентов | `/.claude/agents/README.md` |
 | Инструкции | `**/.instructions/**/*.md` |
 | Драфты | `/.claude/drafts/*.md` |
-| Промпты агентов | `/.claude/agents/*.yaml` |
+| Промпты агентов | `/.claude/agents/*/AGENT.md` |
 
 ### Типы ссылок
 
@@ -361,41 +365,44 @@ prompt: |
 
 ### Обновление: добавление ограничения
 
-```yaml
-# Было:
-prompt: |
-  ## Ограничения
-  - НЕ модифицировать файлы
+```markdown
+# Было (в теле AGENT.md):
+## Ограничения
+- НЕ модифицировать файлы
 
 # Стало:
-prompt: |
-  ## Ограничения
-  - НЕ модифицировать файлы
-  - НЕ читать файлы с секретами (.env, credentials)
+## Ограничения
+- НЕ модифицировать файлы
+- НЕ читать файлы с секретами (.env, credentials)
 ```
 
-### Обновление: изменение модели
+### Обновление: изменение модели и добавление disallowedTools
 
 ```yaml
-# Было:
-settings:
-  model: haiku
-  max_turns: 10
+# Было (frontmatter):
+---
+model: haiku
+tools: Read, Grep, Glob
+max_turns: 10
+---
 
 # Стало:
-settings:
-  model: sonnet
-  max_turns: 20
+---
+model: sonnet
+tools: Read, Grep, Glob, Bash
+disallowedTools: Write, Edit
+max_turns: 20
+---
 ```
 
 ### Деактивация: устаревший агент
 
 ```bash
 # 1. Найти ссылки
-grep -r "old-api-checker" --include="*.md" --include="*.yaml" .
+grep -r "old-api-checker" --include="*.md" .
 
-# 2. Переименовать
-mv .claude/agents/old-api-checker.yaml .claude/agents/DELETE_old-api-checker.yaml
+# 2. Переименовать папку
+mv .claude/agents/old-api-checker .claude/agents/DELETE_old-api-checker
 
 # 3. Обновить README — удалить строку из таблицы
 
@@ -406,12 +413,12 @@ mv .claude/agents/old-api-checker.yaml .claude/agents/DELETE_old-api-checker.yam
 
 ```bash
 # 1. Найти ссылки
-grep -r "todo-finder" --include="*.md" --include="*.yaml" .
+grep -r "todo-finder" --include="*.md" .
 
-# 2. Переименовать файл
-mv .claude/agents/todo-finder.yaml .claude/agents/tech-debt-finder.yaml
+# 2. Переименовать папку
+mv .claude/agents/todo-finder .claude/agents/tech-debt-finder
 
-# 3. Обновить name в файле
+# 3. Обновить name в AGENT.md
 # name: tech-debt-finder
 
 # 4. Заменить ссылки
@@ -420,7 +427,7 @@ mv .claude/agents/todo-finder.yaml .claude/agents/tech-debt-finder.yaml
 # 5. Обновить README
 
 # 6. Валидация
-python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/tech-debt-finder.yaml
+python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/tech-debt-finder
 ```
 
 ---

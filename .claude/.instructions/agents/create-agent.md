@@ -123,24 +123,30 @@ python .claude/.instructions/agents/.scripts/create-agent-file.py code-reviewer 
 
 **Вручную (если нужно):**
 
-**Путь:**
+**Структура:**
 ```
-/.claude/agents/{agent-name}.yaml
+/.claude/agents/{agent-name}/
+└── AGENT.md          # Конфигурация агента
 ```
 
-**Шаблон:**
+**Шаблон AGENT.md:**
 
-```yaml
+```markdown
+---
 name: {agent-name}
-description: {Краткое описание — одно предложение}
+description: {Когда Claude должен использовать агента}
 type: {explore | bash | plan | general-purpose}
+model: {haiku | sonnet | opus | inherit}
+tools: {Read, Grep, Glob, ...}
+disallowedTools: {Write, Edit, ...}
+permissionMode: {default | acceptEdits | plan}
+max_turns: {5-50}
+skills:
+  - {skill-1}
+  - {skill-2}
+---
 
-prompt: |
-  {Системный промпт — см. Шаг 5}
-
-settings:
-  model: {haiku | sonnet | opus}
-  max_turns: {5-50}
+{Системный промпт — см. Шаг 5}
 ```
 
 ### Шаг 5: Написать промпт
@@ -161,7 +167,7 @@ settings:
 | Секция | Когда добавлять |
 |--------|-----------------|
 | `## Инструкции и SSOT` | Если есть релевантные SSOT |
-| `## Доступные скиллы` | Для `general-purpose` |
+| `## Скиллы` | Для `general-purpose` (кратко, без дублирования frontmatter) |
 | `## Область работы` | Если ограничена папка/файлы |
 | `## Критерии успеха` | Для сложных задач |
 
@@ -184,10 +190,8 @@ settings:
 - {путь к инструкции 1}
 - {путь к инструкции 2}
 
-## Доступные скиллы
-При необходимости используй:
-- {скилл 1}
-- {скилл 2}
+## Скиллы
+Используй скиллы из frontmatter вместо ручных операций.
 
 ## Ограничения
 - НЕ {ограничение 1}
@@ -200,13 +204,38 @@ settings:
 
 ### Шаг 6: Настроить параметры
 
-**Выбор модели:**
+**Выбор модели (`model`):**
 
 | Модель | Когда использовать |
 |--------|--------------------|
 | `haiku` | Простой поиск, быстрые задачи |
 | `sonnet` | Анализ, код-ревью, планирование |
 | `opus` | Сложные многошаговые задачи |
+| `inherit` | Использовать модель основной сессии |
+
+**Выбор инструментов (`tools`):**
+
+| Тип агента | Рекомендуемые tools |
+|------------|---------------------|
+| `explore` | `Read, Grep, Glob` |
+| `plan` | `Read, Grep, Glob` |
+| `bash` | `Bash, Read` |
+| `general-purpose` | Все нужные инструменты |
+
+**Выбор запрещённых инструментов (`disallowedTools`):**
+
+| Тип агента | Рекомендуемые disallowedTools |
+|------------|-------------------------------|
+| `explore`, `plan` | `Write, Edit, Bash` |
+| Код-ревью | `Write, Edit` |
+
+**Выбор режима разрешений (`permissionMode`):**
+
+| Режим | Когда использовать |
+|-------|-------------------|
+| `plan` | Агенты только для анализа |
+| `default` | Агенты с записью — требуют подтверждения |
+| `acceptEdits` | Доверенные агенты для автоправок |
 
 **Выбор max_turns:**
 
@@ -217,13 +246,26 @@ settings:
 | Код-ревью | 15-30 |
 | Сложная задача | 30-50 |
 
-**Для `general-purpose` — выбор скиллов:**
+**Для `general-purpose` — выбор скиллов (`skills`):**
 
 > **ОБЯЗАТЕЛЬНО** использовать `AskUserQuestion` tool с multiSelect.
 
 **Вопрос:** "Какие скиллы разрешить агенту?"
 
 **Опции:** список релевантных скиллов из Шага 3.
+
+**Настройка hooks (опционально):**
+
+Для автоматической валидации или логирования (редко используется):
+
+```yaml
+hooks:
+  PostToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: "python .instructions/.scripts/validate-instruction.py"
+```
 
 ### Шаг 7: Подтверждение промпта
 
@@ -271,7 +313,7 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 - Модель: {model}
 - Max turns: {max_turns}
 
-**Доступные скиллы:** {список или "не применимо"}
+**Скиллы:** {список или "не применимо"}
 
 **Валидация:** пройдена ✅
 ```
@@ -286,10 +328,11 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 - [ ] Собран контекст (инструкции, скиллы, правила)
 
 ### Создание
-- [ ] Создан файл `/.claude/agents/{name}.yaml`
-- [ ] Заполнены обязательные поля (name, description, type, prompt)
-- [ ] Промпт содержит обязательные секции (Роль, Задача, Ограничения, Формат вывода)
-- [ ] Настроены параметры (model, max_turns)
+- [ ] Создана папка `/.claude/agents/{name}/`
+- [ ] Создан файл `AGENT.md`
+- [ ] Заполнены обязательные поля (name, description)
+- [ ] Настроены официальные поля (model, tools, permissionMode)
+- [ ] Промпт содержит секции (Роль, Задача, Ограничения, Формат вывода)
 - [ ] Выбраны скиллы (для general-purpose)
 - [ ] Промпт подтверждён пользователем
 
@@ -304,76 +347,93 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 
 ### Создание explore-агента
 
-```yaml
-# /.claude/agents/todo-finder.yaml
+**Структура:**
+```
+/.claude/agents/todo-finder/
+└── AGENT.md
+```
 
+**Файл AGENT.md:**
+
+```markdown
+---
 name: todo-finder
-description: Поиск TODO/FIXME комментариев в кодовой базе
+description: Поиск TODO/FIXME комментариев. Используй для анализа технического долга.
 type: explore
+model: haiku
+tools: Read, Grep, Glob
+permissionMode: plan
+max_turns: 10
+---
 
-prompt: |
-  ## Роль
-  Агент для поиска технического долга в коде.
+## Роль
+Агент для поиска технического долга в коде.
 
-  ## Задача
-  Найти все комментарии с маркерами: TODO, FIXME, HACK, XXX, BUG.
+## Задача
+Найти все комментарии с маркерами: TODO, FIXME, HACK, XXX, BUG.
 
-  ## Область работы
-  - Путь: указывается в запросе (по умолчанию — весь src/)
-  - Типы файлов: Python, TypeScript, JavaScript, Markdown
-  - Исключения: node_modules/, .git/, __pycache__/
+## Область работы
+- Путь: указывается в запросе (по умолчанию — весь src/)
+- Типы файлов: Python, TypeScript, JavaScript, Markdown
+- Исключения: node_modules/, .git/, __pycache__/
 
-  ## Ограничения
-  - НЕ модифицировать файлы
-  - НЕ предлагать исправления
-  - Только сбор и группировка
+## Ограничения
+- НЕ модифицировать файлы
+- НЕ предлагать исправления
+- Только сбор и группировка
 
-  ## Формат вывода
-  Markdown таблица:
-  | Файл | Строка | Тип | Комментарий |
-  |------|--------|-----|-------------|
-
-settings:
-  model: haiku
-  max_turns: 10
+## Формат вывода
+Markdown таблица:
+| Файл | Строка | Тип | Комментарий |
+|------|--------|-----|-------------|
 ```
 
 ### Создание general-purpose агента
 
-```yaml
-# /.claude/agents/code-reviewer.yaml
+**Структура:**
+```
+/.claude/agents/code-reviewer/
+└── AGENT.md
+```
 
+**Файл AGENT.md:**
+
+```markdown
+---
 name: code-reviewer
-description: Автоматический код-ревью с проверкой принципов
+description: Код-ревью с проверкой принципов. Используй после написания кода.
 type: general-purpose
+model: sonnet
+tools: Read, Grep, Glob, Bash, AskUserQuestion
+disallowedTools: Write, Edit
+permissionMode: default
+max_turns: 30
+skills:
+  - principles-validate
+  - links-validate
+---
 
-prompt: |
-  ## Роль
-  Код-ревьюер для проверки качества кода.
+## Роль
+Код-ревьюер для проверки качества кода.
 
-  ## Задача
-  Проверить указанные файлы на соответствие стандартам проекта.
+## Задача
+Проверить указанные файлы на соответствие стандартам проекта.
 
-  ## Инструкции и SSOT
-  SSOT: /.instructions/standard-principles.md
+## Инструкции и SSOT
+SSOT: /.instructions/standard-principles.md
 
-  ## Доступные скиллы
-  - /principles-validate — проверка принципов программирования
-  - /links-validate — проверка ссылок (для .md файлов)
+## Скиллы
+Используй скиллы из frontmatter вместо ручных операций.
 
-  ## Ограничения
-  - НЕ автоисправлять код
-  - Спрашивать перед любыми изменениями
-  - Группировать замечания по серьёзности
+## Ограничения
+- НЕ автоисправлять код (нет доступа к Edit/Write)
+- Только анализ и отчёт
+- Группировать замечания по серьёзности
 
-  ## Формат вывода
-  Таблица markdown:
-  | Серьёзность | Файл | Строка | Проблема | Рекомендация |
-  |-------------|------|--------|----------|--------------|
-
-settings:
-  model: sonnet
-  max_turns: 20
+## Формат вывода
+Таблица markdown:
+| Серьёзность | Файл | Строка | Проблема | Рекомендация |
+|-------------|------|--------|----------|--------------|
 ```
 
 ---

@@ -19,6 +19,7 @@ list-agents.py — Вывод списка всех агентов с описа
 """
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -26,6 +27,8 @@ try:
     import yaml
 except ImportError:
     yaml = None
+
+FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
 
 # =============================================================================
@@ -42,39 +45,32 @@ def find_repo_root(start_path: Path) -> Path:
     return start_path.resolve()
 
 
-def parse_yaml_simple(content: str) -> dict:
-    """Простой парсер YAML без зависимостей."""
+def parse_frontmatter(content: str) -> dict:
+    """Парсить YAML frontmatter из markdown."""
+    match = FRONTMATTER_PATTERN.match(content)
+    if not match:
+        return {}
+
+    frontmatter_text = match.group(1)
+
+    if yaml:
+        try:
+            return yaml.safe_load(frontmatter_text) or {}
+        except Exception:
+            return {}
+
+    # Простой парсер без зависимостей
     result = {}
-    current_key = None
-    in_multiline = False
-
-    for line in content.split('\n'):
+    for line in frontmatter_text.split('\n'):
         stripped = line.strip()
-
-        # Пропуск пустых строк и комментариев
         if not stripped or stripped.startswith('#'):
             continue
-
-        # Многострочное значение
-        if in_multiline:
-            if not line.startswith(' ') and not line.startswith('\t'):
-                in_multiline = False
-            else:
-                continue
-
-        # Парсинг ключ: значение
         if ':' in stripped and not stripped.startswith('-'):
             key, _, value = stripped.partition(':')
             key = key.strip()
             value = value.strip()
-
-            if value == '|' or value == '>':
-                in_multiline = True
-                current_key = key
-            elif value:
+            if value and not value.startswith('|'):
                 result[key] = value.strip('"\'')
-            else:
-                current_key = key
 
     return result
 
@@ -92,28 +88,33 @@ def list_agents(repo_root: Path, search: str | None = None) -> list[dict]:
 
     agents = []
 
-    for file_path in sorted(agents_dir.glob("*.yaml")):
-        # Пропустить DELETE_ файлы
-        if file_path.name.startswith("DELETE_"):
+    for agent_dir in sorted(agents_dir.iterdir()):
+        # Пропустить файлы и DELETE_ папки
+        if not agent_dir.is_dir():
+            continue
+        if agent_dir.name.startswith("DELETE_"):
+            continue
+        if agent_dir.name.startswith("."):
+            continue
+
+        # Проверить AGENT.md
+        agent_file = agent_dir / "AGENT.md"
+        if not agent_file.exists():
             continue
 
         try:
-            content = file_path.read_text(encoding='utf-8')
-
-            # Парсинг YAML
-            if yaml:
-                data = yaml.safe_load(content)
-            else:
-                data = parse_yaml_simple(content)
+            content = agent_file.read_text(encoding='utf-8')
+            data = parse_frontmatter(content)
 
             if not data:
                 continue
 
             agent_info = {
-                "name": data.get("name", file_path.stem),
+                "name": data.get("name", agent_dir.name),
                 "description": data.get("description", ""),
                 "type": data.get("type", "unknown"),
-                "path": str(file_path.relative_to(repo_root)),
+                "model": data.get("model", "inherit"),
+                "path": str(agent_dir.relative_to(repo_root)),
             }
 
             # Фильтр по search
@@ -153,6 +154,7 @@ def print_agents(agents: list[dict]) -> None:
         for agent in by_type[agent_type]:
             print(f"• {agent['name']}")
             print(f"  {agent['description']}")
+            print(f"  Модель: {agent['model']}")
             print(f"  Путь: {agent['path']}")
             print()
 
