@@ -55,12 +55,27 @@ def should_skip(path: Path, repo_root: Path) -> bool:
     return False
 
 
+def is_tree_line(line: str) -> bool:
+    """Проверить, является ли строка частью дерева структуры."""
+    tree_chars = ["│", "├", "└", "─"]
+    return any(char in line for char in tree_chars)
+
+
 def find_references(repo_root: Path, pattern: str, file_types: list[str]) -> list[dict]:
     """Найти все ссылки на паттерн в файлах проекта."""
     results = []
 
     # Экранируем спецсимволы regex, но оставляем возможность поиска
     search_pattern = re.escape(pattern)
+
+    # Для путей типа ".claude/scripts/" также ищем последний компонент в деревьях
+    # Извлекаем имя папки: ".claude/scripts/" -> "scripts/"
+    folder_name = None
+    if "/" in pattern or "\\" in pattern:
+        # Нормализуем путь и берём последний компонент
+        normalized = pattern.replace("\\", "/").rstrip("/")
+        if "/" in normalized:
+            folder_name = normalized.split("/")[-1] + "/"
 
     for file_type in file_types:
         for file_path in repo_root.rglob(f"*.{file_type}"):
@@ -72,7 +87,18 @@ def find_references(repo_root: Path, pattern: str, file_types: list[str]) -> lis
                 lines = content.split("\n")
 
                 for line_num, line in enumerate(lines, 1):
+                    matched = False
+
+                    # Основной поиск по полному паттерну
                     if re.search(search_pattern, line):
+                        matched = True
+                    # Дополнительный поиск в строках дерева по имени папки
+                    elif folder_name and is_tree_line(line):
+                        folder_pattern = re.escape(folder_name)
+                        if re.search(folder_pattern, line):
+                            matched = True
+
+                    if matched:
                         rel_path = file_path.relative_to(repo_root)
                         results.append({
                             "file": str(rel_path),

@@ -141,7 +141,6 @@ standard: .structure/.instructions/standard-readme.md
 │   ├── agents/                          #   Агенты
 │   ├── drafts/                          #   Черновики (в git)
 │   ├── rules/                           #   Rules для автозагрузки контекста
-│   ├── scripts/                         #   Python скрипты
 │   ├── skills/                          #   Скиллы (16)
 │   ├── state/                           #   Состояние между вызовами
 │   └── settings.json                    #   Настройки
