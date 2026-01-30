@@ -1,5 +1,5 @@
 ---
-description: Правила работы с инструкциями, скриптами, скиллами, rules и ссылками
+description: Правила работы с инструкциями, скриптами, скиллами, rules, агентами и ссылками
 standard: .claude/.instructions/rules/standard-rule.md
 index: .claude/.instructions/rules/README.md
 paths:
@@ -7,6 +7,7 @@ paths:
   - "**/.scripts/**"
   - ".claude/rules/**"
   - ".claude/skills/**"
+  - ".claude/agents/**"
 ---
 
 При работе с инструкциями ОБЯЗАТЕЛЬНО использовать скиллы (запрещено создавать вручную):
@@ -31,3 +32,6 @@ paths:
 
 При работе со ссылками ОБЯЗАТЕЛЬНО использовать скиллы:
   - `/links-validate` - валидация ссылок
+
+При работе с агентами ОБЯЗАТЕЛЬНО использовать скиллы:
+  - `/agent-validate` - валидация агента
