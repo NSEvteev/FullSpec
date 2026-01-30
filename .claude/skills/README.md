@@ -84,6 +84,14 @@
 | [rule-modify](./rule-modify/SKILL.md) | Изменение, деактивация и миграция rule | `/rule-modify`, "измени rule" |
 | [rule-validate](./rule-validate/SKILL.md) | Валидация формата и структуры rule | `/rule-validate`, "проверь rule" |
 
+### agents
+
+Управление агентами Claude.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [agent-validate](./agent-validate/SKILL.md) | Валидация конфигурации и промпта агента | `/agent-validate`, "проверь агента" |
+
 ---
 
 ## Справочник allowed-tools

@@ -28,7 +28,10 @@ index: .claude/.instructions/agents/README.md
 
 ```
 /.claude/.instructions/agents/
+├── .scripts/
+│   └── validate-agent.py    # Скрипт валидации
 ├── standard-agent.md        # Стандарт агентов
+├── validation-agent.md      # Валидация агентов
 └── README.md                # Этот файл (индекс)
 ```
 
@@ -64,16 +67,30 @@ index: .claude/.instructions/agents/README.md
 
 # 3. Валидация
 
-*Нет валидаций.*
+## 3.1. Валидация агентов
+
+Валидация конфигурации и промпта агента на соответствие стандарту.
+
+**Оглавление:**
+- [Когда валидировать](./validation-agent.md#когда-валидировать)
+- [Шаги валидации](./validation-agent.md#шаги)
+- [Чек-лист](./validation-agent.md#чек-лист)
+- [Типичные ошибки](./validation-agent.md#типичные-ошибки)
+
+**Инструкция:** [validation-agent.md](./validation-agent.md)
 
 ---
 
 # 4. Скрипты
 
-*Нет скриптов.*
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [validate-agent.py](./.scripts/validate-agent.py) | Валидация конфигурации агента | [validation-agent.md](./validation-agent.md) |
 
 ---
 
 # 5. Скиллы
 
-*Нет скиллов.*
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/agent-validate](/.claude/skills/agent-validate/SKILL.md) | Валидация конфигурации агента | [validation-agent.md](./validation-agent.md) |
