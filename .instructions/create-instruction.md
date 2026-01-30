@@ -104,6 +104,17 @@ index: .instructions/README.md
 | Структура | `/.structure/.instructions/` |
 | Спецификации | `/specs/.instructions/` |
 
+**Проверить существование папки области:**
+
+> **Если папка `{область}/` не существует:**
+
+1. Предложить пользователю (AskUserQuestion): "Папка `{область}/` не существует. Создать?"
+2. При подтверждении — вызвать `/structure-create {область}`
+3. `/structure-create` автоматически создаст:
+   - `{область}/README.md`
+   - `{область}/.instructions/README.md`
+4. После создания — продолжить с текущим шагом
+
 **Выбрать имя:**
 - Kebab-case: `error-handling.md`
 - Описательное: `api-versioning.md`
@@ -335,6 +346,7 @@ python .instructions/.scripts/validate-instruction.py {path}
 - [ ] Выбран тип (standard/create/modify/validation)
 - [ ] Проверен порядок создания (предыдущие типы существуют)
 - [ ] Выбрано расположение
+- [ ] Проверено существование папки области (если нет — `/structure-create`)
 - [ ] Выбрано имя файла
 
 ### Создание
