@@ -114,7 +114,21 @@
       "mcp__puppeteer__puppeteer_screenshot",
       "Bash(if not exist \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\.instructions\\\\skills\\\\.scripts\" mkdir \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\.instructions\\\\skills\\\\.scripts\")",
       "WebFetch(domain:claudelog.com)",
-      "WebFetch(domain:paddo.dev)"
+      "WebFetch(domain:paddo.dev)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" diff .claude/drafts/phase3-rules-infrastructure.md)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" add .claude/drafts/phase3-rules-infrastructure.md)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" commit -m \"$\\(cat <<''EOF''\nfeat: Frontmatter rules согласован со standard-frontmatter\n\n- Добавлены обязательные поля standard и index\n- Обновлены коды ошибок R012-R015\n- Обновлены проверки validate-rule.py\n- Обновлен шаблон создания rule\n- Обновлены примеры rules.md и ssot.md\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" diff --stat .claude/drafts/phase3-rules-infrastructure.md)",
+      "Bash(git -C \"C:\\\\00 Dev\\\\project_template\" commit -m \"$\\(cat <<''EOF''\nrefactor: Решения по вопросам разнесены по секциям\n\n- 3.1: содержимое rule \\(max 50 строк\\), конфликты paths, подпапки\n- 3.2: тестирование после рестарта \\(/memory + триггер\\)\n- 3.3: warning о пересечении paths в list-rules.py\n- 3.7: блокирующие пути для rules в CLAUDE.md\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(if exist \".claude\\\\.instructions\\\\rules\\\\standard-standard-rule.md\" move \".claude\\\\.instructions\\\\rules\\\\standard-standard-rule.md\" \".claude\\\\.instructions\\\\rules\\\\standard-rule.md\")",
+      "Skill(script-create)",
+      "Bash(do echo \"=== $f ===\")",
+      "Bash(do python .instructions/.scripts/validate-instruction.py .claude/.instructions/rules/$f.md)",
+      "Bash(do python .claude/.instructions/skills/.scripts/validate-skill.py $s)",
+      "Skill(rule-modify)",
+      "Bash(del \".claude\\\\rules\\\\rules.md\")",
+      "Skill(instruction-modify)",
+      "Skill(rule-create)"
     ]
   },
   "statusLine": {
