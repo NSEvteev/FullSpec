@@ -33,6 +33,7 @@ index: .instructions/README.md
   - [Шаг 7: Обновить README области](#шаг-7-обновить-readme-области)
   - [Шаг 8: Валидация](#шаг-8-валидация)
   - [Шаг 9: Ревью и создание скилла](#шаг-9-ревью-и-создание-скилла)
+  - [Шаг 9.1: Создать/обновить rule](#шаг-91-создатьобновить-rule)
   - [Шаг 10: Отчёт о проделанной работе](#шаг-10-отчёт-о-проделанной-работе)
 - [Чек-лист](#чек-лист)
 - [Примеры](#примеры)
@@ -282,6 +283,26 @@ python .instructions/.scripts/validate-instruction.py {path}
 2. Внести изменения в инструкцию согласно ответу пользователя
 3. **Повторить Шаг 9** (цикл до выбора "Да, всё корректно")
 
+### Шаг 9.1: Создать/обновить rule
+
+> **Условие:** Создана инструкция типа create-, modify- или validation-
+
+**Действие:** Делегировать создание/обновление rule соответствующему скиллу.
+
+**Контекст для передачи:**
+- Область инструкций (api, hooks, database и т.д.)
+- Список созданных скиллов (/[область]-validate, /[область]-create, /[область]-modify)
+
+**Вызов:**
+```
+/rule-create [область] --skills "/[область]-validate, /[область]-create, /[область]-modify"
+```
+
+> **Примечание:** Скилл `/rule-create` сам определяет:
+> - Целевой rule (существующий или новый)
+> - Paths для области
+> - Формат содержимого
+
 ### Шаг 10: Отчёт о проделанной работе
 
 ```
@@ -334,6 +355,7 @@ python .instructions/.scripts/validate-instruction.py {path}
 - [ ] Валидация пройдена
 - [ ] Ревью завершено
 - [ ] Скилл создан (для create/modify/validation)
+- [ ] Rule создан/обновлён (для create/modify/validation)
 - [ ] Отчёт выведен пользователю
 
 ---
@@ -389,3 +411,5 @@ python .instructions/.scripts/validate-instruction.py src/.instructions/validati
 | Скилл | Назначение | Инструкция |
 |-------|------------|------------|
 | [/instruction-create](/.claude/skills/instruction-create/SKILL.md) | Создание инструкции | Этот документ |
+| [/rule-create](/.claude/skills/rule-create/SKILL.md) | Создание/обновление rule | [create-rule.md](/.claude/.instructions/rules/create-rule.md) |
+| [/rule-modify](/.claude/skills/rule-modify/SKILL.md) | Обновление rule | [modify-rule.md](/.claude/.instructions/rules/modify-rule.md) |

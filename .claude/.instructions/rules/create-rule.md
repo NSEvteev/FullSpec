@@ -23,6 +23,7 @@ index: .claude/.instructions/rules/README.md
 ## Оглавление
 
 - [Принципы](#принципы)
+- [При вызове из /instruction-create](#при-вызове-из-instruction-create)
 - [Шаги](#шаги)
   - [Шаг 1: Проверить существующие rules](#шаг-1-проверить-существующие-rules)
   - [Шаг 2: Определить область применения](#шаг-2-определить-область-применения)
@@ -57,6 +58,43 @@ index: .claude/.instructions/rules/README.md
 - Полная инструкция → создать в `{область}/.instructions/`
 - Разовое правило → добавить в существующий rule
 - Дублирование SSOT → ссылаться на инструкцию
+
+---
+
+## При вызове из /instruction-create
+
+> **Этот раздел применяется только при делегированном вызове из `/instruction-create`.**
+
+При создании инструкций типа create/modify/validation автоматически вызывается `/rule-create` для создания или обновления rule.
+
+**Алгоритм определения целевого rule:**
+
+```
+1. Определить: к какой части проекта относятся инструкции?
+   │
+   ├─ .claude/* (hooks, agents, prompts)
+   │  └─ Целевой rule: instructions.md
+   │
+   ├─ src/* (api, database, auth)
+   │  └─ Целевой rule: [область].md или src.md
+   │
+   └─ tests/* (tests, fixtures)
+      └─ Целевой rule: tests.md
+
+2. Проверить существование целевого rule:
+   │
+   ├─ Существует → переключиться на /rule-modify
+   │
+   └─ Не существует → продолжить создание (Шаг 1)
+```
+
+**Таблица соответствия:**
+
+| Инструкции для... | Целевая область | Целевой rule |
+|-------------------|-----------------|--------------|
+| hooks, agents, prompts | `.claude/` | `instructions.md` |
+| api, database, auth | `src/` | `[область].md` или `src.md` |
+| tests, fixtures | `tests/` | `tests.md` |
 
 ---
 
@@ -282,7 +320,7 @@ python .claude/.instructions/rules/.scripts/list-rules.py
 # Содержимое: правило проверки SSOT-ссылок
 
 # Шаг 5: Валидация
-python .claude/.instructions/rules/.scripts/validate-rule.py ssot
+python .claude/.instructions/rules/.scripts/validate-rule.py core
 
 # Шаг 6: Отчёт
 # ⚠️ Требуется новая сессия для применения
@@ -300,7 +338,7 @@ python .claude/.instructions/rules/.scripts/list-rules.py
 # Причина: правила только для работы с rules
 
 # Шаг 3: Имя
-# instructions.md — правила работы с инструкциями
+# rules.md — правила работы с rules
 
 # Шаг 4: Создать файл
 # Содержимое: ссылки на скиллы /rule-*
@@ -310,6 +348,45 @@ python .claude/.instructions/rules/.scripts/validate-rule.py rules
 
 # Шаг 6: Отчёт
 # ⚠️ Требуется новая сессия
+```
+
+### При вызове из /instruction-create: новый rule
+
+```bash
+# Контекст: /instruction-create api вызвал /rule-create
+
+# → Определить целевой rule (см. секцию выше)
+# Область: api, не .claude/* → проектный код
+# Целевой rule: api.md (не существует) → создать
+
+# Шаг 1: Проверить существующие
+python .claude/.instructions/rules/.scripts/list-rules.py
+
+# Шаг 2: Определить paths
+# src/api/**, **/.instructions/api/**
+
+# Шаг 4: Создать файл с содержимым:
+# При работе с API ОБЯЗАТЕЛЬНО использовать скиллы:
+#   - /api-validate - валидация API
+#   - /api-create - создание API-эндпоинта
+#   - /api-modify - изменение API
+
+# Шаг 5: Валидация
+python .claude/.instructions/rules/.scripts/validate-rule.py api
+```
+
+### При вызове из /instruction-create: существующий rule
+
+```bash
+# Контекст: /instruction-create hooks вызвал /rule-create
+
+# → Определить целевой rule (см. секцию выше)
+# Область: hooks, .claude/* → Claude-инфраструктура
+# Целевой rule: instructions.md (существует) → /rule-modify
+
+# → Переключиться на /rule-modify
+/rule-modify instructions
+# Добавить скиллы: /hooks-validate, /hooks-create, /hooks-modify
 ```
 
 ---
