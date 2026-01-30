@@ -29,11 +29,12 @@ index: .claude/.instructions/README.md
 
 ```
 /.claude/.instructions/
-├── README.md              # Этот файл (индекс)
+├── agents/                # Инструкции для agents/
 ├── rules/                 # Инструкции для rules
 │   └── README.md          #   Индекс инструкций rules
-└── skills/                # Инструкции для скиллов
-    └── README.md          #   Индекс инструкций скиллов
+├── skills/                # Инструкции для скиллов
+│   └── README.md          #   Индекс инструкций скиллов
+└── README.md              # Этот файл (индекс)
 ```
 
 ---
@@ -44,6 +45,7 @@ index: .claude/.instructions/README.md
 
 | Область | Описание | Индекс |
 |---------|----------|--------|
+| [agents/](./agents/) | Инструкции для agents/ | [README](./agents/README.md) |
 | [rules/](./rules/) | Стандарты, воркфлоу и валидация rules | [README](./rules/README.md) |
 | [skills/](./skills/) | Стандарты, воркфлоу и валидация скиллов | [README](./skills/README.md) |
 

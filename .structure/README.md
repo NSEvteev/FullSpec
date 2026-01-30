@@ -138,7 +138,7 @@ standard: .structure/.instructions/standard-readme.md
 │   ├── .instructions/
 │   │   ├── rules/                       #   Как писать rules
 │   │   └── skills/                      #   Как писать скиллы
-│   ├── agents/                          #   Агенты
+│   ├── agents/                          #   Конфигурации агентов
 │   ├── drafts/                          #   Черновики (в git)
 │   ├── rules/                           #   Rules для автозагрузки контекста
 │   ├── skills/                          #   Скиллы (16)

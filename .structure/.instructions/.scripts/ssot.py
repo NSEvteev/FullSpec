@@ -457,7 +457,7 @@ def add_to_tree(lines: list, full_path: str, parent_path: str, description: str,
     if depth == 0:
         # Корневая папка
         exists = any(
-            re.match(rf'^├── {re.escape(folder_name)}/', lines[i])
+            re.match(rf'^[├└]── {re.escape(folder_name)}/', lines[i])
             for i in range(tree_start, tree_end)
         )
         if exists:
@@ -553,6 +553,29 @@ def add_to_tree(lines: list, full_path: str, parent_path: str, description: str,
                     # Нашли родителя, ищем место для вставки среди его детей
                     i += 1
                     children = []
+
+                    # Проверяем, есть ли уже эта папка среди детей
+                    already_exists = False
+                    j = i
+                    while j < tree_end:
+                        check_line = lines[j]
+                        if check_line.strip() == "│" or check_line == "│":
+                            j += 1
+                            continue
+                        check_depth = get_tree_line_depth(check_line)
+                        if check_depth <= parent_depth:
+                            break
+                        if check_depth == depth:
+                            check_folder = extract_folder_from_tree(check_line)
+                            if check_folder == folder_name:
+                                already_exists = True
+                                break
+                        j += 1
+
+                    if already_exists:
+                        # Папка уже существует — пропускаем добавление
+                        new_lines.extend(lines[i:])
+                        return lines[:tree_start] + new_lines[len(lines[:tree_start]):tree_end - tree_start + len(lines[:tree_start])] + lines[tree_end:]
 
                     # Собираем детей родителя
                     while i < tree_end:

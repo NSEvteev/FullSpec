@@ -348,14 +348,11 @@ def update_parent_instructions_readme(repo_root: Path, folder_path: str, descrip
     content = parent_readme.read_text(encoding="utf-8")
     lines = content.split("\n")
 
-    # 1. Добавляем в таблицу оглавления
-    lines = add_to_instructions_toc(lines, folder_name)
+    # 1. Добавляем в секцию "Вложенные области" (также добавит ссылку в оглавление если нужно)
+    lines = add_to_nested_areas(lines, folder_name, description)
 
     # 2. Добавляем в дерево
     lines = add_to_instructions_tree(lines, folder_name)
-
-    # 3. Добавляем в секцию "Вложенные области"
-    lines = add_to_nested_areas(lines, folder_name, description)
 
     parent_readme.write_text("\n".join(lines), encoding="utf-8")
     print(f"✅ Обновлён README инструкций: {parent_readme}")
@@ -531,27 +528,67 @@ def add_to_instructions_tree(lines: list, folder_name: str) -> list:
         if f"── {folder_name}/" in lines[i]:
             return lines
 
-    # Ищем README.md в дереве
-    readme_idx = None
-    for i in range(tree_start, tree_end):
-        if "── README.md" in lines[i]:
-            readme_idx = i
-            break
+    # Собираем все элементы дерева (папки и файлы)
+    tree_header = lines[tree_start]  # Строка с путём (например: /.claude/.instructions/)
+    folders = []  # [(index, name, comment)]
+    files = []    # [(index, name, comment)]
 
-    if readme_idx is None:
-        return lines
+    for i in range(tree_start + 1, tree_end):
+        line = lines[i]
+        # Папка: ├── folder/ или └── folder/
+        folder_match = re.match(r'^[├└]── ([^/\s]+)/\s*(#.*)?$', line)
+        if folder_match:
+            name = folder_match.group(1)
+            comment = folder_match.group(2) or ""
+            folders.append((i, name, comment.strip()))
+            continue
+        # Файл: ├── file или └── file
+        file_match = re.match(r'^[├└]── ([^/\s]+)\s*(#.*)?$', line)
+        if file_match:
+            name = file_match.group(1)
+            comment = file_match.group(2) or ""
+            files.append((i, name, comment.strip()))
 
-    # Формируем новую строку дерева
-    tree_line = f"├── {folder_name}/                       # Инструкции для {folder_name}/"
+    # Добавляем новую папку
+    new_comment = f"# Инструкции для {folder_name}/"
+    folders.append((None, folder_name, new_comment))
 
-    # Вставляем перед README.md
-    result = lines[:readme_idx]
-    result.append(tree_line)
+    # Сортируем папки по алфавиту (с учётом точки в начале)
+    def sort_key(item):
+        name = item[1]
+        starts_with_dot = name.startswith(".")
+        clean_name = name.lstrip(".")
+        return (not starts_with_dot, clean_name.lower())
 
-    # Меняем ├── на └── для README.md (он теперь последний)
-    readme_line = lines[readme_idx].replace("├── ", "└── ")
-    result.append(readme_line)
-    result.extend(lines[readme_idx + 1:])
+    folders.sort(key=sort_key)
+
+    # Формируем новое дерево
+    result = lines[:tree_start]
+    result.append(tree_header)
+
+    # Вычисляем максимальную длину для выравнивания комментариев
+    max_prefix_len = max(len(f"├── {f[1]}/") for f in folders) if folders else 20
+    max_prefix_len = max(max_prefix_len, max(len(f"├── {f[1]}") for f in files) if files else 20)
+
+    # Добавляем папки
+    for idx, (_, name, comment) in enumerate(folders):
+        is_last = (idx == len(folders) - 1) and len(files) == 0
+        connector = "└── " if is_last else "├── "
+        prefix = f"{connector}{name}/"
+        padding = max(1, max_prefix_len - len(prefix) + 4)
+        line = f"{prefix}{' ' * padding}{comment}" if comment else prefix
+        result.append(line)
+
+    # Добавляем файлы
+    for idx, (_, name, comment) in enumerate(files):
+        is_last = idx == len(files) - 1
+        connector = "└── " if is_last else "├── "
+        prefix = f"{connector}{name}"
+        padding = max(1, max_prefix_len - len(prefix) + 4)
+        line = f"{prefix}{' ' * padding}{comment}" if comment else prefix
+        result.append(line)
+
+    result.extend(lines[tree_end:])
 
     return result
 
