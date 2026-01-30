@@ -73,6 +73,16 @@
 | [structure-modify](./structure-modify/SKILL.md) | Изменение папки (rename/move/delete) | `/structure-modify`, "переименуй папку" |
 | [structure-validate](./structure-validate/SKILL.md) | Валидация согласованности SSOT структуры | `/structure-validate`, "проверь структуру" |
 
+### rules
+
+Управление rules для автоматической загрузки контекста.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [rule-create](./rule-create/SKILL.md) | Создание нового rule-файла | `/rule-create`, "создай rule" |
+| [rule-modify](./rule-modify/SKILL.md) | Изменение, деактивация и миграция rule | `/rule-modify`, "измени rule" |
+| [rule-validate](./rule-validate/SKILL.md) | Валидация формата и структуры rule | `/rule-validate`, "проверь rule" |
+
 ---
 
 ## Справочник allowed-tools

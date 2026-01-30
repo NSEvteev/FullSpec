@@ -44,7 +44,7 @@ standard: .structure/.instructions/standard-readme.md
 
 **Инструменты Claude Code.**
 
-Инструкции для написания скиллов (`.instructions/skills/`), автономные агенты (`agents/`), черновики и SSOT-документы (`drafts/`), скиллы автоматизации — 14 команд для управления инструкциями, скиллами, ссылками и спецификациями (`skills/`), настройки Claude (`settings.json`).
+Инструкции для написания скиллов и rules (`.instructions/skills/`, `.instructions/rules/`), скиллы автоматизации — 16 команд для управления инструкциями, скриптами, скиллами, rules, ссылками и структурой (`skills/`), контекстные правила для автозагрузки (`rules/`), автономные агенты (`agents/`), черновики и SSOT-документы (`drafts/`), настройки Claude (`settings.json`).
 
 ### 🔗 [.github/](../.github/README.md)
 
@@ -136,10 +136,14 @@ standard: .structure/.instructions/standard-readme.md
 /
 ├── .claude/                             # Инструменты Claude
 │   ├── .instructions/
+│   │   ├── rules/                       #   Как писать rules
 │   │   └── skills/                      #   Как писать скиллы
 │   ├── agents/                          #   Агенты
 │   ├── drafts/                          #   Черновики (в git)
-│   ├── skills/                          #   Скиллы (14)
+│   ├── rules/                           #   Rules для автозагрузки контекста
+│   ├── scripts/                         #   Python скрипты
+│   ├── skills/                          #   Скиллы (16)
+│   ├── state/                           #   Состояние между вызовами
 │   └── settings.json                    #   Настройки
 │
 ├── .github/                             # GitHub платформа

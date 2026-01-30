@@ -1,0 +1,52 @@
+---
+name: rule-create
+description: Создание нового rule-файла
+allowed-tools: Read, Bash, Write
+triggers:
+  commands:
+    - /rule-create
+  phrases:
+    ru:
+      - создай правило
+      - добавь правило
+      - новое правило
+      - создай rule
+      - добавь rule
+      - новый rule
+    en:
+      - create rule
+---
+
+# Создание rule
+
+**SSOT:** [create-rule.md](/.claude/.instructions/rules/create-rule.md)
+
+## Формат вызова
+
+```
+/rule-create [имя] [--global] [--paths <паттерны>]
+```
+
+| Параметр | Описание | Обязательный |
+|----------|----------|--------------|
+| `имя` | Имя rule без расширения (kebab-case) | Нет (спросит) |
+| `--global` | Создать глобальный rule (без paths) | Нет |
+| `--paths` | Glob-паттерны для условного rule | Нет (спросит) |
+
+## Воркфлоу
+
+> ⚠️ **Перед выполнением** прочитать [create-rule.md](/.claude/.instructions/rules/create-rule.md)
+
+→ Выполнить шаги из SSOT-инструкции.
+
+## Чек-лист
+
+→ См. [create-rule.md#чек-лист](/.claude/.instructions/rules/create-rule.md#чек-лист)
+
+## Примеры
+
+```
+/rule-create core --global
+/rule-create instructions --paths "**/.instructions/**"
+/rule-create skills --paths ".claude/skills/**"
+```

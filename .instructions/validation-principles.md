@@ -6,7 +6,7 @@ index: .instructions/README.md
 
 # Валидация принципов
 
-Проверка соответствия скриптов принципам программирования.
+Проверка соответствия кода принципам программирования. Команды для Python, адаптируйте под свой язык.
 
 **Полезные ссылки:**
 - [Инструкции](./README.md)
@@ -40,9 +40,9 @@ index: .instructions/README.md
 ## Когда валидировать
 
 **Обязательно:**
-- При code review скриптов
-- После рефакторинга → [modify-script.md](./modify-script.md)
-- Перед коммитом нового скрипта → [create-script.md](./create-script.md)
+- При code review
+- После рефакторинга кода
+- Перед коммитом изменений
 
 **Опционально:**
 - При аудите кодовой базы
@@ -66,8 +66,8 @@ index: .instructions/README.md
 
 **Команда поиска:**
 ```bash
-grep -n "lambda.*lambda" {script}.py
-grep -n "map.*filter\|filter.*map" {script}.py
+grep -n "lambda.*lambda" {file}.py
+grep -n "map.*filter\|filter.*map" {file}.py
 ```
 
 ### Шаг 2: Проверить DRY
@@ -104,10 +104,10 @@ grep -n "map.*filter\|filter.*map" {script}.py
 **Команда поиска:**
 ```bash
 # Неиспользуемые переменные (требует pylint)
-pylint --disable=all --enable=W0612 {script}.py
+pylint --disable=all --enable=W0612 {file}.py
 
 # Закомментированный код
-grep -n "^#.*def \|^#.*class " {script}.py
+grep -n "^#.*def \|^#.*class " {file}.py
 ```
 
 ### Шаг 4: Проверить зависимости
@@ -126,7 +126,7 @@ grep -n "^#.*def \|^#.*class " {script}.py
 
 **Команда поиска:**
 ```bash
-grep -n "^import \|^from " {script}.py | grep -v "^import sys\|^import os\|^import re\|^import json\|^import argparse\|^from pathlib\|^from typing"
+grep -n "^import \|^from " {file}.py | grep -v "^import sys\|^import os\|^import re\|^import json\|^import argparse\|^from pathlib\|^from typing"
 ```
 
 ### Шаг 5: Проверить обработку ошибок
@@ -144,9 +144,9 @@ grep -n "^import \|^from " {script}.py | grep -v "^import sys\|^import os\|^impo
 
 **Команда поиска:**
 ```bash
-grep -n "except:" {script}.py
-grep -n "except Exception:" {script}.py
-grep -A1 "except" {script}.py | grep "pass"
+grep -n "except:" {file}.py
+grep -n "except Exception:" {file}.py
+grep -A1 "except" {file}.py | grep "pass"
 ```
 
 ### Шаг 6: Проверить документацию
@@ -164,7 +164,7 @@ grep -A1 "except" {script}.py | grep "pass"
 **Команда поиска:**
 ```bash
 # Функции без docstring
-grep -B1 "def " {script}.py | grep -A1 "def " | grep -v '"""'
+grep -B1 "def " {file}.py | grep -A1 "def " | grep -v '"""'
 ```
 
 ---
@@ -213,7 +213,7 @@ grep -B1 "def " {script}.py | grep -A1 "def " | grep -v '"""'
 | Голый `except:` | P005 | Обработка ошибок | Указать тип исключения |
 | Нет docstring | P006 | Читаемость | Добавить документацию |
 | Неочевидное поведение | P007 | Наименьшее удивление | Переименовать/рефакторить |
-| Скрипт делает много | P008 | SOLID (S) | Разделить на скрипты |
+| Модуль делает много | P008 | SOLID (S) | Разделить ответственность |
 
 ---
 

@@ -1,0 +1,51 @@
+---
+name: rule-validate
+description: Валидация формата и структуры rule
+allowed-tools: Read, Bash
+triggers:
+  commands:
+    - /rule-validate
+  phrases:
+    ru:
+      - проверь rule
+      - валидация rule
+      - валидируй rule
+      - проверь правило
+      - валидация правила
+      - провалидируй правило
+    en:
+      - validate rule
+---
+
+# Валидация rule
+
+**SSOT:** [validation-rule.md](/.claude/.instructions/rules/validation-rule.md)
+
+## Формат вызова
+
+```
+/rule-validate [имя] [--all]
+```
+
+| Параметр | Описание | Обязательный |
+|----------|----------|--------------|
+| `имя` | Имя rule без расширения (например: `core`) | Нет (спросит) |
+| `--all` | Валидировать все rules в `/.claude/rules/` | Нет |
+
+## Воркфлоу
+
+> ⚠️ **Перед выполнением** прочитать [validation-rule.md](/.claude/.instructions/rules/validation-rule.md)
+
+→ Выполнить шаги из SSOT-инструкции.
+
+## Чек-лист
+
+→ См. [validation-rule.md#чек-лист](/.claude/.instructions/rules/validation-rule.md#чек-лист)
+
+## Примеры
+
+```
+/rule-validate core
+/rule-validate rules
+/rule-validate --all
+```

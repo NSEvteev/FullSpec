@@ -374,6 +374,14 @@ def create_instruction_file(
     description: str | None = None
 ) -> Path:
     """Создать файл инструкции."""
+    # Убрать префикс из name, если он уже есть
+    # Например: если name="standard-rule" и type="standard", то name станет "rule"
+    for prefix in VALID_TYPES:
+        prefix_with_dash = f"{prefix}-"
+        if name.startswith(prefix_with_dash):
+            name = name[len(prefix_with_dash):]
+            break
+
     # Полное имя файла
     filename = f"{inst_type}-{name}.md"
     file_path = area / filename
