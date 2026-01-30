@@ -37,6 +37,12 @@ index: .instructions/README.md
 
 ---
 
+## Принципы
+
+> **Шаблоны — из примеров SSOT.** При валидации использовать шаблоны из секции "Примеры". Запрещено придумывать свой формат.
+
+---
+
 ## Когда валидировать
 
 **Обязательно:**
@@ -221,11 +227,18 @@ grep -B1 "def " {file}.py | grep -A1 "def " | grep -v '"""'
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
-| [validate-script.py](./.scripts/validate-script.py) | Валидация скрипта (включая принципы) | [validation-script.md](./validation-script.md) |
+| [validate-principles.py](./.scripts/validate-principles.py) | Валидация принципов в любом Python-коде | Этот документ |
+| [validate-script.py](./.scripts/validate-script.py) | Валидация скрипта (структура + принципы) | [validation-script.md](./validation-script.md) |
 
 **Использование:**
 ```bash
-# Проверка с принципами
+# Проверка принципов в любом .py файле
+python .instructions/.scripts/validate-principles.py src/api/handlers.py
+
+# Проверка всех .py файлов в директории
+python .instructions/.scripts/validate-principles.py src/ --all
+
+# Проверка скрипта в .scripts/ (структура + принципы)
 python .instructions/.scripts/validate-script.py --principles {path}
 ```
 
@@ -233,4 +246,6 @@ python .instructions/.scripts/validate-script.py --principles {path}
 
 ## Скиллы
 
-*Нет скиллов.*
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/principles-validate](/.claude/skills/principles-validate/SKILL.md) | Валидация принципов | Этот документ |

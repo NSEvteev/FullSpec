@@ -9,7 +9,8 @@ index: .claude/.instructions/rules/README.md
 Индекс инструкций для создания и управления rules.
 
 **Полезные ссылки:**
-- [Rules](../../rules/)
+- [Инструкции .claude/](../README.md)
+- [Rules](/.claude/rules/README.md)
 
 **Содержание:** стандарт формата rule, воркфлоу создания и изменения, валидация.
 

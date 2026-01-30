@@ -38,6 +38,8 @@ triggers:
 > - [validation-links.md](/.structure/.instructions/validation-links.md)
 > - [standard-links.md](/.structure/.instructions/standard-links.md)
 
+> ⚠️ **Шаблон** — найти пример в SSOT (секция "Примеры"), скопировать структуру. Запрещено придумывать свой формат.
+
 → Выполнить шаги из SSOT-инструкции.
 
 ## Чек-лист

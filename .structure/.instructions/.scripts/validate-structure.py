@@ -40,6 +40,9 @@ ERROR_CODES = {
     "T003": "Папка в дереве, но не существует в ФС",
     "T004": "Комментарий не соответствует описанию в секции",
     "T005": "Папка без зеркала .instructions",
+    "S010": "Подпапка не указана в 'Вложенные области'",
+    "S011": "Битая ссылка на README подпапки",
+    "S012": "Секция 'Вложенные области' отсутствует при наличии подпапок",
 }
 
 # Папки, которые исключаются из проверки
@@ -217,6 +220,93 @@ def validate_structure(repo_root: Path) -> dict:
     return result
 
 
+def check_nested_areas(instructions_path: Path) -> list[dict]:
+    """
+    Проверить секцию 'Вложенные области' в README инструкций.
+
+    Возвращает список ошибок с полями: code, message, path
+    """
+    errors = []
+    readme_path = instructions_path / "README.md"
+
+    if not readme_path.exists():
+        return errors
+
+    # Найти подпапки (кроме .scripts)
+    subfolders = [
+        d for d in instructions_path.iterdir()
+        if d.is_dir() and d.name != ".scripts" and not d.name.startswith("DELETE_")
+    ]
+
+    if not subfolders:
+        return errors  # Нет подпапок — проверка не нужна
+
+    content = readme_path.read_text(encoding="utf-8")
+
+    # Проверить наличие секции "Вложенные области"
+    if "## Вложенные области" not in content:
+        errors.append({
+            "code": "S012",
+            "message": f"{ERROR_CODES['S012']}: {readme_path}",
+            "path": str(readme_path),
+        })
+        return errors
+
+    # Проверить что все подпапки указаны
+    for subfolder in subfolders:
+        folder_name = subfolder.name
+
+        # Проверка: подпапка указана в секции
+        if f"[{folder_name}/]" not in content:
+            errors.append({
+                "code": "S010",
+                "message": f"{ERROR_CODES['S010']}: {folder_name}/ в {readme_path}",
+                "path": str(readme_path),
+            })
+
+        # Проверка: README подпапки существует
+        subfolder_readme = subfolder / "README.md"
+        if f"[README](./{folder_name}/README.md)" in content and not subfolder_readme.exists():
+            errors.append({
+                "code": "S011",
+                "message": f"{ERROR_CODES['S011']}: {subfolder_readme}",
+                "path": str(subfolder_readme),
+            })
+
+    return errors
+
+
+def check_all_nested_areas(repo_root: Path, tree_folders: list[str]) -> dict:
+    """
+    Проверить секции 'Вложенные области' во всех папках .instructions.
+
+    Возвращает dict с полями:
+        nested_errors: list — ошибки вложенных областей
+        errors: list[str]
+    """
+    result = {
+        "nested_errors": [],
+        "errors": [],
+    }
+
+    for folder in tree_folders:
+        # Пропускаем .structure
+        if folder == ".structure":
+            continue
+
+        instructions_path = repo_root / folder / ".instructions"
+        if not instructions_path.exists():
+            continue
+
+        folder_errors = check_nested_areas(instructions_path)
+        result["nested_errors"].extend(folder_errors)
+
+        for err in folder_errors:
+            result["errors"].append(f"{err['code']}: {err['message']}")
+
+    return result
+
+
 def check_instructions_mirrors(repo_root: Path, tree_folders: list[str]) -> dict:
     """
     Проверить наличие зеркал .instructions для всех папок в SSOT.
@@ -277,6 +367,11 @@ def main():
         action="store_true",
         help="Проверить наличие зеркал .instructions"
     )
+    parser.add_argument(
+        "--check-nested",
+        action="store_true",
+        help="Проверить секции 'Вложенные области' в .instructions"
+    )
 
     args = parser.parse_args()
 
@@ -289,6 +384,14 @@ def main():
         result["missing_instructions"] = instr_result["missing_instructions"]
         result["errors"].extend(instr_result["errors"])
         if instr_result["errors"]:
+            result["valid"] = False
+
+    # Проверка секций "Вложенные области"
+    if args.check_nested and result["tree_folders"]:
+        nested_result = check_all_nested_areas(repo_root, result["tree_folders"])
+        result["nested_errors"] = nested_result["nested_errors"]
+        result["errors"].extend(nested_result["errors"])
+        if nested_result["errors"]:
             result["valid"] = False
 
     if args.json:
@@ -334,6 +437,12 @@ def main():
         print("📋 Создать зеркало .instructions:")
         for folder in sorted(result["missing_instructions"]):
             print(f"   python mirror-instructions.py create {folder}")
+        print()
+
+    if result.get("nested_errors"):
+        print("📂 Ошибки секций 'Вложенные области':")
+        for err in result["nested_errors"]:
+            print(f"   • {err['code']}: {err['message']}")
         print()
 
     sys.exit(1 if not result["valid"] else 0)

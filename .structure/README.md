@@ -134,7 +134,7 @@ standard: .structure/.instructions/standard-readme.md
 
 ```
 /
-├── .claude/                             # Инструменты Claude
+├── .claude/                             # Инструменты Claude Code
 │   ├── .instructions/
 │   │   ├── rules/                       #   Как писать rules
 │   │   └── skills/                      #   Как писать скиллы
@@ -151,7 +151,7 @@ standard: .structure/.instructions/standard-readme.md
 │   ├── ISSUE_TEMPLATE/                  #   Шаблоны Issues
 │   └── workflows/                       #   CI/CD pipelines
 │
-├── .instructions/                       # Мета: как писать инструкции
+├── .instructions/                       # Мета-инструкции
 │
 ├── .structure/                          # SSOT структуры проекта
 │   ├── .instructions/                   #   Как работать со структурой

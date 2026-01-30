@@ -98,6 +98,82 @@ index: {index_path}
 """
 
 
+README_TEMPLATE_WITH_NESTED = """---
+description: Индекс инструкций для {folder_name}/
+standard: .structure/.instructions/standard-readme.md
+index: {index_path}
+---
+
+# Инструкции /{full_path}/
+
+Индекс инструкций для папки {folder_name}/.
+
+**Полезные ссылки:**
+{useful_links}
+
+**Содержание:** *добавить темы через запятую.*
+
+---
+
+## Оглавление
+
+| Секция | Инструкция | Описание |
+|--------|------------|----------|
+| [Вложенные области](#вложенные-области) | — | Подобласти инструкций |
+| [1. Стандарты](#1-стандарты) | — | Форматы и правила |
+| [2. Воркфлоу](#2-воркфлоу) | — | Создание и изменение |
+| [3. Валидация](#3-валидация) | — | Проверка согласованности |
+| [4. Скрипты](#4-скрипты) | — | Автоматизация |
+| [5. Скиллы](#5-скиллы) | — | Скиллы для этой области |
+
+```
+/{instructions_tree_path}/
+├── README.md                # Этот файл (индекс)
+{nested_tree}
+```
+
+---
+
+## Вложенные области
+
+Инструкции разделены на подобласти:
+
+| Область | Описание | Индекс |
+|---------|----------|--------|
+{nested_table}
+
+---
+
+# 1. Стандарты
+
+*Нет стандартов в корне — см. вложенные области.*
+
+---
+
+# 2. Воркфлоу
+
+*Нет воркфлоу в корне — см. вложенные области.*
+
+---
+
+# 3. Валидация
+
+*Нет валидаций в корне — см. вложенные области.*
+
+---
+
+# 4. Скрипты
+
+*Нет скриптов.*
+
+---
+
+# 5. Скиллы
+
+*См. скиллы во вложенных областях.*
+"""
+
+
 # =============================================================================
 # Общие функции
 # =============================================================================
@@ -249,13 +325,14 @@ def cmd_create(repo_root: Path, folder_path: str, dry_run: bool = False) -> bool
     return True
 
 
-def update_parent_instructions_readme(repo_root: Path, folder_path: str) -> bool:
+def update_parent_instructions_readme(repo_root: Path, folder_path: str, description: str = None) -> bool:
     """
     Обновить README родительских инструкций при создании подпапки.
 
     При создании test/.instructions/subtest/ обновляет test/.instructions/README.md:
     - Добавляет в таблицу оглавления
     - Добавляет в дерево
+    - Добавляет в секцию "Вложенные области" (если есть)
     """
     full_path, root_folder, subpath, depth = parse_folder_path(folder_path)
 
@@ -277,9 +354,109 @@ def update_parent_instructions_readme(repo_root: Path, folder_path: str) -> bool
     # 2. Добавляем в дерево
     lines = add_to_instructions_tree(lines, folder_name)
 
+    # 3. Добавляем в секцию "Вложенные области"
+    lines = add_to_nested_areas(lines, folder_name, description)
+
     parent_readme.write_text("\n".join(lines), encoding="utf-8")
     print(f"✅ Обновлён README инструкций: {parent_readme}")
     return True
+
+
+def add_to_nested_areas(lines: list, folder_name: str, description: str = None) -> list:
+    """
+    Добавить подпапку в секцию "Вложенные области".
+
+    Если секции нет — создаёт её.
+    """
+    content = "\n".join(lines)
+
+    # Описание по умолчанию
+    if not description:
+        description = f"Инструкции для {folder_name}/"
+
+    # Проверяем, есть ли уже эта подпапка в секции
+    if f"[{folder_name}/]" in content and "## Вложенные области" in content:
+        return lines
+
+    # Ищем секцию "Вложенные области"
+    nested_start = None
+    for i, line in enumerate(lines):
+        if line.strip() == "## Вложенные области":
+            nested_start = i
+            break
+
+    if nested_start is not None:
+        # Секция существует — добавляем строку в таблицу
+        # Ищем конец таблицы (пустая строка после таблицы или ---)
+        table_end = None
+        for i in range(nested_start + 1, len(lines)):
+            line = lines[i].strip()
+            if line.startswith("|") and "|" in line[1:]:
+                table_end = i + 1
+            elif table_end and (line == "" or line == "---"):
+                break
+
+        if table_end:
+            new_row = f"| [{folder_name}/](./{folder_name}/) | {description} | [README](./{folder_name}/README.md) |"
+            result = lines[:table_end]
+            result.append(new_row)
+            result.extend(lines[table_end:])
+            return result
+    else:
+        # Секции нет — создаём её перед "# 1. Стандарты"
+        insert_idx = None
+        for i, line in enumerate(lines):
+            if line.strip() == "# 1. Стандарты":
+                insert_idx = i
+                break
+
+        if insert_idx is None:
+            return lines
+
+        nested_section = [
+            "## Вложенные области",
+            "",
+            "Инструкции разделены на подобласти:",
+            "",
+            "| Область | Описание | Индекс |",
+            "|---------|----------|--------|",
+            f"| [{folder_name}/](./{folder_name}/) | {description} | [README](./{folder_name}/README.md) |",
+            "",
+            "---",
+            "",
+        ]
+
+        result = lines[:insert_idx]
+        result.extend(nested_section)
+        result.extend(lines[insert_idx:])
+
+        # Также нужно добавить в оглавление ссылку на "Вложенные области"
+        result = add_nested_to_toc(result)
+
+        return result
+
+    return lines
+
+
+def add_nested_to_toc(lines: list) -> list:
+    """Добавить ссылку на 'Вложенные области' в оглавление (если её нет)."""
+    content = "\n".join(lines)
+
+    # Проверяем, есть ли уже ссылка
+    if "[Вложенные области]" in content:
+        return lines
+
+    # Ищем таблицу оглавления
+    for i, line in enumerate(lines):
+        if "| [1. Стандарты]" in line:
+            # Вставляем строку перед "1. Стандарты"
+            new_row = "| [Вложенные области](#вложенные-области) | — | Подобласти инструкций |"
+            result = lines[:i]
+            result.append(new_row)
+            result.extend(lines[i:])
+            return result
+
+    return lines
 
 
 def add_to_instructions_toc(lines: list, folder_name: str) -> list:

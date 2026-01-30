@@ -1,0 +1,59 @@
+---
+name: principles-validate
+description: Валидация принципов программирования в Python-коде
+standard: .claude/.instructions/skills/standard-skill.md
+allowed-tools: Read, Bash, Glob, Grep
+triggers:
+  commands:
+    - /principles-validate
+  phrases:
+    ru:
+      - проверь принципы
+      - валидируй принципы
+      - проверь код на принципы
+    en:
+      - validate principles
+      - check principles
+---
+
+# Валидация принципов
+
+**SSOT:** [validation-principles.md](/.instructions/validation-principles.md)
+
+## Формат вызова
+
+```
+/principles-validate [путь] [--all] [--json]
+```
+
+| Параметр | Описание | Обязательный |
+|----------|----------|--------------|
+| `путь` | Путь к файлу или директории | Нет (если --all) |
+| `--all` | Проверить все .py файлы в репозитории | Нет |
+| `--json` | JSON вывод | Нет |
+
+## Воркфлоу
+
+> ⚠️ **Перед выполнением** прочитать [validation-principles.md](/.instructions/validation-principles.md)
+
+> ⚠️ **Шаблон** — найти пример в SSOT (секция "Примеры"), скопировать структуру. Запрещено придумывать свой формат.
+
+→ Выполнить шаги из SSOT-инструкции.
+
+**Скрипт:**
+```bash
+python .instructions/.scripts/validate-principles.py <путь> [--all] [--json]
+```
+
+## Чек-лист
+
+→ См. [validation-principles.md#чек-лист](/.instructions/validation-principles.md#чек-лист)
+
+## Примеры
+
+```
+/principles-validate src/api/handlers.py
+/principles-validate src/
+/principles-validate --all
+/principles-validate src/ --json
+```

@@ -37,6 +37,8 @@ triggers:
 
 > ⚠️ **Перед выполнением** прочитать [modify-structure.md](/.structure/.instructions/modify-structure.md)
 
+> ⚠️ **Шаблон** — найти пример в SSOT (секция "Примеры"), скопировать структуру. Запрещено придумывать свой формат.
+
 → Выполнить шаги из SSOT-инструкции для выбранной операции:
 - [Переименование](/.structure/.instructions/modify-structure.md#переименование)
 - [Перемещение](/.structure/.instructions/modify-structure.md#перемещение)

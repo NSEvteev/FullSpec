@@ -181,6 +181,7 @@ index: .instructions/README.md
 | [create-script-file.py](./.scripts/create-script-file.py) | Создание файла скрипта по шаблону | [create-script.md](./create-script.md) |
 | [validate-instruction.py](./.scripts/validate-instruction.py) | Валидация формата инструкций | [validation-instruction.md](./validation-instruction.md) |
 | [validate-script.py](./.scripts/validate-script.py) | Валидация формата скриптов | [validation-script.md](./validation-script.md) |
+| [validate-principles.py](./.scripts/validate-principles.py) | Валидация принципов в Python-коде | [validation-principles.md](./validation-principles.md) |
 | [parse-docstrings.py](./.scripts/parse-docstrings.py) | Поиск скриптов по описанию | [create-script.md](./create-script.md) |
 | [find-references.py](./.scripts/find-references.py) | Поиск всех ссылок на файл | [modify-instruction.md](./modify-instruction.md) |
 | [update-references.py](./.scripts/update-references.py) | Замена ссылок (старый → новый путь) | [modify-instruction.md](./modify-instruction.md) |
@@ -193,3 +194,4 @@ index: .instructions/README.md
 |-------|------------|------------|
 | [/instruction-create](/.claude/skills/instruction-create/SKILL.md) | Создание инструкции | [create-instruction.md](./create-instruction.md) |
 | [/instruction-modify](/.claude/skills/instruction-modify/SKILL.md) | Изменение инструкции | [modify-instruction.md](./modify-instruction.md) |
+| [/principles-validate](/.claude/skills/principles-validate/SKILL.md) | Валидация принципов | [validation-principles.md](./validation-principles.md) |

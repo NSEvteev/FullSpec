@@ -10,6 +10,7 @@ triggers:
     ru:
       - проверь структуру
       - валидация структуры
+      - проверь редми
     en:
       - validate structure
       - check structure
@@ -32,6 +33,8 @@ triggers:
 ## Воркфлоу
 
 > ⚠️ **Перед выполнением** прочитать [validation-structure.md](/.structure/.instructions/validation-structure.md)
+
+> ⚠️ **Шаблон** — найти пример в SSOT (секция "Примеры"), скопировать структуру. Запрещено придумывать свой формат.
 
 → Выполнить шаги из SSOT-инструкции.
 

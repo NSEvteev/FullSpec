@@ -61,6 +61,7 @@
 | [script-create](./script-create/SKILL.md) | Создание нового скрипта | `/script-create`, "создай скрипт" |
 | [script-modify](./script-modify/SKILL.md) | Обновление, рефакторинг, удаление | `/script-modify`, "измени скрипт" |
 | [script-validate](./script-validate/SKILL.md) | Валидация формата скрипта | `/script-validate`, "проверь скрипт" |
+| [principles-validate](./principles-validate/SKILL.md) | Валидация принципов программирования | `/principles-validate`, "проверь принципы" |
 
 ### documentation
 
