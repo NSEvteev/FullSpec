@@ -29,9 +29,14 @@ index: .claude/.instructions/agents/README.md
 ```
 /.claude/.instructions/agents/
 ├── .scripts/
+│   ├── create-agent-file.py # Создание файла агента
+│   ├── list-agents.py       # Список агентов
+│   ├── find-agent-refs.py   # Поиск ссылок на агента
 │   └── validate-agent.py    # Скрипт валидации
 ├── standard-agent.md        # Стандарт агентов
 ├── validation-agent.md      # Валидация агентов
+├── create-agent.md          # Создание агентов
+├── modify-agent.md          # Изменение агентов
 └── README.md                # Этот файл (индекс)
 ```
 
@@ -61,7 +66,31 @@ index: .claude/.instructions/agents/README.md
 
 # 2. Воркфлоу
 
-*Нет воркфлоу.*
+## 2.1. Создание агентов
+
+Пошаговый процесс создания нового агента для Claude Code.
+
+**Оглавление:**
+- [Определить необходимость](./create-agent.md#шаг-1-определить-необходимость)
+- [Выбрать тип агента](./create-agent.md#шаг-2-выбрать-тип-агента)
+- [Собрать контекст](./create-agent.md#шаг-3-собрать-контекст)
+- [Написать промпт](./create-agent.md#шаг-5-написать-промпт)
+- [Чек-лист](./create-agent.md#чек-лист)
+
+**Инструкция:** [create-agent.md](./create-agent.md)
+
+## 2.2. Изменение агентов
+
+Обновление, деактивация и миграция агентов.
+
+**Оглавление:**
+- [Типы изменений](./modify-agent.md#типы-изменений)
+- [Обновление](./modify-agent.md#обновление)
+- [Деактивация](./modify-agent.md#деактивация)
+- [Миграция](./modify-agent.md#миграция)
+- [Чек-лист](./modify-agent.md#чек-лист)
+
+**Инструкция:** [modify-agent.md](./modify-agent.md)
 
 ---
 
@@ -85,6 +114,9 @@ index: .claude/.instructions/agents/README.md
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
+| [create-agent-file.py](./.scripts/create-agent-file.py) | Создание файла агента по шаблону | [create-agent.md](./create-agent.md) |
+| [list-agents.py](./.scripts/list-agents.py) | Список агентов для проверки уникальности | [create-agent.md](./create-agent.md) |
+| [find-agent-refs.py](./.scripts/find-agent-refs.py) | Поиск ссылок на агента | [modify-agent.md](./modify-agent.md) |
 | [validate-agent.py](./.scripts/validate-agent.py) | Валидация конфигурации агента | [validation-agent.md](./validation-agent.md) |
 
 ---
@@ -93,4 +125,6 @@ index: .claude/.instructions/agents/README.md
 
 | Скилл | Назначение | Инструкция |
 |-------|------------|------------|
+| [/agent-create](/.claude/skills/agent-create/SKILL.md) | Создание нового агента | [create-agent.md](./create-agent.md) |
+| [/agent-modify](/.claude/skills/agent-modify/SKILL.md) | Изменение, деактивация и миграция агента | [modify-agent.md](./modify-agent.md) |
 | [/agent-validate](/.claude/skills/agent-validate/SKILL.md) | Валидация конфигурации агента | [validation-agent.md](./validation-agent.md) |

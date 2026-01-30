@@ -90,6 +90,8 @@
 
 | Скилл | Описание | Триггеры |
 |-------|----------|----------|
+| [agent-create](./agent-create/SKILL.md) | Создание нового агента | `/agent-create`, "создай агента" |
+| [agent-modify](./agent-modify/SKILL.md) | Изменение, деактивация и миграция | `/agent-modify`, "измени агента" |
 | [agent-validate](./agent-validate/SKILL.md) | Валидация конфигурации и промпта агента | `/agent-validate`, "проверь агента" |
 
 ---
