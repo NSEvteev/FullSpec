@@ -704,10 +704,11 @@ SSOT: /.instructions/standard-principles.md
 
 ```
 /.claude/agents/
-├── {agent-name}/
-│   └── AGENT.md            # Конфигурация агента
-└── README.md               # Индекс агентов
+└── {agent-name}/
+    └── AGENT.md            # Конфигурация агента
 ```
+
+> **ВАЖНО:** В папке `agents/` НЕ должно быть `README.md`. Claude Code парсит все `.md` файлы как агентов. Индекс агентов находится в `/.claude/.instructions/agents/README.md`.
 
 ### Именование папки
 

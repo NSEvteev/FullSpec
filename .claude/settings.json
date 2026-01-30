@@ -6,6 +6,7 @@
       "Bash(cd:*)",
       "Bash(ls:*)",
       "Bash(tree:*)",
+      "Bash(mkdir:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
@@ -30,7 +31,17 @@
       "Bash(docker-compose:*)",
       "Bash(rm -rf:*)",
       "Bash(rm -r /*)",
-      "WebSearch"
+      "Bash(rm:*)",
+      "WebSearch",
+      "Edit(.claude/drafts/**)",
+      "Write(.claude/drafts/**)",
+      "Edit(.claude/rules/*)",
+      "Write(.claude/skills/**)",
+      "Edit(.claude/skills/**)",
+      "Write(.claude/.instructions/**/.scripts/*)",
+      "Edit(.claude/.instructions/**/.scripts/*)",
+      "Write(.instructions/.scripts/*)",
+      "Edit(.instructions/.scripts/*)"
     ],
     "deny": [
       "Bash(> /dev/sda:*)"

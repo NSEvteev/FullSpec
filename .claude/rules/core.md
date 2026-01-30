@@ -14,7 +14,9 @@ index: .claude/.instructions/rules/README.md
 
 **Принципы кода:** При написании кода следовать [standard-principles.md](/.instructions/standard-principles.md).
 
-**Структура проекта:** При работе со структурой или README.md любой папки ОБЯЗАТЕЛЬНО использовать скиллы:
-  - `/structure-create` - создание папки
+**Структура проекта:** При создании/изменении/удалении папок или README.md — СТОП. ЗАПРЕЩЕНО: mkdir, rm -rf, Write для README.md напрямую. Использовать скиллы:
+  - `/structure-create` - создание папки (включая .instructions/)
   - `/structure-modify` - изменение папки
   - `/structure-validate` - валидация структуры
+
+**Черновики:** После создания или изменения черновика в `/.claude/drafts/` — запустить `/draft-validate` для проверки соответствия стандарту.

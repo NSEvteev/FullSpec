@@ -27,7 +27,7 @@
 | [skills/](./skills/) | Автоматизация (14 скиллов) | [README.md](./skills/README.md) |
 | [rules/](./rules/) | Контекстные правила | — |
 | [templates/](./templates/) | SSOT шаблоны | [README.md](./templates/README.md) |
-| [agents/](./agents/) | Помощники | [README.md](./agents/README.md) |
+| [agents/](./agents/) | Помощники | [Инструкции](./.instructions/agents/README.md) |
 | [state/](./state/) | Состояние между вызовами | [README.md](./state/README.md) |
 | [drafts/](./drafts/) | Черновики, SSOT-документы | [README.md](./drafts/README.md) |
 | [scripts/](./scripts/) | Python скрипты | [README.md](./scripts/README.md) |
