@@ -25,7 +25,9 @@ index: .claude/README.md
 
 ## 1. Файлы
 
-*Нет файлов.*
+| Файл | Описание |
+|------|----------|
+| [2026-01-31-state-integration.md](./2026-01-31-state-integration.md) | План интеграции state в агентов |
 
 ---
 
@@ -33,5 +35,6 @@ index: .claude/README.md
 
 ```
 /.claude/drafts/
-└── README.md                # Этот файл
+├── README.md                          # Этот файл
+└── 2026-01-31-state-integration.md    # План интеграции state
 ```

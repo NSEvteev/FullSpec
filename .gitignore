@@ -1,9 +1,6 @@
 # Временные файлы Claude Code
 tmpclaude-*
 
-# Claude state (local, not versioned)
-.claude/state/
-
 # Временные файлы ОС
 *.tmp
 *.temp

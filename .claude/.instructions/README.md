@@ -33,6 +33,7 @@ index: .claude/.instructions/README.md
 ├── drafts/      # Инструкции для drafts/
 ├── rules/       # Инструкции для rules
 ├── skills/      # Инструкции для скиллов
+├── state/       # Инструкции для state/
 └── README.md    # Этот файл (индекс)
 ```
 
@@ -48,6 +49,7 @@ index: .claude/.instructions/README.md
 | [rules/](./rules/) | Стандарты, воркфлоу и валидация rules | [README](./rules/README.md) |
 | [skills/](./skills/) | Стандарты, воркфлоу и валидация скиллов | [README](./skills/README.md) |
 | [drafts/](./drafts/) | Инструкции для drafts/ | [README](./drafts/README.md) |
+| [state/](./state/) | Инструкции для state/ | [README](./state/README.md) |
 
 ---
 
