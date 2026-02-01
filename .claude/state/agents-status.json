@@ -1,3 +1,44 @@
 {
-  "agents": {}
+  "agents": {
+    "a28326a": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-01T07:50:11.044337Z",
+      "finished_at": "2026-02-01T07:53:46.789410Z",
+      "task": "",
+      "working_on": []
+    },
+    "a12fb3a": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-01T08:18:40.265989Z",
+      "finished_at": "2026-02-01T08:21:13.999126Z",
+      "task": "",
+      "working_on": []
+    },
+    "ae1468e": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-01T08:34:58.277969Z",
+      "finished_at": "2026-02-01T08:37:47.992185Z",
+      "task": "",
+      "working_on": []
+    },
+    "a1d63eb": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-01T08:45:26.138478Z",
+      "finished_at": "2026-02-01T08:48:08.193515Z",
+      "task": "",
+      "working_on": []
+    },
+    "aa775ec": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-01T08:58:26.457631Z",
+      "finished_at": "2026-02-01T09:01:58.050779Z",
+      "task": "",
+      "working_on": []
+    }
+  }
 }

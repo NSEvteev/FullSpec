@@ -51,6 +51,7 @@ index: .claude/.instructions/agents/README.md
 - [8. Обработка ошибок](#8-обработка-ошибок)
 - [9. Отмена и прерывание](#9-отмена-и-прерывание)
 - [10. Безопасность](#10-безопасность)
+- [11. Версионирование агентов](#11-версионирование-агентов)
 
 ---
 
@@ -115,6 +116,8 @@ general-purpose — универсальный агент
 ---
 name: agent-name
 description: Краткое описание — когда Claude должен использовать агента
+standard: .claude/.instructions/agents/standard-agent.md
+index: .claude/.instructions/agents/README.md
 model: sonnet
 tools: Read, Grep, Glob, Bash, Edit, Write, AskUserQuestion
 disallowedTools: WebSearch, WebFetch
@@ -143,6 +146,8 @@ skills:
 |------|-----|----------|
 | `name` | string | Уникальное имя агента (kebab-case, латиница) |
 | `description` | string | Когда Claude должен использовать агента |
+| `standard` | string | Путь к стандарту агентов (`.claude/.instructions/agents/standard-agent.md`) |
+| `index` | string | Путь к индексу агентов (`.claude/.instructions/agents/README.md`) |
 
 ### Официальные опциональные поля
 
@@ -161,6 +166,7 @@ skills:
 |------|-----|----------|
 | `type` | enum | Категория: `explore`, `bash`, `plan`, `general-purpose` |
 | `max_turns` | int | Максимум API-вызовов (предохранитель от зацикливания) |
+| `version` | string | Версия агента (формат: `vX.Y`, например `v1.0`) |
 
 ### Поле `model`
 
@@ -523,19 +529,51 @@ prompt: |
 
 ```
 1. Прочитать locks.json → файл свободен?
-2. Добавить свою блокировку
-3. Выполнить операцию (edit/write/delete)
-4. Снять блокировку ← СРАЗУ, не ждать конца работы
+2. Если заблокирован другим агентом:
+   - Сделать 6 проверок с интервалом 5 секунд (суммарно 30 сек)
+   - Если после 6 проверок блокировка не снята → вернуть ошибку
+3. Добавить свою блокировку
+4. Выполнить операцию (edit/write/delete)
+5. Снять блокировку ← СРАЗУ, не ждать конца работы (даже при ошибке!)
 ```
+
+**Алгоритм ожидания блокировки:**
+
+| Шаг | Действие |
+|-----|----------|
+| 1 | Проверить `locks.json` |
+| 2 | Если файл свободен → добавить блокировку, продолжить |
+| 3 | Если занят → подождать 5 сек, повторить (до 6 раз) |
+| 4 | Если после 6 проверок занят → вернуть ошибку: "Файл {путь} заблокирован агентом {имя} более 30 сек" |
 
 #### Правила координации
 
 | Правило | Описание |
 |---------|----------|
 | Блокировать перед записью | Проверить и создать блокировку в locks.json |
-| Снимать сразу | Удалить блокировку сразу после операции |
+| Снимать сразу | Удалить блокировку сразу после операции (даже при ошибке) |
 | Вести лог | Записывать операции в agent-{name}-operation.json |
-| Избегать конфликтов | Ждать если файл заблокирован другим агентом |
+| Избегать конфликтов | Ждать если файл заблокирован (6 проверок × 5 сек = 30 сек) |
+
+#### Что логировать в operations[]
+
+| Действие | action | Логировать |
+|----------|--------|------------|
+| Чтение файла проекта | `read` | Да, если файл связан с задачей |
+| Запись/изменение | `write`/`edit` | Да |
+| Создание файла | `create` | Да |
+| Удаление файла | `delete` | Да |
+
+**НЕ логировать:**
+- Чтение стандартов (`standard-*.md`, `validation-*.md`)
+- Чтение state-файлов (`locks.json`, `agents-status.json`)
+- Чтение правил из `/.claude/rules/`
+- Технические чтения для получения контекста
+
+#### Обновление finished_at
+
+- Обновить `finished_at` ТОЛЬКО когда агент вернул финальный отчёт пользователю
+- Если пользователь запросил дополнительные правки → НЕ обновлять `finished_at` (это продолжение той же работы)
 
 ### Скиллы и правила
 
@@ -595,11 +633,14 @@ skills:
 ---
 name: todo-finder
 description: Поиск TODO/FIXME комментариев в кодовой базе. Используй для анализа технического долга.
+standard: .claude/.instructions/agents/standard-agent.md
+index: .claude/.instructions/agents/README.md
 type: explore
 model: haiku
 tools: Read, Grep, Glob
 permissionMode: plan
 max_turns: 10
+version: v1.0
 ---
 
 ## Роль
@@ -634,11 +675,14 @@ Markdown таблица с группировкой по приоритету:
 ---
 name: architecture-analyzer
 description: Анализ архитектуры и зависимостей модулей. Используй для понимания структуры проекта.
+standard: .claude/.instructions/agents/standard-agent.md
+index: .claude/.instructions/agents/README.md
 type: plan
 model: sonnet
 tools: Read, Grep, Glob
 permissionMode: plan
 max_turns: 20
+version: v1.0
 ---
 
 ## Роль
@@ -679,12 +723,15 @@ Markdown отчёт с секциями:
 ---
 name: code-reviewer
 description: Автоматический код-ревью с проверкой принципов. Используй после написания кода.
+standard: .claude/.instructions/agents/standard-agent.md
+index: .claude/.instructions/agents/README.md
 type: general-purpose
 model: sonnet
 tools: Read, Grep, Glob, Bash, AskUserQuestion
 disallowedTools: Write, Edit
 permissionMode: default
 max_turns: 30
+version: v1.0
 skills:
   - principles-validate
   - links-validate
@@ -985,6 +1032,79 @@ permissionMode: plan
 | **full** | Все | — | `default` |
 
 > **Агенты НЕ должны иметь full-доступа.** Деструктивные операции — только основной LLM.
+
+---
+
+## 11. Версионирование агентов
+
+### Поле `version`
+
+Каждый агент должен иметь версию в формате `vX.Y`:
+
+```yaml
+---
+name: todo-finder
+version: v1.0
+---
+```
+
+**Правила:**
+
+| Действие | Изменение версии |
+|----------|------------------|
+| Мелкие исправления (опечатки, уточнения) | `v1.0` → `v1.1` |
+| Новая секция или значительное изменение | `v1.1` → `v1.2` |
+| Кардинальное переосмысление (breaking changes) | `v1.x` → `v2.0` |
+
+### CHANGELOG.md
+
+Каждый агент должен иметь файл истории изменений:
+
+```
+/.claude/agents/{agent-name}/
+├── AGENT.md
+└── CHANGELOG.md
+```
+
+**Формат CHANGELOG.md:**
+
+```markdown
+# CHANGELOG — {Agent Name}
+
+## vX.Y (YYYY-MM-DD)
+
+### Добавлено
+- {что добавлено}
+
+### Изменено
+- {что изменено}
+
+### Исправлено
+- {что исправлено}
+```
+
+**Пример:**
+
+```markdown
+# CHANGELOG — Todo Finder
+
+## v1.1 (2026-02-01)
+
+### Добавлено
+- Секция "Обработка ошибок"
+
+### Изменено
+- Уточнён формат вывода
+
+---
+
+## v1.0 (2026-01-30)
+
+### Добавлено
+- Первая версия агента
+```
+
+---
 
 ### Удаление файлов агентом
 

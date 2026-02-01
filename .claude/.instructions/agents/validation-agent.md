@@ -32,6 +32,7 @@ index: .claude/.instructions/agents/README.md
   - [Шаг 6: Проверить промпт](#шаг-6-проверить-промпт)
   - [Шаг 7: Проверить безопасность](#шаг-7-проверить-безопасность)
   - [Шаг 8: Проверить работу со state](#шаг-8-проверить-работу-со-state)
+  - [Шаг 9: Проверить версионирование](#шаг-9-проверить-версионирование)
 - [Чек-лист](#чек-лист)
 - [Типичные ошибки](#типичные-ошибки)
 - [Скрипты](#скрипты)
@@ -99,6 +100,8 @@ else:
 |------|-----|----------|
 | `name` | string | Непустая строка, kebab-case, латиница |
 | `description` | string | Непустая строка — когда использовать агента |
+| `standard` | string | Путь к стандарту (`.claude/.instructions/agents/standard-agent.md`) |
+| `index` | string | Путь к индексу (`.claude/.instructions/agents/README.md`) |
 
 **Рекомендуемые поля (frontmatter):**
 
@@ -114,17 +117,21 @@ else:
 |------|-----|----------|
 | `type` | enum | `explore`, `bash`, `plan`, `general-purpose` |
 | `max_turns` | int | Положительное число |
+| `version` | string | Формат `vX.Y` (например: `v1.0`, `v2.1`) |
 
 **Пример корректной конфигурации:**
 ```markdown
 ---
 name: todo-finder
 description: Поиск TODO/FIXME комментариев. Используй для анализа технического долга.
+standard: .claude/.instructions/agents/standard-agent.md
+index: .claude/.instructions/agents/README.md
 type: explore
 model: haiku
 tools: Read, Grep, Glob
 permissionMode: plan
 max_turns: 10
+version: v1.0
 ---
 
 ## Роль
@@ -221,6 +228,11 @@ Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch, AskUserQuestion
 - [ ] Допустимые события: `PreToolUse`, `PostToolUse`, `Stop`
 - [ ] Скрипты в hooks существуют (если указаны пути)
 
+**Поле `version` (кастомное):**
+
+- [ ] Формат: строка `vX.Y` (например: `v1.0`, `v2.1`)
+- [ ] Соответствует последней записи в CHANGELOG.md
+
 ### Шаг 6: Проверить промпт
 
 **SSOT:** [standard-agent.md § 4](./standard-agent.md#4-правила-написания-промптов)
@@ -298,6 +310,9 @@ settings:
 - [ ] В промпте упомянута работа с блокировками (если агент редактирует файлы)
 - [ ] Агент знает про `locks.json` (см. [core.md](../../rules/core.md) секция "State")
 - [ ] В промпте упомянуто ведение лога операций в `agent-{name}-operation.json`
+- [ ] Указан алгоритм ожидания блокировки (6 проверок × 5 сек = 30 сек)
+- [ ] Указано снятие блокировки даже при ошибке
+- [ ] Указано что логировать / не логировать
 
 **Пример правильного промпта:**
 
@@ -315,6 +330,26 @@ settings:
 
 **Примечание:** Для read-only агентов (explore, plan) проверка state не требуется — они не блокируют файлы.
 
+### Шаг 9: Проверить версионирование
+
+**SSOT:** [standard-agent.md § 11](./standard-agent.md#11-версионирование-агентов)
+
+**Проверки:**
+
+- [ ] Поле `version` указано в frontmatter
+- [ ] Формат версии: `vX.Y` (например: `v1.0`, `v2.1`)
+- [ ] Файл `CHANGELOG.md` существует в папке агента
+- [ ] Версия в CHANGELOG соответствует версии в frontmatter
+- [ ] CHANGELOG содержит описание изменений для текущей версии
+
+**Пример корректной структуры:**
+
+```
+/.claude/agents/todo-finder/
+├── AGENT.md          # version: v1.1
+└── CHANGELOG.md      # ## v1.1 (2026-02-01)
+```
+
 ---
 
 ## Чек-лист
@@ -327,6 +362,8 @@ settings:
 ### Обязательные поля
 - [ ] `name` — непустая строка, kebab-case
 - [ ] `description` — описание когда использовать
+- [ ] `standard` — путь к стандарту агентов
+- [ ] `index` — путь к индексу агентов
 
 ### Именование
 - [ ] Имя папки = поле `name`
@@ -345,6 +382,12 @@ settings:
 ### Кастомные поля
 - [ ] `type` — допустимое значение (если указан)
 - [ ] `max_turns` — положительное число (если указан)
+- [ ] `version` — формат `vX.Y` (если указан)
+
+### Версионирование
+- [ ] Поле `version` указано в frontmatter
+- [ ] Файл `CHANGELOG.md` существует в папке агента
+- [ ] Версия в CHANGELOG соответствует версии в frontmatter
 
 ### Промпт (тело AGENT.md)
 - [ ] Есть "Роль" или "Задача"
@@ -382,6 +425,9 @@ settings:
 | Неверное именование | `INVALID_NAME` | camelCase или кириллица | Использовать kebab-case, латиницу |
 | Опасный режим | `UNSAFE_PERMISSION` | bypassPermissions для кастомного агента | Использовать default или plan |
 | Скилл не существует | `MISSING_SKILL` | Указанный скилл не найден | Проверить имя скилла |
+| Нет версии | `MISSING_VERSION` | Поле version не указано | Добавить `version: v1.0` |
+| Неверный формат версии | `INVALID_VERSION` | Формат не `vX.Y` | Исправить на формат `v1.0` |
+| Нет CHANGELOG | `MISSING_CHANGELOG` | Файл CHANGELOG.md отсутствует | Создать CHANGELOG.md в папке агента |
 
 ---
 

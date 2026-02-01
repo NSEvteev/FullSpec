@@ -137,12 +137,15 @@ python .claude/.instructions/agents/.scripts/create-agent-file.py code-reviewer 
 ---
 name: {agent-name}
 description: {Когда Claude должен использовать агента}
+standard: .claude/.instructions/agents/standard-agent.md
+index: .claude/.instructions/agents/README.md
 type: {explore | bash | plan | general-purpose}
 model: {haiku | sonnet | opus | inherit}
 tools: {Read, Grep, Glob, ...}
 disallowedTools: {Write, Edit, ...}
 permissionMode: {default | acceptEdits | plan}
 max_turns: {5-50}
+version: v1.0
 skills:
   - {skill-1}
   - {skill-2}
@@ -151,11 +154,34 @@ skills:
 {Системный промпт — см. Шаг 5}
 ```
 
-**Для агентов с Edit/Write — создать файл лога операций:**
+**Создать CHANGELOG.md:**
 
+```markdown
+# CHANGELOG — {Agent Name}
+
+## v1.0 (YYYY-MM-DD)
+
+### Добавлено
+- Первая версия агента
+```
+
+**Для агентов с Edit/Write — создать файлы:**
+
+1. **Файл лога операций:**
 ```bash
-# Создать файл лога операций
 echo '{"agent": "{agent-name}", "description": "", "started_at": null, "finished_at": null, "context": "", "operations": []}' > .claude/state/agent-{agent-name}-operation.json
+```
+
+2. **CHANGELOG.md:**
+```bash
+cat > .claude/agents/{agent-name}/CHANGELOG.md << 'EOF'
+# CHANGELOG — {Agent Name}
+
+## v1.0 (YYYY-MM-DD)
+
+### Добавлено
+- Первая версия агента
+EOF
 ```
 
 ### Шаг 5: Написать промпт
@@ -325,9 +351,11 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 ```
 ## Отчёт о создании агента
 
-**Создан агент:** `/.claude/agents/{name}.yaml`
+**Создан агент:** `/.claude/agents/{name}/AGENT.md`
 
 **Тип:** {explore | bash | plan | general-purpose}
+
+**Версия:** v1.0
 
 **Описание:** {description}
 
@@ -336,6 +364,11 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 - Max turns: {max_turns}
 
 **Скиллы:** {список или "не применимо"}
+
+**Созданные файлы:**
+- `/.claude/agents/{name}/AGENT.md`
+- `/.claude/agents/{name}/CHANGELOG.md`
+- `/.claude/state/agent-{name}-operation.json` (если Edit/Write)
 
 **Валидация:** пройдена ✅
 ```
@@ -352,8 +385,10 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 ### Создание
 - [ ] Создана папка `/.claude/agents/{name}/`
 - [ ] Создан файл `AGENT.md`
-- [ ] Заполнены обязательные поля (name, description)
+- [ ] Заполнены обязательные поля (name, description, standard, index)
 - [ ] Настроены официальные поля (model, tools, permissionMode)
+- [ ] Указано поле `version: v1.0`
+- [ ] Создан файл `CHANGELOG.md` с описанием v1.0
 - [ ] Промпт содержит секции (Роль, Задача, Ограничения, Формат вывода)
 - [ ] Для агентов с Edit/Write: секция "Работа со state" (блокировки, лог операций)
 - [ ] Для агентов с Edit/Write: создан файл `/.claude/state/agent-{name}-operation.json`
@@ -383,11 +418,14 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 ---
 name: todo-finder
 description: Поиск TODO/FIXME комментариев. Используй для анализа технического долга.
+standard: .claude/.instructions/agents/standard-agent.md
+index: .claude/.instructions/agents/README.md
 type: explore
 model: haiku
 tools: Read, Grep, Glob
 permissionMode: plan
 max_turns: 10
+version: v1.0
 ---
 
 ## Роль
@@ -426,12 +464,15 @@ Markdown таблица:
 ---
 name: code-reviewer
 description: Код-ревью с проверкой принципов. Используй после написания кода.
+standard: .claude/.instructions/agents/standard-agent.md
+index: .claude/.instructions/agents/README.md
 type: general-purpose
 model: sonnet
 tools: Read, Grep, Glob, Bash, AskUserQuestion
 disallowedTools: Write, Edit
 permissionMode: default
 max_turns: 30
+version: v1.0
 skills:
   - principles-validate
   - links-validate

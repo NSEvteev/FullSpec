@@ -52,6 +52,11 @@ ERROR_CODES = {
     "A013": "Файл AGENT.md не найден",
     "A014": "Frontmatter не найден",
     "A015": "Неверный инструмент в tools/disallowedTools",
+    "A016": "Отсутствует поле version",
+    "A017": "Неверный формат version (ожидается vX.Y)",
+    "A018": "Файл CHANGELOG.md не найден",
+    "A019": "Отсутствует поле standard",
+    "A020": "Отсутствует поле index",
 }
 
 VALID_TYPES = {"explore", "bash", "plan", "general-purpose"}
@@ -61,6 +66,7 @@ VALID_TOOLS = {"Read", "Write", "Edit", "Bash", "Glob", "Grep", "WebSearch", "We
 
 KEBAB_CASE_PATTERN = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
+VERSION_PATTERN = re.compile(r"^v\d+\.\d+$")
 
 
 # =============================================================================
@@ -140,6 +146,12 @@ def validate_required_fields(data: dict) -> list:
     for field in required:
         if field not in data or not data[field]:
             add_error(errors, "A002", f"'{field}'")
+
+    # Проверить standard и index
+    if "standard" not in data or not data["standard"]:
+        add_error(errors, "A019")
+    if "index" not in data or not data["index"]:
+        add_error(errors, "A020")
 
     return errors
 
@@ -272,6 +284,26 @@ def validate_security(data: dict) -> list:
     return errors
 
 
+def validate_versioning(data: dict, agent_dir: Path) -> tuple[list, list]:
+    """Проверить версионирование агента."""
+    errors = []
+    warnings = []
+
+    # Проверить поле version
+    version = data.get("version", "")
+    if not version:
+        add_warning(warnings, "Отсутствует поле version (рекомендуется добавить)")
+    elif not VERSION_PATTERN.match(version):
+        add_error(errors, "A017", f"'{version}' (ожидается vX.Y)")
+
+    # Проверить CHANGELOG.md
+    changelog_path = agent_dir / "CHANGELOG.md"
+    if not changelog_path.exists():
+        add_warning(warnings, "Файл CHANGELOG.md не найден (рекомендуется создать)")
+
+    return errors, warnings
+
+
 def validate_agent(agent_dir: Path) -> dict:
     """Валидировать один агент."""
     result = {
@@ -306,6 +338,10 @@ def validate_agent(agent_dir: Path) -> dict:
     result["warnings"].extend(prompt_warnings)
 
     result["errors"].extend(validate_security(data))
+
+    versioning_errors, versioning_warnings = validate_versioning(data, agent_dir)
+    result["errors"].extend(versioning_errors)
+    result["warnings"].extend(versioning_warnings)
 
     result["valid"] = len(result["errors"]) == 0
     return result

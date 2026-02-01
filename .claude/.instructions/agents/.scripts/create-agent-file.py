@@ -36,11 +36,14 @@ TEMPLATES = {
     "explore": '''---
 name: {name}
 description: {description}
+standard: .claude/.instructions/agents/standard-agent.md
+index: .claude/.instructions/agents/README.md
 type: explore
 model: haiku
 tools: Read, Grep, Glob
 permissionMode: plan
 max_turns: 10
+version: v1.0
 ---
 
 ## Роль
@@ -68,11 +71,14 @@ Markdown таблица:
     "bash": '''---
 name: {name}
 description: {description}
+standard: .claude/.instructions/agents/standard-agent.md
+index: .claude/.instructions/agents/README.md
 type: bash
 model: haiku
 tools: Bash, Read
 permissionMode: default
 max_turns: 10
+version: v1.0
 ---
 
 ## Роль
@@ -93,11 +99,14 @@ max_turns: 10
     "plan": '''---
 name: {name}
 description: {description}
+standard: .claude/.instructions/agents/standard-agent.md
+index: .claude/.instructions/agents/README.md
 type: plan
 model: sonnet
 tools: Read, Grep, Glob
 permissionMode: plan
 max_turns: 20
+version: v1.0
 ---
 
 ## Роль
@@ -126,12 +135,15 @@ Markdown отчёт с секциями:
     "general-purpose": '''---
 name: {name}
 description: {description}
+standard: .claude/.instructions/agents/standard-agent.md
+index: .claude/.instructions/agents/README.md
 type: general-purpose
 model: sonnet
 tools: Read, Grep, Glob, Bash, Edit, Write, AskUserQuestion
 disallowedTools: WebSearch, WebFetch
 permissionMode: default
 max_turns: 30
+version: v1.0
 skills:
   - principles-validate
 ---
@@ -218,6 +230,19 @@ def create_agent(
     # Записать файл
     agent_file.write_text(content, encoding='utf-8')
 
+    # Создать CHANGELOG.md
+    changelog_file = agent_dir / "CHANGELOG.md"
+    from datetime import datetime
+    today = datetime.now().strftime("%Y-%m-%d")
+    changelog_content = f"""# CHANGELOG — {name}
+
+## v1.0 ({today})
+
+### Добавлено
+- Первая версия агента
+"""
+    changelog_file.write_text(changelog_content, encoding='utf-8')
+
     return agent_file
 
 
@@ -254,7 +279,10 @@ def main():
             description=args.description,
         )
         rel_path = file_path.relative_to(repo_root)
+        changelog_path = file_path.parent / "CHANGELOG.md"
+        changelog_rel = changelog_path.relative_to(repo_root)
         print(f"✅ Создан: {rel_path}")
+        print(f"✅ Создан: {changelog_rel}")
         sys.exit(0)
 
     except FileExistsError as e:

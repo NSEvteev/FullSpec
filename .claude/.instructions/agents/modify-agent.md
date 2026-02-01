@@ -121,6 +121,18 @@ index: .claude/.instructions/agents/README.md
 | Добавить hook | Поле `hooks` во frontmatter |
 | Добавить Edit/Write | + секция `## Работа со state` + создать файл лога ([SSOT](../state/standard-state.md)) |
 
+**ОБЯЗАТЕЛЬНО при любом изменении:**
+
+1. Обновить `version` во frontmatter: `v1.0` → `v1.1`
+2. Добавить запись в `CHANGELOG.md`:
+
+```markdown
+## v1.1 (YYYY-MM-DD)
+
+### Изменено
+- {что изменено}
+```
+
 ### Шаг 4: Подтверждение изменений
 
 > **ОБЯЗАТЕЛЬНО** использовать `AskUserQuestion` tool.
@@ -152,9 +164,11 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 ```
 ## Отчёт об изменении агента
 
-**Изменён агент:** `/.claude/agents/{name}.yaml`
+**Изменён агент:** `/.claude/agents/{name}/AGENT.md`
 
 **Тип изменения:** Обновление
+
+**Версия:** {old-version} → {new-version}
 
 **Что изменено:**
 - {список изменений}
@@ -163,6 +177,10 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 - Описание: {description}
 - Тип: {type}
 - Модель: {model}
+
+**Обновлённые файлы:**
+- AGENT.md (frontmatter: version)
+- CHANGELOG.md (новая запись)
 
 **Валидация:** пройдена ✅
 ```
@@ -341,6 +359,8 @@ prompt: |
 - [ ] Проанализирована конфигурация
 - [ ] Сформированы предложения по доработке
 - [ ] Внесены изменения
+- [ ] Обновлено поле `version` (v1.0 → v1.1)
+- [ ] Добавлена запись в `CHANGELOG.md`
 - [ ] При добавлении Edit/Write: секция "Работа со state" + файл лога ([SSOT](../state/standard-state.md))
 - [ ] Получено подтверждение пользователя (AskUserQuestion)
 - [ ] Валидация пройдена

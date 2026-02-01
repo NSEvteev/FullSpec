@@ -204,7 +204,7 @@ def main():
         sys.exit(0 if all_valid else 1)
 
     # Проверка одного черновика
-    file_path = Path(args.path)
+    file_path = Path(args.path).resolve()
 
     if not file_path.exists():
         print(f"Файл не найден: {args.path}", file=sys.stderr)

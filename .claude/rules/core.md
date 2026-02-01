@@ -21,4 +21,4 @@ index: .claude/.instructions/rules/README.md
 
 **Черновики:** После создания или изменения черновика в `/.claude/drafts/` — запустить `/draft-validate` для проверки соответствия стандарту.
 
-**State (для агентов с Edit/Write):** Перед записью — проверить блокировку в `/.claude/state/locks.json`, добавить свою, снять сразу после операции. Вести лог в `agent-{name}-operation.json`. См. [standard-state.md](/.claude/.instructions/state/standard-state.md).
+**State (для агентов с Edit/Write):** Перед записью — проверить блокировку в `/.claude/state/locks.json`. Если занят — 6 проверок × 5 сек (30 сек), затем ошибка. Добавить свою блокировку, выполнить операцию, снять блокировку сразу после (ВСЕГДА, даже при ошибке!). Вести лог в `agent-{name}-operation.json`. См. [standard-state.md](/.claude/.instructions/state/standard-state.md).
