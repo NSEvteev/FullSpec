@@ -34,6 +34,7 @@ index: .claude/.instructions/state/README.md
   - [Правило координации](#правило-координации)
   - [Правило именования](#правило-именования)
 - [5. Жизненный цикл агента](#5-жизненный-цикл-агента)
+  - [Хуки](#хуки)
 - [6. Безопасность](#6-безопасность)
 
 ---
@@ -331,36 +332,50 @@ index: .claude/.instructions/state/README.md
 
 ## 5. Жизненный цикл агента
 
+Часть жизненного цикла автоматизирована хуками `SubagentStart` и `SubagentStop`.
+
 ### Запуск агента
 
-```
-1. Прочитать agents-status.json
-2. Добавить себя со статусом "running"
-3. Прочитать locks.json
-4. Создать/обновить agent-{name}-operation.json с метаданными
-```
+| Шаг | Кто выполняет | Действие |
+|-----|---------------|----------|
+| 1 | Хук `SubagentStart` | Добавить запись в `agents-status.json` (status: running) |
+| 2 | Агент | Прочитать `locks.json` — проверить блокировки |
+| 3 | Агент | Создать `agent-{name}-operation.json` с метаданными |
 
 ### Работа агента
 
-```
-1. Перед записью в файл:
-   - Проверить locks.json
-   - Добавить блокировку
-
-2. После каждой операции:
-   - Записать в agent-{name}-operation.json
-
-3. После записи в файл:
-   - Удалить блокировку из locks.json
-```
+| Шаг | Кто выполняет | Действие |
+|-----|---------------|----------|
+| 1 | Агент | Перед записью в файл — проверить `locks.json`, добавить блокировку |
+| 2 | Агент | После каждой операции — записать в `agent-{name}-operation.json` |
+| 3 | Агент | После записи — удалить блокировку из `locks.json` |
 
 ### Завершение агента
 
+| Шаг | Кто выполняет | Действие |
+|-----|---------------|----------|
+| 1 | Агент | Обновить `agent-{name}-operation.json` (finished_at) |
+| 2 | Хук `SubagentStop` | Обновить `agents-status.json` (status: completed/failed) |
+| 3 | Хук `SubagentStop` | Удалить оставшиеся блокировки агента из `locks.json` (fallback) |
+
+### Хуки
+
+Хуки настраиваются в `.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "SubagentStart": [{"matcher": "*", "hooks": [{"type": "command", "command": "python ./.claude/hooks/record-agent-start.py"}]}],
+    "SubagentStop": [{"hooks": [{"type": "command", "command": "python ./.claude/hooks/cleanup-agent.py"}]}]
+  }
+}
 ```
-1. Обновить agent-{name}-operation.json (finished_at)
-2. Обновить agents-status.json (status: completed/failed)
-3. Удалить все свои блокировки из locks.json
-```
+
+**Входные данные хуков (stdin JSON):**
+- `agent_id` — уникальный ID субагента
+- `agent_type` — тип агента (Explore, Bash, кастомный)
+
+**Преимущество:** Гарантированный cleanup — хук обновит статус и удалит "забытые" блокировки, даже если агент упал или прервался.
 
 ---
 

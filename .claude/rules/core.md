@@ -20,3 +20,5 @@ index: .claude/.instructions/rules/README.md
   - `/structure-validate` - валидация структуры
 
 **Черновики:** После создания или изменения черновика в `/.claude/drafts/` — запустить `/draft-validate` для проверки соответствия стандарту.
+
+**State (для агентов с Edit/Write):** Перед записью — проверить блокировку в `/.claude/state/locks.json`, добавить свою, снять сразу после операции. Вести лог в `agent-{name}-operation.json`. См. [standard-state.md](/.claude/.instructions/state/standard-state.md).

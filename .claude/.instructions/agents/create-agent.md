@@ -50,6 +50,8 @@ index: .claude/.instructions/agents/README.md
 
 > **Ограничения важнее инструкций.** Что агент НЕ должен делать — критичнее того, что должен.
 
+> **Координация автоматизирована.** Хуки `SubagentStart`/`SubagentStop` автоматически регистрируют агента и выполняют cleanup. Агент должен только работать с блокировками файлов. См. [standard-state.md](../state/standard-state.md).
+
 ---
 
 ## Шаги
@@ -149,6 +151,13 @@ skills:
 {Системный промпт — см. Шаг 5}
 ```
 
+**Для агентов с Edit/Write — создать файл лога операций:**
+
+```bash
+# Создать файл лога операций
+echo '{"agent": "{agent-name}", "description": "", "started_at": null, "finished_at": null, "context": "", "operations": []}' > .claude/state/agent-{agent-name}-operation.json
+```
+
 ### Шаг 5: Написать промпт
 
 > **SSOT:** [standard-agent.md#4-правила-написания-промптов](./standard-agent.md#4-правила-написания-промптов)
@@ -170,6 +179,7 @@ skills:
 | `## Скиллы` | Для `general-purpose` (кратко, без дублирования frontmatter) |
 | `## Область работы` | Если ограничена папка/файлы |
 | `## Критерии успеха` | Для сложных задач |
+| `## Работа со state` | **Обязательно** для агентов с Edit/Write |
 
 **Шаблон полного промпта:**
 
@@ -192,6 +202,18 @@ skills:
 
 ## Скиллы
 Используй скиллы из frontmatter вместо ручных операций.
+
+## Работа со state (для агентов с Edit/Write)
+
+> **SSOT:** [standard-state.md](../state/standard-state.md)
+
+Перед редактированием файла:
+1. Проверить `/.claude/state/locks.json`
+2. Добавить блокировку
+3. Выполнить операцию
+4. Снять блокировку сразу после
+
+Вести лог в `/.claude/state/agent-{name}-operation.json`.
 
 ## Ограничения
 - НЕ {ограничение 1}
@@ -333,6 +355,8 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 - [ ] Заполнены обязательные поля (name, description)
 - [ ] Настроены официальные поля (model, tools, permissionMode)
 - [ ] Промпт содержит секции (Роль, Задача, Ограничения, Формат вывода)
+- [ ] Для агентов с Edit/Write: секция "Работа со state" (блокировки, лог операций)
+- [ ] Для агентов с Edit/Write: создан файл `/.claude/state/agent-{name}-operation.json`
 - [ ] Выбраны скиллы (для general-purpose)
 - [ ] Промпт подтверждён пользователем
 

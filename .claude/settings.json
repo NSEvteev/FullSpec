@@ -1,6 +1,29 @@
 {
   "language": "russian",
   "plansDirectory": "./.claude/drafts",
+  "hooks": {
+    "SubagentStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python ./.claude/hooks/record-agent-start.py"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python ./.claude/hooks/cleanup-agent.py"
+          }
+        ]
+      }
+    ]
+  },
   "permissions": {
     "allow": [
       "Bash(cd:*)",
@@ -33,9 +56,9 @@
       "Bash(rm -r /*)",
       "Bash(rm:*)",
       "WebSearch",
-      "Edit(.claude/drafts/**)",
-      "Write(.claude/drafts/**)",
-      "Edit(.claude/rules/*)",
+      "Write(.claude/drafts/*.md)",
+      "Edit(.claude/drafts/*.md)",
+      "Edit(.claude/rules/**)",
       "Write(.claude/skills/**)",
       "Edit(.claude/skills/**)",
       "Write(.claude/.instructions/**/.scripts/*)",
