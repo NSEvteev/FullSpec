@@ -1,13 +1,13 @@
 ---
 description: Воркфлоу создания нового агента
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .claude/.instructions/agents/README.md
 ---
 
 # Воркфлоу создания
 
-Рабочая версия стандарта: 1.1
+Рабочая версия стандарта: 1.2
 
 Пошаговый процесс создания нового агента для Claude Code.
 
@@ -141,7 +141,7 @@ python .claude/.instructions/agents/.scripts/create-agent-file.py code-reviewer 
 name: {agent-name}
 description: {Когда Claude должен использовать агента}
 standard: .claude/.instructions/agents/standard-agent.md
-standard-version: v1.1
+standard-version: v1.2
 index: .claude/.instructions/agents/README.md
 type: {explore | bash | plan | general-purpose}
 model: {haiku | sonnet | opus | inherit}
@@ -454,7 +454,7 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 name: todo-finder
 description: Поиск TODO/FIXME комментариев. Используй для анализа технического долга.
 standard: .claude/.instructions/agents/standard-agent.md
-standard-version: v1.1
+standard-version: v1.2
 index: .claude/.instructions/agents/README.md
 type: explore
 model: haiku
@@ -501,7 +501,7 @@ Markdown таблица:
 name: code-reviewer
 description: Код-ревью с проверкой принципов. Используй после написания кода.
 standard: .claude/.instructions/agents/standard-agent.md
-standard-version: v1.1
+standard-version: v1.2
 index: .claude/.instructions/agents/README.md
 type: general-purpose
 model: sonnet

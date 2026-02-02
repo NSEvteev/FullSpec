@@ -1,13 +1,13 @@
 ---
 description: Валидация формата и структуры скиллов
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .claude/.instructions/skills/README.md
 ---
 
 # Валидация скиллов
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Проверка соответствия скиллов стандарту формата.
 

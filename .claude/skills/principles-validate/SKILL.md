@@ -2,7 +2,7 @@
 name: principles-validate
 description: Валидация принципов программирования в Python-коде
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.0
+standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep
 triggers:
   commands:

@@ -2,7 +2,7 @@
 name: skill-modify
 description: Обновление, деактивация и миграция существующих скиллов
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.0
+standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 triggers:
   commands:

@@ -132,7 +132,6 @@ def find_repo_root(start_path: Path) -> Path:
 def create_script_file(
     name: str,
     area: Path,
-    repo_root: Path,
     description: str | None = None
 ) -> Path:
     """Создать файл скрипта."""
@@ -206,7 +205,6 @@ def main():
         file_path = create_script_file(
             name=args.name,
             area=area,
-            repo_root=repo_root,
             description=args.description,
         )
         rel_path = file_path.relative_to(repo_root)

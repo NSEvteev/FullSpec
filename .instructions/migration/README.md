@@ -44,6 +44,7 @@ index: .instructions/migration/README.md
 Процесс обновления зависимых файлов при изменении стандартов.
 
 **Оглавление:**
+- [Принципы](./standard-migration.md#принципы)
 - [Что такое миграция](./standard-migration.md#1-что-такое-миграция)
 - [Два уровня обновления](./standard-migration.md#2-два-уровня-обновления)
 - [Порядок миграции](./standard-migration.md#3-порядок-миграции)
@@ -87,7 +88,10 @@ index: .instructions/migration/README.md
 
 # 4. Скрипты
 
-*Нет скриптов.*
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [check-version-drift.py](../.scripts/check-version-drift.py) | Проверка расхождений версий | [validation-migration.md](./validation-migration.md) |
+| [bump-standard-version.py](../.scripts/bump-standard-version.py) | Увеличение версии стандарта | [create-migration.md](./create-migration.md) |
 
 ---
 

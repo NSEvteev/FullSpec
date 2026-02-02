@@ -1,7 +1,7 @@
 ---
 description: Миграция при изменении стандартов
 standard: .claude/.instructions/rules/standard-rule.md
-standard-version: v1.0
+standard-version: v1.1
 index: .claude/.instructions/rules/README.md
 paths:
   - "**/standard-*.md"

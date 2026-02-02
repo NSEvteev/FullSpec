@@ -2,7 +2,7 @@
 name: agent-create
 description: Создание нового агента по стандарту
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.0
+standard-version: v1.1
 allowed-tools: Read, Write, Bash, Glob, Grep, Edit
 triggers:
   commands:

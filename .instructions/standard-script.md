@@ -1,7 +1,7 @@
 ---
 description: Стандарт формата скриптов автоматизации
 standard: .instructions/standard-instruction.md
-standard-version: v1.1
+standard-version: v1.2
 index: .instructions/README.md
 ---
 

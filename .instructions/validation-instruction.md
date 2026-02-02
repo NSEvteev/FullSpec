@@ -1,13 +1,13 @@
 ---
 description: Валидация формата и структуры инструкций
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .instructions/README.md
 ---
 
 # Валидация инструкций
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.2
 
 Проверка соответствия инструкций стандарту формата.
 

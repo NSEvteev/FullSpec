@@ -1,13 +1,13 @@
 ---
 description: Воркфлоу создания новой инструкции
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .instructions/README.md
 ---
 
 # Воркфлоу создания
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.2
 
 Пошаговый процесс создания новой инструкции.
 

@@ -51,6 +51,7 @@ ERROR_CODES = {
     "S021": "Отсутствует функция main()",
     "S030": "Отсутствует UTF-8 настройка для Windows",
     "S031": "Отсутствует sys.exit()",
+    "S032": "Отсутствует ERROR_CODES (обязательно для validate-*.py)",
     # Принципы (P0xx)
     "P001": "Переусложнённый код (KISS)",
     "P002": "Дублирование кода (DRY)",
@@ -152,7 +153,7 @@ def check_docstring(content: str, filename: str) -> list[tuple[str, str]]:
     return errors
 
 
-def check_code_structure(content: str) -> list[tuple[str, str]]:
+def check_code_structure(content: str, filename: str) -> list[tuple[str, str]]:
     """Проверить структуру кода."""
     errors = []
 
@@ -164,14 +165,18 @@ def check_code_structure(content: str) -> list[tuple[str, str]]:
     if 'def main(' not in content and 'def main()' not in content:
         errors.append(("S021", "Отсутствует функция main()"))
 
-    # S030: UTF-8 для Windows (рекомендация)
+    # S030: UTF-8 для Windows
     if 'reconfigure(encoding' not in content and 'sys.platform' not in content:
-        # Не критично, просто предупреждение — не добавляем как ошибку
-        pass
+        errors.append(("S030", "Отсутствует UTF-8 настройка для Windows"))
 
     # S031: sys.exit()
     if 'sys.exit(' not in content:
         errors.append(("S031", "Отсутствует sys.exit() для кода возврата"))
+
+    # S032: ERROR_CODES для validate-*.py
+    if filename.startswith("validate-") and filename.endswith(".py"):
+        if 'ERROR_CODES' not in content:
+            errors.append(("S032", "Отсутствует ERROR_CODES (обязательно для validate-*.py)"))
 
     return errors
 
@@ -248,7 +253,7 @@ def validate_script(path: Path, repo_root: Path, check_principles_flag: bool) ->
     # Проверки структуры
     errors.extend(check_shebang(content))
     errors.extend(check_docstring(content, path.name))
-    errors.extend(check_code_structure(content))
+    errors.extend(check_code_structure(content, path.name))
 
     # Проверки принципов (опционально)
     if check_principles_flag:

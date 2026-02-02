@@ -1,13 +1,13 @@
 ---
 description: Валидация конфигурации и промпта агента
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .claude/.instructions/agents/README.md
 ---
 
 # Валидация агентов
 
-Рабочая версия стандарта: 1.1
+Рабочая версия стандарта: 1.2
 
 Валидация конфигурации и промпта агента на соответствие стандарту.
 
@@ -129,7 +129,7 @@ else:
 name: todo-finder
 description: Поиск TODO/FIXME комментариев. Используй для анализа технического долга.
 standard: .claude/.instructions/agents/standard-agent.md
-standard-version: v1.1
+standard-version: v1.2
 index: .claude/.instructions/agents/README.md
 type: explore
 model: haiku

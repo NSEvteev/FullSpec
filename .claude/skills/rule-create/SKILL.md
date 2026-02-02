@@ -2,7 +2,7 @@
 name: rule-create
 description: Создание нового rule-файла
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.0
+standard-version: v1.1
 allowed-tools: Read, Bash, Write
 triggers:
   commands:

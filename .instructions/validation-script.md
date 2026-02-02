@@ -1,13 +1,13 @@
 ---
 description: Валидация формата и структуры скриптов
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .instructions/README.md
 ---
 
 # Валидация скриптов
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Проверка соответствия скриптов стандарту формата.
 
@@ -196,6 +196,7 @@ python .instructions/.scripts/validate-script.py {path}
 | Нет `main()` | S021 | Отсутствует функция | Добавить функцию |
 | Нет UTF-8 | S030 | Нет настройки Windows | Добавить reconfigure |
 | Нет `sys.exit()` | S031 | Нет кода возврата | Добавить `sys.exit()` |
+| Нет ERROR_CODES | S032 | validate-*.py без ERROR_CODES | Добавить константу ERROR_CODES |
 
 ### Принципы (P0xx)
 

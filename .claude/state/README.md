@@ -1,6 +1,7 @@
 ---
 description: Управление состоянием между вызовами скиллов и агентов
 standard: .claude/.instructions/state/standard-state.md
+standard-version: v1.1
 index: .claude/.instructions/state/README.md
 ---
 

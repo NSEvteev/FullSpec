@@ -1,7 +1,7 @@
 ---
 description: Стандарт оформления черновиков — планов, заметок и исследований
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .claude/.instructions/drafts/README.md
 ---
 

@@ -135,7 +135,8 @@
       "Skill(draft-validate)",
       "Bash(claude config:*)",
       "Bash(del \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\drafts\\\\TODO-holt-cicd-integration.md\")",
-      "Skill(migration-create)"
+      "Skill(migration-create)",
+      "Skill(script-modify)"
     ]
   },
   "statusLine": {

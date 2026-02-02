@@ -1,7 +1,7 @@
 ---
 description: Валидация соблюдения принципов программирования
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .instructions/README.md
 ---
 

@@ -1,13 +1,14 @@
 ---
 description: Правила работы с инструкциями, скриптами, скиллами, rules, агентами и ссылками
 standard: .claude/.instructions/rules/standard-rule.md
-standard-version: v1.0
+standard-version: v1.1
 index: .claude/.instructions/rules/README.md
 paths:
   - "**/.instructions/**"
   - "**/.scripts/**"
   - ".claude/rules/**"
   - ".claude/skills/**"
+  - ".claude/agents/**"
   - ".claude/agents/**"
 ---
 
@@ -39,7 +40,6 @@ paths:
   - `/agent-modify` - изменение агента
   - `/agent-validate` - валидация агента
 
-**Версионирование стандартов:** При изменении `standard-*.md` файлов — обновить версию и синхронизировать зависимые файлы:
-  1. `python .instructions/.scripts/bump-standard-version.py {путь}` — увеличить версию
-  2. `python .instructions/.scripts/sync-standard-version.py {путь}` — синхронизировать зависимые
-  3. Запустить агента captain-holt для семантического анализа (обязательно для standard-*)
+При работе с миграцией standard-*.md` файлов ОБЯЗАТЕЛЬНО использовать скиллы (запрещено делать вручную):
+  - `/migration-create` - проведение миграции инструкций
+  - `/migration-validate` - валидация миграции инструкций

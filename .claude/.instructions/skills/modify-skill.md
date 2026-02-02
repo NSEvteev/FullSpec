@@ -1,13 +1,13 @@
 ---
 description: Воркфлоу изменения и деактивации скиллов
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .claude/.instructions/skills/README.md
 ---
 
 # Воркфлоу изменения скилла
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Обновление, деактивация и миграция скиллов.
 

@@ -1,7 +1,7 @@
 ---
 description: Стандарт формата rule-файлов
 standard: .instructions/standard-instruction.md
-standard-version: v1.1
+standard-version: v1.2
 index: .claude/.instructions/rules/README.md
 ---
 

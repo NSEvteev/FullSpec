@@ -1,13 +1,13 @@
 ---
 description: Воркфлоу изменения агента — обновление, деактивация, миграция
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .claude/.instructions/agents/README.md
 ---
 
 # Воркфлоу изменения
 
-Рабочая версия стандарта: 1.1
+Рабочая версия стандарта: 1.2
 
 Изменение существующего агента: обновление, деактивация, миграция.
 

@@ -1,7 +1,7 @@
 ---
 description: Стандарт оформления ссылок — типы и форматы
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .structure/.instructions/README.md
 ---
 

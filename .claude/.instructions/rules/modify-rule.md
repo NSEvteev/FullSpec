@@ -1,13 +1,13 @@
 ---
 description: Воркфлоу изменения rule
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .claude/.instructions/rules/README.md
 ---
 
 # Воркфлоу изменения
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Пошаговый процесс изменения, деактивации и миграции rule-файлов.
 

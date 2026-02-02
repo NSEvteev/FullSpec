@@ -1,13 +1,13 @@
 ---
 description: Валидация формата и структуры rules
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .claude/.instructions/rules/README.md
 ---
 
 # Валидация rule
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Процедура валидации формата и структуры rule-файлов.
 

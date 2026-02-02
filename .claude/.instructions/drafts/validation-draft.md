@@ -1,13 +1,13 @@
 ---
 description: Валидация черновиков по стандарту
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.2
 index: .claude/.instructions/drafts/README.md
 ---
 
 # Валидация черновиков
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Процедура проверки черновиков на соответствие стандарту.
 
