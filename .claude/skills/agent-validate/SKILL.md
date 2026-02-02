@@ -1,6 +1,8 @@
 ---
 name: agent-validate
 description: Валидация конфигурации и промпта агента
+standard: .claude/.instructions/skills/standard-skill.md
+standard-version: v1.0
 allowed-tools: Read, Bash, Glob, Grep
 triggers:
   commands:

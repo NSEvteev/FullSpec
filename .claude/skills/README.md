@@ -1,3 +1,9 @@
+---
+description: SSOT-индекс всех скиллов проекта
+standard: .structure/.instructions/standard-readme.md
+standard-version: v1.0
+---
+
 # Индекс скиллов
 
 Скиллы — команды для автоматизации повторяющихся задач.

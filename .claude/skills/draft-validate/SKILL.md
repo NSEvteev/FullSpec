@@ -1,6 +1,8 @@
 ---
 name: draft-validate
 description: Валидация черновика по стандарту
+standard: .claude/.instructions/skills/standard-skill.md
+standard-version: v1.0
 allowed-tools: Read, Bash
 triggers:
   commands:

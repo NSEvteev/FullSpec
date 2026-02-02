@@ -1,6 +1,7 @@
 ---
 description: Базовые глобальные правила
 standard: .claude/.instructions/rules/standard-rule.md
+standard-version: v1.0
 index: .claude/.instructions/rules/README.md
 ---
 

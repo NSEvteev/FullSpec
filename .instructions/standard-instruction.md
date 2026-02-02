@@ -1,10 +1,11 @@
 ---
-description: Стандарт формата файлов инструкций (v2)
+description: Стандарт формата файлов инструкций
 standard: .instructions/standard-instruction.md
+standard-version: v1.0
 index: .instructions/README.md
 ---
 
-# Стандарт инструкций (v2)
+# Стандарт инструкций
 
 Формат и шаблон для файлов инструкций в папках `.instructions/`.
 

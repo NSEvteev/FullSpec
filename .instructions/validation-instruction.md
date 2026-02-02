@@ -1,6 +1,7 @@
 ---
 description: Валидация формата и структуры инструкций
 standard: .instructions/standard-instruction.md
+standard-version: v1.0
 index: .instructions/README.md
 ---
 

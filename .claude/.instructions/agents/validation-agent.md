@@ -1,6 +1,7 @@
 ---
 description: Валидация конфигурации и промпта агента
 standard: .instructions/standard-instruction.md
+standard-version: v1.0
 index: .claude/.instructions/agents/README.md
 ---
 

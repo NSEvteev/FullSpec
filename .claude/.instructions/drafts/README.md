@@ -1,6 +1,7 @@
 ---
 description: Индекс инструкций для drafts/
 standard: .structure/.instructions/standard-readme.md
+standard-version: v1.0
 index: .claude/.instructions/drafts/README.md
 ---
 

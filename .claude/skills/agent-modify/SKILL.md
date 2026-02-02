@@ -1,6 +1,8 @@
 ---
 name: agent-modify
 description: Изменение, деактивация и миграция агентов
+standard: .claude/.instructions/skills/standard-skill.md
+standard-version: v1.0
 allowed-tools: Read, Write, Bash, Glob, Grep, Edit
 triggers:
   commands:

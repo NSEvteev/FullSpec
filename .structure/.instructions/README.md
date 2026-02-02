@@ -1,6 +1,7 @@
 ---
 description: Индекс инструкций для SSOT структуры проекта
 standard: .structure/.instructions/standard-readme.md
+standard-version: v1.0
 index: .structure/.instructions/README.md
 ---
 

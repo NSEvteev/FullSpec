@@ -1,6 +1,8 @@
 ---
 name: rule-modify
 description: Изменение, деактивация и миграция rule
+standard: .claude/.instructions/skills/standard-skill.md
+standard-version: v1.0
 allowed-tools: Read, Bash, Edit, Grep
 triggers:
   commands:

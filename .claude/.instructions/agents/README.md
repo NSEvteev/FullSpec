@@ -1,6 +1,7 @@
 ---
 description: Индекс инструкций для agents/
 standard: .structure/.instructions/standard-readme.md
+standard-version: v1.0
 index: .claude/.instructions/agents/README.md
 ---
 

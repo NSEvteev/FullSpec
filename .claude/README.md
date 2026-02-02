@@ -1,3 +1,9 @@
+---
+description: Обзор инструментов .claude
+standard: .structure/.instructions/standard-readme.md
+standard-version: v1.0
+---
+
 # .claude/ — Инструменты Claude Code
 
 Хаб навигации по инструментам Claude Code для проекта.

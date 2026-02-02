@@ -1,6 +1,7 @@
 ---
 description: Процедура валидации согласованности /.structure/README.md
 standard: .instructions/standard-instruction.md
+standard-version: v1.0
 index: .structure/.instructions/README.md
 ---
 

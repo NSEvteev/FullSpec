@@ -1,6 +1,7 @@
 ---
 description: Процедура валидации ссылок на соответствие стандарту
 standard: .instructions/standard-instruction.md
+standard-version: v1.0
 index: .structure/.instructions/README.md
 ---
 

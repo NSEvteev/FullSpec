@@ -1,6 +1,7 @@
 ---
 description: Воркфлоу изменения и удаления скриптов
 standard: .instructions/standard-instruction.md
+standard-version: v1.0
 index: .instructions/README.md
 ---
 

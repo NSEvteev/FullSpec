@@ -1,6 +1,7 @@
 ---
 description: Черновики Claude — планы, заметки и исследования
 standard: .structure/.instructions/standard-readme.md
+standard-version: v1.0
 index: .claude/README.md
 ---
 

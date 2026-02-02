@@ -1,6 +1,7 @@
 ---
 description: Валидация формата и структуры rules
 standard: .instructions/standard-instruction.md
+standard-version: v1.0
 index: .claude/.instructions/rules/README.md
 ---
 

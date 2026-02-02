@@ -1,6 +1,7 @@
 ---
 description: SSOT структуры проекта — единый источник правды о папках и файлах
 standard: .structure/.instructions/standard-readme.md
+standard-version: v1.0
 ---
 
 # /.structure/ — Структура проекта

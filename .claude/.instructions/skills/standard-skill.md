@@ -1,6 +1,7 @@
 ---
 description: Стандарт формата скиллов
 standard: .instructions/standard-instruction.md
+standard-version: v1.0
 index: .claude/.instructions/skills/README.md
 ---
 

@@ -1,6 +1,8 @@
 ---
 name: rule-validate
 description: Валидация формата и структуры rule
+standard: .claude/.instructions/skills/standard-skill.md
+standard-version: v1.0
 allowed-tools: Read, Bash
 triggers:
   commands:

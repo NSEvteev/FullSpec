@@ -1,7 +1,7 @@
 ---
 description: Стандарт формата и правил для агентов Claude
 standard: .instructions/standard-instruction.md
-standard-version: v1.1
+standard-version: v1.0
 index: .claude/.instructions/agents/README.md
 ---
 

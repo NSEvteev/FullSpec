@@ -1,6 +1,7 @@
 ---
 description: Воркфлоу создания нового агента
 standard: .instructions/standard-instruction.md
+standard-version: v1.0
 index: .claude/.instructions/agents/README.md
 ---
 

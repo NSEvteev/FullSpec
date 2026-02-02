@@ -1,6 +1,7 @@
 ---
 description: Стандарт формата и правил для файлов состояния агентов
 standard: .instructions/standard-instruction.md
+standard-version: v1.0
 index: .claude/.instructions/state/README.md
 ---
 
