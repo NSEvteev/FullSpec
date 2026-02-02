@@ -62,7 +62,7 @@ index: .claude/.instructions/agents/README.md
 
 > **Изменение промпта требует подтверждения.** Промпт — критическая часть агента, изменения нужно согласовать.
 
-> **При добавлении Edit/Write — добавить state.** Секция "Работа со state" в промпте + файл лога операций. См. [standard-state.md](../state/standard-state.md).
+> **При добавлении Edit/Write — добавить state.** Секция "Работа со state" + секция "Удаление файлов" в промпте + файл лога операций. См. [standard-state.md](../state/standard-state.md).
 
 ---
 
@@ -114,12 +114,13 @@ index: .claude/.instructions/agents/README.md
 | Изменить модель | Поле `model` во frontmatter |
 | Добавить инструмент | Поле `tools` во frontmatter |
 | Запретить инструмент | Поле `disallowedTools` во frontmatter |
-| Изменить режим разрешений | Поле `permissionMode` во frontmatter |
+| Изменить режим разрешений | Поле `permissionMode` во frontmatter (acceptEdits не затрагивает критичные файлы) |
 | Добавить скилл | Поле `skills` во frontmatter + секция в промпте |
 | Изменить max_turns | Поле `max_turns` во frontmatter |
 | Обновить SSOT-ссылки | Секция `## Инструкции и SSOT` в промпте |
 | Добавить hook | Поле `hooks` во frontmatter |
-| Добавить Edit/Write | + секция `## Работа со state` + создать файл лога ([SSOT](../state/standard-state.md)) |
+| Добавить Edit/Write | + секция `## Работа со state` + секция `## Удаление файлов` + создать файл лога ([SSOT](../state/standard-state.md)) |
+| Обновить standard-version | Если стандарт обновился — обновить `standard-version` во frontmatter |
 
 **ОБЯЗАТЕЛЬНО при любом изменении:**
 
@@ -361,7 +362,7 @@ prompt: |
 - [ ] Внесены изменения
 - [ ] Обновлено поле `version` (v1.0 → v1.1)
 - [ ] Добавлена запись в `CHANGELOG.md`
-- [ ] При добавлении Edit/Write: секция "Работа со state" + файл лога ([SSOT](../state/standard-state.md))
+- [ ] При добавлении Edit/Write: секции "Работа со state" + "Удаление файлов" + файл лога ([SSOT](../state/standard-state.md))
 - [ ] Получено подтверждение пользователя (AskUserQuestion)
 - [ ] Валидация пройдена
 - [ ] README обновлён (если нужно)

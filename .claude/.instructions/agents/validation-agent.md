@@ -101,6 +101,7 @@ else:
 | `name` | string | Непустая строка, kebab-case, латиница |
 | `description` | string | Непустая строка — когда использовать агента |
 | `standard` | string | Путь к стандарту (`.claude/.instructions/agents/standard-agent.md`) |
+| `standard-version` | string | Версия стандарта (`v1.1`) |
 | `index` | string | Путь к индексу (`.claude/.instructions/agents/README.md`) |
 
 **Рекомендуемые поля (frontmatter):**
@@ -125,6 +126,7 @@ else:
 name: todo-finder
 description: Поиск TODO/FIXME комментариев. Используй для анализа технического долга.
 standard: .claude/.instructions/agents/standard-agent.md
+standard-version: v1.1
 index: .claude/.instructions/agents/README.md
 type: explore
 model: haiku
@@ -211,7 +213,7 @@ Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch, AskUserQuestion
 | Значение | Допустимо | Примечание |
 |----------|-----------|------------|
 | `default` | ✅ | Стандартный режим |
-| `acceptEdits` | ✅ | Автопринятие правок |
+| `acceptEdits` | ✅ | Автопринятие правок (не затрагивает критичные файлы: .env, package.json, конфиги) |
 | `dontAsk` | ✅ | Автоотклонение |
 | `bypassPermissions` | ⚠️ | Опасно для кастомных агентов |
 | `plan` | ✅ | Только чтение |
@@ -323,10 +325,25 @@ settings:
 1. Проверить `/.claude/state/locks.json`
 2. Добавить блокировку
 3. Выполнить операцию
-4. Снять блокировку сразу после
+4. Снять блокировку сразу после (ВСЕГДА, даже при ошибке!)
 
 Вести лог в `/.claude/state/agent-{name}-operation.json`.
 ```
+
+**Таблица логирования (проверить соответствие):**
+
+| Действие | action | Что логировать |
+|----------|--------|----------------|
+| Чтение | `read` | Файлы в области работы агента |
+| Запись | `write` | Созданные или перезаписанные файлы |
+| Редактирование | `edit` | Изменённые файлы |
+| Создание | `create` | Новые файлы |
+
+**Правило удаления файлов (проверить наличие в промпте):**
+
+- [ ] Агент НЕ удаляет файлы напрямую (rm запрещено)
+- [ ] При необходимости удаления — переименовывает с префиксом `_old_`
+- [ ] Логирует action `mark_for_deletion`
 
 **Примечание:** Для read-only агентов (explore, plan) проверка state не требуется — они не блокируют файлы.
 
@@ -402,8 +419,9 @@ settings:
 
 ### Работа со state (для агентов с Edit/Write)
 - [ ] В промпте упомянута работа с блокировками
-- [ ] Агент знает про снятие блокировок сразу после операции
+- [ ] Агент знает про снятие блокировок сразу после операции (даже при ошибке)
 - [ ] Ведение лога операций в `agent-{name}-operation.json`
+- [ ] Правило удаления файлов: переименование с `_old_` вместо rm
 
 ---
 
@@ -428,6 +446,8 @@ settings:
 | Нет версии | `MISSING_VERSION` | Поле version не указано | Добавить `version: v1.0` |
 | Неверный формат версии | `INVALID_VERSION` | Формат не `vX.Y` | Исправить на формат `v1.0` |
 | Нет CHANGELOG | `MISSING_CHANGELOG` | Файл CHANGELOG.md отсутствует | Создать CHANGELOG.md в папке агента |
+| Нет standard-version | `MISSING_STANDARD_VERSION` | Поле standard-version не указано | Добавить `standard-version: v1.1` |
+| Нет правила удаления | `MISSING_DELETE_RULE` | Агент с Edit/Write без правила `_old_` | Добавить секцию "Удаление файлов" в промпт |
 
 ---
 

@@ -50,7 +50,7 @@ index: .claude/.instructions/agents/README.md
 
 > **Ограничения важнее инструкций.** Что агент НЕ должен делать — критичнее того, что должен.
 
-> **Координация автоматизирована.** Хуки `SubagentStart`/`SubagentStop` автоматически регистрируют агента и выполняют cleanup. Агент должен только работать с блокировками файлов. См. [standard-state.md](../state/standard-state.md).
+> **Координация автоматизирована.** Хуки `SubagentStart`/`SubagentStop` автоматически регистрируют агента и выполняют cleanup. `SubagentStop` срабатывает при любом завершении агента (нормальное, ошибка, прерывание). Агент должен только работать с блокировками файлов. См. [standard-state.md](../state/standard-state.md).
 
 ---
 
@@ -138,6 +138,7 @@ python .claude/.instructions/agents/.scripts/create-agent-file.py code-reviewer 
 name: {agent-name}
 description: {Когда Claude должен использовать агента}
 standard: .claude/.instructions/agents/standard-agent.md
+standard-version: v1.1
 index: .claude/.instructions/agents/README.md
 type: {explore | bash | plan | general-purpose}
 model: {haiku | sonnet | opus | inherit}
@@ -237,9 +238,27 @@ EOF
 1. Проверить `/.claude/state/locks.json`
 2. Добавить блокировку
 3. Выполнить операцию
-4. Снять блокировку сразу после
+4. Снять блокировку сразу после (ВСЕГДА, даже при ошибке!)
 
-Вести лог в `/.claude/state/agent-{name}-operation.json`.
+Вести лог в `/.claude/state/agent-{name}-operation.json`:
+
+| Действие | action | Что логировать |
+|----------|--------|----------------|
+| Чтение | `read` | Файлы в области работы агента |
+| Запись | `write` | Созданные или перезаписанные файлы |
+| Редактирование | `edit` | Изменённые файлы |
+| Создание | `create` | Новые файлы |
+
+## Удаление файлов
+
+ЗАПРЕЩЕНО: rm, удаление файлов напрямую.
+
+Если нужно удалить файл:
+1. Переименовать: `file.py` → `_old_file.py`
+2. Записать в лог операций: action `mark_for_deletion`
+3. В отчёте указать: "Файлы помечены на удаление: ..."
+
+Основной LLM после ревью удалит или восстановит файлы.
 
 ## Ограничения
 - НЕ {ограничение 1}
@@ -249,6 +268,16 @@ EOF
 ## Формат вывода
 {Точный формат результата}
 ```
+
+**Триггеры graceful shutdown (для агентов с max_turns):**
+
+| Триггер | Описание |
+|---------|----------|
+| Превышен `max_turns` | Агент достиг лимита итераций |
+| Критическая ошибка | Файл не найден, нет доступа, недопустимая операция |
+| Задача невыполнима | Невозможно достичь цели с доступными инструментами |
+
+При graceful shutdown агент сохраняет прогресс в `state/{agent-name}-checkpoint.json`.
 
 ### Шаг 6: Настроить параметры
 
@@ -283,7 +312,7 @@ EOF
 |-------|-------------------|
 | `plan` | Агенты только для анализа |
 | `default` | Агенты с записью — требуют подтверждения |
-| `acceptEdits` | Доверенные агенты для автоправок |
+| `acceptEdits` | Доверенные агенты для автоправок (не затрагивает критичные файлы: .env, package.json, конфиги) |
 
 **Выбор max_turns:**
 
@@ -295,6 +324,8 @@ EOF
 | Сложная задача | 30-50 |
 
 **Для `general-purpose` — выбор скиллов (`skills`):**
+
+> **Важно:** Агенты не наследуют скиллы автоматически — нужно указать явно в поле `skills`. Правила из `/.claude/rules/` наследуются всегда.
 
 > **ОБЯЗАТЕЛЬНО** использовать `AskUserQuestion` tool с multiSelect.
 
@@ -392,6 +423,7 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 - [ ] Промпт содержит секции (Роль, Задача, Ограничения, Формат вывода)
 - [ ] Для агентов с Edit/Write: секция "Работа со state" (блокировки, лог операций)
 - [ ] Для агентов с Edit/Write: создан файл `/.claude/state/agent-{name}-operation.json`
+- [ ] Для агентов с Edit/Write: секция "Удаление файлов" (правило `_old_` префикса)
 - [ ] Выбраны скиллы (для general-purpose)
 - [ ] Промпт подтверждён пользователем
 
@@ -419,6 +451,7 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 name: todo-finder
 description: Поиск TODO/FIXME комментариев. Используй для анализа технического долга.
 standard: .claude/.instructions/agents/standard-agent.md
+standard-version: v1.1
 index: .claude/.instructions/agents/README.md
 type: explore
 model: haiku
@@ -465,6 +498,7 @@ Markdown таблица:
 name: code-reviewer
 description: Код-ревью с проверкой принципов. Используй после написания кода.
 standard: .claude/.instructions/agents/standard-agent.md
+standard-version: v1.1
 index: .claude/.instructions/agents/README.md
 type: general-purpose
 model: sonnet

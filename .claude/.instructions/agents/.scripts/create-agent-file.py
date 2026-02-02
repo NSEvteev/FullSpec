@@ -37,6 +37,7 @@ TEMPLATES = {
 name: {name}
 description: {description}
 standard: .claude/.instructions/agents/standard-agent.md
+standard-version: v1.1
 index: .claude/.instructions/agents/README.md
 type: explore
 model: haiku
@@ -72,6 +73,7 @@ Markdown таблица:
 name: {name}
 description: {description}
 standard: .claude/.instructions/agents/standard-agent.md
+standard-version: v1.1
 index: .claude/.instructions/agents/README.md
 type: bash
 model: haiku
@@ -100,6 +102,7 @@ version: v1.0
 name: {name}
 description: {description}
 standard: .claude/.instructions/agents/standard-agent.md
+standard-version: v1.1
 index: .claude/.instructions/agents/README.md
 type: plan
 model: sonnet
@@ -136,6 +139,7 @@ Markdown отчёт с секциями:
 name: {name}
 description: {description}
 standard: .claude/.instructions/agents/standard-agent.md
+standard-version: v1.1
 index: .claude/.instructions/agents/README.md
 type: general-purpose
 model: sonnet

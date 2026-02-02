@@ -2,6 +2,7 @@
 name: captain-holt
 description: Семантический анализ документов на ясность и однозначность. Используй для проверки инструкций, которые будет исполнять LLM.
 standard: .claude/.instructions/agents/standard-agent.md
+standard-version: v1.1
 index: .claude/.instructions/agents/README.md
 type: plan
 model: sonnet

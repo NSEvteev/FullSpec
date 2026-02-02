@@ -2,6 +2,7 @@
 name: amy-santiago
 description: Помощник по созданию инструкций (Эми Сантьяго). Используй для работы с документацией, скиллами, правилами и структурой проекта.
 standard: .claude/.instructions/agents/standard-agent.md
+standard-version: v1.1
 index: .claude/.instructions/agents/README.md
 type: general-purpose
 model: sonnet

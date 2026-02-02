@@ -57,6 +57,7 @@ ERROR_CODES = {
     "A018": "Файл CHANGELOG.md не найден",
     "A019": "Отсутствует поле standard",
     "A020": "Отсутствует поле index",
+    "A021": "Отсутствует поле standard-version",
 }
 
 VALID_TYPES = {"explore", "bash", "plan", "general-purpose"}
@@ -147,9 +148,11 @@ def validate_required_fields(data: dict) -> list:
         if field not in data or not data[field]:
             add_error(errors, "A002", f"'{field}'")
 
-    # Проверить standard и index
+    # Проверить standard, standard-version и index
     if "standard" not in data or not data["standard"]:
         add_error(errors, "A019")
+    if "standard-version" not in data or not data["standard-version"]:
+        add_error(errors, "A021")
     if "index" not in data or not data["index"]:
         add_error(errors, "A020")
 
