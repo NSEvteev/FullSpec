@@ -127,6 +127,70 @@
       "finished_at": "2026-02-02T09:30:30.129736Z",
       "task": "",
       "working_on": []
+    },
+    "a332f10": {
+      "status": "running",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-02T12:19:54.883746Z",
+      "finished_at": null,
+      "task": "",
+      "working_on": []
+    },
+    "a097e5d": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-02T12:27:35.035655Z",
+      "finished_at": "2026-02-02T12:32:31.175335Z",
+      "task": "",
+      "working_on": []
+    },
+    "ac0906f": {
+      "status": "completed",
+      "agent_type": "claude-code-guide",
+      "started_at": "2026-02-02T13:43:14.252982Z",
+      "finished_at": "2026-02-02T13:43:44.412359Z",
+      "task": "",
+      "working_on": []
+    },
+    "a451f1b": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-02T14:54:51.250848Z",
+      "finished_at": "2026-02-02T14:58:52.621513Z",
+      "task": "",
+      "working_on": []
+    },
+    "af3fdaf": {
+      "status": "running",
+      "agent_type": "general-purpose",
+      "started_at": "2026-02-02T15:53:38.579606Z",
+      "finished_at": null,
+      "task": "",
+      "working_on": []
+    },
+    "ad4ccdb": {
+      "status": "running",
+      "agent_type": "general-purpose",
+      "started_at": "2026-02-02T15:53:41.543241Z",
+      "finished_at": null,
+      "task": "",
+      "working_on": []
+    },
+    "a5ff3fa": {
+      "status": "completed",
+      "agent_type": "general-purpose",
+      "started_at": "2026-02-02T15:57:58.041583Z",
+      "finished_at": "2026-02-02T15:59:38.042587Z",
+      "task": "",
+      "working_on": []
+    },
+    "a503ee8": {
+      "status": "completed",
+      "agent_type": "general-purpose",
+      "started_at": "2026-02-02T15:58:07.151429Z",
+      "finished_at": "2026-02-02T16:00:11.860846Z",
+      "task": "",
+      "working_on": []
     }
   }
 }

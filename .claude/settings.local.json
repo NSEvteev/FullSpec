@@ -128,7 +128,14 @@
       "Skill(rule-modify)",
       "Bash(del \".claude\\\\rules\\\\rules.md\")",
       "Skill(instruction-modify)",
-      "Skill(rule-create)"
+      "Skill(rule-create)",
+      "Skill(structure-modify)",
+      "Skill(agent-create)",
+      "Bash(test:*)",
+      "Skill(draft-validate)",
+      "Bash(claude config:*)",
+      "Bash(del \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\drafts\\\\TODO-holt-cicd-integration.md\")",
+      "Skill(migration-create)"
     ]
   },
   "statusLine": {

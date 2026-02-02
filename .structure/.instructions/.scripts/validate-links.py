@@ -25,6 +25,9 @@ validate-links.py — Валидация ссылок в markdown-докумен
     E011 — SKILL.md не найден в папке скилла
     E012 — SSOT-инструкция в скилле не существует
     E013 — SSOT-инструкция в скилле помечена DELETE_
+    E014 — Неверный формат якоря строки (#L)
+    E015 — Якорь строки на markdown-файл
+    E016 — Отсутствует обязательная ссылка по графу
 
 Предупреждения:
     W001 — Абсолютный путь для файла в той же папке
@@ -32,6 +35,10 @@ validate-links.py — Валидация ссылок в markdown-докумен
     W003 — Похожий якорь существует (опечатка?)
     W004 — Имя скилла в тексте не совпадает с папкой
     W005 — Скилл ссылается на переименованную инструкцию
+    W006 — Номер строки выходит за пределы файла
+    W007 — GitHub-ссылка на main/master (может стать битой)
+    W008 — Ссылка на deprecated-файл
+    W009 — Документ не имеет входящих ссылок (сирота)
 
 Возвращает:
     0 — валидация пройдена
@@ -66,12 +73,19 @@ ERROR_CODES = {
     "E011": "SKILL.md не найден в папке скилла",
     "E012": "SSOT-инструкция в скилле не существует",
     "E013": "SSOT-инструкция в скилле помечена DELETE_",
+    "E014": "Неверный формат якоря строки (#L)",
+    "E015": "Якорь строки на markdown-файл",
+    "E016": "Отсутствует обязательная ссылка по графу",
     # Предупреждения (W0xx)
     "W001": "Абсолютный путь для файла в той же папке",
     "W002": "Относительный путь с длинной цепочкой ../",
     "W003": "Похожий якорь существует (опечатка?)",
     "W004": "Имя скилла в тексте не совпадает с папкой",
     "W005": "Скилл ссылается на переименованную инструкцию",
+    "W006": "Номер строки выходит за пределы файла",
+    "W007": "GitHub-ссылка на main/master (может стать битой)",
+    "W008": "Ссылка на deprecated-файл",
+    "W009": "Документ не имеет входящих ссылок (сирота)",
 }
 
 
@@ -158,16 +172,70 @@ def extract_links(content: str) -> list[dict]:
         href = match.group(2)
         start = match.start()
 
-        # Пропускаем внешние ссылки
-        if href.startswith(("http://", "https://", "mailto:")):
-            continue
-
         links.append({
             "text": text,
             "href": href,
             "position": start,
+            "is_external": href.startswith(("http://", "https://", "mailto:")),
         })
     return links
+
+
+def check_line_anchor(href: str, target_file: Path, result: dict) -> None:
+    """Проверить якорь на строку кода (#L42 или #L42-L50)."""
+    if "#L" not in href:
+        return
+
+    path_part, anchor = href.split("#", 1)
+
+    # E015: Якорь строки на markdown
+    if target_file.suffix == ".md":
+        add_error(result, "E015", href)
+        return
+
+    # E014: Неверный формат
+    if not re.match(r"^L\d+(-L\d+)?$", anchor):
+        add_error(result, "E014", href)
+        return
+
+    # W006: Номер строки за пределами файла
+    if target_file.exists():
+        try:
+            line_count = len(target_file.read_text(encoding="utf-8").split("\n"))
+            numbers = re.findall(r"\d+", anchor)
+            for num in numbers:
+                if int(num) > line_count:
+                    add_warning(result, "W006", f"{href} (файл имеет {line_count} строк)")
+                    break
+        except Exception:
+            pass
+
+
+def check_github_links(links: list[dict], result: dict) -> None:
+    """Проверить GitHub-ссылки на привязку к версии (Шаг 11)."""
+    for link in links:
+        if not link["is_external"]:
+            continue
+        href = link["href"]
+        if "github.com" in href and "/blob/" in href:
+            if "/blob/main/" in href or "/blob/master/" in href:
+                add_warning(result, "W007", href)
+
+
+def check_deprecated_links(href: str, target_file: Path, result: dict) -> None:
+    """Проверить ссылки на deprecated-файлы (Шаг 12)."""
+    if not target_file.exists():
+        return
+    try:
+        content = target_file.read_text(encoding="utf-8")
+        # Ищем DEPRECATED в начале файла (после frontmatter), не в примерах
+        # Паттерн: > ⚠️ **DEPRECATED:** в первых 50 строках
+        lines = content.split("\n")[:50]
+        header = "\n".join(lines)
+        if "> ⚠️ **DEPRECATED:**" in header or "> **DEPRECATED:**" in header:
+            add_warning(result, "W008", href)
+    except Exception:
+        pass
 
 
 def resolve_path(base_file: Path, href: str, repo_root: Path) -> Path:
@@ -247,7 +315,14 @@ def validate_file(file_path: Path, repo_root: Path) -> dict:
     # Проверка всех ссылок
     links = extract_links(content)
 
+    # Шаг 11: GitHub-ссылки
+    check_github_links(links, result)
+
     for link in links:
+        # Пропускаем внешние ссылки для внутренних проверок
+        if link["is_external"]:
+            continue
+
         href = link["href"]
         anchor = None
 
@@ -277,20 +352,28 @@ def validate_file(file_path: Path, repo_root: Path) -> dict:
         if anchor:
             target_file = resolve_path(file_path, href, repo_root)
             if target_file.exists() and target_file.is_file():
-                try:
-                    target_content = target_file.read_text(encoding="utf-8")
-                    headings = extract_headings(target_content)
+                # Шаг 9: Якоря на строки кода
+                if anchor.startswith("L") and anchor[1:2].isdigit():
+                    check_line_anchor(href, target_file, result)
+                else:
+                    # Обычные якоря на заголовки
+                    try:
+                        target_content = target_file.read_text(encoding="utf-8")
+                        headings = extract_headings(target_content)
 
-                    if anchor not in headings:
-                        # E003: Якорь не найден
-                        add_error(result, "E003", href)
+                        if anchor not in headings:
+                            # E003: Якорь не найден
+                            add_error(result, "E003", href)
 
-                        # W003: Похожий якорь
-                        similar = similar_anchor(anchor, headings)
-                        if similar:
-                            add_warning(result, "W003", f"#{similar} (вместо #{anchor})")
-                except Exception:
-                    pass
+                            # W003: Похожий якорь
+                            similar = similar_anchor(anchor, headings)
+                            if similar:
+                                add_warning(result, "W003", f"#{similar} (вместо #{anchor})")
+                    except Exception:
+                        pass
+
+                # Шаг 12: Проверка deprecated
+                check_deprecated_links(href, target_file, result)
 
         # Шаг 2: Формат пути
         if path_part:

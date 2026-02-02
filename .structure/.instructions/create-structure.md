@@ -1,13 +1,13 @@
 ---
 description: Воркфлоу создания новой папки и README
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.1
 index: .structure/.instructions/README.md
 ---
 
 # Воркфлоу создания
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Создание новой папки с README в структуре проекта.
 

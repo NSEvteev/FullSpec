@@ -1,13 +1,13 @@
 ---
 description: Процедура валидации согласованности /.structure/README.md
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.1
 index: .structure/.instructions/README.md
 ---
 
 # Валидация структуры
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Процедура проверки согласованности SSOT структуры проекта — файла `/.structure/README.md`.
 

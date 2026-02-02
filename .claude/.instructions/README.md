@@ -1,6 +1,7 @@
 ---
 description: Индекс инструкций для Claude Code окружения
 standard: .structure/.instructions/standard-readme.md
+standard-version: v1.1
 index: .claude/.instructions/README.md
 ---
 

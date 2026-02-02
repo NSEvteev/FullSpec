@@ -1,6 +1,7 @@
 ---
 description: Индекс инструкций для platform/
 standard: .structure/.instructions/standard-readme.md
+standard-version: v1.1
 index: platform/.instructions/README.md
 ---
 

@@ -1,6 +1,7 @@
 ---
 description: Индекс инструкций для shared/
 standard: .structure/.instructions/standard-readme.md
+standard-version: v1.1
 index: shared/.instructions/README.md
 ---
 

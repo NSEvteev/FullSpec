@@ -1,27 +1,33 @@
 {
   "agent": "captain-holt",
-  "description": "Семантический анализ standard-state.md",
-  "started_at": "2026-02-02T09:19:00Z",
-  "finished_at": "2026-02-02T09:25:00Z",
-  "context": "Задача от пользователя: семантический анализ документа .claude/.instructions/state/standard-state.md — проверка ясности, однозначности, выявление неоднозначностей и противоречий",
+  "description": "Семантический анализ standard-migration.md",
+  "started_at": "2026-02-02T10:15:00Z",
+  "finished_at": "2026-02-02T10:22:00Z",
+  "context": "Задача от пользователя: семантический анализ документа .instructions/migration/standard-migration.md — проверка однозначности формулировок, рисков интерпретации, полноты описания объекта, корректности SSOT-ссылок",
   "operations": [
     {
-      "timestamp": "2026-02-02T09:19:05Z",
+      "timestamp": "2026-02-02T10:15:05Z",
       "action": "read",
-      "file": "C:\\00 Dev\\project_template\\.claude\\.instructions\\state\\standard-state.md",
+      "file": "C:\\00 Dev\\project_template\\.instructions\\migration\\standard-migration.md",
       "reason": "Чтение анализируемого документа для семантического анализа"
     },
     {
-      "timestamp": "2026-02-02T09:19:10Z",
+      "timestamp": "2026-02-02T10:15:10Z",
       "action": "read",
       "file": "C:\\00 Dev\\project_template\\.instructions\\standard-instruction.md",
-      "reason": "Чтение базового стандарта инструкций (тип документа: standard-инструкция)"
+      "reason": "Чтение стандарта инструкций (определён тип документа как Инструкция)"
     },
     {
-      "timestamp": "2026-02-02T09:24:55Z",
+      "timestamp": "2026-02-02T10:15:12Z",
+      "action": "read",
+      "file": "C:\\00 Dev\\project_template\\.instructions\\migration\\README.md",
+      "reason": "Чтение SSOT-ссылки из анализируемого документа"
+    },
+    {
+      "timestamp": "2026-02-02T10:21:45Z",
       "action": "write",
-      "file": "C:\\00 Dev\\project_template\\.claude\\drafts\\2026-02-02-holt-analysis-standard-state.md",
-      "reason": "Сохранение полного результата семантического анализа standard-state.md"
+      "file": "C:\\00 Dev\\project_template\\.claude\\drafts\\2026-02-02-holt-analysis-standard-migration.md",
+      "reason": "Сохранение полного результата семантического анализа standard-migration.md"
     }
   ]
 }

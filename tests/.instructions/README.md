@@ -1,6 +1,7 @@
 ---
 description: Индекс инструкций для tests/
 standard: .structure/.instructions/standard-readme.md
+standard-version: v1.1
 index: tests/.instructions/README.md
 ---
 

@@ -1,13 +1,13 @@
 ---
 description: Стандарт формата rule-файлов
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.1
 index: .claude/.instructions/rules/README.md
 ---
 
 # Стандарт rule
 
-Версия стандарта: 1.0
+Версия стандарта: 1.1
 
 Формат и правила оформления rule-файлов для автоматической загрузки контекста.
 
@@ -32,6 +32,7 @@ index: .claude/.instructions/rules/README.md
   - [Правила именования](#правила-именования)
 - [3. Frontmatter](#3-frontmatter)
   - [Поля frontmatter](#поля-frontmatter)
+  - [Версионирование rules](#версионирование-rules)
 - [4. Структура](#4-структура)
 - [5. Типы применения](#5-типы-применения)
   - [Глобальный rule](#глобальный-rule)
@@ -41,7 +42,9 @@ index: .claude/.instructions/rules/README.md
   - [Формат ссылок на скиллы](#формат-ссылок-на-скиллы)
   - [Best practices](#best-practices)
 - [7. Конфликты paths](#7-конфликты-paths)
-- [8. Примеры](#8-примеры)
+- [8. Life cycle rule](#8-life-cycle-rule)
+- [9. Скрипты](#9-скрипты)
+- [10. Примеры](#10-примеры)
   - [Пример глобального rule](#пример-глобального-rule)
   - [Пример условного rule](#пример-условного-rule)
 
@@ -55,7 +58,7 @@ index: .claude/.instructions/rules/README.md
 
 **Rule** — это markdown-файл с инструкциями, которые Claude Code автоматически загружает в контекст сессии.
 
-**Принцип:** Rule = триггер для автоматической загрузки контекста, не дублирует инструкции.
+**Принцип:** Rule = триггер для автоматической загрузки контекста. Rule содержит только краткие ссылки на инструкции или скиллы, не копирует их содержимое.
 
 ### Когда создавать rule
 
@@ -63,7 +66,7 @@ index: .claude/.instructions/rules/README.md
 |----------|----------|
 | Автоматический триггер | Нужно автоматически загружать инструкцию при открытии файлов определённого типа |
 | Глобальное правило | Правило применяется ко всем файлам проекта всегда |
-| Краткая ссылка | Нужна краткая ссылка на скилл или инструкцию |
+| Автоматический контекст | Нужно автоматически загружать ссылки на скиллы или инструкции при работе с файлами |
 
 **Примеры:**
 - При работе с `.instructions/**` → автоматически загружать список скиллов `/instruction-*`
@@ -75,7 +78,7 @@ index: .claude/.instructions/rules/README.md
 | Ситуация | Решение |
 |----------|---------|
 | Полная инструкция | Создать инструкцию в `{область}/.instructions/` |
-| Разовое правило | Добавить в существующий rule или инструкцию |
+| Узкоспециализированное правило | Если правило применяется только к одной операции или файлу — добавить в существующий rule |
 | Дублирование SSOT | Ссылаться на существующую инструкцию, не дублировать |
 
 ---
@@ -85,7 +88,7 @@ index: .claude/.instructions/rules/README.md
 **Путь:** `/.claude/rules/{name}.md`
 
 **Структура папки:**
-- Плоская структура — подпапки НЕ поддерживаются
+- Плоская структура — все rules размещаются в корне `/.claude/rules/`. Claude Code не загружает rules из подпапок.
 - Все rules в одной директории `/.claude/rules/`
 
 ### Правила именования
@@ -109,13 +112,25 @@ index: .claude/.instructions/rules/README.md
 
 > **SSOT:** [standard-frontmatter.md](/.structure/.instructions/standard-frontmatter.md)
 
-**Формат:**
+**Формат для глобального rule:**
 ```yaml
 ---
 description: Краткое описание rule
 standard: .claude/.instructions/rules/standard-rule.md
+standard-version: v1.1
 index: .claude/.instructions/rules/README.md
-paths:          # Опционально — для условных rules
+# paths: Только для условных rules — для глобальных rules это поле удалить
+---
+```
+
+**Формат для условного rule:**
+```yaml
+---
+description: Краткое описание rule
+standard: .claude/.instructions/rules/standard-rule.md
+standard-version: v1.1
+index: .claude/.instructions/rules/README.md
+paths:
   - "паттерн/**"
 ---
 ```
@@ -126,12 +141,29 @@ paths:          # Опционально — для условных rules
 |------|:------------:|:----------------------:|----------|
 | `description` | ✅ | ❌ | Краткое описание назначения rule |
 | `standard` | ✅ | ❌ | Ссылка на стандарт: `standard-rule.md` |
+| `standard-version` | ✅ | ❌ | Версия стандарта для отслеживания актуальности |
 | `index` | ✅ | ❌ | Ссылка на README области rules |
 | `paths` | ❌ | ✅ | Glob-паттерны для условного применения |
 
 **Важно:**
 - Claude Code поддерживает **только поле `paths`** — остальные игнорируются
-- Поля `description`, `standard`, `index` — расширение для согласованности с остальными инструкциями
+- Поля `description`, `standard`, `standard-version`, `index` — расширение для согласованности с остальными инструкциями
+- Для глобальных rules поле `paths` нужно **полностью удалить**, а не оставить пустым
+
+### Версионирование rules
+
+```yaml
+---
+description: Критичные глобальные правила
+standard: .claude/.instructions/rules/standard-rule.md
+standard-version: v1.1
+index: .claude/.instructions/rules/README.md
+---
+```
+
+**Назначение:** Отслеживание актуальности rules при обновлении стандарта.
+
+**Миграция rules:** При обновлении стандарта — проверить rules с `standard-version` ниже текущей версии.
 
 ---
 
@@ -143,6 +175,7 @@ paths:          # Опционально — для условных rules
 ---
 description: {описание}
 standard: .claude/.instructions/rules/standard-rule.md
+standard-version: v1.1
 index: .claude/.instructions/rules/README.md
 paths:          # Только для условных rules
   - "{паттерн}"
@@ -153,7 +186,7 @@ paths:          # Только для условных rules
 
 **Требования:**
 - Frontmatter в YAML-формате
-- Краткое содержимое (максимум 50 строк)
+- Краткое содержимое (максимум 100 строк без учёта frontmatter)
 
 ---
 
@@ -175,6 +208,7 @@ paths:          # Только для условных rules
 ---
 description: Обязательное чтение SSOT-файлов
 standard: .claude/.instructions/rules/standard-rule.md
+standard-version: v1.1
 index: .claude/.instructions/rules/README.md
 ---
 ```
@@ -195,6 +229,7 @@ index: .claude/.instructions/rules/README.md
 ---
 description: Правила работы с rules
 standard: .claude/.instructions/rules/standard-rule.md
+standard-version: v1.1
 index: .claude/.instructions/rules/README.md
 paths:
   - ".claude/rules/**"
@@ -216,7 +251,7 @@ paths:
 
 ## 6. Содержимое rule
 
-**Максимальный размер:** 50 строк
+**Максимальный размер содержимого:** 100 строк (без учёта frontmatter)
 
 **Причина:** Rules загружаются в контекст каждой сессии — чем короче, тем лучше.
 
@@ -242,23 +277,25 @@ paths:
 |---------|----------|
 | Не дублировать инструкции | Ссылаться на SSOT, не копировать содержимое |
 | Только триггеры | Rule = когда делать, инструкция = как делать |
-| Краткость | До 50 строк, максимум информативности |
+| Краткость | До 100 строк, максимум информативности |
 | Актуальность | Регулярно проверять и обновлять |
 
 ---
 
 ## 7. Конфликты paths
 
-**Поведение Claude Code:** Применяет **все** rules, чьи `paths` совпали с текущим файлом.
+**Поведение Claude Code:** Применяет **все** rules, чьи `paths` совпали с текущим файлом. Порядок применения не гарантирован — не полагайтесь на последовательность загрузки rules.
 
-**Это фича, не баг:**
-- Позволяет комбинировать правила из разных областей
-- Файл может одновременно соответствовать нескольким rules
+**Допустимо:** Пересечение paths разрешено, если rules дополняют друг друга (разные аспекты одной области).
 
-**Проблема:** Если rules противоречат друг другу — ошибка проектирования.
+**Ошибка проектирования:** Rules противоречат друг другу (один требует действие A, другой запрещает A).
 
 **Решение:**
-1. Проверить конфликт с помощью `list-rules.py` (показывает warnings при пересечении)
+1. Проверить конфликт автоматически:
+   ```bash
+   python .claude/.instructions/rules/.scripts/list-rules.py
+   ```
+   Скрипт показывает warnings при пересечении paths.
 2. Изменить содержимое rules, чтобы они дополняли друг друга, а не противоречили
 3. Если нужна эксклюзивность — уточнить `paths` паттерны
 
@@ -277,7 +314,30 @@ paths:
 
 ---
 
-## 8. Примеры
+## 8. Life cycle rule
+
+Типичный жизненный цикл rule:
+
+1. **Создали скилл** (например, `/api-validate`)
+2. **Создали rule** для автоматической загрузки контекста скилла при работе с файлами области
+3. **Обновили rule** при добавлении новых скиллов (через `/rule-modify`)
+
+**Связь rule и скилла:** Rule часто создаётся ПОСЛЕ создания скилла — как триггер для автоматической загрузки контекста скилла.
+
+---
+
+## 9. Скрипты
+
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [list-rules.py](./.scripts/list-rules.py) | Список rules с проверкой конфликтов | [create-rule.md](./create-rule.md) |
+| [validate-rule.py](./.scripts/validate-rule.py) | Валидация rule | [validation-rule.md](./validation-rule.md) |
+
+**Если скрипт недоступен:** Выполнить проверку вручную согласно чек-листу в [validation-rule.md](./validation-rule.md).
+
+---
+
+## 10. Примеры
 
 ### Пример глобального rule
 
@@ -287,6 +347,7 @@ paths:
 ---
 description: Критичные глобальные правила выполнения
 standard: .claude/.instructions/rules/standard-rule.md
+standard-version: v1.1
 index: .claude/.instructions/rules/README.md
 ---
 
@@ -303,6 +364,7 @@ index: .claude/.instructions/rules/README.md
 ---
 description: Правила работы с инструкциями, скриптами, скиллами, rules, ссылками и структурой
 standard: .claude/.instructions/rules/standard-rule.md
+standard-version: v1.1
 index: .claude/.instructions/rules/README.md
 paths:
   - "**/.instructions/**"

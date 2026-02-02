@@ -1,7 +1,7 @@
 ---
 description: Индекс инструкций для state/
 standard: .structure/.instructions/standard-readme.md
-standard-version: v1.0
+standard-version: v1.1
 index: .claude/.instructions/state/README.md
 ---
 

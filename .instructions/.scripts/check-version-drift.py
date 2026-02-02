@@ -3,11 +3,18 @@
 check-version-drift.py — Проверка расхождения версий стандартов.
 
 Проверяет все стандарты и их зависимые файлы на расхождение версий.
-Предназначен для использования в CI/CD.
+Предназначен для использования в CI/CD и скиллах миграции.
 
 Использование:
     python check-version-drift.py
     python check-version-drift.py --verbose
+    python check-version-drift.py <стандарт> --json
+    python check-version-drift.py <стандарт> --check
+
+Примеры:
+    python check-version-drift.py
+    python check-version-drift.py .instructions/standard-instruction.md --json
+    python check-version-drift.py .instructions/standard-instruction.md --check
 
 Возвращает:
     0 — все версии синхронизированы
@@ -15,6 +22,7 @@ check-version-drift.py — Проверка расхождения версий 
 """
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -25,6 +33,7 @@ from pathlib import Path
 # =============================================================================
 
 VERSION_PATTERN = re.compile(r"^Версия стандарта:\s*(\d+\.\d+)", re.MULTILINE)
+WORKING_VERSION_PATTERN = re.compile(r"^Рабочая версия стандарта:\s*(\d+\.\d+)", re.MULTILINE)
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 STANDARD_VERSION_PATTERN = re.compile(r"^standard-version:\s*v?(\d+\.\d+)", re.MULTILINE)
 
@@ -53,6 +62,32 @@ def get_standard_version(file_path: Path) -> str | None:
         return None
     except Exception:
         return None
+
+
+def get_working_version(file_path: Path) -> str | None:
+    """Извлечь версию из строки 'Рабочая версия стандарта: X.Y'."""
+    try:
+        content = file_path.read_text(encoding="utf-8")
+        match = WORKING_VERSION_PATTERN.search(content)
+        if match:
+            return match.group(1)
+        return None
+    except Exception:
+        return None
+
+
+def find_level1_files(std_path: Path) -> list[Path]:
+    """Найти связанные Level 1 файлы (validation, create, modify)."""
+    std_dir = std_path.parent
+    std_name = std_path.name  # standard-X.md
+    base_name = std_name.replace("standard-", "").replace(".md", "")  # X
+
+    level1_files = []
+    for prefix in ["validation", "create", "modify"]:
+        related = std_dir / f"{prefix}-{base_name}.md"
+        if related.exists():
+            level1_files.append(related)
+    return level1_files
 
 
 def get_file_info(file_path: Path) -> tuple[str | None, str | None]:
@@ -112,9 +147,24 @@ def main():
         description="Проверка расхождения версий стандартов"
     )
     parser.add_argument(
+        "standard",
+        nargs="?",
+        help="Путь к конкретному стандарту (опционально)"
+    )
+    parser.add_argument(
         "--verbose", "-v",
         action="store_true",
         help="Подробный вывод"
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Вывод в формате JSON"
+    )
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Только проверка (exit code без вывода)"
     )
     parser.add_argument(
         "--repo",
@@ -126,74 +176,201 @@ def main():
 
     repo_root = find_repo_root(Path(args.repo))
 
-    # Найти все стандарты и их версии
-    standards = find_all_standards(repo_root)
-    standard_versions = {}
+    # Если указан конкретный стандарт
+    if args.standard:
+        std_input = args.standard.replace("\\", "/")
+        if std_input.startswith("./"):
+            std_input = std_input[2:]
+        std_path = repo_root / std_input
+        if not std_path.exists():
+            if not args.check and not args.json:
+                print(f"❌ Стандарт не найден: {args.standard}")
+            sys.exit(1)
+        standards = [std_path]
+    else:
+        standards = find_all_standards(repo_root)
 
+    # Найти версии стандартов
+    standard_versions = {}
     for std_path in standards:
         version = get_standard_version(std_path)
         rel_path = str(std_path.relative_to(repo_root)).replace("\\", "/")
         if version:
             standard_versions[rel_path] = version
-            if args.verbose:
+            if args.verbose and not args.json:
                 print(f"Стандарт: {rel_path} = v{version}")
 
-    if args.verbose:
+    if args.verbose and not args.json:
         print()
 
-    # Проверить все файлы
+    # ==========================================================================
+    # Level 1: проверить validation/create/modify (Рабочая версия стандарта)
+    # ==========================================================================
+    level1_drifts = []
+    level1_ok = []
+
+    for std_path in standards:
+        std_version = get_standard_version(std_path)
+        if not std_version:
+            continue
+
+        rel_std = str(std_path.relative_to(repo_root)).replace("\\", "/")
+        level1_files = find_level1_files(std_path)
+
+        for l1_file in level1_files:
+            working_version = get_working_version(l1_file)
+            rel_l1 = str(l1_file.relative_to(repo_root)).replace("\\", "/")
+
+            if working_version != std_version:
+                level1_drifts.append({
+                    "file": rel_l1,
+                    "standard": rel_std,
+                    "version": working_version,
+                    "expected": std_version,
+                    "level": 1
+                })
+            else:
+                level1_ok.append({
+                    "file": rel_l1,
+                    "standard": rel_std,
+                    "version": working_version,
+                    "level": 1
+                })
+
+    # ==========================================================================
+    # Level 2: проверить экземпляры (frontmatter standard-version)
+    # ==========================================================================
     all_files = find_all_md_files(repo_root)
     drifts = []
+    ok_files = []
 
     for file_path in all_files:
         standard, file_version = get_file_info(file_path)
         if not standard:
             continue
 
-        # Нормализовать путь
-        standard_normalized = standard.replace("\\", "/").lstrip("./")
+        # Нормализовать путь (removeprefix вместо lstrip чтобы не убрать .claude/)
+        standard_normalized = standard.replace("\\", "/")
+        if standard_normalized.startswith("./"):
+            standard_normalized = standard_normalized[2:]
+
+        # Фильтр по конкретному стандарту
+        if args.standard:
+            target_std = args.standard.replace("\\", "/")
+            if target_std.startswith("./"):
+                target_std = target_std[2:]
+            if standard_normalized != target_std:
+                continue
 
         # Найти версию стандарта
         expected_version = standard_versions.get(standard_normalized)
         if not expected_version:
             continue
 
+        rel_path = str(file_path.relative_to(repo_root)).replace("\\", "/")
+
         if file_version != expected_version:
-            rel_path = file_path.relative_to(repo_root)
             drifts.append({
-                "file": str(rel_path),
+                "file": rel_path,
                 "standard": standard_normalized,
-                "current": file_version,
-                "expected": expected_version
+                "version": file_version,
+                "expected": expected_version,
+                "status": "outdated"
+            })
+        else:
+            ok_files.append({
+                "file": rel_path,
+                "standard": standard_normalized,
+                "version": file_version,
+                "status": "ok"
             })
 
+    # Объединить все расхождения
+    all_drifts = level1_drifts + drifts
+    all_ok = level1_ok + ok_files
+
     # Вывод результатов
-    if not drifts:
+    if args.json:
+        # JSON формат
+        result = {
+            "level1": {
+                "drifts": level1_drifts,
+                "ok": level1_ok
+            },
+            "level2": {
+                "drifts": drifts,
+                "ok": ok_files
+            },
+            "summary": {
+                "level1_drifts": len(level1_drifts),
+                "level2_drifts": len(drifts),
+                "total_drifts": len(all_drifts),
+                "total_ok": len(all_ok)
+            }
+        }
+        # Если указан конкретный стандарт, добавить его информацию
+        if args.standard:
+            target_std = args.standard.replace("\\", "/")
+            if target_std.startswith("./"):
+                target_std = target_std[2:]
+            result["standard"] = target_std
+            result["standard_version"] = standard_versions.get(target_std)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        sys.exit(1 if all_drifts else 0)
+
+    if args.check:
+        # Только exit code
+        sys.exit(1 if all_drifts else 0)
+
+    if not all_drifts:
         print(f"✅ Все версии синхронизированы ({len(all_files)} файлов проверено)")
         sys.exit(0)
 
-    print(f"❌ Обнаружено расхождений: {len(drifts)}")
-    print()
-
-    # Группировка по стандартам
-    by_standard = {}
-    for drift in drifts:
-        std = drift["standard"]
-        if std not in by_standard:
-            by_standard[std] = []
-        by_standard[std].append(drift)
-
-    for std, files in by_standard.items():
-        expected = files[0]["expected"]
-        print(f"## {std} (v{expected})")
-        for drift in files:
-            current = drift["current"] or "?"
-            print(f"   {drift['file']}: v{current}")
+    # Вывод Level 1
+    if level1_drifts:
+        print(f"=== Level 1: validation/create/modify ({len(level1_drifts)} расхождений) ===")
         print()
+        by_standard_l1 = {}
+        for drift in level1_drifts:
+            std = drift["standard"]
+            if std not in by_standard_l1:
+                by_standard_l1[std] = []
+            by_standard_l1[std].append(drift)
 
-    print("Для синхронизации выполните:")
-    for std in by_standard.keys():
-        print(f"  python .instructions/.scripts/sync-standard-version.py {std}")
+        for std, files in by_standard_l1.items():
+            expected = files[0]["expected"]
+            print(f"## {std} (v{expected})")
+            for drift in files:
+                current = drift["version"] or "?"
+                print(f"   ❌ {drift['file']}: v{current}")
+            print()
+
+    # Вывод Level 2
+    if drifts:
+        print(f"=== Level 2: экземпляры ({len(drifts)} расхождений) ===")
+        print()
+        by_standard_l2 = {}
+        for drift in drifts:
+            std = drift["standard"]
+            if std not in by_standard_l2:
+                by_standard_l2[std] = []
+            by_standard_l2[std].append(drift)
+
+        for std, files in by_standard_l2.items():
+            expected = files[0]["expected"]
+            print(f"## {std} (v{expected})")
+            for drift in files:
+                current = drift["version"] or "?"
+                print(f"   {drift['file']}: v{current}")
+            print()
+
+    # Итого
+    print(f"❌ Всего расхождений: {len(all_drifts)} (Level 1: {len(level1_drifts)}, Level 2: {len(drifts)})")
+    print()
+    print("Для миграции выполните:")
+    all_standards = set(d["standard"] for d in all_drifts)
+    for std in all_standards:
+        print(f"  /migration-create {std}")
 
     sys.exit(1)
 

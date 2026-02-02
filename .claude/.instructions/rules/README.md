@@ -1,7 +1,7 @@
 ---
 description: Индекс инструкций для создания и управления rules
 standard: .structure/.instructions/standard-readme.md
-standard-version: v1.0
+standard-version: v1.1
 index: .claude/.instructions/rules/README.md
 ---
 

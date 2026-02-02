@@ -38,9 +38,13 @@ FORBIDDEN_IMPORTS = {
 
 ERROR_CODES = {
     "P001": "Переусложнённый код (KISS)",
+    "P002": "Дублирование кода (DRY)",
+    "P003": "Неиспользуемый код (YAGNI)",
     "P004": "Тяжёлая зависимость",
     "P005": "Bare except без типа исключения",
     "P006": "Функция без docstring",
+    "P007": "Неочевидное поведение (ручная проверка)",
+    "P008": "Модуль делает много (ручная проверка)",
 }
 
 # Папки, которые исключаются из проверки
@@ -139,21 +143,78 @@ def check_bare_except(content: str) -> list[tuple[str, str]]:
     return errors
 
 
+def parse_functions(content: str) -> list[ast.FunctionDef]:
+    """Извлечь все функции из Python кода."""
+    try:
+        tree = ast.parse(content)
+        return [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
+    except SyntaxError:
+        return []
+
+
 def check_docstrings(content: str) -> list[tuple[str, str]]:
     """Проверить наличие docstring у функций."""
     errors = []
+    for node in parse_functions(content):
+        # Пропускаем приватные методы и __dunder__
+        if node.name.startswith('_'):
+            continue
+        if not ast.get_docstring(node):
+            errors.append(("P006", f"Функция {node.name}() без docstring"))
+    return errors
 
-    try:
-        tree = ast.parse(content)
-        for node in ast.walk(tree):
-            if isinstance(node, ast.FunctionDef):
-                # Пропускаем приватные методы и __dunder__
-                if node.name.startswith('_'):
-                    continue
-                if not ast.get_docstring(node):
-                    errors.append(("P006", f"Функция {node.name}() без docstring"))
-    except SyntaxError:
-        pass  # Невалидный Python — пропускаем
+
+def check_yagni(content: str) -> list[tuple[str, str]]:
+    """Проверить YAGNI — неиспользуемые аргументы и переменные."""
+    errors = []
+    for node in parse_functions(content):
+        # Собираем имена аргументов
+        arg_names = {arg.arg for arg in node.args.args if arg.arg not in ('self', 'cls')}
+
+        # Собираем все используемые имена в теле функции
+        used_names = {child.id for child in ast.walk(node) if isinstance(child, ast.Name)}
+
+        # Находим неиспользуемые аргументы (без _ префикса)
+        for arg in arg_names - used_names:
+            if not arg.startswith('_'):
+                errors.append(("P003", f"Неиспользуемый аргумент '{arg}' в {node.name}()"))
+    return errors
+
+
+def check_dry(content: str) -> list[tuple[str, str]]:
+    """Проверить DRY — дублирование блоков кода."""
+    errors = []
+    lines = content.split('\n')
+
+    # Ищем повторяющиеся блоки из 5+ строк
+    block_size = 5
+    seen_blocks = {}
+
+    for i in range(len(lines) - block_size + 1):
+        # Пропускаем пустые строки и комментарии
+        block_lines = []
+        for j in range(i, min(i + block_size + 2, len(lines))):
+            line = lines[j].strip()
+            if line and not line.startswith('#'):
+                block_lines.append(line)
+            if len(block_lines) >= block_size:
+                break
+
+        if len(block_lines) < block_size:
+            continue
+
+        block = '\n'.join(block_lines[:block_size])
+
+        # Пропускаем тривиальные блоки (только импорты, пустые строки)
+        if all(l.startswith('import ') or l.startswith('from ') for l in block_lines[:block_size]):
+            continue
+
+        if block in seen_blocks:
+            first_line = seen_blocks[block]
+            if abs(i - first_line) > block_size:  # Не соседние блоки
+                errors.append(("P002", f"Дублирование кода: строки {first_line + 1} и {i + 1}"))
+        else:
+            seen_blocks[block] = i
 
     return errors
 
@@ -162,10 +223,13 @@ def check_principles(content: str) -> list[tuple[str, str]]:
     """Проверить все принципы программирования."""
     errors = []
 
-    errors.extend(check_kiss(content))
-    errors.extend(check_imports(content))
-    errors.extend(check_bare_except(content))
-    errors.extend(check_docstrings(content))
+    errors.extend(check_kiss(content))       # P001
+    errors.extend(check_dry(content))        # P002
+    errors.extend(check_yagni(content))      # P003
+    errors.extend(check_imports(content))    # P004
+    errors.extend(check_bare_except(content))  # P005
+    errors.extend(check_docstrings(content))   # P006
+    # P007, P008 — требуют ручной проверки
 
     return errors
 

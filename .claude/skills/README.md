@@ -1,7 +1,7 @@
 ---
 description: SSOT-индекс всех скиллов проекта
 standard: .structure/.instructions/standard-readme.md
-standard-version: v1.0
+standard-version: v1.1
 ---
 
 # Индекс скиллов
@@ -99,6 +99,15 @@ standard-version: v1.0
 | [agent-create](./agent-create/SKILL.md) | Создание нового агента | `/agent-create`, "создай агента" |
 | [agent-modify](./agent-modify/SKILL.md) | Изменение, деактивация и миграция | `/agent-modify`, "измени агента" |
 | [agent-validate](./agent-validate/SKILL.md) | Валидация конфигурации и промпта агента | `/agent-validate`, "проверь агента" |
+
+### migration
+
+Миграция при обновлении стандартов.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [migration-create](./migration-create/SKILL.md) | Выполнение миграции | `/migration-create`, "выполни миграцию" |
+| [migration-validate](./migration-validate/SKILL.md) | Валидация миграции | `/migration-validate`, "проверь миграцию" |
 
 ---
 

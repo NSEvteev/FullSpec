@@ -1,13 +1,13 @@
 ---
 description: Воркфлоу изменения папки — обновление, деактивация, миграция
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.1
 index: .structure/.instructions/README.md
 ---
 
 # Воркфлоу изменения
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Изменение существующей папки в структуре проекта: обновление, деактивация, миграция.
 

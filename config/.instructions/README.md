@@ -1,6 +1,7 @@
 ---
 description: Индекс инструкций для config/
 standard: .structure/.instructions/standard-readme.md
+standard-version: v1.1
 index: config/.instructions/README.md
 ---
 

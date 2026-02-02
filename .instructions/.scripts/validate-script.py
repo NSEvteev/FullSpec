@@ -180,52 +180,45 @@ def check_code_structure(content: str) -> list[tuple[str, str]]:
 # Проверки принципов (P0xx)
 # =============================================================================
 
-def check_principles(content: str, path: Path) -> list[tuple[str, str]]:
+# Импортируем check_principles из validate-principles.py (DRY)
+# Если импорт не удался — используем локальную версию
+try:
+    from importlib.util import spec_from_file_location, module_from_spec
+    _spec = spec_from_file_location(
+        "validate_principles",
+        Path(__file__).parent / "validate-principles.py"
+    )
+    _module = module_from_spec(_spec)
+    _spec.loader.exec_module(_module)
+    _check_principles_impl = _module.check_principles
+except Exception:
+    _check_principles_impl = None
+
+
+def check_principles(content: str, _path: Path) -> list[tuple[str, str]]:
     """Проверить соблюдение принципов программирования."""
+    if _check_principles_impl:
+        return _check_principles_impl(content)
+
+    # Fallback: базовые проверки если импорт не удался
     errors = []
 
-    # P001: KISS — вложенные lambda и длинные цепочки
+    # P001: KISS — вложенные lambda
     for i, line in enumerate(content.split('\n'), 1):
-        stripped = line.strip()
-        # Пропускаем комментарии
-        if stripped.startswith('#'):
+        if line.strip().startswith('#'):
             continue
-        # Пропускаем строки с паттернами в кавычках (regex, строки)
-        if "r'" in line or 'r"' in line or "'" in stripped or '"' in stripped:
-            continue
-        # Вложенные lambda: два или более lambda в одной строке
         if line.count('lambda ') >= 2:
             errors.append(("P001", f"Вложенные lambda в строке {i}"))
-        # Длинные цепочки map/filter (реальные вызовы, не в строках)
-        if '.map(' in line and '.filter(' in line:
-            errors.append(("P001", f"Длинные цепочки map/filter в строке {i}"))
 
     # P004: Тяжёлые зависимости
     for forbidden in FORBIDDEN_IMPORTS:
         if re.search(rf'^import {forbidden}|^from {forbidden}', content, re.MULTILINE):
-            errors.append(("P004", f"Найдена тяжёлая зависимость: {forbidden}"))
+            errors.append(("P004", f"Тяжёлая зависимость: {forbidden}"))
 
-    # P005: Голый except (bare except без типа исключения)
+    # P005: Bare except
     for i, line in enumerate(content.split('\n'), 1):
-        stripped = line.strip()
-        # Пропускаем комментарии и строки внутри кавычек
-        if stripped.startswith('#'):
-            continue
-        if stripped.startswith('"') or stripped.startswith("'"):
-            continue
-        # Ищем except: в начале строки (с учётом отступов)
         if re.match(r'^\s*except\s*:\s*(#.*)?$', line):
-            errors.append(("P005", f"Bare except без типа в строке {i}"))
-
-    # P006: Функции без docstring
-    try:
-        tree = ast.parse(content)
-        for node in ast.walk(tree):
-            if isinstance(node, ast.FunctionDef):
-                if not ast.get_docstring(node):
-                    errors.append(("P006", f"Функция {node.name}() без docstring"))
-    except SyntaxError:
-        pass
+            errors.append(("P005", f"Bare except в строке {i}"))
 
     return errors
 
