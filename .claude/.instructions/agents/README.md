@@ -129,3 +129,11 @@ index: .claude/.instructions/agents/README.md
 | [/agent-create](/.claude/skills/agent-create/SKILL.md) | Создание нового агента | [create-agent.md](./create-agent.md) |
 | [/agent-modify](/.claude/skills/agent-modify/SKILL.md) | Изменение, деактивация и миграция агента | [modify-agent.md](./modify-agent.md) |
 | [/agent-validate](/.claude/skills/agent-validate/SKILL.md) | Валидация конфигурации агента | [validation-agent.md](./validation-agent.md) |
+
+---
+
+# 6. Активные агенты
+
+| Агент | Тип | Назначение |
+|-------|-----|------------|
+| [captain-holt](/.claude/agents/captain-holt/AGENT.md) | plan | Семантический анализ документов на ясность и однозначность |

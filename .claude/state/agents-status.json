@@ -55,6 +55,78 @@
       "finished_at": "2026-02-02T06:47:01.584053Z",
       "task": "",
       "working_on": []
+    },
+    "a3c09cb": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-02T08:53:28.920839Z",
+      "finished_at": "2026-02-02T08:57:57.601190Z",
+      "task": "",
+      "working_on": []
+    },
+    "a6db0b6": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-02T08:53:29.626879Z",
+      "finished_at": "2026-02-02T08:57:24.206946Z",
+      "task": "",
+      "working_on": []
+    },
+    "ae684b0": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-02T08:53:30.274382Z",
+      "finished_at": "2026-02-02T08:56:43.799696Z",
+      "task": "",
+      "working_on": []
+    },
+    "adfe930": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-02T08:53:30.934932Z",
+      "finished_at": "2026-02-02T08:58:21.129731Z",
+      "task": "",
+      "working_on": []
+    },
+    "a4c729e": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-02T09:18:59.212138Z",
+      "finished_at": "2026-02-02T09:30:31.251035Z",
+      "task": "",
+      "working_on": []
+    },
+    "a6bf8f9": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-02T09:19:00.123214Z",
+      "finished_at": "2026-02-02T09:30:20.768200Z",
+      "task": "",
+      "working_on": []
+    },
+    "ac3075a": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-02T09:19:00.805958Z",
+      "finished_at": "2026-02-02T09:30:01.738100Z",
+      "task": "",
+      "working_on": []
+    },
+    "a16005a": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-02T09:19:01.488380Z",
+      "finished_at": "2026-02-02T09:30:37.357760Z",
+      "task": "",
+      "working_on": []
+    },
+    "a172758": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-02T09:19:02.177278Z",
+      "finished_at": "2026-02-02T09:30:30.129736Z",
+      "task": "",
+      "working_on": []
     }
   }
 }

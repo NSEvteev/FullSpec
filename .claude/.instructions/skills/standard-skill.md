@@ -7,6 +7,8 @@ index: .claude/.instructions/skills/README.md
 
 # Стандарт скиллов
 
+Версия стандарта: 1.0
+
 Формат и структура файлов SKILL.md.
 
 **Полезные ссылки:**

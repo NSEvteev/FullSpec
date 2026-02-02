@@ -1,6 +1,6 @@
 # Версионирование стандартов и интеграция Holt
 
-**Статус:** Драфт
+**Статус:** В работе (Фазы 1-5 выполнены)
 **Дата:** 2026-02-02
 **Цель:** Автоматическая синхронизация документов при изменении стандартов
 
@@ -331,15 +331,20 @@ standard-version: v1.0
 
 ### 9. Чек-лист реализации
 
-- [ ] Добавить "Версия стандарта: 1.1" в standard-instruction.md
-- [ ] Добавить "Рабочая версия стандарта: 1.0" в validation/create/modify-instruction.md
-- [ ] Добавить standard-version во frontmatter всех инструкций
-- [ ] Создать скрипт sync-standard-version.py
-- [ ] Обновить standard-frontmatter.md (таблица версий)
-- [ ] Обновить core.md (правило синхронизации)
-- [ ] Интегрировать Holt в create-instruction.md
-- [ ] Провалидировать standard-instruction.md через Holt
-- [ ] Обновить все зависимые документы до версии 1.1
+- [x] Добавить "Версия стандарта: 1.0" в standard-*.md (11 файлов) — **Фаза 1 выполнена**
+- [x] Добавить "Рабочая версия стандарта: 1.0" в validation/create/modify-*.md (21 файл) — **Фаза 2 выполнена**
+- [x] Добавить standard-version во frontmatter всех инструкций — **Фаза 2 выполнена**
+- [x] Создать скрипт sync-standard-version.py — **Фаза 3 выполнена**
+- [x] Создать скрипт bump-standard-version.py — **Фаза 3 выполнена**
+- [x] Создать скрипт check-version-drift.py — **Фаза 3 выполнена**
+- [x] Обновить standard-frontmatter.md (описание версионирования) — **Фаза 5 выполнена**
+- [x] Обновить core.md (правило синхронизации) — **Фаза 5 выполнена**
+- [x] Добавить требование Holt в standard-instruction.md — **Фаза 4 выполнена**
+- [x] Интегрировать Holt в create-instruction.md (прямой вызов агента) — **Фаза 4 выполнена**
+- [x] Интегрировать Holt в modify-instruction.md (прямой вызов агента) — **Фаза 4 выполнена**
+- [x] ~~Создать скилл /holt-validate~~ — **Отменено** (избыточен)
+- [x] Обновить README агентов — **Фаза 5 выполнена**
+- [ ] Провалидировать все standard-*.md через Holt — **Фаза 6 ожидает**
 
 ---
 
@@ -390,63 +395,63 @@ standard-version: v1.0
 
 ---
 
-### Фаза 1: Версионирование стандартов (11 файлов)
+### Фаза 1: Версионирование стандартов (11 файлов) ✅ ВЫПОЛНЕНО
 
 **Задача:** Добавить "Версия стандарта: 1.0" после заголовка в каждый standard-*.md
 
-| # | Файл | Действие |
-|---|------|----------|
-| 1.1 | .instructions/standard-instruction.md | Добавить "Версия стандарта: 1.0" |
-| 1.2 | .instructions/standard-script.md | Добавить "Версия стандарта: 1.0" |
-| 1.3 | .instructions/standard-principles.md | Добавить "Версия стандарта: 1.0" |
-| 1.4 | .claude/.instructions/agents/standard-agent.md | Добавить "Версия стандарта: 1.1" (уже обновлён) |
-| 1.5 | .claude/.instructions/skills/standard-skill.md | Добавить "Версия стандарта: 1.0" |
-| 1.6 | .claude/.instructions/rules/standard-rule.md | Добавить "Версия стандарта: 1.0" |
-| 1.7 | .claude/.instructions/drafts/standard-draft.md | Добавить "Версия стандарта: 1.0" |
-| 1.8 | .claude/.instructions/state/standard-state.md | Добавить "Версия стандарта: 1.0" |
-| 1.9 | .structure/.instructions/standard-frontmatter.md | Добавить "Версия стандарта: 1.0" |
-| 1.10 | .structure/.instructions/standard-readme.md | Добавить "Версия стандарта: 1.0" |
-| 1.11 | .structure/.instructions/standard-links.md | Добавить "Версия стандарта: 1.0" |
+| # | Файл | Статус |
+|---|------|--------|
+| 1.1 | .instructions/standard-instruction.md | ✅ |
+| 1.2 | .instructions/standard-script.md | ✅ |
+| 1.3 | .instructions/standard-principles.md | ✅ |
+| 1.4 | .claude/.instructions/agents/standard-agent.md | ✅ (v1.1) |
+| 1.5 | .claude/.instructions/skills/standard-skill.md | ✅ |
+| 1.6 | .claude/.instructions/rules/standard-rule.md | ✅ |
+| 1.7 | .claude/.instructions/drafts/standard-draft.md | ✅ |
+| 1.8 | .claude/.instructions/state/standard-state.md | ✅ |
+| 1.9 | .structure/.instructions/standard-frontmatter.md | ✅ |
+| 1.10 | .structure/.instructions/standard-readme.md | ✅ |
+| 1.11 | .structure/.instructions/standard-links.md | ✅ |
 
 ---
 
-### Фаза 2: Рабочая версия в зависимых (21 файл)
+### Фаза 2: Рабочая версия в зависимых (21 файл) ✅ ВЫПОЛНЕНО
 
 **Задача:** Добавить "Рабочая версия стандарта: 1.0" после заголовка
 
-| # | Файл | standard-version |
-|---|------|------------------|
-| 2.1 | validation-instruction.md | v1.0 |
-| 2.2 | create-instruction.md | v1.0 |
-| 2.3 | modify-instruction.md | v1.0 |
-| 2.4 | validation-script.md | v1.0 |
-| 2.5 | create-script.md | v1.0 |
-| 2.6 | modify-script.md | v1.0 |
-| 2.7 | validation-principles.md | v1.0 |
-| 2.8 | validation-agent.md | v1.1 |
-| 2.9 | create-agent.md | v1.1 |
-| 2.10 | modify-agent.md | v1.1 |
-| 2.11 | validation-skill.md | v1.0 |
-| 2.12 | create-skill.md | v1.0 |
-| 2.13 | modify-skill.md | v1.0 |
-| 2.14 | validation-rule.md | v1.0 |
-| 2.15 | create-rule.md | v1.0 |
-| 2.16 | modify-rule.md | v1.0 |
-| 2.17 | validation-draft.md | v1.0 |
-| 2.18 | validation-structure.md | v1.0 |
-| 2.19 | create-structure.md | v1.0 |
-| 2.20 | modify-structure.md | v1.0 |
-| 2.21 | validation-links.md | v1.0 |
+| # | Файл | Статус |
+|---|------|--------|
+| 2.1 | validation-instruction.md | ✅ v1.0 |
+| 2.2 | create-instruction.md | ✅ v1.0 |
+| 2.3 | modify-instruction.md | ✅ v1.0 |
+| 2.4 | validation-script.md | ✅ v1.0 |
+| 2.5 | create-script.md | ✅ v1.0 |
+| 2.6 | modify-script.md | ✅ v1.0 |
+| 2.7 | validation-principles.md | ✅ v1.0 |
+| 2.8 | validation-agent.md | ✅ v1.1 |
+| 2.9 | create-agent.md | ✅ v1.1 |
+| 2.10 | modify-agent.md | ✅ v1.1 |
+| 2.11 | validation-skill.md | ✅ v1.0 |
+| 2.12 | create-skill.md | ✅ v1.0 |
+| 2.13 | modify-skill.md | ✅ v1.0 |
+| 2.14 | validation-rule.md | ✅ v1.0 |
+| 2.15 | create-rule.md | ✅ v1.0 |
+| 2.16 | modify-rule.md | ✅ v1.0 |
+| 2.17 | validation-draft.md | ✅ v1.0 |
+| 2.18 | validation-structure.md | ✅ v1.0 |
+| 2.19 | create-structure.md | ✅ v1.0 |
+| 2.20 | modify-structure.md | ✅ v1.0 |
+| 2.21 | validation-links.md | ✅ v1.0 |
 
 ---
 
-### Фаза 3: Скрипты автоматизации
+### Фаза 3: Скрипты автоматизации ✅ ВЫПОЛНЕНО
 
-| # | Скрипт | Назначение | Путь |
-|---|--------|------------|------|
-| 3.1 | sync-standard-version.py | Найти устаревшие файлы, обновить standard-version | .instructions/.scripts/ |
-| 3.2 | bump-standard-version.py | Увеличить версию стандарта | .instructions/.scripts/ |
-| 3.3 | check-version-drift.py | Проверить расхождения (для CI) | .instructions/.scripts/ |
+| # | Скрипт | Назначение | Статус |
+|---|--------|------------|--------|
+| 3.1 | sync-standard-version.py | Найти устаревшие файлы, обновить standard-version | ✅ Создан |
+| 3.2 | bump-standard-version.py | Увеличить версию стандарта | ✅ Создан |
+| 3.3 | check-version-drift.py | Проверить расхождения (для CI) | ✅ Создан, протестирован |
 
 **Логика sync-standard-version.py:**
 ```
@@ -465,53 +470,60 @@ standard-version: v1.0
 
 ---
 
-### Фаза 4: Интеграция Holt
+### Фаза 4: Интеграция Holt ✅ ВЫПОЛНЕНО
 
-| # | Задача | Файл |
-|---|--------|------|
-| 4.1 | Добавить режим fix в AGENT.md | .claude/agents/captain-holt/AGENT.md |
-| 4.2 | Добавить шаг Holt в create-instruction.md | .instructions/create-instruction.md |
-| 4.3 | Добавить шаг Holt в modify-instruction.md | .instructions/modify-instruction.md |
-| 4.4 | Создать скилл /holt-validate | .claude/skills/holt-validate/SKILL.md |
+| # | Задача | Статус |
+|---|--------|--------|
+| 4.1 | Добавить требование Holt в standard-instruction.md | ✅ Добавлено в § 2 |
+| 4.2 | Добавить шаг Holt в create-instruction.md | ✅ Добавлен Шаг 5.1 (прямой вызов агента) |
+| 4.3 | Добавить шаг Holt в modify-instruction.md | ✅ Добавлен в Шаг 4 (прямой вызов агента) |
+| 4.4 | ~~Создать скилл /holt-validate~~ | ❌ Отменено (избыточен — агент вызывается напрямую) |
 
-**Шаг в create-instruction.md (после создания standard-*.md):**
+**Требование в standard-instruction.md § 2:**
 ```markdown
-### Шаг N: Валидация Holt (для standard-*.md)
-
-> **Только для файлов с префиксом `standard-`**
-
-1. Запустить Captain Holt: анализ на двойственность
-2. При P1 проблемах — исправить, повторить
-3. При P2-P3 — показать, спросить
+> **Каждый `standard-*.md` ДОЛЖЕН пройти семантический анализ (агент captain-holt).**
 ```
 
+**Шаг в create-instruction.md и modify-instruction.md:**
+```markdown
+Task tool:
+  subagent_type: captain-holt
+  prompt: "Проанализируй файл: {путь к standard-*.md}"
+```
+
+**Примечание:** Скилл /holt-validate не создаётся — агент вызывается напрямую через Task tool.
+
 ---
 
-### Фаза 5: Обновление документации
+### Фаза 5: Обновление документации ✅ ВЫПОЛНЕНО
 
-| # | Задача | Файл |
-|---|--------|------|
-| 5.1 | Добавить таблицу версий стандартов | .structure/.instructions/standard-frontmatter.md |
-| 5.2 | Добавить правило синхронизации | .claude/rules/core.md |
-| 5.3 | Обновить README агентов | .claude/.instructions/agents/README.md |
+| # | Задача | Статус |
+|---|--------|--------|
+| 5.1 | Добавить описание версионирования | ✅ standard-frontmatter.md обновлён |
+| 5.2 | Добавить правило синхронизации | ✅ core.md обновлён |
+| 5.3 | Обновить README агентов | ✅ Добавлен captain-holt в README |
 
 ---
 
-### Фаза 6: Валидация Holt всех стандартов
+### Фаза 6: Валидация Holt всех стандартов ⏳ В ПРОЦЕССЕ
 
-| # | Файл | Статус |
-|---|------|--------|
-| 6.1 | standard-instruction.md | Ожидает |
-| 6.2 | standard-script.md | Ожидает |
-| 6.3 | standard-principles.md | Ожидает |
-| 6.4 | standard-agent.md | ✅ Проанализирован (37 проблем) |
-| 6.5 | standard-skill.md | Ожидает |
-| 6.6 | standard-rule.md | Ожидает |
-| 6.7 | standard-draft.md | Ожидает |
-| 6.8 | standard-state.md | Ожидает |
-| 6.9 | standard-frontmatter.md | Ожидает |
-| 6.10 | standard-readme.md | Ожидает |
-| 6.11 | standard-links.md | Ожидает |
+| # | Файл | Статус | Проблем | P1 |
+|---|------|--------|---------|-----|
+| 6.1 | standard-instruction.md | ⏳ Ожидает | — | — |
+| 6.2 | standard-script.md | ✅ Проанализирован | 26 | 8 |
+| 6.3 | standard-principles.md | ⏳ Ожидает | — | — |
+| 6.4 | standard-agent.md | ✅ Проанализирован | 37 | — |
+| 6.5 | standard-skill.md | ⏳ Ожидает | — | — |
+| 6.6 | standard-rule.md | ⏳ Ожидает | — | — |
+| 6.7 | standard-draft.md | ⏳ Ожидает | — | — |
+| 6.8 | standard-state.md | ⏳ Ожидает | — | — |
+| 6.9 | standard-frontmatter.md | ✅ Проанализирован | 17 | 7 |
+| 6.10 | standard-readme.md | ✅ Проанализирован | 23 | 9 |
+| 6.11 | standard-links.md | ✅ Проанализирован | 14 | 4 |
+
+**Отчёты сохранены в:** `/.claude/drafts/2026-02-02-holt-analysis-{имя}.md`
+
+**Для запуска оставшихся:** `Task tool с subagent_type: captain-holt`
 
 ---
 
@@ -557,5 +569,13 @@ standard-version: v1.0
 
 1. ✅ Решены открытые вопросы
 2. ✅ Составлен подробный план
-3. → Утвердить план
-4. → Выполнить по фазам
+3. ✅ Утверждён план
+4. ✅ Фаза 1: Версионирование стандартов (11 файлов)
+5. ✅ Фаза 2: Рабочие версии в зависимых (21 файл)
+6. ✅ Фаза 3: Скрипты автоматизации (3 скрипта)
+7. ✅ Фаза 4: Интеграция Holt (create/modify + скилл)
+8. ✅ Фаза 5: Обновление документации
+9. ⏳ Фаза 6: Валидация Holt всех стандартов (5 из 11 проанализированы)
+10. ❌ Фаза 7: Не нужна (по решению пользователя)
+
+**Текущий статус:** Фазы 1-5 выполнены, изменения не закоммичены

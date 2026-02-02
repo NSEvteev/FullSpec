@@ -38,3 +38,8 @@ paths:
   - `/agent-create` - создание агента
   - `/agent-modify` - изменение агента
   - `/agent-validate` - валидация агента
+
+**Версионирование стандартов:** При изменении `standard-*.md` файлов — обновить версию и синхронизировать зависимые файлы:
+  1. `python .instructions/.scripts/bump-standard-version.py {путь}` — увеличить версию
+  2. `python .instructions/.scripts/sync-standard-version.py {путь}` — синхронизировать зависимые
+  3. Запустить агента captain-holt для семантического анализа (обязательно для standard-*)
