@@ -28,7 +28,7 @@ make build     # Сборка для production
 make clean     # Очистка (docker down -v)
 ```
 
-> **Первый шаг:** После клонирования репозитория выполни `make setup` для установки pre-commit хуков.
+> **Первый шаг:** После клонирования выполни `make setup`. Подробнее: [initialization.md](/.structure/initialization.md)
 
 ## Архитектура
 
