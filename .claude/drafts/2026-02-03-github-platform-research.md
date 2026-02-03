@@ -9,11 +9,17 @@
   - [1. Объекты GitHub](#1-объекты-github)
   - [2. Детальное описание объектов](#2-детальное-описание-объектов)
   - [3. Релизный цикл и ветвление](#3-релизный-цикл-и-ветвление)
-  - [4. Организация работы команды (10 человек)](#4-организация-работы-команды-10-человек)
-  - [5. Что должно быть в .github/](#5-что-должно-быть-в-github)
-  - [6. Необходимые инструкции](#6-необходимые-инструкции)
+  - [4. Организация работы команды](#4-организация-работы-команды)
+  - [5. Структура .github/](#5-структура-github)
+    - [5.1 Принцип: три категории](#51-принцип-три-категории-в-github)
+    - [5.2 Полная структура .github/](#52-полная-структура-github)
+    - [5.3 Разделение: что где](#53-разделение-что-где)
+    - [5.4 Связи между компонентами](#54-связи-между-компонентами)
+    - [5.5 Что НЕ входит в .github/](#55-что-не-входит-в-github)
+  - [6. Порядок создания](#6-порядок-создания)
 - [Решения](#решения)
 - [Открытые вопросы](#открытые-вопросы)
+- [План создания документации .github/](#план-создания-документации-github)
 - [Ссылки](#ссылки)
 
 ---
@@ -599,177 +605,287 @@ gh label create "priority:low" --description "Низкий приоритет" -
 
 ---
 
-### 5. Что должно быть в .github/
+### 5. Структура .github/
 
-#### 5.1 Структура .github/
+#### 5.1 Принцип: три категории в .github/
 
 ```
 .github/
 │
-├── .instructions/                    # Инструкции (см. 5.2)
+│   # ─── Файлы и папки GitHub (GitHub требует/распознаёт) ───
 │
-├── ISSUE_TEMPLATE/                   # Шаблоны Issues
-│   ├── bug.yml                       #   Баг-репорт (форма)
-│   ├── feature.yml                   #   Запрос фичи (форма)
-│   ├── task.yml                      #   Техническая задача (форма)
-│   └── config.yml                    #   Конфигурация chooser
+├── ISSUE_TEMPLATE/                # GitHub показывает при создании Issue
+├── workflows/                     # GitHub запускает Actions
+├── PULL_REQUEST_TEMPLATE.md       # GitHub подставляет при создании PR
+├── CODEOWNERS                     # GitHub назначает reviewers
 │
-├── workflows/                        # GitHub Actions
-│   ├── ci.yml                        #   Continuous Integration (опционально)
-│   └── deploy.yml                    #   Деплой по Release
+│   # ─── Наши инструкции (GitHub игнорирует) ───
 │
-├── PULL_REQUEST_TEMPLATE.md          # Шаблон PR
-├── CODEOWNERS                        # Ответственные за код (при росте команды)
-└── README.md                         # Описание .github/
+├── .instructions/                 # Документация "как работать"
+│
+│   # ─── Наши справочники (GitHub игнорирует) ───
+│
+├── labels/                        # Словарь меток для этого репо
+│
+└── README.md                      # Описание папки
 ```
 
-#### 5.2 Структура .github/.instructions/
+**Три категории (всё на одном уровне):**
+1. **Файлы GitHub** — строго определённые пути, GitHub их использует
+2. **Инструкции** — документация "как работать", для LLM/разработчиков
+3. **Справочники** — конфигурация специфичная для этого репо (labels, etc.)
+
+**Принцип связи:**
+
+Если в `.instructions/` есть папка — она регламентирует соответствующую папку/файл в `.github/`:
+
+| Инструкции | Регламентирует | Тип |
+|------------|----------------|-----|
+| `.instructions/issue-templates/` | `.github/ISSUE_TEMPLATE/` | Файлы репо |
+| `.instructions/pr-template/` | `.github/PULL_REQUEST_TEMPLATE.md` | Файл репо |
+| `.instructions/workflows-files/` | `.github/workflows/` | Файлы репо |
+| `.instructions/codeowners/` | `.github/CODEOWNERS` | Файл репо |
+| `.instructions/labels/` | `.github/labels/` | Справочник |
+| `.instructions/milestones/` | `.github/milestones/` + **GitHub** | Справочник + Объект |
+| `.instructions/releases/` | `.github/releases/` + **GitHub** | Справочник + Объект |
+| `.instructions/issues/` | **GitHub** (не папка!) | Объект GitHub |
+| `.instructions/pull-requests/` | **GitHub** (не папка!) | Объект GitHub |
+| `.instructions/projects/` | **GitHub** (не папка!) | Объект GitHub |
+
+**Ключевое:**
+- Инструкции для **файлов** → регламентируют папки/файлы в `.github/`
+- Инструкции для **объектов GitHub** → регламентируют сущности в GitHub (через CLI)
+
+---
+
+#### 5.2 Полная структура .github/
 
 ```
-.github/.instructions/
+.github/
 │
-├── README.md                         # Индекс всех инструкций
-├── standard-github.md                # Общий стандарт работы с GitHub
-├── standard-development-workflow.md  # Процесс: Issue → PR → Merge → Release
-├── standard-release-workflow.md      # Процесс релизов
+│   # ═══════════════════════════════════════════════════════════════════
+│   # ФАЙЛЫ И ПАПКИ GITHUB (GitHub требует именно эти пути)
+│   # ═══════════════════════════════════════════════════════════════════
 │
-├── .scripts/                         # ВСЕ скрипты
-│   ├── setup-labels.py               #   Создание системы меток
-│   ├── validate-issue-template.py    #   Валидация шаблонов Issues
-│   └── validate-workflow.py          #   Валидация workflows
+├── ISSUE_TEMPLATE/                        # Шаблоны Issues
+│   │                                      # ← Регламентирует: .instructions/issue-templates/
+│   ├── bug.yml                            #   Баг-репорт (YAML форма)
+│   ├── feature.yml                        #   Запрос фичи (YAML форма)
+│   ├── task.yml                           #   Техническая задача (YAML форма)
+│   └── config.yml                         #   Конфигурация chooser
 │
-├── issues/                           # Объект: Issue
-│   ├── README.md                     #   Индекс папки
-│   ├── standard-issue.md             #   Что такое Issue, свойства, CLI
-│   ├── validation-issue.md           #   Как проверить шаблон
-│   ├── create-issue.md               #   Как создать Issue/шаблон
-│   └── modify-issue.md               #   Как изменить Issue/шаблон
+├── workflows/                             # GitHub Actions
+│   │                                      # ← Регламентирует: .instructions/workflows-files/
+│   ├── ci.yml                             #   CI — тесты, линтинг (опционально)
+│   └── deploy.yml                         #   Деплой на production по Release
 │
-├── pull-requests/                    # Объект: Pull Request
-│   ├── README.md
-│   ├── standard-pull-request.md
-│   ├── validation-pull-request.md
-│   ├── create-pull-request.md
-│   └── modify-pull-request.md
+├── PULL_REQUEST_TEMPLATE.md               # Шаблон PR (Markdown)
+│                                          # ← Регламентирует: .instructions/pr-template/
 │
-├── labels/                           # Объект: Label
-│   ├── README.md
-│   ├── standard-label.md
-│   ├── validation-label.md
-│   ├── create-label.md
-│   └── modify-label.md
+├── CODEOWNERS                             # Авто-назначение reviewers
+│                                          # ← Регламентирует: .instructions/codeowners/
 │
-├── milestones/                       # Объект: Milestone
-│   ├── README.md
-│   ├── standard-milestone.md
-│   ├── validation-milestone.md
-│   ├── create-milestone.md
-│   └── modify-milestone.md
+│   # ═══════════════════════════════════════════════════════════════════
+│   # НАШИ СПРАВОЧНИКИ (GitHub игнорирует, для этого репозитория)
+│   # Создаются по инструкциям из .instructions/
+│   # ═══════════════════════════════════════════════════════════════════
 │
-├── releases/                         # Объект: Release
-│   ├── README.md
-│   ├── standard-release.md
-│   ├── validation-release.md
-│   ├── create-release.md
-│   └── modify-release.md
+├── labels/                                # Справочник меток
+│   │                                      # ← Регламентирует: .instructions/labels/
+│   ├── README.md                          #   Описание системы меток проекта
+│   └── labels.yml                         #   КОНФИГ: все метки (синхр. → GitHub)
 │
-├── workflows/                        # Объект: GitHub Actions
-│   ├── README.md
-│   ├── standard-workflow.md
-│   ├── validation-workflow.md
-│   ├── create-workflow.md
-│   └── modify-workflow.md
+├── milestones/                            # Справочник milestones (опционально)
+│   │                                      # ← Регламентирует: .instructions/milestones/
+│   ├── README.md                          #   Описание системы milestones
+│   └── milestones.yml                     #   КОНФИГ: текущие milestones
 │
-└── projects/                         # Объект: Project (Kanban)
-    ├── README.md
-    ├── standard-project.md
-    ├── validation-project.md
-    ├── create-project.md
-    └── modify-project.md
-```
-
-#### 5.3 Зачем каждый элемент
-
-**Файлы .github/ (GitHub требует именно тут):**
-
-| Файл | Зачем | Для кого |
-|------|-------|----------|
-| `ISSUE_TEMPLATE/*.yml` | Стандартизация создания задач | Все разработчики |
-| `PULL_REQUEST_TEMPLATE.md` | Стандартизация описания PR | Все разработчики |
-| `CODEOWNERS` | Автоматическое назначение reviewers | GitHub (автоматика) |
-| `workflows/*.yml` | CI/CD — тесты, деплой | GitHub Actions |
-
-**Инструкции .github/.instructions/:**
-
-| Папка/Файл | Зачем |
-|------------|-------|
-| `standard-github.md` | Общие правила работы с GitHub в проекте |
-| `workflow-development.md` | Полный цикл разработки |
-| `workflow-release.md` | Как делать релизы |
-| `issues/` | Всё про Issues: что это, как создавать шаблоны |
-| `pull-requests/` | Всё про PR: что это, как оформлять |
-| `labels/` | Система меток проекта |
-| `milestones/` | Вехи и спринты |
-| `releases/` | Версионирование, changelog |
-| `workflows/` | GitHub Actions — как писать CI/CD |
-| `projects/` | Канбан-доски |
-
-#### 5.4 Связь с другими папками проекта
-
-| Что | Где | Почему там |
-|-----|-----|------------|
-| Скрипты деплоя | `platform/scripts/` | Инфраструктура — ответственность platform/ |
-| Docker для CI | `platform/docker/` | Там Docker-конфигурации |
-| Процесс разработки | `.github/.instructions/` | Специфика GitHub |
-| Тесты для CI | `tests/` | Там все тесты |
-
-**Пример связи:**
-
-```yaml
-# .github/workflows/deploy.yml
-jobs:
-  deploy:
-    steps:
-      - run: ./platform/scripts/deploy.sh  # Скрипт из platform/
+├── releases/                              # История релизов (опционально)
+│   │                                      # ← Регламентирует: .instructions/releases/
+│   ├── README.md                          #   Описание процесса релизов
+│   └── CHANGELOG.md                       #   История версий
+│
+│   # ═══════════════════════════════════════════════════════════════════
+│   # НАШИ ИНСТРУКЦИИ (GitHub игнорирует)
+│   # ═══════════════════════════════════════════════════════════════════
+│
+├── .instructions/                         # Инструкции для LLM/разработчиков
+│   │
+│   ├── README.md                          # Индекс всех инструкций
+│   │
+│   │   # ─── Процессные документы (без validation/create/modify) ───
+│   │
+│   ├── standard-github.md                 # Общие правила работы с GitHub
+│   ├── standard-development-workflow.md   # Цикл: Issue → Branch → PR → Merge
+│   ├── standard-release-workflow.md       # Процесс релизов
+│   │
+│   │   # ─── Скрипты автоматизации ───
+│   │
+│   ├── .scripts/
+│   │   ├── setup-labels.py                #   labels.yml → GitHub
+│   │   ├── validate-issue-template.py     #   Валидация ISSUE_TEMPLATE/*.yml
+│   │   ├── validate-pr-template.py        #   Валидация PULL_REQUEST_TEMPLATE.md
+│   │   └── validate-workflow.py           #   Валидация workflows/*.yml
+│   │
+│   │   # ─── Инструкции для ФАЙЛОВ в .github/ ───
+│   │
+│   ├── issue-templates/                   # → Регламентирует: ISSUE_TEMPLATE/
+│   │   ├── README.md
+│   │   ├── standard-issue-template.md     #   Формат YAML, обязательные поля
+│   │   ├── validation-issue-template.md   #   Проверка синтаксиса
+│   │   ├── create-issue-template.md       #   Воркфлоу создания шаблона
+│   │   └── modify-issue-template.md       #   Редактирование, деактивация
+│   │
+│   ├── pr-template/                       # → Регламентирует: PULL_REQUEST_TEMPLATE.md
+│   │   ├── README.md
+│   │   ├── standard-pr-template.md        #   Структура MD, секции
+│   │   ├── validation-pr-template.md      #   Проверка структуры
+│   │   └── modify-pr-template.md          #   Редактирование
+│   │
+│   ├── workflows-files/                   # → Регламентирует: workflows/
+│   │   ├── README.md
+│   │   ├── standard-workflow-file.md      #   Структура YAML, триггеры, jobs
+│   │   ├── validation-workflow-file.md    #   Проверка синтаксиса
+│   │   ├── create-workflow-file.md        #   Воркфлоу создания
+│   │   └── modify-workflow-file.md        #   Редактирование
+│   │
+│   ├── codeowners/                        # → Регламентирует: CODEOWNERS
+│   │   ├── README.md
+│   │   ├── standard-codeowners.md         #   Синтаксис, паттерны
+│   │   └── modify-codeowners.md           #   Добавление правил
+│   │
+│   │   # ─── Инструкции для СПРАВОЧНИКОВ в .github/ ───
+│   │
+│   ├── labels/                            # → Регламентирует: labels/
+│   │   ├── README.md
+│   │   ├── standard-labels.md             #   Категории, именование, цвета
+│   │   ├── create-label.md                #   Добавление метки
+│   │   └── modify-label.md                #   Изменение, удаление
+│   │
+│   │   # ─── Инструкции для ОБЪЕКТОВ GITHUB (живут в GitHub, не в папке) ───
+│   │
+│   ├── issues/                            # → Регламентирует: GitHub Issues
+│   │   ├── README.md
+│   │   ├── standard-issue.md              #   Свойства Issue, CLI команды
+│   │   ├── validation-issue.md            #   Чек-лист перед закрытием
+│   │   ├── create-issue.md                #   Воркфлоу создания Issue
+│   │   └── modify-issue.md                #   Редактирование, labels, закрытие
+│   │
+│   ├── pull-requests/                     # → Регламентирует: GitHub Pull Requests
+│   │   ├── README.md
+│   │   ├── standard-pull-request.md       #   Свойства PR, CLI команды
+│   │   ├── validation-pull-request.md     #   Чек-лист перед мержем
+│   │   ├── create-pull-request.md         #   Воркфлоу создания PR
+│   │   └── modify-pull-request.md         #   Ревью, мерж, редактирование
+│   │
+│   ├── releases/                          # → Регламентирует: GitHub Releases
+│   │   ├── README.md
+│   │   ├── standard-release.md            #   Semver, changelog, теги
+│   │   ├── validation-release.md          #   Проверка перед релизом
+│   │   ├── create-release.md              #   Воркфлоу создания релиза
+│   │   └── modify-release.md              #   Редактирование, hotfix
+│   │
+│   ├── milestones/                        # → Регламентирует: GitHub Milestones
+│   │   ├── README.md
+│   │   ├── standard-milestone.md          #   Свойства, типы (Sprint, Release)
+│   │   ├── create-milestone.md            #   Воркфлоу создания
+│   │   └── modify-milestone.md            #   Продление, закрытие
+│   │
+│   └── projects/                          # → Регламентирует: GitHub Projects
+│       ├── README.md
+│       ├── standard-project.md            #   Views, поля, автоматизация
+│       ├── create-project.md              #   Воркфлоу создания
+│       └── modify-project.md              #   Настройка, архивация
+│
+└── README.md                              # Описание папки .github/
 ```
 
 ---
 
-### 6. Необходимые инструкции
+#### 5.3 Разделение: что где
 
-#### 6.1 Корневые инструкции
+| Тип | Где хранится | Где инструкции | Пример |
+|-----|--------------|----------------|--------|
+| **Объект GitHub** | В GitHub | `.instructions/issues/` | Issue #123 |
+| **Файл шаблона** | `.github/ISSUE_TEMPLATE/` | `.instructions/issue-templates/` | `bug.yml` |
+| **Справочник labels** | `.github/labels/` | `.instructions/labels/` | `labels.yml` |
+| **Справочник milestones** | `.github/milestones/` | `.instructions/milestones/` | `milestones.yml` |
+| **Справочник releases** | `.github/releases/` | `.instructions/releases/` | `CHANGELOG.md` |
+| **Workflow файл** | `.github/workflows/` | `.instructions/workflows-files/` | `ci.yml` |
 
-| Файл | Тип | Описание |
-|------|-----|----------|
-| `standard-github.md` | standard | Общие правила работы с GitHub |
-| `standard-development-workflow.md` | standard | Процесс: Issue → PR → Merge → Release |
-| `standard-release-workflow.md` | standard | Как делать релизы |
+**Ключевое:**
+- Файлы GitHub (ISSUE_TEMPLATE/, workflows/) — в корне `.github/`
+- Инструкции как с ними работать — в `.github/.instructions/`
+- Справочники — в отдельных папках `.github/labels/`, `.github/milestones/`, `.github/releases/`
 
-#### 6.2 Инструкции по объектам
+---
 
-Каждый объект GitHub имеет полный набор инструкций:
+#### 5.4 Связи между компонентами
 
-| Объект | standard | validation | create | modify |
-|--------|----------|------------|--------|--------|
-| **Issue** | Свойства, CLI | Проверка шаблонов | Создание Issue/шаблона | Изменение |
-| **Pull Request** | Свойства, CLI | Проверка template | Создание PR | Изменение |
-| **Label** | Система меток | Проверка именования | Создание метки | Изменение |
-| **Milestone** | Вехи, спринты | — | Создание вехи | Изменение |
-| **Release** | Версионирование | Проверка semver | Создание релиза | Изменение |
-| **Workflow** | GitHub Actions | Проверка YAML | Создание workflow | Изменение |
-| **Project** | Канбан-доски | — | Создание доски | Изменение |
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                              .github/                               │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  labels/labels.yml          .instructions/issues/create-issue.md   │
+│  ┌──────────────┐           ┌──────────────┐                        │
+│  │ type:bug     │ ←──────── │ "Выбрать     │                        │
+│  │ type:feature │           │  метки из    │                        │
+│  │ priority:... │           │  labels.yml" │                        │
+│  └──────────────┘           └──────────────┘                        │
+│         │                                                           │
+│         ↓ setup-labels.py                                           │
+│  ┌──────────────┐                                                   │
+│  │   GitHub     │  (метки синхронизируются в GitHub)                │
+│  │   Labels     │                                                   │
+│  └──────────────┘                                                   │
+│                                                                     │
+│  ISSUE_TEMPLATE/bug.yml     .instructions/issue-templates/          │
+│  ┌──────────────┐           ┌──────────────┐                        │
+│  │ name: Bug    │ ←──────── │ standard-    │  "Как писать          │
+│  │ description: │           │ issue-       │   YAML шаблон"         │
+│  │ body: ...    │           │ template.md  │                        │
+│  └──────────────┘           └──────────────┘                        │
+│         │                                                           │
+│         ↓ GitHub использует                                         │
+│  ┌──────────────┐           .instructions/issues/                   │
+│  │  Новый Issue │ ←──────── ┌──────────────┐                        │
+│  │  (в GitHub)  │           │ create-      │  "Как создать Issue"   │
+│  └──────────────┘           │ issue.md     │                        │
+│                             └──────────────┘                        │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
-#### 6.3 Скиллы Claude
+---
 
-| Скилл | Описание | Инструкция |
-|-------|----------|------------|
-| `/issue-create` | Создать Issue | `issues/create-issue.md` |
-| `/pr-create` | Создать PR | `pull-requests/create-pull-request.md` |
-| `/release-create` | Создать релиз | `releases/create-release.md` |
-| `/labels-setup` | Настроить метки | `labels/create-label.md` |
-| `/milestone-create` | Создать веху | `milestones/create-milestone.md` |
+#### 5.5 Что НЕ входит в .github/
 
-#### 6.4 Порядок создания инструкций
+| Что | Где должно быть | Почему |
+|-----|-----------------|--------|
+| Скрипты деплоя | `platform/scripts/` | Инфраструктура |
+| Docker для CI | `platform/docker/` | Инфраструктура |
+| Тесты | `tests/` | Код тестов |
+| Конфиги окружений | `config/` | Не GitHub-специфично |
+
+---
+
+### 6. Порядок создания
+
+> **Примечание:** Полная структура и зоны ответственности описаны в разделе 5.
+
+#### 6.1 Скиллы Claude
+
+**Статус:** Преждевременно планировать.
+
+Скиллы создаются через `/skill-create` ПОСЛЕ создания соответствующих инструкций. Порядок:
+1. Создать инструкцию (standard → validation → create → modify)
+2. Вызвать `/skill-create` для инструкции
+3. Скилл автоматически связывается с инструкцией
+
+**Принцип:** Сначала инструкции, потом скиллы. Не наоборот.
+
+#### 6.2 Порядок создания инструкций
 
 По стандарту `.instructions/standard-instruction.md`:
 
@@ -797,7 +913,7 @@ standard → validation → create → modify
 4. **Деплой:** По Release (не по merge в main)
 5. **Версионирование:** Semantic Versioning (v1.0.0)
 6. **Issue Templates:** YAML формы (bug, feature, task)
-7. **Labels:** Система type + priority
+7. **Labels:** Создать собственную систему (удалить дефолтные)
 8. **Branch Protection:** Опционально сейчас, обязательно при росте команды
 9. **CODEOWNERS:** Добавить при росте команды
 10. **Агент-ревьюер:** Планируется (Claude автоматически ревьюит PR)
@@ -806,20 +922,156 @@ standard → validation → create → modify
 
 ## Открытые вопросы
 
-1. **CI в GitHub Actions:**
-   - Нужен ли CI помимо pre-commit?
-   - Какие тесты запускать на PR? (pre-commit уже есть локально)
+### 1. CI в GitHub Actions
 
-2. **Production:**
-   - Где будет хоститься? (VPS, Cloud, etc.)
-   - Docker Registry?
+**Вопрос:** Нужен ли CI помимо pre-commit?
 
-3. **Агент-ревьюер:**
-   - Как запускать? (вручную, по расписанию, на событие PR)
-   - Какие проверки делать?
+**Решение:** Пока НЕТ. Pre-commit хуки запускаются локально и на коммит. Этого достаточно для текущей команды (2 человека). CI добавим когда:
+- Команда вырастет (нужна проверка на сервере, т.к. не все запускают pre-commit)
+- Появятся тяжёлые тесты (e2e, integration), которые долго запускать локально
 
-4. **Changelog:**
-   - Автоматический (`--generate-notes`) или вручную?
+**Действие:** Отложить. Вернуться при масштабировании команды.
+
+---
+
+### 2. Production и Platform
+
+**Вопросы:**
+- Где будет хоститься? (VPS, Cloud, etc.)
+- Docker Registry?
+- Нужна ли папка `platform/` вообще?
+
+**Решение:** Это вопрос для `platform/`, не для `.github/`. Папка `platform/` нужна для:
+- Docker-конфигураций
+- Kubernetes манифестов
+- Скриптов деплоя
+- Конфигурации мониторинга
+
+**Действие:** Создать отдельный черновик для `platform/` когда дойдём до деплоя.
+
+---
+
+### 3. Агент-ревьюер
+
+**Вопросы:**
+- Как запускать?
+- Какие проверки делать?
+
+**Решение:** Отложить. Агент будет использовать:
+- Скиллы из `.github/.instructions/` (когда будут созданы)
+- Скрипты валидации
+- Существующие инструкции
+
+**Действие:** Вернуться после создания базовых инструкций.
+
+---
+
+### 4. Changelog
+
+**Вопрос:** Автоматический (`--generate-notes`) или вручную?
+
+**Решение:** Автоматический через `gh release create --generate-notes`.
+
+**Открытые подвопросы:**
+- Где хранить CHANGELOG.md? (корень репо или releases/)
+- Нужно ли добавить в pre-commit проверку формата?
+- Где писать инструкции? (в `.github/.instructions/releases/` или отдельно)
+
+**Действие:** Проработать при создании `releases/` инструкций.
+
+---
+
+### 5. Labels (система меток)
+
+**Текущее состояние:** В репозитории стандартные метки GitHub (9 штук).
+
+**Решение:** Удалить стандартные, создать собственную систему с префиксами.
+
+**План действий:**
+1. Удалить все стандартные метки
+2. Создать собственную систему:
+   - `type:` — тип задачи (bug, feature, task, docs, refactor)
+   - `priority:` — приоритет (critical, high, medium, low)
+   - `area:` — область кода (backend, frontend, infra, api)
+   - `status:` — статус (blocked, in-review, ready)
+3. Добавить `setup-labels.py` в `.structure/initialization.md`
+
+**Действие:** Выполнить после согласования системы меток.
+
+---
+
+## План создания документации .github/
+
+> **Статус:** В процессе выполнения
+
+### Этап 1: Создание папок
+
+Через `/structure-create` создать папки (последовательно):
+
+**Основные папки .github/:**
+1. `.github/.instructions/` — корень инструкций
+2. `.github/labels/` — справочник меток
+3. `.github/milestones/` — справочник milestones
+4. `.github/releases/` — история релизов
+
+**Папки инструкций (внутри .instructions/):**
+5. `.github/.instructions/.scripts/` — скрипты автоматизации
+6. `.github/.instructions/issue-templates/` — инструкции для ISSUE_TEMPLATE/
+7. `.github/.instructions/pr-template/` — инструкции для PR template
+8. `.github/.instructions/workflows-files/` — инструкции для workflows/
+9. `.github/.instructions/codeowners/` — инструкции для CODEOWNERS
+10. `.github/.instructions/labels/` — инструкции для labels/
+11. `.github/.instructions/issues/` — инструкции для GitHub Issues
+12. `.github/.instructions/pull-requests/` — инструкции для GitHub PR
+13. `.github/.instructions/releases/` — инструкции для GitHub Releases
+14. `.github/.instructions/milestones/` — инструкции для GitHub Milestones
+15. `.github/.instructions/projects/` — инструкции для GitHub Projects
+
+---
+
+### Этап 2: Создание стандартов (параллельно)
+
+Запустить агентов для создания стандартов через `/instruction-create`.
+
+**Требования к агентам:**
+- Прочитать этот черновик ПЕРЕД созданием
+- Использовать ТОЛЬКО `/instruction-create`
+- Создавать ТОЛЬКО standard-* (не validation, create, modify)
+- Не выходить за рамки своей зоны ответственности
+
+**Список стандартов (13 штук):**
+
+| # | Путь | Зона ответственности |
+|---|------|---------------------|
+| 1 | `.instructions/standard-github.md` | Общие правила работы с GitHub |
+| 2 | `.instructions/standard-development-workflow.md` | Цикл Issue → PR → Merge |
+| 3 | `.instructions/standard-release-workflow.md` | Процесс релизов |
+| 4 | `.instructions/issue-templates/standard-issue-template.md` | Формат YAML шаблонов Issue |
+| 5 | `.instructions/pr-template/standard-pr-template.md` | Структура PR template |
+| 6 | `.instructions/workflows-files/standard-workflow-file.md` | Формат workflow YAML |
+| 7 | `.instructions/codeowners/standard-codeowners.md` | Синтаксис CODEOWNERS |
+| 8 | `.instructions/labels/standard-labels.md` | Система меток |
+| 9 | `.instructions/issues/standard-issue.md` | Свойства GitHub Issue |
+| 10 | `.instructions/pull-requests/standard-pull-request.md` | Свойства GitHub PR |
+| 11 | `.instructions/releases/standard-release.md` | Semver, changelog, теги |
+| 12 | `.instructions/milestones/standard-milestone.md` | Свойства milestone |
+| 13 | `.instructions/projects/standard-project.md` | GitHub Projects |
+
+---
+
+### Этап 3: Валидация captain-holt
+
+После создания каждого стандарта — запустить агента captain-holt для семантического анализа.
+
+**Цель:** Проверить ясность и однозначность инструкций.
+
+---
+
+### Прогресс
+
+- [ ] Этап 1: Создание папок (0/15)
+- [ ] Этап 2: Создание стандартов (0/13)
+- [ ] Этап 3: Валидация captain-holt (0/13)
 
 ---
 
