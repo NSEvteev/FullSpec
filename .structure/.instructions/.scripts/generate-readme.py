@@ -61,7 +61,22 @@ def get_nesting_level(rel_path: str) -> int:
     return len(parts)
 
 
-def compute_frontmatter(rel_path: str, is_instructions: bool) -> dict:
+def get_standard_version(repo_root: Path) -> str:
+    """Получить версию стандарта из standard-readme.md."""
+    standard_path = repo_root / ".structure/.instructions/standard-readme.md"
+    if standard_path.exists():
+        try:
+            content = standard_path.read_text(encoding="utf-8")
+            import re
+            match = re.search(r"^standard-version:\s*(.+)$", content, re.MULTILINE)
+            if match:
+                return match.group(1).strip()
+        except Exception:
+            pass
+    return "v1.2"  # fallback
+
+
+def compute_frontmatter(rel_path: str, is_instructions: bool, repo_root: Path) -> dict:
     """Вычислить frontmatter для README."""
     if is_instructions:
         standard = ".structure/.instructions/standard-readme.md"
@@ -71,9 +86,13 @@ def compute_frontmatter(rel_path: str, is_instructions: bool) -> dict:
     # index — путь к самому README
     index = f"{rel_path}/README.md" if rel_path else "README.md"
 
+    # Получаем версию стандарта
+    standard_version = get_standard_version(repo_root)
+
     return {
         "description": "{DESCRIPTION}",
         "standard": standard,
+        "standard_version": standard_version,
         "index": index,
     }
 
@@ -193,6 +212,7 @@ def generate_project_readme(rel_path: str, frontmatter: dict, useful_links: str)
     template = f'''---
 description: {{DESCRIPTION}}
 standard: {frontmatter["standard"]}
+standard-version: {frontmatter["standard_version"]}
 index: {frontmatter["index"]}
 ---
 
@@ -256,6 +276,7 @@ def generate_instructions_readme(rel_path: str, frontmatter: dict, useful_links:
     template = f'''---
 description: {{DESCRIPTION}}
 standard: {frontmatter["standard"]}
+standard-version: {frontmatter["standard_version"]}
 index: {frontmatter["index"]}
 ---
 
@@ -372,7 +393,7 @@ def generate_readme(folder_path: str, repo_root: Path) -> str:
     is_instructions = is_instructions_folder(folder_path)
 
     # Вычисляем frontmatter
-    frontmatter = compute_frontmatter(folder_path, is_instructions)
+    frontmatter = compute_frontmatter(folder_path, is_instructions, repo_root)
 
     # Генерируем "Полезные ссылки"
     if is_instructions:

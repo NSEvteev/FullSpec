@@ -23,6 +23,214 @@
       "finished_at": "2026-02-03T11:29:33.998378Z",
       "task": "",
       "working_on": []
+    },
+    "ab4cb21": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T13:40:19.053411Z",
+      "finished_at": "2026-02-03T13:43:31.515348Z",
+      "task": "",
+      "working_on": []
+    },
+    "aa428e5": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T13:40:23.868276Z",
+      "finished_at": "2026-02-03T13:43:00.291977Z",
+      "task": "",
+      "working_on": []
+    },
+    "ad21986": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T13:40:28.733492Z",
+      "finished_at": "2026-02-03T13:43:14.968114Z",
+      "task": "",
+      "working_on": []
+    },
+    "add129a": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-03T13:43:39.452368Z",
+      "finished_at": "2026-02-03T13:48:36.646945Z",
+      "task": "",
+      "working_on": []
+    },
+    "a4e5dd2": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-03T13:43:40.757012Z",
+      "finished_at": "2026-02-03T13:47:17.526672Z",
+      "task": "",
+      "working_on": []
+    },
+    "aa86d1a": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-03T13:43:42.180262Z",
+      "finished_at": "2026-02-03T13:48:18.443949Z",
+      "task": "",
+      "working_on": []
+    },
+    "a1b8b40": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T14:16:48.781942Z",
+      "finished_at": "2026-02-03T14:19:09.940190Z",
+      "task": "",
+      "working_on": []
+    },
+    "ad65c22": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T14:16:54.141565Z",
+      "finished_at": "2026-02-03T14:19:59.640897Z",
+      "task": "",
+      "working_on": []
+    },
+    "afe2590": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T14:16:58.846749Z",
+      "finished_at": "2026-02-03T14:19:41.991872Z",
+      "task": "",
+      "working_on": []
+    },
+    "a1d0185": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T14:17:04.028377Z",
+      "finished_at": "2026-02-03T14:19:09.355611Z",
+      "task": "",
+      "working_on": []
+    },
+    "a92d097": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-03T14:21:26.765910Z",
+      "finished_at": "2026-02-03T14:26:07.738602Z",
+      "task": "",
+      "working_on": []
+    },
+    "a9e2cf6": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T14:33:01.810470Z",
+      "finished_at": "2026-02-03T14:35:32.635100Z",
+      "task": "",
+      "working_on": []
+    },
+    "af3e5b0": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T14:33:08.267466Z",
+      "finished_at": "2026-02-03T14:35:59.750598Z",
+      "task": "",
+      "working_on": []
+    },
+    "a67907a": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-03T14:36:10.502250Z",
+      "finished_at": "2026-02-03T14:40:39.393786Z",
+      "task": "",
+      "working_on": []
+    },
+    "a02f149": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-03T14:36:12.933726Z",
+      "finished_at": "2026-02-03T14:42:22.351733Z",
+      "task": "",
+      "working_on": []
+    },
+    "aec8da9": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T14:49:10.485839Z",
+      "finished_at": "2026-02-03T14:52:21.234142Z",
+      "task": "",
+      "working_on": []
+    },
+    "a4ed5a7": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T14:49:13.929550Z",
+      "finished_at": "2026-02-03T14:53:41.481005Z",
+      "task": "",
+      "working_on": []
+    },
+    "a1cfd31": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T14:49:18.546554Z",
+      "finished_at": "2026-02-03T14:51:33.307522Z",
+      "task": "",
+      "working_on": []
+    },
+    "ada7c81": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-03T14:53:50.904064Z",
+      "finished_at": "2026-02-03T14:57:55.298398Z",
+      "task": "",
+      "working_on": []
+    },
+    "a75cf60": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-03T14:53:53.180700Z",
+      "finished_at": "2026-02-03T14:58:10.354870Z",
+      "task": "",
+      "working_on": []
+    },
+    "a458a9e": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-03T14:53:57.202394Z",
+      "finished_at": "2026-02-03T14:59:06.368458Z",
+      "task": "",
+      "working_on": []
+    },
+    "a84a253": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T15:08:22.988383Z",
+      "finished_at": "2026-02-03T15:11:02.883751Z",
+      "task": "",
+      "working_on": []
+    },
+    "adfc9ab": {
+      "status": "completed",
+      "agent_type": "amy-santiago",
+      "started_at": "2026-02-03T15:08:27.130486Z",
+      "finished_at": "2026-02-03T15:12:12.985146Z",
+      "task": "",
+      "working_on": []
+    },
+    "a9db01c": {
+      "status": "running",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-03T15:12:24.282033Z",
+      "finished_at": null,
+      "task": "",
+      "working_on": []
+    },
+    "a38172f": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-03T15:13:20.503231Z",
+      "finished_at": "2026-02-03T15:17:11.519736Z",
+      "task": "",
+      "working_on": []
+    },
+    "a2e5f7b": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-03T15:13:23.741004Z",
+      "finished_at": "2026-02-03T15:17:20.840076Z",
+      "task": "",
+      "working_on": []
     }
   }
 }

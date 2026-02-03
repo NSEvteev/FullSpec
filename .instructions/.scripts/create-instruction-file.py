@@ -23,6 +23,7 @@ create-instruction-file.py — Создание файла инструкции 
 """
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -32,15 +33,19 @@ from pathlib import Path
 # =============================================================================
 
 VALID_TYPES = ("standard", "create", "modify", "validation")
+VERSION_PATTERN = re.compile(r"^Версия стандарта:\s*(\d+\.\d+)", re.MULTILINE)
 
 TEMPLATES = {
     "standard": '''---
 description: {description}
 standard: {standard_path}
+standard-version: v{standard_version}
 index: {index_path}
 ---
 
 # Стандарт {title}
+
+Версия стандарта: 1.0
 
 {short_description}
 
@@ -84,6 +89,7 @@ index: {index_path}
     "create": '''---
 description: {description}
 standard: {standard_path}
+standard-version: v{standard_version}
 index: {index_path}
 ---
 
@@ -164,6 +170,7 @@ index: {index_path}
     "modify": '''---
 description: {description}
 standard: {standard_path}
+standard-version: v{standard_version}
 index: {index_path}
 ---
 
@@ -266,6 +273,7 @@ index: {index_path}
     "validation": '''---
 description: {description}
 standard: {standard_path}
+standard-version: v{standard_version}
 index: {index_path}
 ---
 
@@ -362,6 +370,18 @@ def find_repo_root(start_path: Path) -> Path:
     return start_path.resolve()
 
 
+def get_standard_version(file_path: Path) -> str | None:
+    """Извлечь версию из строки 'Версия стандарта: X.Y'."""
+    try:
+        content = file_path.read_text(encoding="utf-8")
+        match = VERSION_PATTERN.search(content)
+        if match:
+            return match.group(1)
+        return None
+    except Exception:
+        return None
+
+
 # =============================================================================
 # Основные функции
 # =============================================================================
@@ -396,6 +416,12 @@ def create_instruction_file(
     # standard — путь к standard-instruction.md
     standard_path = ".instructions/standard-instruction.md"
 
+    # Получить версию стандарта из standard-instruction.md
+    standard_file = repo_root / standard_path
+    standard_version = get_standard_version(standard_file)
+    if not standard_version:
+        raise ValueError(f"Не найдена 'Версия стандарта:' в {standard_file}")
+
     # index — README этой папки
     index_path = f"{rel_area}/README.md".replace("\\", "/")
 
@@ -426,6 +452,7 @@ def create_instruction_file(
         description=description,
         short_description=short_description,
         standard_path=standard_path,
+        standard_version=standard_version,
         index_path=index_path,
         readme_link=readme_link,
     )

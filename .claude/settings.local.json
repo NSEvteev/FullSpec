@@ -1,11 +1,24 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(winget install:*)",
+      "Bash(cmd /c \"gh label list\")",
+      "Bash(powershell -Command \"gh label list\")",
+      "Bash(powershell -Command \"Get-Command gh -ErrorAction SilentlyContinue | Select-Object Source; where.exe gh 2>$null; $env:PATH -split '';'' | Where-Object {$_-like ''*GitHub*''}\")",
+      "Bash(powershell -Command \"& ''C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe'' label list\")",
+      "Bash(powershell -Command \"$env:PATH -split '';'' | Where-Object { $_-like ''*GitHub*'' }\")",
+      "Bash(powershell:*)",
+      "Bash(findstr:*)",
+      "Skill(draft-validate)",
+      "Skill(structure-create)",
+      "Bash(test:*)",
+      "Skill(links-validate)",
+      "Bash(git mv:*)",
+      "Bash(move:*)"
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "powershell -ExecutionPolicy Bypass -File .claude/statusline.ps1"
-  },
-  "permissions": {
-    "allow": [
-      "Bash(winget install:*)"
-    ]
   }
 }
