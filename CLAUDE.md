@@ -17,6 +17,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Команды
 
 ```bash
+make setup     # Установить pre-commit хуки (ОБЯЗАТЕЛЬНО после клонирования!)
 make help      # Показать все команды
 make dev       # Запустить для разработки (docker-compose)
 make stop      # Остановить сервисы
@@ -26,6 +27,8 @@ make lint      # Линтинг
 make build     # Сборка для production
 make clean     # Очистка (docker down -v)
 ```
+
+> **Первый шаг:** После клонирования репозитория выполни `make setup` для установки pre-commit хуков.
 
 ## Архитектура
 

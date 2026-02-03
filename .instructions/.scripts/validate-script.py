@@ -5,10 +5,11 @@ validate-script.py — Валидация формата скриптов.
 Проверяет соответствие скрипта стандарту standard-script.md.
 
 Использование:
-    python validate-script.py <path> [--json] [--all] [--principles] [--repo <dir>]
+    python validate-script.py <path>... [--json] [--all] [--principles] [--repo <dir>]
 
 Примеры:
     python validate-script.py .instructions/.scripts/parse-docstrings.py
+    python validate-script.py file1.py file2.py file3.py
     python validate-script.py --all
     python validate-script.py --json --principles path/to/script.py
 
@@ -303,7 +304,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Валидация формата скриптов"
     )
-    parser.add_argument("path", nargs="?", help="Путь к скрипту")
+    parser.add_argument("path", nargs="*", help="Путь к скрипту (можно несколько)")
     parser.add_argument("--all", action="store_true", help="Проверить все скрипты")
     parser.add_argument("--json", action="store_true", help="JSON вывод")
     parser.add_argument("--principles", action="store_true", help="Проверять принципы (KISS, DRY, etc.)")
@@ -319,7 +320,7 @@ def main():
             print("Скрипты не найдены")
             sys.exit(1)
     elif args.path:
-        scripts = [Path(args.path)]
+        scripts = [Path(p) for p in args.path]
     else:
         parser.print_help()
         sys.exit(2)

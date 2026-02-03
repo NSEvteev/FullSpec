@@ -3,12 +3,13 @@
 validate-skill.py — Валидация скиллов по стандарту standard-skill.md.
 
 Использование:
-    python validate-skill.py <skill-name>
+    python validate-skill.py <skill-name-or-path>
     python validate-skill.py --all
-    python validate-skill.py --json <skill-name>
+    python validate-skill.py --json <skill-name-or-path>
 
 Примеры:
     python validate-skill.py structure-create
+    python validate-skill.py .claude/skills/skill-create/SKILL.md
     python validate-skill.py --all
     python validate-skill.py --json skill-create
 
@@ -257,7 +258,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Валидация скиллов по стандарту"
     )
-    parser.add_argument("skill", nargs="?", help="Имя скилла для проверки")
+    parser.add_argument("skill", nargs="?", help="Имя скилла или путь к SKILL.md")
     parser.add_argument("--all", action="store_true", help="Проверить все скиллы")
     parser.add_argument("--json", action="store_true", help="JSON вывод")
 
@@ -271,7 +272,17 @@ def main():
             print("Скиллы не найдены")
             sys.exit(1)
     elif args.skill:
-        skills = [SKILLS_DIR / args.skill / 'SKILL.md']
+        # Определить: путь или имя
+        skill_arg = args.skill
+        if '/' in skill_arg or '\\' in skill_arg or skill_arg.endswith('.md'):
+            # Это путь к файлу
+            skill_path = Path(skill_arg)
+            if not skill_path.is_absolute():
+                skill_path = repo_root / skill_path
+            skills = [skill_path]
+        else:
+            # Это имя скилла
+            skills = [SKILLS_DIR / skill_arg / 'SKILL.md']
     else:
         parser.print_help()
         sys.exit(2)

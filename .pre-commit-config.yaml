@@ -2,21 +2,51 @@
 # https://pre-commit.com/
 #
 # Установка:
-#   pip install pre-commit
-#   pre-commit install
+#   make setup
+#   # или: pip install pre-commit && pre-commit install
 #
 # Ручной запуск:
 #   pre-commit run --all-files
 
 repos:
-  # Локальные хуки
   - repo: local
     hooks:
-      # Проверка синхронизации структуры README
+      # 1. Проверка синхронизации структуры README
       - id: structure-sync
         name: Check README structure sync
         entry: python .structure/.instructions/.scripts/pre-commit-structure.py
         language: system
         pass_filenames: false
         always_run: true
+        stages: [pre-commit]
+
+      # 2. Валидация rules
+      - id: rules-validate
+        name: Validate rules format
+        entry: python .claude/.instructions/rules/.scripts/validate-rule.py
+        language: system
+        files: ^\.claude/rules/.*\.md$
+        exclude: ^\.claude/rules/_old-.*\.md$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]
+
+      # 3. Валидация скриптов
+      - id: scripts-validate
+        name: Validate scripts format
+        entry: python .instructions/.scripts/validate-script.py
+        language: system
+        files: \.scripts/.*\.py$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]
+
+      # 4. Валидация скиллов
+      - id: skills-validate
+        name: Validate skills format
+        entry: python .claude/.instructions/skills/.scripts/validate-skill.py
+        language: system
+        files: ^\.claude/skills/.*/SKILL\.md$
+        pass_filenames: true
+        require_serial: true
         stages: [pre-commit]

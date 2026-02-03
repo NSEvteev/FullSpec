@@ -1,313 +1,340 @@
 ---
-title: CI/CD интеграция валидаторов с GitHub Actions
+title: CI/CD интеграция валидаторов через Pre-commit
 type: feature
 status: draft
 created: 2026-02-01
+updated: 2026-02-03
 related:
-  - /.claude/agents/captain-holt/AGENT.md
-  - /.instructions/standard-script.md
-  - /.claude/.instructions/rules/standard-rule.md
-  - /.claude/.instructions/skills/standard-skill.md
+  - /.pre-commit-config.yaml
+  - /.structure/.instructions/.scripts/pre-commit-structure.py
 ---
 
 # CI/CD интеграция валидаторов
 
-## Проблема
+## Оглавление
 
-Анализ и валидация запускаются вручную. Нет автоматической проверки при PR или коммите. Новые документы и скрипты могут содержать ошибки, которые попадут в main без проверки.
+- [Концепция](#концепция)
+- [Архитектура](#архитектура)
+- [Pre-commit хуки](#pre-commit-хуки)
+- [Реализация](#реализация)
+- [Следующие шаги](#следующие-шаги)
 
-## Предлагаемое решение
+---
 
-### 1. GitHub Actions Workflow для документации
+## Концепция
 
-```yaml
-# .github/workflows/documentation-clarity.yml
-name: Documentation Clarity Check
+### Проблема
 
-on:
-  pull_request:
-    paths:
-      - '**/*.md'
-      - '!.claude/drafts/**'  # Исключить черновики
+Валидация запускается вручную. Невалидные документы, скрипты и скиллы могут попасть в main без проверки.
 
-jobs:
-  analyze:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Для diff с main
+### Решение: Pre-commit First
 
-      - name: Get changed markdown files
-        id: changed
-        run: |
-          FILES=$(git diff --name-only origin/main...HEAD | grep '\.md$' | grep -v '.claude/drafts/' || true)
-          echo "files=$FILES" >> $GITHUB_OUTPUT
-          echo "count=$(echo "$FILES" | wc -w)" >> $GITHUB_OUTPUT
+**Принцип:** Все проверки выполняются локально через pre-commit. CI/CD только дублирует их для внешних PR.
 
-      - name: Setup Claude CLI
-        if: steps.changed.outputs.count != '0'
-        run: |
-          # Установка Claude CLI (уточнить актуальный способ)
-          npm install -g @anthropic-ai/claude-code
+| Подход | API ключ | Где выполняется | Когда |
+|--------|----------|-----------------|-------|
+| Pre-commit | ❌ Не нужен | Локально | До коммита |
+| Captain Holt | ✅ Нужен | Локально | Вручную (опционально) |
 
-      - name: Run Captain Holt analysis
-        if: steps.changed.outputs.count != '0'
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          mkdir -p .claude/ci-reports
-          for file in ${{ steps.changed.outputs.files }}; do
-            echo "Analyzing: $file"
-            claude --agent captain-holt "Проанализируй $file" > ".claude/ci-reports/$(basename $file .md)-analysis.md" || true
-          done
+**Преимущества:**
+- Быстрая обратная связь (до коммита)
+- Нет затрат на API
+- CI/CD — страховка, не основной механизм
+- Работает оффлайн
 
-      - name: Check for P1 issues
-        if: steps.changed.outputs.count != '0'
-        run: |
-          P1_COUNT=$(grep -r "| P1 |" .claude/ci-reports/ | wc -l || echo "0")
-          if [ "$P1_COUNT" -gt "0" ]; then
-            echo "::error::Found $P1_COUNT critical (P1) documentation issues"
-            cat .claude/ci-reports/*
-            exit 1
-          fi
+---
 
-      - name: Upload analysis reports
-        if: always() && steps.changed.outputs.count != '0'
-        uses: actions/upload-artifact@v4
-        with:
-          name: holt-analysis-reports
-          path: .claude/ci-reports/
-          retention-days: 30
+## Архитектура
 
-      - name: Comment on PR
-        if: steps.changed.outputs.count != '0'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const reports = fs.readdirSync('.claude/ci-reports/');
-            let comment = '## Captain Holt Documentation Analysis\n\n';
+### Слои валидации
 
-            for (const report of reports) {
-              const content = fs.readFileSync(`.claude/ci-reports/${report}`, 'utf8');
-              // Извлечь только резюме
-              const summary = content.match(/## Резюме[\s\S]*?(?=---)/);
-              if (summary) {
-                comment += `### ${report}\n${summary[0]}\n`;
-              }
-            }
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: comment
-            });
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    РАЗРАБОТЧИК                               │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   PRE-COMMIT ХУКИ                            │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
+│  │  structure  │ │   rules     │ │   scripts   │            │
+│  │    sync     │ │  validate   │ │  validate   │            │
+│  └─────────────┘ └─────────────┘ └─────────────┘            │
+│  ┌─────────────┐                                            │
+│  │   skills    │                                            │
+│  │  validate   │                                            │
+│  └─────────────┘                                            │
+│                                                              │
+│  Результат: ✅ Passed → коммит разрешён                      │
+│             ❌ Failed → коммит заблокирован                  │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### 2. Конфигурация
+**Captain Holt** (опционально) — семантический анализ документов, запускается вручную, требует API ключ.
 
-**Secrets необходимые:**
-- `ANTHROPIC_API_KEY` — API ключ для Claude
+### Матрица проверок
 
-**Поведение:**
-| Результат анализа | Действие |
-|-------------------|----------|
-| Нет P1 проблем | PR проходит, комментарий с резюме |
-| Есть P1 проблемы | PR блокируется, требуется исправление |
-| P2/P3 проблемы | PR проходит, комментарий с рекомендациями |
+| Проверка | Скрипт | Что проверяет | Триггер |
+|----------|--------|---------------|---------|
+| structure-sync | `pre-commit-structure.py` | README деревья = файловая система | Любые файлы |
+| rules-validate | `validate-rule.py` | Формат rule-файлов | `.claude/rules/*.md` |
+| scripts-validate | `validate-script.py` | Формат Python-скриптов | `**/.scripts/*.py` |
+| skills-validate | `validate-skill.py` | Формат SKILL.md | `.claude/skills/**/SKILL.md` |
+| instructions-validate | `validate-instruction.py` | Формат инструкций | `**/.instructions/*.md` |
+| links-validate | `validate-links.py` | Битые ссылки в markdown | `**/*.md` |
 
-### 3. Исключения
+---
 
-Файлы, которые **не анализируются**:
-- `.claude/drafts/**` — черновики
-- `CHANGELOG.md` — автогенерируемый
-- `node_modules/**` — зависимости
+## Pre-commit хуки
 
-### 4. Интеграция с архивом анализов
+### Текущее состояние
 
-После успешного мержа PR:
-1. Анализы из `.claude/ci-reports/` копируются в архив
-2. Обновляется статистика в `common-issues.json`
+```yaml
+# .pre-commit-config.yaml (текущий)
+repos:
+  - repo: local
+    hooks:
+      - id: structure-sync
+        name: Check README structure sync
+        entry: python .structure/.instructions/.scripts/pre-commit-structure.py
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+```
 
-## Открытые вопросы
+### Целевое состояние
 
-1. **Стоимость:** Сколько стоит анализ в CI? Нужен ли кэш?
+```yaml
+# .pre-commit-config.yaml (целевой)
+repos:
+  - repo: local
+    hooks:
+      # 1. Синхронизация README с файловой системой
+      - id: structure-sync
+        name: Check README structure sync
+        entry: python .structure/.instructions/.scripts/pre-commit-structure.py
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
 
-2. **Скорость:** Как ускорить? Параллельный анализ нескольких файлов?
+      # 2. Валидация rules
+      - id: rules-validate
+        name: Validate rules format
+        entry: python .claude/.instructions/rules/.scripts/validate-rule.py
+        language: system
+        files: ^\.claude/rules/.*\.md$
+        exclude: ^\.claude/rules/_old-.*\.md$
+        pass_filenames: true
+        stages: [pre-commit]
 
-3. **Ложные срабатывания:** Как обрабатывать случаи, когда P1 проблема — false positive?
+      # 3. Валидация скриптов
+      - id: scripts-validate
+        name: Validate scripts format
+        entry: python .instructions/.scripts/validate-script.py
+        language: system
+        files: \.scripts/.*\.py$
+        pass_filenames: true
+        stages: [pre-commit]
 
-4. **Self-hosted runner:** Нужен ли для безопасности API ключа?
+      # 4. Валидация скиллов
+      - id: skills-validate
+        name: Validate skills format
+        entry: python .claude/.instructions/skills/.scripts/validate-skill.py
+        language: system
+        files: ^\.claude/skills/.*/SKILL\.md$
+        pass_filenames: true
+        stages: [pre-commit]
 
-## 5. Валидация rules в CI/CD
+      # 5. Валидация инструкций
+      - id: instructions-validate
+        name: Validate instructions format
+        entry: python .instructions/.scripts/validate-instruction.py
+        language: system
+        files: \.instructions/.*\.md$
+        exclude: README\.md$
+        pass_filenames: true
+        stages: [pre-commit]
 
-**Источник:** Анализ Holt (standard-rule.md, проблема 5.4)
+      # 6. Валидация ссылок (опционально, может быть медленным)
+      - id: links-validate
+        name: Validate markdown links
+        entry: python .structure/.instructions/.scripts/validate-links.py
+        language: system
+        files: \.md$
+        pass_filenames: true
+        stages: [pre-commit]
+        verbose: true
+```
 
-Автоматическая валидация rules перед коммитом предотвращает попадание невалидных rules в main-ветку.
+### Описание хуков
 
-### Pre-commit hook
+#### 1. structure-sync (уже реализован ✅)
 
-Добавить в `.git/hooks/pre-commit`:
+**Назначение:** Проверяет что деревья в README соответствуют реальной файловой системе.
+
+**Скрипт:** `.structure/.instructions/.scripts/pre-commit-structure.py`
+
+**Логика:**
+1. Получает список staged файлов
+2. Определяет затронутые папки
+3. Запускает `validate-structure.py` для корневой структуры
+4. Запускает `sync-readme.py --check` для README в затронутых папках
+
+**Коды ошибок:**
+- `T002`: Папка есть в ФС, нет в SSOT
+- `T003`: Папка есть в SSOT, нет в ФС
+- `R001`: Элемент в ФС, отсутствует в дереве README
+- `R002`: Элемент в дереве README, отсутствует в ФС
+
+#### 2. rules-validate
+
+**Назначение:** Проверяет формат rule-файлов.
+
+**Скрипт:** `.claude/.instructions/rules/.scripts/validate-rule.py`
+
+**Что проверяет:**
+- Наличие обязательного frontmatter (`description`, `globs`)
+- Корректность формата globs
+- Валидность markdown-структуры
+- Отсутствие конфликтов paths
+
+**Коды ошибок:** R001-R015 (см. validation-rule.md)
+
+#### 3. scripts-validate
+
+**Назначение:** Проверяет формат Python-скриптов автоматизации.
+
+**Скрипт:** `.instructions/.scripts/validate-script.py`
+
+**Что проверяет:**
+- Наличие docstring с description
+- Структура docstring (Args, Returns, Exit codes)
+- Соответствие принципам (KISS, DRY, YAGNI)
+- Обработка ошибок
+
+**Коды ошибок:** S001-S032 (см. validation-script.md)
+
+#### 4. skills-validate
+
+**Назначение:** Проверяет формат SKILL.md файлов.
+
+**Скрипт:** `.claude/.instructions/skills/.scripts/validate-skill.py`
+
+**Что проверяет:**
+- Наличие обязательного frontmatter
+- Структура секций (Формат вызова, Воркфлоу, Чек-лист)
+- Ссылка на SSOT инструкцию
+- Корректность параметров
+
+**Коды ошибок:** K001-K031 (см. validation-skill.md)
+
+#### 5. instructions-validate
+
+**Назначение:** Проверяет формат инструкций.
+
+**Скрипт:** `.instructions/.scripts/validate-instruction.py`
+
+**Что проверяет:**
+- Наличие frontmatter (description, standard, standard-version)
+- Структура документа (заголовки, оглавление)
+- Ссылки на связанные документы
+
+**Коды ошибок:** I001-I031 (см. validation-instruction.md)
+
+#### 6. links-validate (опционально)
+
+**Назначение:** Проверяет что все ссылки в markdown валидны.
+
+**Скрипт:** `.structure/.instructions/.scripts/validate-links.py`
+
+**Что проверяет:**
+- Существование файлов по относительным путям
+- Корректность якорей (#section)
+- Отсутствие битых внутренних ссылок
+
+**Примечание:** Может быть медленным на больших коммитах. Рекомендуется запускать только для .md файлов.
+
+---
+
+## Реализация
+
+### Фаза 1: Адаптация скриптов (текущая)
+
+Скрипты валидации должны поддерживать вызов с путём к файлу:
 
 ```bash
-#!/bin/bash
-# Валидация всех rules перед коммитом
+# Текущий вызов (по имени)
+python validate-rule.py core
 
-for rule in .claude/rules/*.md; do
-  if [[ $rule != *"_old-"* ]]; then
-    name=$(basename "$rule" .md)
-    python .claude/.instructions/rules/.scripts/validate-rule.py "$name" || exit 1
-  fi
-done
-
-echo "✅ Все rules валидны"
+# Нужный вызов (по пути)
+python validate-rule.py .claude/rules/core.md
 ```
 
-### GitHub Actions
+**Статус скриптов:**
 
-Добавить в `.github/workflows/validate-rules.yml`:
+| Скрипт | Текущий вызов | Нужный вызов | Статус |
+|--------|---------------|--------------|--------|
+| `validate-rule.py` | `name` или `path` | `path` | ✅ Готов |
+| `validate-script.py` | `path` | `path` | ✅ Готов |
+| `validate-skill.py` | `name` или `path` | `path` | ✅ Готов |
+| `validate-instruction.py` | `path` | `path` | ✅ Готов |
+| `validate-links.py` | `path` | `path` | ✅ Готов |
 
-```yaml
-name: Validate Rules
-on: [push, pull_request]
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: |
-          for rule in .claude/rules/*.md; do
-            name=$(basename "$rule" .md)
-            python .claude/.instructions/rules/.scripts/validate-rule.py "$name"
-          done
-```
+### Фаза 2: Обновление pre-commit-config ✅
 
-## 6. Валидация скриптов в CI/CD
+Обновлён `.pre-commit-config.yaml` с хуками:
+- `structure-sync`
+- `rules-validate`
+- `scripts-validate`
+- `skills-validate`
 
-**Источник:** Анализ Holt (standard-script.md, проблема 5.4)
-
-Автоматическая валидация скриптов перед коммитом обеспечивает соответствие стандартам.
-
-### Pre-commit hook
-
-Добавить в `.git/hooks/pre-commit`:
-
-```bash
-#!/bin/bash
-# Валидация всех скриптов перед коммитом
-
-# Найти все .py файлы в .scripts папках
-find . -path "*/.instructions/.scripts/*.py" -type f | while read script; do
-  echo "Validating: $script"
-  python .instructions/.scripts/validate-script.py "$script" || exit 1
-done
-
-echo "✅ Все скрипты валидны"
-```
-
-### GitHub Actions
-
-Добавить в `.github/workflows/validate-scripts.yml`:
-
-```yaml
-name: Validate Scripts
-on:
-  push:
-    paths:
-      - '**/.scripts/*.py'
-  pull_request:
-    paths:
-      - '**/.scripts/*.py'
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: pip install pyyaml
-      - name: Validate scripts
-        run: |
-          find . -path "*/.instructions/.scripts/*.py" -type f | while read script; do
-            echo "Validating: $script"
-            python .instructions/.scripts/validate-script.py "$script"
-          done
-```
-
-## 7. Валидация скиллов в CI/CD
-
-**Источник:** Анализ Holt (standard-skill.md, проблема 5.3)
-
-Скиллы могут быть частью пайплайна валидации PR (например, `/links-validate` в pre-commit).
-
-### Pre-commit hook
-
-Добавить в `.git/hooks/pre-commit`:
-
-```bash
-#!/bin/bash
-# Валидация всех скиллов перед коммитом
-
-for skill in .claude/skills/*/SKILL.md; do
-  if [[ -f "$skill" ]]; then
-    name=$(dirname "$skill" | xargs basename)
-    echo "Validating skill: $name"
-    python .claude/.instructions/skills/.scripts/validate-skill.py "$name" || exit 1
-  fi
-done
-
-echo "✅ Все скиллы валидны"
-```
-
-### GitHub Actions
-
-Добавить в `.github/workflows/validate-skills.yml`:
-
-```yaml
-name: Validate Skills
-on:
-  push:
-    paths:
-      - '.claude/skills/**'
-  pull_request:
-    paths:
-      - '.claude/skills/**'
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: pip install pyyaml
-      - name: Validate skills
-        run: |
-          for skill in .claude/skills/*/SKILL.md; do
-            if [[ -f "$skill" ]]; then
-              name=$(dirname "$skill" | xargs basename)
-              echo "Validating: $name"
-              python .claude/.instructions/skills/.scripts/validate-skill.py "$name"
-            fi
-          done
-```
+---
 
 ## Следующие шаги
 
-- [ ] Создать `.github/workflows/documentation-clarity.yml`
-- [ ] Создать `.github/workflows/validate-rules.yml`
-- [ ] Создать `.github/workflows/validate-scripts.yml`
-- [ ] Создать `.github/workflows/validate-skills.yml`
-- [ ] Добавить pre-commit hook для rules
-- [ ] Добавить pre-commit hook для скриптов
-- [ ] Добавить pre-commit hook для скиллов
-- [ ] Добавить `ANTHROPIC_API_KEY` в secrets репозитория
-- [ ] Протестировать на тестовом PR
-- [ ] Настроить branch protection rule (require passing checks)
+### Приоритет 1: Pre-commit хуки ✅ ВЫПОЛНЕНО
+
+- [x] Адаптировать `validate-rule.py` для приёма пути файла
+- [x] Адаптировать `validate-skill.py` для приёма пути файла
+- [x] Добавить хук `rules-validate` в `.pre-commit-config.yaml`
+- [x] Добавить хук `scripts-validate` в `.pre-commit-config.yaml`
+- [x] Добавить хук `skills-validate` в `.pre-commit-config.yaml`
+- [x] Добавить `make setup` для установки pre-commit
+- [ ] Протестировать все хуки локально с реальным коммитом
+
+### Приоритет 2: GitHub Actions — НЕ ТРЕБУЕТСЯ
+
+Для приватного репозитория pre-commit достаточно. GitHub Actions избыточны.
+
+### Приоритет 3: Опциональные улучшения
+
+- [ ] Добавить хук `instructions-validate`
+- [ ] Добавить хук `links-validate`
+
+> **Captain Holt** — запускается вручную (`/agent captain-holt`), не в pre-commit. Требует API ключ.
+
+---
+
+## FAQ
+
+### Зачем дублировать проверки в CI, если есть pre-commit?
+
+Pre-commit можно обойти (`git commit --no-verify`). CI — гарантия для main ветки.
+
+### Почему не использовать только CI?
+
+Обратная связь через 2-5 минут (CI) vs мгновенно (pre-commit). Разработчик узнаёт об ошибке до коммита.
+
+### Нужен ли ANTHROPIC_API_KEY?
+
+Нет, если не используете Captain Holt. Все структурные проверки работают локально.
+
+### Как отключить pre-commit временно?
+
+```bash
+git commit --no-verify -m "WIP: временный коммит"
+```
+
+Но CI всё равно проверит при PR.

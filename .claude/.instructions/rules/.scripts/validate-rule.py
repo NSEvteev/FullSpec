@@ -5,11 +5,11 @@ validate-rule.py — Валидация формата rule-файлов.
 Проверяет соответствие rule стандарту standard-rule.md.
 
 Использование:
-    python validate-rule.py <name> [--json] [--all] [--repo <dir>]
+    python validate-rule.py <name-or-path> [--json] [--all] [--repo <dir>]
 
 Примеры:
     python validate-rule.py ssot
-    python validate-rule.py rules
+    python validate-rule.py .claude/rules/core.md
     python validate-rule.py --all
     python validate-rule.py --json ssot
 
@@ -217,10 +217,25 @@ def validate_rule(path: Path, repo_root: Path) -> list[tuple[str, str]]:
 # Основная логика
 # =============================================================================
 
-def validate_single(name: str, repo_root: Path, json_output: bool = False) -> bool:
-    """Валидировать один rule."""
-    # Путь к rule
-    rule_path = repo_root / ".claude" / "rules" / f"{name}.md"
+def validate_single(name_or_path: str, repo_root: Path, json_output: bool = False) -> bool:
+    """Валидировать один rule.
+
+    Args:
+        name_or_path: Имя rule (без .md) или путь к файлу
+        repo_root: Корень репозитория
+        json_output: Выводить JSON
+    """
+    # Определить: путь или имя
+    if '/' in name_or_path or '\\' in name_or_path or name_or_path.endswith('.md'):
+        # Это путь к файлу
+        rule_path = Path(name_or_path)
+        if not rule_path.is_absolute():
+            rule_path = repo_root / rule_path
+        name = rule_path.stem
+    else:
+        # Это имя rule
+        name = name_or_path
+        rule_path = repo_root / ".claude" / "rules" / f"{name}.md"
 
     if not rule_path.exists():
         if json_output:
@@ -302,7 +317,7 @@ def main():
     parser.add_argument(
         "name",
         nargs="?",
-        help="Имя rule без расширения (например: ssot)"
+        help="Имя rule (ssot) или путь к файлу (.claude/rules/core.md)"
     )
     parser.add_argument(
         "--all",

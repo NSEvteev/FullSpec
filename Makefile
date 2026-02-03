@@ -1,7 +1,7 @@
 # Makefile — интерфейс команд проекта
 # Подробнее: README.md
 
-.PHONY: dev stop build test test-e2e test-load lint clean help sync-structure check-structure
+.PHONY: dev stop build test test-e2e test-load lint clean setup init help sync-structure check-structure
 
 # === Запуск ===
 
@@ -37,8 +37,22 @@ lint:  ## Линтинг
 clean:  ## Очистка
 	docker-compose down -v --remove-orphans
 
-init:  ## Инициализация проекта
-	@echo "TODO: настроить инициализацию"
+# === Настройка ===
+
+setup:  ## Первоначальная настройка (pre-commit хуки)
+	@echo "📦 Установка pre-commit..."
+	pip install pre-commit
+	pre-commit install
+	@echo "✅ Pre-commit хуки установлены"
+	@echo ""
+	@echo "Теперь при каждом коммите будут проверяться:"
+	@echo "  • Синхронизация README с файловой системой"
+	@echo ""
+	@echo "Готово! Используйте 'make dev' для запуска."
+
+init:  ## Полная инициализация проекта
+	@$(MAKE) setup
+	@echo "TODO: дополнительная инициализация (копирование .env.example и т.д.)"
 
 # === Структура ===
 

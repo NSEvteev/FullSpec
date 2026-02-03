@@ -249,8 +249,8 @@ graph LR
 git clone <repository-url>
 cd project_template
 
-# Инициализация проекта
-make init
+# Установить pre-commit хуки (обязательно!)
+make setup
 
 # Запуск всех сервисов
 make dev
@@ -258,6 +258,8 @@ make dev
 # Остановка
 make stop
 ```
+
+> **Важно:** `make setup` устанавливает pre-commit хуки, которые проверяют код перед каждым коммитом. Это обязательный шаг для всех разработчиков.
 
 ### Основные команды
 
