@@ -37,23 +37,22 @@ index: specs/.instructions/README.md
 | [18. Скиллы](#18-скиллы) | — | Скиллы для работы с /specs/ |
 
 ```
-/.claude/.instructions/specs/
-├── README.md           # Этот файл (индекс)
-├── statuses.md         # Система статусов
-├── workflow.md         # Workflow от идеи до реализации
-├── discussions.md      # Формат Discussion
-├── impact.md           # Формат Impact
-├── adr.md              # Формат ADR
-├── plans.md            # Формат Plan
-├── architecture.md     # Формат Architecture
-├── glossary.md         # Формат Glossary
-├── rules.md            # Правила, запреты, принятые решения
-├── naming.md           # Именование и нумерация
-├── indexes.md          # Форматы README-индексов
-├── errors.md           # Обработка ошибок
-├── output.md           # Форматы вывода
-├── examples.md         # Примеры использования
-└── relations.md        # Связи между документами
+/specs/.instructions/
+├── discussions/          # Инструкции для дискуссий
+├── impact/               # Инструкции для импакт-анализа
+├── services/             # Инструкции для сервисов
+├── README.md             # Этот файл (индекс)
+├── architecture.md       # Формат Architecture
+├── errors.md             # Обработка ошибок
+├── examples.md           # Примеры использования
+├── glossary.md           # Формат Glossary
+├── indexes.md            # Форматы README-индексов
+├── naming.md             # Именование и нумерация
+├── output.md             # Форматы вывода
+├── relations.md          # Связи между документами
+├── rules.md              # Правила, запреты, принятые решения
+├── statuses.md           # Система статусов
+└── workflow.md           # Workflow от идеи до реализации
 ```
 
 ---

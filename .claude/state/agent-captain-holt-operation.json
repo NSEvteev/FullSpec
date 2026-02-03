@@ -1,33 +1,33 @@
 {
   "agent": "captain-holt",
-  "description": "Семантический анализ standard-migration.md",
-  "started_at": "2026-02-02T10:15:00Z",
-  "finished_at": "2026-02-02T10:22:00Z",
-  "context": "Задача от пользователя: семантический анализ документа .instructions/migration/standard-migration.md — проверка однозначности формулировок, рисков интерпретации, полноты описания объекта, корректности SSOT-ссылок",
+  "description": "Семантический анализ черновика 2026-02-02-onboarding-docs.md",
+  "started_at": "2026-02-02T11:00:00Z",
+  "finished_at": "2026-02-02T11:08:00Z",
+  "context": "Задача от пользователя: семантический анализ черновика .claude/drafts/2026-02-02-onboarding-docs.md — проверка однозначности формулировок, рисков интерпретации, полноты описания, слепых зон",
   "operations": [
     {
-      "timestamp": "2026-02-02T10:15:05Z",
+      "timestamp": "2026-02-02T11:00:05Z",
       "action": "read",
-      "file": "C:\\00 Dev\\project_template\\.instructions\\migration\\standard-migration.md",
-      "reason": "Чтение анализируемого документа для семантического анализа"
+      "file": "C:\\00 Dev\\project_template\\.claude\\drafts\\2026-02-02-onboarding-docs.md",
+      "reason": "Чтение анализируемого черновика для семантического анализа"
     },
     {
-      "timestamp": "2026-02-02T10:15:10Z",
+      "timestamp": "2026-02-02T11:00:10Z",
+      "action": "read",
+      "file": "C:\\00 Dev\\project_template\\.claude\\.instructions\\drafts\\standard-draft.md",
+      "reason": "Чтение стандарта черновиков (определён тип документа как Черновик)"
+    },
+    {
+      "timestamp": "2026-02-02T11:00:12Z",
       "action": "read",
       "file": "C:\\00 Dev\\project_template\\.instructions\\standard-instruction.md",
-      "reason": "Чтение стандарта инструкций (определён тип документа как Инструкция)"
+      "reason": "Чтение базового стандарта для понимания контекста системы инструкций"
     },
     {
-      "timestamp": "2026-02-02T10:15:12Z",
-      "action": "read",
-      "file": "C:\\00 Dev\\project_template\\.instructions\\migration\\README.md",
-      "reason": "Чтение SSOT-ссылки из анализируемого документа"
-    },
-    {
-      "timestamp": "2026-02-02T10:21:45Z",
+      "timestamp": "2026-02-02T11:07:45Z",
       "action": "write",
-      "file": "C:\\00 Dev\\project_template\\.claude\\drafts\\2026-02-02-holt-analysis-standard-migration.md",
-      "reason": "Сохранение полного результата семантического анализа standard-migration.md"
+      "file": "C:\\00 Dev\\project_template\\.claude\\drafts\\2026-02-02-holt-analysis-onboarding-docs.md",
+      "reason": "Сохранение полного результата семантического анализа черновика onboarding-docs"
     }
   ]
 }

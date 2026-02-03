@@ -56,11 +56,11 @@ python .instructions/.scripts/check-version-drift.py <стандарт>
 {
   "standard": ".instructions/standard-migration.md",
   "standard_version": "v1.0",
-  "level1": [
+  "workflows": [
     {"file": "validation-migration.md", "version": "v1.0", "status": "ok"},
     {"file": "create-migration.md", "version": "v1.0", "status": "ok"}
   ],
-  "level2": [
+  "instances": [
     {"file": "example.md", "version": "v0.9", "status": "outdated"}
   ],
   "summary": {"total": 3, "ok": 2, "outdated": 1}
@@ -69,7 +69,7 @@ python .instructions/.scripts/check-version-drift.py <стандарт>
 
 **Критерий успеха:** `summary.outdated = 0`
 
-### Шаг 2: Проверка Уровня 1 (⚠️ КРИТИЧНО — сравнить содержание)
+### Шаг 2: Проверка Workflows (⚠️ КРИТИЧНО — сравнить содержание)
 
 > **Версии разные = содержание не соответствует. Нужно найти ЧТО именно.**
 
@@ -81,9 +81,9 @@ python .instructions/.scripts/check-version-drift.py <стандарт>
 **Процедура проверки:**
 
 1. **Прочитать ТЕКУЩИЙ стандарт** — понять все требования
-2. **Прочитать ТЕКУЩИЙ Level 1** — понять что уже покрыто
+2. **Прочитать ТЕКУЩИЙ Workflow** — понять что уже покрыто
 3. **Найти расхождения:**
-   - Что есть в стандарте, но НЕТ в Level 1?
+   - Что есть в стандарте, но НЕТ в Workflow?
    - Какие шаги устарели или неполные?
 
 **Автоматическая проверка:**
@@ -100,7 +100,7 @@ python .instructions/.scripts/validate-instruction.py modify-{object}.md
 - Чек-листы актуальны
 - Примеры соответствуют новым требованиям
 
-### Шаг 3: Проверка Уровня 2
+### Шаг 3: Проверка Экземпляров
 
 Все экземпляры должны:
 
@@ -109,7 +109,7 @@ python .instructions/.scripts/validate-instruction.py modify-{object}.md
 
 **Как проверить:**
 
-Для каждого файла из списка `level2` в выводе Шага 1:
+Для каждого файла из списка `instances` в выводе Шага 1:
 
 ```bash
 python .instructions/.scripts/validate-{type}.py <файл>
@@ -129,14 +129,14 @@ LLM проверяет для каждого обновлённого файла
 
 ### Шаг 5: Проверка скриптов и скиллов
 
-Скрипты и скиллы указаны в секциях "Скрипты" и "Скиллы" документов Level 1:
+Скрипты и скиллы указаны в секциях "Скрипты" и "Скиллы" Workflows:
 
 ```bash
-# Извлечь скрипты из Level 1 документов
+# Извлечь скрипты из Workflows
 grep -A5 "^## Скрипты" validation-{object}.md | grep "\.py"
 grep -A5 "^## Скрипты" create-{object}.md | grep "\.py"
 
-# Извлечь скиллы из Level 1 документов
+# Извлечь скиллы из Workflows
 grep -A5 "^## Скиллы" validation-{object}.md | grep "SKILL.md"
 grep -A5 "^## Скиллы" create-{object}.md | grep "SKILL.md"
 ```
@@ -154,10 +154,10 @@ grep -A5 "^## Скиллы" create-{object}.md | grep "SKILL.md"
 ### Version drift
 - [ ] `check-version-drift.py`: 0 расхождений
 
-### Уровень 1 (⚠️ сравнить ТЕКУЩЕЕ содержание)
+### Workflows (⚠️ сравнить ТЕКУЩЕЕ содержание)
 - [ ] Прочитан ТЕКУЩИЙ стандарт
-- [ ] Прочитан ТЕКУЩИЙ Level 1 документ
-- [ ] Найдены расхождения (что в стандарте есть, а в Level 1 нет)
+- [ ] Прочитан ТЕКУЩИЙ Workflow
+- [ ] Найдены расхождения (что в стандарте есть, а в Workflow нет)
 - [ ] Таблица соответствия "секция → шаг" заполнена
 - [ ] `validation-{object}.md`: standard-version актуален
 - [ ] `validation-{object}.md`: содержание соответствует ТЕКУЩЕМУ стандарту
@@ -166,7 +166,7 @@ grep -A5 "^## Скиллы" create-{object}.md | grep "SKILL.md"
 - [ ] `modify-{object}.md`: standard-version актуален (если есть)
 - [ ] `modify-{object}.md`: содержание соответствует ТЕКУЩЕМУ стандарту (если есть)
 
-### Уровень 2
+### Экземпляры
 - [ ] Все экземпляры: standard-version актуален
 - [ ] Все экземпляры: структура соответствует стандарту
 - [ ] Все экземпляры: содержание обновлено
@@ -188,7 +188,7 @@ grep -A5 "^## Скиллы" create-{object}.md | grep "SKILL.md"
 |--------|---------|---------|
 | `standard-version` устарел | Файл не обновлён после миграции | `/modify-{type}` |
 | Структура не соответствует | Новые секции не добавлены | `/modify-{type}` |
-| Уровень 1 не обновлён | Сначала обновить инструкции | `/modify-instruction` |
+| Workflows не обновлены | Сначала обновить инструкции | `/modify-instruction` |
 | Скрипт возвращает ошибку | Логика не обновлена под новый формат | `/script-modify` |
 | Скилл работает некорректно | Промпт ссылается на старую структуру | `/skill-modify` |
 | Частичная миграция | Часть файлов отложена | См. драфт `migration-pending-*.md` |

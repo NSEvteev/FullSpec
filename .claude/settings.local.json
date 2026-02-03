@@ -136,7 +136,13 @@
       "Bash(claude config:*)",
       "Bash(del \"C:\\\\00 Dev\\\\project_template\\\\.claude\\\\drafts\\\\TODO-holt-cicd-integration.md\")",
       "Skill(migration-create)",
-      "Skill(script-modify)"
+      "Skill(script-modify)",
+      "Bash(pip install:*)",
+      "Bash(pre-commit install:*)",
+      "Bash(do if [ -d \"$dir/.instructions\" ])",
+      "Bash(then echo \"$dir/.instructions EXISTS\")",
+      "Bash(else echo \"$dir/.instructions MISSING\")",
+      "Bash(do echo \"=== $dir ===\")"
     ]
   },
   "statusLine": {

@@ -76,18 +76,18 @@ def get_working_version(file_path: Path) -> str | None:
         return None
 
 
-def find_level1_files(std_path: Path) -> list[Path]:
-    """Найти связанные Level 1 файлы (validation, create, modify)."""
+def find_workflow_files(std_path: Path) -> list[Path]:
+    """Найти связанные Workflow файлы (validation, create, modify)."""
     std_dir = std_path.parent
     std_name = std_path.name  # standard-X.md
     base_name = std_name.replace("standard-", "").replace(".md", "")  # X
 
-    level1_files = []
+    workflow_files = []
     for prefix in ["validation", "create", "modify"]:
         related = std_dir / f"{prefix}-{base_name}.md"
         if related.exists():
-            level1_files.append(related)
-    return level1_files
+            workflow_files.append(related)
+    return workflow_files
 
 
 def get_file_info(file_path: Path) -> tuple[str | None, str | None]:
@@ -204,10 +204,10 @@ def main():
         print()
 
     # ==========================================================================
-    # Level 1: проверить validation/create/modify (Рабочая версия стандарта)
+    # Workflows: проверить validation/create/modify (Рабочая версия стандарта)
     # ==========================================================================
-    level1_drifts = []
-    level1_ok = []
+    workflow_drifts = []
+    workflow_ok = []
 
     for std_path in standards:
         std_version = get_standard_version(std_path)
@@ -215,30 +215,30 @@ def main():
             continue
 
         rel_std = str(std_path.relative_to(repo_root)).replace("\\", "/")
-        level1_files = find_level1_files(std_path)
+        workflow_files = find_workflow_files(std_path)
 
-        for l1_file in level1_files:
-            working_version = get_working_version(l1_file)
-            rel_l1 = str(l1_file.relative_to(repo_root)).replace("\\", "/")
+        for wf_file in workflow_files:
+            working_version = get_working_version(wf_file)
+            rel_wf = str(wf_file.relative_to(repo_root)).replace("\\", "/")
 
             if working_version != std_version:
-                level1_drifts.append({
-                    "file": rel_l1,
+                workflow_drifts.append({
+                    "file": rel_wf,
                     "standard": rel_std,
                     "version": working_version,
                     "expected": std_version,
-                    "level": 1
+                    "type": "workflow"
                 })
             else:
-                level1_ok.append({
-                    "file": rel_l1,
+                workflow_ok.append({
+                    "file": rel_wf,
                     "standard": rel_std,
                     "version": working_version,
-                    "level": 1
+                    "type": "workflow"
                 })
 
     # ==========================================================================
-    # Level 2: проверить экземпляры (frontmatter standard-version)
+    # Экземпляры: проверить (frontmatter standard-version)
     # ==========================================================================
     all_files = find_all_md_files(repo_root)
     drifts = []
@@ -286,24 +286,24 @@ def main():
             })
 
     # Объединить все расхождения
-    all_drifts = level1_drifts + drifts
-    all_ok = level1_ok + ok_files
+    all_drifts = workflow_drifts + drifts
+    all_ok = workflow_ok + ok_files
 
     # Вывод результатов
     if args.json:
         # JSON формат
         result = {
-            "level1": {
-                "drifts": level1_drifts,
-                "ok": level1_ok
+            "workflows": {
+                "drifts": workflow_drifts,
+                "ok": workflow_ok
             },
-            "level2": {
+            "instances": {
                 "drifts": drifts,
                 "ok": ok_files
             },
             "summary": {
-                "level1_drifts": len(level1_drifts),
-                "level2_drifts": len(drifts),
+                "workflow_drifts": len(workflow_drifts),
+                "instance_drifts": len(drifts),
                 "total_drifts": len(all_drifts),
                 "total_ok": len(all_ok)
             }
@@ -326,18 +326,18 @@ def main():
         print(f"✅ Все версии синхронизированы ({len(all_files)} файлов проверено)")
         sys.exit(0)
 
-    # Вывод Level 1
-    if level1_drifts:
-        print(f"=== Level 1: validation/create/modify ({len(level1_drifts)} расхождений) ===")
+    # Вывод Workflows
+    if workflow_drifts:
+        print(f"=== Workflows: validation/create/modify ({len(workflow_drifts)} расхождений) ===")
         print()
-        by_standard_l1 = {}
-        for drift in level1_drifts:
+        by_standard_wf = {}
+        for drift in workflow_drifts:
             std = drift["standard"]
-            if std not in by_standard_l1:
-                by_standard_l1[std] = []
-            by_standard_l1[std].append(drift)
+            if std not in by_standard_wf:
+                by_standard_wf[std] = []
+            by_standard_wf[std].append(drift)
 
-        for std, files in by_standard_l1.items():
+        for std, files in by_standard_wf.items():
             expected = files[0]["expected"]
             print(f"## {std} (v{expected})")
             for drift in files:
@@ -345,18 +345,18 @@ def main():
                 print(f"   ❌ {drift['file']}: v{current}")
             print()
 
-    # Вывод Level 2
+    # Вывод Экземпляров
     if drifts:
-        print(f"=== Level 2: экземпляры ({len(drifts)} расхождений) ===")
+        print(f"=== Экземпляры ({len(drifts)} расхождений) ===")
         print()
-        by_standard_l2 = {}
+        by_standard_inst = {}
         for drift in drifts:
             std = drift["standard"]
-            if std not in by_standard_l2:
-                by_standard_l2[std] = []
-            by_standard_l2[std].append(drift)
+            if std not in by_standard_inst:
+                by_standard_inst[std] = []
+            by_standard_inst[std].append(drift)
 
-        for std, files in by_standard_l2.items():
+        for std, files in by_standard_inst.items():
             expected = files[0]["expected"]
             print(f"## {std} (v{expected})")
             for drift in files:
@@ -365,7 +365,7 @@ def main():
             print()
 
     # Итого
-    print(f"❌ Всего расхождений: {len(all_drifts)} (Level 1: {len(level1_drifts)}, Level 2: {len(drifts)})")
+    print(f"❌ Всего расхождений: {len(all_drifts)} (Workflows: {len(workflow_drifts)}, Экземпляры: {len(drifts)})")
     print()
     print("Для миграции выполните:")
     all_standards = set(d["standard"] for d in all_drifts)

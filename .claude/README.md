@@ -288,6 +288,13 @@ create    update    delete    execute   review    complete execute
 
 ---
 
+## Для новых участников
+
+- [Onboarding](./onboarding.md) — руководство для новых участников
+- [Changelog](./CHANGELOG.md) — история изменений системы
+
+---
+
 ## Связанные документы
 
 - [/CLAUDE.md](/CLAUDE.md) — точка входа для Claude Code

@@ -24,22 +24,7 @@
 
 ## Структура проекта
 
-```
-/
-├── .claude/                    # Инструменты Claude Code
-├── config/                     # Конфигурации окружений
-├── doc/                        # Документация проекта
-├── platform/                   # Инфраструктура (Docker, monitoring)
-├── shared/                     # Общий код (контракты, библиотеки)
-├── src/                        # Исходный код сервисов
-├── tests/                      # Системные тесты
-│
-├── CLAUDE.md                   # Точка входа для Claude
-├── CONTRIBUTING.md             # Как внести вклад
-├── Makefile                    # Команды проекта
-├── README.md                   # Описание проекта (этот файл)
-└── SECURITY.md                 # Политика безопасности
-```
+- **Структура проекта:** [/.structure/README.md](/.structure/README.md)
 
 ### Связи между папками
 
@@ -303,8 +288,6 @@ make build         # Собрать для production
 | **Корреляция** | `request_id` + `trace_id` во всех логах |
 | **Тесты** | Unit/integration в `/src/{service}/tests/`, e2e/load в `/tests/` |
 | **Деплой** | Rolling update по умолчанию, blue-green для критичных |
-
-Полная таблица решений: [CLAUDE.md](CLAUDE.md#ключевые-решения)
 
 ---
 
