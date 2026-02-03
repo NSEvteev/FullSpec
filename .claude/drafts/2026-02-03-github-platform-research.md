@@ -1029,49 +1029,69 @@ standard → validation → create → modify
 
 ---
 
-### Этап 2: Создание стандартов (параллельно)
+### Этап 2: Создание стандартов (по волнам)
 
-Запустить агентов для создания стандартов через `/instruction-create`.
+Создание инструкций через `/instruction-create` с валидацией captain-holt.
 
 **Требования к агентам:**
 - Прочитать этот черновик ПЕРЕД созданием
 - Использовать ТОЛЬКО `/instruction-create`
 - Создавать ТОЛЬКО standard-* (не validation, create, modify)
 - Не выходить за рамки своей зоны ответственности
+- После создания — валидация captain-holt (выполняется автоматически)
 
-**Список стандартов (13 штук):**
+**Волна 1 — Базовые (без зависимостей):**
 
 | # | Путь | Зона ответственности |
 |---|------|---------------------|
 | 1 | `.instructions/standard-github.md` | Общие правила работы с GitHub |
-| 2 | `.instructions/standard-development-workflow.md` | Цикл Issue → PR → Merge |
-| 3 | `.instructions/standard-release-workflow.md` | Процесс релизов |
-| 4 | `.instructions/issue-templates/standard-issue-template.md` | Формат YAML шаблонов Issue |
-| 5 | `.instructions/pr-template/standard-pr-template.md` | Структура PR template |
-| 6 | `.instructions/workflows-files/standard-workflow-file.md` | Формат workflow YAML |
-| 7 | `.instructions/codeowners/standard-codeowners.md` | Синтаксис CODEOWNERS |
-| 8 | `.instructions/labels/standard-labels.md` | Система меток |
-| 9 | `.instructions/issues/standard-issue.md` | Свойства GitHub Issue |
-| 10 | `.instructions/pull-requests/standard-pull-request.md` | Свойства GitHub PR |
-| 11 | `.instructions/releases/standard-release.md` | Semver, changelog, теги |
-| 12 | `.instructions/milestones/standard-milestone.md` | Свойства milestone |
-| 13 | `.instructions/projects/standard-project.md` | GitHub Projects |
+| 2 | `.instructions/labels/standard-labels.md` | Система меток |
+| 3 | `.instructions/codeowners/standard-codeowners.md` | Синтаксис CODEOWNERS |
 
----
+**Волна 2 — Зависят от labels:**
 
-### Этап 3: Валидация captain-holt
+| # | Путь | Зависит от |
+|---|------|------------|
+| 4 | `.instructions/issues/standard-issue.md` | labels |
+| 5 | `.instructions/pull-requests/standard-pull-request.md` | labels |
+| 6 | `.instructions/issue-templates/standard-issue-template.md` | labels |
 
-После создания каждого стандарта — запустить агента captain-holt для семантического анализа.
+**Волна 3 — Зависят от issues/PR:**
 
-**Цель:** Проверить ясность и однозначность инструкций.
+| # | Путь | Зависит от |
+|---|------|------------|
+| 7 | `.instructions/pr-template/standard-pr-template.md` | pull-request |
+| 8 | `.instructions/milestones/standard-milestone.md` | issues |
+| 9 | `.instructions/standard-development-workflow.md` | issues, PR |
+
+**Волна 4 — Зависят от workflow:**
+
+| # | Путь | Зависит от |
+|---|------|------------|
+| 10 | `.instructions/releases/standard-release.md` | milestones, PR |
+| 11 | `.instructions/standard-release-workflow.md` | release, dev-workflow |
+| 12 | `.instructions/workflows-files/standard-workflow-file.md` | dev-workflow |
+
+**Волна 5 — Финальная:**
+
+| # | Путь | Зависит от |
+|---|------|------------|
+| 13 | `.instructions/projects/standard-project.md` | всё (канбан объединяет) |
 
 ---
 
 ### Прогресс
 
-- [ ] Этап 1: Создание папок (0/15)
-- [ ] Этап 2: Создание стандартов (0/13)
-- [ ] Этап 3: Валидация captain-holt (0/13)
+**Этап 1: Создание папок**
+- [ ] Основные папки .github/ (0/4)
+- [ ] Папки инструкций (0/11)
+
+**Этап 2: Создание стандартов**
+- [ ] Волна 1: Базовые (0/3)
+- [ ] Волна 2: Labels-зависимые (0/3)
+- [ ] Волна 3: Issues/PR-зависимые (0/3)
+- [ ] Волна 4: Workflow-зависимые (0/3)
+- [ ] Волна 5: Финальная (0/1)
 
 ---
 
