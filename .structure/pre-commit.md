@@ -131,5 +131,5 @@ pre-commit install -f
 
 ## Связанные документы
 
-- [TODO-cicd-integration.md](/.claude/drafts/TODO-cicd-integration.md) — план развития валидации
 - [Makefile](/Makefile) — команда `make setup`
+- [.pre-commit-config.yaml](/.pre-commit-config.yaml) — конфигурация хуков

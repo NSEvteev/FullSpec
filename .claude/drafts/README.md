@@ -28,7 +28,7 @@ index: .claude/README.md
 
 | Файл | Описание |
 |------|----------|
-| [TODO-cicd-integration.md](./TODO-cicd-integration.md) | CI/CD интеграция валидаторов |
+| — | Черновиков пока нет |
 
 ---
 
@@ -36,6 +36,5 @@ index: .claude/README.md
 
 ```
 /.claude/drafts/
-├── README.md                 # Этот файл (индекс)
-└── TODO-cicd-integration.md  # CI/CD интеграция валидаторов
+└── README.md  # Этот файл (индекс)
 ```
