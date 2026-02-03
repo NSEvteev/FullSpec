@@ -307,6 +307,65 @@ def check_all_nested_areas(repo_root: Path, tree_folders: list[str]) -> dict:
     return result
 
 
+def fix_structure_errors(repo_root: Path, missing_in_tree: list[str], missing_in_fs: list[str]) -> dict:
+    """
+    Автоматически исправить расхождения структуры.
+
+    - T002 (папка в ФС, нет в дереве) → ssot.py add
+    - T003 (папка в дереве, нет в ФС) → ssot.py delete
+
+    Возвращает dict с полями:
+        fixed: list — исправленные папки
+        failed: list — папки с ошибками
+    """
+    import subprocess
+
+    result = {
+        "fixed": [],
+        "failed": [],
+    }
+
+    scripts_dir = repo_root / ".structure" / ".instructions" / ".scripts"
+    ssot_script = scripts_dir / "ssot.py"
+
+    if not ssot_script.exists():
+        result["failed"].append(f"ssot.py не найден: {ssot_script}")
+        return result
+
+    # T002: добавить папки в SSOT
+    for folder in missing_in_tree:
+        try:
+            cmd = [
+                sys.executable,
+                str(ssot_script),
+                "add",
+                folder,
+                "--description", "TODO: добавить описание",
+                "--repo", str(repo_root),
+            ]
+            subprocess.run(cmd, check=True, capture_output=True, text=True)
+            result["fixed"].append(f"T002 fixed: {folder}/ добавлена в SSOT")
+        except subprocess.CalledProcessError as e:
+            result["failed"].append(f"T002 failed: {folder}/ — {e.stderr}")
+
+    # T003: удалить папки из SSOT
+    for folder in missing_in_fs:
+        try:
+            cmd = [
+                sys.executable,
+                str(ssot_script),
+                "delete",
+                folder,
+                "--repo", str(repo_root),
+            ]
+            subprocess.run(cmd, check=True, capture_output=True, text=True)
+            result["fixed"].append(f"T003 fixed: {folder}/ удалена из SSOT")
+        except subprocess.CalledProcessError as e:
+            result["failed"].append(f"T003 failed: {folder}/ — {e.stderr}")
+
+    return result
+
+
 def check_instructions_mirrors(repo_root: Path, tree_folders: list[str]) -> dict:
     """
     Проверить наличие зеркал .instructions для всех папок в SSOT.
@@ -372,6 +431,11 @@ def main():
         action="store_true",
         help="Проверить секции 'Вложенные области' в .instructions"
     )
+    parser.add_argument(
+        "--fix",
+        action="store_true",
+        help="Автоматически исправить расхождения (T002, T003)"
+    )
 
     args = parser.parse_args()
 
@@ -393,6 +457,32 @@ def main():
         result["errors"].extend(nested_result["errors"])
         if nested_result["errors"]:
             result["valid"] = False
+
+    # Автоматическое исправление
+    if args.fix and (result["missing_in_tree"] or result["missing_in_fs"]):
+        fix_result = fix_structure_errors(
+            repo_root,
+            result["missing_in_tree"],
+            result["missing_in_fs"]
+        )
+        result["fix_result"] = fix_result
+
+        if not args.json:
+            if fix_result["fixed"]:
+                print("🔧 Исправлено:")
+                for msg in fix_result["fixed"]:
+                    print(f"   • {msg}")
+                print()
+
+            if fix_result["failed"]:
+                print("❌ Не удалось исправить:")
+                for msg in fix_result["failed"]:
+                    print(f"   • {msg}")
+                print()
+
+            # После исправлений — повторная проверка
+            print("Повторная проверка...")
+            result = validate_structure(repo_root)
 
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))

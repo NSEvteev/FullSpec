@@ -1,0 +1,22 @@
+# Pre-commit hooks configuration
+# https://pre-commit.com/
+#
+# Установка:
+#   pip install pre-commit
+#   pre-commit install
+#
+# Ручной запуск:
+#   pre-commit run --all-files
+
+repos:
+  # Локальные хуки
+  - repo: local
+    hooks:
+      # Проверка синхронизации структуры README
+      - id: structure-sync
+        name: Check README structure sync
+        entry: python .structure/.instructions/.scripts/pre-commit-structure.py
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]

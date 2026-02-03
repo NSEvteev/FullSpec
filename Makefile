@@ -1,7 +1,7 @@
 # Makefile — интерфейс команд проекта
 # Подробнее: README.md
 
-.PHONY: dev stop build test test-e2e test-load lint clean help
+.PHONY: dev stop build test test-e2e test-load lint clean help sync-structure check-structure
 
 # === Запуск ===
 
@@ -39,6 +39,15 @@ clean:  ## Очистка
 
 init:  ## Инициализация проекта
 	@echo "TODO: настроить инициализацию"
+
+# === Структура ===
+
+sync-structure:  ## Проверить и исправить структуру README
+	python .structure/.instructions/.scripts/validate-structure.py --fix
+	python .structure/.instructions/.scripts/sync-readme.py --all --fix
+
+check-structure:  ## Проверить структуру README (без исправлений)
+	python .structure/.instructions/.scripts/pre-commit-structure.py
 
 # === Справка ===
 
