@@ -20,7 +20,8 @@ index: .claude/README.md
 ## Оглавление
 
 - [1. Файлы](#1-файлы)
-- [2. Дерево](#2-дерево)
+- [2. Подпапки](#2-подпапки)
+- [3. Дерево](#3-дерево)
 
 ---
 
@@ -28,14 +29,29 @@ index: .claude/README.md
 
 | Файл | Описание |
 |------|----------|
-| [2026-02-03-github-platform-research.md](./2026-02-03-github-platform-research.md) | Исследование GitHub платформы |
+| [2026-02-03-github-instructions-validation.md](./2026-02-03-github-instructions-validation.md) | План валидации инструкций .github/ |
+| [2026-02-03-github-ssot-refactoring.md](./2026-02-03-github-ssot-refactoring.md) | SSOT-рефакторинг .github/ |
 
 ---
 
-## 2. Дерево
+## 2. Подпапки
+
+### [examples/](./examples/README.md)
+
+**Эталонные черновики.**
+
+Коллекция "хороших" черновиков для использования как примеры в промптах. Не имеет зеркала в `.instructions/`.
+
+---
+
+## 3. Дерево
 
 ```
 /.claude/drafts/
-├── README.md                              # Этот файл (индекс)
-└── 2026-02-03-github-platform-research.md # Исследование GitHub платформы
+├── examples/                           # Эталонные примеры
+│   ├── example-cross-standards-ssot-analysis.md #   Анализ SSOT между стандартами
+│   ├── example-github-platform-research.md      #   Исследование GitHub платформы
+│   └── README.md                                #   Индекс примеров
+├── 2026-02-03-github-instructions-validation.md # План валидации .github/
+└── README.md                           # Этот файл (индекс)
 ```

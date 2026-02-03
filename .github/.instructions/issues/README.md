@@ -1,0 +1,52 @@
+---
+description: Инструкции для GitHub Issues
+standard: .structure/.instructions/standard-readme.md
+standard-version: v1.2
+index: .github/.instructions/issues/README.md
+---
+
+# /.github/.instructions/issues/ — GitHub Issues
+
+Инструкции для работы с GitHub Issues (объекты GitHub, не файлы).
+
+**Полезные ссылки:**
+- [Инструкции .github](../README.md)
+- [.github](../../README.md)
+
+**Регламентирует:** GitHub Issues (объекты в GitHub)
+
+---
+
+## Оглавление
+
+| Секция | Инструкция | Описание |
+|--------|------------|----------|
+| [1. Стандарты](#1-стандарты) | — | Форматы и правила |
+| [2. Воркфлоу](#2-воркфлоу) | — | Создание и изменение |
+| [3. Валидация](#3-валидация) | — | Проверка согласованности |
+
+```
+/.github/.instructions/issues/
+├── README.md                           # Этот файл (индекс)
+└── standard-issue.md                   # TODO: добавить описание
+```
+
+---
+
+# 1. Стандарты
+
+| Инструкция | Описание |
+|------------|----------|
+| [standard-issue.md](./standard-issue.md) | Процесс работы с GitHub Issues |
+
+---
+
+# 2. Воркфлоу
+
+*Будут добавлены create-issue.md, modify-issue.md*
+
+---
+
+# 3. Валидация
+
+*Будет добавлен validation-issue.md*

@@ -48,3 +48,7 @@ make clean     # Очистка (docker down -v)
 - Unit-тесты внутри сервиса: `/src/{service}/tests/`
 - Системные тесты между сервисами: `/tests/`
 - Секреты НИКОГДА не коммитятся — только `.env.example`
+
+## Задачи
+
+- [ ] Прочитать и выполнить валидацию смысла: [2026-02-03-github-instructions-validation.md](/.claude/drafts/2026-02-03-github-instructions-validation.md)

@@ -1,19 +1,17 @@
 ---
-description: Шаблоны Issues
+description: История релизов проекта
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
-index: .github/ISSUE_TEMPLATE/README.md
+index: .github/releases/README.md
 ---
 
-# /.github/ISSUE_TEMPLATE/ — Шаблоны Issues
+# /.github/releases/ — История релизов
 
-YAML-шаблоны для создания Issues в GitHub.
+История релизов проекта и CHANGELOG.
 
 **Полезные ссылки:**
 - [GitHub конфигурация](../README.md)
 - [Структура проекта](/.structure/README.md)
-
-**Инструкции:** [.instructions/issue-templates/](../.instructions/issue-templates/README.md)
 
 ## Оглавление
 
@@ -38,6 +36,6 @@ YAML-шаблоны для создания Issues в GitHub.
 ## 3. Дерево
 
 ```
-/.github/ISSUE_TEMPLATE/
+/.github/releases/
 └── README.md                # Этот файл
 ```

@@ -1,19 +1,17 @@
 ---
-description: Шаблоны Issues
+description: Справочник milestones проекта
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
-index: .github/ISSUE_TEMPLATE/README.md
+index: .github/milestones/README.md
 ---
 
-# /.github/ISSUE_TEMPLATE/ — Шаблоны Issues
+# /.github/milestones/ — Справочник Milestones
 
-YAML-шаблоны для создания Issues в GitHub.
+Справочник milestones (вех) для планирования спринтов и релизов.
 
 **Полезные ссылки:**
 - [GitHub конфигурация](../README.md)
 - [Структура проекта](/.structure/README.md)
-
-**Инструкции:** [.instructions/issue-templates/](../.instructions/issue-templates/README.md)
 
 ## Оглавление
 
@@ -38,6 +36,6 @@ YAML-шаблоны для создания Issues в GitHub.
 ## 3. Дерево
 
 ```
-/.github/ISSUE_TEMPLATE/
+/.github/milestones/
 └── README.md                # Этот файл
 ```

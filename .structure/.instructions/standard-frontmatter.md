@@ -136,6 +136,15 @@ python .instructions/.scripts/sync-standard-version.py .instructions/standard-in
 python .instructions/.scripts/check-version-drift.py
 ```
 
+> **Примечание: версия стандарта vs версия объекта**
+>
+> | Поле | Назначение | Где описано |
+> |------|------------|-------------|
+> | `standard-version` | Версия стандарта формата | Этот документ |
+> | `version` | Версия самого объекта (агент) | standard-agent.md |
+>
+> Это разные поля с разным назначением. Не путать!
+
 
 ### index
 
@@ -243,9 +252,20 @@ triggers:
 
 ## 3. Дополнительные поля для агентов
 
-Агенты (файлы `AGENT.md`) имеют расширенный frontmatter с полями для конфигурации модели, инструментов и хуков.
+> **Базовые поля** (`description`, `standard`, `standard-version`, `index`) — см. [§ 1](#1-обязательные-поля).
 
-**SSOT:** [standard-agent.md § 3. Формат конфигурации](/.claude/.instructions/agents/standard-agent.md#3-формат-конфигурации)
+Агенты расширяют базовые поля frontmatter специфичными полями.
+
+**SSOT специфичных полей:** [standard-agent.md § 3](/.claude/.instructions/agents/standard-agent.md#3-формат-конфигурации)
+
+**Обязательные специфичные поля агента:**
+
+| Поле | Назначение | Пример |
+|------|------------|--------|
+| `name` | Уникальное имя агента (kebab-case, латиница) | `code-reviewer` |
+| `version` | Версия агента | `v1.0` |
+
+**Опциональные поля:** `model`, `tools`, `hooks` — см. SSOT.
 
 ---
 

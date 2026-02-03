@@ -1033,65 +1033,85 @@ standard → validation → create → modify
 
 Создание инструкций через `/instruction-create` с валидацией captain-holt.
 
-**Требования к агентам:**
+**Требования к агентам (Amy Santiago):**
 - Прочитать этот черновик ПЕРЕД созданием
 - Использовать ТОЛЬКО `/instruction-create`
 - Создавать ТОЛЬКО standard-* (не validation, create, modify)
 - Не выходить за рамки своей зоны ответственности
-- После создания — валидация captain-holt (выполняется автоматически)
+- **В процессе создания** — вызвать captain-holt для семантического анализа
+
+**Интеграция с captain-holt:**
+Amy ДОЛЖНА вызвать captain-holt через Task tool со следующим промптом:
+```
+Проанализируй стандарт: {путь_к_созданному_стандарту}
+
+Контекст: прочитай черновик .claude/drafts/2026-02-03-github-platform-research.md
+для понимания общей картины, но анализируй ТОЛЬКО указанный стандарт.
+
+Верни P1-проблемы (если есть) и рекомендации.
+```
+Amy исправляет P1-проблемы по рекомендациям captain-holt до завершения задачи.
 
 **Волна 1 — Базовые (без зависимостей):**
 
 | # | Путь | Зона ответственности |
 |---|------|---------------------|
-| 1 | `.instructions/standard-github.md` | Общие правила работы с GitHub |
-| 2 | `.instructions/labels/standard-labels.md` | Система меток |
-| 3 | `.instructions/codeowners/standard-codeowners.md` | Синтаксис CODEOWNERS |
+| 1 | `.instructions/labels/standard-labels.md` | Система меток (управление метками) |
+| 2 | `.instructions/codeowners/standard-codeowners.md` | Синтаксис CODEOWNERS |
 
 **Волна 2 — Зависят от labels:**
 
 | # | Путь | Зависит от |
 |---|------|------------|
-| 4 | `.instructions/issues/standard-issue.md` | labels |
-| 5 | `.instructions/pull-requests/standard-pull-request.md` | labels |
-| 6 | `.instructions/issue-templates/standard-issue-template.md` | labels |
+| 3 | `.instructions/issues/standard-issue.md` | labels |
+| 4 | `.instructions/pull-requests/standard-pull-request.md` | labels |
+| 5 | `.instructions/issue-templates/standard-issue-template.md` | labels |
+| 6 | `.instructions/pr-template/standard-pr-template.md` | pull-request |
 
 **Волна 3 — Зависят от issues/PR:**
 
 | # | Путь | Зависит от |
 |---|------|------------|
-| 7 | `.instructions/pr-template/standard-pr-template.md` | pull-request |
-| 8 | `.instructions/milestones/standard-milestone.md` | issues |
-| 9 | `.instructions/standard-development-workflow.md` | issues, PR |
+| 7 | `.instructions/milestones/standard-milestone.md` | issues |
+| 8 | `.instructions/standard-development-workflow.md` | issues, PR |
 
 **Волна 4 — Зависят от workflow:**
 
 | # | Путь | Зависит от |
 |---|------|------------|
-| 10 | `.instructions/releases/standard-release.md` | milestones, PR |
-| 11 | `.instructions/standard-release-workflow.md` | release, dev-workflow |
-| 12 | `.instructions/workflows-files/standard-workflow-file.md` | dev-workflow |
+| 9 | `.instructions/releases/standard-release.md` | milestones, PR |
+| 10 | `.instructions/standard-release-workflow.md` | release, dev-workflow |
+| 11 | `.instructions/workflows-files/standard-workflow-file.md` | dev-workflow |
 
-**Волна 5 — Финальная:**
+**Волна 5 — Projects:**
 
 | # | Путь | Зависит от |
 |---|------|------------|
-| 13 | `.instructions/projects/standard-project.md` | всё (канбан объединяет) |
+| 12 | `.instructions/projects/standard-project.md` | всё (канбан объединяет) |
+
+**Волна 6 — Финальная (обобщающий стандарт):**
+
+| # | Путь | Зависит от |
+|---|------|------------|
+| 13 | `.instructions/standard-github.md` | ВСЕ предыдущие стандарты (обобщает naming, workflow, review, merge после уточнения всех сущностей) |
 
 ---
 
 ### Прогресс
 
 **Этап 1: Создание папок**
-- [ ] Основные папки .github/ (0/4)
-- [ ] Папки инструкций (0/11)
+- [x] Основные папки .github/ (4/4)
+- [x] Папки инструкций (11/11)
 
 **Этап 2: Создание стандартов**
-- [ ] Волна 1: Базовые (0/3)
-- [ ] Волна 2: Labels-зависимые (0/3)
-- [ ] Волна 3: Issues/PR-зависимые (0/3)
-- [ ] Волна 4: Workflow-зависимые (0/3)
-- [ ] Волна 5: Финальная (0/1)
+- [x] Волна 1: Базовые (2/2 завершено)
+- [x] Волна 2: Labels-зависимые (4/4 завершено)
+- [x] Волна 3: Issues/PR-зависимые (2/2 завершено)
+- [x] Волна 4: Workflow-зависимые (3/3 завершено)
+- [x] Волна 5: Projects (1/1 завершено)
+- [x] Волна 6: Обобщающий standard-github.md (1/1 завершено)
+
+**Статус: ВЫПОЛНЕНО** — все стандарты созданы и прошли семантический анализ captain-holt (P1/P2 исправления применены)
 
 ---
 

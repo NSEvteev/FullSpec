@@ -144,6 +144,7 @@ standard-version: v1.1
 │   │   └── state/                       #   Как работать с state
 │   ├── agents/                          #   Конфигурации агентов
 │   ├── drafts/                          #   Черновики (в git)
+│   │   └── examples/                    #     Эталонные примеры черновиков для будущих запросов к LLM
 │   ├── hooks/                           #   Claude Code hooks
 │   ├── rules/                           #   Rules для автозагрузки контекста
 │   ├── skills/                          #   Скиллы (16)
@@ -154,7 +155,11 @@ standard-version: v1.1
 │   └── settings.json                    #   Настройки
 │
 ├── .github/                             # GitHub платформа
+│   ├── .instructions/                   #   Инструкции для работы с GitHub
 │   ├── ISSUE_TEMPLATE/                  #   Шаблоны Issues
+│   ├── labels/                          #   Справочник меток проекта
+│   ├── milestones/                      #   Справочник milestones проекта
+│   ├── releases/                        #   История релизов проекта
 │   ├── workflows/                       #   CI/CD pipelines
 │   └── README.md                        #   Описание .github/
 │

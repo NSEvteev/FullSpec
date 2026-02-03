@@ -1,39 +1,75 @@
-# /.github/ — GitHub платформа
+---
+description: GitHub конфигурация и автоматизация
+standard: .structure/.instructions/standard-readme.md
+standard-version: v1.2
+index: .github/README.md
+---
 
-## Зона ответственности
+# /.github/ — GitHub конфигурация
 
-Конфигурации GitHub: CI/CD, шаблоны, владельцы кода.
-
-**IN:** workflows/, ISSUE_TEMPLATE/, PULL_REQUEST_TEMPLATE.md, CODEOWNERS
-
-**Границы:**
-- GitHub конфигурации → здесь
-- код проекта → /src/
-- скрипты деплоя → /platform/scripts/
+Конфигурация GitHub: шаблоны Issues/PR, workflows, labels, инструкции.
 
 **Полезные ссылки:**
 - [Структура проекта](/.structure/README.md)
 
----
+## Оглавление
 
-## Структура
-
-```
-.github/
-├── workflows/              # CI/CD pipelines
-│   ├── ci.yml
-│   ├── deploy.yml
-│   └── release.yml
-├── ISSUE_TEMPLATE/         # Шаблоны Issues
-│   ├── bug.md
-│   ├── feature.md
-│   └── task.md
-├── PULL_REQUEST_TEMPLATE.md
-└── CODEOWNERS
-```
+- [1. Папки](#1-папки)
+- [2. Файлы](#2-файлы)
+- [3. Дерево](#3-дерево)
 
 ---
 
-## Связи
+## 1. Папки
 
-- **Инструкции:** [/.claude/.instructions/.github/](/.claude/.instructions/.github/)
+### 🔗 [workflows/](./workflows/README.md)
+
+**GitHub Actions workflows.**
+
+
+### 🔗 [ISSUE_TEMPLATE/](./ISSUE_TEMPLATE/README.md)
+
+**Шаблоны Issues.**
+
+
+### 🔗 [releases/](./releases/README.md)
+
+**История релизов проекта.**
+
+
+### 🔗 [milestones/](./milestones/README.md)
+
+**Справочник milestones проекта.**
+
+
+### 🔗 [labels/](./labels/README.md)
+
+**Справочник меток проекта.**
+
+
+### [.instructions/](./.instructions/README.md)
+
+**Инструкции для работы с GitHub.**
+
+Инструкции для работы с GitHub: Issues, Pull Requests, Releases, Labels, Workflows и другие объекты.
+
+---
+
+## 2. Файлы
+
+*Нет файлов.*
+
+---
+
+## 3. Дерево
+
+```
+/.github/
+├── .instructions/           # Инструкции для работы с GitHub
+├── ISSUE_TEMPLATE/                  # Шаблоны Issues
+├── labels/                          # Справочник меток проекта
+├── milestones/                      # Справочник milestones проекта
+├── releases/                        # История релизов проекта
+├── workflows/                       # GitHub Actions workflows
+└── README.md                # Этот файл
+```

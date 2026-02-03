@@ -1,19 +1,17 @@
 ---
-description: Шаблоны Issues
+description: Справочник меток проекта
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
-index: .github/ISSUE_TEMPLATE/README.md
+index: .github/labels/README.md
 ---
 
-# /.github/ISSUE_TEMPLATE/ — Шаблоны Issues
+# /.github/labels/ — Справочник меток
 
-YAML-шаблоны для создания Issues в GitHub.
+Справочник меток (Labels) для Issues и Pull Requests.
 
 **Полезные ссылки:**
 - [GitHub конфигурация](../README.md)
 - [Структура проекта](/.structure/README.md)
-
-**Инструкции:** [.instructions/issue-templates/](../.instructions/issue-templates/README.md)
 
 ## Оглавление
 
@@ -31,13 +29,16 @@ YAML-шаблоны для создания Issues в GitHub.
 
 ## 2. Файлы
 
-*Файлы будут добавлены после создания инструкций.*
+| Файл | Описание |
+|------|----------|
+| [labels.md](./labels.md) | **SSOT:** Справочник категорий и меток проекта |
 
 ---
 
 ## 3. Дерево
 
 ```
-/.github/ISSUE_TEMPLATE/
+/.github/labels/
+├── labels.md                # SSOT: категории и метки
 └── README.md                # Этот файл
 ```
