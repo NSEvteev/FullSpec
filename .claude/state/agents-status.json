@@ -7,6 +7,22 @@
       "finished_at": "2026-02-01T07:53:46.789410Z",
       "task": "",
       "working_on": []
+    },
+    "aeb714f": {
+      "status": "completed",
+      "agent_type": "Explore",
+      "started_at": "2026-02-03T10:00:32.966245Z",
+      "finished_at": "2026-02-03T10:01:08.445378Z",
+      "task": "",
+      "working_on": []
+    },
+    "aefa935": {
+      "status": "completed",
+      "agent_type": "claude-code-guide",
+      "started_at": "2026-02-03T11:28:50.060284Z",
+      "finished_at": "2026-02-03T11:29:33.998378Z",
+      "task": "",
+      "working_on": []
     }
   }
 }

@@ -28,7 +28,7 @@ index: .claude/README.md
 
 | Файл | Описание |
 |------|----------|
-| — | Черновиков пока нет |
+| [2026-02-03-github-platform-research.md](./2026-02-03-github-platform-research.md) | Исследование GitHub платформы |
 
 ---
 
@@ -36,5 +36,6 @@ index: .claude/README.md
 
 ```
 /.claude/drafts/
-└── README.md  # Этот файл (индекс)
+├── README.md                              # Этот файл (индекс)
+└── 2026-02-03-github-platform-research.md # Исследование GitHub платформы
 ```

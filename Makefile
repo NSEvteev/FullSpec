@@ -39,16 +39,30 @@ clean:  ## Очистка
 
 # === Настройка ===
 
-setup:  ## Первоначальная настройка (pre-commit хуки)
-	@echo "📦 Установка pre-commit..."
-	pip install pre-commit
-	pre-commit install
+setup:  ## Первоначальная настройка (pre-commit + gh CLI)
+	@echo "📦 Проверка зависимостей..."
+	@echo ""
+	@echo "1/3 Python..."
+	@python --version || (echo "❌ Python не найден. Установите: https://python.org" && exit 1)
+	@echo ""
+	@echo "2/3 Pre-commit..."
+	@pip install pre-commit
+	@pre-commit install
 	@echo "✅ Pre-commit хуки установлены"
 	@echo ""
-	@echo "Теперь при каждом коммите будут проверяться:"
-	@echo "  • Синхронизация README с файловой системой"
+	@echo "3/3 GitHub CLI..."
+	@gh --version 2>/dev/null || (echo "❌ GitHub CLI не найден. Установите: winget install GitHub.cli" && exit 1)
+	@gh auth status 2>/dev/null || (echo "❌ GitHub CLI не авторизован. Выполните: gh auth login" && exit 1)
 	@echo ""
-	@echo "Готово! Используйте 'make dev' для запуска."
+	@echo "════════════════════════════════════════"
+	@echo "✅ Настройка завершена!"
+	@echo ""
+	@echo "При каждом коммите проверяются:"
+	@echo "  • Синхронизация README с файловой системой"
+	@echo "  • Формат rules, scripts, skills"
+	@echo ""
+	@echo "Подробнее: .structure/initialization.md"
+	@echo "════════════════════════════════════════"
 
 init:  ## Полная инициализация проекта
 	@$(MAKE) setup

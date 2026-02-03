@@ -25,6 +25,7 @@
     ]
   },
   "permissions": {
+    "defaultMode": "acceptEdits",
     "allow": [
       "Bash(cd:*)",
       "Bash(ls:*)",
@@ -35,6 +36,8 @@
       "Bash(git log:*)",
       "Bash(git branch:*)",
       "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
       "Bash(git stash:*)",
       "Bash(git fetch:*)",
       "Bash(git checkout:*)",
@@ -56,15 +59,8 @@
       "Bash(rm -r /*)",
       "Bash(rm:*)",
       "WebSearch",
-      "Write(.claude/**)",
-      "Edit(.claude/**)",
-      "Edit(.claude/rules/**)",
-      "Write(.claude/skills/**)",
-      "Edit(.claude/skills/**)",
-      "Write(.claude/.instructions/**/.scripts/*)",
-      "Edit(.claude/.instructions/**/.scripts/*)",
-      "Write(.instructions/.scripts/*)",
-      "Edit(.instructions/.scripts/*)"
+      "Edit",
+      "Write"
     ],
     "deny": [
       "Bash(> /dev/sda:*)"
