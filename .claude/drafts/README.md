@@ -36,7 +36,6 @@ index: .claude/README.md
 
 ```
 /.claude/drafts/
-├── 2026-02-03-precommit-continuation.md  # Продолжение работы над pre-commit
-├── README.md                             # Этот файл (индекс)
-└── TODO-cicd-integration.md              # CI/CD интеграция валидаторов
+├── README.md                 # Этот файл (индекс)
+└── TODO-cicd-integration.md  # CI/CD интеграция валидаторов
 ```
