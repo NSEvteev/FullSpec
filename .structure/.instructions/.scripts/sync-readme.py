@@ -261,9 +261,132 @@ def validate_readme_sync(folder_path: Path, repo_root: Path = None) -> dict:
     return result
 
 
-def fix_readme_tree(folder_path: Path, missing_in_tree: list, missing_in_fs: list) -> bool:
+def sort_key(name: str) -> tuple:
+    """Ключ сортировки: папки с точкой первыми, затем алфавитно."""
+    starts_with_dot = name.startswith(".")
+    return (not starts_with_dot, name.lower())
+
+
+def parse_tree_structure(lines: list) -> tuple:
+    """
+    Парсить дерево в структуру.
+
+    Returns:
+        (header_lines, first_level_items, has_nested)
+
+        header_lines: строки до первого элемента (путь папки)
+        first_level_items: список dict с полями:
+            - line_idx: индекс в lines
+            - name: имя элемента
+            - is_folder: папка или файл
+            - comment: комментарий
+            - nested_lines: вложенные строки (для папок)
+        has_nested: есть ли вложенные элементы
+    """
+    header_lines = []
+    items = []
+    has_nested = False
+
+    i = 0
+    # Собираем header (строки до первого ├── или └──)
+    while i < len(lines):
+        line = lines[i]
+        if line.startswith("├") or line.startswith("└"):
+            break
+        header_lines.append(line)
+        i += 1
+
+    # Парсим элементы первого уровня
+    while i < len(lines):
+        line = lines[i]
+
+        # Пропускаем пустые строки
+        if not line.strip():
+            i += 1
+            continue
+
+        # Элемент первого уровня
+        if line.startswith("├") or line.startswith("└"):
+            # Парсим имя и комментарий
+            match = re.match(r'^[├└]── ([^\s/#]+)(/)?(\s+#\s*(.*))?$', line)
+            if match:
+                name = match.group(1)
+                is_folder = match.group(2) == "/"
+                comment = match.group(4) or ""
+
+                item = {
+                    "name": name,
+                    "is_folder": is_folder,
+                    "comment": comment.strip(),
+                    "nested_lines": [],
+                }
+
+                # Собираем вложенные строки (начинаются с пробелов или │)
+                i += 1
+                while i < len(lines):
+                    nested_line = lines[i]
+                    # Вложенные строки начинаются с пробелов, │, или табов
+                    if nested_line and not nested_line.startswith("├") and not nested_line.startswith("└"):
+                        if nested_line.startswith(" ") or nested_line.startswith("│") or nested_line.startswith("\t"):
+                            item["nested_lines"].append(nested_line)
+                            has_nested = True
+                            i += 1
+                            continue
+                    break
+
+                items.append(item)
+            else:
+                # Не удалось распарсить — пропускаем
+                i += 1
+        else:
+            i += 1
+
+    return header_lines, items, has_nested
+
+
+def rebuild_tree(header_lines: list, items: list, comment_column: int = 40) -> list:
+    """
+    Пересобрать дерево из структуры.
+
+    Args:
+        header_lines: строки заголовка (путь папки)
+        items: список элементов первого уровня
+        comment_column: позиция для комментариев
+    """
+    result = header_lines.copy()
+
+    for idx, item in enumerate(items):
+        is_last = (idx == len(items) - 1)
+        connector = "└── " if is_last else "├── "
+        suffix = "/" if item["is_folder"] else ""
+
+        # Форматируем строку
+        prefix = f"{connector}{item['name']}{suffix}"
+
+        if item["comment"]:
+            padding = max(1, comment_column - len(prefix))
+            line = f"{prefix}{' ' * padding}# {item['comment']}"
+        else:
+            line = prefix
+
+        result.append(line)
+
+        # Добавляем вложенные строки
+        for nested in item["nested_lines"]:
+            result.append(nested)
+
+    return result
+
+
+def fix_readme_tree(folder_path: Path, missing_in_tree: list, missing_in_fs: list, add_only: bool = False) -> bool:
     """
     Исправить дерево в README.
+
+    Args:
+        folder_path: путь к папке с README
+        missing_in_tree: элементы для добавления (R001)
+        missing_in_fs: элементы для удаления (R002)
+        add_only: только добавлять, не удалять
 
     Returns:
         True если исправлено, False если ошибка
@@ -274,12 +397,20 @@ def fix_readme_tree(folder_path: Path, missing_in_tree: list, missing_in_fs: lis
 
     content = readme_path.read_text(encoding="utf-8")
 
-    # Ищем секцию "Дерево"
+    # Формат 1: секция "## Дерево" или "## 3. Дерево"
     tree_match = re.search(
         r"(##\s*\d*\.?\s*Дерево.*?```)(.*?)(```)",
         content,
         re.DOTALL | re.IGNORECASE
     )
+
+    # Формат 2: блок ``` после "## Оглавление"
+    if not tree_match:
+        tree_match = re.search(
+            r"(##\s*Оглавление.*?\|.*?```)(.*?)(```)",
+            content,
+            re.DOTALL | re.IGNORECASE
+        )
 
     if not tree_match:
         print(f"⚠️  Секция 'Дерево' не найдена в {readme_path}", file=sys.stderr)
@@ -288,56 +419,34 @@ def fix_readme_tree(folder_path: Path, missing_in_tree: list, missing_in_fs: lis
     tree_content = tree_match.group(2)
     lines = tree_content.split("\n")
 
-    # 1. Удаляем элементы R002 (есть в дереве, нет в ФС)
-    names_to_remove = {item["name"] for item in missing_in_fs}
-    new_lines = []
-    for line in lines:
-        should_keep = True
-        for name in names_to_remove:
-            if f"── {name}/" in line or f"── {name} " in line or line.rstrip().endswith(f"── {name}"):
-                should_keep = False
-                break
-        if should_keep:
-            new_lines.append(line)
+    # Парсим структуру дерева
+    header_lines, items, has_nested = parse_tree_structure(lines)
 
-    # 2. Добавляем элементы R001 (есть в ФС, нет в дереве)
-    for item in missing_in_tree:
-        name = item["name"]
-        item_type = item["type"]
-        suffix = "/" if item_type == "folder" else ""
-        comment = "TODO: добавить описание"
+    # 1. Удаляем элементы R002 (если не add_only)
+    if not add_only:
+        names_to_remove = {item["name"] for item in missing_in_fs}
+        items = [item for item in items if item["name"] not in names_to_remove]
 
-        # Форматируем строку
-        tree_line = f"├── {name}{suffix}"
-        padding = max(1, 40 - len(tree_line))
-        tree_line = f"{tree_line}{' ' * padding}# {comment}"
+    # 2. Добавляем элементы R001
+    existing_names = {item["name"] for item in items}
+    for new_item in missing_in_tree:
+        name = new_item["name"]
+        if name not in existing_names:
+            items.append({
+                "name": name,
+                "is_folder": new_item["type"] == "folder",
+                "comment": "TODO: добавить описание",
+                "nested_lines": [],
+            })
 
-        # Вставляем перед последним элементом (└──)
-        insert_idx = len(new_lines) - 1
-        for i in range(len(new_lines) - 1, -1, -1):
-            if "└── " in new_lines[i]:
-                insert_idx = i
-                break
-            if "├── " in new_lines[i]:
-                insert_idx = i + 1
-                break
+    # 3. НЕ сортируем — сохраняем оригинальный порядок, новые в конце
 
-        new_lines.insert(insert_idx, tree_line)
+    # 4. Пересобираем дерево
+    new_lines = rebuild_tree(header_lines, items)
 
-    # 3. Исправляем последний коннектор (└── вместо ├──)
-    last_item_idx = None
-    for i in range(len(new_lines) - 1, -1, -1):
-        if "├── " in new_lines[i] or "└── " in new_lines[i]:
-            last_item_idx = i
-            break
-
-    if last_item_idx is not None:
-        for i, line in enumerate(new_lines):
-            if "├── " in line or "└── " in line:
-                if i == last_item_idx:
-                    new_lines[i] = line.replace("├── ", "└── ")
-                else:
-                    new_lines[i] = line.replace("└── ", "├── ")
+    # Добавляем пустую строку в конце если её нет
+    if new_lines and new_lines[-1].strip():
+        new_lines.append("")
 
     # Собираем результат
     new_tree = "\n".join(new_lines)
@@ -409,6 +518,11 @@ def main():
         help="Автоматическое обновление дерева в README"
     )
     parser.add_argument(
+        "--add-only",
+        action="store_true",
+        help="Только добавлять новые элементы (не удалять запланированные)"
+    )
+    parser.add_argument(
         "--repo",
         default=".",
         help="Корень репозитория"
@@ -458,9 +572,9 @@ def main():
                     for error in result["errors"]:
                         print(f"      • {error}")
 
-            # Исправляем если --fix
-            if args.fix and (result["missing_in_tree"] or result["missing_in_fs"]):
-                if fix_readme_tree(folder_path, result["missing_in_tree"], result["missing_in_fs"]):
+            # Исправляем если --fix или --add-only
+            if (args.fix or args.add_only) and (result["missing_in_tree"] or result["missing_in_fs"]):
+                if fix_readme_tree(folder_path, result["missing_in_tree"], result["missing_in_fs"], add_only=args.add_only):
                     if not args.json:
                         print("   🔧 Исправлено")
                 else:

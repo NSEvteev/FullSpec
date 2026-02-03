@@ -29,10 +29,10 @@ index: .instructions/migration/README.md
 
 ```
 /.instructions/migration/
-├── README.md               # Этот файл (индекс)
-├── standard-migration.md   # Стандарт миграции
-├── validation-migration.md # Валидация миграции
-└── create-migration.md     # Воркфлоу миграции
+├── README.md                 # Этот файл (индекс)
+├── create-migration.md       # Воркфлоу миграции
+├── standard-migration.md     # Стандарт миграции
+└── validation-migration.md   # Валидация миграции
 ```
 
 ---

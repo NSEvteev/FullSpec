@@ -30,15 +30,15 @@ index: .claude/.instructions/agents/README.md
 ```
 /.claude/.instructions/agents/
 ├── .scripts/
-│   ├── create-agent-file.py # Создание файла агента
-│   ├── list-agents.py       # Список агентов
-│   ├── find-agent-refs.py   # Поиск ссылок на агента
-│   └── validate-agent.py    # Скрипт валидации
-├── standard-agent.md        # Стандарт агентов
-├── validation-agent.md      # Валидация агентов
-├── create-agent.md          # Создание агентов
-├── modify-agent.md          # Изменение агентов
-└── README.md                # Этот файл (индекс)
+│   ├── create-agent-file.py  # Создание файла агента
+│   ├── find-agent-refs.py    # Поиск ссылок на агента
+│   ├── list-agents.py        # Список агентов
+│   └── validate-agent.py     # Скрипт валидации
+├── README.md                 # Этот файл (индекс)
+├── create-agent.md           # Создание агентов
+├── modify-agent.md           # Изменение агентов
+├── standard-agent.md         # Стандарт агентов
+└── validation-agent.md       # Валидация агентов
 ```
 
 ---

@@ -28,24 +28,26 @@ index: .structure/.instructions/README.md
 
 ```
 /.structure/.instructions/
-├── README.md                # Этот файл (индекс)
-├── standard-frontmatter.md  # Стандарт frontmatter
-├── standard-links.md        # Стандарт ссылок
-├── standard-readme.md       # Стандарт README
-├── validation-links.md      # Валидация ссылок
-├── validation-structure.md  # Валидация структуры
-├── create-structure.md      # Создание папки
-├── modify-structure.md      # Изменение папки (rename/move/delete)
-└── .scripts/
-    ├── find-references.py    # Поиск ссылок на папку/файл
-    ├── generate-readme.py    # Генерация шаблона README
-    ├── mark-deleted.py       # Пометка DELETE_ при удалении
-    ├── mirror-instructions.py # Зеркалирование .instructions
-    ├── ssot.py               # Управление SSOT (add/rename/delete)
-    ├── update-skill-refs.py  # Обновление ссылок в скиллах
-    ├── validate.py           # Единая валидация
-    ├── validate-links.py     # Валидация ссылок
-    └── validate-structure.py # Валидация структуры
+├── .scripts/
+│   ├── find-references.py        # Поиск ссылок на папку/файл
+│   ├── generate-readme.py        # Генерация шаблона README
+│   ├── mark-deleted.py           # Пометка DELETE_ при удалении
+│   ├── mirror-instructions.py    # Зеркалирование .instructions
+│   ├── pre-commit-structure.py   # Pre-commit хук для структуры
+│   ├── ssot.py                   # Управление SSOT (add/rename/delete)
+│   ├── sync-readme.py            # Синхронизация README с файловой системой
+│   ├── update-skill-refs.py      # Обновление ссылок в скиллах
+│   ├── validate.py               # Единая валидация
+│   ├── validate-links.py         # Валидация ссылок
+│   └── validate-structure.py     # Валидация структуры
+├── README.md                     # Этот файл (индекс)
+├── create-structure.md           # Создание папки
+├── modify-structure.md           # Изменение папки (rename/move/delete)
+├── standard-frontmatter.md       # Стандарт frontmatter
+├── standard-links.md             # Стандарт ссылок
+├── standard-readme.md            # Стандарт README
+├── validation-links.md           # Валидация ссылок
+└── validation-structure.md       # Валидация структуры
 ```
 
 ---

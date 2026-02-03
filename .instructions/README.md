@@ -28,26 +28,32 @@ index: .instructions/README.md
 
 ```
 /.instructions/
-├── README.md                    # Этот файл (индекс)
-├── standard-instruction.md      # Стандарт инструкций
-├── standard-script.md           # Стандарт скриптов
-├── standard-principles.md       # Стандарт принципов программирования
-├── create-instruction.md        # Создание инструкции
-├── create-script.md             # Создание скрипта
-├── modify-instruction.md        # Изменение инструкции
-├── modify-script.md             # Изменение скрипта
-├── validation-instruction.md    # Валидация инструкций
-├── validation-script.md         # Валидация скриптов
-├── validation-principles.md     # Валидация принципов
-└── .scripts/
-    ├── list-instructions.py       # Список инструкций
-    ├── create-instruction-file.py # Создание инструкции
-    ├── create-script-file.py      # Создание скрипта
-    ├── validate-instruction.py    # Валидация инструкций
-    ├── validate-script.py         # Валидация скриптов
-    ├── parse-docstrings.py        # Поиск скриптов по описанию
-    ├── find-references.py         # Поиск ссылок на файл
-    └── update-references.py       # Замена ссылок
+├── .scripts/
+│   ├── bump-standard-version.py      # Увеличение версии стандарта
+│   ├── check-version-drift.py        # Проверка расхождений версий
+│   ├── create-instruction-file.py    # Создание инструкции
+│   ├── create-script-file.py         # Создание скрипта
+│   ├── find-references.py            # Поиск ссылок на файл
+│   ├── list-instructions.py          # Список инструкций
+│   ├── parse-docstrings.py           # Поиск скриптов по описанию
+│   ├── pre-commit-migration-check.py # Pre-commit проверка миграций
+│   ├── sync-standard-version.py      # Синхронизация версий стандартов
+│   ├── update-references.py          # Замена ссылок
+│   ├── validate-instruction.py       # Валидация инструкций
+│   ├── validate-principles.py        # Валидация принципов
+│   └── validate-script.py            # Валидация скриптов
+├── migration/                         # Инструкции для миграции стандартов
+├── README.md                          # Этот файл (индекс)
+├── create-instruction.md              # Создание инструкции
+├── create-script.md                   # Создание скрипта
+├── modify-instruction.md              # Изменение инструкции
+├── modify-script.md                   # Изменение скрипта
+├── standard-instruction.md            # Стандарт инструкций
+├── standard-principles.md             # Стандарт принципов программирования
+├── standard-script.md                 # Стандарт скриптов
+├── validation-instruction.md          # Валидация инструкций
+├── validation-principles.md           # Валидация принципов
+└── validation-script.md               # Валидация скриптов
 ```
 
 ---

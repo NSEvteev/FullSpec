@@ -30,10 +30,10 @@ index: .claude/.instructions/drafts/README.md
 ```
 /.claude/.instructions/drafts/
 ├── .scripts/
-│   └── validate-draft.py    # Валидация черновиков
-├── README.md                # Этот файл (индекс)
-├── standard-draft.md        # Стандарт оформления черновиков
-└── validation-draft.md      # Валидация черновиков
+│   └── validate-draft.py     # Валидация черновиков
+├── README.md                 # Этот файл (индекс)
+├── standard-draft.md         # Стандарт оформления черновиков
+└── validation-draft.md       # Валидация черновиков
 ```
 
 ---

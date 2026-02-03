@@ -29,14 +29,14 @@ index: .claude/.instructions/rules/README.md
 
 ```
 /.claude/.instructions/rules/
-├── README.md          # Этот файл (индекс)
-├── standard-rule.md   # Стандарт формата rule
-├── validation-rule.md # Валидация rules
-├── create-rule.md     # Создание rule
-├── modify-rule.md     # Изменение rule
-└── .scripts/
-    ├── validate-rule.py # Валидация формата rule
-    └── list-rules.py    # Список всех rules
+├── .scripts/
+│   ├── list-rules.py         # Список всех rules
+│   └── validate-rule.py      # Валидация формата rule
+├── README.md                 # Этот файл (индекс)
+├── create-rule.md            # Создание rule
+├── modify-rule.md            # Изменение rule
+├── standard-rule.md          # Стандарт формата rule
+└── validation-rule.md        # Валидация rules
 ```
 
 ---

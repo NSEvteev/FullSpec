@@ -29,12 +29,15 @@ index: .claude/.instructions/skills/README.md
 
 ```
 /.claude/.instructions/skills/
-├── README.md              # Этот файл (индекс)
-├── standard-skill.md      # Стандарт скиллов
-├── create-skill.md        # Создание скилла
-├── modify-skill.md        # Изменение скилла
-├── validation-skill.md    # Валидация скиллов
-└── .scripts/              # Скрипты автоматизации
+├── .scripts/
+│   ├── find-skill-references.py  # Поиск всех ссылок на скилл
+│   ├── list-skills.py            # Список скиллов с описаниями
+│   └── validate-skill.py         # Валидация скиллов по стандарту
+├── README.md                     # Этот файл (индекс)
+├── create-skill.md               # Создание скилла
+├── modify-skill.md               # Изменение скилла
+├── standard-skill.md             # Стандарт скиллов
+└── validation-skill.md           # Валидация скиллов
 ```
 
 ---

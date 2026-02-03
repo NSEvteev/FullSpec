@@ -137,34 +137,46 @@ standard-version: v1.1
 /
 ├── .claude/                             # Инструменты Claude Code
 │   ├── .instructions/
+│   │   ├── agents/                      #   Как писать агентов
+│   │   ├── drafts/                      #   Как работать с черновиками
 │   │   ├── rules/                       #   Как писать rules
-│   │   └── skills/                      #   Как писать скиллы
+│   │   ├── skills/                      #   Как писать скиллы
+│   │   └── state/                       #   Как работать с state
 │   ├── agents/                          #   Конфигурации агентов
 │   ├── drafts/                          #   Черновики (в git)
+│   ├── hooks/                           #   Claude Code hooks
 │   ├── rules/                           #   Rules для автозагрузки контекста
 │   ├── skills/                          #   Скиллы (16)
 │   ├── state/                           #   Состояние между вызовами
+│   ├── CHANGELOG.md                     #   История изменений
+│   ├── onboarding.md                    #   Руководство для новых участников
+│   ├── README.md                        #   Описание .claude/
 │   └── settings.json                    #   Настройки
 │
 ├── .github/                             # GitHub платформа
-│   ├── .instructions/                   #   Стандарты GitHub (TODO)
 │   ├── ISSUE_TEMPLATE/                  #   Шаблоны Issues
-│   └── workflows/                       #   CI/CD pipelines
+│   ├── workflows/                       #   CI/CD pipelines
+│   └── README.md                        #   Описание .github/
 │
 ├── .instructions/                       # Мета-инструкции
-│   └── migration/                       #   Инструкции для миграции стандартов
+│   ├── .scripts/                        #   Скрипты автоматизации
+│   ├── migration/                       #   Инструкции для миграции стандартов
+│   └── README.md                        #   Индекс инструкций
 │
 ├── .structure/                          # SSOT структуры проекта
 │   ├── .instructions/                   #   Как работать со структурой
-│   └── README.md                        #   Этот файл
+│   ├── artifacts.md                     #   Типы артефактов системы
+│   ├── quick-start.md                   #   Быстрый старт для LLM
+│   ├── ssot.md                          #   Паттерн SSOT
+│   └── README.md                        #   Этот файл (SSOT структуры)
 │
 ├── config/                              # Конфигурации окружений
-│   ├── .instructions/                   #   Стандарты конфигураций (TODO)
-│   ├── *.yaml                           #   development, staging, production
-│   └── feature-flags/                   #   Feature flags
+│   ├── .instructions/                   #   Стандарты конфигураций
+│   ├── feature-flags/                   #   Feature flags
+│   └── README.md                        #   Описание config/
 │
 ├── platform/                            # Общая инфраструктура
-│   ├── .instructions/                   #   Стандарты инфраструктуры (TODO)
+│   ├── .instructions/                   #   Стандарты инфраструктуры
 │   ├── docker/                          #   Docker конфигурации
 │   ├── gateway/                         #   API Gateway
 │   ├── k8s/                             #   Kubernetes манифесты
@@ -172,39 +184,43 @@ standard-version: v1.1
 │   │   ├── grafana/
 │   │   ├── loki/
 │   │   └── prometheus/
-│   ├── runbooks/                        #   Runbooks
-│   └── scripts/                         #   Инфраструктурные скрипты
+│   ├── scripts/                         #   Инфраструктурные скрипты
+│   └── README.md                        #   Описание platform/
 │
 ├── shared/                              # Общий код между сервисами
-│   ├── .instructions/                   #   Стандарты общего кода (TODO)
+│   ├── .instructions/                   #   Стандарты общего кода
 │   ├── assets/                          #   Статические ресурсы
 │   ├── contracts/                       #   API контракты
 │   │   ├── openapi/                     #     REST контракты
 │   │   └── protobuf/                    #     gRPC контракты
 │   ├── events/                          #   Схемы событий
 │   ├── i18n/                            #   Локализация
-│   └── libs/                            #   Общие библиотеки
+│   ├── libs/                            #   Общие библиотеки
+│   └── README.md                        #   Описание shared/
 │
 ├── specs/                               # Спецификации проекта
 │   ├── .instructions/                   #   Как писать specs
 │   ├── discussions/                     #   Дискуссии: DISC-*.md
-│   ├── glossary.md                      #   Глоссарий терминов
 │   ├── impact/                          #   Импакт-анализ: IMPACT-*.md
-│   └── services/                        #   Спецификации сервисов
+│   ├── services/                        #   Спецификации сервисов
+│   ├── glossary.md                      #   Глоссарий терминов
+│   └── README.md                        #   Описание specs/
 │
 ├── src/                                 # Исходный код сервисов
-│   ├── .instructions/                   #   Стандарты разработки (TODO)
-│   └── {service}/                       #   Сервисы
+│   ├── .instructions/                   #   Стандарты разработки
+│   └── README.md                        #   Описание src/
 │
 ├── tests/                               # Системные тесты
-│   ├── .instructions/                   #   Стандарты тестирования (TODO)
+│   ├── .instructions/                   #   Стандарты тестирования
 │   ├── e2e/                             #   End-to-end сценарии
 │   ├── fixtures/                        #   Общие тестовые данные
 │   ├── integration/                     #   Интеграция между сервисами
 │   ├── load/                            #   Нагрузочные тесты (k6)
-│   └── smoke/                           #   Smoke тесты
+│   ├── smoke/                           #   Smoke тесты
+│   └── README.md                        #   Описание tests/
 │
 ├── .gitignore                           # Git ignore
+├── .pre-commit-config.yaml              # Pre-commit hooks
 ├── CLAUDE.md                            # Точка входа для Claude
 ├── Makefile                             # Команды (make help)
 └── README.md                            # Главный README
@@ -246,3 +262,11 @@ graph TD
     PLATFORM --> |деплой| SRC
     SRC --> |код| TESTS
 ```
+
+---
+
+## Концептуальные документы
+
+- [SSOT](./ssot.md) — паттерн единого источника истины
+- [Артефакты системы](./artifacts.md) — типы артефактов и их стандарты
+- [Quick Start](./quick-start.md) — быстрое введение для LLM

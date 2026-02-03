@@ -30,12 +30,12 @@ index: .claude/.instructions/README.md
 
 ```
 /.claude/.instructions/
-├── agents/      # Инструкции для agents/
-├── drafts/      # Инструкции для drafts/
-├── rules/       # Инструкции для rules
-├── skills/      # Инструкции для скиллов
-├── state/       # Инструкции для state/
-└── README.md    # Этот файл (индекс)
+├── agents/       # Инструкции для agents/
+├── drafts/       # Инструкции для drafts/
+├── rules/        # Инструкции для rules
+├── skills/       # Инструкции для скиллов
+├── state/        # Инструкции для state/
+└── README.md     # Этот файл (индекс)
 ```
 
 ---

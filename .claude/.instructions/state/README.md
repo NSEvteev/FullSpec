@@ -29,8 +29,8 @@ index: .claude/.instructions/state/README.md
 
 ```
 /.claude/.instructions/state/
-├── README.md                # Этот файл (индекс)
-└── standard-state.md        # Стандарт файлов состояния
+├── README.md             # Этот файл (индекс)
+└── standard-state.md     # Стандарт файлов состояния
 ```
 
 ---
