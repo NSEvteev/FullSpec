@@ -2,7 +2,7 @@ name: Баг-репорт
 description: Сообщить о баге или неожиданном поведении
 title: "[Bug]: "
 labels:
-  - type:bug
+  - bug
   - priority:medium
 body:
   - type: markdown

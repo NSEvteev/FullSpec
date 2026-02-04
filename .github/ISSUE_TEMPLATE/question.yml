@@ -2,7 +2,7 @@ name: Вопрос
 description: Задать вопрос по проекту
 title: "[Question]: "
 labels:
-  - type:question
+  - question
 body:
   - type: markdown
     attributes:

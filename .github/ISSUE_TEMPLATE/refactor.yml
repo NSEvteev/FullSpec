@@ -2,7 +2,7 @@ name: Рефакторинг
 description: Предложить рефакторинг кода без изменения функциональности
 title: "[Refactor]: "
 labels:
-  - type:refactor
+  - refactor
 body:
   - type: textarea
     id: current

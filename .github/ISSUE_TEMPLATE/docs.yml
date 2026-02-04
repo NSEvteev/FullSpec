@@ -2,8 +2,8 @@ name: Документация
 description: Сообщить о проблеме в документации или предложить улучшение
 title: "[Docs]: "
 labels:
-  - type:docs
-  - priority:low
+  - docs
+  - low
 body:
   - type: dropdown
     id: type

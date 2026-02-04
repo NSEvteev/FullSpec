@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
 """
-validate-type-templates.py — Валидация соответствия type:* меток и Issue Templates.
+validate-type-templates.py — Валидация соответствия TYPE-меток и Issue Templates.
 
 Использование:
     python validate-type-templates.py              # Проверить соответствие
     python validate-type-templates.py --verbose    # Подробный вывод
 
 Проверяет:
-    - Для каждой метки type:* в labels.yml существует Issue Template
-    - Каждый Issue Template содержит labels: [type:{value}]
+    - Для каждой TYPE-метки в labels.yml существует Issue Template
+    - Каждый Issue Template содержит TYPE-метку в labels:
+
+TYPE-метки (из секции # TYPE в labels.yml):
+    bug, feature, task, docs, refactor, question
 
 Примеры:
     python validate-type-templates.py
-    # ✅ Все метки type:* имеют соответствующие Issue Templates
+    # ✅ Все TYPE-метки имеют соответствующие Issue Templates
 
     python validate-type-templates.py --verbose
-    # 📋 Найдено меток type:*: 6
+    # 📋 Найдено TYPE-меток: 6
     # 📄 Найдено шаблонов: 6
 
 Возвращает:
@@ -28,11 +31,14 @@ import re
 import sys
 from pathlib import Path
 
+# TYPE-метки (SSOT: .github/labels.yml, секция # TYPE)
+TYPE_LABELS = {"bug", "feature", "task", "docs", "refactor", "question"}
+
 # Коды ошибок
 ERROR_CODES = {
-    "TT001": "Метка type:* без соответствующего Issue Template",
-    "TT002": "Issue Template без метки type:* в labels",
-    "TT003": "Issue Template с неизвестной меткой type:*",
+    "TT001": "TYPE-метка без соответствующего Issue Template",
+    "TT002": "Issue Template без TYPE-метки в labels",
+    "TT003": "Issue Template с неизвестной TYPE-меткой",
     "TT004": "Файл labels.yml не найден",
     "TT005": "Папка ISSUE_TEMPLATE не найдена",
 }
@@ -48,29 +54,44 @@ def find_repo_root(start_path: Path) -> Path:
     return start_path.resolve()
 
 
-def load_type_labels(repo_root: Path) -> set[str]:
-    """Загрузить метки type:* из labels.yml."""
+def load_type_labels_from_yml(repo_root: Path) -> set[str]:
+    """Загрузить TYPE-метки из labels.yml."""
     labels_path = repo_root / ".github" / "labels.yml"
     if not labels_path.exists():
         return set()
 
-    type_labels = set()
+    found_labels = set()
+    in_type_section = False
+    passed_type_header = False
+
     with open(labels_path, encoding="utf-8") as f:
         for line in f:
-            # Ищем строки вида: - name: "type:value" или - name: type:value
-            match = re.search(r'-\s*name:\s*["\']?(type:[a-z0-9-]+)["\']?', line)
-            if match:
-                type_labels.add(match.group(1))
+            # Начало секции TYPE
+            if "# TYPE" in line:
+                in_type_section = True
+                continue
+            # Пропускаем закрывающую линию секции TYPE
+            if in_type_section and not passed_type_header and line.startswith("# ==="):
+                passed_type_header = True
+                continue
+            # Конец секции TYPE (начало следующей секции с комментарием)
+            if in_type_section and passed_type_header and line.startswith("# "):
+                break
+            # Парсим метки в секции TYPE
+            if in_type_section and passed_type_header:
+                match = re.search(r'-\s*name:\s*["\']?([a-z0-9-]+)["\']?', line)
+                if match:
+                    found_labels.add(match.group(1))
 
-    return type_labels
+    return found_labels
 
 
 def load_templates(repo_root: Path) -> dict[str, set[str]]:
     """
-    Загрузить Issue Templates и их метки type:*.
+    Загрузить Issue Templates и их TYPE-метки.
 
     Returns:
-        dict: {filename: set of type:* labels in template}
+        dict: {filename: set of TYPE labels in template}
     """
     templates_dir = repo_root / ".github" / "ISSUE_TEMPLATE"
     if not templates_dir.exists():
@@ -81,34 +102,32 @@ def load_templates(repo_root: Path) -> dict[str, set[str]]:
         if template_file.name == "config.yml":
             continue
 
-        type_labels = set()
+        type_labels_found = set()
         with open(template_file, encoding="utf-8") as f:
             content = f.read()
-            # Ищем labels: [...] и извлекаем type:*
-            # Поддерживаем форматы:
-            # labels: [type:bug, priority:high]
-            # labels:
-            #   - type:bug
-            #   - priority:high
 
-            # Формат 1: однострочный
+            # Извлекаем все метки из labels: секции
+            # Формат 1: labels: [bug, low]
             match = re.search(r'labels:\s*\[(.*?)\]', content)
             if match:
                 labels_str = match.group(1)
-                for label in re.findall(r'type:[a-z0-9-]+', labels_str):
-                    type_labels.add(label)
+                for label in re.findall(r'[a-z0-9-]+', labels_str):
+                    if label in TYPE_LABELS:
+                        type_labels_found.add(label)
 
-            # Формат 2: многострочный
-            for match in re.finditer(r'^\s*-\s*(type:[a-z0-9-]+)\s*$', content, re.MULTILINE):
-                type_labels.add(match.group(1))
+            # Формат 2: labels:\n  - bug\n  - low
+            for match in re.finditer(r'^\s*-\s*([a-z0-9-]+)\s*$', content, re.MULTILINE):
+                label = match.group(1)
+                if label in TYPE_LABELS:
+                    type_labels_found.add(label)
 
-        templates[template_file.name] = type_labels
+        templates[template_file.name] = type_labels_found
 
     return templates
 
 
 def validate(repo_root: Path, verbose: bool = False) -> list[str]:
-    """Валидация соответствия type:* и Issue Templates."""
+    """Валидация соответствия TYPE-меток и Issue Templates."""
     errors = []
 
     # Проверяем наличие файлов
@@ -120,43 +139,43 @@ def validate(repo_root: Path, verbose: bool = False) -> list[str]:
         return errors
 
     # Загружаем данные
-    type_labels = load_type_labels(repo_root)
+    type_labels = load_type_labels_from_yml(repo_root)
     templates = load_templates(repo_root)
 
     if verbose:
-        print(f"📋 Найдено меток type:*: {len(type_labels)}")
+        print(f"📋 Найдено TYPE-меток: {len(type_labels)}")
         for label in sorted(type_labels):
             print(f"    {label}")
         print(f"📄 Найдено шаблонов: {len(templates)}")
         for name, labels in sorted(templates.items()):
-            print(f"    {name}: {labels or '(нет type:*)'}")
+            print(f"    {name}: {labels or '(нет TYPE-метки)'}")
 
-    # Если нет папки ISSUE_TEMPLATE и есть метки type:* — предупреждение
+    # Если нет папки ISSUE_TEMPLATE и есть TYPE-метки — предупреждение
     if not templates_dir.exists() and type_labels:
-        errors.append(f"[TT005] {templates_dir.relative_to(repo_root)}: папка не найдена, но есть метки type:*")
+        errors.append(f"[TT005] {templates_dir.relative_to(repo_root)}: папка не найдена, но есть TYPE-метки")
         for label in sorted(type_labels):
             errors.append(f"[TT001] {label}: нет Issue Template")
         return errors
 
-    # Собираем все type:* из шаблонов
+    # Собираем все TYPE-метки из шаблонов
     templates_type_labels = set()
     for labels in templates.values():
         templates_type_labels.update(labels)
 
-    # TT001: метка type:* без шаблона
+    # TT001: TYPE-метка без шаблона
     for label in sorted(type_labels - templates_type_labels):
         errors.append(f"[TT001] {label}: нет Issue Template с этой меткой в labels:")
 
-    # TT002: шаблон без type:* в labels
+    # TT002: шаблон без TYPE-метки в labels
     for name, labels in sorted(templates.items()):
         if not labels:
-            errors.append(f"[TT002] {name}: шаблон не содержит метку type:* в labels")
+            errors.append(f"[TT002] {name}: шаблон не содержит TYPE-метку в labels")
 
-    # TT003: шаблон с неизвестной меткой type:*
+    # TT003: шаблон с неизвестной TYPE-меткой
     for name, labels in sorted(templates.items()):
         for label in labels:
             if label not in type_labels:
-                errors.append(f"[TT003] {name}: метка '{label}' не найдена в labels.yml")
+                errors.append(f"[TT003] {name}: метка '{label}' не найдена в секции TYPE labels.yml")
 
     return errors
 
@@ -167,7 +186,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация соответствия type:* меток и Issue Templates"
+        description="Валидация соответствия TYPE-меток и Issue Templates"
     )
     parser.add_argument("--verbose", "-v", action="store_true", help="Подробный вывод")
     parser.add_argument("--repo", default=".", help="Корень репозитория")
@@ -175,7 +194,7 @@ def main():
     args = parser.parse_args()
 
     repo_root = find_repo_root(Path(args.repo))
-    print(f"🔍 Валидация type:* ↔ Issue Templates...")
+    print(f"🔍 Валидация TYPE ↔ Issue Templates...")
 
     errors = validate(repo_root, verbose=args.verbose)
 
@@ -185,7 +204,7 @@ def main():
             print(f"  {err}")
         sys.exit(1)
     else:
-        print("✅ Все метки type:* имеют соответствующие Issue Templates")
+        print("✅ Все TYPE-метки имеют соответствующие Issue Templates")
         sys.exit(0)
 
 

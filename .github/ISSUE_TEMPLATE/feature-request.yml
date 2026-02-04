@@ -2,7 +2,7 @@ name: Запрос фичи
 description: Предложить новую функциональность или улучшение
 title: "[Feature]: "
 labels:
-  - type:feature
+  - feature
   - priority:low
 body:
   - type: textarea

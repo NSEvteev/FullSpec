@@ -2,7 +2,7 @@ name: Задача
 description: Техническая задача или улучшение
 title: "[Task]: "
 labels:
-  - type:task
+  - task
 body:
   - type: textarea
     id: description
