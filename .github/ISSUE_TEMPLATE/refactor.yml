@@ -1,5 +1,5 @@
-name: Refactor
-description: Propose code refactoring without changing functionality
+name: Рефакторинг
+description: Предложить рефакторинг кода без изменения функциональности
 title: "[Refactor]: "
 labels:
   - type:refactor
@@ -7,35 +7,35 @@ body:
   - type: textarea
     id: current
     attributes:
-      label: Current State
-      description: Describe the current code/architecture that needs refactoring
-      placeholder: "The current implementation in module X..."
+      label: Текущее состояние
+      description: Опишите текущий код/архитектуру, который нужно отрефакторить
+      placeholder: "Текущая реализация в модуле X..."
     validations:
       required: true
 
   - type: textarea
     id: proposed
     attributes:
-      label: Proposed Changes
-      description: What changes do you propose?
-      placeholder: "Refactor to use pattern Y..."
+      label: Предлагаемые изменения
+      description: Какие изменения вы предлагаете?
+      placeholder: "Отрефакторить используя паттерн Y..."
     validations:
       required: true
 
   - type: textarea
     id: motivation
     attributes:
-      label: Motivation
-      description: Why is this refactoring needed?
-      placeholder: "This will improve maintainability because..."
+      label: Мотивация
+      description: Почему нужен этот рефакторинг?
+      placeholder: "Это улучшит поддерживаемость, потому что..."
     validations:
       required: true
 
   - type: dropdown
     id: area
     attributes:
-      label: Area
-      description: Which part of the codebase?
+      label: Область
+      description: Какая часть кодовой базы затрагивается?
       multiple: true
       options:
         - Backend
@@ -49,9 +49,9 @@ body:
   - type: checkboxes
     id: checklist
     attributes:
-      label: Checklist
+      label: Чек-лист
       options:
-        - label: This refactoring does not change functionality
+        - label: Этот рефакторинг не меняет функциональность
           required: true
-        - label: I have considered the impact on existing tests
+        - label: Я учёл влияние на существующие тесты
           required: true

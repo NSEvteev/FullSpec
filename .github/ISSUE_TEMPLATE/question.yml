@@ -1,5 +1,5 @@
-name: Question
-description: Ask a question about the project
+name: Вопрос
+description: Задать вопрос по проекту
 title: "[Question]: "
 labels:
   - type:question
@@ -7,31 +7,31 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Before asking
+        ## Перед тем как спросить
 
-        Please check the documentation and existing issues first.
+        Пожалуйста, проверьте документацию и существующие Issues.
 
   - type: textarea
     id: question
     attributes:
-      label: Your Question
-      description: What would you like to know?
-      placeholder: "How do I configure..."
+      label: Ваш вопрос
+      description: Что вы хотите узнать?
+      placeholder: "Как настроить..."
     validations:
       required: true
 
   - type: textarea
     id: context
     attributes:
-      label: Context
-      description: What are you trying to achieve? This helps us give a better answer.
+      label: Контекст
+      description: Чего вы пытаетесь достичь? Это поможет дать лучший ответ.
 
   - type: checkboxes
     id: checklist
     attributes:
-      label: Checklist
+      label: Чек-лист
       options:
-        - label: I have checked the documentation
+        - label: Я проверил документацию
           required: true
-        - label: I have searched existing issues
+        - label: Я поискал в существующих Issues
           required: true

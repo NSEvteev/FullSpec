@@ -1,5 +1,5 @@
-name: Documentation
-description: Report documentation issue or suggest improvement
+name: Документация
+description: Сообщить о проблеме в документации или предложить улучшение
 title: "[Docs]: "
 labels:
   - type:docs
@@ -8,45 +8,45 @@ body:
   - type: dropdown
     id: type
     attributes:
-      label: Documentation Type
-      description: What kind of documentation change?
+      label: Тип изменения
+      description: Какое изменение документации нужно?
       options:
-        - Fix typo/error
-        - Add missing information
-        - Improve clarity
-        - Add example
-        - Other
+        - Исправить опечатку/ошибку
+        - Добавить недостающую информацию
+        - Улучшить ясность
+        - Добавить пример
+        - Другое
     validations:
       required: true
 
   - type: input
     id: location
     attributes:
-      label: Location
-      description: Which file or section needs changes?
-      placeholder: "README.md, section 'Installation'"
+      label: Расположение
+      description: Какой файл или раздел нужно изменить?
+      placeholder: "README.md, раздел 'Установка'"
     validations:
       required: true
 
   - type: textarea
     id: description
     attributes:
-      label: Description
-      description: Describe the issue or improvement
-      placeholder: "The installation steps are missing..."
+      label: Описание
+      description: Опишите проблему или улучшение
+      placeholder: "В инструкции по установке не хватает..."
     validations:
       required: true
 
   - type: textarea
     id: suggestion
     attributes:
-      label: Suggested Change
-      description: If you have a specific suggestion, describe it here
+      label: Предлагаемое изменение
+      description: Если у вас есть конкретное предложение, опишите его здесь
 
   - type: checkboxes
     id: checklist
     attributes:
-      label: Checklist
+      label: Чек-лист
       options:
-        - label: I have checked that this is not a duplicate
+        - label: Я проверил, что это не дубликат
           required: true

@@ -1,5 +1,5 @@
-name: Bug Report
-description: Report a bug or unexpected behavior
+name: Баг-репорт
+description: Сообщить о баге или неожиданном поведении
 title: "[Bug]: "
 labels:
   - type:bug
@@ -8,36 +8,36 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Thank you for reporting a bug!
+        ## Спасибо за сообщение о баге!
 
-        Please provide as much detail as possible.
+        Пожалуйста, предоставьте как можно больше деталей.
 
   - type: textarea
     id: description
     attributes:
-      label: Bug Description
-      description: A clear and concise description of the bug
-      placeholder: "When I click X, Y happens instead of Z"
+      label: Описание бага
+      description: Чёткое и краткое описание проблемы
+      placeholder: "При нажатии на X происходит Y вместо Z"
     validations:
       required: true
 
   - type: textarea
     id: steps
     attributes:
-      label: Steps to Reproduce
-      description: How can we reproduce this issue?
+      label: Шаги воспроизведения
+      description: Как воспроизвести проблему?
       placeholder: |
-        1. Go to '...'
-        2. Click on '...'
-        3. See error
+        1. Перейти в '...'
+        2. Нажать на '...'
+        3. Увидеть ошибку
     validations:
       required: true
 
   - type: input
     id: version
     attributes:
-      label: Version
-      description: Which version are you using?
+      label: Версия
+      description: Какую версию вы используете?
       placeholder: "v1.0.0"
     validations:
       required: true
@@ -45,8 +45,8 @@ body:
   - type: dropdown
     id: environment
     attributes:
-      label: Environment
-      description: Where did the bug occur?
+      label: Окружение
+      description: Где возникла проблема?
       options:
         - Production
         - Staging
@@ -57,16 +57,16 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: Logs
-      description: Paste any relevant logs
+      label: Логи
+      description: Вставьте релевантные логи
       render: bash
 
   - type: checkboxes
     id: checklist
     attributes:
-      label: Checklist
+      label: Чек-лист
       options:
-        - label: I have searched for similar issues
+        - label: Я поискал похожие Issues
           required: true
-        - label: I have provided all required information
+        - label: Я предоставил всю необходимую информацию
           required: true

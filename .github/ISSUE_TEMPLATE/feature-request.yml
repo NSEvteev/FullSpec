@@ -1,5 +1,5 @@
-name: Feature Request
-description: Suggest a new feature or enhancement
+name: Запрос фичи
+description: Предложить новую функциональность или улучшение
 title: "[Feature]: "
 labels:
   - type:feature
@@ -8,33 +8,33 @@ body:
   - type: textarea
     id: problem
     attributes:
-      label: Problem Statement
-      description: What problem does this feature solve?
-      placeholder: "I'm frustrated when..."
+      label: Проблема
+      description: Какую проблему решает эта фича?
+      placeholder: "Меня раздражает когда..."
     validations:
       required: true
 
   - type: textarea
     id: solution
     attributes:
-      label: Proposed Solution
-      description: How should this feature work?
-      placeholder: "It should..."
+      label: Предлагаемое решение
+      description: Как должна работать эта фича?
+      placeholder: "Должно работать так..."
     validations:
       required: true
 
   - type: textarea
     id: alternatives
     attributes:
-      label: Alternatives Considered
-      description: What other solutions have you considered?
+      label: Альтернативы
+      description: Какие другие решения вы рассматривали?
 
   - type: checkboxes
     id: checklist
     attributes:
-      label: Checklist
+      label: Чек-лист
       options:
-        - label: I have searched for similar feature requests
+        - label: Я поискал похожие запросы фич
           required: true
-        - label: I am willing to help implement this feature
+        - label: Я готов помочь с реализацией
           required: false
