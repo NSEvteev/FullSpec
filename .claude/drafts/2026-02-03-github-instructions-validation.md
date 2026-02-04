@@ -35,9 +35,9 @@
 
 | Файл | SSOT-ссылки | Зависит от | Статус |
 |------|-------------|------------|--------|
-| `standard-codeowners.md` | 0 | — | ⏳ |
+| `standard-codeowners.md` | 0 | — | ✅ |
 | `standard-labels.md` | 0 | — | ✅ |
-| `standard-pr-template.md` | 0 | — | ⏳ |
+| `standard-pr-template.md` | 0 | — | ✅ |
 | `standard-issue-template.md` | 1 | standard-labels.md | ⏳ |
 | `standard-release.md` | 2 | standard-milestone.md, standard-pull-request.md | ⏳ |
 | `standard-issue.md` | 2 | standard-labels.md, standard-issue-template.md | ⏳ |
@@ -52,12 +52,12 @@
 ---
 
 ## Порядок валидации
-
+ 
 | # | Файл | Волна | Статус |
 |---|------|-------|--------|
 | 1 | `standard-labels.md` | 1 | ✅ |
-| 2 | `standard-pr-template.md` | 1 | ⏳ |
-| 3 | `standard-codeowners.md` | 1 | ⏳ |
+| 2 | `standard-pr-template.md` | 1 | ✅ |
+| 3 | `standard-codeowners.md` | 1 | ✅ |
 | 4 | `standard-issue-template.md` | 2 | ⏳ |
 | 5 | `standard-issue.md` | 2 | ⏳ |
 | 6 | `standard-release.md` | 2 | ⏳ |
@@ -126,20 +126,20 @@
 
 ### Волна 1
 
-- [ ] **1. standard-labels.md** — система меток
-  - [ ] Категории и naming convention корректны
-  - [ ] Правила применения однозначны
-  - [ ] Примеры достаточны
+- [x] **1. standard-labels.md** — система меток
+  - [x] Категории и naming convention корректны
+  - [x] Правила применения однозначны
+  - [x] Примеры достаточны
 
-- [ ] **2. standard-pr-template.md** — шаблон PR
-  - [ ] Обязательные секции определены
-  - [ ] Placeholder-ы понятны
-  - [ ] Примеры полные
+- [x] **2. standard-pr-template.md** — шаблон PR
+  - [x] Обязательные секции определены
+  - [x] Placeholder-ы понятны (+ исключение для Related issues — HTML-комментарий)
+  - [x] Примеры полные
 
-- [ ] **3. standard-codeowners.md** — правила CODEOWNERS
-  - [ ] Синтаксис описан полно
-  - [ ] Паттерны корректны
-  - [ ] Примеры для проекта релевантны
+- [x] **3. standard-codeowners.md** — правила CODEOWNERS
+  - [x] Синтаксис описан полно
+  - [x] Паттерны корректны
+  - [x] Примеры для проекта релевантны
 
 ### Волна 2
 
@@ -228,8 +228,8 @@
 | Файл | Статус | Качество | Комментарий |
 |------|--------|----------|-------------|
 | standard-labels.md | ✅ | — | Инструкции созданы |
-| standard-pr-template.md | ⏳ | — | — |
-| standard-codeowners.md | ⏳ | — | — |
+| standard-pr-template.md | ✅ | — | Инструкции созданы: validation + скрипт + pre-commit хук |
+| standard-codeowners.md | ✅ | — | Инструкции созданы: validation + скрипт + pre-commit хук + CODEOWNERS файл |
 
 ### Волна 2
 
@@ -265,6 +265,8 @@
 | Стандарт | Драфт рекомендаций |
 |----------|-------------------|
 | standard-labels.md | *Инструкции созданы, рекомендации не требуются* |
+| standard-pr-template.md | *Инструкции созданы, рекомендации не требуются* |
+| standard-codeowners.md | *Инструкции созданы, рекомендации не требуются* |
 | standard-issue.md | [recommendations-standard-issue.md](./2026-02-03-recommendations-standard-issue.md) |
 | standard-release.md | [recommendations-standard-release.md](./2026-02-03-recommendations-standard-release.md) |
 | standard-pull-request.md | [recommendations-standard-pull-request.md](./2026-02-03-recommendations-standard-pull-request.md) |

@@ -71,5 +71,7 @@ index: .github/README.md
 ├── releases/                           # История релизов проекта
 ├── workflows/                          # GitHub Actions workflows
 ├── README.md                           # Этот файл
-└── labels.yml                          # TODO: добавить описание
+├── labels.yml                          # TODO: добавить описание
+├── CODEOWNERS                          # TODO: добавить описание
+└── PULL_REQUEST_TEMPLATE.md            # TODO: добавить описание
 ```

@@ -28,7 +28,8 @@ index: .github/.instructions/pr-template/README.md
 ```
 /.github/.instructions/pr-template/
 ├── README.md                           # Этот файл (индекс)
-└── standard-pr-template.md             # TODO: добавить описание
+├── standard-pr-template.md             # Стандарт формата PR template
+└── validation-pr-template.md           # Валидация PR template
 ```
 
 ---
@@ -41,10 +42,10 @@ index: .github/.instructions/pr-template/README.md
 
 # 2. Воркфлоу
 
-*Будет добавлен modify-pr-template.md*
+*Не требуется (шаблон создаётся разово и редактируется вручную)*
 
 ---
 
 # 3. Валидация
 
-*Будет добавлен validation-pr-template.md*
+- [validation-pr-template.md](./validation-pr-template.md) — Валидация PR template (автоматически через pre-commit)

@@ -50,3 +50,21 @@ repos:
         pass_filenames: true
         require_serial: true
         stages: [pre-commit]
+
+      # 5. Валидация PR template
+      - id: pr-template-validate
+        name: Validate PR template
+        entry: python .github/.instructions/.scripts/validate-pr-template.py
+        language: system
+        files: ^\.github/PULL_REQUEST_TEMPLATE\.md$
+        pass_filenames: false
+        stages: [pre-commit]
+
+      # 6. Валидация CODEOWNERS
+      - id: codeowners-validate
+        name: Validate CODEOWNERS
+        entry: python .github/.instructions/.scripts/validate-codeowners.py
+        language: system
+        files: ^\.github/CODEOWNERS$
+        pass_filenames: false
+        stages: [pre-commit]

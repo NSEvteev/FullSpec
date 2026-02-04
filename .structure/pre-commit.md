@@ -29,6 +29,8 @@ make setup
 | `rules-validate` | Формат rule-файлов | `.claude/rules/*.md` |
 | `scripts-validate` | Формат Python-скриптов | `**/.scripts/*.py` |
 | `skills-validate` | Формат SKILL.md | `.claude/skills/*/SKILL.md` |
+| `pr-template-validate` | Структура PR template | `.github/PULL_REQUEST_TEMPLATE.md` |
+| `codeowners-validate` | Синтаксис CODEOWNERS | `.github/CODEOWNERS` |
 
 ---
 

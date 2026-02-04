@@ -32,5 +32,7 @@ index: .github/.instructions/.scripts/README.md
 ├── README.md                           # Этот файл
 ├── validate-labels.py                  # Валидация labels.yml и меток
 ├── sync-labels.py                      # Синхронизация с GitHub
-└── migrate-label.py                    # Миграция меток на Issues/PR
+├── migrate-label.py                    # Миграция меток на Issues/PR
+├── validate-codeowners.py              # TODO: добавить описание
+└── validate-pr-template.py             # TODO: добавить описание
 ```

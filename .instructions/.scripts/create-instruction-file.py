@@ -419,14 +419,25 @@ def create_instruction_file(
     # Определить пути для frontmatter
     rel_area = area.relative_to(repo_root)
 
-    # standard — путь к standard-instruction.md
+    # standard — путь к standard-instruction.md (для frontmatter)
     standard_path = ".instructions/standard-instruction.md"
 
-    # Получить версию стандарта из standard-instruction.md
-    standard_file = repo_root / standard_path
-    standard_version = get_standard_version(standard_file)
-    if not standard_version:
-        raise ValueError(f"Не найдена 'Версия стандарта:' в {standard_file}")
+    # Получить версию стандарта
+    # Для типа standard — всегда 1.0 (новый стандарт)
+    # Для create/modify/validation — из standard-{name}.md в той же папке
+    if inst_type == "standard":
+        standard_version = "1.0"
+    else:
+        # Найти standard-{name}.md в той же папке
+        object_standard_file = area / f"standard-{name}.md"
+        if not object_standard_file.exists():
+            raise FileNotFoundError(
+                f"Не найден standard-{name}.md в {area}. "
+                f"Сначала создайте стандарт: /instruction-create {name} --type standard"
+            )
+        standard_version = get_standard_version(object_standard_file)
+        if not standard_version:
+            raise ValueError(f"Не найдена 'Версия стандарта:' в {object_standard_file}")
 
     # index — README этой папки
     index_path = f"{rel_area}/README.md".replace("\\", "/")
