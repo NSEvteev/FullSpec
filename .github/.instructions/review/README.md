@@ -1,19 +1,19 @@
 ---
-description: GitHub Projects
+description: Ревью и merge Pull Request
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
-index: .github/.instructions/projects/README.md
+index: .github/.instructions/review/README.md
 ---
 
-# Инструкции /.github/.instructions/projects/
+# Инструкции /.github/.instructions/review/
 
-GitHub Projects.
+Ревью и merge Pull Request.
 
 **Полезные ссылки:**
 - [Инструкции .github](../README.md)
 - [SSOT .github](../../README.md)
 
-**Содержание:** Создание проекта, Views, Автоматизация.
+**Содержание:** Code Review, Merge, Branch Protection.
 
 ---
 
@@ -28,25 +28,25 @@ GitHub Projects.
 | [5. Скиллы](#5-скиллы) | — | Скиллы для этой области |
 
 ```
-/.github/.instructions/projects/
-├── README.md             # Этот файл (индекс)
-└── standard-project.md   # Стандарт проектов
+/.github/.instructions/review/
+├── README.md            # Этот файл (индекс)
+└── standard-review.md   # Стандарт ревью и merge
 ```
 
 ---
 
 # 1. Стандарты
 
-## 1.1. Стандарт проектов
+## 1.1. Стандарт ревью
 
-Работа с GitHub Projects: создание, views, автоматизация.
+Code Review процесс, merge стратегии и Branch Protection Rules.
 
 **Оглавление:**
-- [Создание проекта](./standard-project.md#создание-проекта)
-- [Views](./standard-project.md#views)
-- [Автоматизация](./standard-project.md#автоматизация)
+- [Code Review](./standard-review.md#2-code-review-процесс)
+- [Merge](./standard-review.md#3-merge-стратегии)
+- [Branch Protection](./standard-review.md#4-branch-protection-rules)
 
-**Инструкция:** [standard-project.md](./standard-project.md)
+**Инструкция:** [standard-review.md](./standard-review.md)
 
 ---
 

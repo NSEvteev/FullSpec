@@ -2,7 +2,7 @@
 description: Валидация соответствия type:* меток и Issue Templates
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
-index: .github/.instructions/issue-templates/README.md
+index: .github/.instructions/issues/issue-templates/README.md
 ---
 
 # Валидация соответствия type:* и Issue Templates
@@ -18,7 +18,7 @@ index: .github/.instructions/issue-templates/README.md
 
 | Тип | Документ |
 |-----|----------|
-| Стандарт Labels | [standard-labels.md](../labels/standard-labels.md) |
+| Стандарт Labels | [standard-labels.md](../../labels/standard-labels.md) |
 | Стандарт Templates | [standard-issue-template.md](./standard-issue-template.md) |
 | Валидация | Этот документ |
 | Создание | *Не требуется (кросс-валидация)* |
@@ -104,7 +104,7 @@ python .github/.instructions/.scripts/validate-type-templates.py --verbose
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
-| [validate-type-templates.py](../.scripts/validate-type-templates.py) | Валидация соответствия type:* и шаблонов | Этот документ |
+| [validate-type-templates.py](../../.scripts/validate-type-templates.py) | Валидация соответствия type:* и шаблонов | Этот документ |
 
 ---
 

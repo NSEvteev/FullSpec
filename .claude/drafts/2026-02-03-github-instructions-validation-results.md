@@ -1,8 +1,15 @@
 # Итоги смысловой валидации GitHub-инструкций
 
 **Дата:** 2026-02-03
+**Обновлено:** 2026-02-04
 **Статус:** draft
 **Валидировано документов:** 13
+
+> **Примечание (2026-02-04):** После реструктуризации:
+> - `standard-development-workflow.md` → `standard-github-workflow.md`
+> - `standard-github.md` → **УДАЛЁН**
+> - `standard-release-workflow.md` → `releases/standard-release-workflow.md`
+> - Создан `review/standard-review.md` (Code Review и Merge)
 
 ---
 
@@ -20,9 +27,10 @@
 | 8 | standard-milestone.md | 8/10 | 7/10 | Нет автоматизации Sprint |
 | 9 | standard-workflow-file.md | 9/10 | 9/10 | Слишком большой (~1300 строк) |
 | 10 | standard-project.md | 8/10 | 7/10 | Сложный item-edit без скрипта |
-| 11 | standard-development-workflow.md | 9/10 | 8/10 | Дублирование с issue/pr |
-| 12 | standard-release-workflow.md | 8/10 | 8/10 | Нет release freeze процедуры |
-| 13 | standard-github.md | 9/10 | 7/10 | Нет порядка изучения |
+| 11 | standard-github-workflow.md | 9/10 | 8/10 | Дублирование с issue/pr |
+| 12 | releases/standard-release-workflow.md | 8/10 | 8/10 | Нет release freeze процедуры |
+| 13 | ~~standard-github.md~~ | — | — | **УДАЛЁН** |
+| 14 | review/standard-review.md | — | — | *Новый документ (2026-02-04)* |
 
 ---
 
@@ -30,7 +38,7 @@
 
 ### 1. Дублирование между документами
 
-**Где:** standard-development-workflow.md ↔ standard-issue.md ↔ standard-pull-request.md
+**Где:** standard-github-workflow.md ↔ standard-issue.md ↔ standard-pull-request.md
 
 **Проблема:** Контент про создание Issue и PR повторяется в нескольких местах.
 
@@ -68,22 +76,22 @@
 
 ### Критичные (влияют на workflow)
 
-1. **Убрать дублирование** в standard-development-workflow.md
+1. **Убрать дублирование** в standard-github-workflow.md
 2. **Разделить** standard-release.md и standard-release-workflow.md
 3. **Добавить критерии приоритетов** в standard-labels.md
 
 ### Важные (улучшают понимание)
 
-4. **Добавить порядок изучения** в standard-github.md
+4. ~~**Добавить порядок изучения** в standard-github.md~~ **НЕАКТУАЛЬНО** (файл удалён)
 5. **Добавить checklist** перед созданием PR
 6. **Добавить процедуру stale Issues** в standard-issue.md
-7. **Добавить release freeze** в standard-release-workflow.md
+7. **Добавить release freeze** в releases/standard-release-workflow.md
 
 ### Желательные (полировка)
 
 8. Quick Reference для standard-workflow-file.md
 9. Скрипт item-edit для standard-project.md
-10. Глоссарий терминов в standard-github.md
+10. ~~Глоссарий терминов в standard-github.md~~ → рассмотреть отдельный документ
 
 ---
 
@@ -97,7 +105,7 @@
 - standard-pull-request.md → standard-labels.md ✅
 - standard-milestone.md → standard-release.md ✅
 - standard-release.md → standard-milestone.md ✅
-- standard-github.md → все остальные ✅
+- ~~standard-github.md → все остальные~~ **УДАЛЁН**
 
 ### Циклические зависимости
 
@@ -106,7 +114,7 @@
 ### Отсутствующие ссылки
 
 - standard-project.md → standard-milestone.md — добавить интеграцию Views с Milestones
-- standard-development-workflow.md → standard-project.md — добавить ссылку если используется Projects
+- standard-github-workflow.md → standard-project.md — добавить ссылку если используется Projects
 
 ---
 
@@ -145,6 +153,6 @@
 | standard-milestone.md | [2026-02-03-recommendations-standard-milestone.md](./2026-02-03-recommendations-standard-milestone.md) |
 | standard-workflow-file.md | [2026-02-03-recommendations-standard-workflow-file.md](./2026-02-03-recommendations-standard-workflow-file.md) |
 | standard-project.md | [2026-02-03-recommendations-standard-project.md](./2026-02-03-recommendations-standard-project.md) |
-| standard-development-workflow.md | [2026-02-03-recommendations-standard-development-workflow.md](./2026-02-03-recommendations-standard-development-workflow.md) |
-| standard-release-workflow.md | [2026-02-03-recommendations-standard-release-workflow.md](./2026-02-03-recommendations-standard-release-workflow.md) |
-| standard-github.md | [2026-02-03-recommendations-standard-github.md](./2026-02-03-recommendations-standard-github.md) |
+| standard-github-workflow.md | [2026-02-03-recommendations-standard-development-workflow.md](./2026-02-03-recommendations-standard-development-workflow.md) |
+| releases/standard-release-workflow.md | [2026-02-03-recommendations-standard-release-workflow.md](./2026-02-03-recommendations-standard-release-workflow.md) |
+| ~~standard-github.md~~ | [2026-02-03-recommendations-standard-github.md](./2026-02-03-recommendations-standard-github.md) (**УСТАРЕЛ**) |

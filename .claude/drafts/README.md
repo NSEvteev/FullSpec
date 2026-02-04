@@ -60,8 +60,8 @@ index: .claude/README.md
 ├── 2026-02-03-recommendations-standard-issue.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-milestone.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-project.md # TODO: добавить описание
-├── 2026-02-03-recommendations-standard-pull-request.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-release-workflow.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-release.md # TODO: добавить описание
-└── 2026-02-03-recommendations-standard-workflow-file.md # TODO: добавить описание
+├── 2026-02-03-recommendations-standard-workflow-file.md # TODO: добавить описание
+└── 2026-02-04-github-docs-restructure.md # TODO: добавить описание
 ```

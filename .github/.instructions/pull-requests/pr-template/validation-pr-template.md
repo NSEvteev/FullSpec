@@ -2,7 +2,7 @@
 description: Валидация шаблона Pull Request
 standard: .instructions/standard-instruction.md
 standard-version: v1.1
-index: .github/.instructions/pr-template/README.md
+index: .github/.instructions/pull-requests/pr-template/README.md
 ---
 
 # Валидация pr template

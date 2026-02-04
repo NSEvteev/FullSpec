@@ -2,7 +2,7 @@
 description: Стандарт шаблона Pull Request
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
-index: .github/.instructions/pr-template/README.md
+index: .github/.instructions/pull-requests/pr-template/README.md
 ---
 
 # Стандарт PR template
@@ -166,15 +166,18 @@ index: .github/.instructions/pr-template/README.md
 | `Resolves` | Закрыть Issue при мерже | `Resolves #789` |
 | `Related to` | Связать без закрытия | `Related to #100` |
 
-**Формат:**
+**Формат (несколько Issues — стандартный случай):**
 ```markdown
 ## Related issues
 
-Fixes #123
-Closes #456
+Closes #42
+Closes #43
+Closes #44
 ```
 
-**Важно:** Issue автоматически закрывается ТОЛЬКО при мерже PR в базовую ветку.
+**Каждый Issue на отдельной строке** — так GitHub закроет все Issues при merge.
+
+**Важно:** Issues автоматически закрываются ТОЛЬКО при мерже PR в базовую ветку.
 
 ---
 

@@ -28,7 +28,7 @@ index: .github/.instructions/README.md
 
 | Область | Документ | Что регулирует |
 |---------|----------|----------------|
-| Development Workflow | [standard-development-workflow.md](../standard-development-workflow.md) | Цикл разработки и триггеры для workflows |
+| Development Workflow | [standard-github-workflow.md](../standard-github-workflow.md) | Цикл разработки и триггеры для workflows |
 
 ## Оглавление
 
@@ -72,7 +72,7 @@ index: .github/.instructions/README.md
 |----------|--------------|
 | Локальные проверки перед коммитом | Pre-commit hooks (см. [initialization.md](/.structure/initialization.md)) |
 | Скрипты для ручного запуска | Bash-скрипты в `platform/scripts/` |
-| Деплой на production | Использовать Release workflow (триггер: `release.published`) — см. [standard-release-workflow.md](../standard-release-workflow.md). Для staging/dev окружений — создавать отдельные workflow с `workflow_dispatch` или `push` триггером. |
+| Деплой на production | Использовать Release workflow (триггер: `release.published`) — см. [standard-release-workflow.md](../releases/standard-release-workflow.md). Для staging/dev окружений — создавать отдельные workflow с `workflow_dispatch` или `push` триггером. |
 
 ### Scope и границы документа
 
@@ -85,9 +85,9 @@ index: .github/.instructions/README.md
 - Best practices для workflow файлов
 
 **Этот стандарт НЕ покрывает:**
-- Процесс релиза (когда создавать Release, как версионировать) → см. [standard-release-workflow.md](../standard-release-workflow.md)
+- Процесс релиза (когда создавать Release, как версионировать) → см. [standard-release-workflow.md](../releases/standard-release-workflow.md)
 - Версионирование (semver, changelog) → см. [standard-release.md](../releases/standard-release.md)
-- Development workflow (Issue → Branch → PR → Merge) → см. [standard-development-workflow.md](../standard-development-workflow.md)
+- Development workflow (Issue → Branch → PR → Merge) → см. [standard-github-workflow.md](../standard-github-workflow.md)
 
 **Ключевое:** Этот документ описывает "КАК писать YAML", а смежные стандарты — "КОГДА и ДЛЯ ЧЕГО использовать workflows".
 
@@ -1204,7 +1204,7 @@ jobs:
 - История deployments в GitHub UI
 
 **Связь с Release workflow:**
-- Environment `production` используется для deploy по Release (см. [standard-release-workflow.md](../standard-release-workflow.md))
+- Environment `production` используется для deploy по Release (см. [standard-release-workflow.md](../releases/standard-release-workflow.md))
 
 ---
 

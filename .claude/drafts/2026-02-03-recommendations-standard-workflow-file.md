@@ -1,8 +1,11 @@
 # Рекомендации по дополнению standard-workflow-file.md
 
 **Дата:** 2026-02-03
+**Обновлено:** 2026-02-04
 **Статус:** draft
 **Проанализированный документ:** `.github/.instructions/workflows-files/standard-workflow-file.md`
+
+> **Примечание (2026-02-04):** Ссылки на `standard-development-workflow.md` обновлены на `standard-github-workflow.md`.
 
 ---
 
@@ -122,8 +125,8 @@ jobs:
 | Jobs и Steps | ✅ Да | — |
 | Secrets и Variables | ✅ Да | — |
 | Best practices | ✅ Да | — |
-| Процесс релиза | ❌ Нет | standard-release-workflow.md |
-| Development workflow | ❌ Нет | standard-development-workflow.md |
+| Процесс релиза | ❌ Нет | releases/standard-release-workflow.md |
+| Development workflow | ❌ Нет | standard-github-workflow.md |
 
 **Вывод:** Границы SSOT соблюдены. Документ фокусируется на "КАК писать YAML", а не "КОГДА использовать".
 

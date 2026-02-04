@@ -158,14 +158,14 @@ xs
 
 ## 4. Связь TYPE-меток с Issue Templates
 
-**SSOT шаблонов:** [standard-issue-template.md](../issue-templates/standard-issue-template.md)
+**SSOT шаблонов:** [standard-issue-template.md](../issues/issue-templates/standard-issue-template.md)
 
 Категория `TYPE-метку` имеет особую роль — каждая метка типа **ДОЛЖНА** иметь соответствующий Issue Template в `.github/ISSUE_TEMPLATE/`.
 
 **Правило соответствия:**
 - Для каждой метки `type:{value}` в [labels.yml](../../labels.yml) должен существовать шаблон
 - Шаблон должен содержать `labels: [type:{value}]`
-- Именование шаблона — см. [standard-issue-template.md](../issue-templates/standard-issue-template.md)
+- Именование шаблона — см. [standard-issue-template.md](../issues/issue-templates/standard-issue-template.md)
 
 **При добавлении метки `TYPE-метку`:** создать Issue Template.
 

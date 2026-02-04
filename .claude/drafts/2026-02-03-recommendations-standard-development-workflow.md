@@ -1,8 +1,11 @@
-# Рекомендации по дополнению standard-development-workflow.md
+# Рекомендации по дополнению standard-github-workflow.md
 
 **Дата:** 2026-02-03
+**Обновлено:** 2026-02-04
 **Статус:** draft
-**Проанализированный документ:** `.github/.instructions/standard-development-workflow.md`
+**Проанализированный документ:** `.github/.instructions/standard-github-workflow.md`
+
+> **Примечание (2026-02-04):** Документ переименован из `standard-development-workflow.md` в `standard-github-workflow.md` в рамках реструктуризации. Code Review и Merge вынесены в `review/standard-review.md`.
 
 ---
 
@@ -122,7 +125,8 @@ git stash pop
 | Branch naming | ✅ Да | — |
 | Issue детали | ⚠️ Дублирование | standard-issue.md |
 | PR детали | ⚠️ Дублирование | standard-pull-request.md |
-| Release workflow | ❌ Нет | standard-release-workflow.md |
+| Release workflow | ❌ Нет | releases/standard-release-workflow.md |
+| Code Review, Merge | ❌ Нет (вынесено) | review/standard-review.md |
 
 **Вывод:** Границы SSOT частично нарушены — есть дублирование. Рекомендуется заменить на SSOT-ссылки.
 

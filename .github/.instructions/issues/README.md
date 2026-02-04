@@ -21,15 +21,28 @@ index: .github/.instructions/issues/README.md
 
 | Секция | Инструкция | Описание |
 |--------|------------|----------|
+| [Вложенные области](#вложенные-области) | — | Подобласти инструкций |
 | [1. Стандарты](#1-стандарты) | — | Форматы и правила |
 | [2. Воркфлоу](#2-воркфлоу) | — | Создание и изменение |
 | [3. Валидация](#3-валидация) | — | Проверка согласованности |
 
 ```
 /.github/.instructions/issues/
+├── issue-templates/                    # Шаблоны ISSUE_TEMPLATE/
+│   ├── README.md
+│   ├── standard-issue-template.md
+│   └── validation-type-templates.md
 ├── README.md                           # Этот файл (индекс)
-└── standard-issue.md                   # TODO: добавить описание
+└── standard-issue.md                   # Стандарт GitHub Issues
 ```
+
+---
+
+## Вложенные области
+
+| Область | Описание | Индекс |
+|---------|----------|--------|
+| [issue-templates/](./issue-templates/) | Инструкции для ISSUE_TEMPLATE/ | [README](./issue-templates/README.md) |
 
 ---
 

@@ -2,16 +2,17 @@
 description: Инструкции для шаблона Pull Request
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
-index: .github/.instructions/pr-template/README.md
+index: .github/.instructions/pull-requests/pr-template/README.md
 ---
 
-# /.github/.instructions/pr-template/ — Шаблон PR
+# /.github/.instructions/pull-requests/pr-template/ — Шаблон PR
 
 Инструкции для создания и редактирования шаблона Pull Request.
 
 **Полезные ссылки:**
-- [Инструкции .github](../README.md)
-- [.github](../../README.md)
+- [Инструкции pull-requests](../README.md)
+- [Инструкции .github](../../README.md)
+- [.github](../../../README.md)
 
 **Регламентирует:** `.github/PULL_REQUEST_TEMPLATE.md`
 
@@ -26,9 +27,10 @@ index: .github/.instructions/pr-template/README.md
 | [3. Валидация](#3-валидация) | — | Проверка согласованности |
 
 ```
-/.github/.instructions/pr-template/
+/.github/.instructions/pull-requests/pr-template/
 ├── README.md                           # Этот файл (индекс)
 ├── standard-pr-template.md             # Стандарт формата PR template
+├── standard-draft-pr.md                # Стандарт Draft PR
 └── validation-pr-template.md           # Валидация PR template
 ```
 
@@ -37,6 +39,7 @@ index: .github/.instructions/pr-template/README.md
 # 1. Стандарты
 
 - [standard-pr-template.md](./standard-pr-template.md) — Формат и структура Markdown-шаблона Pull Request
+- [standard-draft-pr.md](./standard-draft-pr.md) — Draft PR: создание, ограничения, перевод в Ready
 
 ---
 

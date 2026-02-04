@@ -50,7 +50,7 @@
 | `standard-release-workflow.md` | 6 | standard-development-workflow.md, standard-release.md, standard-milestone.md, standard-workflow-file.md | ⏳ |
 | `standard-github.md` | 11 | Все остальные (навигационный документ) | ⏳ |
 
-> **↔ = циклическая зависимость** — milestone ↔ issue, milestone ↔ release. Решение: валидировать milestone раньше, но помнить о взаимосвязи.
+> **↔ = циклическая зависимость** — milestone ↔ issue, milestone ↔ release. Решение: валидировать milestone раньше, но помнить о взаимосвязи. 
 
 ---
 

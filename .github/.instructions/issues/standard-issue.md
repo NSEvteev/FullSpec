@@ -18,7 +18,7 @@ index: .github/.instructions/issues/README.md
 - [standard-labels.md](../labels/standard-labels.md) — метки Issues
 - [standard-milestone.md](../milestones/standard-milestone.md) — milestones
 - [standard-project.md](../projects/standard-project.md) — GitHub Projects
-- [standard-issue-template.md](../issue-templates/standard-issue-template.md) — шаблоны Issues
+- [standard-issue-template.md](./issue-templates/standard-issue-template.md) — шаблоны Issues
 - [standard-pull-request.md](../pull-requests/standard-pull-request.md) — связь с PR
 
 **Связанные документы:**
@@ -182,7 +182,7 @@ GitHub Issues — система управления задачами, бага
 
 ### Body — структура описания
 
-**SSOT:** [standard-issue-template.md](../issue-templates/standard-issue-template.md) — структура body определяется шаблоном Issue.
+**SSOT:** [standard-issue-template.md](./issue-templates/standard-issue-template.md) — структура body определяется шаблоном Issue.
 
 **Минимальная структура (если без шаблона):**
 
@@ -197,7 +197,7 @@ GitHub Issues — система управления задачами, бага
 - [ ] {Пункт 2}
 ```
 
-**Для багов, фич, задач:** Использовать соответствующий шаблон из `.github/ISSUE_TEMPLATE/` — см. [примеры шаблонов](../issue-templates/standard-issue-template.md#11-примеры-шаблонов).
+**Для багов, фич, задач:** Использовать соответствующий шаблон из `.github/ISSUE_TEMPLATE/` — см. [примеры шаблонов](./issue-templates/standard-issue-template.md#11-примеры-шаблонов).
 
 ### Labels — обязательные метки
 
@@ -238,7 +238,7 @@ gh issue edit 123 --add-assignee user1,user2
 ## 5. Связь с Branch и PR
 
 **SSOT-зависимости:**
-- Именование веток — [standard-development-workflow.md](../workflows/standard-development-workflow.md)
+- Именование веток — [standard-github-workflow.md](../standard-github-workflow.md)
 - Формат PR и ключевые слова — [standard-pull-request.md](../pull-requests/standard-pull-request.md)
 
 **Процесс:**
@@ -257,7 +257,7 @@ gh issue edit 123 --add-assignee user1,user2
    ```
 4. **Мерж PR** — Issue автоматически закроется
 
-**Ключевые слова для автозакрытия:** `Fixes`, `Closes`, `Resolves` — подробнее см. [standard-pull-request.md](../pull-requests/standard-pull-request.md#связь-с-issues).
+**Ключевые слова для автозакрытия:** `Fixes`, `Closes`, `Resolves` — подробнее см. [standard-pull-request.md](../pull-requests/standard-pull-request.md#6-связь-с-issues).
 
 ---
 
@@ -400,9 +400,9 @@ gh issue create --title "..." --body "..." --label type:task --label priority:me
 **Правило:** ВСЕГДА использовать шаблон при создании Issue через CLI (кроме технических задач без структуры).
 
 **Подробнее:**
-- Структура шаблонов — [standard-issue-template.md](../issue-templates/standard-issue-template.md)
-- Создание шаблонов — [create-issue-template.md](../issue-templates/create-issue-template.md)
-- Валидация шаблонов — [validation-issue-template.md](../issue-templates/validation-issue-template.md)
+- Структура шаблонов — [standard-issue-template.md](./issue-templates/standard-issue-template.md)
+- Создание шаблонов — [create-issue-template.md](./issue-templates/create-issue-template.md)
+- Валидация шаблонов — [validation-issue-template.md](./issue-templates/validation-issue-template.md)
 
 ---
 

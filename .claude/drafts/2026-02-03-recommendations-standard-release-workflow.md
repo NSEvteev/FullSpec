@@ -1,8 +1,11 @@
 # Рекомендации по дополнению standard-release-workflow.md
 
 **Дата:** 2026-02-03
+**Обновлено:** 2026-02-04
 **Статус:** draft
-**Проанализированный документ:** `.github/.instructions/standard-release-workflow.md`
+**Проанализированный документ:** `.github/.instructions/releases/standard-release-workflow.md`
+
+> **Примечание (2026-02-04):** Документ перемещён из корня `.github/.instructions/` в `releases/`.
 
 ---
 
@@ -96,7 +99,7 @@
 
 ### 8. Мелкое: нет диаграммы Release Workflow
 
-**Проблема:** В standard-development-workflow.md есть ASCII-диаграмма, здесь — нет.
+**Проблема:** В standard-github-workflow.md есть ASCII-диаграмма, здесь — нет.
 
 **Рекомендация:** Добавить диаграмму:
 ```
@@ -125,7 +128,7 @@
 | Версионирование | ❌ Нет (ссылка) | standard-release.md |
 | Changelog формат | ❌ Нет (ссылка) | standard-release.md |
 | GitHub Actions | ✅ Примеры | standard-workflow-file.md для деталей |
-| Development workflow | ❌ Нет (ссылка) | standard-development-workflow.md |
+| Development workflow | ❌ Нет (ссылка) | standard-github-workflow.md |
 
 **Вывод:** Границы SSOT в целом соблюдены. Есть небольшое пересечение с standard-release.md — рекомендуется уточнить.
 

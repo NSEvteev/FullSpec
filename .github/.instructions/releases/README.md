@@ -1,19 +1,19 @@
 ---
-description: Индекс инструкций для releases/
+description: Релизы и деплой
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/releases/README.md
 ---
 
-# Инструкции /.github/releases/
+# Инструкции /.github/.instructions/releases/
 
-Индекс инструкций для папки releases/.
+Релизы и деплой.
 
 **Полезные ссылки:**
-- [Инструкции .github/](../README.md)
-- [.github/](../../README.md)
+- [Инструкции .github](../README.md)
+- [SSOT .github](../../README.md)
 
-**Содержание:** *добавить темы через запятую.*
+**Содержание:** Версионирование, Changelog, Environments, Deploy.
 
 ---
 
@@ -29,15 +29,42 @@ index: .github/.instructions/releases/README.md
 
 ```
 /.github/.instructions/releases/
-├── standard-release.md      # Стандарт Release
-└── README.md                # Этот файл (индекс)
+├── README.md                    # Этот файл (индекс)
+├── standard-release.md          # Стандарт релизов (версионирование, changelog)
+└── standard-release-workflow.md # Процесс релиза (подготовка → деплой → hotfix)
 ```
 
 ---
 
 # 1. Стандарты
 
-- [standard-release.md](./standard-release.md) — Стандарт управления GitHub Releases: версионирование (SemVer), Git-теги, changelog, связь с Milestones
+## 1.1. Стандарт релизов
+
+Когда релизить, версионирование, changelog, environments и deploy.
+
+**Оглавление:**
+- [Когда релизить](./standard-release.md#когда-релизить)
+- [Версионирование](./standard-release.md#версионирование)
+- [Changelog](./standard-release.md#changelog)
+- [Environments](./standard-release.md#environments)
+- [Deploy](./standard-release.md#deploy)
+
+**Инструкция:** [standard-release.md](./standard-release.md)
+
+## 1.2. Стандарт Release Workflow
+
+Полный процесс релиза: подготовка → создание → публикация → hotfix → rollback.
+
+**Оглавление:**
+- [Зона ответственности](./standard-release-workflow.md#1-зона-ответственности)
+- [Полный цикл релиза](./standard-release-workflow.md#2-полный-цикл-релиза)
+- [Подготовка релиза](./standard-release-workflow.md#3-подготовка-релиза)
+- [Создание релиза](./standard-release-workflow.md#4-создание-релиза)
+- [Публикация на production](./standard-release-workflow.md#5-публикация-на-production)
+- [Hotfix-релиз](./standard-release-workflow.md#6-hotfix-релиз)
+- [Rollback процесс](./standard-release-workflow.md#7-rollback-процесс)
+
+**Инструкция:** [standard-release-workflow.md](./standard-release-workflow.md)
 
 ---
 

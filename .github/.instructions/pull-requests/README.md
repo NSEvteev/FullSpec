@@ -21,15 +21,29 @@ index: .github/.instructions/pull-requests/README.md
 
 | Секция | Инструкция | Описание |
 |--------|------------|----------|
+| [Вложенные области](#вложенные-области) | — | Подобласти инструкций |
 | [1. Стандарты](#1-стандарты) | — | Форматы и правила |
 | [2. Воркфлоу](#2-воркфлоу) | — | Создание и изменение |
 | [3. Валидация](#3-валидация) | — | Проверка согласованности |
 
 ```
 /.github/.instructions/pull-requests/
+├── pr-template/                   # Шаблон PULL_REQUEST_TEMPLATE.md
+│   ├── README.md
+│   ├── standard-pr-template.md
+│   ├── standard-draft-pr.md
+│   └── validation-pr-template.md
 ├── README.md                      # Этот файл (индекс)
-└── standard-pull-request.md       # Процесс работы с PR
+└── standard-pull-request.md       # Стандарт Pull Requests
 ```
+
+---
+
+## Вложенные области
+
+| Область | Описание | Индекс |
+|---------|----------|--------|
+| [pr-template/](./pr-template/) | Инструкции для PR template | [README](./pr-template/README.md) |
 
 ---
 

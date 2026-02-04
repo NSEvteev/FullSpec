@@ -2,7 +2,7 @@
 description: Процесс релиза от решения до публикации и hotfix
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
-index: .github/.instructions/README.md
+index: .github/.instructions/releases/README.md
 ---
 
 # Стандарт Release Workflow
@@ -12,8 +12,8 @@ index: .github/.instructions/README.md
 Полный процесс релиза: подготовка → создание → публикация → hotfix → rollback.
 
 **Полезные ссылки:**
-- [Инструкции .github](./README.md)
-- [Development Workflow](./standard-development-workflow.md) — цикл разработки от Issue до Merge
+- [Инструкции releases](./README.md)
+- [GitHub Workflow](../standard-github-workflow.md) — цикл разработки от Issue до Merge
 
 **Связанные документы:**
 
@@ -28,9 +28,9 @@ index: .github/.instructions/README.md
 
 | Область | Документ | Что регулирует |
 |---------|----------|----------------|
-| Development | [standard-development-workflow.md](./standard-development-workflow.md) | Issue → PR → Merge цикл |
-| Releases | [standard-release.md](./releases/standard-release.md) | Версионирование, теги, changelog |
-| Milestones | [standard-milestone.md](./milestones/standard-milestone.md) | Группировка задач по релизам |
+| Development | [standard-github-workflow.md](../standard-github-workflow.md) | Issue → PR → Merge цикл |
+| Releases | [standard-release.md](./standard-release.md) | Версионирование, теги, changelog |
+| Milestones | [standard-milestone.md](../milestones/standard-milestone.md) | Группировка задач по релизам |
 
 > **Примечание:** `standard-release.md` будет создан в рамках Волны 4. До его создания используется информация из [github-platform-research.md](/.claude/drafts/2026-02-03-github-platform-research.md).
 
@@ -64,11 +64,11 @@ index: .github/.instructions/README.md
 
 | Что | Где регулируется |
 |-----|------------------|
-| Версионирование (формат v1.0.0) | [standard-release.md](./releases/standard-release.md) |
-| Теги и changelog | [standard-release.md](./releases/standard-release.md) |
-| CI/CD workflows (`.yml` файлы) | [standard-workflow-file.md](./workflows-files/standard-workflow-file.md) |
-| Milestones (создание, закрытие) | [standard-milestone.md](./milestones/standard-milestone.md) |
-| Issue → PR → Merge | [standard-development-workflow.md](./standard-development-workflow.md) |
+| Версионирование (формат v1.0.0) | [standard-release.md](./standard-release.md) |
+| Теги и changelog | [standard-release.md](./standard-release.md) |
+| CI/CD workflows (`.yml` файлы) | [standard-workflow-file.md](../workflows-files/standard-workflow-file.md) |
+| Milestones (создание, закрытие) | [standard-milestone.md](../milestones/standard-milestone.md) |
+| Issue → PR → Merge | [standard-github-workflow.md](../standard-github-workflow.md) |
 
 ### Принципы
 
@@ -159,7 +159,7 @@ index: .github/.instructions/README.md
 
 ### Определение версии
 
-**SSOT:** [standard-release.md § 3](./releases/standard-release.md#3-версионирование-semver)
+**SSOT:** [standard-release.md § 3](./standard-release.md#3-версионирование-semver)
 
 Версия определяется по правилам SemVer:
 - **MAJOR** — breaking changes
@@ -228,7 +228,7 @@ gh release create v1.0.0 \
 
 ### Changelog
 
-**SSOT:** [standard-release.md § 5](./releases/standard-release.md#5-changelog)
+**SSOT:** [standard-release.md § 5](./standard-release.md#5-changelog)
 
 Changelog генерируется автоматически при создании Release:
 ```bash
@@ -629,7 +629,7 @@ Release:                        Release → production
 
 2. Pre-release НЕ триггерит деплой на production (workflow должен проверять `types: [published]` и `!prerelease`)
 
-3. После тестирования — создать стабильный Release `v1.0.0` (см. [standard-release.md § 12](./releases/standard-release.md#12-переход-pre-release-stable))
+3. После тестирования — создать стабильный Release `v1.0.0` (см. [standard-release.md § 12](./standard-release.md#12-переход-pre-release-stable))
 
 ### Параллельное создание релизов
 

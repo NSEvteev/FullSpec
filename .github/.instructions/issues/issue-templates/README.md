@@ -2,16 +2,17 @@
 description: Инструкции для шаблонов Issues
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
-index: .github/.instructions/issue-templates/README.md
+index: .github/.instructions/issues/issue-templates/README.md
 ---
 
-# /.github/.instructions/issue-templates/ — Шаблоны Issues
+# /.github/.instructions/issues/issue-templates/ — Шаблоны Issues
 
 Инструкции для создания и редактирования YAML-шаблонов Issues в `.github/ISSUE_TEMPLATE/`.
 
 **Полезные ссылки:**
-- [Инструкции .github](../README.md)
-- [.github](../../README.md)
+- [Инструкции issues](../README.md)
+- [Инструкции .github](../../README.md)
+- [.github](../../../README.md)
 
 **Регламентирует:** `.github/ISSUE_TEMPLATE/`
 
@@ -26,7 +27,7 @@ index: .github/.instructions/issue-templates/README.md
 | [3. Валидация](#3-валидация) | — | Проверка согласованности |
 
 ```
-/.github/.instructions/issue-templates/
+/.github/.instructions/issues/issue-templates/
 ├── README.md                           # Этот файл (индекс)
 ├── standard-issue-template.md          # Стандарт YAML-шаблонов Issues
 └── validation-type-templates.md        # Валидация type:* ↔ Issue Templates
