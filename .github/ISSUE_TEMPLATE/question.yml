@@ -1,0 +1,37 @@
+name: Question
+description: Ask a question about the project
+title: "[Question]: "
+labels:
+  - type:question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Before asking
+
+        Please check the documentation and existing issues first.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: "How do I configure..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What are you trying to achieve? This helps us give a better answer.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have checked the documentation
+          required: true
+        - label: I have searched existing issues
+          required: true

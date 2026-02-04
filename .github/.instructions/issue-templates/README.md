@@ -28,23 +28,24 @@ index: .github/.instructions/issue-templates/README.md
 ```
 /.github/.instructions/issue-templates/
 ├── README.md                           # Этот файл (индекс)
-└── standard-issue-template.md          # TODO: добавить описание
+├── standard-issue-template.md          # Стандарт YAML-шаблонов Issues
+└── validation-type-templates.md        # Валидация type:* ↔ Issue Templates
 ```
 
 ---
 
 # 1. Стандарты
 
-*Будет добавлен standard-issue-template.md*
+- [standard-issue-template.md](./standard-issue-template.md) — Формат YAML-шаблонов для GitHub Issues
 
 ---
 
 # 2. Воркфлоу
 
-*Будут добавлены create-issue-template.md, modify-issue-template.md*
+*Не требуется (шаблоны создаются и редактируются вручную по стандарту)*
 
 ---
 
 # 3. Валидация
 
-*Будет добавлен validation-issue-template.md*
+- [validation-type-templates.md](./validation-type-templates.md) — Валидация соответствия type:* меток и Issue Templates

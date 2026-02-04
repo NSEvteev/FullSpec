@@ -131,7 +131,7 @@ python .github/.instructions/.scripts/validate-labels.py --all
    - Ровно одна метка `type:*`
    - Ровно одна метка `priority:*`
 
-3. Проверить конфликты (SSOT: [standard-labels.md § 4](./standard-labels.md#4-разрешение-конфликтов)):
+3. Проверить конфликты (SSOT: [standard-labels.md § 5](./standard-labels.md#5-разрешение-конфликтов)):
    - Несколько `type:*` → удалить дубликаты
    - Несколько `priority:*` → удалить дубликаты
    - `env:*` на не-баге → удалить

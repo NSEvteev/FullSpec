@@ -1,0 +1,52 @@
+name: Documentation
+description: Report documentation issue or suggest improvement
+title: "[Docs]: "
+labels:
+  - type:docs
+  - priority:low
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Documentation Type
+      description: What kind of documentation change?
+      options:
+        - Fix typo/error
+        - Add missing information
+        - Improve clarity
+        - Add example
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: Which file or section needs changes?
+      placeholder: "README.md, section 'Installation'"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the issue or improvement
+      placeholder: "The installation steps are missing..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Change
+      description: If you have a specific suggestion, describe it here
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have checked that this is not a duplicate
+          required: true

@@ -57,7 +57,7 @@ index: .github/.instructions/labels/README.md
 
 ## Добавление категории
 
-> **SSOT:** [standard-labels.md § 5](./standard-labels.md#5-добавление-категории)
+> **SSOT:** [standard-labels.md § 6](./standard-labels.md#6-добавление-категории)
 
 Новая категория добавляется редко (раз в полгода-год). Категория — это префикс для группы меток.
 
@@ -138,7 +138,7 @@ python .github/.instructions/.scripts/validate-labels.py --sync
 
 ## Добавление метки
 
-> **SSOT:** [standard-labels.md § 6](./standard-labels.md#6-добавление-метки)
+> **SSOT:** [standard-labels.md § 7](./standard-labels.md#7-добавление-метки)
 
 Новая метка в существующей категории.
 
@@ -242,7 +242,7 @@ python .github/.instructions/.scripts/validate-labels.py --sync
 
 ## Переименование метки
 
-> **SSOT:** [standard-labels.md § 8](./standard-labels.md#8-переименование-метки)
+> **SSOT:** [standard-labels.md § 9](./standard-labels.md#9-переименование-метки)
 
 Изменение имени метки (value в `{category}:{value}`).
 
@@ -304,7 +304,7 @@ python .github/.instructions/.scripts/validate-labels.py --all
 
 ## Переименование категории
 
-> **SSOT:** [standard-labels.md § 9](./standard-labels.md#9-переименование-категории)
+> **SSOT:** [standard-labels.md § 10](./standard-labels.md#10-переименование-категории)
 
 Массовое переименование всех меток категории (например, `area:*` → `scope:*`).
 
@@ -373,7 +373,7 @@ python .github/.instructions/.scripts/validate-labels.py --all
 
 ## Удаление метки
 
-> **SSOT:** [standard-labels.md § 7](./standard-labels.md#7-удаление-метки)
+> **SSOT:** [standard-labels.md § 8](./standard-labels.md#8-удаление-метки)
 
 > **Важно:** Метка не может быть "деактивирована" или "архивирована" — только **удалена**. Перед удалением ВСЕ Issues/PR с этой меткой ДОЛЖНЫ быть мигрированы.
 

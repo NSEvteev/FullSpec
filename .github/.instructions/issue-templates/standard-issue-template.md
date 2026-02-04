@@ -7,7 +7,7 @@ index: .github/.instructions/issue-templates/README.md
 
 # Стандарт YAML-шаблонов Issues
 
-Версия стандарта: 1.1
+Версия стандарта: 1.2
 
 Формат и правила создания шаблонов для GitHub Issues в `.github/ISSUE_TEMPLATE/`.
 
@@ -564,6 +564,23 @@ validations:
 - Избегать конфликтов: не указывать несколько меток одной категории (например, два `type:*`)
 
 Формат, категории и правила применения — см. SSOT.
+
+### Соответствие type:* и шаблонов
+
+**Для каждой метки `type:*` из [labels.yml](../../labels.yml) ДОЛЖЕН существовать Issue Template.**
+
+**Правила:**
+- Шаблон ДОЛЖЕН содержать `labels: [type:{value}]`
+- Именование файла: `{value}.yml`, `{value}-report.yml` или `{value}-request.yml`
+- При добавлении метки `type:*` — создать шаблон
+- При удалении метки `type:*` — удалить шаблон
+
+**Валидация:**
+```bash
+python .github/.instructions/.scripts/validate-type-templates.py
+```
+
+> **Для LLM:** При создании/удалении Issue Template проверить соответствие с метками `type:*` в labels.yml.
 
 ---
 

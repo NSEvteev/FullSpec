@@ -1,0 +1,36 @@
+name: Task
+description: Technical task or improvement
+title: "[Task]: "
+labels:
+  - type:task
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Task Description
+      description: What needs to be done?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of the codebase?
+      multiple: true
+      options:
+        - Backend
+        - Frontend
+        - Database
+        - Infrastructure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: subtasks
+    attributes:
+      label: Subtasks
+      description: Break down the task if possible
+      options:
+        - label: Subtask 1
+        - label: Subtask 2

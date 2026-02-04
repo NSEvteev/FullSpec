@@ -31,6 +31,8 @@ make setup
 | `skills-validate` | Формат SKILL.md | `.claude/skills/*/SKILL.md` |
 | `pr-template-validate` | Структура PR template | `.github/PULL_REQUEST_TEMPLATE.md` |
 | `codeowners-validate` | Синтаксис CODEOWNERS | `.github/CODEOWNERS` |
+| `type-templates-validate` | Соответствие type:* ↔ Issue Templates | `labels.yml`, `ISSUE_TEMPLATE/*.yml` |
+| `github-required` | Наличие обязательных файлов GitHub | Все (always_run) |
 
 ---
 

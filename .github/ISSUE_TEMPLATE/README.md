@@ -39,5 +39,12 @@ YAML-шаблоны для создания Issues в GitHub.
 
 ```
 /.github/ISSUE_TEMPLATE/
-└── README.md                # Этот файл
+├── README.md                           # Этот файл
+├── bug-report.yml                      # TODO: добавить описание
+├── config.yml                          # TODO: добавить описание
+├── docs.yml                            # TODO: добавить описание
+├── feature-request.yml                 # TODO: добавить описание
+├── question.yml                        # TODO: добавить описание
+├── refactor.yml                        # TODO: добавить описание
+└── task.yml                            # TODO: добавить описание
 ```

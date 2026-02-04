@@ -68,3 +68,21 @@ repos:
         files: ^\.github/CODEOWNERS$
         pass_filenames: false
         stages: [pre-commit]
+
+      # 7. Валидация соответствия type:* и Issue Templates
+      - id: type-templates-validate
+        name: Validate type:* ↔ Issue Templates
+        entry: python .github/.instructions/.scripts/validate-type-templates.py
+        language: system
+        files: ^\.github/(labels\.yml|ISSUE_TEMPLATE/.*\.yml)$
+        pass_filenames: false
+        stages: [pre-commit]
+
+      # 8. Проверка наличия обязательных файлов GitHub
+      - id: github-required
+        name: Check GitHub required files
+        entry: python .github/.instructions/.scripts/check-github-required.py
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]

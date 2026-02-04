@@ -209,7 +209,7 @@ GitHub Issues — система управления задачами, бага
 
 **Опционально:** `status:*`, `area:*`, `effort:*`, `env:*`
 
-Правила применения и разрешение конфликтов — см. [standard-labels.md § 3-4](../labels/standard-labels.md#3-правила-применения).
+Правила применения и разрешение конфликтов — см. [standard-labels.md § 3, 5](../labels/standard-labels.md#3-правила-применения).
 
 ### Assignees — назначение
 

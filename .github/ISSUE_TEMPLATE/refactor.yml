@@ -1,0 +1,57 @@
+name: Refactor
+description: Propose code refactoring without changing functionality
+title: "[Refactor]: "
+labels:
+  - type:refactor
+body:
+  - type: textarea
+    id: current
+    attributes:
+      label: Current State
+      description: Describe the current code/architecture that needs refactoring
+      placeholder: "The current implementation in module X..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed Changes
+      description: What changes do you propose?
+      placeholder: "Refactor to use pattern Y..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this refactoring needed?
+      placeholder: "This will improve maintainability because..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of the codebase?
+      multiple: true
+      options:
+        - Backend
+        - Frontend
+        - Database
+        - Infrastructure
+        - Tests
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: This refactoring does not change functionality
+          required: true
+        - label: I have considered the impact on existing tests
+          required: true
