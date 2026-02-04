@@ -5,7 +5,7 @@
 # Единственный источник истины для GitHub Labels.
 #
 # Синхронизация с GitHub:
-#   python .github/.scripts/sync-labels.py
+#   python .github/.instructions/.scripts/sync-labels.py
 #   или вручную: gh label create "name" --description "desc" --color "hex"
 #
 # Стандарт: .github/.instructions/labels/standard-labels.md
@@ -16,27 +16,27 @@
 # TYPE — тип задачи (ОБЯЗАТЕЛЬНО: ровно одна метка)
 # =============================================================================
 - name: "bug"
-  description: "Баг — нечто работает не так, как ожидалось"
+  description: "🐛 Баг — нечто работает не так, как ожидалось"
   color: "d73a4a"
 
 - name: "feature"
-  description: "Новая функциональность"
+  description: "✨ Новая функциональность"
   color: "0075ca"
 
 - name: "task"
-  description: "Техническая задача (рефакторинг, настройка CI)"
+  description: "🔧 Техническая задача"
   color: "0075ca"
 
 - name: "docs"
-  description: "Документация"
+  description: "📚 Документация"
   color: "0075ca"
 
 - name: "refactor"
-  description: "Рефакторинг без изменения функциональности"
+  description: "♻️ Рефакторинг без изменения функциональности"
   color: "0075ca"
 
 - name: "question"
-  description: "Вопрос по проекту"
+  description: "❓ Вопрос по проекту"
   color: "d876e3"
 
 # =============================================================================
@@ -49,105 +49,105 @@
 #   low      — можно отложить (nice-to-have)
 # =============================================================================
 - name: "critical"
-  description: "Блокирует production"
+  description: "🔴 Блокирует production"
   color: "d73a4a"
 
 - name: "high"
-  description: "Высокий приоритет"
+  description: "🟠 Высокий приоритет"
   color: "ff6b6b"
 
 - name: "medium"
-  description: "Средний приоритет"
+  description: "🟡 Средний приоритет"
   color: "ffa500"
 
 - name: "low"
-  description: "Низкий приоритет"
+  description: "🟢 Низкий приоритет"
   color: "ffd700"
 
 # =============================================================================
 # STATUS — статус работы (опционально)
 # =============================================================================
 - name: "ready"
-  description: "Готово к работе"
+  description: "📋 Готово к работе"
   color: "8b5cf6"
 
 - name: "wip"
-  description: "Work in Progress"
+  description: "🚧 Work in Progress"
   color: "8b5cf6"
 
 - name: "in-review"
-  description: "На code review"
+  description: "👀 На code review"
   color: "8b5cf6"
 
 - name: "blocked"
-  description: "Заблокировано (ожидает зависимости)"
+  description: "🚫 Заблокировано (ожидает зависимости)"
   color: "8b5cf6"
 
 # =============================================================================
 # AREA — область кода (опционально, максимум 3)
 # =============================================================================
 - name: "backend"
-  description: "Бэкенд (API, БД, бизнес-логика)"
+  description: "⚙️ Бэкенд (API, БД, бизнес-логика)"
   color: "10b981"
 
 - name: "frontend"
-  description: "Фронтенд (UI, UX)"
+  description: "🎨 Фронтенд (UI, UX)"
   color: "10b981"
 
 - name: "database"
-  description: "База данных (миграции, схема)"
+  description: "🗄️ База данных (миграции, схема)"
   color: "10b981"
 
 - name: "platform"
-  description: "Платформа (Docker, CI/CD, K8s)"
+  description: "🔧 Платформа (Docker, CI/CD, K8s)"
   color: "10b981"
 
 - name: "api"
-  description: "API контракты"
+  description: "🔌 API контракты"
   color: "10b981"
 
 - name: "tests"
-  description: "Тесты (unit, integration, e2e)"
+  description: "🧪 Тесты (unit, integration, e2e)"
   color: "10b981"
 
 - name: "specs"
-  description: "Спецификации и документация проекта"
+  description: "📖 Спецификации и документация проекта"
   color: "10b981"
 
 # =============================================================================
 # EFFORT — оценка трудозатрат (опционально)
 # =============================================================================
 - name: "xs"
-  description: "< 1 час"
+  description: "⏱️ < 1 час"
   color: "6b7280"
 
 - name: "s"
-  description: "1-4 часа"
+  description: "⏱️ 1-4 часа"
   color: "6b7280"
 
 - name: "m"
-  description: "0.5-1 день"
+  description: "⏱️ 0.5-1 день"
   color: "6b7280"
 
 - name: "l"
-  description: "1-3 дня"
+  description: "⏱️ 1-3 дня"
   color: "6b7280"
 
 - name: "xl"
-  description: "> 3 дней (разбить на подзадачи!)"
+  description: "⏱️ > 3 дней (разбить на подзадачи!)"
   color: "6b7280"
 
 # =============================================================================
-# ENV — окружение (ТОЛЬКО для type:bug)
+# ENV — окружение (ТОЛЬКО для bug)
 # =============================================================================
 - name: "production"
-  description: "Проблема на production"
+  description: "🌐 Проблема на production"
   color: "f59e0b"
 
 - name: "staging"
-  description: "Проблема на staging"
+  description: "🔬 Проблема на staging"
   color: "f59e0b"
 
 - name: "local"
-  description: "Проблема в локальной разработке"
+  description: "💻 Проблема в локальной разработке"
   color: "f59e0b"
