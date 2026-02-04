@@ -38,7 +38,7 @@
 | `standard-codeowners.md` | 0 | — | ✅ |
 | `standard-labels.md` | 0 | — | ✅ |
 | `standard-pr-template.md` | 0 | — | ✅ |
-| `standard-issue-template.md` | 1 | standard-labels.md | ⏳ |
+| `standard-issue-template.md` | 1 | standard-labels.md | ✅ |
 | `standard-release.md` | 2 | standard-milestone.md, standard-pull-request.md | ⏳ |
 | `standard-issue.md` | 2 | standard-labels.md, standard-issue-template.md | ⏳ |
 | `standard-pull-request.md` | 3 | standard-labels.md, standard-pr-template.md | ⏳ |
@@ -58,7 +58,7 @@
 | 1 | `standard-labels.md` | 1 | ✅ |
 | 2 | `standard-pr-template.md` | 1 | ✅ |
 | 3 | `standard-codeowners.md` | 1 | ✅ |
-| 4 | `standard-issue-template.md` | 2 | ⏳ |
+| 4 | `standard-issue-template.md` | 2 | ✅ |
 | 5 | `standard-issue.md` | 2 | ⏳ |
 | 6 | `standard-release.md` | 2 | ⏳ |
 | 7 | `standard-pull-request.md` | 3 | ⏳ |
@@ -126,7 +126,7 @@
 
 ### Волна 1
 
-- [x] **1. standard-labels.md** — система меток
+- [x] **1. standard-labels.md** — система меток 
   - [x] Категории и naming convention корректны
   - [x] Правила применения однозначны
   - [x] Примеры достаточны
@@ -143,10 +143,10 @@
 
 ### Волна 2
 
-- [ ] **4. standard-issue-template.md** — YAML-шаблоны Issues
-  - [ ] Формат YAML корректен
-  - [ ] Связь с labels согласована
-  - [ ] Примеры рабочие
+- [x] **4. standard-issue-template.md** — YAML-шаблоны Issues
+  - [x] Формат YAML корректен
+  - [x] Связь с labels согласована
+  - [x] Примеры рабочие
 
 - [ ] **5. standard-issue.md** — управление Issues
   - [ ] Жизненный цикл полон
@@ -235,7 +235,7 @@
 
 | Файл | Статус | Качество | Комментарий |
 |------|--------|----------|-------------|
-| standard-issue-template.md | ⏳ | — | — |
+| standard-issue-template.md | ✅ | — | v1.2: связь с labels, validation-type-templates.md, Issue Templates созданы (6 шт.) |
 | standard-issue.md | ⏳ | — | — |
 | standard-release.md | ⏳ | — | — |
 
@@ -267,6 +267,7 @@
 | standard-labels.md | *Инструкции созданы, рекомендации не требуются* |
 | standard-pr-template.md | *Инструкции созданы, рекомендации не требуются* |
 | standard-codeowners.md | *Инструкции созданы, рекомендации не требуются* |
+| standard-issue-template.md | *Инструкции созданы, рекомендации не требуются* |
 | standard-issue.md | [recommendations-standard-issue.md](./2026-02-03-recommendations-standard-issue.md) |
 | standard-release.md | [recommendations-standard-release.md](./2026-02-03-recommendations-standard-release.md) |
 | standard-pull-request.md | [recommendations-standard-pull-request.md](./2026-02-03-recommendations-standard-pull-request.md) |
