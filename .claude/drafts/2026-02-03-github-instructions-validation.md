@@ -7,10 +7,11 @@
 - [Контекст](#контекст)
 - [Анализ SSOT-ссылок](#анализ-ssot-ссылок)
 - [Порядок валидации](#порядок-валидации)
-- [Волна 1: Базовые стандарты (0 SSOT-ссылок)](#волна-1-базовые-стандарты-0-ssot-ссылок)
-- [Волна 2: Минимальные зависимости (1-2 SSOT-ссылки)](#волна-2-минимальные-зависимости-1-2-ssot-ссылки)
-- [Волна 3: Средние зависимости (3 SSOT-ссылки)](#волна-3-средние-зависимости-3-ssot-ссылки)
-- [Волна 4: Высокие зависимости (4+ SSOT-ссылок)](#волна-4-высокие-зависимости-4-ssot-ссылок)
+- [Волна 1: Базовые стандарты](#волна-1-базовые-стандарты-0-1-ssot-ссылки)
+- [Волна 2: PR, Milestone, Release](#волна-2-pr-milestone-release)
+- [Волна 3: Issue и Project](#волна-3-issue-и-project)
+- [Волна 4: Workflow-документы](#волна-4-workflow-документы)
+- [Волна 5: Навигация](#волна-5-навигация)
 - [Чек-лист](#чек-лист)
 
 ---
@@ -26,7 +27,7 @@
 **Что проверяем:**
 - Корректность описанных процессов
 - Согласованность с реальным workflow
-- Отсутствие противоречий между стандартами
+- Отсутствие противоречий между стандартами  
 - Полнота информации
 
 ---
@@ -39,101 +40,112 @@
 | `standard-labels.md` | 0 | — | ✅ |
 | `standard-pr-template.md` | 0 | — | ✅ |
 | `standard-issue-template.md` | 1 | standard-labels.md | ✅ |
+| `standard-pull-request.md` | 2 | standard-labels.md, standard-pr-template.md | ⏳ |
+| `standard-milestone.md` | 2 | standard-issue.md↔, standard-release.md↔ | ⏳ |
+| `standard-issue.md` | 5 | labels, issue-template, **pull-request**, **milestone**, project | ⏳ |
 | `standard-release.md` | 2 | standard-milestone.md, standard-pull-request.md | ⏳ |
-| `standard-issue.md` | 2 | standard-labels.md, standard-issue-template.md | ⏳ |
-| `standard-pull-request.md` | 3 | standard-labels.md, standard-pr-template.md | ⏳ |
-| `standard-milestone.md` | 3 | standard-issue.md, standard-release.md | ⏳ |
 | `standard-workflow-file.md` | 4 | standard-development-workflow.md, standard-release-workflow.md, standard-release.md | ⏳ |
 | `standard-project.md` | 4 | standard-issue.md, standard-pull-request.md, standard-milestone.md, standard-workflow-file.md | ⏳ |
 | `standard-development-workflow.md` | 5 | standard-issue.md, standard-pull-request.md, standard-labels.md | ⏳ |
 | `standard-release-workflow.md` | 6 | standard-development-workflow.md, standard-release.md, standard-milestone.md, standard-workflow-file.md | ⏳ |
 | `standard-github.md` | 11 | Все остальные (навигационный документ) | ⏳ |
 
+> **↔ = циклическая зависимость** — milestone ↔ issue, milestone ↔ release. Решение: валидировать milestone раньше, но помнить о взаимосвязи.
+
 ---
 
 ## Порядок валидации
- 
+
+> **Принцип:** Валидировать документ ПОСЛЕ его зависимостей. Issue зависит от PR и Milestone — поэтому Issue идёт после них.
+
 | # | Файл | Волна | Статус |
 |---|------|-------|--------|
 | 1 | `standard-labels.md` | 1 | ✅ |
 | 2 | `standard-pr-template.md` | 1 | ✅ |
 | 3 | `standard-codeowners.md` | 1 | ✅ |
-| 4 | `standard-issue-template.md` | 2 | ✅ |
-| 5 | `standard-issue.md` | 2 | ⏳ |
-| 6 | `standard-release.md` | 2 | ⏳ |
-| 7 | `standard-pull-request.md` | 3 | ⏳ |
-| 8 | `standard-milestone.md` | 3 | ⏳ |
-| 9 | `standard-workflow-file.md` | 4 | ⏳ |
-| 10 | `standard-project.md` | 4 | ⏳ |
-| 11 | `standard-development-workflow.md` | 4 | ⏳ |
-| 12 | `standard-release-workflow.md` | 4 | ⏳ |
-| 13 | `standard-github.md` | 4 | ⏳ |
+| 4 | `standard-issue-template.md` | 1 | ✅ |
+| 5 | `standard-pull-request.md` | 2 | ⏳ |
+| 6 | `standard-milestone.md` | 2 | ⏳ |
+| 7 | `standard-release.md` | 2 | ⏳ |
+| 8 | `standard-issue.md` | 3 | ⏳ |
+| 9 | `standard-project.md` | 3 | ⏳ |
+| 10 | `standard-development-workflow.md` | 4 | ⏳ |
+| 11 | `standard-release-workflow.md` | 4 | ⏳ |
+| 12 | `standard-workflow-file.md` | 4 | ⏳ |
+| 13 | `standard-github.md` | 5 | ⏳ |
 
 ---
 
-### Волна 1: Базовые стандарты (0 SSOT-ссылок)
+### Волна 1: Базовые стандарты (0-1 SSOT-ссылки)
 
-Самодостаточные документы, не зависящие от других стандартов.
+Самодостаточные документы — "строительные блоки".
 
 | # | Файл | Приоритет | Обоснование |
 |---|------|-----------|-------------|
-| 1 | `standard-labels.md` | **Высокий** | Фундамент для 5+ других стандартов (issue, pr, issue-template) |
+| 1 | `standard-labels.md` | **Высокий** | Фундамент для всех остальных (issue, pr, templates) |
 | 2 | `standard-pr-template.md` | Средний | Используется в standard-pull-request.md |
-| 3 | `standard-codeowners.md` | Низкий | Изолированный стандарт, не влияет на другие |
+| 3 | `standard-codeowners.md` | Низкий | Изолированный стандарт |
+| 4 | `standard-issue-template.md` | Средний | Зависит только от labels.md |
 
 ---
 
-### Волна 2: Минимальные зависимости (1-2 SSOT-ссылки)
+### Волна 2: PR, Milestone, Release
 
-Зависят только от стандартов Волны 1.
+Сущности, от которых зависит Issue.
 
-| # | Файл | SSOT-ссылки | Приоритет | Обоснование |
-|---|------|-------------|-----------|-------------|
-| 4 | `standard-issue-template.md` | 1 | **Высокий** | Зависит от standard-labels.md, нужен для standard-issue.md |
-| 5 | `standard-issue.md` | 2 | **Высокий** | Основа development workflow, зависит от labels + templates |
-| 6 | `standard-release.md` | 2 | Средний | Зависит от milestone + pull-request, но milestone ещё не провалидирован → читаем для понимания |
+| # | Файл | Зависит от | Приоритет | Обоснование |
+|---|------|------------|-----------|-------------|
+| 5 | `standard-pull-request.md` | labels, pr-template | **Высокий** | Issue закрывается через PR |
+| 6 | `standard-milestone.md` | ↔issue, ↔release | **Высокий** | Issue привязывается к Milestone |
+| 7 | `standard-release.md` | milestone, pull-request | Средний | Release создаётся из Milestone |
 
-> **Циклическая зависимость:** `standard-release.md` ↔ `standard-milestone.md`. Читаем release.md в Волне 2 для понимания, milestone.md — в Волне 3.
-
----
-
-### Волна 3: Средние зависимости (3 SSOT-ссылки)
-
-Зависят от стандартов Волн 1-2.
-
-| # | Файл | SSOT-ссылки | Приоритет | Обоснование |
-|---|------|-------------|-----------|-------------|
-| 7 | `standard-pull-request.md` | 3 | **Высокий** | Основа development workflow, зависит от labels + pr-template |
-| 8 | `standard-milestone.md` | 3 | Средний | Связь с release + issue |
+> **Циклическая зависимость:** milestone ↔ issue, milestone ↔ release. Валидируем milestone раньше, затем проверим согласованность в issue/release.
 
 ---
 
-### Волна 4: Высокие зависимости (4+ SSOT-ссылок)
+### Волна 3: Issue и Project
 
-Агрегирующие документы, зависящие от многих стандартов.
+Issue зависит от PR и Milestone (workflow: создать Issue → привязать к Milestone → создать PR → закрыть Issue).
 
-| # | Файл | SSOT-ссылки | Приоритет | Обоснование |
-|---|------|-------------|-----------|-------------|
-| 9 | `standard-workflow-file.md` | 4 | Средний | Технический стандарт YAML, ссылки на workflow-ы |
-| 10 | `standard-project.md` | 4 | Низкий | GitHub Projects — опционально для команды 2 чел. |
-| 11 | `standard-development-workflow.md` | 5 | **Высокий** | Объединяет issue + pr + labels в единый процесс |
-| 12 | `standard-release-workflow.md` | 6 | **Высокий** | Объединяет development + release + milestone |
-| 13 | `standard-github.md` | 11 | Последний | Навигационный документ — проверяем ссылки после всех |
+| # | Файл | Зависит от | Приоритет | Обоснование |
+|---|------|------------|-----------|-------------|
+| 8 | `standard-issue.md` | labels, templates, **PR**, **milestone**, project | **Высокий** | Центральная сущность workflow |
+| 9 | `standard-project.md` | issue, pr, milestone | Низкий | GitHub Projects — опционально |
+
+---
+
+### Волна 4: Workflow-документы
+
+Агрегирующие документы, объединяющие сущности в процессы.
+
+| # | Файл | Зависит от | Приоритет | Обоснование |
+|---|------|------------|-----------|-------------|
+| 10 | `standard-development-workflow.md` | issue, pr, labels | **Высокий** | Полный цикл разработки |
+| 11 | `standard-release-workflow.md` | development, release, milestone | **Высокий** | Процесс релиза |
+| 12 | `standard-workflow-file.md` | development, release-workflow | Средний | YAML-файлы GitHub Actions |
+
+---
+
+### Волна 5: Навигация
+
+| # | Файл | Зависит от | Приоритет | Обоснование |
+|---|------|------------|-----------|-------------|
+| 13 | `standard-github.md` | Все остальные | Последний | Навигационный документ |
 
 ---
 
 ## Чек-лист
 
-### Волна 1
+### Волна 1: Базовые стандарты
 
-- [x] **1. standard-labels.md** — система меток 
+- [x] **1. standard-labels.md** — система меток
   - [x] Категории и naming convention корректны
   - [x] Правила применения однозначны
   - [x] Примеры достаточны
 
 - [x] **2. standard-pr-template.md** — шаблон PR
   - [x] Обязательные секции определены
-  - [x] Placeholder-ы понятны (+ исключение для Related issues — HTML-комментарий)
+  - [x] Placeholder-ы понятны
   - [x] Примеры полные
 
 - [x] **3. standard-codeowners.md** — правила CODEOWNERS
@@ -141,56 +153,60 @@
   - [x] Паттерны корректны
   - [x] Примеры для проекта релевантны
 
-### Волна 2
-
 - [x] **4. standard-issue-template.md** — YAML-шаблоны Issues
   - [x] Формат YAML корректен
   - [x] Связь с labels согласована
   - [x] Примеры рабочие
 
-- [ ] **5. standard-issue.md** — управление Issues
-  - [ ] Жизненный цикл полон
-  - [ ] Связь с branch/PR корректна
-  - [ ] CLI команды актуальны
+### Волна 2: PR, Milestone, Release
 
-- [ ] **6. standard-release.md** — версионирование и releases
-  - [ ] SemVer описан корректно
-  - [ ] Changelog формат понятен
-  - [ ] Связь с milestone/PR согласована
-
-### Волна 3
-
-- [ ] **7. standard-pull-request.md** — работа с PR
+- [ ] **5. standard-pull-request.md** — работа с PR
   - [ ] Жизненный цикл полон
   - [ ] Merge стратегии корректны
   - [ ] Code review процесс понятен
+  - [ ] Связь с Issue (закрытие) описана
 
-- [ ] **8. standard-milestone.md** — управление milestones
+- [ ] **6. standard-milestone.md** — управление milestones
   - [ ] Типы milestones определены
   - [ ] Связь с release согласована
   - [ ] CLI команды актуальны
 
-### Волна 4
+- [ ] **7. standard-release.md** — версионирование и releases
+  - [ ] SemVer описан корректно
+  - [ ] Changelog формат понятен
+  - [ ] Связь с milestone/PR согласована
 
-- [ ] **9. standard-workflow-file.md** — GitHub Actions YAML
-  - [ ] Структура YAML полна
-  - [ ] Триггеры описаны корректно
-  - [ ] Best practices актуальны
+### Волна 3: Issue и Project
 
-- [ ] **10. standard-project.md** — GitHub Projects
+- [ ] **8. standard-issue.md** — управление Issues
+  - [ ] Жизненный цикл полон
+  - [ ] Связь с PR (закрытие) корректна
+  - [ ] Связь с Milestone корректна
+  - [ ] CLI команды актуальны
+
+- [ ] **9. standard-project.md** — GitHub Projects
   - [ ] Scope документа корректен
   - [ ] CLI команды рабочие
   - [ ] Связь с issue/pr согласована
 
-- [ ] **11. standard-development-workflow.md** — полный цикл разработки
+### Волна 4: Workflow-документы
+
+- [ ] **10. standard-development-workflow.md** — полный цикл разработки
   - [ ] Все стадии согласованы с зависимыми стандартами
   - [ ] Нет противоречий с issue.md / pr.md
   - [ ] Граничные случаи покрыты
 
-- [ ] **12. standard-release-workflow.md** — процесс релиза
+- [ ] **11. standard-release-workflow.md** — процесс релиза
   - [ ] Все стадии согласованы с release.md / milestone.md
   - [ ] Hotfix процесс полон
   - [ ] Rollback описан корректно
+
+- [ ] **12. standard-workflow-file.md** — GitHub Actions YAML
+  - [ ] Структура YAML полна
+  - [ ] Триггеры описаны корректно
+  - [ ] Best practices актуальны
+
+### Волна 5: Навигация
 
 - [ ] **13. standard-github.md** — навигационный индекс
   - [ ] Все SSOT-ссылки работают
@@ -223,38 +239,43 @@
 
 *Заполняется в процессе работы.*
 
-### Волна 1
+### Волна 1: Базовые стандарты
 
-| Файл | Статус | Качество | Комментарий |
-|------|--------|----------|-------------|
-| standard-labels.md | ✅ | — | Инструкции созданы |
-| standard-pr-template.md | ✅ | — | Инструкции созданы: validation + скрипт + pre-commit хук |
-| standard-codeowners.md | ✅ | — | Инструкции созданы: validation + скрипт + pre-commit хук + CODEOWNERS файл |
+| Файл | Статус | Комментарий |
+|------|--------|-------------|
+| standard-labels.md | ✅ | Инструкции созданы, метки без префиксов |
+| standard-pr-template.md | ✅ | validation + скрипт + pre-commit хук |
+| standard-codeowners.md | ✅ | validation + скрипт + pre-commit хук + CODEOWNERS файл |
+| standard-issue-template.md | ✅ | v1.2: связь с labels, Issue Templates созданы (6 шт.) |
 
-### Волна 2
+### Волна 2: PR, Milestone, Release
 
-| Файл | Статус | Качество | Комментарий |
-|------|--------|----------|-------------|
-| standard-issue-template.md | ✅ | — | v1.2: связь с labels, validation-type-templates.md, Issue Templates созданы (6 шт.) |
-| standard-issue.md | ⏳ | — | — |
-| standard-release.md | ⏳ | — | — |
+| Файл | Статус | Комментарий |
+|------|--------|-------------|
+| standard-pull-request.md | ⏳ | — |
+| standard-milestone.md | ⏳ | — |
+| standard-release.md | ⏳ | — |
 
-### Волна 3
+### Волна 3: Issue и Project
 
-| Файл | Статус | Качество | Комментарий |
-|------|--------|----------|-------------|
-| standard-pull-request.md | ⏳ | — | — |
-| standard-milestone.md | ⏳ | — | — |
+| Файл | Статус | Комментарий |
+|------|--------|-------------|
+| standard-issue.md | ⏳ | — |
+| standard-project.md | ⏳ | — |
 
-### Волна 4
+### Волна 4: Workflow-документы
 
-| Файл | Статус | Качество | Комментарий |
-|------|--------|----------|-------------|
-| standard-workflow-file.md | ⏳ | — | — |
-| standard-project.md | ⏳ | — | — |
-| standard-development-workflow.md | ⏳ | — | — |
-| standard-release-workflow.md | ⏳ | — | — |
-| standard-github.md | ⏳ | — | — |
+| Файл | Статус | Комментарий |
+|------|--------|-------------|
+| standard-development-workflow.md | ⏳ | — |
+| standard-release-workflow.md | ⏳ | — |
+| standard-workflow-file.md | ⏳ | — |
+
+### Волна 5: Навигация
+
+| Файл | Статус | Комментарий |
+|------|--------|-------------|
+| standard-github.md | ⏳ | — |
 
 ---
 
