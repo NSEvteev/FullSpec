@@ -23,3 +23,7 @@ index: .claude/.instructions/rules/README.md
 **Черновики:** После создания или изменения черновика в `/.claude/drafts/` — запустить `/draft-validate` для проверки соответствия стандарту.
 
 **State (для агентов с Edit/Write):** Перед записью — проверить блокировку в `/.claude/state/locks.json`. Если занят — 6 проверок × 5 сек (30 сек), затем ошибка. Добавить свою блокировку, выполнить операцию, снять блокировку сразу после (ВСЕГДА, даже при ошибке!). Вести лог в `agent-{name}-operation.json`. См. [standard-state.md](/.claude/.instructions/state/standard-state.md).
+
+**Поиск по описаниям:** При поиске скриптов или документов по описанию — первым шагом использовать скрипты:
+  - `python .instructions/.scripts/list-instructions.py` — список документов с description
+  - `python .instructions/.scripts/parse-docstrings.py --search "запрос"` — поиск скриптов по docstring
