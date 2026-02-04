@@ -21,9 +21,9 @@ index: .github/.instructions/labels/README.md
 |-----|----------|
 | Стандарт | Этот документ |
 | Справочник | [labels.yml](../labels.yml) — категории и метки |
-| Валидация | *Будет создан* |
-| Создание | *Будет создан* |
-| Модификация | *Будет создан* |
+| Валидация | [validation-labels.md](./validation-labels.md) |
+| Создание | *Не требуется (labels.yml создаётся разово)* |
+| Модификация | [modify-labels.md](./modify-labels.md) |
 
 ## Оглавление
 
@@ -380,9 +380,13 @@ gh label delete "area:infra" --yes
 
 **Автоматическая синхронизация:**
 
-Скрипт `setup-labels.py` (будет создан) синхронизирует `labels.yml` с GitHub:
+Скрипт [sync-labels.py](../.instructions/.scripts/sync-labels.py) синхронизирует `labels.yml` с GitHub:
 ```bash
-python .github/.instructions/.scripts/setup-labels.py
+# Показать план изменений
+python .github/.instructions/.scripts/sync-labels.py
+
+# Применить изменения
+python .github/.instructions/.scripts/sync-labels.py --apply
 ```
 
 **Ручная синхронизация:**

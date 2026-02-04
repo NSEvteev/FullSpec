@@ -33,25 +33,43 @@
 
 ## Анализ SSOT-ссылок
 
-| Файл | SSOT-ссылки | Зависит от |
-|------|-------------|------------|
-| `standard-codeowners.md` | 0 | — |
-| `standard-labels.md` | 0 | — |
-| `standard-pr-template.md` | 0 | — |
-| `standard-issue-template.md` | 1 | standard-labels.md |
-| `standard-release.md` | 2 | standard-milestone.md, standard-pull-request.md |
-| `standard-issue.md` | 2 | standard-labels.md, standard-issue-template.md |
-| `standard-pull-request.md` | 3 | standard-labels.md, standard-pr-template.md |
-| `standard-milestone.md` | 3 | standard-issue.md, standard-release.md |
-| `standard-workflow-file.md` | 4 | standard-development-workflow.md, standard-release-workflow.md, standard-release.md |
-| `standard-project.md` | 4 | standard-issue.md, standard-pull-request.md, standard-milestone.md, standard-workflow-file.md |
-| `standard-development-workflow.md` | 5 | standard-issue.md, standard-pull-request.md, standard-labels.md |
-| `standard-release-workflow.md` | 6 | standard-development-workflow.md, standard-release.md, standard-milestone.md, standard-workflow-file.md |
-| `standard-github.md` | 11 | Все остальные (навигационный документ) |
+| Файл | SSOT-ссылки | Зависит от | Статус |
+|------|-------------|------------|--------|
+| `standard-codeowners.md` | 0 | — | ⏳ |
+| `standard-labels.md` | 0 | — | ✅ |
+| `standard-pr-template.md` | 0 | — | ⏳ |
+| `standard-issue-template.md` | 1 | standard-labels.md | ⏳ |
+| `standard-release.md` | 2 | standard-milestone.md, standard-pull-request.md | ⏳ |
+| `standard-issue.md` | 2 | standard-labels.md, standard-issue-template.md | ⏳ |
+| `standard-pull-request.md` | 3 | standard-labels.md, standard-pr-template.md | ⏳ |
+| `standard-milestone.md` | 3 | standard-issue.md, standard-release.md | ⏳ |
+| `standard-workflow-file.md` | 4 | standard-development-workflow.md, standard-release-workflow.md, standard-release.md | ⏳ |
+| `standard-project.md` | 4 | standard-issue.md, standard-pull-request.md, standard-milestone.md, standard-workflow-file.md | ⏳ |
+| `standard-development-workflow.md` | 5 | standard-issue.md, standard-pull-request.md, standard-labels.md | ⏳ |
+| `standard-release-workflow.md` | 6 | standard-development-workflow.md, standard-release.md, standard-milestone.md, standard-workflow-file.md | ⏳ |
+| `standard-github.md` | 11 | Все остальные (навигационный документ) | ⏳ |
 
 ---
 
 ## Порядок валидации
+
+| # | Файл | Волна | Статус |
+|---|------|-------|--------|
+| 1 | `standard-labels.md` | 1 | ✅ |
+| 2 | `standard-pr-template.md` | 1 | ⏳ |
+| 3 | `standard-codeowners.md` | 1 | ⏳ |
+| 4 | `standard-issue-template.md` | 2 | ⏳ |
+| 5 | `standard-issue.md` | 2 | ⏳ |
+| 6 | `standard-release.md` | 2 | ⏳ |
+| 7 | `standard-pull-request.md` | 3 | ⏳ |
+| 8 | `standard-milestone.md` | 3 | ⏳ |
+| 9 | `standard-workflow-file.md` | 4 | ⏳ |
+| 10 | `standard-project.md` | 4 | ⏳ |
+| 11 | `standard-development-workflow.md` | 4 | ⏳ |
+| 12 | `standard-release-workflow.md` | 4 | ⏳ |
+| 13 | `standard-github.md` | 4 | ⏳ |
+
+---
 
 ### Волна 1: Базовые стандарты (0 SSOT-ссылок)
 
@@ -203,56 +221,56 @@
 
 ## Результаты валидации
 
-**Дата завершения:** 2026-02-03
-**Итоговый отчёт:** [2026-02-03-github-instructions-validation-results.md](./2026-02-03-github-instructions-validation-results.md)
+*Заполняется в процессе работы.*
 
 ### Волна 1
 
 | Файл | Статус | Качество | Комментарий |
 |------|--------|----------|-------------|
-| standard-labels.md | ✅ | 8/10 | Нет критериев приоритетов |
-| standard-pr-template.md | ✅ | 8/10 | Нет критериев выбора шаблона |
-| standard-codeowners.md | ✅ | 9/10 | Минимальные доработки |
+| standard-labels.md | ✅ | — | Инструкции созданы |
+| standard-pr-template.md | ⏳ | — | — |
+| standard-codeowners.md | ⏳ | — | — |
 
 ### Волна 2
 
 | Файл | Статус | Качество | Комментарий |
 |------|--------|----------|-------------|
-| standard-issue-template.md | ✅ | 9/10 | Нет объяснения зачем id |
-| standard-issue.md | ✅ | 8/10 | Нет процедуры stale Issues |
-| standard-release.md | ✅ | 9/10 | Пересечение с release-workflow |
+| standard-issue-template.md | ⏳ | — | — |
+| standard-issue.md | ⏳ | — | — |
+| standard-release.md | ⏳ | — | — |
 
 ### Волна 3
 
 | Файл | Статус | Качество | Комментарий |
 |------|--------|----------|-------------|
-| standard-pull-request.md | ✅ | 8/10 | Нет self-review, эскалации |
-| standard-milestone.md | ✅ | 8/10 | Нет автоматизации Sprint |
+| standard-pull-request.md | ⏳ | — | — |
+| standard-milestone.md | ⏳ | — | — |
 
 ### Волна 4
 
 | Файл | Статус | Качество | Комментарий |
 |------|--------|----------|-------------|
-| standard-workflow-file.md | ✅ | 9/10 | Слишком большой документ |
-| standard-project.md | ✅ | 8/10 | Сложный item-edit |
-| standard-development-workflow.md | ✅ | 9/10 | Дублирование с issue/pr |
-| standard-release-workflow.md | ✅ | 8/10 | Нет release freeze |
-| standard-github.md | ✅ | 9/10 | Нет порядка изучения |
+| standard-workflow-file.md | ⏳ | — | — |
+| standard-project.md | ⏳ | — | — |
+| standard-development-workflow.md | ⏳ | — | — |
+| standard-release-workflow.md | ⏳ | — | — |
+| standard-github.md | ⏳ | — | — |
 
 ---
 
 ## Созданные драфты рекомендаций
 
-1. [recommendations-standard-labels.md](./2026-02-03-recommendations-standard-labels.md)
-2. [recommendations-standard-pr-template.md](./2026-02-03-recommendations-standard-pr-template.md)
-3. [recommendations-standard-codeowners.md](./2026-02-03-recommendations-standard-codeowners.md)
-4. [recommendations-standard-issue-template.md](./2026-02-03-recommendations-standard-issue-template.md)
-5. [recommendations-standard-issue.md](./2026-02-03-recommendations-standard-issue.md)
-6. [recommendations-standard-release.md](./2026-02-03-recommendations-standard-release.md)
-7. [recommendations-standard-pull-request.md](./2026-02-03-recommendations-standard-pull-request.md)
-8. [recommendations-standard-milestone.md](./2026-02-03-recommendations-standard-milestone.md)
-9. [recommendations-standard-workflow-file.md](./2026-02-03-recommendations-standard-workflow-file.md)
-10. [recommendations-standard-project.md](./2026-02-03-recommendations-standard-project.md)
-11. [recommendations-standard-development-workflow.md](./2026-02-03-recommendations-standard-development-workflow.md)
-12. [recommendations-standard-release-workflow.md](./2026-02-03-recommendations-standard-release-workflow.md)
-13. [recommendations-standard-github.md](./2026-02-03-recommendations-standard-github.md)
+*Заполняется по мере завершения валидации.*
+
+| Стандарт | Драфт рекомендаций |
+|----------|-------------------|
+| standard-labels.md | *Инструкции созданы, рекомендации не требуются* |
+| standard-issue.md | [recommendations-standard-issue.md](./2026-02-03-recommendations-standard-issue.md) |
+| standard-release.md | [recommendations-standard-release.md](./2026-02-03-recommendations-standard-release.md) |
+| standard-pull-request.md | [recommendations-standard-pull-request.md](./2026-02-03-recommendations-standard-pull-request.md) |
+| standard-milestone.md | [recommendations-standard-milestone.md](./2026-02-03-recommendations-standard-milestone.md) |
+| standard-workflow-file.md | [recommendations-standard-workflow-file.md](./2026-02-03-recommendations-standard-workflow-file.md) |
+| standard-project.md | [recommendations-standard-project.md](./2026-02-03-recommendations-standard-project.md) |
+| standard-development-workflow.md | [recommendations-standard-development-workflow.md](./2026-02-03-recommendations-standard-development-workflow.md) |
+| standard-release-workflow.md | [recommendations-standard-release-workflow.md](./2026-02-03-recommendations-standard-release-workflow.md) |
+| standard-github.md | [recommendations-standard-github.md](./2026-02-03-recommendations-standard-github.md) |

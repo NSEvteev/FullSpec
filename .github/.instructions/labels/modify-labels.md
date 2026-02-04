@@ -261,6 +261,12 @@ gh label create "{новое_имя}" --description "{описание}" --color
 
 ### Шаг 3: Заменить метку на всех Issues/PR
 
+**Автоматически:**
+```bash
+python .github/.instructions/.scripts/migrate-label.py "{старое_имя}" "{новое_имя}" --apply
+```
+
+**Вручную (если скрипт недоступен):**
 ```bash
 # Для каждого Issue:
 for num in $(gh issue list --label "{старое_имя}" --state all --json number -q '.[].number'); do
@@ -384,7 +390,16 @@ gh pr list --label "{метка}" --state all --limit 100
 - Если есть похожая метка → заменить
 - Если альтернативы нет → удалить метку с Issues/PR (не рекомендуется)
 
-**Заменить метку:**
+**Автоматически:**
+```bash
+# Заменить на другую метку
+python .github/.instructions/.scripts/migrate-label.py "{старая_метка}" "{новая_метка}" --apply
+
+# Или удалить без замены
+python .github/.instructions/.scripts/migrate-label.py "{старая_метка}" --delete --apply
+```
+
+**Вручную (если скрипт недоступен):**
 ```bash
 # Для каждого Issue:
 for num in $(gh issue list --label "{старая_метка}" --state all --json number -q '.[].number'); do
@@ -587,7 +602,37 @@ python .github/.instructions/.scripts/validate-labels.py --sync
 
 ## Скрипты
 
-*Нет скриптов.*
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [sync-labels.py](../.scripts/sync-labels.py) | Синхронизация labels.yml с GitHub (создание, удаление, обновление) | Этот документ |
+| [migrate-label.py](../.scripts/migrate-label.py) | Миграция меток на Issues/PR (замена, удаление) | Этот документ |
+| [validate-labels.py](../.scripts/validate-labels.py) | Валидация labels.yml и меток | [validation-labels.md](./validation-labels.md) |
+
+### Использование sync-labels.py
+
+```bash
+# Показать план изменений (dry-run)
+python .github/.instructions/.scripts/sync-labels.py
+
+# Применить изменения (с подтверждением)
+python .github/.instructions/.scripts/sync-labels.py --apply
+
+# Применить без подтверждения
+python .github/.instructions/.scripts/sync-labels.py --apply --force
+```
+
+### Использование migrate-label.py
+
+```bash
+# Показать план миграции (dry-run)
+python .github/.instructions/.scripts/migrate-label.py area:infra area:platform
+
+# Применить миграцию (с подтверждением)
+python .github/.instructions/.scripts/migrate-label.py area:infra area:platform --apply
+
+# Удалить метку с Issues/PR (без замены)
+python .github/.instructions/.scripts/migrate-label.py area:legacy --delete --apply
+```
 
 ---
 
