@@ -7,7 +7,7 @@ index: .github/.instructions/codeowners/README.md
 
 # Стандарт CODEOWNERS
 
-Версия стандарта: 1.0
+Версия стандарта: 1.1
 
 Синтаксис, правила и паттерны для файла `.github/CODEOWNERS`.
 
@@ -33,9 +33,11 @@ index: .github/.instructions/codeowners/README.md
 - [5. Типичные паттерны](#5-типичные-паттерны)
 - [6. Комментарии](#6-комментарии)
 - [7. Ограничения и особенности](#7-ограничения-и-особенности)
-- [8. Проверка корректности](#8-проверка-корректности)
-- [9. Примеры](#9-примеры)
-- [10. Не включено в стандарт](#10-не-включено-в-стандарт)
+- [8. Добавление владельца](#8-добавление-владельца)
+- [9. Удаление владельца](#9-удаление-владельца)
+- [10. Проверка корректности](#10-проверка-корректности)
+- [11. Примеры](#11-примеры)
+- [12. Не включено в стандарт](#12-не-включено-в-стандарт)
 
 ---
 
@@ -132,6 +134,11 @@ pattern @owner1 @owner2 @org/team
 
 **Поведение нескольких владельцев:** Если включена опция "Require review from Code Owners" в Branch Protection — **хотя бы один** из указанных владельцев должен заапрувить PR.
 
+> **Взаимодействие с Branch Protection:**
+> - CODEOWNERS + "Require review from Code Owners" = approval от **любого одного** из перечисленных владельцев
+> - Для требования approval от ВСЕХ владельцев — использовать отдельные Branch Protection Rules или GitHub Actions
+> - Если Branch Protection требует N approvals, а CODEOWNERS назначает M ревьюеров — нужно N approvals от ЛЮБЫХ ревьюеров (не обязательно от Code Owners)
+
 **Требования к владельцам:**
 - **Для обработки строки:** Пользователь/команда ДОЛЖНЫ иметь доступ к репозиторию (как минимум read). Иначе GitHub игнорирует строку полностью.
 - **Для автоназначения ревьюером:** Требуется доступ **Write** или выше. Пользователь с read-доступом НЕ может быть назначен ревьюером.
@@ -225,6 +232,38 @@ docs/*.md @bob
 # CI/CD
 /.github/workflows/ @devops
 /Dockerfile         @devops
+```
+
+### Для мультиязычного монорепо
+
+```
+# Дефолтный владелец
+* @team-lead
+
+# Backend (Python)
+**/*.py         @backend-team
+/backend/       @backend-team
+
+# Frontend (TypeScript/JavaScript)
+**/*.ts         @frontend-team
+**/*.tsx        @frontend-team
+**/*.js         @frontend-team
+**/*.jsx        @frontend-team
+/frontend/      @frontend-team
+
+# Infrastructure (Go)
+**/*.go         @platform-team
+/platform/      @platform-team
+
+# Mobile (Kotlin/Swift)
+**/*.kt         @mobile-team
+**/*.swift      @mobile-team
+/mobile/        @mobile-team
+
+# Shared configs
+*.json          @team-lead
+*.yaml          @devops
+*.yml           @devops
 ```
 
 ### Для организации с несколькими командами (50+ человек)
@@ -321,7 +360,133 @@ docs/*.md @bob
 
 ---
 
-## 8. Проверка корректности
+## 8. Добавление владельца
+
+Процедура добавления нового человека в CODEOWNERS.
+
+**Когда добавлять:**
+- Новый член команды взял ответственность за область кода
+- Создан новый сервис/модуль с выделенным владельцем
+- Требуется дополнительный ревьюер для критичной области
+
+**Процесс:**
+
+1. **Проверить доступ:** Убедиться, что пользователь имеет **Write** доступ к репозиторию:
+   ```bash
+   gh api repos/:owner/:repo/collaborators/:username/permission --jq '.permission'
+   # Должно вернуть: "write", "maintain" или "admin"
+   ```
+
+2. **Для GitHub Teams:** Убедиться, что команда существует и имеет доступ:
+   ```bash
+   gh api orgs/:org/teams/:team --jq '.name'
+   gh api orgs/:org/teams/:team/repos/:owner/:repo --jq '.permissions.push'
+   ```
+
+3. **Добавить строку в CODEOWNERS:**
+   - Найти соответствующую секцию (или создать новую)
+   - Добавить паттерн и владельца
+   - Соблюдать порядок: общие правила выше, специфичные ниже
+
+4. **Проверить синтаксис:**
+   ```bash
+   gh api repos/:owner/:repo/codeowners/errors
+   ```
+
+5. **Создать PR:** Изменения в CODEOWNERS требуют review от текущего владельца `.github/`
+
+**Пример:**
+```bash
+# Добавить @alice как владельца /src/payments/
+# 1. Проверить доступ
+gh api repos/myorg/myrepo/collaborators/alice/permission --jq '.permission'
+# → "write"
+
+# 2. Добавить строку в CODEOWNERS (после соответствующей секции SERVICES)
+# /src/payments/    @alice @backend-team
+
+# 3. Проверить ошибки
+gh api repos/myorg/myrepo/codeowners/errors
+# → []
+
+# 4. Создать PR
+git checkout -b add-alice-codeowner
+git add .github/CODEOWNERS
+git commit -m "chore: add @alice as payments owner"
+git push -u origin add-alice-codeowner
+gh pr create --title "Add @alice as payments owner"
+```
+
+---
+
+## 9. Удаление владельца
+
+Процедура удаления владельца при уходе из команды или смене ответственности.
+
+**Когда удалять:**
+- Человек покинул команду/проект
+- Сменилась зона ответственности
+- Реорганизация команд
+
+**Важно:** НЕ оставлять файлы/папки без владельца. Перед удалением найти замену.
+
+**Процесс:**
+
+1. **Найти все строки с удаляемым владельцем:**
+   ```bash
+   grep "@username" .github/CODEOWNERS
+   ```
+
+2. **Определить замену для каждой строки:**
+   - Если есть другие владельцы в той же строке — можно просто удалить
+   - Если единственный владелец — ОБЯЗАТЕЛЬНО назначить замену
+
+3. **Обновить CODEOWNERS:**
+   - Удалить `@username` из строк с несколькими владельцами
+   - Заменить `@username` на нового владельца в строках где он единственный
+
+4. **Проверить покрытие:**
+   ```bash
+   # Убедиться что все паттерны имеют владельцев
+   gh api repos/:owner/:repo/codeowners/errors
+   ```
+
+5. **Создать PR:** Описать причину изменения в PR description
+
+**Пример: удаление @bob из команды:**
+```bash
+# 1. Найти все упоминания
+grep "@bob" .github/CODEOWNERS
+# /src/api/           @backend-team @bob
+# /src/legacy/        @bob
+
+# 2. Решения:
+# - /src/api/ — удалить @bob (есть @backend-team)
+# - /src/legacy/ — заменить на @alice (единственный владелец)
+
+# 3. Изменить CODEOWNERS:
+# /src/api/           @backend-team
+# /src/legacy/        @alice
+
+# 4. Проверить
+gh api repos/myorg/myrepo/codeowners/errors
+
+# 5. PR с описанием
+git checkout -b remove-bob-codeowner
+git add .github/CODEOWNERS
+git commit -m "chore: remove @bob from CODEOWNERS (left team)"
+gh pr create --title "Remove @bob from CODEOWNERS" --body "Bob left the team. Responsibilities transferred to @alice for legacy module."
+```
+
+**Чек-лист при удалении:**
+- [ ] Все строки с `@username` обработаны
+- [ ] Ни одна папка не осталась без владельца
+- [ ] `gh api repos/:owner/:repo/codeowners/errors` возвращает пустой массив
+- [ ] PR описывает причину и кому передана ответственность
+
+---
+
+## 10. Проверка корректности
 
 **Локальная проверка (до коммита):**
 
@@ -340,14 +505,21 @@ gh api repos/:owner/:repo/codeowners/errors
 Проверка наличия и валидности CODEOWNERS добавлена в pre-commit hooks. См. [pre-commit.md](/.structure/pre-commit.md) и `.pre-commit-config.yaml`.
 
 **Что проверяется (pre-commit):**
-- Файл `.github/CODEOWNERS` существует
-- Все username/teams существуют и имеют доступ
-- Все паттерны матчат хотя бы один файл в репозитории
-- Нет синтаксических ошибок
+
+| Проверка | Описание | Как исправить |
+|----------|----------|---------------|
+| Файл существует | `.github/CODEOWNERS` должен быть в репозитории | Создать файл |
+| Синтаксис валиден | Нет ошибок парсинга | Исправить формат строк |
+| Username существует | Все `@username` существуют на GitHub | Проверить username: `gh api users/:username` |
+| Team существует | Все `@org/team` существуют | Проверить team: `gh api orgs/:org/teams/:team` |
+| Доступ есть | Владельцы имеют Write доступ | Добавить в collaborators или team |
+| Паттерны валидны | Нет невалидных glob-паттернов | Исправить паттерн |
+
+> **Примечание:** Проверка "паттерн матчит файлы" НЕ выполняется — паттерн может быть валидным для будущих файлов.
 
 ---
 
-## 9. Примеры
+## 11. Примеры
 
 ### Минимальный CODEOWNERS (для команды из 2 человек)
 
@@ -421,7 +593,7 @@ gh api repos/:owner/:repo/codeowners/errors
 
 ---
 
-## 10. Не включено в стандарт
+## 12. Не включено в стандарт
 
 Следующие аспекты **намеренно НЕ включены** в этот стандарт:
 

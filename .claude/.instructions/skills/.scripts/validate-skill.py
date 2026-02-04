@@ -258,7 +258,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Валидация скиллов по стандарту"
     )
-    parser.add_argument("skill", nargs="?", help="Имя скилла или путь к SKILL.md")
+    parser.add_argument("skill", nargs="*", help="Имя скилла или путь к SKILL.md (можно несколько)")
     parser.add_argument("--all", action="store_true", help="Проверить все скиллы")
     parser.add_argument("--json", action="store_true", help="JSON вывод")
 
@@ -272,17 +272,18 @@ def main():
             print("Скиллы не найдены")
             sys.exit(1)
     elif args.skill:
-        # Определить: путь или имя
-        skill_arg = args.skill
-        if '/' in skill_arg or '\\' in skill_arg or skill_arg.endswith('.md'):
-            # Это путь к файлу
-            skill_path = Path(skill_arg)
-            if not skill_path.is_absolute():
-                skill_path = repo_root / skill_path
-            skills = [skill_path]
-        else:
-            # Это имя скилла
-            skills = [SKILLS_DIR / skill_arg / 'SKILL.md']
+        skills = []
+        for skill_arg in args.skill:
+            # Определить: путь или имя
+            if '/' in skill_arg or '\\' in skill_arg or skill_arg.endswith('.md'):
+                # Это путь к файлу
+                skill_path = Path(skill_arg)
+                if not skill_path.is_absolute():
+                    skill_path = repo_root / skill_path
+                skills.append(skill_path)
+            else:
+                # Это имя скилла
+                skills.append(SKILLS_DIR / skill_arg / 'SKILL.md')
     else:
         parser.print_help()
         sys.exit(2)

@@ -7,14 +7,14 @@ index: .github/.instructions/issue-templates/README.md
 
 # Стандарт YAML-шаблонов Issues
 
-Версия стандарта: 1.0
+Версия стандарта: 1.1
 
 Формат и правила создания шаблонов для GitHub Issues в `.github/ISSUE_TEMPLATE/`.
 
 **Полезные ссылки:**
 - [Инструкции GitHub](../.instructions/README.md)
 - [Стандарт меток](../labels/standard-labels.md)
-- [Справочник меток](../../labels/labels.md)
+- [Справочник меток](../labels.yml)
 
 **Связанные документы:**
 
@@ -41,7 +41,8 @@ index: .github/.instructions/issue-templates/README.md
 - [7. Предустановленные метки](#7-предустановленные-метки)
 - [8. Файл config.yml](#8-файл-configyml)
 - [9. Проверка валидности YAML](#9-проверка-валидности-yaml)
-- [10. Примеры шаблонов](#10-примеры-шаблонов)
+- [10. Тестирование шаблона](#10-тестирование-шаблона)
+- [11. Примеры шаблонов](#11-примеры-шаблонов)
 
 ---
 
@@ -203,10 +204,10 @@ title: "Bug in module X"  # ❌ (слишком специфично)
 **Назначение:** Автоматически добавляемые метки к Issue.
 
 **Правила:**
-- Метки ДОЛЖНЫ существовать в `.github/labels/labels.yml`
-- Список меток — см. [labels.md](../../labels/labels.md)
-- Максимум 3 метки
+- Метки ДОЛЖНЫ существовать в `.github/labels.yml`
+- Список меток — см. [labels.yml](../labels.yml)
 - Используется формат `{category}:{value}` (см. [standard-labels.md](../labels/standard-labels.md))
+- Количество меток не ограничено (но избегать дублирования категорий)
 
 **Примеры:**
 ```yaml
@@ -271,6 +272,27 @@ assignees:
 
 **Принцип:** Обязательные поля — в начале, чек-листы и подтверждения — в конце.
 
+**Контекст для LLM:**
+
+При создании или модификации Issue Template через LLM-агента, исполнитель должен получить контекстное окружение — список документов для понимания правил и структуры.
+
+Формат: `{описание} - {путь}`
+
+```
+Стандарт YAML-шаблонов Issues - .github/.instructions/issue-templates/standard-issue-template.md
+Валидация Issue template - .github/.instructions/issue-templates/validation-issue-template.md
+Создание Issue template - .github/.instructions/issue-templates/create-issue-template.md
+Модификация Issue template - .github/.instructions/issue-templates/modify-issue-template.md
+Стандарт меток - .github/.instructions/labels/standard-labels.md
+Справочник меток проекта - .github/labels.yml
+```
+
+LLM перед выполнением задачи читает документы из контекста для:
+- Понимания формата и правил
+- Проверки существующих меток
+- Соблюдения naming conventions
+- Валидации результата
+
 ---
 
 ## 5. Поле body
@@ -280,6 +302,27 @@ assignees:
 - `id` — уникальный идентификатор (ОПЦИОНАЛЬНО, но рекомендуется для не-markdown)
 - `attributes` — атрибуты поля (ОБЯЗАТЕЛЬНО для всех типов кроме markdown)
 - `validations` — правила валидации (ОПЦИОНАЛЬНО)
+
+### Поле id
+
+**Назначение:** Уникальный идентификатор поля для программного доступа.
+
+**Зачем нужен:**
+- Значения полей с `id` доступны через GitHub API в структурированном виде
+- Позволяет автоматизировать обработку Issues (парсинг, триаж)
+- `id` появляется в JSON при запросе Issue через API
+
+**Правила:**
+- Формат: kebab-case (`bug-description`, `steps-to-reproduce`)
+- Уникальный в пределах одного шаблона
+- Не использовать для `type: markdown` (игнорируется)
+
+**Пример использования через API:**
+```bash
+# Получить Issue с полями
+gh api repos/:owner/:repo/issues/123 --jq '.body'
+# Поля с id доступны в структурированном формате
+```
 
 ---
 
@@ -377,6 +420,19 @@ assignees:
     label: Logs
     render: bash
 ```
+
+**Поддерживаемые языки для `render`:**
+
+| Язык | Значение `render` | Применение |
+|------|-------------------|------------|
+| Bash/Shell | `bash` | Логи, команды терминала |
+| Python | `python` | Код, трейсбеки Python |
+| JavaScript | `javascript` | Код JS/Node.js |
+| TypeScript | `typescript` | Код TypeScript |
+| JSON | `json` | Конфигурации, API ответы |
+| YAML | `yaml` | Конфигурации |
+| SQL | `sql` | Запросы к БД |
+| Markdown | `markdown` | Форматированный текст |
 
 **Применение:**
 - Описание проблемы
@@ -505,7 +561,7 @@ validations:
 
 **Правила:**
 - Метки ДОЛЖНЫ существовать в GitHub (создать перед использованием)
-- Максимум 3 метки в шаблоне
+- Избегать конфликтов: не указывать несколько меток одной категории (например, два `type:*`)
 
 Формат, категории и правила применения — см. SSOT.
 
@@ -588,9 +644,52 @@ python .github/.instructions/.scripts/validate-issue-template.py bug-report.yml
 
 ---
 
-## 10. Примеры шаблонов
+## 10. Тестирование шаблона
 
-**Перед использованием примеров:** Убедиться, что метки из `labels:` существуют в вашем репозитории (см. [standard-labels.md](../labels/standard-labels.md) и [labels.md](../../labels/labels.md)).
+GitHub не поддерживает preview шаблонов без коммита. Процедура тестирования:
+
+**Процесс:**
+
+1. **Создать feature-ветку:**
+   ```bash
+   git checkout -b feat/add-issue-template
+   ```
+
+2. **Добавить шаблон:**
+   ```bash
+   # Создать/изменить файл
+   git add .github/ISSUE_TEMPLATE/new-template.yml
+   git commit -m "feat: add new issue template"
+   git push -u origin feat/add-issue-template
+   ```
+
+3. **Протестировать в GitHub UI:**
+   - Перейти в репозиторий → Issues → New Issue
+   - GitHub покажет шаблоны из текущей ветки (если PR открыт)
+   - Проверить: форма отображается корректно, поля работают
+
+4. **Исправить и повторить** (если нужно):
+   ```bash
+   # Внести правки
+   git add . && git commit -m "fix: adjust template fields"
+   git push
+   ```
+
+5. **Создать PR и смержить** после успешного тестирования
+
+**Чек-лист тестирования:**
+- [ ] Шаблон появляется в списке выбора
+- [ ] Название и описание корректны
+- [ ] Все поля отображаются
+- [ ] Обязательные поля помечены звёздочкой (*)
+- [ ] Placeholders и descriptions понятны
+- [ ] Метки применяются при создании Issue
+
+---
+
+## 11. Примеры шаблонов
+
+**Перед использованием примеров:** Убедиться, что метки из `labels:` существуют в вашем репозитории (см. [standard-labels.md](../labels/standard-labels.md) и [labels.yml](../labels.yml)).
 
 ### Пример: bug-report.yml
 
@@ -757,6 +856,50 @@ body:
       options:
         - label: Subtask 1
         - label: Subtask 2
+```
+
+---
+
+### Пример: question.yml
+
+```yaml
+name: Question
+description: Ask a question about the project
+title: "[Question]: "
+labels:
+  - type:question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Before asking
+
+        Please check the documentation and existing issues first.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: "How do I configure..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What are you trying to achieve? This helps us give a better answer.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have checked the documentation
+          required: true
+        - label: I have searched existing issues
+          required: true
 ```
 
 ---

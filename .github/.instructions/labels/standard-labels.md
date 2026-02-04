@@ -7,12 +7,12 @@ index: .github/.instructions/labels/README.md
 
 # Стандарт управления метками
 
-Версия стандарта: 1.0
+Версия стандарта: 1.1
 
 Правила создания, применения и управления метками (Labels) для Issues и Pull Requests.
 
 **Полезные ссылки:**
-- [Справочник меток](../../labels/labels.md) — SSOT категорий и меток
+- [Справочник меток](../labels.yml) — SSOT категорий и меток
 - [Инструкции](./README.md)
 
 **Связанные документы:**
@@ -20,7 +20,7 @@ index: .github/.instructions/labels/README.md
 | Тип | Документ |
 |-----|----------|
 | Стандарт | Этот документ |
-| Справочник | [labels.md](../../labels/labels.md) — категории и метки |
+| Справочник | [labels.yml](../labels.yml) — категории и метки |
 | Валидация | *Будет создан* |
 | Создание | *Будет создан* |
 | Модификация | *Будет создан* |
@@ -35,8 +35,9 @@ index: .github/.instructions/labels/README.md
 - [6. Добавление метки](#6-добавление-метки)
 - [7. Удаление метки](#7-удаление-метки)
 - [8. Переименование метки](#8-переименование-метки)
-- [9. Синхронизация с GitHub](#9-синхронизация-с-github)
-- [10. Автоматизация](#10-автоматизация)
+- [9. Переименование категории](#9-переименование-категории)
+- [10. Синхронизация с GitHub](#10-синхронизация-с-github)
+- [11. Автоматизация](#11-автоматизация)
 
 ---
 
@@ -57,8 +58,7 @@ index: .github/.instructions/labels/README.md
 **Принципы:**
 - Каждая метка принадлежит категории (префикс)
 - Одна задача может иметь несколько меток из разных категорий
-- Цвет одинаков в рамках категории (кроме priority — градиент)
-- Справочник меток хранится в [labels.md](../../labels/labels.md)
+- Справочник меток хранится в [labels.yml](../labels.yml)
 
 ---
 
@@ -75,11 +75,16 @@ index: .github/.instructions/labels/README.md
 | `:` | Разделитель (ОБЯЗАТЕЛЬНО) | `:` |
 | `{value}` | Значение в kebab-case (lowercase) | `bug`, `in-review`, `high` |
 
-**Правила:**
+**Правила для имени метки:**
 - Только латиница
 - Нижний регистр (lowercase)
 - Дефис `-` для разделения слов (kebab-case)
 - Без пробелов, подчёркиваний, camelCase
+
+**Правила для description:**
+- Начинать с emoji, отражающего суть метки
+- Краткое описание на русском или английском
+- Максимум 50 символов
 
 **Примеры:**
 
@@ -102,6 +107,17 @@ index: .github/.instructions/labels/README.md
 Каждая задача (Issue) ДОЛЖНА иметь:
 - **Ровно одну** метку `type:*` — тип задачи
 - **Ровно одну** метку `priority:*` — приоритет
+
+> **Для LLM:** Перед созданием Issue/PR проверить наличие обязательных меток `type:*` и `priority:*`. Если метки не указаны — запросить у пользователя.
+
+### Критерии выбора приоритета
+
+| Приоритет | Критерий | Примеры |
+|-----------|----------|---------|
+| `priority:critical` | Блокирует production | 🔴 Падение сервиса, потеря данных, security breach |
+| `priority:high` | Блокирует разработку | 🟠 Критичный для спринта, deadline |
+| `priority:medium` | Обычная задача | 🟡 Фича без deadline, плановые улучшения |
+| `priority:low` | Можно отложить | 🟢 Nice-to-have, косметические улучшения |
 
 ### Опциональные метки
 
@@ -171,7 +187,7 @@ effort:xs
 2. **Naming:** Выбрать префикс (lowercase, короткий)
 3. **Цвет:** Выбрать уникальный HEX, не пересекающийся с существующими
 4. **Метки:** Определить начальный набор меток категории
-5. **Обновить labels.md:**
+5. **Обновить labels.yml:**
    - Добавить строку в таблицу "Категории"
    - Добавить секцию с метками
    - Добавить в `labels.yml`
@@ -181,8 +197,8 @@ effort:xs
 **Пример:**
 ```bash
 # Добавить категорию "scope" с метками
-gh label create "scope:mvp" --description "MVP релиз" --color "22D3EE"
-gh label create "scope:v2" --description "Версия 2.0" --color "22D3EE"
+gh label create "scope:mvp" --description "🎯 MVP релиз" --color "22D3EE"
+gh label create "scope:v2" --description "🚀 Версия 2.0" --color "22D3EE"
 ```
 
 ---
@@ -199,8 +215,8 @@ gh label create "scope:v2" --description "Версия 2.0" --color "22D3EE"
 
 1. **Проверить:** Метка не дублирует существующую
 2. **Naming:** `{category}:{value}` в kebab-case
-3. **Цвет:** Использовать цвет категории (из [labels.md](../../labels/labels.md))
-4. **Обновить labels.md:**
+3. **Цвет:** Использовать цвет категории (из [labels.yml](../labels.yml))
+4. **Обновить labels.yml:**
    - Добавить строку в таблицу категории
    - Добавить в `labels.yml`
 5. **Синхронизация:**
@@ -211,12 +227,14 @@ gh label create "scope:v2" --description "Версия 2.0" --color "22D3EE"
 **Пример:**
 ```bash
 # Добавить метку area:mobile
-gh label create "area:mobile" --description "Мобильное приложение" --color "10B981"
+gh label create "area:mobile" --description "📱 Мобильное приложение" --color "10B981"
 ```
 
 ---
 
 ## 7. Удаление метки
+
+> **Важно:** Метка не может быть "деактивирована" или "архивирована" — только **удалена**. Перед удалением ВСЕ Issues/PR с этой меткой ДОЛЖНЫ быть мигрированы.
 
 **Когда удалять:**
 - Метка не используется >6 месяцев
@@ -230,12 +248,28 @@ gh label create "area:mobile" --description "Мобильное приложен
    gh issue list --label "{метка}" --state all --limit 100
    gh pr list --label "{метка}" --state all --limit 100
    ```
-2. **Мигрировать:** Если есть Issues/PR с меткой — заменить на альтернативную или удалить
-3. **Удалить из GitHub:**
+2. **Мигрировать (ОБЯЗАТЕЛЬНО):** Все Issues/PR с меткой должны быть перенесены:
+   - Определить альтернативную метку для замены
+   - Заменить метку на всех Issues/PR:
+     ```bash
+     for num in $(gh issue list --label "{старая_метка}" --state all --json number -q '.[].number'); do
+       gh issue edit $num --remove-label "{старая_метка}" --add-label "{новая_метка}"
+     done
+     for num in $(gh pr list --label "{старая_метка}" --state all --json number -q '.[].number'); do
+       gh pr edit $num --remove-label "{старая_метка}" --add-label "{новая_метка}"
+     done
+     ```
+   - Если альтернативы нет — удалить метку с Issues/PR (не рекомендуется)
+3. **Проверить:** Убедиться, что метка не используется:
+   ```bash
+   gh issue list --label "{метка}" --state all --limit 1
+   gh pr list --label "{метка}" --state all --limit 1
+   ```
+4. **Удалить из GitHub:**
    ```bash
    gh label delete "{метка}" --yes
    ```
-4. **Обновить labels.md:**
+5. **Обновить labels.yml:**
    - Удалить строку из таблицы
    - Удалить из `labels.yml`
 
@@ -268,11 +302,11 @@ gh label create "area:mobile" --description "Мобильное приложен
    ```bash
    gh label delete "{старое_имя}" --yes
    ```
-5. **Обновить labels.md**
+5. **Обновить labels.yml**
 
 **Пример: переименование `area:infra` → `area:platform`:**
 ```bash
-gh label create "area:platform" --description "Инфраструктура" --color "10B981"
+gh label create "area:platform" --description "🔧 Инфраструктура и платформа" --color "10B981"
 for num in $(gh issue list --label "area:infra" --state all --json number -q '.[].number'); do
   gh issue edit $num --remove-label "area:infra" --add-label "area:platform"
 done
@@ -281,9 +315,75 @@ gh label delete "area:infra" --yes
 
 ---
 
-## 9. Синхронизация с GitHub
+## 9. Переименование категории
 
-Метки хранятся в [labels.md](../../labels/labels.md) в секции `labels.yml`.
+Массовое переименование всех меток категории (например, `area:*` → `scope:*`).
+
+**Когда применять:**
+- Изменилась терминология проекта
+- Категория переименовывается в рамках рефакторинга
+
+**Процесс:**
+
+1. **Собрать список меток категории:**
+   ```bash
+   gh label list --json name -q '.[] | select(.name | startswith("{old_category}:")) | .name'
+   ```
+
+2. **Для каждой метки выполнить переименование (§8):**
+   ```bash
+   OLD_CAT="area"
+   NEW_CAT="scope"
+   COLOR="10B981"
+
+   for label in $(gh label list --json name,description -q ".[] | select(.name | startswith(\"${OLD_CAT}:\"))"); do
+     old_name=$(echo $label | jq -r '.name')
+     desc=$(echo $label | jq -r '.description')
+     value=${old_name#*:}
+     new_name="${NEW_CAT}:${value}"
+
+     # Создать новую метку
+     gh label create "$new_name" --description "$desc" --color "$COLOR"
+
+     # Мигрировать Issues
+     for num in $(gh issue list --label "$old_name" --state all --json number -q '.[].number'); do
+       gh issue edit $num --remove-label "$old_name" --add-label "$new_name"
+     done
+
+     # Мигрировать PR
+     for num in $(gh pr list --label "$old_name" --state all --json number -q '.[].number'); do
+       gh pr edit $num --remove-label "$old_name" --add-label "$new_name"
+     done
+
+     # Удалить старую метку
+     gh label delete "$old_name" --yes
+   done
+   ```
+
+3. **Обновить labels.yml:**
+   - Переименовать категорию в таблице "Категории"
+   - Обновить все метки в секции категории
+   - Обновить `labels.yml`
+
+4. **Чек-лист проверки:**
+   - [ ] Все Issues мигрированы (проверить `gh issue list --label "{old_cat}:*"`)
+   - [ ] Все PR мигрированы
+   - [ ] Старые метки удалены
+   - [ ] labels.yml обновлён
+   - [ ] labels.yml обновлён
+
+---
+
+## 10. Синхронизация с GitHub
+
+Метки хранятся в [labels.yml](../labels.yml) — единый SSOT справочник меток.
+
+**Автоматическая синхронизация:**
+
+Скрипт `setup-labels.py` (будет создан) синхронизирует `labels.yml` с GitHub:
+```bash
+python .github/.instructions/.scripts/setup-labels.py
+```
 
 **Ручная синхронизация:**
 ```bash
@@ -300,16 +400,11 @@ gh label delete "{name}" --yes
 gh label list
 ```
 
-**Автоматическая синхронизация:**
-
-Скрипт `setup-labels.py` (будет создан) синхронизирует `labels.yml` с GitHub:
-```bash
-python .github/.instructions/.scripts/setup-labels.py
-```
+Автоматическая синхронизация имеет приоритет над ручной синхронизацией.
 
 ---
 
-## 10. Автоматизация
+## 11. Автоматизация
 
 ### Через Issue Templates
 

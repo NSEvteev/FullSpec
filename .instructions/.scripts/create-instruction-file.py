@@ -95,6 +95,8 @@ index: {index_path}
 
 # Воркфлоу создания
 
+Рабочая версия стандарта: {standard_version}
+
 {short_description}
 
 **Полезные ссылки:**
@@ -175,6 +177,8 @@ index: {index_path}
 ---
 
 # Воркфлоу изменения
+
+Рабочая версия стандарта: {standard_version}
 
 {short_description}
 
@@ -278,6 +282,8 @@ index: {index_path}
 ---
 
 # Валидация {title}
+
+Рабочая версия стандарта: {standard_version}
 
 {short_description}
 

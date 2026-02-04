@@ -7,13 +7,19 @@ index: .github/.instructions/issues/README.md
 
 # Стандарт управления GitHub Issues
 
-Версия стандарта: 1.0
+Версия стандарта: 1.1
 
 Правила жизненного цикла, создания и управления задачами (Issues) в репозитории.
 
 **Полезные ссылки:**
 - [Инструкции Issues](./README.md)
-- [Справочник меток](../../labels/labels.md) — SSOT категорий и меток
+
+**SSOT-зависимости:**
+- [standard-labels.md](../labels/standard-labels.md) — метки Issues
+- [standard-milestone.md](../milestones/standard-milestone.md) — milestones
+- [standard-project.md](../projects/standard-project.md) — GitHub Projects
+- [standard-issue-template.md](../issue-templates/standard-issue-template.md) — шаблоны Issues
+- [standard-pull-request.md](../pull-requests/standard-pull-request.md) — связь с PR
 
 **Связанные документы:**
 
@@ -81,12 +87,14 @@ GitHub Issues — система управления задачами, бага
 
 **Метаданные (опционально):**
 
-| Свойство | Тип | Обязательно | Описание | Как установить |
-|----------|-----|-------------|----------|----------------|
-| `labels` | label[] | да | Метки: **ровно одна** `type:*` + **ровно одна** `priority:*` | `--label` |
-| `assignees` | user[] | опционально | Исполнители (обязательно при статусе "В РАБОТЕ") | `--assignee` |
-| `milestone` | milestone | опционально | Спринт/версия | `--milestone` |
-| `project` | project | опционально | Канбан-доска | `--project` |
+| Свойство | Тип | Обязательно | SSOT |
+|----------|-----|-------------|------|
+| `labels` | label[] | да | [standard-labels.md](../labels/standard-labels.md) |
+| `assignees` | user[] | опционально | См. [§4 Assignees](#assignees-назначение) |
+| `milestone` | milestone | опционально | [standard-milestone.md](../milestones/standard-milestone.md) |
+| `project` | project | опционально | [standard-project.md](../projects/standard-project.md) |
+
+**Как установить:** `--label`, `--assignee`, `--milestone`, `--project` (см. [§7 CLI команды](#7-cli-команды))
 
 ---
 
@@ -174,7 +182,9 @@ GitHub Issues — система управления задачами, бага
 
 ### Body — структура описания
 
-**Минимальная структура:**
+**SSOT:** [standard-issue-template.md](../issue-templates/standard-issue-template.md) — структура body определяется шаблоном Issue.
+
+**Минимальная структура (если без шаблона):**
 
 ```markdown
 ## Описание
@@ -187,47 +197,7 @@ GitHub Issues — система управления задачами, бага
 - [ ] {Пункт 2}
 ```
 
-**Для багов (если используется шаблон bug.yml):**
-
-```markdown
-## Описание проблемы
-
-{Что не работает}
-
-## Шаги воспроизведения
-
-1. {Шаг 1}
-2. {Шаг 2}
-
-## Ожидаемое поведение
-
-{Как должно быть}
-
-## Фактическое поведение
-
-{Как есть сейчас}
-
-## Окружение
-
-- OS: {Windows/Linux/macOS}
-- Версия: {v1.0.0}
-```
-
-**Для фич (если используется шаблон feature.yml):**
-
-```markdown
-## Проблема / Потребность
-
-{Зачем нужна эта фича}
-
-## Предлагаемое решение
-
-{Как реализовать}
-
-## Альтернативы
-
-{Другие варианты (опционально)}
-```
+**Для багов, фич, задач:** Использовать соответствующий шаблон из `.github/ISSUE_TEMPLATE/` — см. [примеры шаблонов](../issue-templates/standard-issue-template.md#11-примеры-шаблонов).
 
 ### Labels — обязательные метки
 
@@ -267,42 +237,27 @@ gh issue edit 123 --add-assignee user1,user2
 
 ## 5. Связь с Branch и PR
 
+**SSOT-зависимости:**
+- Именование веток — [standard-development-workflow.md](../workflows/standard-development-workflow.md)
+- Формат PR и ключевые слова — [standard-pull-request.md](../pull-requests/standard-pull-request.md)
+
 **Процесс:**
 
 1. **Issue создан** — получает номер (например, #123)
-2. **Создание ветки** — именование от Issue:
+2. **Создание ветки** — формат: `{type}/{issue-number}-{краткое-описание}`
    ```bash
-   # Префикс зависит от метки type:
-   # type:bug → git checkout -b fix/123-краткое-описание
-   # type:feature → git checkout -b feature/123-краткое-описание
-   # type:task → git checkout -b task/123-краткое-описание
-   # type:docs → git checkout -b docs/123-краткое-описание
-
-   # {краткое-описание}: 2-4 слова из title Issue в kebab-case
-   # Пример: title "Добавить авторизацию пользователей" → feature/123-add-auth
+   # Примеры:
+   git checkout -b fix/123-auth-error
+   git checkout -b feature/123-add-auth
+   git checkout -b docs/123-update-readme
    ```
-3. **Создание PR** — в теле PR добавить ключевое слово:
+3. **Создание PR** — связать с Issue через ключевое слово в body PR:
    ```markdown
    Fixes #123
-   # или
-   Closes #123
-   # или
-   Resolves #123
    ```
 4. **Мерж PR** — Issue автоматически закроется
 
-**Ключевые слова для автозакрытия:**
-
-| Ключевое слово | Эффект |
-|----------------|--------|
-| `Fixes #123` | Закрывает Issue при мерже |
-| `Closes #123` | Закрывает Issue при мерже |
-| `Resolves #123` | Закрывает Issue при мерже |
-
-**Правила:**
-- Ключевое слово должно быть в **body PR**, не в commit message
-- Можно закрыть несколько Issues: `Fixes #123, #124`
-- Issue закроется ТОЛЬКО после мерже в базовую ветку (main)
+**Ключевые слова для автозакрытия:** `Fixes`, `Closes`, `Resolves` — подробнее см. [standard-pull-request.md](../pull-requests/standard-pull-request.md#связь-с-issues).
 
 ---
 

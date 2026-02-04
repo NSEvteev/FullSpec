@@ -53,5 +53,15 @@ index: .claude/README.md
 │   ├── example-github-platform-research.md      #   Исследование GitHub платформы
 │   └── README.md                                #   Индекс примеров
 ├── 2026-02-03-github-instructions-validation.md # План валидации .github/
-└── README.md                           # Этот файл (индекс)
+├── README.md                           # Этот файл (индекс)
+├── 2026-02-03-github-instructions-validation-results.md # TODO: добавить описание
+├── 2026-02-03-recommendations-standard-development-workflow.md # TODO: добавить описание
+├── 2026-02-03-recommendations-standard-github.md # TODO: добавить описание
+├── 2026-02-03-recommendations-standard-issue.md # TODO: добавить описание
+├── 2026-02-03-recommendations-standard-milestone.md # TODO: добавить описание
+├── 2026-02-03-recommendations-standard-project.md # TODO: добавить описание
+├── 2026-02-03-recommendations-standard-pull-request.md # TODO: добавить описание
+├── 2026-02-03-recommendations-standard-release-workflow.md # TODO: добавить описание
+├── 2026-02-03-recommendations-standard-release.md # TODO: добавить описание
+└── 2026-02-03-recommendations-standard-workflow-file.md # TODO: добавить описание
 ```

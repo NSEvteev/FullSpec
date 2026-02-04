@@ -47,7 +47,7 @@ index: .github/README.md
 **Справочник меток проекта.**
 
 
-### [.instructions/](./.instructions/README.md)
+### 🔗 [.instructions/](./.instructions/README.md)
 
 **Инструкции для работы с GitHub.**
 
@@ -65,11 +65,11 @@ index: .github/README.md
 
 ```
 /.github/
-├── .instructions/           # Инструкции для работы с GitHub
-├── ISSUE_TEMPLATE/                  # Шаблоны Issues
-├── labels/                          # Справочник меток проекта
-├── milestones/                      # Справочник milestones проекта
-├── releases/                        # История релизов проекта
-├── workflows/                       # GitHub Actions workflows
-└── README.md                # Этот файл
+├── .instructions/                      # Инструкции для работы с GitHub
+├── ISSUE_TEMPLATE/                     # Шаблоны Issues
+├── milestones/                         # Справочник milestones проекта
+├── releases/                           # История релизов проекта
+├── workflows/                          # GitHub Actions workflows
+├── README.md                           # Этот файл
+└── labels.yml                          # TODO: добавить описание
 ```

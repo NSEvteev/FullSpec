@@ -1,13 +1,13 @@
 ---
-description: Индекс инструкций для labels/
+description: Индекс инструкций для labels.yml
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/labels/README.md
 ---
 
-# Инструкции /.github/labels/
+# Инструкции Labels
 
-Индекс инструкций для папки labels/.
+Индекс инструкций для системы меток GitHub.
 
 **Полезные ссылки:**
 - [Инструкции .github/](../README.md)
@@ -30,7 +30,9 @@ index: .github/.instructions/labels/README.md
 ```
 /.github/.instructions/labels/
 ├── README.md                # Этот файл (индекс)
-└── standard-labels.md       # Стандарт системы меток
+├── standard-labels.md       # Стандарт системы меток
+├── validation-labels.md     # Валидация labels.yml и меток
+└── modify-labels.md         # Модификация меток
 ```
 
 ---
@@ -41,19 +43,23 @@ index: .github/.instructions/labels/README.md
 |------------|----------|
 | [standard-labels.md](./standard-labels.md) | Стандарт управления метками (создание, применение, удаление) |
 
-**Справочник меток:** [.github/labels/labels.md](../../labels/labels.md) — SSOT категорий и меток
+**Справочник меток:** [.github/labels.yml](../labels.yml) — SSOT категорий и меток
 
 ---
 
 # 2. Воркфлоу
 
-*Нет воркфлоу.*
+| Инструкция | Описание |
+|------------|----------|
+| [modify-labels.md](./modify-labels.md) | Модификация меток (добавление, удаление, переименование) |
 
 ---
 
 # 3. Валидация
 
-*Нет валидаций.*
+| Инструкция | Описание |
+|------------|----------|
+| [validation-labels.md](./validation-labels.md) | Валидация labels.yml и меток на Issues/PR |
 
 ---
 
@@ -65,4 +71,7 @@ index: .github/.instructions/labels/README.md
 
 # 5. Скиллы
 
-*Нет скиллов.*
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/labels-validate](/.claude/skills/labels-validate/SKILL.md) | Валидация labels.yml и меток | [validation-labels.md](./validation-labels.md) |
+| [/labels-modify](/.claude/skills/labels-modify/SKILL.md) | Изменение меток | [modify-labels.md](./modify-labels.md) |

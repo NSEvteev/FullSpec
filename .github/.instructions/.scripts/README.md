@@ -25,5 +25,6 @@ index: .github/.instructions/.scripts/README.md
 
 ```
 /.github/.instructions/.scripts/
-└── README.md            # Этот файл
+├── README.md                           # Этот файл
+└── validate-labels.py                  # TODO: добавить описание
 ```
