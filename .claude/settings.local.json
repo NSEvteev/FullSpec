@@ -14,7 +14,17 @@
       "Bash(test:*)",
       "Skill(links-validate)",
       "Bash(git mv:*)",
-      "Bash(move:*)"
+      "Bash(move:*)",
+      "Skill(instruction-create)",
+      "Skill(script-create)",
+      "Bash(git config:*)",
+      "Bash(dir:*)",
+      "Skill(rule-create)",
+      "Bash(for i in 4 5 6 7 8 9)",
+      "Bash(do gh issue close $i --reason \"not planned\" --comment \"Тестовый Issue — закрыт после проверки шаблона.\")",
+      "Bash(done)",
+      "Skill(instruction-modify)",
+      "Skill(migration-create)"
     ]
   },
   "statusLine": {

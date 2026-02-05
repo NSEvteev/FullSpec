@@ -156,6 +156,10 @@ standard-version: v1.1
 │
 ├── .github/                             # GitHub платформа
 │   ├── .instructions/                   #   Инструкции для работы с GitHub
+│   │   ├── branches/                    #     Стандарт именования и создания веток
+│   │   ├── commits/                     #     Стандарт оформления коммитов
+│   │   ├── development/                 #     Инструкции для процесса локальной разработки
+│   │   └── sync/                        #     Стандарт синхронизации с main
 │   ├── ISSUE_TEMPLATE/                  #   Шаблоны Issues
 │   ├── labels/                          #   Справочник меток проекта
 │   ├── milestones/                      #   Справочник milestones проекта

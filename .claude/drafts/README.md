@@ -29,8 +29,8 @@ index: .claude/README.md
 
 | Файл | Описание |
 |------|----------|
-| [2026-02-03-github-instructions-validation.md](./2026-02-03-github-instructions-validation.md) | План валидации инструкций .github/ |
 | [2026-02-03-github-ssot-refactoring.md](./2026-02-03-github-ssot-refactoring.md) | SSOT-рефакторинг .github/ |
+| [2026-02-05-github-instructions.md](./2026-02-05-github-instructions.md) | GitHub-инструкции: реструктуризация и валидация (объединённый) |
 
 ---
 
@@ -52,16 +52,17 @@ index: .claude/README.md
 │   ├── example-cross-standards-ssot-analysis.md #   Анализ SSOT между стандартами
 │   ├── example-github-platform-research.md      #   Исследование GitHub платформы
 │   └── README.md                                #   Индекс примеров
-├── 2026-02-03-github-instructions-validation.md # План валидации .github/
 ├── README.md                           # Этот файл (индекс)
-├── 2026-02-03-github-instructions-validation-results.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-development-workflow.md # TODO: добавить описание
-├── 2026-02-03-recommendations-standard-github.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-issue.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-milestone.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-project.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-release-workflow.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-release.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-workflow-file.md # TODO: добавить описание
-└── 2026-02-04-github-docs-restructure.md # TODO: добавить описание
+├── 2026-02-05-github-instructions.md # GitHub-инструкции (объединённый)
+├── 2026-02-05-holt-analysis-standard-branching.md # Семантический анализ standard-branching.md
+├── 2026-02-05-holt-analysis-standard-commit.md # Семантический анализ standard-commit.md
+├── 2026-02-05-holt-analysis-standard-development.md # Семантический анализ standard-development.md
+└── 2026-02-05-holt-analysis-standard-sync.md # Семантический анализ standard-sync.md
 ```

@@ -19,8 +19,6 @@
 - Полные процедуры Hotfix и Rollback
 - Граничные случаи (множественные релизы, pre-release)
 
----
-
 ## Рекомендации по улучшению
 
 ### 1. Пересечение с standard-release.md
@@ -61,32 +59,6 @@
 - Smoke tests (ручные или автоматические): основные сценарии работают
 - Мониторинг: error rate не вырос
 - Время проверки: 15-30 минут после деплоя
-
-### 5. Отсутствует: автоматический rollback
-
-**Проблема:** Rollback описан как ручной процесс.
-
-**Рекомендация:** Добавить пример автоматического rollback в deploy.yml:
-```yaml
-- name: Deploy
-  run: ./deploy.sh
-
-- name: Health check
-  run: curl --fail https://example.com/health
-
-- name: Rollback on failure
-  if: failure()
-  run: ./rollback.sh
-```
-
-### 6. Не описано: notification после релиза
-
-**Проблема:** Релиз создан, но нет процедуры уведомления stakeholders.
-
-**Рекомендация:** Добавить шаг "Уведомление":
-- Автоматическое: GitHub Release → Slack webhook
-- Ручное: написать в канал о новых фичах
-- Changelog для пользователей: Release Notes на GitHub
 
 ### 7. Неясность: "30 минут" для hotfix
 

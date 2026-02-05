@@ -16,8 +16,6 @@
 - Таблица лимитов GitHub
 - Последовательность создания проекта (пошаговая)
 
----
-
 ## Рекомендации по улучшению
 
 ### 1. Не описано: миграция с GitHub Projects Classic
@@ -51,16 +49,6 @@
 | Монорепо с разными командами | 1 Project на команду |
 | Публичный + внутренний backlog | 2 Projects (public + private) |
 
-### 4. Отсутствует: интеграция с Milestones в Views
-
-**Проблема:** Упоминается фильтрация по Milestone, но нет примера настройки View.
-
-**Рекомендация:** Добавить пример создания View через Web UI:
-1. New View → Board
-2. Group by: Status
-3. Filter: `milestone:"Sprint 2025-W05"`
-4. Название: "Current Sprint"
-
 ### 5. Не описано: архивация Projects
 
 **Проблема:** Описано `gh project close`, но не описана архивация завершённых проектов.
@@ -87,16 +75,6 @@ OPTION_ID=$(gh project field-list $PROJECT --owner $OWNER --format json | jq -r 
 
 gh project item-edit --project-id $PROJECT --id $ITEM_ID --field-id $FIELD_ID --single-select-option-id $OPTION_ID
 ```
-
-### 7. Не описано: синхронизация Labels → Project fields
-
-**Проблема:** Метки на Issue и поля в Project — разные вещи. Не описано как синхронизировать.
-
-**Рекомендация:** Добавить пояснение:
-- Labels (GitHub) ≠ Project Fields
-- Labels видны на Issue, Project Fields — только в Project
-- Рекомендация: использовать либо Labels, либо Project Fields для Priority
-- Не дублировать (иначе нужна ручная синхронизация)
 
 ### 8. Мелкое: нет примера Roadmap View с Date полем
 
