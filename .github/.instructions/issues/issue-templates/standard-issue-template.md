@@ -572,8 +572,9 @@ validations:
 **Правила:**
 - Шаблон ДОЛЖЕН содержать `labels: [type:{value}]`
 - Именование файла: `{value}.yml`, `{value}-report.yml` или `{value}-request.yml`
-- При добавлении метки `type:*` — создать шаблон
+- При добавлении метки `type:*` — создать шаблон (→ [standard-labels.md § 4](../../labels/standard-labels.md#4-связь-type-меток-с-issue-templates))
 - При удалении метки `type:*` — удалить шаблон
+- При создании шаблона — убедиться, что метка `type:*` существует в [labels.yml](../../../labels.yml)
 
 **Валидация:**
 ```bash

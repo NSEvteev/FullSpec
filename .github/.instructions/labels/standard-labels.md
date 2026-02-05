@@ -167,9 +167,9 @@ xs
 - Шаблон должен содержать `labels: [type:{value}]`
 - Именование шаблона — см. [standard-issue-template.md](../issues/issue-templates/standard-issue-template.md)
 
-**При добавлении метки `TYPE-метку`:** создать Issue Template.
+**При добавлении метки `TYPE-метку`:** создать Issue Template (→ [standard-issue-template.md § 7](../issues/issue-templates/standard-issue-template.md#7-предустановленные-метки)).
 
-**При удалении метки `TYPE-метку`:** удалить Issue Template.
+**При удалении метки `TYPE-метку`:** удалить соответствующий Issue Template.
 
 **Валидация:**
 ```bash

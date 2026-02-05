@@ -28,7 +28,7 @@
 - `2026-02-03-github-instructions-validation-results.md` — итоги валидации (оценки, паттерны)
 - `2026-02-04-github-docs-restructure.md` — архитектура, операции, решения
 
-**Статус:** Реструктуризация ВЫПОЛНЕНА (Фаза 1-8, 2026-02-04/05). Зональный анализ ВЫПОЛНЕН (Фаза 7 + development). Валидация: Волна 1 частично (1-4 ✅, 5-8 структурная ✅, семантическая ⏳), Волны 2-4 ожидают.
+**Статус:** Реструктуризация ВЫПОЛНЕНА (Фаза 1-8, 2026-02-04/05). Зональный анализ ВЫПОЛНЕН (Фаза 7 + development). Валидация: Волна 1 ✅ (1-8 завершено), Волны 2-4 ожидают.
 
 ---
 
@@ -176,10 +176,10 @@
 | 2 | `pull-requests/pr-template/standard-pr-template.md` | ✅ |
 | 3 | `codeowners/standard-codeowners.md` | ✅ |
 | 4 | `issues/issue-templates/standard-issue-template.md` | ✅ |
-| 5 | `branches/standard-branching.md` | ✅ структурная / ⏳ семантическая |
-| 6 | `commits/standard-commit.md` | ✅ структурная / ⏳ семантическая |
-| 7 | `sync/standard-sync.md` | ✅ структурная / ⏳ семантическая |
-| 8 | `development/standard-development.md` | ✅ структурная / ⏳ семантическая |
+| 5 | `branches/standard-branching.md` | ✅ |
+| 6 | `commits/standard-commit.md` | ✅ |
+| 7 | `sync/standard-sync.md` | ✅ |
+| 8 | `development/standard-development.md` | ✅ |
 
 ##### Волна 2: PR, Milestone, Release, Draft PR
 
@@ -278,8 +278,8 @@
 
 | # | Проблема | Файлы | Решение |
 |---|----------|-------|---------|
-| З1 | **Правила меток дублируются в 3 местах** | `standard-labels.md`, `standard-issue.md §4`, `standard-pull-request.md §7` | Централизовать в `standard-labels.md`. В issue/PR оставить краткое правило + SSOT-ссылку |
-| З2 | **TYPE-метка ↔ Issue Template — связь неявная** | `standard-labels.md §4`, `standard-issue-template.md §7` | Добавить явные двусторонние ссылки. В labels: "При добавлении type:* → создать Issue Template (→ standard-issue-template.md §7)". В templates: обратная ссылка |
+| ~~З1~~ | ~~**Правила меток дублируются в 3 местах**~~ | `standard-labels.md`, `standard-issue.md §4`, `standard-pull-request.md §7` | ✅ Уже решено — summary + SSOT-ссылка (допустимый паттерн) |
+| ~~З2~~ | ~~**TYPE-метка ↔ Issue Template — связь неявная**~~ | `standard-labels.md §4`, `standard-issue-template.md §7` | ✅ Добавлены двусторонние ссылки |
 
 ##### Допустимые пересечения (оставить)
 
@@ -448,10 +448,10 @@
 |--------|-----------|----------|
 | ~~Создать `development/standard-development.md` — стандарт стадии 4~~ | ~~Высокий~~ | ✅ Фаза 8 |
 | ~~Переместить `projects/` из [ДОПОЛНИТЕЛЬНО] в [НЕЗАВИСИМЫЕ] в дереве~~ | ~~Высокий~~ | ✅ Фаза 8 |
-| Централизовать правила меток — убрать дубли из issue.md §4 и pull-request.md §7 | Высокий | zone-analysis З1 |
-| Добавить двусторонние ссылки TYPE-метка ↔ Issue Template | Высокий | zone-analysis З2 |
+| ~~Централизовать правила меток — убрать дубли из issue.md §4 и pull-request.md §7~~ | ~~Высокий~~ | ✅ Уже summary + SSOT |
+| ~~Добавить двусторонние ссылки TYPE-метка ↔ Issue Template~~ | ~~Высокий~~ | ✅ Двусторонние ссылки добавлены |
 | ~~Пересмотреть все 12 файлов рекомендаций — пометить вторжения~~ | ~~Высокий~~ | ✅ 30 вторжений помечены в 9 файлах, 2 файла подтверждены чистыми (release, workflow-file), development: 8 вторжений |
-| Валидировать Волну 1 (новые): branching, commit, sync | Высокий | validation |
+| ~~Валидировать Волну 1: branching, commit, sync, development~~ | ~~Высокий~~ | ✅ holt-анализы готовы |
 | Валидировать Волну 2: pull-request, milestone, release, draft-pr | Высокий | validation |
 | Валидировать Волну 3: issue, project, review | Высокий | validation |
 | Валидировать Волну 4: workflow, release-workflow, workflow-file | Высокий | validation |
