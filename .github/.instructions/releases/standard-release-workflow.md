@@ -97,7 +97,7 @@ index: .github/.instructions/releases/README.md
    └─ Проверить main: нет открытых PR с priority:critical
    └─ Проверить тесты: make test пройдены локально
    └─ Определить версию: v1.0.0 (major.minor.patch)
-   └─ Закрыть milestone (если релиз привязан к milestone)
+   └─ Закрыть milestone
 
 3. СОЗДАНИЕ RELEASE В GITHUB
    └─ gh release create v1.0.0 --generate-notes
@@ -142,24 +142,18 @@ index: .github/.instructions/releases/README.md
 | **Main стабильна** | `git checkout main && git pull origin main` | Локальная main синхронизирована |
 | **Тесты проходят** | `make test` | Все тесты ✅ |
 | **Pre-commit hooks** | `make setup` (если не установлены) | Hooks установлены |
-
-**Опциональные проверки:**
-
-| Проверка | Команда | Когда |
-|----------|---------|-------|
-| **Milestone закрыт** | `gh api repos/{owner}/{repo}/milestones` | Если релиз привязан к milestone (поле `milestone` заполнено) |
-| **Все Issues milestone закрыты** | `gh issue list --milestone "v1.0"` | Если релиз привязан к milestone |
-
-> **Примечание:** Опциональные проверки выполняются ТОЛЬКО ЕСЛИ релиз явно привязан к milestone. Если milestone не используется — проверки пропускаются.
+| **Milestone закрыт** | `gh api repos/{owner}/{repo}/milestones/{number}` | `state: closed` |
+| **Все Issues milestone закрыты** | `gh issue list --milestone "v1.0" --state open` | Список пустой |
 
 **Порядок проверок (СТРОГО последовательно):**
 1. Синхронизация main (`git checkout main && git pull`) — предусловие для всех проверок
 2. Проверка критичных PR
 3. Запуск тестов (ПОСЛЕ синхронизации main)
+4. Проверка и закрытие Milestone
 
 ### Определение версии
 
-**SSOT:** [standard-release.md § 3](./standard-release.md#3-версионирование-semver)
+**SSOT:** [standard-milestone.md § 4](../milestones/standard-milestone.md#4-версионирование-semver)
 
 Версия определяется по правилам SemVer:
 - **MAJOR** — breaking changes
@@ -168,21 +162,48 @@ index: .github/.instructions/releases/README.md
 
 Детали и pre-release версии — см. SSOT.
 
-### Закрытие milestone
+### Закрытие Milestone
 
-**Если релиз привязан к milestone:**
+**Полная проверка перед созданием Release:**
 
 ```bash
-# Проверить Issues milestone
-gh issue list --milestone "v1.0" --state open
+OWNER="owner"
+REPO="repo"
+VERSION="v1.0.0"
 
-# Если все Issues закрыты → закрыть milestone
-gh api repos/{owner}/{repo}/milestones/1 -X PATCH -f state="closed"
+# 1. Проверить существование Milestone
+MILESTONE_NUMBER=$(gh api repos/$OWNER/$REPO/milestones -q ".[] | select(.title == \"$VERSION\") | .number")
+
+if [ -z "$MILESTONE_NUMBER" ]; then
+  echo "ERROR: Milestone $VERSION не найден"
+  exit 1
+fi
+
+# 2. Проверить открытые Issues
+OPEN_ISSUES=$(gh api repos/$OWNER/$REPO/milestones/$MILESTONE_NUMBER -q '.open_issues')
+
+if [ "$OPEN_ISSUES" -gt 0 ]; then
+  echo "ERROR: В Milestone есть $OPEN_ISSUES открытых Issues"
+  echo "Действия: перенести в следующий Milestone или закрыть"
+  gh issue list --milestone "$VERSION" --state open
+  exit 1
+fi
+
+# 3. Закрыть Milestone
+gh api repos/$OWNER/$REPO/milestones/$MILESTONE_NUMBER -X PATCH -f state="closed"
+
+# 4. Проверить статус
+MILESTONE_STATE=$(gh api repos/$OWNER/$REPO/milestones/$MILESTONE_NUMBER -q '.state')
+
+if [ "$MILESTONE_STATE" != "closed" ]; then
+  echo "ERROR: Milestone не удалось закрыть"
+  exit 1
+fi
+
+echo "Milestone $VERSION закрыт. Готов к созданию Release."
 ```
 
-**Если Issues остались открыты:**
-- Перенести Issues в следующий milestone ИЛИ
-- Удалить привязку к milestone (если задачи не критичны для релиза)
+**Что делать с незавершёнными Issues:** см. [standard-milestone.md § 8](../milestones/standard-milestone.md#8-закрытие-milestone)
 
 ---
 
@@ -215,8 +236,40 @@ gh release create v1.0.0 \
 |---------|--------|--------|
 | **Tag** | `v{MAJOR}.{MINOR}.{PATCH}` | `v1.0.0` |
 | **Title** | `Release {tag}` | `Release v1.0.0` |
-| **Notes** | Auto-generated ИЛИ вручную | Changelog из PR |
+| **Notes** | Auto-generated + ссылка на Milestone | Changelog из PR |
 | **Target** | `main` (всегда) | `main` |
+
+### Ссылка на Milestone в Release Notes
+
+**Правило:** В Release Notes ОБЯЗАТЕЛЬНА ссылка на Milestone.
+
+**Получить URL Milestone:**
+
+```bash
+MILESTONE_URL=$(gh api repos/$OWNER/$REPO/milestones/$MILESTONE_NUMBER -q '.html_url')
+```
+
+**Шаблон Release Notes:**
+
+```markdown
+## Milestone
+
+Этот релиз основан на [Milestone v1.0.0](https://github.com/{owner}/{repo}/milestone/{number}).
+
+**Прогресс:** 15/15 Issues завершено (100%)
+
+## What's Changed
+
+- Add OAuth2 (#123)
+- Update API to v2 (#124)
+- Fix file upload (#125)
+
+## Breaking changes
+
+*Нет*
+
+**Full Changelog**: https://github.com/{owner}/{repo}/compare/v0.9.0...v1.0.0
+```
 
 ### Опциональные элементы
 
@@ -537,14 +590,14 @@ Release:                        Release → production
 - Создать релиз как обычно
 - Draft PR попадёт в следующий релиз (после merge)
 
-### Релиз без milestone
+### Hotfix без предварительного Milestone
 
-**Сценарий:** Релиз создаётся, но не привязан к milestone.
+**Сценарий:** Критический баг в production — нужен срочный hotfix-релиз.
 
 **Решение:**
-- Релиз создаётся как обычно
-- Changelog генерируется из всех PR с момента последнего релиза
-- Milestones опциональны (не обязательны для релизов)
+- Создать Milestone `vX.Y.Z` (hotfix-версия) с одним Issue
+- Закрыть Issue и Milestone
+- Создать Release по стандартному процессу (§ 3–4)
 
 ### Множественные релизы в день
 

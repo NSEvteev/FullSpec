@@ -44,7 +44,7 @@ index: .github/.instructions/releases/README.md
 
 **Оглавление:**
 - [Когда релизить](./standard-release.md#когда-релизить)
-- [Версионирование](./standard-release.md#версионирование)
+- [Версионирование](../milestones/standard-milestone.md#4-версионирование-semver)
 - [Changelog](./standard-release.md#changelog)
 - [Environments](./standard-release.md#environments)
 - [Deploy](./standard-release.md#deploy)

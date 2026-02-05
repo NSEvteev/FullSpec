@@ -42,7 +42,7 @@ index: .github/.instructions/README.md
 | 6. PR Template | [standard-pr-template.md](./pull-requests/pr-template/standard-pr-template.md) | Шаблон body PR (.github/PULL_REQUEST_TEMPLATE.md) |
 | 7-8. Review & Merge | [standard-review.md](./review/standard-review.md) | Code Review, Merge стратегии, Branch Protection, блокирующие условия |
 | 9. Sync | [standard-sync.md](./sync/standard-sync.md) | Триггеры синхронизации, процесс (main и feature-ветки), разрешение конфликтов, запреты |
-| 10. Releases | [standard-release.md](./releases/standard-release.md) | Версионирование (SemVer), Git-теги, Changelog, Release как объект |
+| 10. Releases | [standard-release.md](./releases/standard-release.md) | Git-теги, Changelog, Release как объект |
 | 10. Release Workflow | [standard-release-workflow.md](./releases/standard-release-workflow.md) | Процесс релиза: подготовка → публикация → hotfix → rollback |
 
 **Независимые объекты:**
@@ -50,7 +50,7 @@ index: .github/.instructions/README.md
 | Объект | Документ | Зона ответственности |
 |--------|----------|---------------------|
 | Labels | [standard-labels.md](./labels/standard-labels.md) | Naming convention, правила применения, добавление/удаление меток |
-| Milestones | [standard-milestone.md](./milestones/standard-milestone.md) | Типы milestone, жизненный цикл, связь с Issues/Releases |
+| Milestones | [standard-milestone.md](./milestones/standard-milestone.md) | Версионирование (SemVer), жизненный цикл, связь с Issues/Releases |
 | CODEOWNERS | [standard-codeowners.md](./codeowners/standard-codeowners.md) | Синтаксис CODEOWNERS, автоназначение ревьюеров |
 | Projects | [standard-project.md](./projects/standard-project.md) | Канбан-доски, views, fields, автоматизация |
 
@@ -59,6 +59,7 @@ index: .github/.instructions/README.md
 | Объект | Документ | Зона ответственности |
 |--------|----------|---------------------|
 | Workflow Files | [standard-workflow-file.md](./workflows-files/standard-workflow-file.md) | Структура YAML, триггеры, jobs/steps, secrets, best practices |
+| Security | [standard-security.md](./actions/security/standard-security.md) | Dependabot, CodeQL, Secret Scanning, SECURITY.md |
 
 ## Оглавление
 
@@ -178,7 +179,7 @@ index: .github/.instructions/README.md
    └─ → standard-pr-template.md
 
 5. MILESTONES
-   └─ Создать первый Milestone (Sprint или Release)
+   └─ Создать первый Milestone (vX.Y.Z)
    └─ → standard-milestone.md
 
 6. GITHUB PROJECTS (опционально)
@@ -189,7 +190,11 @@ index: .github/.instructions/README.md
    └─ Настроить CI workflow (.github/workflows/ci.yml)
    └─ → standard-workflow-file.md
 
-8. PRE-COMMIT HOOKS
+8. SECURITY
+   └─ Настроить Dependabot, CodeQL, Secret Scanning, SECURITY.md
+   └─ → standard-security.md
+
+9. PRE-COMMIT HOOKS
    └─ make setup (обязательно после клонирования)
    └─ → initialization.md
 ```
@@ -220,6 +225,8 @@ Issues созданы → переход к группировке.
 **SSOT:** [standard-pull-request.md § 6](./pull-requests/standard-pull-request.md#6-связь-с-issues), [standard-milestone.md](./milestones/standard-milestone.md)
 
 Issues группируются по фиче/области. Одна группа = одна ветка = один PR. Группа назначается в Milestone.
+
+> **Milestones = релизные версии (vX.Y.Z), не спринты.** При разработке с LLM каждый Milestone → GitHub Release. Работа ведётся до достижения результата, а не до окончания временного окна. Подробнее — [standard-milestone.md § 1](./milestones/standard-milestone.md#1-назначение).
 
 > **Критерии группировки, связь с PR:** см. SSOT
 

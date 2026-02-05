@@ -7,9 +7,9 @@ index: .github/.instructions/milestones/README.md
 
 # Стандарт управления GitHub Milestones
 
-Версия стандарта: 1.0
+Версия стандарта: 1.1
 
-Правила жизненного цикла, создания и управления вехами (Milestones) для организации работы по спринтам и релизам.
+Правила жизненного цикла, создания и управления вехами (Milestones) для организации работы по релизам.
 
 **Полезные ссылки:**
 - [Инструкции Milestones](./README.md)
@@ -21,52 +21,53 @@ index: .github/.instructions/milestones/README.md
 | Тип | Документ |
 |-----|----------|
 | Стандарт | Этот документ |
-| Валидация | *Будет создан* |
-| Создание | *Будет создан* |
-| Модификация | *Будет создан* |
+| Валидация | [validation-milestone.md](./validation-milestone.md) |
+| Создание | [create-milestone.md](./create-milestone.md) |
+| Модификация | [modify-milestone.md](./modify-milestone.md) |
 
 ## Оглавление
 
 - [1. Назначение](#1-назначение)
 - [2. Свойства Milestone](#2-свойства-milestone)
-- [3. Типы Milestones](#3-типы-milestones)
-- [4. Жизненный цикл](#4-жизненный-цикл)
-- [5. Правила именования](#5-правила-именования)
-  - [Sprint Milestones](#sprint-milestones)
-  - [Release Milestones](#release-milestones)
-  - [Roadmap Milestones](#roadmap-milestones)
-- [6. Правила создания](#6-правила-создания)
+- [3. Жизненный цикл](#3-жизненный-цикл)
+- [4. Версионирование (SemVer)](#4-версионирование-semver)
+  - [Правила инкремента версий](#правила-инкремента-версий)
+  - [Автоматическое определение версии](#автоматическое-определение-версии)
+  - [Pre-release версии](#pre-release-версии)
+  - [Специальные случаи](#специальные-случаи)
+- [5. Правила создания](#5-правила-создания)
   - [Title](#title)
   - [Description](#description)
   - [Due Date](#due-date)
-- [7. Связь с Issues](#7-связь-с-issues)
-- [8. Связь с Releases](#8-связь-с-releases)
-- [9. Закрытие Milestone](#9-закрытие-milestone)
-- [10. CLI команды](#10-cli-команды)
-- [11. Метрики и отчётность](#11-метрики-и-отчётность)
+- [6. Связь с Issues](#6-связь-с-issues)
+- [7. Связь с Releases](#7-связь-с-releases)
+- [8. Закрытие Milestone](#8-закрытие-milestone)
+- [9. CLI команды](#9-cli-команды)
+- [10. Метрики и отчётность](#10-метрики-и-отчётность)
 
 ---
 
 ## 1. Назначение
 
-GitHub Milestones — система группировки задач (Issues) по целям, спринтам или релизам.
+GitHub Milestones — система группировки задач (Issues) по целям и релизам.
+
+> **Почему без спринтов?** При разработке с LLM ключевую роль играют целевые точки (milestones) — конкретные версии и цели, а не временные итерации. Работа ведётся до достижения результата, а не до окончания двухнедельного окна. Спринты допустимы, но этот стандарт их не предполагает.
+
+> **Почему без Roadmap Milestones?** При автоматизации с LLM каждый Milestone напрямую связан с версией продукта и GitHub Release. Закрытие Milestone → автоматическая сборка Release с участием LLM. Roadmap-цели (MVP, Public Beta) управляются через GitHub Projects или Issues с labels, а не через Milestones. Roadmap Milestones допустимы, но этот стандарт их не предполагает.
 
 **Применяется к:**
-- Спринты (итерации разработки)
 - Релизы (версии продукта)
-- Долгосрочные цели (roadmap)
 
 **Цель:**
-- Организация работы по временным отрезкам
-- Группировка Issues по общей цели
+- Группировка Issues по целевой версии
 - Визуализация прогресса (% выполнения)
-- Связь задач с релизами
+- Связь задач с релизами через автоматическую сборку Release
 
 **Принципы:**
-- Каждый Milestone имеет чёткую цель и срок
+- Каждый Milestone = одна версия продукта (vX.Y.Z)
 - Issue может принадлежать ТОЛЬКО одному Milestone
 - Milestone закрывается только когда все Issues завершены
-- Milestone связывается с Release при создании версии
+- Закрытие Milestone → создание GitHub Release
 
 ---
 
@@ -77,7 +78,7 @@ GitHub Milestones — система группировки задач (Issues) 
 | Свойство | Тип | Обязательно | Описание | Как установить |
 |----------|-----|-------------|----------|----------------|
 | `number` | int | авто | Уникальный номер (генерируется автоматически) | — |
-| `title` | string | да | Название (спринт/релиз/цель) | `--title` |
+| `title` | string | да | Название (релиз/цель) | `--title` |
 | `description` | markdown | да | Описание цели, критерии готовности | `--description` |
 | `state` | enum | авто | `open` / `closed` | `gh api` |
 | `due_on` | datetime | да | Дедлайн (срок завершения) | `--due-date` |
@@ -97,11 +98,11 @@ GitHub Milestones — система группировки задач (Issues) 
 
 ```json
 {
-  "number": 5,
-  "title": "Sprint 2025-W05",
+  "number": 3,
+  "title": "v1.0.0",
   "state": "open",
-  "description": "Фокус: авторизация и API v2\n\n## Цели\n- [ ] Реализовать OAuth2\n- [ ] Обновить API до v2\n",
-  "due_on": "2025-02-09T23:59:59Z",
+  "description": "Первый стабильный релиз\n\n## Критерии готовности\n- [ ] MVP реализован\n- [ ] Тесты >80%\n",
+  "due_on": "2025-03-15T23:59:59Z",
   "open_issues": 7,
   "closed_issues": 3,
   "progress": 30
@@ -110,35 +111,7 @@ GitHub Milestones — система группировки задач (Issues) 
 
 ---
 
-## 3. Типы Milestones
-
-| Тип | Цель | Срок | Примеры |
-|-----|------|------|---------|
-| **Sprint** | Итерация разработки | 1-2 недели | `Sprint 2025-W05`, `Sprint 12` |
-| **Release** | Релиз версии продукта | Зависит от roadmap | `v1.0.0`, `v2.0 Beta`, `Q1 2025 Release` |
-| **Roadmap** | Долгосрочная цель | 1-3 месяца | `MVP`, `Public Beta`, `Q2 Refactoring` |
-
-**Как определить тип:**
-
-1. **Sprint** — если:
-   - Фокус на итеративной разработке
-   - Четкий временной интервал (1-2 недели)
-   - Группировка задач для команды
-   - **Naming:** `Sprint YYYY-WXX` (год-неделя) или `Sprint {N}`
-
-2. **Release** — если:
-   - Milestone связан с версией продукта
-   - Завершение milestone → создание GitHub Release
-   - **Naming:** следует [SemVer](https://semver.org/) — `vX.Y.Z`
-
-3. **Roadmap** — если:
-   - Долгосрочная цель (> 1 месяца)
-   - Группировка фич для крупного этапа
-   - **Naming:** описательное имя — `MVP`, `Public Beta`, `Q2 2025`
-
----
-
-## 4. Жизненный цикл
+## 3. Жизненный цикл
 
 ```
 ┌─────────────┐
@@ -174,11 +147,11 @@ GitHub Milestones — система группировки задач (Issues) 
 │  ЗАКРЫТ     │  state: closed
 └─────────────┘
        │
-       ├─ (Опционально) Создание Release: gh release create v1.0.0
+       ├─ Создание Release: gh release create v1.0.0
        │
        v
 ┌─────────────┐
-│  RELEASE    │  Связан с GitHub Release
+│  RELEASE    │  GitHub Release создан
 └─────────────┘
 ```
 
@@ -189,7 +162,7 @@ GitHub Milestones — система группировки задач (Issues) 
 3. **В РАБОТЕ** — Issues закрываются по мере выполнения
 4. **ЗАВЕРШЁН** — Все Issues закрыты (100%)
 5. **ЗАКРЫТ** — Milestone закрывается через API
-6. **RELEASE** — (Опционально) Создаётся GitHub Release с тегом
+6. **RELEASE** — Создаётся GitHub Release с тегом
 
 **Переходы:**
 
@@ -198,77 +171,151 @@ GitHub Milestones — система группировки задач (Issues) 
 
 ---
 
-## 5. Правила именования
+## 4. Версионирование (SemVer)
 
-### Sprint Milestones
+Milestone следует [Semantic Versioning 2.0.0](https://semver.org/). Версия определяется при создании Milestone и наследуется GitHub Release.
 
-**Формат 1 (рекомендуется):** `Sprint YYYY-WXX`
-
-| Элемент | Правило | Пример |
-|---------|---------|--------|
-| `YYYY` | Год (4 цифры) | `2025` |
-| `-W` | Разделитель "Week" | `-W` |
-| `XX` | Номер недели по ISO 8601 (01-53) | `05` (5-я неделя 2025 года) |
-
-**Примеры:**
-- `Sprint 2025-W05` — 5-я неделя 2025 года
-- `Sprint 2025-W23` — 23-я неделя 2025 года
-
-**Формат 2 (альтернатива):** `Sprint {N}`
+**Формат:** `vMAJOR.MINOR.PATCH[-PRERELEASE][+BUILD]`
 
 | Элемент | Правило | Пример |
 |---------|---------|--------|
-| `Sprint` | Префикс | `Sprint` |
-| `{N}` | Порядковый номер (с начала проекта) | `12` |
-
-**Примеры:**
-- `Sprint 12`
-- `Sprint 45`
-
-**Когда использовать:**
-- Формат 1 — если спринты привязаны к календарным неделям
-- Формат 2 — если спринты идут последовательно с начала проекта
-
-### Release Milestones
-
-**SSOT:** [standard-release.md § 3](../releases/standard-release.md#3-версионирование-semver)
-
-**Формат:** `vX.Y.Z` — следует SemVer
-
-Правила версионирования (MAJOR/MINOR/PATCH, pre-release) — см. SSOT.
+| `v` | Префикс (ОБЯЗАТЕЛЬНО) | `v` |
+| `MAJOR` | Версия с breaking changes | `1` |
+| `MINOR` | Версия с новой функциональностью (обратно совместимо) | `2` |
+| `PATCH` | Версия с исправлениями (обратно совместимо) | `3` |
+| `PRERELEASE` | Опциональный суффикс для pre-release | `-alpha`, `-beta.1`, `-rc.2` |
+| `BUILD` | Опциональный build metadata | `+20250315` |
 
 **Примеры:**
 - `v1.0.0` — первый стабильный релиз
-- `v2.0.0-beta` — бета-версия
-- `v1.5.0-rc.2` — release candidate
+- `v1.1.0` — добавлена новая функциональность
+- `v1.1.1` — исправлен баг
+- `v2.0.0` — breaking changes (несовместимо с v1.x.x)
+- `v1.0.0-alpha` — alpha-версия перед v1.0.0
+- `v1.0.0-beta.2` — вторая beta-версия
+- `v1.0.0-rc.1` — первый release candidate
 
-### Roadmap Milestones
+### Правила инкремента версий
 
-**Формат:** Описательное имя
+**MAJOR (X.0.0):** Увеличивается при breaking changes.
 
-| Тип | Примеры |
-|-----|---------|
-| Этап проекта | `MVP`, `Public Beta`, `Production Ready` |
-| Квартальные цели | `Q1 2025`, `Q2 Backend Refactoring` |
-| Функциональные вехи | `Auth System`, `API v2`, `Mobile Support` |
+**Breaking changes — изменения, которые:**
+- Нарушают обратную совместимость API (изменился формат запроса/ответа)
+- Требуют изменений от пользователей/клиентов API
+- Удаляют публичные методы/эндпоинты
+- Меняют поведение существующих методов несовместимым образом
+
+**Примеры:**
+- Удаление эндпоинта `DELETE /api/v1/users`
+- Изменение формата ответа `{ "user": {} }` → `{ "data": {} }`
+- Переименование обязательного поля в запросе
+
+**MINOR (x.Y.0):** Увеличивается при добавлении новой функциональности (обратно совместимо).
+
+**Новая функциональность — изменения, которые:**
+- Добавляют новые эндпоинты/методы
+- Добавляют опциональные параметры
+- Добавляют новые поля в ответ (не удаляя старые)
+- Улучшают существующую функциональность без нарушения совместимости
+
+**Примеры:**
+- Добавление эндпоинта `POST /api/v1/auth/refresh`
+- Добавление опционального параметра `?page_size=20`
+- Добавление поля `created_at` в ответ (старые поля остаются)
+
+**PATCH (x.y.Z):** Увеличивается при исправлении багов (обратно совместимо).
+
+**Багфиксы — изменения, которые:**
+- Исправляют некорректное поведение
+- Не добавляют новой функциональности
+- Не меняют публичный API
+
+**Примеры:**
+- Исправление ошибки 500 при загрузке файлов
+- Исправление опечатки в тексте ошибки
+- Исправление утечки памяти
+
+**Когда сбрасывать младшие версии:**
+- При инкременте MAJOR — MINOR и PATCH сбрасываются в 0: `v1.5.3` → `v2.0.0`
+- При инкременте MINOR — PATCH сбрасывается в 0: `v1.5.3` → `v1.6.0`
+
+### Автоматическое определение версии
+
+Версия может быть определена автоматически по conventional commits в составе Milestone:
+
+| Commit prefix | Инкремент | Пример |
+|---------------|-----------|--------|
+| `feat:` | MINOR | `feat: добавить OAuth2` |
+| `fix:` | PATCH | `fix: исправить утечку памяти` |
+| `BREAKING CHANGE:` в footer | MAJOR | Любой коммит с `BREAKING CHANGE:` в теле |
+| `feat!:` / `fix!:` | MAJOR | `feat!: изменить формат API ответа` |
+
+**Правило:** Итоговая версия определяется по НАИБОЛЬШЕМУ инкременту среди всех коммитов Milestone. Если есть хотя бы один `BREAKING CHANGE` — MAJOR, иначе если есть `feat:` — MINOR, иначе PATCH.
+
+### Pre-release версии
+
+**Формат:** `vX.Y.Z-{identifier}.{number}`
+
+| Тип | Формат | Когда использовать | Пример |
+|-----|--------|-------------------|--------|
+| **alpha** | `vX.Y.Z-alpha` или `vX.Y.Z-alpha.N` | Ранняя версия для внутреннего тестирования | `v1.0.0-alpha`, `v1.0.0-alpha.1` |
+| **beta** | `vX.Y.Z-beta` или `vX.Y.Z-beta.N` | Версия для публичного тестирования | `v1.0.0-beta`, `v1.0.0-beta.2` |
+| **rc** | `vX.Y.Z-rc.N` | Release Candidate (финальное тестирование перед релизом) | `v1.0.0-rc.1` |
 
 **Правила:**
-- Без префиксов `v` (отличие от Release)
-- CamelCase или Title Case
-- Краткость: до 50 символов
+- Pre-release идёт ПЕРЕД стабильным релизом: `v1.0.0-alpha` → `v1.0.0-beta` → `v1.0.0-rc.1` → `v1.0.0`
+- Нумерация начинается с 1: `v1.0.0-alpha.1`, `v1.0.0-beta.1`
+- Pre-release помечается флагом `--prerelease` при создании Release
+
+**Сортировка версий (по возрастанию):**
+```
+v1.0.0-alpha
+v1.0.0-alpha.1
+v1.0.0-beta
+v1.0.0-beta.1
+v1.0.0-rc.1
+v1.0.0
+v1.0.1
+v1.1.0
+v2.0.0
+```
+
+### Специальные случаи
+
+**Версия 0.x.x (начальная разработка):**
+- До первого стабильного релиза используются версии `v0.x.x`
+- Версия `v0.x.x` НЕ гарантирует обратную совместимость
+- Первый стабильный релиз — `v1.0.0`
+
+**Примеры:**
+- `v0.1.0` — первая рабочая версия (MVP)
+- `v0.2.0` — добавлена авторизация
+- `v0.2.1` — исправлен баг в авторизации
+- `v1.0.0` — первый стабильный релиз
+
+**Build metadata (+):**
+- Опционален для GitHub Releases. НЕ используется в стандартной практике проекта.
+- Примеры применения (если потребуется в будущем): `v1.0.0+20250315`, `v1.0.0+sha.abc123`
+- По умолчанию: тег Release содержит ТОЛЬКО `vX.Y.Z` без build metadata.
+
+**Примеры:**
+- `v1.0.0+20250315` — build от 15 марта 2025
+- `v1.0.0+sha.abc123` — build с коммитом abc123
+
+**Важно:** Build metadata НЕ используется для определения старшинства версий. `v1.0.0+build1` == `v1.0.0+build2`.
 
 ---
 
-## 6. Правила создания
+## 5. Правила создания
 
 ### Title
 
-**Формат:** см. [§ 5. Правила именования](#5-правила-именования)
+**Формат:** см. [§ 4. Версионирование (SemVer)](#4-версионирование-semver)
 
 **Правила:**
 - Уникальное в рамках репозитория
 - Краткое (до 50 символов)
-- Следует naming convention по типу Milestone
+- Следует SemVer naming convention
 
 ### Description
 
@@ -289,27 +336,7 @@ GitHub Milestones — система группировки задач (Issues) 
 {Основные направления работы (опционально)}
 ```
 
-**Для Sprint Milestones:**
-
-```markdown
-## Цель
-
-Реализовать базовую авторизацию и обновить API до v2.
-
-## Критерии готовности
-
-- [ ] OAuth2 интеграция завершена
-- [ ] API v2 endpoints задокументированы
-- [ ] Тесты покрывают новую функциональность
-
-## Фокус
-
-- Backend: авторизация
-- API: миграция на v2
-- Docs: обновление документации
-```
-
-**Для Release Milestones:**
+**Пример:**
 
 ```markdown
 ## Цель
@@ -328,44 +355,25 @@ GitHub Milestones — система группировки задач (Issues) 
 См. связанный [Release v1.0.0](../releases/v1.0.0.md)
 ```
 
-**Для Roadmap Milestones:**
-
-```markdown
-## Цель
-
-Достичь готовности MVP продукта для внутреннего тестирования.
-
-## Критерии готовности
-
-- [ ] Базовая авторизация
-- [ ] CRUD операции для основных сущностей
-- [ ] Интеграция с payment gateway
-- [ ] Базовый UI (без дизайн-системы)
-
-## Целевая дата
-
-Конец Q1 2025
-```
-
 ### Due Date
 
 **Формат:** ISO 8601 — `YYYY-MM-DDTHH:MM:SSZ`
 
 **Правила:**
 
-| Тип | Срок | Пример |
-|-----|------|--------|
-| **Sprint** | Окончание спринта (обычно пятница) | `2025-02-09T23:59:59Z` |
-| **Release** | Планируемая дата релиза | `2025-03-15T12:00:00Z` |
-| **Roadmap** | Конец периода (квартал, месяц) | `2025-03-31T23:59:59Z` |
+| Срок | Пример |
+|------|--------|
+| Планируемая дата релиза | `2025-03-15T23:59:59Z` |
+
+> **Почему `23:59:59Z`?** Время `23:59:59` означает "конец дня" — весь указанный день включён в срок. GitHub UI отображает только дату, время используется для сортировки и API-фильтрации. Альтернатива: `00:00:00` следующего дня (эквивалентно по смыслу).
 
 **Установка при создании:**
 
 ```bash
 # Через gh api
 gh api POST /repos/{owner}/{repo}/milestones \
-  -f title="Sprint 2025-W05" \
-  -f due_on="2025-02-09T23:59:59Z" \
+  -f title="v1.0.0" \
+  -f due_on="2025-03-15T23:59:59Z" \
   -f description="..."
 ```
 
@@ -374,138 +382,33 @@ gh api POST /repos/{owner}/{repo}/milestones \
 ```bash
 # Через gh api
 gh api PATCH /repos/{owner}/{repo}/milestones/{number} \
-  -f due_on="2025-02-16T23:59:59Z"
+  -f due_on="2025-04-01T23:59:59Z"
 ```
 
 ---
 
-## 7. Связь с Issues
+## 6. Связь с Issues
 
-### Добавление Issue в Milestone
+**SSOT:** [standard-issue.md § 10](../issues/standard-issue.md#10-связь-с-milestones)
 
-**При создании Issue:**
-
-1. Проверить существование Milestone:
-   ```bash
-   gh api repos/{owner}/{repo}/milestones -q '.[] | select(.title == "Sprint 2025-W05") | .number'
-   # Если пусто → Milestone не существует, создать или выбрать другой
-   ```
-2. Создать Issue с Milestone:
-   ```bash
-   gh issue create \
-     --title "Добавить OAuth2" \
-     --body "..." \
-     --label type:feature \
-     --label priority:high \
-     --milestone "Sprint 2025-W05"
-   ```
-
-**Для существующего Issue:**
-
-```bash
-gh issue edit 123 --milestone "Sprint 2025-W05"
-```
-
-**Удаление Issue из Milestone:**
-
-```bash
-gh issue edit 123 --milestone ""
-```
-
-### Правила группировки Issues
-
-**Принцип:**
-- Issue принадлежит Milestone, если он запланирован на выполнение в рамках этого Milestone
-- Один Issue — один Milestone (нельзя добавить в несколько Milestones)
-
-**Рекомендации:**
-
-| Тип Milestone | Критерий добавления Issue |
-|---------------|---------------------------|
-| **Sprint** | Issue запланирован на эту итерацию (1-2 недели) |
-| **Release** | Issue ДОЛЖЕН быть завершён для релиза этой версии |
-| **Roadmap** | Issue относится к долгосрочной цели |
-
-**Ограничения:**
-- Не перегружать Sprint Milestone (макс. 15-20 Issues)
-- Если Issues > 20 → разбить на подзадачи или перенести в следующий Sprint
-
-### Просмотр Issues в Milestone
-
-```bash
-# Список Issues
-gh issue list --milestone "Sprint 2025-W05"
-
-# Открытые Issues
-gh issue list --milestone "Sprint 2025-W05" --state open
-
-# Закрытые Issues
-gh issue list --milestone "Sprint 2025-W05" --state closed
-```
+Добавление, удаление и группировка Issues в Milestone — см. SSOT.
 
 ---
 
-## 8. Связь с Releases
+## 7. Связь с Releases
 
-**Правило:** Release Milestone должен быть связан с GitHub Release.
+**SSOT:** [standard-release-workflow.md § 3–4](../releases/standard-release-workflow.md#3-подготовка-релиза)
 
-### Процесс создания Release из Milestone
+Последовательность: создать Milestone → добавить Issues → закрыть Milestone → создать Release. Процесс, проверки и шаблон Release Notes — см. SSOT.
 
-1. **Milestone создан:** `v1.0.0`
-2. **Issues завершены:** Все Issues в Milestone закрыты
-3. **Milestone закрыт:**
-   ```bash
-   gh api PATCH /repos/{owner}/{repo}/milestones/{number} -f state=closed
-   ```
-4. **Release создан:**
-   ```bash
-   gh release create v1.0.0 \
-     --title "Release v1.0.0" \
-     --notes "См. Milestone: [v1.0.0](https://github.com/{owner}/{repo}/milestone/{number})"
-   ```
-
-### Структура Release Notes с ссылкой на Milestone
-
-```markdown
-# Release v1.0.0
-
-## Milestone
-
-Этот релиз основан на [Milestone v1.0.0](https://github.com/{owner}/{repo}/milestone/5).
-
-**Прогресс:** 15/15 Issues завершено (100%)
-
-## Изменения
-
-- Добавлена авторизация через OAuth2 (#123)
-- API обновлён до v2 (#124)
-- Исправлена ошибка загрузки файлов (#125)
-
-## Критические изменения
-
-*Нет*
-
-## Обновление
-
-См. [CHANGELOG.md](./CHANGELOG.md)
-```
-
-### Правила
-
-- Release Milestone ДОЛЖЕН быть закрыт ПЕРЕД созданием Release. **Проверка:**
-  ```bash
-  STATE=$(gh api repos/{owner}/{repo}/milestones/{number} -q '.state')
-  if [ "$STATE" != "closed" ]; then
-    echo "ERROR: Milestone должен быть закрыт перед созданием Release"
-    exit 1
-  fi
-  ```
+**Правила:**
+- Каждый Milestone ДОЛЖЕН завершиться GitHub Release
+- Milestone ДОЛЖЕН быть закрыт ПЕРЕД созданием Release
 - В Release Notes ОБЯЗАТЕЛЬНА ссылка на Milestone
-- Milestone может НЕ иметь Release — это нормально для Sprint и Roadmap Milestones. Release создаётся ТОЛЬКО для типа "Release Milestone" (см. § 3).
 
 ---
 
-## 9. Закрытие Milestone
+## 8. Закрытие Milestone
 
 ### Критерии закрытия
 
@@ -559,46 +462,49 @@ gh api PATCH /repos/{owner}/{repo}/milestones/{number} \
      ```
    - Перенести Issue в выбранный Milestone:
      ```bash
-     gh issue edit 123 --milestone "Sprint 2025-W06"
+     gh issue edit 123 --milestone "v1.1.0"
      ```
 3. **Если критичные:**
    - НЕ закрывать Milestone
    - Продлить `due_on`:
      ```bash
      gh api PATCH /repos/{owner}/{repo}/milestones/{number} \
-       -f due_on="2025-02-16T23:59:59Z"
+       -f due_on="2025-04-01T23:59:59Z"
      ```
 
 **Правило:** НЕ закрывать Milestone с открытыми Issues без переноса их в другой Milestone.
 
+### Ретроспектива Milestone
+
+После закрытия Milestone — анализ запланированного vs выполненного:
+
+1. **Подсчёт:** сколько Issues было изначально vs сколько перенесено в другой Milestone
+2. **Порог:** если >30% Issues перенесено — пересмотреть подход к планированию:
+   - Scope следующего Milestone слишком большой?
+   - Оценки сложности задач были занижены?
+   - Были ли внешние блокеры?
+3. **Действие:** скорректировать scope следующего Milestone на основе фактической пропускной способности
+
 ---
 
-## 10. CLI команды
+## 9. CLI команды
 
 ### Создание Milestone
 
 **Через gh api:**
 
 ```bash
-# Базовое создание
 gh api POST /repos/{owner}/{repo}/milestones \
-  -f title="Sprint 2025-W05" \
-  -f description="## Цель\n\nРеализовать OAuth2\n\n## Критерии\n- [ ] OAuth2 готов" \
-  -f due_on="2025-02-09T23:59:59Z"
-
-# С переменными
-REPO="owner/repo"
-gh api POST /repos/$REPO/milestones \
   -f title="v1.0.0" \
-  -f description="Первый релиз" \
-  -f due_on="2025-03-15T12:00:00Z"
+  -f description="## Цель\n\nПервый стабильный релиз\n\n## Критерии\n- [ ] MVP готов" \
+  -f due_on="2025-03-15T23:59:59Z"
 ```
 
 **Проверка перед созданием:**
 
 ```bash
 # Проверить существование Milestone с таким же title
-EXISTING=$(gh api repos/{owner}/{repo}/milestones -q '.[] | select(.title == "Sprint 2025-W05") | .number')
+EXISTING=$(gh api repos/{owner}/{repo}/milestones -q '.[] | select(.title == "v1.0.0") | .number')
 if [ -n "$EXISTING" ]; then
   echo "ERROR: Milestone с таким title уже существует (number: $EXISTING)"
   exit 1
@@ -617,11 +523,11 @@ fi
 
 ```json
 {
-  "number": 5,
-  "title": "Sprint 2025-W05",
+  "number": 3,
+  "title": "v1.0.0",
   "state": "open",
-  "due_on": "2025-02-09T23:59:59Z",
-  "html_url": "https://github.com/owner/repo/milestone/5"
+  "due_on": "2025-03-15T23:59:59Z",
+  "html_url": "https://github.com/owner/repo/milestone/3"
 }
 ```
 
@@ -649,7 +555,7 @@ gh api repos/{owner}/{repo}/milestones/{number}
 ```bash
 # Изменить title
 gh api PATCH /repos/{owner}/{repo}/milestones/{number} \
-  -f title="Sprint 2025-W06"
+  -f title="v1.1.0"
 
 # Изменить description
 gh api PATCH /repos/{owner}/{repo}/milestones/{number} \
@@ -657,7 +563,7 @@ gh api PATCH /repos/{owner}/{repo}/milestones/{number} \
 
 # Изменить due_date
 gh api PATCH /repos/{owner}/{repo}/milestones/{number} \
-  -f due_on="2025-02-16T23:59:59Z"
+  -f due_on="2025-04-01T23:59:59Z"
 
 # Закрыть Milestone
 gh api PATCH /repos/{owner}/{repo}/milestones/{number} \
@@ -699,7 +605,7 @@ gh api DELETE /repos/{owner}/{repo}/milestones/{number}
 
 ```bash
 # Через gh issue list
-gh issue list --milestone "Sprint 2025-W05"
+gh issue list --milestone "v1.0.0"
 
 # Через gh api
 gh api repos/{owner}/{repo}/milestones/{number} \
@@ -708,7 +614,7 @@ gh api repos/{owner}/{repo}/milestones/{number} \
 
 ---
 
-## 11. Метрики и отчётность
+## 10. Метрики и отчётность
 
 ### Прогресс Milestone
 
@@ -734,7 +640,7 @@ gh api repos/{owner}/{repo}/milestones/{number} \
 
 ```json
 {
-  "title": "Sprint 2025-W05",
+  "title": "v1.0.0",
   "progress": 60,
   "open": 4,
   "closed": 6
@@ -755,11 +661,11 @@ gh api repos/{owner}/{repo}/milestones -f state=open \
 **Пример отчёта:**
 
 ```markdown
-# Отчёт: Sprint 2025-W05
+# Отчёт: v1.0.0
 
-**Статус:** Завершён ✅
+**Статус:** Завершён
 **Прогресс:** 10/10 Issues (100%)
-**Due Date:** 2025-02-09
+**Due Date:** 2025-03-15
 
 ## Завершённые Issues
 
@@ -773,18 +679,15 @@ gh api repos/{owner}/{repo}/milestones -f state=open \
 
 ## Следующий Milestone
 
-[Sprint 2025-W06](https://github.com/owner/repo/milestone/6)
+[v1.1.0](https://github.com/owner/repo/milestone/4)
 ```
 
 **Генерация через скрипт:**
 
 ```bash
 # Будущий скрипт: .github/.instructions/.scripts/milestone-report.py
-python .github/.instructions/.scripts/milestone-report.py --milestone 5
+python .github/.instructions/.scripts/milestone-report.py --milestone 3
 ```
 
 ---
 
-## Скиллы
-
-*Нет скиллов.*

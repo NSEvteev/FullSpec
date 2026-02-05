@@ -55,12 +55,11 @@ index: .claude/README.md
 ├── README.md                           # Этот файл (индекс)
 ├── 2026-02-03-recommendations-standard-development-workflow.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-issue.md # TODO: добавить описание
-├── 2026-02-03-recommendations-standard-milestone.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-project.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-release-workflow.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-release.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-workflow-file.md # TODO: добавить описание
-├── 2026-02-05-github-instructions.md # GitHub-инструкции (объединённый)
+├── 2026-02-05-github-instructions.md   # GitHub-инструкции (объединённый)
 ├── 2026-02-05-holt-analysis-standard-branching.md # Семантический анализ standard-branching.md
 ├── 2026-02-05-holt-analysis-standard-commit.md # Семантический анализ standard-commit.md
 ├── 2026-02-05-holt-analysis-standard-development.md # Семантический анализ standard-development.md

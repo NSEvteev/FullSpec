@@ -1,0 +1,55 @@
+---
+name: milestone-modify
+description: Изменение, закрытие и удаление GitHub Milestone
+standard: .claude/.instructions/skills/standard-skill.md
+standard-version: v1.1
+allowed-tools: Read, Bash, Glob, Grep
+triggers:
+  commands:
+    - /milestone-modify
+  phrases:
+    ru:
+      - изменить milestone
+      - закрыть milestone
+      - удалить milestone
+    en:
+      - modify milestone
+      - close milestone
+---
+
+# Изменение Milestone
+
+**SSOT:** [modify-milestone.md](/.github/.instructions/milestones/modify-milestone.md)
+
+## Формат вызова
+
+```
+/milestone-modify [--number <N>] [--title <title>] [--close] [--delete]
+```
+
+| Параметр | Описание | Обязательный |
+|----------|----------|--------------|
+| `--number` | Номер Milestone | Нет |
+| `--title` | Title Milestone | Нет |
+| `--close` | Закрыть Milestone | Нет |
+| `--delete` | Удалить Milestone | Нет |
+
+## Воркфлоу
+
+> ⚠️ **Перед выполнением** прочитать [modify-milestone.md](/.github/.instructions/milestones/modify-milestone.md)
+
+> ⚠️ **Шаблон** — найти пример в SSOT (секция "Примеры"), скопировать структуру. Запрещено придумывать свой формат.
+
+→ Выполнить шаги из SSOT-инструкции.
+
+## Чек-лист
+
+→ См. [modify-milestone.md#чек-лист](/.github/.instructions/milestones/modify-milestone.md#чек-лист)
+
+## Примеры
+
+```
+/milestone-modify --title "v1.0.0" --close
+/milestone-modify --number 3
+/milestone-modify --title "v0.1.0" --delete
+```

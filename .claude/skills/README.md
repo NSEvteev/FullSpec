@@ -100,6 +100,26 @@ standard-version: v1.1
 | [agent-modify](./agent-modify/SKILL.md) | Изменение, деактивация и миграция | `/agent-modify`, "измени агента" |
 | [agent-validate](./agent-validate/SKILL.md) | Валидация конфигурации и промпта агента | `/agent-validate`, "проверь агента" |
 
+### github
+
+Работа с объектами GitHub (labels, milestones, issues, PR).
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [labels-validate](./labels-validate/SKILL.md) | Валидация labels.yml и меток на Issues/PR | `/labels-validate`, "проверь метки" |
+| [labels-modify](./labels-modify/SKILL.md) | Изменение меток GitHub | `/labels-modify`, "измени метки" |
+| [milestone-create](./milestone-create/SKILL.md) | Создание Milestone по стандарту | `/milestone-create`, "создай milestone" |
+| [milestone-modify](./milestone-modify/SKILL.md) | Изменение, закрытие и удаление Milestone | `/milestone-modify`, "закрой milestone" |
+| [milestone-validate](./milestone-validate/SKILL.md) | Валидация Milestone по стандарту | `/milestone-validate`, "проверь milestone" |
+
+### drafts
+
+Работа с черновиками.
+
+| Скилл | Описание | Триггеры |
+|-------|----------|----------|
+| [draft-validate](./draft-validate/SKILL.md) | Валидация черновика по стандарту | `/draft-validate`, "проверь черновик" |
+
 ### migration
 
 Миграция при обновлении стандартов.

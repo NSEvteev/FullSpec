@@ -21,9 +21,9 @@ index: .github/.instructions/issues/issue-templates/README.md
 | Тип | Документ |
 |-----|----------|
 | Стандарт | Этот документ |
-| Валидация | [validation-issue-template.md](./validation-issue-template.md) |
-| Создание | [create-issue-template.md](./create-issue-template.md) |
-| Модификация | [modify-issue-template.md](./modify-issue-template.md) |
+| Валидация | [validation-type-templates.md](./validation-type-templates.md) |
+| Создание | *Не требуется (кросс-валидация)* |
+| Модификация | *Не требуется (кросс-валидация)* |
 
 ## Оглавление
 
@@ -280,9 +280,7 @@ assignees:
 
 ```
 Стандарт YAML-шаблонов Issues - .github/.instructions/issues/issue-templates/standard-issue-template.md
-Валидация Issue template - .github/.instructions/issues/issue-templates/validation-issue-template.md
-Создание Issue template - .github/.instructions/issues/issue-templates/create-issue-template.md
-Модификация Issue template - .github/.instructions/issues/issue-templates/modify-issue-template.md
+Валидация Issue template - .github/.instructions/issues/issue-templates/validation-type-templates.md
 Стандарт меток - .github/.instructions/labels/standard-labels.md
 Справочник меток проекта - .github/labels.yml
 ```
@@ -658,7 +656,7 @@ python .github/.instructions/.scripts/validate-issue-template.py bug-report.yml
 ```
 
 **После создания шаблона — ОБЯЗАТЕЛЬНО выполнить валидацию:**
-См. [validation-issue-template.md](./validation-issue-template.md)
+См. [validation-type-templates.md](./validation-type-templates.md)
 
 ---
 

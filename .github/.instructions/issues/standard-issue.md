@@ -45,6 +45,7 @@ index: .github/.instructions/issues/README.md
 - [7. CLI команды](#7-cli-команды)
 - [8. Связь с шаблонами Issue](#8-связь-с-шаблонами-issue)
 - [9. Зависимости между Issues](#9-зависимости-между-issues)
+- [10. Связь с Milestones](#10-связь-с-milestones)
 
 ---
 
@@ -401,8 +402,7 @@ gh issue create --title "..." --body "..." --label type:task --label priority:me
 
 **Подробнее:**
 - Структура шаблонов — [standard-issue-template.md](./issue-templates/standard-issue-template.md)
-- Создание шаблонов — [create-issue-template.md](./issue-templates/create-issue-template.md)
-- Валидация шаблонов — [validation-issue-template.md](./issue-templates/validation-issue-template.md)
+- Валидация шаблонов — [validation-type-templates.md](./issue-templates/validation-type-templates.md)
 
 ---
 
@@ -427,3 +427,66 @@ gh issue view 124
 ```
 
 **Правило:** Не закрывать Issue если зависимые Issues ещё открыты.
+
+---
+
+## 10. Связь с Milestones
+
+Issue может быть добавлен в Milestone для группировки по целевой версии релиза.
+
+**SSOT (Milestones):** [standard-milestone.md](../milestones/standard-milestone.md)
+
+### Добавление Issue в Milestone
+
+**При создании Issue:**
+
+1. Проверить существование Milestone:
+   ```bash
+   gh api repos/{owner}/{repo}/milestones -q '.[] | select(.title == "v1.0.0") | .number'
+   # Если пусто → Milestone не существует, создать или выбрать другой
+   ```
+2. Создать Issue с Milestone:
+   ```bash
+   gh issue create \
+     --title "Добавить OAuth2" \
+     --body "..." \
+     --label type:feature \
+     --label priority:high \
+     --milestone "v1.0.0"
+   ```
+
+**Для существующего Issue:**
+
+```bash
+gh issue edit 123 --milestone "v1.0.0"
+```
+
+**Удаление Issue из Milestone:**
+
+```bash
+gh issue edit 123 --milestone ""
+```
+
+### Правила группировки Issues
+
+**Принцип:**
+- Issue принадлежит Milestone, если он запланирован на выполнение в рамках этого Milestone
+- Один Issue — один Milestone (нельзя добавить в несколько Milestones)
+- Issue ДОЛЖЕН быть завершён для релиза этой версии
+
+**Ограничения:**
+- Не перегружать Milestone (макс. 15-20 Issues)
+- Если Issues > 20 → разбить на подзадачи или вынести часть в следующий Milestone
+
+### Просмотр Issues в Milestone
+
+```bash
+# Список Issues
+gh issue list --milestone "v1.0.0"
+
+# Открытые Issues
+gh issue list --milestone "v1.0.0" --state open
+
+# Закрытые Issues
+gh issue list --milestone "v1.0.0" --state closed
+```
