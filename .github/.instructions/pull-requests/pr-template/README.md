@@ -30,7 +30,6 @@ index: .github/.instructions/pull-requests/pr-template/README.md
 /.github/.instructions/pull-requests/pr-template/
 ├── README.md                           # Этот файл (индекс)
 ├── standard-pr-template.md             # Стандарт формата PR template
-├── standard-draft-pr.md                # Стандарт Draft PR
 └── validation-pr-template.md           # Валидация PR template
 ```
 
@@ -39,7 +38,6 @@ index: .github/.instructions/pull-requests/pr-template/README.md
 # 1. Стандарты
 
 - [standard-pr-template.md](./standard-pr-template.md) — Формат и структура Markdown-шаблона Pull Request
-- [standard-draft-pr.md](./standard-draft-pr.md) — Draft PR: создание, ограничения, перевод в Ready
 
 ---
 

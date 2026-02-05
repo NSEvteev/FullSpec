@@ -42,9 +42,9 @@ GitHub Projects.
 Работа с GitHub Projects: создание, views, автоматизация.
 
 **Оглавление:**
-- [Создание проекта](./standard-project.md#создание-проекта)
-- [Views](./standard-project.md#views)
-- [Автоматизация](./standard-project.md#автоматизация)
+- [Создание проекта](./standard-project.md#11-последовательность-создания-проекта)
+- [Views](./standard-project.md#4-views-представления)
+- [Автоматизация](./standard-project.md#7-автоматизация)
 
 **Инструкция:** [standard-project.md](./standard-project.md)
 

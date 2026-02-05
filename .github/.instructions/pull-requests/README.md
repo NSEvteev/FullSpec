@@ -31,7 +31,6 @@ index: .github/.instructions/pull-requests/README.md
 ├── pr-template/                   # Шаблон PULL_REQUEST_TEMPLATE.md
 │   ├── README.md
 │   ├── standard-pr-template.md
-│   ├── standard-draft-pr.md
 │   └── validation-pr-template.md
 ├── README.md                      # Этот файл (индекс)
 └── standard-pull-request.md       # Стандарт Pull Requests

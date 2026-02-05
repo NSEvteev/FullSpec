@@ -447,6 +447,46 @@
       "finished_at": "2026-02-05T13:12:11.040798Z",
       "task": "",
       "working_on": []
+    },
+    "ad34954": {
+      "status": "completed",
+      "agent_type": "Explore",
+      "started_at": "2026-02-05T15:50:58.858652Z",
+      "finished_at": "2026-02-05T15:51:14.555537Z",
+      "task": "",
+      "working_on": []
+    },
+    "a73a87c": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-05T15:58:09.275219Z",
+      "finished_at": "2026-02-05T16:04:38.632781Z",
+      "task": "",
+      "working_on": []
+    },
+    "a29ae59": {
+      "status": "completed",
+      "agent_type": "Explore",
+      "started_at": "2026-02-05T16:12:33.295393Z",
+      "finished_at": "2026-02-05T16:14:17.029566Z",
+      "task": "",
+      "working_on": []
+    },
+    "a148d8e": {
+      "status": "completed",
+      "agent_type": "Explore",
+      "started_at": "2026-02-05T16:12:39.737072Z",
+      "finished_at": "2026-02-05T16:13:47.267220Z",
+      "task": "",
+      "working_on": []
+    },
+    "a5d95d1": {
+      "status": "completed",
+      "agent_type": "captain-holt",
+      "started_at": "2026-02-05T16:29:03.956892Z",
+      "finished_at": "2026-02-05T16:33:10.124260Z",
+      "task": "",
+      "working_on": []
     }
   }
 }

@@ -30,7 +30,8 @@ index: .github/.instructions/actions/security/README.md
 
 ```
 /.github/.instructions/actions/security/
-└── README.md                           # Этот файл (индекс)
+├── README.md                           # Этот файл (индекс)
+└── standard-security.md                # Стандарт безопасности
 ```
 
 ---
@@ -42,10 +43,10 @@ index: .github/.instructions/actions/security/README.md
 Dependabot, Code Scanning (CodeQL), Secret Scanning и политика безопасности.
 
 **Оглавление:**
-- [Dependabot](./standard-security.md#dependabot)
-- [Code Scanning](./standard-security.md#code-scanning)
-- [Secret Scanning](./standard-security.md#secret-scanning)
-- [SECURITY.md](./standard-security.md#securitymd)
+- [Dependabot](./standard-security.md#3-dependabot)
+- [Code Scanning](./standard-security.md#4-code-scanning-codeql)
+- [Secret Scanning](./standard-security.md#5-secret-scanning)
+- [SECURITY.md](./standard-security.md#6-securitymd)
 
 **Инструкция:** [standard-security.md](./standard-security.md)
 

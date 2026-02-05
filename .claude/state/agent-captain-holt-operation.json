@@ -1,51 +1,33 @@
 {
   "agent": "captain-holt",
-  "description": "Семантический анализ standard-development.md",
-  "started_at": "2026-02-05T14:45:00.000000Z",
-  "finished_at": "2026-02-05T15:15:00.000000Z",
-  "context": "Анализ стандарта локальной разработки на ясность и однозначность для LLM-исполнителя",
+  "description": "Семантический анализ standard-review.md",
+  "started_at": "2026-02-05T16:29:03.956892Z",
+  "finished_at": "2026-02-05T16:45:00.000000Z",
+  "context": "Анализ стандарта Code Review и Merge для GitHub-репозитория. Зона: процесс ревью, merge стратегии, Branch Protection Rules, блокирующие условия.",
   "operations": [
     {
-      "timestamp": "2026-02-05T14:45:05.000000Z",
+      "timestamp": "2026-02-05T16:29:15.000000Z",
       "action": "read",
-      "file": ".github/.instructions/development/standard-development.md",
-      "reason": "Анализируемый документ"
+      "file": ".github/.instructions/review/standard-review.md",
+      "reason": "Основной анализируемый файл"
     },
     {
-      "timestamp": "2026-02-05T14:45:10.000000Z",
+      "timestamp": "2026-02-05T16:29:30.000000Z",
       "action": "read",
-      "file": ".instructions/standard-instruction.md",
-      "reason": "SSOT стандарта инструкций"
+      "file": ".github/.instructions/pull-requests/standard-pull-request.md",
+      "reason": "SSOT-ссылка из анализируемого документа"
     },
     {
-      "timestamp": "2026-02-05T14:45:15.000000Z",
+      "timestamp": "2026-02-05T16:29:45.000000Z",
       "action": "read",
-      "file": "CLAUDE.md",
-      "reason": "SSOT-зависимость: make-команды"
+      "file": ".github/.instructions/standard-github-workflow.md",
+      "reason": "SSOT-ссылка из анализируемого документа"
     },
     {
-      "timestamp": "2026-02-05T14:45:20.000000Z",
-      "action": "read",
-      "file": ".structure/initialization.md",
-      "reason": "SSOT-зависимость: первый запуск"
-    },
-    {
-      "timestamp": "2026-02-05T14:45:25.000000Z",
-      "action": "read",
-      "file": ".github/.instructions/branches/standard-branching.md",
-      "reason": "SSOT-зависимость: ветвление"
-    },
-    {
-      "timestamp": "2026-02-05T14:45:30.000000Z",
-      "action": "read",
-      "file": ".github/.instructions/commits/standard-commit.md",
-      "reason": "SSOT-зависимость: коммиты"
-    },
-    {
-      "timestamp": "2026-02-05T15:10:00.000000Z",
+      "timestamp": "2026-02-05T16:44:30.000000Z",
       "action": "write",
-      "file": ".claude/drafts/2026-02-05-holt-analysis-standard-development.md",
-      "reason": "Результат семантического анализа (22 проблемы: 6 двойственность, 5 риск интерпретации, 0 ручные операции, 7 полнота, 4 слепые зоны)"
+      "file": ".claude/drafts/2026-02-05-holt-analysis-standard-review.md",
+      "reason": "Результат семантического анализа (19 проблем: 5 двойственность, 6 риск интерпретации, 2 ручные операции, 4 полнота, 2 слепые зоны)"
     }
   ]
 }

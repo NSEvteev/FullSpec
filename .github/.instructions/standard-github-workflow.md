@@ -40,7 +40,6 @@ index: .github/.instructions/README.md
 | 5. Commits | [standard-commit.md](./commits/standard-commit.md) | Conventional Commits, типы, scope, body/footer, правила оформления, процесс коммита, pre-commit hooks |
 | 6. Pull Requests | [standard-pull-request.md](./pull-requests/standard-pull-request.md) | Создание PR, title/body/labels, связь с Issues, Draft PR |
 | 6. PR Template | [standard-pr-template.md](./pull-requests/pr-template/standard-pr-template.md) | Шаблон body PR (.github/PULL_REQUEST_TEMPLATE.md) |
-| 6. Draft PR | [standard-draft-pr.md](./pull-requests/pr-template/standard-draft-pr.md) | Работа с черновиками PR |
 | 7-8. Review & Merge | [standard-review.md](./review/standard-review.md) | Code Review, Merge стратегии, Branch Protection, блокирующие условия |
 | 9. Sync | [standard-sync.md](./sync/standard-sync.md) | Триггеры синхронизации, процесс (main и feature-ветки), разрешение конфликтов, запреты |
 | 10. Releases | [standard-release.md](./releases/standard-release.md) | Версионирование (SemVer), Git-теги, Changelog, Release как объект |
