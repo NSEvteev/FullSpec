@@ -22,8 +22,8 @@ index: .github/.instructions/README.md
 |-----|----------|
 | Стандарт | Этот документ |
 | Валидация | [validation-action.md](./validation-action.md) |
-| Создание | [create-action.md](./create-action.md) |
-| Модификация | [modify-action.md](./modify-action.md) |
+| Создание | *Не планируется* |
+| Модификация | *Не планируется* |
 
 **Зависимые стандарты:**
 

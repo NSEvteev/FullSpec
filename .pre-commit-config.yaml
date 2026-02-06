@@ -78,7 +78,17 @@ repos:
         pass_filenames: false
         stages: [pre-commit]
 
-      # 8. Проверка наличия обязательных файлов GitHub
+      # 9. Валидация GitHub Actions workflows
+      - id: actions-validate
+        name: Validate GitHub Actions workflows
+        entry: python .github/.instructions/.scripts/validate-action.py
+        language: system
+        files: ^\.github/workflows/.*\.ya?ml$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]
+
+      # 10. Проверка наличия обязательных файлов GitHub
       - id: github-required
         name: Check GitHub required files
         entry: python .github/.instructions/.scripts/check-github-required.py

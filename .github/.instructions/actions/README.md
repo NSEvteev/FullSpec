@@ -34,6 +34,7 @@ GitHub Actions и автоматизация.
 │   ├── README.md
 │   └── standard-security.md
 ├── standard-action.md                  # Структура YAML, триггеры, jobs/steps
+├── validation-action.md                # Валидация workflow файлов (A001-A007)
 └── README.md                           # Этот файл (индекс)
 ```
 
@@ -63,13 +64,17 @@ GitHub Actions и автоматизация.
 
 # 3. Валидация
 
-*Нет валидаций.*
+| Документ | Описание |
+|----------|----------|
+| [validation-action.md](./validation-action.md) | Валидация workflow файлов (A001-A007) |
 
 ---
 
 # 4. Скрипты
 
-*Нет скриптов.*
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [validate-action.py](../.scripts/validate-action.py) | Валидация workflow файлов (A001-A007) | [validation-action.md](./validation-action.md) |
 
 ---
 

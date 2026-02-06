@@ -32,6 +32,7 @@ make setup
 | `pr-template-validate` | Структура PR template | `.github/PULL_REQUEST_TEMPLATE.md` |
 | `codeowners-validate` | Синтаксис CODEOWNERS | `.github/CODEOWNERS` |
 | `type-templates-validate` | Соответствие type:* ↔ Issue Templates | `labels.yml`, `ISSUE_TEMPLATE/*.yml` |
+| `actions-validate` | Формат GitHub Actions workflow | `.github/workflows/*.yml` |
 | `github-required` | Наличие обязательных файлов GitHub | Все (always_run) |
 
 ---
