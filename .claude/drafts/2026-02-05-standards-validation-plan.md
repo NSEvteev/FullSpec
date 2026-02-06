@@ -130,11 +130,11 @@
 |---|----------|:------:|:-------------:|:----------------:|
 | ~~0.1~~ | `labels/standard-labels.md` | ✅ | ✅ validation + modify (create не нужен) | ✅ `labels.yml` |
 | ~~0.2~~ | `codeowners/standard-codeowners.md` | ✅ | ✅ validation (create/modify не нужны) | ✅ `CODEOWNERS` |
-| ~~0.3~~ | `issues/issue-templates/standard-issue-template.md` | ✅ | ⚠️ validation ✅ (ссылки исправлены на `validation-type-templates.md`); **create и modify отсутствуют** (*Будет создан*) | ✅ 6 шаблонов + config.yml |
+| ~~0.3~~ | `issues/issue-templates/standard-issue-template.md` | ✅ | ⚠️ validation ✅ (ссылки исправлены на `validation-type-templates.md`); **create и modify отсутствуют** (*не нужны к созданию*) | ✅ 6 шаблонов + config.yml |
 | ~~0.4~~ | `pull-requests/pr-template/standard-pr-template.md` | ✅ | ✅ validation (create/modify не нужны) | ✅ `PULL_REQUEST_TEMPLATE.md` |
 | | *`standard-draft-pr.md` влит в `standard-pull-request.md` § 2, файл удалён* | | | |
 | ~~0.5~~ | `milestones/standard-milestone.md` | ✅ | ✅ validation + create + modify + 3 скрипта + 3 скилла | ✅ Milestone `v0.1.0` создан (#1) |
-| **0.6** | `projects/standard-project.md` | ⏳ | ⏳ validation, create, modify | ⏳ Первый GitHub Project |
+| ~~0.6~~ | `projects/standard-project.md` | ✅ деактивирован | — | — |
 | **0.7** | `actions/standard-action.md` | ⏳ | ⏳ validation, create, modify | ⏳ `.github/workflows/ci.yml` |
 | **0.8** | `actions/security/standard-security.md` | ⏳ | ⏳ validation, create, modify | ⏳ Dependabot, CodeQL, SECURITY.md |
 
@@ -216,7 +216,7 @@
 | 0.3 | standard-issue-template.md | Подготовка | ✅ | ⚠️ | ✅ |
 | 0.4 | standard-pr-template.md | Подготовка | ✅ | ✅ | ✅ |
 | 0.5 | standard-milestone.md | Подготовка | ✅ | ✅ | ✅ |
-| 0.6 | standard-project.md | Подготовка | ⏳ | ⏳ | ⏳ |
+| ~~0.6~~ | standard-project.md | Подготовка | ✅ деактивирован | — | — |
 | 0.7 | standard-action.md | Подготовка | ⏳ | ⏳ | ⏳ |
 | 0.8 | standard-security.md | Подготовка | ⏳ | ⏳ | ⏳ |
 | 1.1 | standard-issue.md | Цикл | ⏳ | ⏳ | ⏳ |

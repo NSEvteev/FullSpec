@@ -52,7 +52,7 @@ index: .github/.instructions/README.md
 | Labels | [standard-labels.md](./labels/standard-labels.md) | Naming convention, правила применения, добавление/удаление меток |
 | Milestones | [standard-milestone.md](./milestones/standard-milestone.md) | Версионирование (SemVer), жизненный цикл, связь с Issues/Releases |
 | CODEOWNERS | [standard-codeowners.md](./codeowners/standard-codeowners.md) | Синтаксис CODEOWNERS, автоназначение ревьюеров |
-| Projects | [standard-project.md](./projects/standard-project.md) | Канбан-доски, views, fields, автоматизация |
+| Projects | [standard-project.md](./projects/standard-project.md) | Канбан-доски, views, fields, автоматизация *(деактивирован — не используется)* |
 
 **Автоматизация:**
 

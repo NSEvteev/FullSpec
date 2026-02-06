@@ -5,6 +5,12 @@ standard-version: v1.2
 index: .github/.instructions/README.md
 ---
 
+> **ВАЖНО:** Эта инструкция не используется в проекте.
+>
+> Причина: команда из 2 человек — Projects не нужны (Issues + Labels + Milestones достаточно).
+> Содержимое закомментировано. Для реактивации — раскомментировать.
+
+<!--
 # Стандарт GitHub Projects
 
 Версия стандарта: 1.0
@@ -513,29 +519,9 @@ gh project item-list 1 --owner @me --format json | jq '.items[] | select(.fieldV
 
 ## 15. Автоматизация через GitHub Actions
 
-**Сценарий:** Автоматическое добавление Issue в проект при создании.
+Для автоматического добавления Issues в Project через GitHub Actions — см. [standard-action.md](../actions/standard-action.md).
 
-**Решение:** Создать workflow `.github/workflows/add-to-project.yml`:
-
-```yaml
-name: Add Issue to Project
-on:
-  issues:
-    types: [opened]
-jobs:
-  add-to-project:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/add-to-project@v0.5.0
-        with:
-          project-url: https://github.com/users/<owner>/projects/1
-          github-token: ${{ secrets.GH_TOKEN }}
-```
-
-**Требования:**
-- Personal Access Token с scope `project` в Secrets → `GH_TOKEN`
-- Workflow file — см. [standard-action.md](../actions/standard-action.md)
-
-**Альтернатива:** Использовать встроенную автоматизацию Projects (Web UI → Workflows → "Item added").
+**Альтернатива:** Встроенная автоматизация Projects (§ 7) — настраивается через Web UI без `.yml` файлов.
 
 ---
+-->
