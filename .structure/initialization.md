@@ -21,6 +21,8 @@ standard-version: v1.1
 - [3. Установка вручную](#3-установка-вручную)
 - [4. Проверка установки](#4-проверка-установки)
 - [5. Решение проблем](#5-решение-проблем)
+- [CI (автоматически)](#ci-автоматически)
+- [Настройка GitHub Security (опционально)](#настройка-github-security-опционально)
 - [Настройка GitHub Labels (опционально)](#настройка-github-labels-опционально)
 
 ---
@@ -175,6 +177,64 @@ make setup
             автоматически запускаются
             проверки из .pre-commit-config.yaml
 ```
+
+---
+
+## CI (автоматически)
+
+CI workflow уже настроен в репозитории — действий не требуется.
+
+**Файл:** [`.github/workflows/ci.yml`](/.github/workflows/ci.yml)
+
+**Что проверяет:** При каждом push в `main` и pull request запускаются те же 8 pre-commit хуков на **всех** файлах. Если хуки были обойдены локально (`--no-verify`), CI поймает ошибку.
+
+**Где смотреть результаты:** Вкладка Actions в GitHub → последний run, или:
+
+```bash
+gh run list --limit 5
+gh run view <run-id> --log
+```
+
+---
+
+## Настройка GitHub Security (опционально)
+
+Встроенные инструменты безопасности GitHub. Настраиваются один раз в Settings репозитория.
+
+**SSOT:** [standard-security.md](/.github/.instructions/actions/security/standard-security.md)
+
+### Dependabot Alerts + Security Updates
+
+```
+Settings → Code security and analysis →
+  ✅ Dependabot alerts → Enable
+  ✅ Dependabot security updates → Enable
+```
+
+Автоматические уведомления об уязвимостях в зависимостях и PR с исправлениями.
+
+### Dependabot Version Updates
+
+Создать файл `.github/dependabot.yml` — см. [standard-security.md § 3](/.github/.instructions/actions/security/standard-security.md#3-dependabot).
+
+### Secret Scanning + Push Protection
+
+```
+Settings → Code security and analysis →
+  ✅ Secret scanning → Enable
+  ✅ Push protection → Enable
+```
+
+Блокирует push с секретами (API-ключи, токены) в код.
+
+### Code Scanning (CodeQL)
+
+```
+Settings → Code security and analysis →
+  Code scanning → Enable → Default setup
+```
+
+Статический анализ кода на уязвимости (SAST). Подробнее — [standard-security.md § 4](/.github/.instructions/actions/security/standard-security.md#4-code-scanning-codeql).
 
 ---
 

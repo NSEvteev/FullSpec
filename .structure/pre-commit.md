@@ -91,7 +91,7 @@ repos:
 ## Временное отключение
 
 ```bash
-# Пропустить все хуки (не рекомендуется)
+# Пропустить все хуки локально (CI всё равно проверит при push)
 git commit --no-verify -m "WIP"
 
 # Пропустить конкретный хук
@@ -135,5 +135,7 @@ pre-commit install -f
 
 ## Связанные документы
 
+- [Инициализация проекта](./initialization.md) — установка pre-commit (`make setup`)
+- [CI workflow](/.github/workflows/ci.yml) — те же хуки запускаются на GitHub при push/PR
 - [Makefile](/Makefile) — команда `make setup`
 - [.pre-commit-config.yaml](/.pre-commit-config.yaml) — конфигурация хуков
