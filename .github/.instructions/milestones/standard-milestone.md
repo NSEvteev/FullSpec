@@ -389,7 +389,7 @@ gh api PATCH /repos/{owner}/{repo}/milestones/{number} \
 
 ## 6. Связь с Issues
 
-**SSOT:** [standard-issue.md § 10](../issues/standard-issue.md#10-связь-с-milestones)
+**SSOT:** [standard-issue.md § 9](../issues/standard-issue.md#9-связь-с-milestones)
 
 Добавление, удаление и группировка Issues в Milestone — см. SSOT.
 

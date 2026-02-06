@@ -46,6 +46,25 @@ body:
     validations:
       required: true
 
+  - type: textarea
+    id: related-docs
+    attributes:
+      label: Связанная документация
+      description: "Файлы проекта для понимания контекста задачи. Формат: описание — путь. Если нет — напишите «Связанной документации нет»"
+      placeholder: |
+        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+    validations:
+      required: true
+
+  - type: input
+    id: dependencies
+    attributes:
+      label: Зависимости
+      description: "Issues, от которых зависит задача (например #123, #124). Если нет — напишите «Нет»"
+      placeholder: "#123, #124 или Нет"
+    validations:
+      required: true
+
   - type: checkboxes
     id: checklist
     attributes:

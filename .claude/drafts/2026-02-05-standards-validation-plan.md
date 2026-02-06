@@ -152,9 +152,9 @@
 
 | # | Стадия | Стандарт | Этап 1 | Этап 2 (docs) | Этап 3 (объекты) |
 |---|--------|----------|:------:|:-------------:|:----------------:|
-| **1.1** | 1 | `issues/standard-issue.md` | ⏳ | ⏳ validation, create, modify | ⏳ Первый Issue |
+| ~~1.1~~ | 1 | `issues/standard-issue.md` | ✅ v1.4: §9 переписан, deps, TT006, TT007, «Связанная документация» обязательна | ✅ validation + create + modify + скрипт + 3 скилла + rule | ⏳ Первый Issue |
 | **1.2** | 3 | `branches/standard-branching.md` | ⏳ | ⏳ validation | — (конвенция) |
-| **1.3** | 4 | `development/standard-development.md` | ⏳ | ⏳ validation | — (процесс) |
+| **1.3** | 4 | `development/standard-development.md` | ✅ v1.1: +§1 взятие задачи, +§6 завершение, перенумерация §2-§7 | ⏳ validation | — (процесс) |
 | **1.4** | 5 | `commits/standard-commit.md` | ⏳ | ⏳ validation | — (конвенция) |
 | ~~1.5~~ | 6 | `pull-requests/standard-pull-request.md` | ✅ | ⏳ validation, create, modify | — (PR создаётся в процессе) |
 | **1.6** | 7-8 | `review/standard-review.md` | ⏳ | ⏳ validation | — (процесс) |
@@ -222,9 +222,9 @@
 | ~~0.7~~ | standard-action.md | Подготовка | ✅ | ✅ | ✅ |
 | ~~0.8~~ | standard-security.md | Подготовка | ✅ | ✅ | ✅ |
 | ~~0.9~~ | standard-secrets.md | Подготовка | ✅ | ✅ | — |
-| 1.1 | standard-issue.md | Цикл | ⏳ | ⏳ | ⏳ |
+| ~~1.1~~ | standard-issue.md | Цикл | ✅ | ✅ | ⏳ |
 | 1.2 | standard-branching.md | Цикл | ⏳ | ⏳ | — |
-| 1.3 | standard-development.md | Цикл | ⏳ | ⏳ | — |
+| 1.3 | standard-development.md | Цикл | ✅ (v1.1: §1 взятие, §6 завершение) | ⏳ | — |
 | 1.4 | standard-commit.md | Цикл | ⏳ | ⏳ | — |
 | ~~1.5~~ | ~~standard-pull-request.md~~ | ~~Цикл~~ | ✅ | ⏳ | — |
 | 1.6 | standard-review.md | Цикл | ⏳ | ⏳ | — |
@@ -233,9 +233,10 @@
 | 1.10 | standard-release-workflow.md | Цикл | ⏳ | ⏳ | — |
 | 2.1 | standard-github-workflow.md | Оркестратор | ⏳ | ⏳ | — |
 
-**Итого:** 19 стандартов. Этап 1: 9 ✅, 10 ⏳. Этап 2: 7 ✅, 1 ⚠️, 11 ⏳. Этап 3: 8 применимо (6 ✅, 2 ⏳), 11 не применимо.
+**Итого:** 19 стандартов. Этап 1: 11 ✅, 8 ⏳. Этап 2: 8 ✅, 1 ⚠️, 10 ⏳. Этап 3: 8 применимо (6 ✅, 2 ⏳), 11 не применимо.
 
-**ПОДГОТОВКА завершена:** 0.1-0.9 все ✅ (0.6 деактивирован). Далее → Цикл разработки (1.1-1.10).
+**ПОДГОТОВКА завершена:** 0.1-0.9 все ✅ (0.6 деактивирован).
+**ЦИКЛ: 1.1 Этап 1+2 ✅**, 1.3 Этап 1 ✅, 1.5 Этап 1 ✅. Следующий шаг → 1.1 Этап 3 (первый Issue) или 1.2 (standard-branching.md).
 
 ---
 
@@ -245,3 +246,38 @@
 2. **Граница release ↔ release-workflow (П7)** — решать ДО или ПОСЛЕ применения рекомендаций?
 3. **Долг 0.3** — ссылки на validation исправлены. Создать create-issue-template.md и modify-issue-template.md?
 4. ~~**Долг 0.5**~~ — **Решено:** все 3 этапа завершены. Docs: validation + create + modify + 3 скрипта + 3 скилла. Объект: Milestone `v0.1.0` создан (#1). Багфикс: `gh_api()` — `--method GET` + `encoding="utf-8"` в 3 скриптах.
+
+### Сопутствующие изменения 1.1
+
+При работе над 1.1 standard-issue.md были затронуты смежные файлы:
+
+**Этап 1 (валидация стандарта):**
+
+| Файл | Изменение |
+|------|-----------|
+| `standard-issue.md` v1.2→v1.4 | §9 переписан (sub-issues + deps + чек-листы), обязательная «Связанная документация» |
+| `standard-issue-template.md` v1.2→1.3 | +поле `dependencies` и `related-docs` (required) |
+| `validate-type-templates.py` | +TT006 (dependencies), +TT007 (related-docs) |
+| `validation-type-templates.md` | +TT006, +TT007 в документацию |
+| `standard-labels.md` | Кросс-ссылка: `blocked` → standard-issue.md §9 |
+| `standard-development.md` v1.0→1.1 | §1 взятие задачи, §6 завершение, перенумерация |
+| 6 шаблонов `.github/ISSUE_TEMPLATE/*.yml` | +поле dependencies (required), +поле related-docs (required) |
+| `recommendations-standard-issue.md` | Удалён (рекомендации применены) |
+| `standard-secrets.md` v1.0→v1.1 | Дедупликация, milestone обязателен, запрет ручного close completed |
+
+**Этап 2 (документы + скрипты + скиллы + rules):**
+
+| Файл | Тип | Описание |
+|------|-----|----------|
+| `validation-issue.md` | инструкция | 7 шагов, 15 кодов ошибок (E001-E015) |
+| `create-issue.md` | инструкция | 8 шагов (включая обязательную валидацию) |
+| `modify-issue.md` | инструкция | 3 типа: обновление, закрытие, переоткрытие |
+| `validate-issue.py` | скрипт | Валидация Issue: один, --all, --milestone, --json |
+| `/issue-create` | скилл | Создание Issue по стандарту |
+| `/issue-validate` | скилл | Валидация Issue по стандарту |
+| `/issue-modify` | скилл | Изменение Issue по стандарту |
+| `core.md` (rule) | rule | +секция Issues-скиллов (глобальный) |
+| `issues/README.md` | индекс | Обновлён: дерево + таблицы |
+| `skills/README.md` | индекс | +3 скилла в категорию github |
+
+**Следующий шаг:** 1.1 Этап 3 (первый Issue) или 1.2 (standard-branching.md).

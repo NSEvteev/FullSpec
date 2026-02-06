@@ -130,7 +130,7 @@ index: .github/.instructions/milestones/README.md
 
 ### Шаг 4: Проверить Issues
 
-**SSOT:** [standard-issue.md § 10](../issues/standard-issue.md#10-связь-с-milestones)
+**SSOT:** [standard-issue.md § 9](../issues/standard-issue.md#9-связь-с-milestones)
 
 **Вручную:**
 

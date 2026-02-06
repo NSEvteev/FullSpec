@@ -72,6 +72,8 @@ python .github/.instructions/.scripts/validate-type-templates.py --verbose
 | TT001: Метка без шаблона | Создать Issue Template (см. [standard-issue-template.md](./standard-issue-template.md)) |
 | TT002: Шаблон без type:* | Добавить `labels: [type:{value}]` в шаблон |
 | TT003: Неизвестная метка | Добавить метку в `labels.yml` или исправить опечатку |
+| TT006: Нет поля dependencies | Добавить `id: dependencies` с `required: true` (см. [standard-issue-template.md § body](./standard-issue-template.md#body-обязательно)) |
+| TT007: Нет поля related-docs | Добавить `id: related-docs` с `required: true` (см. [standard-issue-template.md § body](./standard-issue-template.md#body-обязательно)) |
 
 ### Шаг 3: Повторить валидацию
 
@@ -83,6 +85,8 @@ python .github/.instructions/.scripts/validate-type-templates.py --verbose
 
 - [ ] Для каждой метки `type:*` есть шаблон
 - [ ] Каждый шаблон содержит `labels: [type:{value}]`
+- [ ] Каждый шаблон содержит поле `id: related-docs` с `required: true`
+- [ ] Каждый шаблон содержит поле `id: dependencies` с `required: true`
 - [ ] Метки в шаблонах существуют в `labels.yml`
 - [ ] Валидация проходит без ошибок
 
@@ -97,6 +101,8 @@ python .github/.instructions/.scripts/validate-type-templates.py --verbose
 | Неизвестная метка | TT003 | Опечатка в шаблоне или метка удалена | Исправить имя или добавить в labels.yml |
 | labels.yml не найден | TT004 | Файл отсутствует | Создать `.github/labels.yml` |
 | Папка не найдена | TT005 | Нет `.github/ISSUE_TEMPLATE/` | Создать папку и шаблоны |
+| Нет поля dependencies | TT006 | Шаблон не содержит `id: dependencies` или `required: true` | Добавить обязательное поле dependencies |
+| Нет поля related-docs | TT007 | Шаблон не содержит `id: related-docs` или `required: true` | Добавить обязательное поле related-docs |
 
 ---
 

@@ -111,6 +111,9 @@ standard-version: v1.1
 | [milestone-create](./milestone-create/SKILL.md) | Создание Milestone по стандарту | `/milestone-create`, "создай milestone" |
 | [milestone-modify](./milestone-modify/SKILL.md) | Изменение, закрытие и удаление Milestone | `/milestone-modify`, "закрой milestone" |
 | [milestone-validate](./milestone-validate/SKILL.md) | Валидация Milestone по стандарту | `/milestone-validate`, "проверь milestone" |
+| [issue-create](./issue-create/SKILL.md) | Создание GitHub Issue по стандарту | `/issue-create`, "создай issue" |
+| [issue-validate](./issue-validate/SKILL.md) | Валидация GitHub Issue по стандарту | `/issue-validate`, "проверь issue" |
+| [issue-modify](./issue-modify/SKILL.md) | Изменение GitHub Issue по стандарту | `/issue-modify`, "измени issue" |
 
 ### drafts
 

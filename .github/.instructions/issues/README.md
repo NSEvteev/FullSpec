@@ -33,7 +33,10 @@ index: .github/.instructions/issues/README.md
 │   ├── standard-issue-template.md
 │   └── validation-type-templates.md
 ├── README.md                           # Этот файл (индекс)
-└── standard-issue.md                   # Стандарт GitHub Issues
+├── create-issue.md                      # Воркфлоу создания Issue
+├── modify-issue.md                     # Воркфлоу изменения Issue
+├── standard-issue.md                   # Стандарт GitHub Issues
+└── validation-issue.md                 # Валидация Issue
 ```
 
 ---
@@ -56,10 +59,15 @@ index: .github/.instructions/issues/README.md
 
 # 2. Воркфлоу
 
-*Будут добавлены create-issue.md, modify-issue.md*
+| Инструкция | Описание |
+|------------|----------|
+| [create-issue.md](./create-issue.md) | Воркфлоу создания Issue |
+| [modify-issue.md](./modify-issue.md) | Воркфлоу изменения Issue |
 
 ---
 
 # 3. Валидация
 
-*Будет добавлен validation-issue.md*
+| Инструкция | Описание |
+|------------|----------|
+| [validation-issue.md](./validation-issue.md) | Валидация Issue по стандарту |

@@ -7,7 +7,7 @@ index: .github/.instructions/issues/README.md
 
 # Стандарт управления GitHub Issues
 
-Версия стандарта: 1.1
+Версия стандарта: 1.4
 
 Правила жизненного цикла, создания и управления задачами (Issues) в репозитории.
 
@@ -17,9 +17,9 @@ index: .github/.instructions/issues/README.md
 **SSOT-зависимости:**
 - [standard-labels.md](../labels/standard-labels.md) — метки Issues
 - [standard-milestone.md](../milestones/standard-milestone.md) — milestones
-- [standard-project.md](../projects/standard-project.md) — GitHub Projects
 - [standard-issue-template.md](./issue-templates/standard-issue-template.md) — шаблоны Issues
 - [standard-pull-request.md](../pull-requests/standard-pull-request.md) — связь с PR
+- [standard-development.md](../development/standard-development.md) — рабочий процесс (§1 взятие задачи, §6 завершение)
 
 **Связанные документы:**
 
@@ -43,9 +43,8 @@ index: .github/.instructions/issues/README.md
 - [5. Связь с Branch и PR](#5-связь-с-branch-и-pr)
 - [6. Закрытие Issue](#6-закрытие-issue)
 - [7. CLI команды](#7-cli-команды)
-- [8. Связь с шаблонами Issue](#8-связь-с-шаблонами-issue)
-- [9. Зависимости между Issues](#9-зависимости-между-issues)
-- [10. Связь с Milestones](#10-связь-с-milestones)
+- [8. Декомпозиция и зависимости](#8-декомпозиция-и-зависимости)
+- [9. Связь с Milestones](#9-связь-с-milestones)
 
 ---
 
@@ -86,16 +85,15 @@ GitHub Issues — система управления задачами, бага
 | `author` | user | авто | Создатель | — |
 | `created_at` | datetime | авто | Дата создания | — |
 
-**Метаданные (опционально):**
+**Метаданные:**
 
 | Свойство | Тип | Обязательно | SSOT |
 |----------|-----|-------------|------|
 | `labels` | label[] | да | [standard-labels.md](../labels/standard-labels.md) |
 | `assignees` | user[] | опционально | См. [§4 Assignees](#assignees-назначение) |
-| `milestone` | milestone | опционально | [standard-milestone.md](../milestones/standard-milestone.md) |
-| `project` | project | опционально | [standard-project.md](../projects/standard-project.md) |
+| `milestone` | milestone | да | [standard-milestone.md](../milestones/standard-milestone.md) |
 
-**Как установить:** `--label`, `--assignee`, `--milestone`, `--project` (см. [§7 CLI команды](#7-cli-команды))
+**Как установить:** `--label`, `--assignee`, `--milestone` (см. [§7 CLI команды](#7-cli-команды))
 
 ---
 
@@ -146,7 +144,7 @@ GitHub Issues — система управления задачами, бага
 **Ключевые этапы:**
 1. **СОЗДАНИЕ** — Issue создаётся в GitHub
 2. **ОТКРЫТ** — Ожидает начала работы
-3. **В РАБОТЕ** — Разработка ведётся локально. **Триггер:** создана ветка `{type}/{issue-number}-*` через `git checkout -b`. Опционально: добавить метку `status:wip`.
+3. **В РАБОТЕ** — Разработка ведётся локально. **Триггер:** создана ветка `{type}/{issue-number}-*` через `git checkout -b`. Метка `status:wip` опциональна — для команды ≤3 человек прозрачность обеспечивается малым размером команды.
 4. **PR СОЗДАН** — Код отправлен на ревью
 5. **REVIEW** — Проходит code review
 6. **ЗАКРЫТ** — PR смержен, Issue автоматически закрывается
@@ -185,6 +183,8 @@ GitHub Issues — система управления задачами, бага
 
 **SSOT:** [standard-issue-template.md](./issue-templates/standard-issue-template.md) — структура body определяется шаблоном Issue.
 
+**Правило:** ВСЕГДА использовать шаблон при создании Issue (кроме технических задач без структуры). Примеры шаблонов — [standard-issue-template.md § 11](./issue-templates/standard-issue-template.md#11-примеры-шаблонов).
+
 **Минимальная структура (если без шаблона):**
 
 ```markdown
@@ -192,13 +192,49 @@ GitHub Issues — система управления задачами, бага
 
 {Что нужно сделать и зачем}
 
+## Связанная документация
+
+{Список файлов проекта, помогающих понять контекст задачи, ИЛИ "Связанной документации нет"}
+
 ## Критерии готовности
 
 - [ ] {Пункт 1}
 - [ ] {Пункт 2}
 ```
 
-**Для багов, фич, задач:** Использовать соответствующий шаблон из `.github/ISSUE_TEMPLATE/` — см. [примеры шаблонов](./issue-templates/standard-issue-template.md#11-примеры-шаблонов).
+**Секция "Связанная документация" (ОБЯЗАТЕЛЬНА):**
+
+Создатель Issue (LLM или человек) ДОЛЖЕН указать файлы проекта, которые помогут исполнителю быстро понять контекст задачи. Если релевантных документов нет — указать "Связанной документации нет".
+
+Формат: `{описание} — {путь к файлу}`
+
+```markdown
+## Связанная документация
+
+- Стандарт меток — `.github/.instructions/labels/standard-labels.md`
+- Справочник меток — `.github/labels.yml`
+```
+
+**Полный пример body (с зависимостями, документацией и чек-листом):**
+
+```markdown
+## Описание
+
+Добавить возможность экспорта данных в CSV формат для эндпоинта API.
+
+**Зависит от:** #120 (API авторизация)
+
+## Связанная документация
+
+- Спецификация API — `specs/services/api/api-spec.md`
+- Архитектура сервиса — `specs/services/api/architecture.md`
+
+## Критерии готовности
+
+- [ ] Эндпоинт GET /api/export/csv
+- [ ] Тесты покрывают happy path и edge cases
+- [ ] Документация API обновлена
+```
 
 ### Labels — обязательные метки
 
@@ -219,76 +255,57 @@ GitHub Issues — система управления задачами, бага
 - Issue создан И исполнитель неизвестен → оставить без assignee
 - Создана ветка `{type}/{issue-number}-*` → назначить себя через `gh issue edit {number} --add-assignee @me`
 
-**Как назначить:**
-
-```bash
-# При создании
-gh issue create --assignee @me
-
-# После создания
-gh issue edit 123 --add-assignee user1,user2
-```
-
 **Правила:**
 - Максимум 3 assignee на Issue
 - Если требуется более 3 исполнителей → разбить задачу на подзадачи (создать связанные Issues)
 - Самоназначение: `@me` — можно использовать в CLI
 
+CLI команды назначения — см. [§7 CLI команды](#7-cli-команды).
+
 ---
 
 ## 5. Связь с Branch и PR
 
-**SSOT-зависимости:**
-- Именование веток — [standard-github-workflow.md](../standard-github-workflow.md)
+**SSOT:**
+- Именование веток — [standard-branching.md](../branches/standard-branching.md#2-naming-convention)
 - Формат PR и ключевые слова — [standard-pull-request.md](../pull-requests/standard-pull-request.md)
 
-**Процесс:**
+**Процесс:** Issue → ветка `{type}/{number}-{описание}` → PR с `Fixes #N` → мерж → Issue закрывается автоматически.
 
-1. **Issue создан** — получает номер (например, #123)
-2. **Создание ветки** — формат: `{type}/{issue-number}-{краткое-описание}`
-   ```bash
-   # Примеры:
-   git checkout -b fix/123-auth-error
-   git checkout -b feature/123-add-auth
-   git checkout -b docs/123-update-readme
-   ```
-3. **Создание PR** — связать с Issue через ключевое слово в body PR:
-   ```markdown
-   Fixes #123
-   ```
-4. **Мерж PR** — Issue автоматически закроется
-
-**Ключевые слова для автозакрытия:** `Fixes`, `Closes`, `Resolves` — подробнее см. [standard-pull-request.md](../pull-requests/standard-pull-request.md#6-связь-с-issues).
+Детали процесса — см. [§3 Жизненный цикл](#3-жизненный-цикл). Ключевые слова автозакрытия: `Fixes`, `Closes`, `Resolves` — см. [standard-pull-request.md](../pull-requests/standard-pull-request.md#6-связь-с-issues).
 
 ---
 
 ## 6. Закрытие Issue
 
-### Автоматическое закрытие
+**Основной способ:** Автоматически через мерж PR с ключевым словом `Fixes #N` (см. [§ 5](#5-связь-с-branch-и-pr)).
 
-Через мерж PR с ключевым словом (см. [§ 5](#5-связь-с-branch-и-pr)).
+**Запрет:** Ручное закрытие с reason `completed` **ЗАПРЕЩЕНО**. Если задача выполнена — должен быть PR.
 
-### Ручное закрытие
+### Ручное закрытие (только `not planned`)
 
-```bash
-# Закрыть Issue
-gh issue close 123
+Допускается **только** с `--reason "not planned"` в следующих случаях:
 
-# Закрыть с комментарием
-gh issue close 123 --comment "Исправлено в PR #456"
-
-# Переоткрыть Issue
-gh issue reopen 123
-```
-
-**Когда закрывать вручную:**
-- Issue решён другим способом (не через PR)
-- Issue дублирует другой Issue
-- Issue больше не актуален
+| Причина | Действие |
+|---------|----------|
+| Дубликат | Закрыть с комментарием-ссылкой на оригинал |
+| Больше не актуален | Закрыть с указанием причины |
+| Создан по ошибке | Закрыть с пояснением |
 
 **Правила:**
-- При ручном закрытии — ОБЯЗАТЕЛЬНО добавить комментарий с причиной
-- Не закрывать Issue без выполнения задачи (кроме дубликатов/неактуальных)
+- Комментарий с причиной **ОБЯЗАТЕЛЕН**
+- CLI — см. [§7](#7-cli-команды)
+
+### Обработка дубликатов
+
+**Перед созданием Issue:**
+```bash
+gh issue list --search "ключевое слово" --state all
+```
+
+**При обнаружении дубликата:**
+- Закрывать **более новый** Issue (с большим номером)
+- Если новый содержит полезную информацию — перенести в комментарий оригинала
 
 ---
 
@@ -297,14 +314,12 @@ gh issue reopen 123
 ### Создание
 
 ```bash
-# Базовое создание (интерактивно)
-gh issue create
+# Из шаблона (РЕКОМЕНДУЕТСЯ)
+gh issue create --template bug.yml
 
 # С параметрами
-gh issue create --title "Добавить авторизацию" --body "Описание..." --label type:feature --label priority:high --assignee @me
-
-# Из шаблона
-gh issue create --template bug.yml
+gh issue create --title "Добавить авторизацию" --body "Описание..." \
+  --label type:feature --label priority:high --assignee @me --milestone "v1.0.0"
 ```
 
 ### Просмотр
@@ -312,160 +327,154 @@ gh issue create --template bug.yml
 ```bash
 # Список Issues
 gh issue list                           # Открытые
-gh issue list --state all               # Все (открытые + закрытые)
-gh issue list --label type:bug          # Только баги
+gh issue list --state all               # Все
+gh issue list --label type:bug          # По метке
 gh issue list --assignee @me            # Назначенные мне
-gh issue list --milestone "Sprint 1"    # По milestone
+gh issue list --milestone "v1.0.0"      # По milestone
 
 # Детали Issue
 gh issue view 123                       # Краткая информация
 gh issue view 123 --comments            # С комментариями
-gh issue view 123 --web                 # Открыть в браузере
 ```
 
 ### Редактирование
 
 ```bash
-# Изменить title
+# Title
 gh issue edit 123 --title "Новый заголовок"
 
-# Добавить/удалить метки
+# Метки
 gh issue edit 123 --add-label priority:critical
 gh issue edit 123 --remove-label priority:medium
 
-# Добавить/удалить assignees
+# Assignees
 gh issue edit 123 --add-assignee user1,user2
 gh issue edit 123 --remove-assignee user1
 
-# Установить milestone
-gh issue edit 123 --milestone "Sprint 2"
-
-# Добавить в project
-gh issue edit 123 --add-project "Roadmap"
+# Milestone
+gh issue edit 123 --milestone "v1.0.0"
+gh issue edit 123 --milestone ""        # Убрать из milestone
 ```
 
-### Статус
+### Закрытие и статус
 
 ```bash
-# Закрыть
-gh issue close 123
-gh issue close 123 --comment "Причина закрытия"
+# Закрыть (только not planned — см. §6)
+gh issue close 123 --reason "not planned" --comment "Причина закрытия"
 
 # Переоткрыть
 gh issue reopen 123
 
 # Закрепить (pin)
 gh issue pin 123
-
-# Заблокировать комментарии
-gh issue lock 123
 ```
 
 ### Поиск
 
 ```bash
-# По метке
-gh issue list --label type:bug
-
-# По assignee
-gh issue list --assignee username
-
-# По milestone
-gh issue list --milestone "v1.0"
-
-# По состоянию
-gh issue list --state closed
-
 # Комбинация фильтров
 gh issue list --label type:bug --label priority:critical --state open
+
+# По milestone
+gh issue list --milestone "v1.0.0" --state open
 ```
 
 ---
 
-## 8. Связь с шаблонами Issue
+## 8. Декомпозиция и зависимости
 
-Issue могут создаваться через шаблоны из `.github/ISSUE_TEMPLATE/`.
+GitHub Issues не имеет нативного поля "depends on". Для управления связями используются два дополняющих механизма:
 
-**При создании Issue через CLI:**
+| Тип связи | Механизм | Когда |
+|-----------|----------|-------|
+| Вертикальная (parent → child) | Sub-issues | Крупная задача → подзадачи |
+| Горизонтальная (A → B) | Body text | Issue B зависит от результата Issue A |
+
+### Sub-issues (декомпозиция)
+
+Sub-issues — нативная иерархия GitHub: parent Issue содержит child Issues с прогресс-баром.
+
+**Когда создавать sub-issues:**
+- Задача требует 3+ отдельных PR
+- Разные исполнители для разных частей
+- Нужен визуальный прогресс на parent Issue
+
+**Когда НЕ создавать:**
+- Задача выполнима в 1 PR
+- Подзадачи не требуют отдельного отслеживания → использовать чек-лист в body (см. ниже)
+
+**Создание:**
 ```bash
-# Интерактивный выбор шаблона
-gh issue create
-
-# Явный выбор шаблона
-gh issue create --template bug.yml
-
-# Без шаблона (НЕ РЕКОМЕНДУЕТСЯ)
-gh issue create --title "..." --body "..." --label type:task --label priority:medium
+# UI: на parent Issue → "Create sub-issue"
+# CLI: создать Issue, затем привязать
+gh issue create --title "Подзадача" --label type:task
+# Привязать к parent через UI или API
 ```
 
-**Правило:** ВСЕГДА использовать шаблон при создании Issue через CLI (кроме технических задач без структуры).
+**Пример:**
+```
+#100 "Настроить CI/CD pipeline" (parent)
+  ├── #101 "Настроить linting"          ✅
+  ├── #102 "Настроить тесты"            ✅
+  ├── #103 "Настроить деплой staging"    🔄
+  └── #104 "Настроить деплой prod"       ⏳ Зависит от #103
+```
 
-**Подробнее:**
-- Структура шаблонов — [standard-issue-template.md](./issue-templates/standard-issue-template.md)
-- Валидация шаблонов — [validation-type-templates.md](./issue-templates/validation-type-templates.md)
+**Порядок sub-issues = порядок выполнения.** Parent Issue показывает прогресс (2/4 done).
 
----
+### Зависимости между Issues
 
-## 9. Зависимости между Issues
+Горизонтальная зависимость: Issue B не может быть выполнен без результата Issue A.
 
-### Указание зависимости
-
-В body Issue добавить:
+**Формат:** В body Issue, сразу после секции "Описание":
 ```markdown
+## Описание
+
+{Что нужно сделать}
+
 **Зависит от:** #123, #124
 ```
 
-### Проверка перед закрытием
+**Правила:**
+- Формат строго: `**Зависит от:** #номер, #номер`
+- Размещение: сразу после "## Описание" или первого абзаца body
+- Проверка: ручная, перед закрытием Issue
+- Если зависимость появилась после создания Issue → добавить в body через `gh issue edit`
 
-Перед закрытием Issue проверить:
+**Проверка перед закрытием:**
 ```bash
-# Вручную проверить статус зависимых Issues
-gh issue view 123
-gh issue view 124
+# Проверить статус зависимых Issues
+gh issue view 123 --json state --jq '.state'
+gh issue view 124 --json state --jq '.state'
 
-# Если хотя бы один Issue открыт → НЕ закрывать текущий Issue
+# Если хотя бы один OPEN → НЕ закрывать текущий Issue
 ```
 
-**Правило:** Не закрывать Issue если зависимые Issues ещё открыты.
+### Подзадачи внутри Issue (чек-лист)
+
+Для мелких подзадач, не требующих отдельного Issue:
+```markdown
+## Критерии готовности
+
+- [ ] Эндпоинт GET /api/export
+- [ ] Тесты покрывают happy path
+- [ ] Документация обновлена
+```
+
+GitHub показывает прогресс (2/3 tasks) прямо в списке Issues.
+
+**Когда выносить в отдельный Issue:**
+- Подзадача требует отдельного PR
+- Подзадача назначается другому исполнителю
+- Подзадача имеет собственные зависимости
 
 ---
 
-## 10. Связь с Milestones
+## 9. Связь с Milestones
 
-Issue может быть добавлен в Milestone для группировки по целевой версии релиза.
+Issue **ДОЛЖЕН** быть добавлен в Milestone для группировки по целевой версии релиза.
 
 **SSOT (Milestones):** [standard-milestone.md](../milestones/standard-milestone.md)
-
-### Добавление Issue в Milestone
-
-**При создании Issue:**
-
-1. Проверить существование Milestone:
-   ```bash
-   gh api repos/{owner}/{repo}/milestones -q '.[] | select(.title == "v1.0.0") | .number'
-   # Если пусто → Milestone не существует, создать или выбрать другой
-   ```
-2. Создать Issue с Milestone:
-   ```bash
-   gh issue create \
-     --title "Добавить OAuth2" \
-     --body "..." \
-     --label type:feature \
-     --label priority:high \
-     --milestone "v1.0.0"
-   ```
-
-**Для существующего Issue:**
-
-```bash
-gh issue edit 123 --milestone "v1.0.0"
-```
-
-**Удаление Issue из Milestone:**
-
-```bash
-gh issue edit 123 --milestone ""
-```
 
 ### Правила группировки Issues
 
@@ -478,15 +487,4 @@ gh issue edit 123 --milestone ""
 - Не перегружать Milestone (макс. 15-20 Issues)
 - Если Issues > 20 → разбить на подзадачи или вынести часть в следующий Milestone
 
-### Просмотр Issues в Milestone
-
-```bash
-# Список Issues
-gh issue list --milestone "v1.0.0"
-
-# Открытые Issues
-gh issue list --milestone "v1.0.0" --state open
-
-# Закрытые Issues
-gh issue list --milestone "v1.0.0" --state closed
-```
+CLI команды для работы с milestones — см. [§7 CLI команды](#7-cli-команды).

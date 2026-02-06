@@ -27,3 +27,8 @@ index: .claude/.instructions/rules/README.md
 **Поиск по описаниям:** При поиске скриптов или документов по описанию — первым шагом использовать скрипты:
   - `python .instructions/.scripts/list-instructions.py` — список документов с description
   - `python .instructions/.scripts/parse-docstrings.py --search "запрос"` — поиск скриптов по docstring
+
+При работе с GitHub Issues ОБЯЗАТЕЛЬНО использовать скиллы:
+  - `/issue-create` - создание Issue по стандарту
+  - `/issue-modify` - изменение Issue (обновление, закрытие, переоткрытие)
+  - `/issue-validate` - валидация Issue по стандарту

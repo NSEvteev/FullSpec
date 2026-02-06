@@ -7,7 +7,7 @@ index: .github/.instructions/issues/issue-templates/README.md
 
 # Стандарт YAML-шаблонов Issues
 
-Версия стандарта: 1.2
+Версия стандарта: 1.3
 
 Формат и правила создания шаблонов для GitHub Issues в `.github/ISSUE_TEMPLATE/`.
 
@@ -267,10 +267,48 @@ assignees:
 **Рекомендуемый порядок полей в body:**
 1. `markdown` с инструкциями (в начале формы)
 2. Основные поля ввода (`textarea` для описания, `input` для версии)
-3. Дополнительные поля (`dropdown`, `textarea` для логов)
-4. `checkboxes` с чек-листом (в конце формы)
+3. `textarea` для связанной документации (`related-docs`) — **обязательное**, см. ниже
+4. `input` для зависимостей (`dependencies`) — **обязательное**, см. ниже
+5. Дополнительные поля (`dropdown`, `textarea` для логов)
+6. `checkboxes` с чек-листом (в конце формы)
 
 **Принцип:** Обязательные поля — в начале, чек-листы и подтверждения — в конце.
+
+**Поле Related Docs (обязательное):**
+
+Каждый шаблон ДОЛЖЕН содержать поле связанной документации. Конвенция формата — [standard-issue.md § 4 Body](../standard-issue.md#body-структура-описания).
+
+```yaml
+- type: textarea
+  id: related-docs
+  attributes:
+    label: Related Documentation
+    description: "Project files that help understand the task context. Format: description — path. Write 'Связанной документации нет' if none"
+    placeholder: |
+      - Стандарт меток — .github/.instructions/labels/standard-labels.md
+      - Справочник меток — .github/labels.yml
+  validations:
+    required: true
+```
+
+Поле обязательное (`required: true`): создатель Issue вынужден осознанно указать релевантные документы или явно написать "Связанной документации нет".
+
+**Поле Dependencies (обязательное):**
+
+Каждый шаблон ДОЛЖЕН содержать поле зависимостей. Конвенция формата — [standard-issue.md § 8](../standard-issue.md#8-декомпозиция-и-зависимости).
+
+```yaml
+- type: input
+  id: dependencies
+  attributes:
+    label: Dependencies
+    description: "Issues this depends on (e.g. #123, #124). Write 'None' if no dependencies"
+    placeholder: "#123, #124 or None"
+  validations:
+    required: true
+```
+
+Поле обязательное (`required: true`): автор Issue вынужден осознанно оценить зависимости перед созданием. Если зависимостей нет — указать "None".
 
 **Контекст для LLM:**
 
@@ -754,6 +792,25 @@ body:
     validations:
       required: true
 
+  - type: textarea
+    id: related-docs
+    attributes:
+      label: Related Documentation
+      description: "Project files that help understand the task context. Format: description — path. Write 'Связанной документации нет' if none"
+      placeholder: |
+        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+    validations:
+      required: true
+
+  - type: input
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: "Issues this depends on (e.g. #123, #124). Write 'None' if no dependencies"
+      placeholder: "#123, #124 or None"
+    validations:
+      required: true
+
   - type: dropdown
     id: environment
     attributes:
@@ -815,6 +872,25 @@ body:
       required: true
 
   - type: textarea
+    id: related-docs
+    attributes:
+      label: Related Documentation
+      description: "Project files that help understand the task context. Format: description — path. Write 'Связанной документации нет' if none"
+      placeholder: |
+        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+    validations:
+      required: true
+
+  - type: input
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: "Issues this depends on (e.g. #123, #124). Write 'None' if no dependencies"
+      placeholder: "#123, #124 or None"
+    validations:
+      required: true
+
+  - type: textarea
     id: alternatives
     attributes:
       label: Alternatives Considered
@@ -847,6 +923,25 @@ body:
     attributes:
       label: Task Description
       description: What needs to be done?
+    validations:
+      required: true
+
+  - type: textarea
+    id: related-docs
+    attributes:
+      label: Related Documentation
+      description: "Project files that help understand the task context. Format: description — path. Write 'Связанной документации нет' if none"
+      placeholder: |
+        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+    validations:
+      required: true
+
+  - type: input
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: "Issues this depends on (e.g. #123, #124). Write 'None' if no dependencies"
+      placeholder: "#123, #124 or None"
     validations:
       required: true
 
@@ -898,6 +993,25 @@ body:
       label: Your Question
       description: What would you like to know?
       placeholder: "How do I configure..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: related-docs
+    attributes:
+      label: Related Documentation
+      description: "Project files that help understand the question context. Format: description — path. Write 'Связанной документации нет' if none"
+      placeholder: |
+        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+    validations:
+      required: true
+
+  - type: input
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: "Related issues (e.g. #123, #124). Write 'None' if no related issues"
+      placeholder: "#123, #124 or None"
     validations:
       required: true
 

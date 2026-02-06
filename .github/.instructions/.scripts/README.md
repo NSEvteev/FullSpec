@@ -30,6 +30,8 @@ index: .github/.instructions/.scripts/README.md
 | [close-milestone.py](./close-milestone.py) | Закрытие Milestone: проверки, перенос Issues | [modify-milestone.md](../milestones/modify-milestone.md) |
 | [validate-action.py](./validate-action.py) | Валидация GitHub Actions workflow файлов (A001-A007) | [validation-action.md](../actions/validation-action.md) |
 | [validate-security.py](./validate-security.py) | Валидация файлов безопасности (SEC001-SEC010) | [validation-security.md](../actions/security/validation-security.md) |
+| [validate-issue.py](./validate-issue.py) | Валидация Issue: title, body, labels, assignees, milestone, закрытие | [validation-issue.md](../issues/validation-issue.md) |
+| [rotate-secret.py](./rotate-secret.py) | Ротация секретов GitHub | [standard-secrets.md](../actions/security/standard-secrets.md) |
 | [check-github-required.py](./check-github-required.py) | Проверка наличия обязательных файлов GitHub | — |
 
 ---
@@ -50,5 +52,7 @@ index: .github/.instructions/.scripts/README.md
 ├── close-milestone.py                 # Закрытие Milestone с проверками
 ├── validate-action.py                  # Валидация GitHub Actions workflows
 ├── validate-security.py                # Валидация файлов безопасности
+├── validate-issue.py                   # Валидация Issue по стандарту
+├── rotate-secret.py                    # Ротация секретов GitHub
 └── check-github-required.py            # Проверка наличия обязательных файлов
 ```
