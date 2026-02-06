@@ -20,7 +20,7 @@ index: .github/.instructions/actions/security/README.md
 | Тип | Документ |
 |-----|----------|
 | Стандарт | Этот документ |
-| Валидация | *Не создано* |
+| Валидация | [validation-security.md](./validation-security.md) |
 | Создание | *Не планируется* |
 | Модификация | *Не планируется* |
 

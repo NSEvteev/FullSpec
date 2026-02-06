@@ -88,7 +88,17 @@ repos:
         require_serial: true
         stages: [pre-commit]
 
-      # 10. Проверка наличия обязательных файлов GitHub
+      # 10. Валидация файлов безопасности GitHub
+      - id: security-validate
+        name: Validate GitHub security files
+        entry: python .github/.instructions/.scripts/validate-security.py
+        language: system
+        files: ^\.github/(dependabot\.yml|SECURITY\.md|workflows/codeql\.yml)$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]
+
+      # 11. Проверка наличия обязательных файлов GitHub
       - id: github-required
         name: Check GitHub required files
         entry: python .github/.instructions/.scripts/check-github-required.py

@@ -32,7 +32,8 @@ index: .github/.instructions/actions/security/README.md
 /.github/.instructions/actions/security/
 ├── README.md                           # Этот файл (индекс)
 ├── standard-secrets.md                 # Стандарт GitHub Secrets
-└── standard-security.md                # Стандарт безопасности
+├── standard-security.md                # Стандарт безопасности
+└── validation-security.md              # Валидация файлов безопасности
 ```
 
 ---
@@ -73,13 +74,17 @@ Dependabot, Code Scanning (CodeQL), Secret Scanning и политика безо
 
 # 3. Валидация
 
-*Нет валидаций.*
+| Документ | Описание |
+|----------|----------|
+| [validation-security.md](./validation-security.md) | Валидация файлов безопасности (SEC001-SEC010) |
 
 ---
 
 # 4. Скрипты
 
-*Нет скриптов.*
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [validate-security.py](../../.scripts/validate-security.py) | Валидация файлов безопасности (SEC001-SEC010) | [validation-security.md](./validation-security.md) |
 
 ---
 

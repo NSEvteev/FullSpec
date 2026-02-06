@@ -57,7 +57,10 @@ index: .github/README.md
 
 ## 2. Файлы
 
-*Нет файлов.*
+| Файл | Описание |
+|------|----------|
+| [dependabot.yml](./dependabot.yml) | Конфигурация Dependabot (обновления зависимостей) |
+| [SECURITY.md](./SECURITY.md) | Политика безопасности (confidential disclosure) |
 
 ---
 
@@ -71,6 +74,8 @@ index: .github/README.md
 ├── releases/                           # История релизов проекта
 ├── workflows/                          # GitHub Actions workflows
 ├── README.md                           # Этот файл
+├── dependabot.yml                      # Конфигурация Dependabot
+├── SECURITY.md                         # Политика безопасности
 ├── labels.yml                          # TODO: добавить описание
 ├── CODEOWNERS                          # TODO: добавить описание
 └── PULL_REQUEST_TEMPLATE.md            # TODO: добавить описание

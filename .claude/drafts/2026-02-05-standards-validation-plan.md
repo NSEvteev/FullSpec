@@ -137,8 +137,8 @@
 | ~~0.5~~ | `milestones/standard-milestone.md` | ✅ | ✅ validation + create + modify + 3 скрипта + 3 скилла | ✅ Milestone `v0.1.0` создан (#1) |
 | ~~0.6~~ | `projects/standard-project.md` | ✅ деактивирован | — | — |
 | ~~0.7~~ | `actions/standard-action.md` | ✅ | ✅ validation (create/modify не нужны) + скрипт + pre-commit хук | ✅ `.github/workflows/ci.yml` |
-| **0.8** | `actions/security/standard-security.md` | ✅ | ⏳ validation (create/modify не нужны) | ⏳ Dependabot, CodeQL, SECURITY.md |
-| **0.9** | `actions/security/standard-secrets.md` | ✅ (holt-анализ — правки отложены) | ⏳ validation | — (конвенция) |
+| ~~0.8~~ | `actions/security/standard-security.md` | ✅ | ✅ validation + скрипт + pre-commit хук (create/modify не нужны) | ✅ `dependabot.yml`, `codeql.yml`, `SECURITY.md` |
+| ~~0.9~~ | `actions/security/standard-secrets.md` | ✅ (holt-анализ — правки отложены) | ✅ *Не планируется* (конвенция) | — |
 
 **Зависимости:** Нет — все стандарты ПОДГОТОВКИ независимы. Можно обрабатывать параллельно.
 
@@ -220,8 +220,8 @@
 | 0.5 | standard-milestone.md | Подготовка | ✅ | ✅ | ✅ |
 | ~~0.6~~ | standard-project.md | Подготовка | ✅ деактивирован | — | — |
 | ~~0.7~~ | standard-action.md | Подготовка | ✅ | ✅ | ✅ |
-| 0.8 | standard-security.md | Подготовка | ✅ | ⏳ | ⏳ |
-| 0.9 | standard-secrets.md | Подготовка | ✅ | ⏳ | — |
+| ~~0.8~~ | standard-security.md | Подготовка | ✅ | ✅ | ✅ |
+| ~~0.9~~ | standard-secrets.md | Подготовка | ✅ | ✅ | — |
 | 1.1 | standard-issue.md | Цикл | ⏳ | ⏳ | ⏳ |
 | 1.2 | standard-branching.md | Цикл | ⏳ | ⏳ | — |
 | 1.3 | standard-development.md | Цикл | ⏳ | ⏳ | — |
@@ -233,7 +233,9 @@
 | 1.10 | standard-release-workflow.md | Цикл | ⏳ | ⏳ | — |
 | 2.1 | standard-github-workflow.md | Оркестратор | ⏳ | ⏳ | — |
 
-**Итого:** 19 стандартов. Этап 1: 9 ✅, 10 ⏳. Этап 2: 5 ✅, 1 ⚠️, 13 ⏳. Этап 3: 8 применимо (5 ✅, 3 ⏳), 11 не применимо.
+**Итого:** 19 стандартов. Этап 1: 9 ✅, 10 ⏳. Этап 2: 7 ✅, 1 ⚠️, 11 ⏳. Этап 3: 8 применимо (6 ✅, 2 ⏳), 11 не применимо.
+
+**ПОДГОТОВКА завершена:** 0.1-0.9 все ✅ (0.6 деактивирован). Далее → Цикл разработки (1.1-1.10).
 
 ---
 

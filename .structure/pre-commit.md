@@ -33,6 +33,7 @@ make setup
 | `codeowners-validate` | Синтаксис CODEOWNERS | `.github/CODEOWNERS` |
 | `type-templates-validate` | Соответствие type:* ↔ Issue Templates | `labels.yml`, `ISSUE_TEMPLATE/*.yml` |
 | `actions-validate` | Формат GitHub Actions workflow | `.github/workflows/*.yml` |
+| `security-validate` | Файлы безопасности GitHub | `dependabot.yml`, `SECURITY.md`, `codeql.yml` |
 | `github-required` | Наличие обязательных файлов GitHub | Все (always_run) |
 
 ---

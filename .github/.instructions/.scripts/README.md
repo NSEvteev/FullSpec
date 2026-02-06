@@ -29,6 +29,7 @@ index: .github/.instructions/.scripts/README.md
 | [create-milestone.py](./create-milestone.py) | Создание Milestone: версия, уникальность, API | [create-milestone.md](../milestones/create-milestone.md) |
 | [close-milestone.py](./close-milestone.py) | Закрытие Milestone: проверки, перенос Issues | [modify-milestone.md](../milestones/modify-milestone.md) |
 | [validate-action.py](./validate-action.py) | Валидация GitHub Actions workflow файлов (A001-A007) | [validation-action.md](../actions/validation-action.md) |
+| [validate-security.py](./validate-security.py) | Валидация файлов безопасности (SEC001-SEC010) | [validation-security.md](../actions/security/validation-security.md) |
 | [check-github-required.py](./check-github-required.py) | Проверка наличия обязательных файлов GitHub | — |
 
 ---
@@ -48,5 +49,6 @@ index: .github/.instructions/.scripts/README.md
 ├── create-milestone.py                # Создание Milestone по стандарту
 ├── close-milestone.py                 # Закрытие Milestone с проверками
 ├── validate-action.py                  # Валидация GitHub Actions workflows
+├── validate-security.py                # Валидация файлов безопасности
 └── check-github-required.py            # Проверка наличия обязательных файлов
 ```

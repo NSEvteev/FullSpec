@@ -1,0 +1,65 @@
+version: 2
+updates:
+  # Python (pip) — backend сервисы
+  - package-ecosystem: "pip"
+    directory: "/src/auth"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      pip-minor-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "deps"
+
+  - package-ecosystem: "pip"
+    directory: "/src/api"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      pip-minor-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "deps"
+
+  # JavaScript/TypeScript (npm) — frontend
+  - package-ecosystem: "npm"
+    directory: "/src/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      npm-minor-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "deps"
+
+  # Docker — платформа
+  - package-ecosystem: "docker"
+    directory: "/platform/docker/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "deps"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "ci"
