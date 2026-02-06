@@ -24,7 +24,7 @@
 **Перенаправлено в зоны-владельцы (было P1, стало SSOT-ссылки):**
 - Порядок настройки → `create-security.md` (2.3)
 - Процесс ротации секретов → `modify-security.md` (5.1)
-- Branch protection + auto-merge → `standard-review.md` + `standard-workflow-file.md` (5.2)
+- Branch protection + auto-merge → `standard-review.md` + `standard-action.md` (5.2)
 - Валидация настроек → `validation-security.md` (4.1)
 - Workflow lifecycle → `standard-github-workflow.md` (4.5)
 
@@ -146,11 +146,11 @@
 **Где:** Секция "8. Не включено в стандарт", строка 394
 
 **Цитата:**
-> | **Security workflow files (.yml)** | Формат workflow файлов — зона `standard-workflow-file.md` |
+> | **Security workflow files (.yml)** | Формат workflow файлов — зона `standard-action.md` |
 
 **Как может понять LLM:**
 - Интерпретация A: codeql.yml вообще НЕ должен создаваться по этому стандарту (раз формат в другом документе)
-- Интерпретация B: codeql.yml создаётся по этому стандарту, но YAML-синтаксис берётся из standard-workflow-file.md
+- Интерпретация B: codeql.yml создаётся по этому стандарту, но YAML-синтаксис берётся из standard-action.md
 - Интерпретация C: Security workflow files — это третьи сторонние инструменты (Snyk, SonarQube), а codeql.yml входит в стандарт
 
 **Рекомендация:**
@@ -158,7 +158,7 @@
 
 | Тема | Причина исключения | Где описано |
 |------|-------------------|-------------|
-| **YAML-синтаксис workflow файлов** | Синтаксис `.yml` описан в отдельном стандарте. СОДЕРЖИМОЕ codeql.yml (конфигурация CodeQL) описано в этом документе (секция 4). | [standard-workflow-file.md](../../workflows-files/standard-workflow-file.md) |
+| **YAML-синтаксис workflow файлов** | Синтаксис `.yml` описан в отдельном стандарте. СОДЕРЖИМОЕ codeql.yml (конфигурация CodeQL) описано в этом документе (секция 4). | [standard-action.md](../../actions/standard-action.md) |
 
 **Критичность:** Средняя (P2)
 
@@ -280,7 +280,7 @@
 
 | Тема | Что НЕ входит в стандарт | Где описано |
 |------|-------------------------|-------------|
-| **YAML-синтаксис** | Синтаксис `.yml` файлов (триггеры, jobs, steps). СОДЕРЖИМОЕ codeql.yml (параметры CodeQL) описано в этом документе. | [standard-workflow-file.md](../../workflows-files/standard-workflow-file.md) |
+| **YAML-синтаксис** | Синтаксис `.yml` файлов (триггеры, jobs, steps). СОДЕРЖИМОЕ codeql.yml (параметры CodeQL) описано в этом документе. | [standard-action.md](../../actions/standard-action.md) |
 | **Custom CodeQL queries** | Создание собственных QL-запросов для поиска уязвимостей. Использование готовых query suites (security-and-quality) — в рамках стандарта. | [CodeQL Docs](https://codeql.github.com/docs/) |
 
 **Критичность:** Низкая (P3)
@@ -517,7 +517,7 @@
 
 ⚠️ **Зона ответственности:**
 - **Branch Protection Rules** (required checks, блокировка merge) — зона [standard-review.md](/.github/.instructions/review/standard-review.md)
-- **Auto-merge workflow YAML** — зона [standard-workflow-file.md](/.github/.instructions/workflows-files/standard-workflow-file.md)
+- **Auto-merge workflow YAML** — зона [standard-action.md](/.github/.instructions/actions/standard-action.md)
 - **Dependabot auto-merge процесс** — зона `create-security.md` (при настройке) или `modify-security.md` (при изменении)
 
 ---
@@ -665,7 +665,7 @@
 | 2 | ~~Добавить секцию "Порядок настройки"~~ → зона `create-security.md` | ~~P1~~ P2 | В стандарте: краткий абзац. Детали → create-security.md |
 | 3 | Создать связанные документы: `create-security.md`, `validation-security.md`, `modify-security.md` | P1 | Соответствие SSOT (standard-instruction.md) |
 | 4 | ~~Детальный процесс ротации~~ → зона `modify-security.md`. В стандарте: правила (ЧТО) | ~~P1~~ P2 | Стандарт: правила ротации. Процесс → modify-security.md |
-| 5 | ~~Секция "Интеграция с CI/CD"~~ → зоны `standard-review.md` + `standard-workflow-file.md` | ~~P1~~ P2 | В стандарте: summary + SSOT-ссылки |
+| 5 | ~~Секция "Интеграция с CI/CD"~~ → зоны `standard-review.md` + `standard-action.md` | ~~P1~~ P2 | В стандарте: summary + SSOT-ссылки |
 | 6 | Уточнить таблицу "Обязательный vs Рекомендуется" для файлов (добавить колонку "Условие") | P1 | Устраняет двойственность формулировок |
 | 7 | Добавить детальное описание "Действия при срабатывании Secret Scanning" (с критериями оценки риска) | P1 | Устраняет неопределённость процесса |
 | 8 | Добавить шаблон SECURITY.md для internal проектов | P2 | Корректный disclosure для приватных проектов |
@@ -703,7 +703,7 @@
    - Политика обработки алертов (5.3)
 
 4. **Summary-ссылки** (не детализировать, только SSOT-ссылки)
-   - Интеграция с CI/CD → `standard-review.md` + `standard-workflow-file.md` (5.2)
+   - Интеграция с CI/CD → `standard-review.md` + `standard-action.md` (5.2)
    - Интеграция с workflow lifecycle → `standard-github-workflow.md` (4.5)
    - Процесс ротации секретов → `modify-security.md` (5.1)
    - Процесс валидации → `validation-security.md` (4.1)

@@ -13,7 +13,7 @@ YAML-файлы GitHub Actions для CI/CD.
 - [GitHub конфигурация](../README.md)
 - [Структура проекта](/.structure/README.md)
 
-**Инструкции:** [.instructions/workflows-files/](../.instructions/workflows-files/README.md)
+**Инструкции:** [.instructions/actions/](../.instructions/actions/README.md)
 
 ## Оглавление
 

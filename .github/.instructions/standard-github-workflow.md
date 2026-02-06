@@ -58,7 +58,7 @@ index: .github/.instructions/README.md
 
 | Объект | Документ | Зона ответственности |
 |--------|----------|---------------------|
-| Workflow Files | [standard-workflow-file.md](./workflows-files/standard-workflow-file.md) | Структура YAML, триггеры, jobs/steps, secrets, best practices |
+| Actions | [standard-action.md](./actions/standard-action.md) | Структура YAML, триггеры, jobs/steps, secrets, best practices |
 | Security | [standard-security.md](./actions/security/standard-security.md) | Dependabot, CodeQL, Secret Scanning, SECURITY.md |
 
 ## Оглавление
@@ -188,7 +188,7 @@ index: .github/.instructions/README.md
 
 7. GITHUB ACTIONS
    └─ Настроить CI workflow (.github/workflows/ci.yml)
-   └─ → standard-workflow-file.md
+   └─ → standard-action.md
 
 8. SECURITY
    └─ Настроить Dependabot, CodeQL, Secret Scanning, SECURITY.md

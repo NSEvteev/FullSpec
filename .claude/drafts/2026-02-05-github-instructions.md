@@ -106,9 +106,9 @@
 │   │   ├── README.md
 │   │   └── security/
 │   │       └── README.md
-│   └── workflows-files/
+│   └── actions/
 │       ├── README.md
-│       └── standard-workflow-file.md
+│       └── standard-action.md
 │
 └── [СЛУЖЕБНЫЕ]
     └── .scripts/
@@ -135,7 +135,7 @@
 | **milestones/standard-milestone.md** | Типы milestone, жизненный цикл |
 | **codeowners/standard-codeowners.md** | Синтаксис CODEOWNERS, автоназначение ревьюеров |
 | **projects/standard-project.md** | Канбан-доски, views, fields, автоматизация |
-| **workflows-files/standard-workflow-file.md** | Структура YAML, триггеры, jobs/steps, secrets |
+| **actions/standard-action.md** | Структура YAML, триггеры, jobs/steps, secrets |
 | **actions/security/** | Dependabot, CodeQL, Secret Scanning |
 
 ---
@@ -200,7 +200,7 @@
 |---|------|------------|--------|
 | 16 | `standard-github-workflow.md` | issue, pr, review, labels | ⏳ |
 | 17 | `releases/standard-release-workflow.md` | release, milestone, workflow | ⏳ |
-| 18 | `workflows-files/standard-workflow-file.md` | workflow, release-workflow | ⏳ |
+| 18 | `actions/standard-action.md` | workflow, release-workflow | ⏳ |
 
 #### Оценки качества
 
@@ -222,7 +222,7 @@
 | 15 | review/standard-review.md | — | — | *Не валидировано* |
 | 16 | standard-github-workflow.md | 9/10 | 8/10 | — |
 | 17 | releases/standard-release-workflow.md | 8/10 | 8/10 | Нет release freeze процедуры |
-| 18 | workflows-files/standard-workflow-file.md | 9/10 | 9/10 | Слишком большой (~1300 строк) |
+| 18 | actions/standard-action.md | 9/10 | 9/10 | Слишком большой (~1300 строк) |
 
 #### Общие паттерны проблем
 
@@ -288,7 +288,7 @@
 
 ##### Желательные (полировка)
 
-6. Quick Reference для standard-workflow-file.md
+6. Quick Reference для standard-action.md
 7. Скрипт item-edit для standard-project.md
 8. Глоссарий терминов — рассмотреть как отдельный документ
 
@@ -343,7 +343,7 @@
 | releases/standard-release.md | [recommendations-standard-release.md](./2026-02-03-recommendations-standard-release.md) | Частично |
 | pull-requests/standard-pull-request.md | *применено, удалён* | Выполнено |
 | milestones/standard-milestone.md | [recommendations-standard-milestone.md](./2026-02-03-recommendations-standard-milestone.md) | Актуально |
-| workflows-files/standard-workflow-file.md | [recommendations-standard-workflow-file.md](./2026-02-03-recommendations-standard-workflow-file.md) | Актуально |
+| actions/standard-action.md | [recommendations-standard-action.md](./2026-02-03-recommendations-standard-action.md) | Актуально |
 | projects/standard-project.md | [recommendations-standard-project.md](./2026-02-03-recommendations-standard-project.md) | Актуально |
 | standard-github-workflow.md | [recommendations-standard-development-workflow.md](./2026-02-03-recommendations-standard-development-workflow.md) | Частично |
 | releases/standard-release-workflow.md | [recommendations-standard-release-workflow.md](./2026-02-03-recommendations-standard-release-workflow.md) | Частично |

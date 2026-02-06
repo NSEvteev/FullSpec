@@ -46,7 +46,6 @@ index: .github/.instructions/README.md
 ├── releases/                           # Инструкции для releases/
 ├── review/                             # Инструкции для Code Review и Merge
 ├── sync/                               # Инструкции для синхронизации
-├── workflows-files/                    # Инструкции для workflows/
 ├── README.md                           # Этот файл (индекс)
 └── standard-github-workflow.md         # Полный цикл разработки
 ```
@@ -73,7 +72,6 @@ index: .github/.instructions/README.md
 | [releases/](./releases/) | Инструкции для releases/ | [README](./releases/README.md) |
 | [review/](./review/) | Инструкции для Code Review и Merge | [README](./review/README.md) |
 | [sync/](./sync/) | Инструкции для синхронизации | [README](./sync/README.md) |
-| [workflows-files/](./workflows-files/) | Инструкции для workflows/ | [README](./workflows-files/README.md) |
 
 ---
 

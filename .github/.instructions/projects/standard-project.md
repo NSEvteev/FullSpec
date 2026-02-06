@@ -60,8 +60,6 @@ index: .github/.instructions/README.md
 - Замена Milestones (для группировки используются Milestones)
 - Подробное описание задач (описание в Issue, не в Project)
 
-**Исключение:** Draft items — черновики идей, которые живут только в Project до создания полноценного Issue.
-
 ---
 
 ## 2. Область ответственности
@@ -87,7 +85,7 @@ index: .github/.instructions/README.md
 | `title` | string | Название проекта | ✅ |
 | `description` | string | Описание проекта | ✅ |
 | `fields` | field[] | Список полей (Status, Priority, etc.) | ✅ |
-| `items` | item[] | Issues/PR/Draft добавленные в проект | ✅ |
+| `items` | item[] | Issues/PR добавленные в проект | ✅ |
 | `views` | view[] | Представления (Board, Table) | ✅ |
 | `workflows` | workflow[] | Автоматизация. Поле всегда существует, может быть пустым массивом. Настройка автоматизации опциональна. | ✅ |
 | `owner` | user/org | Владелец проекта (user или organization) | ❌ (при создании) |
@@ -129,6 +127,17 @@ index: .github/.instructions/README.md
 | Current Sprint | Board | Status | milestone:"Sprint 1" |
 | Backlog | Table | — | status:open NOT milestone:* |
 | Roadmap | Roadmap | — | — |
+
+### Roadmap View: создание поля Date
+
+Roadmap view требует кастомное поле типа Date. Без него элементы не отображаются на timeline.
+
+```bash
+# Создать поле Due Date
+gh project field-create 1 --owner @me --name "Due Date" --data-type "DATE"
+```
+
+После создания поля — задать дату для items, и они появятся на Roadmap timeline.
 
 ---
 
@@ -182,7 +191,7 @@ GitHub Projects автоматически создаёт поля для Issues
 
 ## 6. Items (элементы доски)
 
-**Item** — элемент проекта (Issue, PR или Draft).
+**Item** — элемент проекта (Issue или PR).
 
 ### Типы Items
 
@@ -190,7 +199,6 @@ GitHub Projects автоматически создаёт поля для Issues
 |-----|----------|--------------------|
 | **Issue** | GitHub Issue | Основной тип — задачи, баги, фичи |
 | **Pull Request** | GitHub PR | Добавляется вручную или через автоматизацию (см. "Project → Pull Requests") |
-| **Draft** | Заметка проекта | Черновик идеи (до создания Issue) |
 
 ### Добавление Items
 
@@ -313,16 +321,18 @@ gh project view 1 --owner @me --web
 gh project delete 1 --owner @me
 ```
 
-**Редактирование полей item:**
+**Редактирование полей item (полный скрипт):**
 ```bash
-# Получить ID item:
-gh project item-list 1 --owner @me --format json | jq '.items[] | select(.content.number==123) | .id'
+# Установить Status = "In Progress" для Issue #123
+PROJECT=1
+OWNER="@me"
+ISSUE=123
 
-# Получить ID поля Status:
-gh project field-list 1 --owner @me --format json | jq '.fields[] | select(.name=="Status") | .id'
+ITEM_ID=$(gh project item-list $PROJECT --owner $OWNER --format json | jq -r ".items[] | select(.content.number==$ISSUE) | .id")
+FIELD_ID=$(gh project field-list $PROJECT --owner $OWNER --format json | jq -r '.fields[] | select(.name=="Status") | .id')
+OPTION_ID=$(gh project field-list $PROJECT --owner $OWNER --format json | jq -r '.fields[] | select(.name=="Status") | .options[] | select(.name=="In Progress") | .id')
 
-# Установить Status для item (требует знания ID):
-gh project item-edit --id <item-id> --field-id <field-id> --project-id 1 --single-select-option-id <option-id>
+gh project item-edit --project-id $PROJECT --id $ITEM_ID --field-id $FIELD_ID --single-select-option-id $OPTION_ID
 ```
 
 **Фильтрация items:**
@@ -379,6 +389,10 @@ gh project item-list 1 --owner @me --format json | jq '.items[] | select(.fieldV
 | **Визуализация workflow** | Да | — |
 | **Приоритизация backlog** | Да | Можно через Labels, но менее наглядно |
 | **Roadmap на месяцы** | Да (Roadmap view) | — |
+
+### Монорепо
+
+Проект использует монорепо — **один Project на весь репозиторий**. При масштабировании до нескольких команд — один Project на команду.
 
 ### Текущий проект (2 человека)
 
@@ -520,7 +534,7 @@ jobs:
 
 **Требования:**
 - Personal Access Token с scope `project` в Secrets → `GH_TOKEN`
-- Workflow file — см. [standard-workflow-file.md](../workflows-files/standard-workflow-file.md)
+- Workflow file — см. [standard-action.md](../actions/standard-action.md)
 
 **Альтернатива:** Использовать встроенную автоматизацию Projects (Web UI → Workflows → "Item added").
 

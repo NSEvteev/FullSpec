@@ -497,10 +497,10 @@ LLM-агент может автоматически реагировать на
 **Рекомендация:** Отложить (требует агентов с доступом к GitHub API events)
 
 **Рекомендация:**
-> **Зона другого стандарта.** Webhook-триггеры и CI-интеграция — зона [standard-workflow-file.md](../workflows-files/standard-workflow-file.md). Отложить.
+> **Зона другого стандарта.** Webhook-триггеры и CI-интеграция — зона [standard-action.md](../actions/standard-action.md). Отложить.
 
 **Критичность:** Низкая (P3) — over-engineering для текущей стадии
-**Зона:** → `standard-workflow-file.md`
+**Зона:** → `standard-action.md`
 
 ---
 
@@ -541,7 +541,7 @@ LLM-агент может автоматически реагировать на
 | 15 | ~~CODEOWNERS конфигурация~~ → SSOT-ссылка на `standard-codeowners.md` | P3 | Зона codeowners |
 | 16 | ~~Скрипт Branch Protection~~ → `create-review.md` (будущий) | P3 | Зона create-документа |
 | 17 | Добавить метрики качества ревью (5.1) | P3 | Улучшение процесса, не блокирует |
-| 18 | ~~Webhook-интеграция~~ → зона `standard-workflow-file.md` | P3 | Отложить |
+| 18 | ~~Webhook-интеграция~~ → зона `standard-action.md` | P3 | Отложить |
 
 ---
 

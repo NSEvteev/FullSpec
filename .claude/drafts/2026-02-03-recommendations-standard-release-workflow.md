@@ -99,7 +99,7 @@
 | Rollback процедура | ✅ Да | — |
 | Версионирование | ❌ Нет (ссылка) | standard-release.md |
 | Changelog формат | ❌ Нет (ссылка) | standard-release.md |
-| GitHub Actions | ✅ Примеры | standard-workflow-file.md для деталей |
+| GitHub Actions | ✅ Примеры | standard-action.md для деталей |
 | Development workflow | ❌ Нет (ссылка) | standard-github-workflow.md |
 
 **Вывод:** Границы SSOT в целом соблюдены. Есть небольшое пересечение с standard-release.md — рекомендуется уточнить.

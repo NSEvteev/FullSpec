@@ -391,4 +391,4 @@ gh api repos/:owner/:repo --jq '{
 | **GitHub Advanced Security (GHAS) лицензирование** | Вопрос администрирования организации | [GitHub Docs: GHAS](https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security) |
 | **Custom CodeQL queries** | Требуют глубокой экспертизы, редко нужны для стандартных проектов | [CodeQL Docs](https://codeql.github.com/docs/) |
 | **Third-party security tools** | Вне зоны ответственности (Snyk, SonarQube и др.) | Документация инструмента |
-| **Security workflow files (.yml)** | Формат workflow файлов — зона `standard-workflow-file.md` | [standard-workflow-file.md](../../workflows-files/standard-workflow-file.md) |
+| **Security workflow files (.yml)** | Формат workflow файлов — зона `standard-action.md` | [standard-action.md](../standard-action.md) |

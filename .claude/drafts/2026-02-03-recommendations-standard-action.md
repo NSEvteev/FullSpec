@@ -1,9 +1,9 @@
-# Рекомендации по дополнению standard-workflow-file.md
+# Рекомендации по дополнению standard-action.md
 
 **Дата:** 2026-02-03
-**Обновлено:** 2026-02-04
+**Обновлено:** 2026-02-06
 **Статус:** draft
-**Проанализированный документ:** `.github/.instructions/workflows-files/standard-workflow-file.md`
+**Проанализированный документ:** `.github/.instructions/actions/standard-action.md`
 
 > **Примечание (2026-02-04):** Ссылки на `standard-development-workflow.md` обновлены на `standard-github-workflow.md`.
 

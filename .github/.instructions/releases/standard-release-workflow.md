@@ -66,7 +66,7 @@ index: .github/.instructions/releases/README.md
 |-----|------------------|
 | Версионирование (формат v1.0.0) | [standard-release.md](./standard-release.md) |
 | Теги и changelog | [standard-release.md](./standard-release.md) |
-| CI/CD workflows (`.yml` файлы) | [standard-workflow-file.md](../workflows-files/standard-workflow-file.md) |
+| CI/CD workflows (`.yml` файлы) | [standard-action.md](../actions/standard-action.md) |
 | Milestones (создание, закрытие) | [standard-milestone.md](../milestones/standard-milestone.md) |
 | Issue → PR → Merge | [standard-github-workflow.md](../standard-github-workflow.md) |
 

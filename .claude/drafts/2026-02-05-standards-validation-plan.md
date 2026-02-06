@@ -80,7 +80,7 @@
 | 4 | PR Template | `→ standard-pr-template.md` | ✅ |
 | 5 | Milestones | `→ standard-milestone.md` | ✅ |
 | 6 | GitHub Projects | `→ standard-project.md` | ✅ |
-| 7 | GitHub Actions | `→ standard-workflow-file.md` | ✅ |
+| 7 | GitHub Actions | `→ standard-action.md` | ✅ |
 | 8 | Security | `→ standard-security.md` | ✅ |
 | 9 | Pre-commit Hooks | `→ initialization.md` | ✅ (вне `.github/.instructions/`) |
 
@@ -135,7 +135,7 @@
 | | *`standard-draft-pr.md` влит в `standard-pull-request.md` § 2, файл удалён* | | | |
 | ~~0.5~~ | `milestones/standard-milestone.md` | ✅ | ✅ validation + create + modify + 3 скрипта + 3 скилла | ✅ Milestone `v0.1.0` создан (#1) |
 | **0.6** | `projects/standard-project.md` | ⏳ | ⏳ validation, create, modify | ⏳ Первый GitHub Project |
-| **0.7** | `workflows-files/standard-workflow-file.md` | ⏳ | ⏳ validation, create, modify | ⏳ `.github/workflows/ci.yml` |
+| **0.7** | `actions/standard-action.md` | ⏳ | ⏳ validation, create, modify | ⏳ `.github/workflows/ci.yml` |
 | **0.8** | `actions/security/standard-security.md` | ⏳ | ⏳ validation, create, modify | ⏳ Dependabot, CodeQL, SECURITY.md |
 
 **Зависимости:** Нет — все стандарты ПОДГОТОВКИ независимы. Можно обрабатывать параллельно.
@@ -217,7 +217,7 @@
 | 0.4 | standard-pr-template.md | Подготовка | ✅ | ✅ | ✅ |
 | 0.5 | standard-milestone.md | Подготовка | ✅ | ✅ | ✅ |
 | 0.6 | standard-project.md | Подготовка | ⏳ | ⏳ | ⏳ |
-| 0.7 | standard-workflow-file.md | Подготовка | ⏳ | ⏳ | ⏳ |
+| 0.7 | standard-action.md | Подготовка | ⏳ | ⏳ | ⏳ |
 | 0.8 | standard-security.md | Подготовка | ⏳ | ⏳ | ⏳ |
 | 1.1 | standard-issue.md | Цикл | ⏳ | ⏳ | ⏳ |
 | 1.2 | standard-branching.md | Цикл | ⏳ | ⏳ | — |

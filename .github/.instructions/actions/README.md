@@ -33,6 +33,7 @@ GitHub Actions и автоматизация.
 ├── security/                           # Безопасность (Dependabot, CodeQL)
 │   ├── README.md
 │   └── standard-security.md
+├── standard-action.md                  # Структура YAML, триггеры, jobs/steps
 └── README.md                           # Этот файл (индекс)
 ```
 
@@ -48,7 +49,9 @@ GitHub Actions и автоматизация.
 
 # 1. Стандарты
 
-*Нет стандартов.* (см. [workflows-files/](../workflows-files/) для стандарта workflow файлов)
+| Документ | Описание |
+|----------|----------|
+| [standard-action.md](./standard-action.md) | Структура YAML, триггеры, jobs/steps, secrets, best practices |
 
 ---
 

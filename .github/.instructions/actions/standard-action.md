@@ -5,7 +5,7 @@ standard-version: v1.2
 index: .github/.instructions/README.md
 ---
 
-# Стандарт Workflow File
+# Стандарт GitHub Actions
 
 Версия стандарта: 1.0
 
@@ -20,9 +20,9 @@ index: .github/.instructions/README.md
 | Тип | Документ |
 |-----|----------|
 | Стандарт | Этот документ |
-| Валидация | [validation-workflow-file.md](./validation-workflow-file.md) |
-| Создание | [create-workflow-file.md](./create-workflow-file.md) |
-| Модификация | [modify-workflow-file.md](./modify-workflow-file.md) |
+| Валидация | [validation-action.md](./validation-action.md) |
+| Создание | [create-action.md](./create-action.md) |
+| Модификация | [modify-action.md](./modify-action.md) |
 
 **Зависимые стандарты:**
 
