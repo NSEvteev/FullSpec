@@ -6,6 +6,10 @@ sync-readme.py — Синхронизация дерева в README с файл
     python sync-readme.py <путь_к_папке> [--check] [--fix]
     python sync-readme.py --all [--check] [--fix]
 
+Примеры:
+    python sync-readme.py /src --check
+    python sync-readme.py --all --fix
+
 Проверки:
     R001 — Элемент в ФС, отсутствует в дереве README
     R002 — Элемент в дереве, отсутствует в ФС

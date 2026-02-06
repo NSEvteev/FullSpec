@@ -5,6 +5,9 @@ pre-commit-structure.py — Оркестратор проверок структ
 Использование:
     python pre-commit-structure.py
 
+Примеры:
+    python pre-commit-structure.py
+
 Логика:
     1. Получить staged файлы: git diff --cached --name-only
     2. Определить затронутые папки
