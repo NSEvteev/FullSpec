@@ -38,9 +38,9 @@ ERROR_CODES = {
     "E004": "Body пустой",
     "E005": "Нет секции 'Связанная документация'",
     "E006": "Нет секции 'Критерии готовности' с чек-листом",
-    "E007": "Нет метки type:*",
-    "E008": "Нет метки priority:*",
-    "E009": "Несколько меток type:*",
+    "E007": "Нет метки типа",
+    "E008": "Нет метки приоритета",
+    "E009": "Несколько меток типа",
     "E010": "Milestone не назначен",
     "E011": "Более 3 assignees",
     "E012": "Закрыт вручную (completed) без PR",
@@ -52,6 +52,10 @@ ERROR_CODES = {
 TITLE_MIN_LENGTH = 50
 TITLE_MAX_LENGTH = 70
 MAX_ASSIGNEES = 3
+
+# Допустимые имена меток по группам (SSOT: labels.yml)
+TYPE_LABELS = {"bug", "feature", "task", "docs", "refactor", "question"}
+PRIORITY_LABELS = {"critical", "high", "medium", "low"}
 
 # Префиксы типов, которые не должны быть в title
 TYPE_PREFIXES = re.compile(
@@ -224,20 +228,20 @@ def validate_labels(issue: dict) -> list[str]:
     number = issue.get("number", "?")
     labels = [label.get("name", "") for label in issue.get("labels", [])]
 
-    type_labels = [l for l in labels if l.startswith("type:")]
-    priority_labels = [l for l in labels if l.startswith("priority:")]
+    type_labels = [l for l in labels if l in TYPE_LABELS]
+    priority_labels = [l for l in labels if l in PRIORITY_LABELS]
 
-    # E007: Нет type:*
+    # E007: Нет метки типа
     if len(type_labels) == 0:
-        errors.append(f"[E007] #{number}: нет метки type:*")
+        errors.append(f"[E007] #{number}: нет метки типа ({', '.join(sorted(TYPE_LABELS))})")
 
-    # E009: Несколько type:*
+    # E009: Несколько меток типа
     if len(type_labels) > 1:
-        errors.append(f"[E009] #{number}: несколько меток type:* ({', '.join(type_labels)})")
+        errors.append(f"[E009] #{number}: несколько меток типа ({', '.join(type_labels)})")
 
-    # E008: Нет priority:*
+    # E008: Нет метки приоритета
     if len(priority_labels) == 0:
-        errors.append(f"[E008] #{number}: нет метки priority:*")
+        errors.append(f"[E008] #{number}: нет метки приоритета ({', '.join(sorted(PRIORITY_LABELS))})")
 
     return errors
 
