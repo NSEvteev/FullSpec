@@ -94,7 +94,7 @@ index: .github/.instructions/releases/README.md
    └─ Критерий: минимум 1 смерженный PR с момента последнего релиза ИЛИ deadline milestone
 
 2. ПОДГОТОВКА РЕЛИЗА
-   └─ Проверить main: нет открытых PR с priority:critical
+   └─ Проверить main: нет открытых PR с меткой critical
    └─ Проверить тесты: make test пройдены локально
    └─ Определить версию: v1.0.0 (major.minor.patch)
    └─ Закрыть milestone
@@ -111,7 +111,7 @@ index: .github/.instructions/releases/README.md
    └─ Проверка health check
 
 5. HOTFIX (если production сломался)
-   └─ Создать Issue с priority:critical
+   └─ Создать Issue с меткой critical
    └─ Создать ветку fix/{issue}-{description}
    └─ Исправить → PR → merge в main
    └─ Создать hotfix-релиз: gh release create v1.0.1
@@ -138,7 +138,7 @@ index: .github/.instructions/releases/README.md
 
 | Проверка | Команда | Результат |
 |----------|---------|-----------|
-| **Нет критичных PR** | `gh pr list --label priority:critical --state open` | Список пустой |
+| **Нет критичных PR** | `gh pr list --label critical --state open` | Список пустой |
 | **Main стабильна** | `git checkout main && git pull origin main` | Локальная main синхронизирована |
 | **Тесты проходят** | `make test` | Все тесты ✅ |
 | **Pre-commit hooks** | `make setup` (если не установлены) | Hooks установлены |
@@ -383,7 +383,7 @@ gh run view {run-id} --log
 
 ```
 1. СОЗДАТЬ ISSUE
-   └─ gh issue create --title "Критичный баг: ..." --label type:bug --label priority:critical
+   └─ gh issue create --title "Критичный баг: ..." --label bug --label critical
 
 2. СОЗДАТЬ ВЕТКУ ОТ MAIN
    └─ git checkout main
@@ -398,7 +398,7 @@ gh run view {run-id} --log
 4. СОЗДАТЬ PR
    └─ git push -u origin fix/{issue-number}-{description}
    └─ gh pr create --title "fix: {description}" --body "Closes #{issue-number}" \
-        --label type:bug --label priority:critical
+        --label bug --label critical
 
 5. РЕВЬЮ (упрощённый процесс для hotfix)
    └─ Минимум 1 approval от другого разработчика (НЕ автор PR)
@@ -482,7 +482,7 @@ gh run view {run-id} --log
 
 5. СОЗДАТЬ ISSUE ДЛЯ ИСПРАВЛЕНИЯ
    └─ gh issue create --title "Исправить проблему релиза v1.0.0" \
-        --label type:bug --label priority:critical
+        --label bug --label critical
 
 6. ИСПРАВИТЬ ПРОБЛЕМУ
    └─ Создать ветку fix/{issue}-...

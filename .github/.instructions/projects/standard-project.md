@@ -379,7 +379,7 @@ gh project item-list 1 --owner @me --format json | jq '.items[] | select(.fieldV
 
 - **Связь:** Items (Issues) имеют поле Labels
 - **Направление:** Project фильтрует/группирует по Labels
-- **Использование:** Группировка по `area:*` или фильтр `priority:high`
+- **Использование:** Группировка по `area:*` или фильтр `high`
 
 ---
 

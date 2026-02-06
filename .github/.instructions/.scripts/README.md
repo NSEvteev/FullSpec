@@ -24,7 +24,7 @@ index: .github/.instructions/.scripts/README.md
 | [migrate-label.py](./migrate-label.py) | Миграция меток на Issues/PR | [modify-labels.md](../labels/modify-labels.md) |
 | [validate-pr-template.py](./validate-pr-template.py) | Валидация структуры PR template | [validation-pr-template.md](../pull-requests/pr-template/validation-pr-template.md) |
 | [validate-codeowners.py](./validate-codeowners.py) | Валидация синтаксиса CODEOWNERS | [validation-codeowners.md](../codeowners/validation-codeowners.md) |
-| [validate-type-templates.py](./validate-type-templates.py) | Валидация соответствия type:* и Issue Templates | [validation-type-templates.md](../issues/issue-templates/validation-type-templates.md) |
+| [validate-type-templates.py](./validate-type-templates.py) | Валидация соответствия меток типа и Issue Templates | [validation-type-templates.md](../issues/issue-templates/validation-type-templates.md) |
 | [validate-milestone.py](./validate-milestone.py) | Валидация Milestone: title, description, due date, Issues, Release | [validation-milestone.md](../milestones/validation-milestone.md) |
 | [create-milestone.py](./create-milestone.py) | Создание Milestone: версия, уникальность, API | [create-milestone.md](../milestones/create-milestone.md) |
 | [close-milestone.py](./close-milestone.py) | Закрытие Milestone: проверки, перенос Issues | [modify-milestone.md](../milestones/modify-milestone.md) |
@@ -46,7 +46,7 @@ index: .github/.instructions/.scripts/README.md
 ├── migrate-label.py                    # Миграция меток на Issues/PR
 ├── validate-codeowners.py              # Валидация синтаксиса CODEOWNERS
 ├── validate-pr-template.py             # Валидация структуры PR template
-├── validate-type-templates.py          # Валидация type:* ↔ Issue Templates
+├── validate-type-templates.py          # Валидация меток типа ↔ Issue Templates
 ├── validate-milestone.py              # Валидация Milestone по стандарту
 ├── create-milestone.py                # Создание Milestone по стандарту
 ├── close-milestone.py                 # Закрытие Milestone с проверками

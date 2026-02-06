@@ -241,10 +241,10 @@ GitHub Issues — система управления задачами, бага
 **SSOT:** [standard-labels.md](../labels/standard-labels.md)
 
 **Обязательно при создании Issue:**
-- Ровно 1 метка `type:*`
-- Ровно 1 метка `priority:*`
+- Ровно 1 метка типа (bug, feature, task, docs, refactor, question)
+- Ровно 1 метка приоритета (critical, high, medium, low)
 
-**Опционально:** `status:*`, `area:*`, `effort:*`, `env:*`
+**Опционально:** status (ready, wip, in-review, blocked), area, effort, env
 
 Правила применения и разрешение конфликтов — см. [standard-labels.md § 3, 5](../labels/standard-labels.md#3-правила-применения).
 
@@ -319,7 +319,7 @@ gh issue create --template bug.yml
 
 # С параметрами
 gh issue create --title "Добавить авторизацию" --body "Описание..." \
-  --label type:feature --label priority:high --assignee @me --milestone "v1.0.0"
+  --label feature --label high --assignee @me --milestone "v1.0.0"
 ```
 
 ### Просмотр
@@ -328,7 +328,7 @@ gh issue create --title "Добавить авторизацию" --body "Опи
 # Список Issues
 gh issue list                           # Открытые
 gh issue list --state all               # Все
-gh issue list --label type:bug          # По метке
+gh issue list --label bug          # По метке
 gh issue list --assignee @me            # Назначенные мне
 gh issue list --milestone "v1.0.0"      # По milestone
 
@@ -344,8 +344,8 @@ gh issue view 123 --comments            # С комментариями
 gh issue edit 123 --title "Новый заголовок"
 
 # Метки
-gh issue edit 123 --add-label priority:critical
-gh issue edit 123 --remove-label priority:medium
+gh issue edit 123 --add-label critical
+gh issue edit 123 --remove-label medium
 
 # Assignees
 gh issue edit 123 --add-assignee user1,user2
@@ -373,7 +373,7 @@ gh issue pin 123
 
 ```bash
 # Комбинация фильтров
-gh issue list --label type:bug --label priority:critical --state open
+gh issue list --label bug --label critical --state open
 
 # По milestone
 gh issue list --milestone "v1.0.0" --state open
@@ -407,7 +407,7 @@ Sub-issues — нативная иерархия GitHub: parent Issue содер
 ```bash
 # UI: на parent Issue → "Create sub-issue"
 # CLI: создать Issue, затем привязать
-gh issue create --title "Подзадача" --label type:task
+gh issue create --title "Подзадача" --label task
 # Привязать к parent через UI или API
 ```
 

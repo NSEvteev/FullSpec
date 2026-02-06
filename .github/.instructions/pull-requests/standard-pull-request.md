@@ -160,9 +160,9 @@ gh pr ready 123
 
 | Поле | Когда добавлять | Пример |
 |------|-----------------|--------|
-| `reviewers` | Минимум 1 для критичных изменений (type:bug с priority:critical, breaking changes) | `@username1,@username2` |
+| `reviewers` | Минимум 1 для критичных изменений (bug с critical, breaking changes) | `@username1,@username2` |
 | `assignees` | Если автор ≠ исполнитель | `@me` |
-| `labels` | Всегда | `type:feature`, `priority:high` |
+| `labels` | Всегда | `feature`, `high` |
 | `milestone` | Если привязано к спринту/релизу | `Sprint 1`, `v1.0` |
 | `project` | Если используется kanban | `Roadmap` |
 | `draft` | Если не готов к ревью | `--draft` |
@@ -326,7 +326,7 @@ gh pr create --base develop
 # Список PR
 gh pr list
 gh pr list --state all
-gh pr list --label type:bug
+gh pr list --label bug
 gh pr list --assignee @me
 
 # Детали PR
@@ -386,7 +386,7 @@ gh pr edit 123 --title "New title"
 gh pr edit 123 --add-reviewer @user
 
 # Добавить label
-gh pr edit 123 --add-label priority:critical
+gh pr edit 123 --add-label critical
 
 # Снять draft
 gh pr ready 123
@@ -422,10 +422,10 @@ gh pr create --title "docs: fix typo in README" \
 **Сценарий:** Критичный баг на production, нужен срочный фикс.
 
 **Процесс:**
-1. Создать Issue с `priority:critical`
+1. Создать Issue с меткой `critical`
 2. Создать ветку `fix/{issue-number}-{description}` от main
 3. Внести исправление + тесты
-4. Создать PR с `--label priority:critical`
+4. Создать PR с `--label critical`
 5. Ускоренное ревью (минимум 1 approval)
 6. Merge сразу после approval
 7. Deploy в production

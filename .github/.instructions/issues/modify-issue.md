@@ -120,16 +120,16 @@ gh issue view 123 --json body -q '.body'
 
 ```bash
 # Добавить метку
-gh issue edit 123 --add-label priority:critical
+gh issue edit 123 --add-label critical
 
 # Удалить метку
-gh issue edit 123 --remove-label priority:medium
+gh issue edit 123 --remove-label medium
 
 # Заменить приоритет (удалить старый, добавить новый)
-gh issue edit 123 --remove-label priority:medium --add-label priority:high
+gh issue edit 123 --remove-label medium --add-label high
 ```
 
-> **Важно:** После изменения labels должны оставаться: ровно 1 `type:*` и ровно 1 `priority:*`.
+> **Важно:** После изменения labels должны оставаться: ровно 1 метка типа и ровно 1 метка приоритета.
 
 **Изменение assignees:**
 
@@ -289,7 +289,7 @@ GitHub Issues — remote-объекты, не файлы. Ссылки на Issu
 ### Обновление
 - [ ] Issue найден по номеру или поиску
 - [ ] Изменения соответствуют стандарту (title, body, labels, assignees, milestone)
-- [ ] При изменении labels: ровно 1 `type:*` и 1 `priority:*`
+- [ ] При изменении labels: ровно 1 метка типа и 1 метка приоритета
 - [ ] При изменении body: обязательные секции сохранены
 - [ ] При изменении milestone: Issue привязан к Milestone
 - [ ] Валидация пройдена (`/issue-validate`)
@@ -322,7 +322,7 @@ gh issue view 42
 gh issue edit 42 --title "Исправить ошибку загрузки файлов более 10 МБ"
 
 # Повысить приоритет
-gh issue edit 42 --remove-label priority:medium --add-label priority:critical
+gh issue edit 42 --remove-label medium --add-label critical
 
 # Валидация
 python .github/.instructions/.scripts/validate-issue.py 42
@@ -374,7 +374,7 @@ python .github/.instructions/.scripts/validate-issue.py 42
 gh issue list --milestone "v1.0.0" --state open --json number -q '.[].number'
 
 # Обновить приоритет для конкретного Issue
-gh issue edit 42 --remove-label priority:low --add-label priority:high
+gh issue edit 42 --remove-label low --add-label high
 
 # Массовая валидация
 python .github/.instructions/.scripts/validate-issue.py --milestone "v1.0.0"

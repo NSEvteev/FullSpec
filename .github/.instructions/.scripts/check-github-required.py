@@ -9,7 +9,7 @@ check-github-required.py — Проверка наличия обязатель�
     - .github/CODEOWNERS
     - .github/labels.yml
     - .github/PULL_REQUEST_TEMPLATE.md
-    - .github/ISSUE_TEMPLATE/ (+ соответствие type:*)
+    - .github/ISSUE_TEMPLATE/ (+ соответствие меток типа)
 
 Примеры:
     python check-github-required.py
@@ -24,13 +24,16 @@ import re
 import sys
 from pathlib import Path
 
+# Допустимые имена меток типа (SSOT: labels.yml)
+TYPE_LABELS = {"bug", "feature", "task", "docs", "refactor", "question"}
+
 # Коды ошибок
 ERROR_CODES = {
     "GH001": "Отсутствует .github/CODEOWNERS",
     "GH002": "Отсутствует .github/labels.yml",
     "GH003": "Отсутствует .github/PULL_REQUEST_TEMPLATE.md",
     "GH004": "Отсутствует папка .github/ISSUE_TEMPLATE/",
-    "GH005": "Метка type:* без Issue Template",
+    "GH005": "Метка типа без Issue Template",
 }
 
 
@@ -45,7 +48,7 @@ def find_repo_root(start_path: Path) -> Path:
 
 
 def load_type_labels(repo_root: Path) -> set[str]:
-    """Загрузить метки type:* из labels.yml."""
+    """Загрузить метки типа из labels.yml."""
     labels_path = repo_root / ".github" / "labels.yml"
     if not labels_path.exists():
         return set()
@@ -53,15 +56,15 @@ def load_type_labels(repo_root: Path) -> set[str]:
     type_labels = set()
     with open(labels_path, encoding="utf-8") as f:
         for line in f:
-            match = re.search(r'-\s*name:\s*["\']?(type:[a-z0-9-]+)["\']?', line)
-            if match:
+            match = re.search(r'-\s*name:\s*["\']?([a-z0-9-]+)["\']?', line)
+            if match and match.group(1) in TYPE_LABELS:
                 type_labels.add(match.group(1))
 
     return type_labels
 
 
 def get_templates_type_labels(repo_root: Path) -> set[str]:
-    """Получить все type:* метки из Issue Templates."""
+    """Получить все метки типа из Issue Templates."""
     templates_dir = repo_root / ".github" / "ISSUE_TEMPLATE"
     if not templates_dir.exists():
         return set()
@@ -73,14 +76,16 @@ def get_templates_type_labels(repo_root: Path) -> set[str]:
 
         with open(template_file, encoding="utf-8") as f:
             content = f.read()
-            # Формат 1: labels: [type:bug, ...]
+            # Формат 1: labels: [bug, ...]
             match = re.search(r'labels:\s*\[(.*?)\]', content)
             if match:
-                for label in re.findall(r'type:[a-z0-9-]+', match.group(1)):
-                    type_labels.add(label)
-            # Формат 2: labels:\n  - type:bug
-            for match in re.finditer(r'^\s*-\s*(type:[a-z0-9-]+)\s*$', content, re.MULTILINE):
-                type_labels.add(match.group(1))
+                for label in re.findall(r'[a-z0-9-]+', match.group(1)):
+                    if label in TYPE_LABELS:
+                        type_labels.add(label)
+            # Формат 2: labels:\n  - bug
+            for label_match in re.finditer(r'^\s*-\s*([a-z0-9-]+)\s*$', content, re.MULTILINE):
+                if label_match.group(1) in TYPE_LABELS:
+                    type_labels.add(label_match.group(1))
 
     return type_labels
 
@@ -107,7 +112,7 @@ def check_required_files(repo_root: Path) -> list[str]:
     if not templates_dir.exists():
         errors.append("[GH004] Отсутствует папка .github/ISSUE_TEMPLATE/")
     else:
-        # GH005: Проверить соответствие type:* и шаблонов
+        # GH005: Проверить соответствие меток типа и шаблонов
         type_labels = load_type_labels(repo_root)
         templates_labels = get_templates_type_labels(repo_root)
 

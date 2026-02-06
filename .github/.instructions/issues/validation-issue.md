@@ -131,8 +131,8 @@ index: .github/.instructions/issues/README.md
 
 | Группа | Требование | Проверка |
 |--------|-----------|----------|
-| `type:*` | Ровно 1 | Есть одна метка с префиксом `type:` |
-| `priority:*` | Ровно 1 | Есть одна метка с префиксом `priority:` |
+| Тип | Ровно 1 | Есть одна метка типа (bug, feature, task, docs, refactor, question) |
+| Приоритет | Ровно 1 | Есть одна метка приоритета (critical, high, medium, low) |
 
 3. Проверить допустимость меток:
    ```bash
@@ -141,8 +141,8 @@ index: .github/.instructions/issues/README.md
    ```
 
 **Критерии прохождения:**
-- Ровно 1 метка `type:*`
-- Ровно 1 метка `priority:*`
+- Ровно 1 метка типа (bug, feature, task, docs, refactor, question)
+- Ровно 1 метка приоритета (critical, high, medium, low)
 - Все метки существуют в репозитории
 
 ---
@@ -266,8 +266,8 @@ index: .github/.instructions/issues/README.md
 - [ ] Использован шаблон (если применимо)
 
 ### Labels
-- [ ] Ровно 1 метка `type:*`
-- [ ] Ровно 1 метка `priority:*`
+- [ ] Ровно 1 метка типа (bug, feature, task, docs, refactor, question)
+- [ ] Ровно 1 метка приоритета (critical, high, medium, low)
 - [ ] Все метки существуют в репозитории
 
 ### Assignees
@@ -298,9 +298,9 @@ index: .github/.instructions/issues/README.md
 | Body пустой | E004 | Не заполнено описание | Добавить body через `gh issue edit {n} --body "..."` |
 | Нет "Связанной документации" | E005 | Отсутствует секция | Добавить `## Связанная документация` с файлами или "Связанной документации нет" |
 | Нет "Критериев готовности" | E006 | Отсутствует чек-лист | Добавить секцию `## Критерии готовности` |
-| Нет метки `type:*` | E007 | Пропущена при создании | Добавить: `gh issue edit {n} --add-label type:feature` |
-| Нет метки `priority:*` | E008 | Пропущена при создании | Добавить: `gh issue edit {n} --add-label priority:medium` |
-| Несколько `type:*` | E009 | Две метки типа | Убрать лишнюю: `gh issue edit {n} --remove-label type:bug` |
+| Нет метки типа | E007 | Пропущена при создании | Добавить: `gh issue edit {n} --add-label feature` |
+| Нет метки приоритета | E008 | Пропущена при создании | Добавить: `gh issue edit {n} --add-label medium` |
+| Несколько меток типа | E009 | Две метки типа | Убрать лишнюю: `gh issue edit {n} --remove-label bug` |
 | Milestone не назначен | E010 | Пропущен при создании | Назначить: `gh issue edit {n} --milestone "v1.0.0"` |
 | Более 3 assignees | E011 | Слишком много исполнителей | Декомпозировать задачу на подзадачи |
 | Закрыт вручную (completed) | E012 | Нет PR для задачи | Переоткрыть, создать PR с `Fixes #N` |

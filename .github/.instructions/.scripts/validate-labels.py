@@ -27,9 +27,15 @@ import sys
 from pathlib import Path
 from typing import Optional
 
+# Допустимые имена меток по группам (SSOT: labels.yml)
+TYPE_LABELS = {"bug", "feature", "task", "docs", "refactor", "question"}
+PRIORITY_LABELS = {"critical", "high", "medium", "low"}
+AREA_LABELS = {"backend", "frontend", "database", "platform", "api", "tests", "specs"}
+ENV_LABELS = {"production", "staging", "local"}
+
 # Коды ошибок для валидатора
 ERROR_CODES = {
-    "E001": "Некорректный формат имени метки (должен быть {category}:{value})",
+    "E001": "Некорректный формат имени метки",
     "E002": "Имя метки не в lowercase",
     "E003": "Имя метки не в kebab-case",
     "E004": "HEX цвета некорректен (должен быть 6 символов без #)",
@@ -39,12 +45,12 @@ ERROR_CODES = {
     "E008": "Метка отсутствует в GitHub",
     "E009": "Лишняя метка в GitHub (нет в labels.yml)",
     "E010": "Расхождение description/color с GitHub",
-    "E011": "Отсутствует обязательная метка type:*",
-    "E012": "Отсутствует обязательная метка priority:*",
-    "E013": "Несколько меток type:*",
-    "E014": "Несколько меток priority:*",
-    "E015": "Метка env:* на не-баге",
-    "E016": "Более 3 меток area:*",
+    "E011": "Отсутствует обязательная метка типа",
+    "E012": "Отсутствует обязательная метка приоритета",
+    "E013": "Несколько меток типа",
+    "E014": "Несколько меток приоритета",
+    "E015": "Метка env на не-баге",
+    "E016": "Более 3 меток area",
     "E017": "Метка не существует в labels.yml",
 }
 
@@ -106,20 +112,12 @@ def validate_label_format(label: dict) -> list[str]:
     desc = label.get("description", "")
     color = label.get("color", "")
 
-    # E001: формат {category}:{value}
-    if ":" not in name:
-        errors.append(f"[E001] {name}: нет разделителя ':'")
-    else:
-        parts = name.split(":")
-        if len(parts) != 2 or not parts[0] or not parts[1]:
-            errors.append(f"[E001] {name}: некорректный формат")
-
     # E002: lowercase
     if name != name.lower():
         errors.append(f"[E002] {name}: должен быть lowercase")
 
-    # E003: kebab-case (только буквы, цифры, дефис, двоеточие)
-    if not re.match(r"^[a-z0-9:-]+$", name):
+    # E003: kebab-case (только буквы, цифры, дефис)
+    if not re.match(r"^[a-z0-9-]+$", name):
         errors.append(f"[E003] {name}: должен быть kebab-case")
 
     # E004: HEX цвета
@@ -256,35 +254,35 @@ def validate_labels_on_item(
     errors = []
     prefix = f"{item_type} #{number}"
 
-    # Фильтруем по категориям
-    type_labels = [l for l in labels if l.startswith("type:")]
-    priority_labels = [l for l in labels if l.startswith("priority:")]
-    area_labels = [l for l in labels if l.startswith("area:")]
-    env_labels = [l for l in labels if l.startswith("env:")]
+    # Фильтруем по категориям (по именам, без префиксов)
+    type_labels = [l for l in labels if l in TYPE_LABELS]
+    priority_labels = [l for l in labels if l in PRIORITY_LABELS]
+    area_labels = [l for l in labels if l in AREA_LABELS]
+    env_labels = [l for l in labels if l in ENV_LABELS]
 
-    # E011: нет type:*
+    # E011: нет метки типа
     if not type_labels:
-        errors.append(f"[E011] {prefix}: отсутствует метка type:*")
+        errors.append(f"[E011] {prefix}: отсутствует метка типа ({', '.join(sorted(TYPE_LABELS))})")
 
-    # E012: нет priority:*
+    # E012: нет метки приоритета
     if not priority_labels:
-        errors.append(f"[E012] {prefix}: отсутствует метка priority:*")
+        errors.append(f"[E012] {prefix}: отсутствует метка приоритета ({', '.join(sorted(PRIORITY_LABELS))})")
 
-    # E013: несколько type:*
+    # E013: несколько меток типа
     if len(type_labels) > 1:
-        errors.append(f"[E013] {prefix}: несколько меток type:* ({', '.join(type_labels)})")
+        errors.append(f"[E013] {prefix}: несколько меток типа ({', '.join(type_labels)})")
 
-    # E014: несколько priority:*
+    # E014: несколько меток приоритета
     if len(priority_labels) > 1:
-        errors.append(f"[E014] {prefix}: несколько меток priority:* ({', '.join(priority_labels)})")
+        errors.append(f"[E014] {prefix}: несколько меток приоритета ({', '.join(priority_labels)})")
 
-    # E015: env:* на не-баге
-    if env_labels and "type:bug" not in labels:
-        errors.append(f"[E015] {prefix}: env:* без type:bug ({', '.join(env_labels)})")
+    # E015: env на не-баге
+    if env_labels and "bug" not in labels:
+        errors.append(f"[E015] {prefix}: env-метка без bug ({', '.join(env_labels)})")
 
-    # E016: более 3 area:*
+    # E016: более 3 меток area
     if len(area_labels) > 3:
-        errors.append(f"[E016] {prefix}: более 3 меток area:* ({len(area_labels)})")
+        errors.append(f"[E016] {prefix}: более 3 меток area ({len(area_labels)})")
 
     # E017: метка не в labels.yml
     for label in labels:

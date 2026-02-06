@@ -441,7 +441,7 @@ python .github/.instructions/.scripts/validate-labels.py --file
 python .github/.instructions/.scripts/validate-labels.py --sync
 ```
 
-**Важно:** НЕ удалять метки категорий `type:*` и `priority:*` без согласования с командой.
+**Важно:** НЕ удалять метки типа (bug, feature, task, docs, refactor, question) и приоритета (critical, high, medium, low) без согласования с командой.
 
 ---
 

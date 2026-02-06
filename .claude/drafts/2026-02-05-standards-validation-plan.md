@@ -152,7 +152,7 @@
 
 | # | Стадия | Стандарт | Этап 1 | Этап 2 (docs) | Этап 3 (объекты) |
 |---|--------|----------|:------:|:-------------:|:----------------:|
-| ~~1.1~~ | 1 | `issues/standard-issue.md` | ✅ v1.4: §9 переписан, deps, TT006, TT007, «Связанная документация» обязательна | ✅ validation + create + modify + скрипт + 3 скилла + rule | ⏳ Первый Issue |
+| ~~1.1~~ | 1 | `issues/standard-issue.md` | ✅ v1.4: §9 переписан, deps, TT006, TT007, «Связанная документация» обязательна | ✅ validation + create + modify + скрипт + 3 скилла + rule | ✅ Issue #34 создан |
 | **1.2** | 3 | `branches/standard-branching.md` | ⏳ | ⏳ validation | — (конвенция) |
 | **1.3** | 4 | `development/standard-development.md` | ✅ v1.1: +§1 взятие задачи, +§6 завершение, перенумерация §2-§7 | ⏳ validation | — (процесс) |
 | **1.4** | 5 | `commits/standard-commit.md` | ⏳ | ⏳ validation | — (конвенция) |
@@ -222,7 +222,7 @@
 | ~~0.7~~ | standard-action.md | Подготовка | ✅ | ✅ | ✅ |
 | ~~0.8~~ | standard-security.md | Подготовка | ✅ | ✅ | ✅ |
 | ~~0.9~~ | standard-secrets.md | Подготовка | ✅ | ✅ | — |
-| ~~1.1~~ | standard-issue.md | Цикл | ✅ | ✅ | ⏳ |
+| ~~1.1~~ | standard-issue.md | Цикл | ✅ | ✅ | ✅ |
 | 1.2 | standard-branching.md | Цикл | ⏳ | ⏳ | — |
 | 1.3 | standard-development.md | Цикл | ✅ (v1.1: §1 взятие, §6 завершение) | ⏳ | — |
 | 1.4 | standard-commit.md | Цикл | ⏳ | ⏳ | — |
@@ -233,10 +233,10 @@
 | 1.10 | standard-release-workflow.md | Цикл | ⏳ | ⏳ | — |
 | 2.1 | standard-github-workflow.md | Оркестратор | ⏳ | ⏳ | — |
 
-**Итого:** 19 стандартов. Этап 1: 11 ✅, 8 ⏳. Этап 2: 8 ✅, 1 ⚠️, 10 ⏳. Этап 3: 8 применимо (6 ✅, 2 ⏳), 11 не применимо.
+**Итого:** 19 стандартов. Этап 1: 11 ✅, 8 ⏳. Этап 2: 8 ✅, 1 ⚠️, 10 ⏳. Этап 3: 8 применимо (7 ✅, 1 ⏳), 11 не применимо.
 
 **ПОДГОТОВКА завершена:** 0.1-0.9 все ✅ (0.6 деактивирован).
-**ЦИКЛ: 1.1 Этап 1+2 ✅**, 1.3 Этап 1 ✅, 1.5 Этап 1 ✅. Следующий шаг → 1.1 Этап 3 (первый Issue) или 1.2 (standard-branching.md).
+**ЦИКЛ: 1.1 полностью завершён ✅** (все 3 этапа). 1.3 Этап 1 ✅, 1.5 Этап 1 ✅. Следующий шаг → 1.2 (standard-branching.md) или 1.4 (standard-commit.md).
 
 ---
 
@@ -280,4 +280,62 @@
 | `issues/README.md` | индекс | Обновлён: дерево + таблицы |
 | `skills/README.md` | индекс | +3 скилла в категорию github |
 
-**Следующий шаг:** 1.1 Этап 3 (первый Issue) или 1.2 (standard-branching.md).
+**Этап 3 (первый Issue):**
+
+| Файл | Описание |
+|------|----------|
+| Issue #34 | «Завершить валидацию стандартов .github/.instructions/» — task, high, v0.1.0 |
+
+### Сопутствующие изменения: удаление префиксов type:/priority:
+
+Метки в `labels.yml` используют простые имена (`bug`, `high`), но документация ссылалась на `type:bug`, `priority:high`. Все ссылки приведены к актуальному формату.
+
+**Документация (15 файлов):**
+
+| Файл | Изменение |
+|------|-----------|
+| `create-issue.md` | чек-лист: `type:*` → типа, `priority:*` → приоритета |
+| `validation-issue.md` | таблицы, критерии, чек-лист, E007-E009 |
+| `modify-issue.md` | CLI-примеры, чек-лист |
+| `standard-issue.md` | `--label type:task` → `--label task` |
+| `standard-issue-template.md` | формат, YAML-примеры шаблонов, соответствие |
+| `validation-type-templates.md` | описание, таблицы, чек-лист |
+| `issue-templates/README.md` | дерево, описание валидации |
+| `validation-labels.md` | формат, критерии, чек-лист, E001, E011-E015 |
+| `modify-labels.md` | описание меток |
+| `standard-labels.md` | правило соответствия |
+| `standard-pull-request.md` | таблица labels, CLI-примеры |
+| `standard-release.md` | release.yml категории, SemVer таблица |
+| `standard-release-workflow.md` | подготовка, hotfix, rollback |
+| `standard-project.md` | `priority:high` → `high` |
+| `.scripts/README.md` | описание validate-type-templates.py |
+
+**Скрипты (2 файла — логика переписана):**
+
+| Файл | Изменение |
+|------|-----------|
+| `validate-labels.py` | +константы TYPE/PRIORITY/AREA/ENV_LABELS, убран `startswith("type:")`, regex без `:` |
+| `check-github-required.py` | +константа TYPE_LABELS, фильтрация по set вместо regex |
+
+### Сопутствующие изменения: рефакторинг /issue-create
+
+LLM больше не спрашивает пользователя шаблон/title/milestone — определяет всё из контекста. Добавлен batch-режим с зависимостями.
+
+| Файл | Изменение |
+|------|-----------|
+| `SKILL.md` (issue-create) | параметры `(определяется из контекста)`, секция «Принцип автономности», batch-примеры |
+| `create-issue.md` | +принципы «Автономность LLM» и «Batch-создание», автоопределение шаблона/labels/milestone, секция «Batch-создание» с алгоритмом зависимостей и сводкой |
+
+### GitHub Issues для корневых папок
+
+Созданы Issues #35-39 для папок без инструкций:
+
+| # | Папка | Labels | Зависит от |
+|---|-------|--------|------------|
+| 35 | config/ | docs, medium | — |
+| 36 | platform/ | docs, medium | #35 |
+| 37 | shared/ | docs, medium | — |
+| 38 | src/ | docs, high | #37 |
+| 39 | tests/ | docs, high | #38 |
+
+**Следующий шаг:** 1.2 (standard-branching.md) или 1.4 (standard-commit.md).

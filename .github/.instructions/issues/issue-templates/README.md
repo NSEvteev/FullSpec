@@ -30,7 +30,7 @@ index: .github/.instructions/issues/issue-templates/README.md
 /.github/.instructions/issues/issue-templates/
 ├── README.md                           # Этот файл (индекс)
 ├── standard-issue-template.md          # Стандарт YAML-шаблонов Issues
-└── validation-type-templates.md        # Валидация type:* ↔ Issue Templates
+└── validation-type-templates.md        # Валидация меток типа ↔ Issue Templates
 ```
 
 ---
@@ -49,4 +49,4 @@ index: .github/.instructions/issues/issue-templates/README.md
 
 # 3. Валидация
 
-- [validation-type-templates.md](./validation-type-templates.md) — Валидация соответствия type:* меток и Issue Templates
+- [validation-type-templates.md](./validation-type-templates.md) — Валидация соответствия меток типа и Issue Templates

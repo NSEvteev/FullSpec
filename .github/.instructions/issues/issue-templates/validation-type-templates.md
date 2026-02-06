@@ -1,15 +1,15 @@
 ---
-description: Валидация соответствия type:* меток и Issue Templates
+description: Валидация соответствия меток типа и Issue Templates
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/issues/issue-templates/README.md
 ---
 
-# Валидация соответствия type:* и Issue Templates
+# Валидация соответствия меток типа и Issue Templates
 
 Рабочая версия стандарта: 1.2
 
-Проверка что для каждой метки `type:*` в `labels.yml` существует Issue Template, и наоборот.
+Проверка что для каждой метки типа (bug, feature, task, docs, refactor, question) в `labels.yml` существует Issue Template, и наоборот.
 
 **Полезные ссылки:**
 - [Инструкции Issue Templates](./README.md)
@@ -37,9 +37,9 @@ index: .github/.instructions/issues/issue-templates/README.md
 
 ## Когда валидировать
 
-**После изменения меток `type:*`:**
-- Добавление метки `type:*` в `labels.yml`
-- Удаление метки `type:*` из `labels.yml`
+**После изменения меток типа:**
+- Добавление метки типа в `labels.yml`
+- Удаление метки типа из `labels.yml`
 
 **После изменения Issue Templates:**
 - Создание нового шаблона
@@ -70,7 +70,7 @@ python .github/.instructions/.scripts/validate-type-templates.py --verbose
 | Ошибка | Действие |
 |--------|----------|
 | TT001: Метка без шаблона | Создать Issue Template (см. [standard-issue-template.md](./standard-issue-template.md)) |
-| TT002: Шаблон без type:* | Добавить `labels: [type:{value}]` в шаблон |
+| TT002: Шаблон без метки типа | Добавить метку типа в `labels:` шаблона |
 | TT003: Неизвестная метка | Добавить метку в `labels.yml` или исправить опечатку |
 | TT006: Нет поля dependencies | Добавить `id: dependencies` с `required: true` (см. [standard-issue-template.md § body](./standard-issue-template.md#body-обязательно)) |
 | TT007: Нет поля related-docs | Добавить `id: related-docs` с `required: true` (см. [standard-issue-template.md § body](./standard-issue-template.md#body-обязательно)) |
@@ -83,8 +83,8 @@ python .github/.instructions/.scripts/validate-type-templates.py --verbose
 
 ## Чек-лист
 
-- [ ] Для каждой метки `type:*` есть шаблон
-- [ ] Каждый шаблон содержит `labels: [type:{value}]`
+- [ ] Для каждой метки типа есть шаблон
+- [ ] Каждый шаблон содержит метку типа в `labels:`
 - [ ] Каждый шаблон содержит поле `id: related-docs` с `required: true`
 - [ ] Каждый шаблон содержит поле `id: dependencies` с `required: true`
 - [ ] Метки в шаблонах существуют в `labels.yml`
@@ -96,8 +96,8 @@ python .github/.instructions/.scripts/validate-type-templates.py --verbose
 
 | Ошибка | Код | Причина | Решение |
 |--------|-----|---------|---------|
-| Метка без шаблона | TT001 | Добавили `type:*` в labels.yml без создания шаблона | Создать Issue Template |
-| Шаблон без type:* | TT002 | Шаблон не содержит `labels: [type:{value}]` | Добавить метку в `labels:` |
+| Метка без шаблона | TT001 | Добавили метку типа в labels.yml без создания шаблона | Создать Issue Template |
+| Шаблон без метки типа | TT002 | Шаблон не содержит метку типа в `labels:` | Добавить метку в `labels:` |
 | Неизвестная метка | TT003 | Опечатка в шаблоне или метка удалена | Исправить имя или добавить в labels.yml |
 | labels.yml не найден | TT004 | Файл отсутствует | Создать `.github/labels.yml` |
 | Папка не найдена | TT005 | Нет `.github/ISSUE_TEMPLATE/` | Создать папку и шаблоны |
@@ -110,7 +110,7 @@ python .github/.instructions/.scripts/validate-type-templates.py --verbose
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
-| [validate-type-templates.py](../../.scripts/validate-type-templates.py) | Валидация соответствия type:* и шаблонов | Этот документ |
+| [validate-type-templates.py](../../.scripts/validate-type-templates.py) | Валидация соответствия меток типа и шаблонов | Этот документ |
 
 ---
 

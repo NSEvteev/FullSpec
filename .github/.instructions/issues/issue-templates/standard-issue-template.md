@@ -206,23 +206,23 @@ title: "Bug in module X"  # ❌ (слишком специфично)
 **Правила:**
 - Метки ДОЛЖНЫ существовать в `.github/labels.yml`
 - Список меток — см. [labels.yml](../../../labels.yml)
-- Используется формат `{category}:{value}` (см. [standard-labels.md](../../labels/standard-labels.md))
+- Имена меток соответствуют [labels.yml](../../../labels.yml) (без префиксов)
 - Количество меток не ограничено (но избегать дублирования категорий)
 
 **Примеры:**
 ```yaml
 labels:
-  - type:bug  # ✅
-  - priority:medium  # ✅
+  - bug  # ✅
+  - medium  # ✅
 
 labels:
-  - type:bug
-  - type:feature  # ❌ (конфликт: несколько type:*)
+  - bug
+  - feature  # ❌ (конфликт: несколько меток типа)
 ```
 
 **Важно:** Метки из шаблона ДОЛЖНЫ существовать в GitHub до создания шаблона. Проверить командой:
 ```bash
-gh label list --search "type:bug"
+gh label list --search "bug"
 ```
 Если метка отсутствует — создать через `gh label create` (см. [standard-labels.md](../../labels/standard-labels.md)). Без этой проверки Issue будет создан, но метка НЕ применится.
 
@@ -597,27 +597,27 @@ validations:
 
 **Правила:**
 - Метки ДОЛЖНЫ существовать в GitHub (создать перед использованием)
-- Избегать конфликтов: не указывать несколько меток одной категории (например, два `type:*`)
+- Избегать конфликтов: не указывать несколько меток одной категории (например, два типа)
 
 Формат, категории и правила применения — см. SSOT.
 
-### Соответствие type:* и шаблонов
+### Соответствие меток типа и шаблонов
 
-**Для каждой метки `type:*` из [labels.yml](../../../labels.yml) ДОЛЖЕН существовать Issue Template.**
+**Для каждой метки типа (bug, feature, task, docs, refactor, question) из [labels.yml](../../../labels.yml) ДОЛЖЕН существовать Issue Template.**
 
 **Правила:**
-- Шаблон ДОЛЖЕН содержать `labels: [type:{value}]`
-- Именование файла: `{value}.yml`, `{value}-report.yml` или `{value}-request.yml`
-- При добавлении метки `type:*` — создать шаблон (→ [standard-labels.md § 4](../../labels/standard-labels.md#4-связь-type-меток-с-issue-templates))
-- При удалении метки `type:*` — удалить шаблон
-- При создании шаблона — убедиться, что метка `type:*` существует в [labels.yml](../../../labels.yml)
+- Шаблон ДОЛЖЕН содержать метку типа в `labels: [{type}]`
+- Именование файла: `{type}.yml`, `{type}-report.yml` или `{type}-request.yml`
+- При добавлении метки типа — создать шаблон (→ [standard-labels.md § 4](../../labels/standard-labels.md#4-связь-type-меток-с-issue-templates))
+- При удалении метки типа — удалить шаблон
+- При создании шаблона — убедиться, что метка типа существует в [labels.yml](../../../labels.yml)
 
 **Валидация:**
 ```bash
 python .github/.instructions/.scripts/validate-type-templates.py
 ```
 
-> **Для LLM:** При создании/удалении Issue Template проверить соответствие с метками `type:*` в labels.yml.
+> **Для LLM:** При создании/удалении Issue Template проверить соответствие с метками типа в labels.yml.
 
 ---
 
@@ -752,8 +752,8 @@ name: Bug Report
 description: Report a bug or unexpected behavior
 title: "[Bug]: "
 labels:
-  - type:bug
-  - priority:medium
+  - bug
+  - medium
 body:
   - type: markdown
     attributes:
@@ -850,8 +850,8 @@ name: Feature Request
 description: Suggest a new feature or enhancement
 title: "[Feature]: "
 labels:
-  - type:feature
-  - priority:low
+  - feature
+  - low
 body:
   - type: textarea
     id: problem
@@ -916,7 +916,7 @@ name: Task
 description: Technical task or improvement
 title: "[Task]: "
 labels:
-  - type:task
+  - task
 body:
   - type: textarea
     id: description
@@ -978,7 +978,7 @@ name: Question
 description: Ask a question about the project
 title: "[Question]: "
 labels:
-  - type:question
+  - question
 body:
   - type: markdown
     attributes:

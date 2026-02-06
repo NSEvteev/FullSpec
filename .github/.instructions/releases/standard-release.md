@@ -276,13 +276,13 @@ changelog:
   categories:
     - title: 🚀 Features
       labels:
-        - type:feature
+        - feature
     - title: 🐛 Bug Fixes
       labels:
-        - type:bug
+        - bug
     - title: 📚 Documentation
       labels:
-        - type:docs
+        - docs
     - title: 🔧 Other Changes
       labels:
         - "*"
@@ -305,10 +305,10 @@ changelog:
 
 | Категория | Метка PR | Тип в SemVer |
 |-----------|----------|--------------|
-| **Added** | `type:feature` | MINOR |
-| **Changed** | `type:refactor` | MINOR |
-| **Fixed** | `type:bug` | PATCH |
-| **Removed** | `type:feature` + breaking | MAJOR |
+| **Added** | `feature` | MINOR |
+| **Changed** | `refactor` | MINOR |
+| **Fixed** | `bug` | PATCH |
+| **Removed** | `feature` + breaking | MAJOR |
 
 **Важно:** Если в Release есть секция **Removed** или **Breaking changes** — версия ДОЛЖНА инкрементировать MAJOR.
 
