@@ -316,8 +316,8 @@ def main():
     )
     parser.add_argument(
         "name",
-        nargs="?",
-        help="Имя rule (ssot) или путь к файлу (.claude/rules/core.md)"
+        nargs="*",
+        help="Имя rule (ssot) или путь к файлу (.claude/rules/core.md). Можно несколько."
     )
     parser.add_argument(
         "--all",
@@ -342,7 +342,10 @@ def main():
     if args.all:
         success = validate_all(repo_root, args.json)
     elif args.name:
-        success = validate_single(args.name, repo_root, args.json)
+        success = True
+        for name in args.name:
+            if not validate_single(name, repo_root, args.json):
+                success = False
     else:
         parser.print_help()
         sys.exit(1)
