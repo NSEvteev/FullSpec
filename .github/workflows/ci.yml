@@ -30,7 +30,7 @@ jobs:
     steps:
       # Шаг 1: Скачать код из репозитория в виртуалку
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # Шаг 2: Установить Python (нужен для наших скриптов)
       - name: Setup Python
