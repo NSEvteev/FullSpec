@@ -51,7 +51,7 @@
 | D2 | development | 1.5 | Sync | standard-sync.md | ДА | Рекомендация корректна — добавить SSOT-ссылку (не детали) | ✅ development v1.1 |
 | D3 | development | 4.4 | Sync | standard-sync.md | ДА | Не добавлять в development — это зона sync | ✅ Пропущено |
 | R1 | review | #11 | Branching | standard-branching.md | ДА (§3) | Холт уже указал — заменить на SSOT-ссылку | ⏳ |
-| R2 | review | #12 | State | standard-state.md | ДА | Холт уже указал — заменить на SSOT-ссылку | ⏳ |
+| R2 | review | #12 | State | standard-state.md | ДА | ✅ state система удалена | ✅ |
 | R3 | review | #15 | CODEOWNERS | standard-codeowners.md | НЕТ | SSOT-ссылка на standard-codeowners.md (содержимое добавить туда) | ⏳ |
 | R4 | review | #18 | Actions | standard-action.md | — | Холт уже указал — отложить | ⏳ |
 | S1 | sync | 1.4 | Branching + PR | standard-branching.md, standard-pull-request.md | ЧАСТИЧНО | Уточнить формулировку в sync, добавить ссылку на branching/PR | ⏳ |

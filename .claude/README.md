@@ -34,7 +34,6 @@ standard-version: v1.1
 | [rules/](./rules/) | Контекстные правила | — |
 | [templates/](./templates/) | SSOT шаблоны | [README.md](./templates/README.md) |
 | [agents/](./agents/) | Помощники | [Инструкции](./.instructions/agents/README.md) |
-| [state/](./state/) | Состояние между вызовами | [README.md](./state/README.md) |
 | [drafts/](./drafts/) | Черновики, SSOT-документы | [README.md](./drafts/README.md) |
 | [scripts/](./scripts/) | Python скрипты | [README.md](./scripts/README.md) |
 

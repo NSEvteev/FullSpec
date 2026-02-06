@@ -1,29 +1,6 @@
 {
   "language": "russian",
   "plansDirectory": "./.claude/drafts",
-  "hooks": {
-    "SubagentStart": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python ./.claude/hooks/record-agent-start.py"
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python ./.claude/hooks/cleanup-agent.py"
-          }
-        ]
-      }
-    ]
-  },
   "permissions": {
     "defaultMode": "acceptEdits",
     "allow": [

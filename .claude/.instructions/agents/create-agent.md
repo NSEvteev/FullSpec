@@ -53,8 +53,6 @@ index: .claude/.instructions/agents/README.md
 
 > **Ограничения важнее инструкций.** Что агент НЕ должен делать — критичнее того, что должен.
 
-> **Координация автоматизирована.** Хуки `SubagentStart`/`SubagentStop` автоматически регистрируют агента и выполняют cleanup. `SubagentStop` срабатывает при любом завершении агента (нормальное, ошибка, прерывание). Агент должен только работать с блокировками файлов. См. [standard-state.md](../state/standard-state.md).
-
 ---
 
 ## Шаги
@@ -169,14 +167,7 @@ skills:
 - Первая версия агента
 ```
 
-**Для агентов с Edit/Write — создать файлы:**
-
-1. **Файл лога операций:**
-```bash
-echo '{"agent": "{agent-name}", "description": "", "started_at": null, "finished_at": null, "context": "", "operations": []}' > .claude/state/agent-{agent-name}-operation.json
-```
-
-2. **CHANGELOG.md:**
+**CHANGELOG.md:**
 ```bash
 cat > .claude/agents/{agent-name}/CHANGELOG.md << 'EOF'
 # CHANGELOG — {Agent Name}
@@ -209,7 +200,6 @@ EOF
 | `## Скиллы` | Для `general-purpose` (кратко, без дублирования frontmatter) |
 | `## Область работы` | Если ограничена папка/файлы |
 | `## Критерии успеха` | Для сложных задач |
-| `## Работа со state` | **Обязательно** для агентов с Edit/Write |
 
 **Шаблон полного промпта:**
 
@@ -232,25 +222,6 @@ EOF
 
 ## Скиллы
 Используй скиллы из frontmatter вместо ручных операций.
-
-## Работа со state (для агентов с Edit/Write)
-
-> **SSOT:** [standard-state.md](../state/standard-state.md)
-
-Перед редактированием файла:
-1. Проверить `/.claude/state/locks.json`
-2. Добавить блокировку
-3. Выполнить операцию
-4. Снять блокировку сразу после (ВСЕГДА, даже при ошибке!)
-
-Вести лог в `/.claude/state/agent-{name}-operation.json`:
-
-| Действие | action | Что логировать |
-|----------|--------|----------------|
-| Чтение | `read` | Файлы в области работы агента |
-| Запись | `write` | Созданные или перезаписанные файлы |
-| Редактирование | `edit` | Изменённые файлы |
-| Создание | `create` | Новые файлы |
 
 ## Удаление файлов
 
@@ -279,8 +250,6 @@ EOF
 | Превышен `max_turns` | Агент достиг лимита итераций |
 | Критическая ошибка | Файл не найден, нет доступа, недопустимая операция |
 | Задача невыполнима | Невозможно достичь цели с доступными инструментами |
-
-При graceful shutdown агент сохраняет прогресс в `state/{agent-name}-checkpoint.json`.
 
 ### Шаг 6: Настроить параметры
 
@@ -402,7 +371,6 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 **Созданные файлы:**
 - `/.claude/agents/{name}/AGENT.md`
 - `/.claude/agents/{name}/CHANGELOG.md`
-- `/.claude/state/agent-{name}-operation.json` (если Edit/Write)
 
 **Валидация:** пройдена ✅
 ```
@@ -424,8 +392,6 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 - [ ] Указано поле `version: v1.0`
 - [ ] Создан файл `CHANGELOG.md` с описанием v1.0
 - [ ] Промпт содержит секции (Роль, Задача, Ограничения, Формат вывода)
-- [ ] Для агентов с Edit/Write: секция "Работа со state" (блокировки, лог операций)
-- [ ] Для агентов с Edit/Write: создан файл `/.claude/state/agent-{name}-operation.json`
 - [ ] Для агентов с Edit/Write: секция "Удаление файлов" (правило `_old_` префикса)
 - [ ] Выбраны скиллы (для general-purpose)
 - [ ] Промпт подтверждён пользователем
