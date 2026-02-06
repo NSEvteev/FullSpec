@@ -28,7 +28,8 @@ index: .claude/.instructions/rules/README.md
   - `python .instructions/.scripts/list-instructions.py` — список документов с description
   - `python .instructions/.scripts/parse-docstrings.py --search "запрос"` — поиск скриптов по docstring
 
-При работе с GitHub Issues ОБЯЗАТЕЛЬНО использовать скиллы:
-  - `/issue-create` - создание Issue по стандарту
-  - `/issue-modify` - изменение Issue (обновление, закрытие, переоткрытие)
+При работе с GitHub ОБЯЗАТЕЛЬНО использовать скиллы:
+  - `/issue-create` - правильное создание Issue
+  - `/issue-modify` - правильное изменение Issue (обновление, закрытие, переоткрытие)
   - `/issue-validate` - валидация Issue по стандарту
+  - `/branch-create` - правильное отведение Branch

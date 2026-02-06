@@ -111,7 +111,7 @@ index: .github/.instructions/README.md
 4. РАЗРАБОТКА
    └─ make dev (запуск сервисов)
    └─ Написание кода + локальные тесты: make test
-   └─ → § 6. Стадия 4
+   └─ standard-development.md
 
 5. КОММИТЫ
    └─ git add . && git commit -m "{type}({scope}): {description}"

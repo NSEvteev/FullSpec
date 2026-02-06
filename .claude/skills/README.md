@@ -114,6 +114,7 @@ standard-version: v1.1
 | [issue-create](./issue-create/SKILL.md) | Создание GitHub Issue по стандарту | `/issue-create`, "создай issue" |
 | [issue-validate](./issue-validate/SKILL.md) | Валидация GitHub Issue по стандарту | `/issue-validate`, "проверь issue" |
 | [issue-modify](./issue-modify/SKILL.md) | Изменение GitHub Issue по стандарту | `/issue-modify`, "измени issue" |
+| [branch-create](./branch-create/SKILL.md) | Создание ветки по стандарту | `/branch-create`, "создай ветку" |
 
 ### drafts
 

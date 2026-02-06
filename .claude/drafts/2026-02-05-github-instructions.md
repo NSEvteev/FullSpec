@@ -27,7 +27,7 @@
 - `2026-02-03-github-instructions-validation-results.md` — итоги валидации (оценки, паттерны)
 - `2026-02-04-github-docs-restructure.md` — архитектура, операции, решения
 
-**Статус:** Реструктуризация ВЫПОЛНЕНА (Фаза 1-8). Зональный анализ ВЫПОЛНЕН. Валидация: Волна 1 частично (1-4 ✅, 5-8 ⏳), Волны 2-4 ожидают.
+**Статус:** Реструктуризация ВЫПОЛНЕНА (Фаза 1-8). Зональный анализ ВЫПОЛНЕН. Валидация: Волна 1 (1-5 ✅, 6-8 ⏳), Волна 2 частично (9 ✅, 10-11 ⏳), Волна 3 частично (13 ✅, 14 деактивирован, 15 ⏳), Волна 4 ожидает.
 
 ---
 
@@ -54,7 +54,10 @@
 │   │   └── validation-labels.md
 │   ├── milestones/
 │   │   ├── README.md
-│   │   └── standard-milestone.md
+│   │   ├── standard-milestone.md
+│   │   ├── validation-milestone.md
+│   │   ├── create-milestone.md
+│   │   └── modify-milestone.md
 │   └── projects/
 │       ├── README.md
 │       └── standard-project.md
@@ -63,6 +66,9 @@
 │   ├── issues/                        ← стадия 1: планирование
 │   │   ├── README.md
 │   │   ├── standard-issue.md
+│   │   ├── validation-issue.md
+│   │   ├── create-issue.md
+│   │   ├── modify-issue.md
 │   │   └── issue-templates/
 │   │       ├── README.md
 │   │       ├── standard-issue-template.md
@@ -70,7 +76,9 @@
 │   │
 │   ├── branches/                      ← стадия 3: создание ветки
 │   │   ├── README.md
-│   │   └── standard-branching.md
+│   │   ├── standard-branching.md
+│   │   ├── validation-branch.md
+│   │   └── create-branch.md
 │   │
 │   ├── development/                   ← стадия 4: разработка
 │   │   ├── README.md
@@ -173,26 +181,26 @@
 | 2 | `pull-requests/pr-template/standard-pr-template.md` | ✅ |
 | 3 | `codeowners/standard-codeowners.md` | ✅ |
 | 4 | `issues/issue-templates/standard-issue-template.md` | ✅ |
-| 5 | `branches/standard-branching.md` | ⏳ holt-анализ готов |
+| 5 | `branches/standard-branching.md` | ✅ v1.2: 16/22 рекомендаций, +§6 валидация |
 | 6 | `commits/standard-commit.md` | ⏳ holt-анализ готов |
 | 7 | `sync/standard-sync.md` | ⏳ holt-анализ готов |
-| 8 | `development/standard-development.md` | ⏳ holt-анализ готов |
+| 8 | `development/standard-development.md` | ✅ v1.1: §1 взятие задачи, §6 завершение |
 
 ##### Волна 2: PR, Milestone, Release, Draft PR
 
 | # | Файл | Зависит от | Статус |
 |---|------|------------|--------|
-| 9 | `pull-requests/standard-pull-request.md` | labels, pr-template | ⏳ |
-| 10 | `milestones/standard-milestone.md` | ↔issue, ↔release | ⏳ |
+| 9 | `pull-requests/standard-pull-request.md` | labels, pr-template | ✅ |
+| 10 | `milestones/standard-milestone.md` | ↔issue, ↔release | ✅ |
 | 11 | `releases/standard-release.md` | milestone, pull-request | ⏳ |
 
 ##### Волна 3: Issue, Project, Review
 
 | # | Файл | Зависит от | Статус |
 |---|------|------------|--------|
-| 13 | `issues/standard-issue.md` | labels, templates, PR, milestone | ⏳ |
-| 14 | `projects/standard-project.md` | issue, pr, milestone | ⏳ |
-| 15 | `review/standard-review.md` | pull-request | ⏳ |
+| 13 | `issues/standard-issue.md` | labels, templates, PR, milestone | ✅ v1.4 |
+| 14 | `projects/standard-project.md` | issue, pr, milestone | ✅ деактивирован |
+| 15 | `review/standard-review.md` | pull-request | ⏳ holt-анализ готов |
 
 ##### Волна 4: Workflow-документы
 
@@ -210,16 +218,16 @@
 | 2 | pr-template/standard-pr-template.md | 8/10 | 7/10 | Нет критериев выбора шаблона |
 | 3 | codeowners/standard-codeowners.md | 9/10 | 8/10 | Нет процедуры добавления/удаления владельца |
 | 4 | issue-templates/standard-issue-template.md | 9/10 | 8/10 | Нет объяснения зачем нужен id |
-| 5 | branches/standard-branching.md | — | — | *Holt-анализ готов, не применён* |
+| 5 | branches/standard-branching.md | 9/10 | 9/10 | ✅ v1.2: 16/22 рекомендаций, +docs, +script, +pre-commit hook |
 | 6 | commits/standard-commit.md | — | — | *Holt-анализ готов, не применён* |
 | 7 | sync/standard-sync.md | — | — | *Holt-анализ готов, не применён* |
-| 8 | development/standard-development.md | — | — | *Holt-анализ готов, не применён* |
-| 9 | pull-requests/standard-pull-request.md | 8/10 | 7/10 | Нет self-review, эскалации |
-| 10 | milestones/standard-milestone.md | 8/10 | 7/10 | Нет автоматизации Sprint |
+| 8 | development/standard-development.md | 8/10 | 8/10 | ✅ v1.1: §1 взятие задачи, §6 завершение |
+| 9 | pull-requests/standard-pull-request.md | 8/10 | 7/10 | ✅ Рекомендации применены |
+| 10 | milestones/standard-milestone.md | 9/10 | 9/10 | ✅ validation + create + modify + 3 скрипта + 3 скилла |
 | 11 | releases/standard-release.md | 9/10 | 9/10 | Пересечение с release-workflow |
-| 12 | issues/standard-issue.md | 8/10 | 7/10 | Нет процедуры для stale Issues |
-| 14 | projects/standard-project.md | 8/10 | 7/10 | Сложный item-edit без скрипта |
-| 15 | review/standard-review.md | — | — | *Не валидировано* |
+| 12 | issues/standard-issue.md | 9/10 | 9/10 | ✅ v1.4: §9 переписан, validation + create + modify + скрипт + 3 скилла |
+| 14 | projects/standard-project.md | — | — | ✅ Деактивирован (не нужен для команды из 2 человек) |
+| 15 | review/standard-review.md | — | — | *Holt-анализ готов, не применён* |
 | 16 | standard-github-workflow.md | 9/10 | 8/10 | — |
 | 17 | releases/standard-release-workflow.md | 8/10 | 8/10 | Нет release freeze процедуры |
 | 18 | actions/standard-action.md | 9/10 | 9/10 | Слишком большой (~1300 строк) |
@@ -315,9 +323,12 @@
 
 | Задача | Приоритет | Источник |
 |--------|-----------|----------|
-| Применить holt-анализы: branching, commit, sync, development | Высокий | validation |
-| Валидировать Волну 2: milestone, release | Высокий | validation |
-| Валидировать Волну 3: issue, project, review | Высокий | validation |
+| ~~Применить holt-анализы: branching, development~~ | ~~Высокий~~ | ✅ |
+| Применить holt-анализы: commit, sync, review | Высокий | validation |
+| ~~Валидировать Волну 2: milestone, pull-request~~ | ~~Высокий~~ | ✅ |
+| Валидировать Волну 2: release | Высокий | validation |
+| ~~Валидировать Волну 3: issue, project~~ | ~~Высокий~~ | ✅ (issue v1.4, project деактивирован) |
+| Валидировать Волну 3: review | Высокий | validation |
 | Валидировать Волну 4: workflow, release-workflow, workflow-file | Высокий | validation |
 | Разделить границы release.md / release-workflow.md | Средний | results |
 | Добавить критерии приоритетов в labels.md | Средний | results |
@@ -339,15 +350,15 @@
 | pr-template/standard-pr-template.md | *применено, удалён* | Выполнено |
 | codeowners/standard-codeowners.md | *применено, удалён* | Выполнено |
 | issue-templates/standard-issue-template.md | *применено, удалён* | Выполнено |
-| issues/standard-issue.md | [recommendations-standard-issue.md](./2026-02-03-recommendations-standard-issue.md) | Актуально |
-| releases/standard-release.md | [recommendations-standard-release.md](./2026-02-03-recommendations-standard-release.md) | Частично |
+| issues/standard-issue.md | *применено, удалён* | Выполнено |
+| releases/standard-release.md | [recommendations-standard-release.md](./2026-02-03-recommendations-standard-release.md) | Актуально |
 | pull-requests/standard-pull-request.md | *применено, удалён* | Выполнено |
-| milestones/standard-milestone.md | [recommendations-standard-milestone.md](./2026-02-03-recommendations-standard-milestone.md) | Актуально |
+| milestones/standard-milestone.md | *применено, удалён* | Выполнено |
 | actions/standard-action.md | [recommendations-standard-action.md](./2026-02-03-recommendations-standard-action.md) | Актуально |
-| projects/standard-project.md | [recommendations-standard-project.md](./2026-02-03-recommendations-standard-project.md) | Актуально |
+| projects/standard-project.md | *деактивирован* | Не актуально |
 | standard-github-workflow.md | [recommendations-standard-development-workflow.md](./2026-02-03-recommendations-standard-development-workflow.md) | Частично |
 | releases/standard-release-workflow.md | [recommendations-standard-release-workflow.md](./2026-02-03-recommendations-standard-release-workflow.md) | Частично |
-| branches/standard-branching.md | [holt-analysis-standard-branching.md](./2026-02-05-holt-analysis-standard-branching.md) | Актуально |
+| branches/standard-branching.md | *применено, удалён* | Выполнено |
 | commits/standard-commit.md | [holt-analysis-standard-commit.md](./2026-02-05-holt-analysis-standard-commit.md) | Актуально |
 | sync/standard-sync.md | [holt-analysis-standard-sync.md](./2026-02-05-holt-analysis-standard-sync.md) | Актуально |
-| development/standard-development.md | [holt-analysis-standard-development.md](./2026-02-05-holt-analysis-standard-development.md) | Актуально |
+| development/standard-development.md | *применено, удалён* | Выполнено |

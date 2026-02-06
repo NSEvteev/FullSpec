@@ -130,6 +130,7 @@ Check README structure sync..........................Passed
 Validate rules format................................Passed (или Skipped)
 Validate scripts format..............................Passed (или Skipped)
 Validate skills format...............................Passed (или Skipped)
+Validate branch name.................................Passed
 ```
 
 ---

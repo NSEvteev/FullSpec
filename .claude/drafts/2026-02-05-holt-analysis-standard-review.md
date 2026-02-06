@@ -16,6 +16,17 @@
 
 **Общая оценка:** Требует правок (6 критичных проблем P1)
 
+### Зональные вторжения
+
+> Источник: [зональный анализ](./2026-02-06-holt-zone-intrusions.md)
+
+| ID | Проблема | Вторгается в зону | Действие при применении |
+|----|----------|-------------------|------------------------|
+| R1 | 2.5 | Branching (standard-branching.md §3) | SSOT-ссылка на branching (жизненный цикл ветки) |
+| R2 | 2.6 | State (standard-state.md) | SSOT-ссылка на standard-state.md |
+| R3 | 3.1 | CODEOWNERS (standard-codeowners.md) | SSOT-ссылка; содержимое добавить в codeowners |
+| R4 | 5.2 | Actions (standard-action.md) | Отложить — зона actions |
+
 ---
 
 ## 1. Двойственность формулировок
@@ -290,7 +301,7 @@ LLM может подумать, что локальная ветка удаля
 > **Локальная очистка:** → [standard-branching.md § 3](../branches/standard-branching.md#3-жизненный-цикл-ветки) (SSOT жизненного цикла ветки)
 
 **Критичность:** Средняя (P2)
-**Зона:** Детальные команды очистки — зона `standard-branching.md`. В review добавить только ссылку.
+> 🔀 **ЗОНА [R1]:** Детальные команды очистки — зона `standard-branching.md §3`. В review добавить только SSOT-ссылку.
 
 ---
 
@@ -309,7 +320,7 @@ LLM может подумать, что локальная ветка удаля
 > "Агенты ревью используют state — см. [standard-state.md](/.claude/.instructions/state/standard-state.md)."
 
 **Критичность:** Средняя (P2)
-**Зона:** → `standard-state.md`
+> 🔀 **ЗОНА [R2]:** → `standard-state.md`. Работа со state (блокировки, логирование) — зона standard-state.md.
 
 ---
 
@@ -333,7 +344,7 @@ LLM может подумать, что локальная ветка удаля
 > "Для автоматического назначения ревьюеров — настроить CODEOWNERS: см. [standard-codeowners.md](../codeowners/standard-codeowners.md)."
 
 **Критичность:** Низкая (P3)
-**Зона:** → `standard-codeowners.md`
+> 🔀 **ЗОНА [R3]:** → `standard-codeowners.md`. Автоназначение ревьюеров через CODEOWNERS — НЕ покрыто в codeowners. Добавить содержимое туда.
 
 ---
 
@@ -500,7 +511,7 @@ LLM-агент может автоматически реагировать на
 > **Зона другого стандарта.** Webhook-триггеры и CI-интеграция — зона [standard-action.md](../actions/standard-action.md). Отложить.
 
 **Критичность:** Низкая (P3) — over-engineering для текущей стадии
-**Зона:** → `standard-action.md`
+> 🔀 **ЗОНА [R4]:** → `standard-action.md`. Webhook-интеграция — отложить.
 
 ---
 

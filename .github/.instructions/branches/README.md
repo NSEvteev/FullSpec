@@ -13,7 +13,7 @@ index: .github/.instructions/branches/README.md
 - [Инструкции .github](../README.md)
 - [SSOT .github](../../README.md)
 
-**Содержание:** Naming convention, создание веток, вложенные ветки.
+**Содержание:** Naming convention, создание веток, жизненный цикл, граничные случаи.
 
 ---
 
@@ -29,8 +29,10 @@ index: .github/.instructions/branches/README.md
 
 ```
 /.github/.instructions/branches/
-├── README.md               # Этот файл (индекс)
-└── standard-branching.md   # Стандарт ветвления
+├── README.md                 # Этот файл (индекс)
+├── standard-branching.md     # Стандарт ветвления
+├── validation-branch.md      # Валидация ветки
+└── create-branch.md          # Создание ветки
 ```
 
 ---
@@ -39,13 +41,15 @@ index: .github/.instructions/branches/README.md
 
 ## 1.1. Стандарт ветвления
 
-Именование веток, создание от main, вложенные ветки.
+Модель ветвления, naming convention, жизненный цикл, запреты, граничные случаи, валидация.
 
 **Оглавление:**
-- [Структура репозитория](./standard-branching.md#1-структура-репозитория)
-- [Branch Naming Convention](./standard-branching.md#2-branch-naming-convention)
-- [Создание ветки](./standard-branching.md#3-создание-ветки)
-- [Вложенные ветки](./standard-branching.md#4-вложенные-ветки)
+- [Модель ветвления](./standard-branching.md#1-модель-ветвления)
+- [Naming Convention](./standard-branching.md#2-naming-convention)
+- [Жизненный цикл ветки](./standard-branching.md#3-жизненный-цикл-ветки)
+- [Запреты и ограничения](./standard-branching.md#4-запреты-и-ограничения)
+- [Граничные случаи](./standard-branching.md#5-граничные-случаи)
+- [Валидация](./standard-branching.md#6-валидация)
 
 **Инструкция:** [standard-branching.md](./standard-branching.md)
 
@@ -53,22 +57,36 @@ index: .github/.instructions/branches/README.md
 
 # 2. Воркфлоу
 
-*Нет воркфлоу.*
+## 2.1. Создание ветки
+
+Воркфлоу создания ветки: sync main, определение type по Issues, формирование имени.
+
+**Инструкция:** [create-branch.md](./create-branch.md)
 
 ---
 
 # 3. Валидация
 
-*Нет валидаций.*
+## 3.1. Валидация ветки
+
+Проверка формата имени, существования Issues, соответствия TYPE-меток.
+
+**Инструкция:** [validation-branch.md](./validation-branch.md)
 
 ---
 
 # 4. Скрипты
 
-*Нет скриптов.*
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [validate-branch-name.py](../.scripts/validate-branch-name.py) | Валидация имени ветки и Issues | [validation-branch.md](./validation-branch.md) |
 
 ---
 
 # 5. Скиллы
 
-*Нет скиллов.*
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/branch-create](/.claude/skills/branch-create/SKILL.md) | Создание ветки по стандарту | [create-branch.md](./create-branch.md) |
+
+> Валидация ветки выполняется автоматически через pre-commit hook (`branch-validate`).
