@@ -82,7 +82,8 @@
 | 6 | GitHub Projects | `→ standard-project.md` | ✅ |
 | 7 | GitHub Actions | `→ standard-action.md` | ✅ |
 | 8 | Security | `→ standard-security.md` | ✅ |
-| 9 | Pre-commit Hooks | `→ initialization.md` | ✅ (вне `.github/.instructions/`) |
+| 9 | Secrets | `→ standard-secrets.md` | ✅ (конвенция, без шага в Фазе 0) |
+| 10 | Pre-commit Hooks | `→ initialization.md` | ✅ (вне `.github/.instructions/`) |
 
 ~~**Проблема П-1:** Security не включён в Фазу 0.~~ **Решено:** добавлен шаг 8. SECURITY в Фазу 0 + строка в таблицу зон "Автоматизация".
 
@@ -135,8 +136,9 @@
 | | *`standard-draft-pr.md` влит в `standard-pull-request.md` § 2, файл удалён* | | | |
 | ~~0.5~~ | `milestones/standard-milestone.md` | ✅ | ✅ validation + create + modify + 3 скрипта + 3 скилла | ✅ Milestone `v0.1.0` создан (#1) |
 | ~~0.6~~ | `projects/standard-project.md` | ✅ деактивирован | — | — |
-| **0.7** | `actions/standard-action.md` | ⏳ | ⏳ validation, create, modify | ⏳ `.github/workflows/ci.yml` |
+| **0.7** | `actions/standard-action.md` | ✅ | ⏳ validation, create, modify | ⏳ `.github/workflows/ci.yml` |
 | **0.8** | `actions/security/standard-security.md` | ⏳ | ⏳ validation, create, modify | ⏳ Dependabot, CodeQL, SECURITY.md |
+| **0.9** | `actions/security/standard-secrets.md` | ✅ (holt-анализ — правки отложены) | ⏳ validation | — (конвенция) |
 
 **Зависимости:** Нет — все стандарты ПОДГОТОВКИ независимы. Можно обрабатывать параллельно.
 
@@ -217,8 +219,9 @@
 | 0.4 | standard-pr-template.md | Подготовка | ✅ | ✅ | ✅ |
 | 0.5 | standard-milestone.md | Подготовка | ✅ | ✅ | ✅ |
 | ~~0.6~~ | standard-project.md | Подготовка | ✅ деактивирован | — | — |
-| 0.7 | standard-action.md | Подготовка | ⏳ | ⏳ | ⏳ |
+| 0.7 | standard-action.md | Подготовка | ✅ | ⏳ | ⏳ |
 | 0.8 | standard-security.md | Подготовка | ⏳ | ⏳ | ⏳ |
+| 0.9 | standard-secrets.md | Подготовка | ✅ | ⏳ | — |
 | 1.1 | standard-issue.md | Цикл | ⏳ | ⏳ | ⏳ |
 | 1.2 | standard-branching.md | Цикл | ⏳ | ⏳ | — |
 | 1.3 | standard-development.md | Цикл | ⏳ | ⏳ | — |
@@ -230,7 +233,7 @@
 | 1.10 | standard-release-workflow.md | Цикл | ⏳ | ⏳ | — |
 | 2.1 | standard-github-workflow.md | Оркестратор | ⏳ | ⏳ | — |
 
-**Итого:** 18 стандартов. Этап 1: 6 ✅, 12 ⏳. Этап 2: 4 ✅, 1 ⚠️, 13 ⏳. Этап 3: 8 применимо (4 ✅, 4 ⏳), 10 не применимо.
+**Итого:** 19 стандартов. Этап 1: 7 ✅, 12 ⏳. Этап 2: 4 ✅, 1 ⚠️, 14 ⏳. Этап 3: 8 применимо (4 ✅, 4 ⏳), 11 не применимо.
 
 ---
 

@@ -57,7 +57,6 @@ index: .claude/README.md
 ├── 2026-02-03-recommendations-standard-issue.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-release-workflow.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-release.md # TODO: добавить описание
-├── 2026-02-03-recommendations-standard-action.md # Рекомендации по standard-action.md
 ├── 2026-02-05-github-instructions.md   # GitHub-инструкции (объединённый)
 ├── 2026-02-05-holt-analysis-standard-branching.md # Семантический анализ standard-branching.md
 ├── 2026-02-05-holt-analysis-standard-commit.md # Семантический анализ standard-commit.md
@@ -65,5 +64,6 @@ index: .claude/README.md
 ├── 2026-02-05-holt-analysis-standard-review.md # Семантический анализ standard-review.md
 ├── 2026-02-05-holt-analysis-standard-security.md # Семантический анализ standard-security.md
 ├── 2026-02-05-holt-analysis-standard-sync.md # Семантический анализ standard-sync.md
-└── 2026-02-05-standards-validation-plan.md # План валидации стандартов
+├── 2026-02-05-standards-validation-plan.md # План валидации стандартов
+└── 2026-02-06-holt-analysis-standard-secrets.md # Семантический анализ standard-secrets.md
 ```

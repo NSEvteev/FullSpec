@@ -31,6 +31,7 @@ index: .github/.instructions/actions/security/README.md
 ```
 /.github/.instructions/actions/security/
 ├── README.md                           # Этот файл (индекс)
+├── standard-secrets.md                 # Стандарт GitHub Secrets
 └── standard-security.md                # Стандарт безопасности
 ```
 
@@ -49,6 +50,18 @@ Dependabot, Code Scanning (CodeQL), Secret Scanning и политика безо
 - [SECURITY.md](./standard-security.md#6-securitymd)
 
 **Инструкция:** [standard-security.md](./standard-security.md)
+
+## 1.2. Стандарт GitHub Secrets
+
+Именование, уровни хранения, ротация и категоризация секретов.
+
+**Оглавление:**
+- [Именование](./standard-secrets.md#2-именование)
+- [Уровни хранения](./standard-secrets.md#3-уровни-хранения)
+- [Категории](./standard-secrets.md#4-категории-секретов)
+- [Ротация](./standard-secrets.md#5-ротация)
+
+**Инструкция:** [standard-secrets.md](./standard-secrets.md)
 
 ---
 

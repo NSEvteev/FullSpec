@@ -14,6 +14,7 @@ index: .github/.instructions/README.md
 **Полезные ссылки:**
 - [Инструкции .github](../README.md)
 - [GitHub Actions documentation](https://docs.github.com/en/actions)
+- [GitHub Starter Workflows](https://github.com/actions/starter-workflows) — готовые шаблоны для разных языков
 
 **Связанные документы:**
 
@@ -32,6 +33,7 @@ index: .github/.instructions/README.md
 
 ## Оглавление
 
+- [Quick Reference](#quick-reference)
 - [1. Назначение workflow файлов](#1-назначение-workflow-файлов)
 - [2. Расположение и именование](#2-расположение-и-именование)
 - [3. Структура YAML файла](#3-структура-yaml-файла)
@@ -50,6 +52,38 @@ index: .github/.instructions/README.md
 - [16. Environments](#16-environments)
 - [17. Concurrency](#17-concurrency)
 - [18. Валидация workflow файлов](#18-валидация-workflow-файлов)
+- [19. Локальное тестирование](#19-локальное-тестирование)
+
+---
+
+## Quick Reference
+
+**Минимальный CI workflow (копировать и адаптировать):**
+
+```yaml
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: make test
+```
+
+**Основные паттерны:**
+
+| Паттерн | Пример |
+|---------|--------|
+| Тесты при PR | `on: pull_request` |
+| Deploy при Release | `on: release: types: [published]` |
+| Ручной запуск | `on: workflow_dispatch` |
+| Кэш зависимостей | `actions/cache@v4` с `hashFiles()` |
+| Минимальные права | `permissions: contents: read` |
+| Timeout | `timeout-minutes: 15` |
 
 ---
 
@@ -335,6 +369,28 @@ on:
   workflow_dispatch:
 ```
 
+#### 4.7 Координация workflows (workflow_run)
+
+```yaml
+# deploy.yml — запускается после успешного CI
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm run deploy
+```
+
+**Когда использовать:** Deploy зависит от CI. Один workflow не должен содержать и тесты, и деплой.
+
+#### 4.8 Комбинированные триггеры
+
 **Правило:** Workflow срабатывает при ЛЮБОМ из указанных событий.
 
 **Связь с условиями (if):**
@@ -450,8 +506,19 @@ jobs:
 
 | Поле | Тип | Описание |
 |------|-----|----------|
-| `runs-on` | string/array | Тип runner (ubuntu-latest, windows-latest, macos-latest) |
+| `runs-on` | string/array | Тип runner (см. ниже) |
 | `steps` | array | Список шагов для выполнения |
+
+**Runners:**
+
+| Runner | Когда использовать |
+|--------|--------------------|
+| `ubuntu-latest` | По умолчанию (рекомендуется) |
+| `windows-latest` | Windows-специфичные тесты |
+| `macos-latest` | macOS/iOS сборки |
+| `self-hosted` | Приватные окружения, специфичное железо |
+
+**Self-hosted runners:** Settings → Actions → Runners → Add runner. Использовать для приватных окружений или когда требуется специфичное железо. Требует отдельной настройки изоляции и безопасности.
 
 ### Опциональные поля job
 
@@ -656,6 +723,10 @@ jobs:
         with:
           node-version: ${{ vars.NODE_VERSION }}
 ```
+
+### Где хранить secrets
+
+Стандарт хранения и именования secrets — см. [standard-secrets.md](./security/standard-secrets.md).
 
 ### Разница: Secrets vs Variables
 
@@ -1164,10 +1235,12 @@ jobs:
 
 | Аспект | Reusable Workflow | Composite Action |
 |--------|-------------------|------------------|
-| Уровень | Целый workflow (jobs) | Набор steps |
-| Файл | `.github/workflows/*.yml` | `.github/actions/*/action.yml` |
-| Вызов | `jobs: { uses: }` | `steps: [ uses: ]` |
-| Когда | Переиспользовать весь flow | Переиспользовать последовательность команд |
+| **Уровень** | Целый workflow (jobs) | Набор steps |
+| **Файл** | `.github/workflows/*.yml` | `.github/actions/*/action.yml` |
+| **Вызов** | `jobs: { uses: }` | `steps: [ uses: ]` |
+| **Секреты** | Явная передача через `secrets:` | Наследует от вызывающего |
+| **Кэширование** | В каждом job отдельно | Общее с вызывающим |
+| **Когда** | Сложные flow с несколькими jobs | Повторяющаяся последовательность steps |
 
 ---
 
@@ -1298,6 +1371,43 @@ actionlint .github/workflows/*.yml
   hooks:
     - id: actionlint
 ```
+
+---
+
+## 19. Локальное тестирование
+
+### act — локальный запуск GitHub Actions
+
+**Установка:**
+```bash
+# macOS
+brew install act
+
+# Windows (scoop)
+scoop install act
+
+# Linux
+curl -s https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
+```
+
+**Использование:**
+```bash
+# Запустить все workflows по событию push
+act push
+
+# Запустить конкретный workflow
+act -W .github/workflows/ci.yml
+
+# Запустить с секретами
+act --secret-file .env.act
+```
+
+**Ограничения:**
+- Не все Actions работают локально (actions/cache, GitHub API)
+- Не поддерживает `services:` (Docker services)
+- Некоторые `github.*` контексты недоступны
+
+**Альтернатива:** Feature-ветка → push → проверка в Actions → исправление.
 
 ---
 

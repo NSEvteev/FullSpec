@@ -60,6 +60,7 @@ index: .github/.instructions/README.md
 |--------|----------|---------------------|
 | Actions | [standard-action.md](./actions/standard-action.md) | Структура YAML, триггеры, jobs/steps, secrets, best practices |
 | Security | [standard-security.md](./actions/security/standard-security.md) | Dependabot, CodeQL, Secret Scanning, SECURITY.md |
+| Secrets | [standard-secrets.md](./actions/security/standard-secrets.md) | Именование, уровни хранения, ротация, категории секретов |
 
 ## Оглавление
 
