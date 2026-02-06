@@ -31,7 +31,9 @@ YAML-файлы GitHub Actions для CI/CD.
 
 ## 2. Файлы
 
-*Файлы будут добавлены после создания инструкций.*
+| Файл | Описание |
+|------|----------|
+| [ci.yml](./ci.yml) | CI — pre-commit проверки при push/PR |
 
 ---
 
@@ -39,5 +41,6 @@ YAML-файлы GitHub Actions для CI/CD.
 
 ```
 /.github/workflows/
+├── ci.yml                   # CI — pre-commit проверки
 └── README.md                # Этот файл
 ```

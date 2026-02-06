@@ -1,0 +1,52 @@
+# CI — Continuous Integration
+#
+# Запускается при каждом push и pull request.
+# Выполняет те же проверки, что и pre-commit хуки локально.
+# Это страховка: если кто-то обойдёт хуки (--no-verify), CI поймает.
+
+name: CI
+
+# КОГДА запускать:
+# - push: при каждом пуше в любую ветку
+# - pull_request: при создании/обновлении PR
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Минимальные права (безопасность):
+# workflow читает код, но НЕ может ничего писать
+permissions:
+  contents: read
+
+jobs:
+  # Job 1: Проверки pre-commit (структура, rules, скиллы, скрипты)
+  pre-commit:
+    name: Pre-commit checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      # Шаг 1: Скачать код из репозитория в виртуалку
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Шаг 2: Установить Python (нужен для наших скриптов)
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Шаг 3: Кэширование pre-commit (ускоряет повторные запуски)
+      - name: Cache pre-commit
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+
+      # Шаг 4: Установить и запустить ВСЕ pre-commit хуки
+      - name: Run pre-commit
+        run: |
+          pip install pre-commit
+          pre-commit run --all-files
