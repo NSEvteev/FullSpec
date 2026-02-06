@@ -22,7 +22,7 @@ standard-version: v1.1
 - [4. Проверка установки](#4-проверка-установки)
 - [5. Решение проблем](#5-решение-проблем)
 - [CI (автоматически)](#ci-автоматически)
-- [Настройка GitHub Security (опционально)](#настройка-github-security-опционально)
+- [6. Настройка GitHub Security](#6-настройка-github-security)
 - [Настройка GitHub Labels (опционально)](#настройка-github-labels-опционально)
 
 ---
@@ -197,13 +197,13 @@ gh run view <run-id> --log
 
 ---
 
-## Настройка GitHub Security (опционально)
+## 6. Настройка GitHub Security
 
-Встроенные инструменты безопасности GitHub. Настраиваются один раз в Settings репозитория.
+Файлы безопасности (`dependabot.yml`, `codeql.yml`, `SECURITY.md`) уже в репозитории из шаблона. Но **Settings не копируются** из template — их нужно настроить для каждого нового репозитория.
 
 **SSOT:** [standard-security.md](/.github/.instructions/actions/security/standard-security.md)
 
-### Dependabot Alerts + Security Updates
+### Шаг 1: Включить Dependabot
 
 ```
 Settings → Code security and analysis →
@@ -211,13 +211,7 @@ Settings → Code security and analysis →
   ✅ Dependabot security updates → Enable
 ```
 
-Автоматические уведомления об уязвимостях в зависимостях и PR с исправлениями.
-
-### Dependabot Version Updates
-
-Создать файл `.github/dependabot.yml` — см. [standard-security.md § 3](/.github/.instructions/actions/security/standard-security.md#3-dependabot).
-
-### Secret Scanning + Push Protection
+### Шаг 2: Включить Secret Scanning
 
 ```
 Settings → Code security and analysis →
@@ -225,16 +219,15 @@ Settings → Code security and analysis →
   ✅ Push protection → Enable
 ```
 
-Блокирует push с секретами (API-ключи, токены) в код.
+### Шаг 3: Проверить файлы из шаблона
 
-### Code Scanning (CodeQL)
-
+```bash
+# Обновить контактный email в SECURITY.md
+# Обновить директории сервисов в dependabot.yml
+# Обновить matrix.language в codeql.yml
 ```
-Settings → Code security and analysis →
-  Code scanning → Enable → Default setup
-```
 
-Статический анализ кода на уязвимости (SAST). Подробнее — [standard-security.md § 4](/.github/.instructions/actions/security/standard-security.md#4-code-scanning-codeql).
+> **ВАЖНО:** НЕ включать Code Scanning → Default Setup в Settings. Используется Advanced Setup через `codeql.yml` (уже в репозитории). См. [standard-security.md § 4](/.github/.instructions/actions/security/standard-security.md#4-code-scanning-codeql).
 
 ---
 
