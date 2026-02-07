@@ -9,3 +9,4 @@ index: .claude/.instructions/rules/README.md
   - Процесс: [standard-development.md](/.github/.instructions/development/standard-development.md)
   - Валидация перед push: [validation-development.md](/.github/.instructions/development/validation-development.md)
   - Коммиты: [standard-commit.md](/.github/.instructions/commits/standard-commit.md)
+  - Pull Requests: [standard-pull-request.md](/.github/.instructions/pull-requests/standard-pull-request.md)
