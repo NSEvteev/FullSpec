@@ -103,8 +103,7 @@
 │   │
 │   └── releases/                      ← стадия 10: релиз
 │       ├── README.md
-│       ├── standard-release.md
-│       └── standard-release-workflow.md
+│       └── standard-release.md
 │
 ├── [АВТОМАТИЗАЦИЯ]
 │   ├── actions/
@@ -135,8 +134,7 @@
 | **pull-requests/standard-pull-request.md** | Создание PR, связь с Issues, Draft PR |
 | **pull-requests/pr-template/standard-pr-template.md** | Шаблон body PR |
 | **review/standard-review.md** | Code Review, Merge стратегии, Branch Protection |
-| **releases/standard-release.md** | SemVer, Git-теги, Changelog |
-| **releases/standard-release-workflow.md** | Процесс релиза: подготовка → публикация → hotfix → rollback |
+| **releases/standard-release.md** | Версионирование, Changelog, процесс релиза, hotfix, rollback (объединён с release-workflow) |
 | **labels/standard-labels.md** | Naming convention, правила применения меток |
 | **milestones/standard-milestone.md** | Типы milestone, жизненный цикл |
 | **codeowners/standard-codeowners.md** | Синтаксис CODEOWNERS, автоназначение ревьюеров |
@@ -201,15 +199,14 @@
 | ~~1.5~~ | standard-pull-request.md | Цикл | ✅ | ✅ | — |
 | ~~1.6~~ | standard-review.md | Цикл | ✅ | ✅ | — |
 | ~~1.8~~ | standard-sync.md | Цикл | ✅ | ✅ | — |
-| 1.9 | standard-release.md | Цикл | ⏳ | ⏳ | ⏳ |
-| 1.10 | standard-release-workflow.md | Цикл | ⏳ | ⏳ | — |
+| ~~1.9+1.10~~ | standard-release.md (объединён) | Цикл | ✅ | ✅ | — |
 | 2.1 | standard-github-workflow.md | Оркестратор | ⏳ | ⏳ | — |
 
-**Итого:** 19 стандартов. Этап 1: 15 ✅, 4 ⏳. Этап 2: 15 ✅, 4 ⏳. Этап 3: 8 ✅, 1 ⏳, 10 н/п.
+**Итого:** 18 стандартов (release + release-workflow объединены). Этап 1: 17 ✅, 1 ⏳. Этап 2: 17 ✅, 1 ⏳. Этап 3: 8 ✅, 10 н/п.
 
 **ПОДГОТОВКА:** Завершена (0.1-0.9).
 
-**ЦИКЛ:** 1.1 ✅ (все 3 этапа), 1.2 ✅ (все 3 этапа, ветка task/standards-validation-34). 1.3 ✅ (Этап 1 v1.2 + Этап 2 validation + rule, Этап 3 н/п — процесс), 1.4 ✅ (Этап 1 v1.2 + Этап 2 rule в development.md, Этап 3 н/п — конвенция), 1.5 ✅ (Этап 1 ранее + Этап 2 rule в development.md, Этап 3 н/п), 1.6 ✅ (Этап 1 v1.1 + Этап 2 rule в development.md + initialization.md § 7, Этап 3 н/п — процесс), 1.8 ✅ (Этап 1 v1.2 + Этап 2 rule в development.md, Этап 3 н/п — конвенция).
+**ЦИКЛ:** 1.1 ✅ (все 3 этапа), 1.2 ✅ (все 3 этапа, ветка task/standards-validation-34). 1.3 ✅ (Этап 1 v1.2 + Этап 2 validation + rule, Этап 3 н/п — процесс), 1.4 ✅ (Этап 1 v1.2 + Этап 2 rule в development.md, Этап 3 н/п — конвенция), 1.5 ✅ (Этап 1 ранее + Этап 2 rule в development.md, Этап 3 н/п), 1.6 ✅ (Этап 1 v1.1 + Этап 2 rule в development.md + initialization.md § 7, Этап 3 н/п — процесс), 1.8 ✅ (Этап 1 v1.2 + Этап 2 rule в development.md, Этап 3 н/п — конвенция), 1.9+1.10 ✅ (Этап 1 v1.1 объединённый + Этап 2 rule в development.md, Этап 3 н/п — процесс).
 
 ---
 
@@ -226,15 +223,9 @@
 | ~~1.5~~ | 6 | `pull-requests/standard-pull-request.md` | ✅ | ✅ rule в development.md | — |
 | ~~1.6~~ | 7-8 | `review/standard-review.md` | ✅ v1.1 | ✅ rule в development.md | — |
 | ~~1.8~~ | 9 | `sync/standard-sync.md` | ✅ v1.2 | ✅ rule в development.md | — |
-| **1.9** | 10 | `releases/standard-release.md` | ⏳ | ⏳ validation, create, modify | ⏳ |
-| **1.10** | 10 | `releases/standard-release-workflow.md` | ⏳ | ⏳ validation | — |
+| ~~1.9+1.10~~ | 10 | `releases/standard-release.md` (объединён) | ✅ v1.1 | ✅ rule в development.md | — |
 
-**Зависимости:**
-- 1.9 и 1.10 обрабатывать ВМЕСТЕ (общая граница П7)
-- 1.3 зависит от 1.2 ✅ (разблокирован)
-- 1.8 зависит от 1.2 ✅ (разблокирован)
-
-**Следующий шаг:** 1.9 + 1.10 (standard-release.md + standard-release-workflow.md) — обрабатывать ВМЕСТЕ (граница П7).
+**Следующий шаг:** 2.1 (standard-github-workflow.md) — оркестратор, обрабатывается ПОСЛЕДНИМ.
 
 ---
 
@@ -263,7 +254,7 @@
 | **П3** | Нет алгоритмов для LLM | branching, commit, sync | ✅ branching v1.2 |
 | **П5** | "При необходимости" без критериев | branching, development, security | Частично ✅ |
 | **П6** | Только happy path | branching, commit, sync, development | ✅ branching v1.2, development v1.1 |
-| **П7** | Граница release ↔ release-workflow | release, release-workflow | ⏳ Решать при 1.9+1.10 |
+| **П7** | Граница release ↔ release-workflow | release, release-workflow | ✅ Объединены в standard-release.md v1.1 |
 
 **Стратегия:** P1 — обязательно, P2 — если < 5 строк, P3 — пропуск.
 
@@ -271,6 +262,6 @@
 
 ## Открытые вопросы
 
-1. **Граница release ↔ release-workflow (П7)** — решать ДО или ПОСЛЕ применения рекомендаций?
+*Нет открытых вопросов.*
 
 ---

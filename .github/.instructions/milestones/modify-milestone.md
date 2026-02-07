@@ -163,7 +163,7 @@ fi
 
 ### Шаг 4: Создать Release
 
-**SSOT:** [standard-release-workflow.md § 3–4](../releases/standard-release-workflow.md#3-подготовка-релиза)
+**SSOT:** [standard-release.md § 9–10](../releases/standard-release.md#9-подготовка-релиза)
 
 После закрытия Milestone — создать GitHub Release по процессу из release-workflow.
 
@@ -219,7 +219,7 @@ gh api DELETE /repos/{owner}/{repo}/milestones/{number}
 - [ ] Незавершённые Issues перенесены в другой Milestone
 - [ ] Критерии готовности из description выполнены
 - [ ] Milestone закрыт через `gh api PATCH`
-- [ ] Release создан по [release-workflow](../releases/standard-release-workflow.md)
+- [ ] Release создан по [standard-release.md](../releases/standard-release.md)
 
 ### Удаление
 - [ ] Нет связанного Release

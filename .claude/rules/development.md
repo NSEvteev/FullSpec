@@ -12,3 +12,4 @@ index: .claude/.instructions/rules/README.md
   - Pull Requests: [standard-pull-request.md](/.github/.instructions/pull-requests/standard-pull-request.md)
   - Review и Merge: [standard-review.md](/.github/.instructions/review/standard-review.md)
   - Синхронизация: [standard-sync.md](/.github/.instructions/sync/standard-sync.md)
+  - Релизы: [standard-release.md](/.github/.instructions/releases/standard-release.md)

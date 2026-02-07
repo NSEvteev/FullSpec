@@ -53,8 +53,6 @@ index: .claude/README.md
 │   └── README.md                                #   Индекс примеров
 ├── README.md                           # Этот файл (индекс)
 ├── 2026-02-03-recommendations-standard-development-workflow.md # TODO: добавить описание
-├── 2026-02-03-recommendations-standard-release-workflow.md # TODO: добавить описание
-├── 2026-02-03-recommendations-standard-release.md # TODO: добавить описание
 ├── 2026-02-05-standards-validation-plan.md # План валидации стандартов
 └── 2026-02-06-holt-zone-intrusions.md     # Зональный анализ черновиков Холта
 ```
