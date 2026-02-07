@@ -311,6 +311,7 @@ def main():
                 print(f"   {code}: {msg}")
         else:
             print(f"✅ Ветка '{branch_name}' — валидация пройдена")
+            print(f"   ℹ️  Push в remote после первого коммита: git push -u origin {branch_name}")
 
     sys.exit(0 if not errors else 1)
 
