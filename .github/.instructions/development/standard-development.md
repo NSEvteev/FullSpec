@@ -55,7 +55,14 @@ index: .github/.instructions/development/README.md
 gh issue view {number}
 ```
 
-Понять: что делать, какие критерии готовности, какой контекст.
+Перед началом работы изучить:
+1. **Description** — что делать, критерии готовности
+2. **Полезные ссылки** — связанные файлы и документы
+3. **Dependencies** — зависимости от других Issues
+4. **Sub-issues** — декомпозиция (если parent)
+5. **Labels** — тип задачи и приоритет
+
+Структура Issue: → [standard-issue.md](../issues/standard-issue.md)
 
 ### Шаг 2: Проверить зависимости
 
