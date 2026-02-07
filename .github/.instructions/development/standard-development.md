@@ -28,9 +28,9 @@ index: .github/.instructions/development/README.md
 | Тип | Документ |
 |-----|----------|
 | Стандарт | Этот документ |
-| Валидация | *Будет создан* |
-| Создание | *Будет создан* |
-| Модификация | *Будет создан* |
+| Валидация | [validation-development.md](./validation-development.md) |
+| Создание | *Не требуется (процесс)* |
+| Модификация | *Не требуется (процесс)* |
 
 ## Оглавление
 
@@ -220,12 +220,15 @@ git checkout -b {type}/{number}-{description}
 
 ### Checklist перед push
 
+ОБЯЗАТЕЛЬНО провести провеку по чек-листу:
+
 - [ ] Код реализует ВСЕ задачи из Issues, указанных в имени ветки (→ [standard-branching.md § 2](../branches/standard-branching.md#2-naming-convention))
 - [ ] Unit-тесты написаны и проходят (`make test`)
 - [ ] Линтер проходит (`make lint`)
 - [ ] Проект собирается (`make build` — exit code 0, нет ошибок компиляции)
 - [ ] E2E тесты проходят (`make test-e2e`) — обязательно при изменениях API, database, inter-service communication
 - [ ] Код соответствует принципам программирования (→ [standard-principles.md](/.instructions/standard-principles.md))
+- [ ] Валидация процесса пройдена (→ [validation-development.md](./validation-development.md))
 
 ---
 

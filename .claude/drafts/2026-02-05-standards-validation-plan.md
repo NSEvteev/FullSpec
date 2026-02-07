@@ -196,7 +196,7 @@
 | ~~0.9~~ | standard-secrets.md | Подготовка | ✅ | ✅ | — |
 | ~~1.1~~ | standard-issue.md | Цикл | ✅ | ✅ | ✅ |
 | ~~1.2~~ | standard-branching.md | Цикл | ✅ | ✅ | ✅ |
-| 1.3 | standard-development.md | Цикл | ✅ | ⏳ | — |
+| ~~1.3~~ | standard-development.md | Цикл | ✅ | ✅ | — |
 | 1.4 | standard-commit.md | Цикл | ⏳ | ⏳ | — |
 | 1.5 | standard-pull-request.md | Цикл | ✅ | ⏳ | — |
 | 1.6 | standard-review.md | Цикл | ⏳ | ⏳ | — |
@@ -205,11 +205,11 @@
 | 1.10 | standard-release-workflow.md | Цикл | ⏳ | ⏳ | — |
 | 2.1 | standard-github-workflow.md | Оркестратор | ⏳ | ⏳ | — |
 
-**Итого:** 19 стандартов. Этап 1: 12 ✅, 7 ⏳. Этап 2: 10 ✅, 9 ⏳. Этап 3: 8 ✅, 1 ⏳, 10 н/п.
+**Итого:** 19 стандартов. Этап 1: 12 ✅, 7 ⏳. Этап 2: 11 ✅, 8 ⏳. Этап 3: 8 ✅, 1 ⏳, 10 н/п.
 
 **ПОДГОТОВКА:** Завершена (0.1-0.9).
 
-**ЦИКЛ:** 1.1 ✅ (все 3 этапа), 1.2 ✅ (все 3 этапа, ветка task/standards-validation-34). 1.3 Этап 1 ✅, 1.5 Этап 1 ✅.
+**ЦИКЛ:** 1.1 ✅ (все 3 этапа), 1.2 ✅ (все 3 этапа, ветка task/standards-validation-34). 1.3 ✅ (Этап 1 v1.2 + Этап 2 validation + rule, Этап 3 н/п — процесс), 1.5 Этап 1 ✅.
 
 ---
 
@@ -221,7 +221,7 @@
 |---|--------|----------|:------:|:-------------:|:------:|
 | ~~1.1~~ | 1 | `issues/standard-issue.md` | ✅ v1.4 | ✅ validation + create + modify + скрипт + 3 скилла + rule | ✅ Issue #34 |
 | ~~1.2~~ | 3 | `branches/standard-branching.md` | ✅ v1.2 | ✅ validation + create + скрипт + скилл + pre-commit | ✅ task/standards-validation-34 |
-| **1.3** | 4 | `development/standard-development.md` | ✅ v1.1 | ⏳ validation | — |
+| ~~1.3~~ | 4 | `development/standard-development.md` | ✅ v1.2 | ✅ validation + rule | — |
 | **1.4** | 5 | `commits/standard-commit.md` | ⏳ | ⏳ validation | — |
 | 1.5 | 6 | `pull-requests/standard-pull-request.md` | ✅ | ⏳ validation, create, modify | — |
 | **1.6** | 7-8 | `review/standard-review.md` | ⏳ | ⏳ validation | — |
@@ -234,7 +234,7 @@
 - 1.3 зависит от 1.2 ✅ (разблокирован)
 - 1.8 зависит от 1.2 ✅ (разблокирован)
 
-**Следующий шаг:** 1.4 (standard-commit.md) или 1.6 (standard-review.md).
+**Следующий шаг:** 1.4 (standard-commit.md) — Этап 1 + Этап 2.
 
 ---
 

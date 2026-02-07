@@ -29,8 +29,9 @@ index: .github/.instructions/development/README.md
 
 ```
 /.github/.instructions/development/
-├── README.md                  # Этот файл (индекс)
-└── standard-development.md    # Стандарт локальной разработки
+├── README.md                      # Этот файл (индекс)
+├── standard-development.md        # Стандарт локальной разработки
+└── validation-development.md      # Валидация процесса разработки
 ```
 
 ---
@@ -63,7 +64,11 @@ index: .github/.instructions/development/README.md
 
 # 3. Валидация
 
-*Нет валидаций.*
+## 3.1. Валидация процесса разработки
+
+Проверка соблюдения процесса локальной разработки: тесты, линтер, сборка, зависимости, полнота реализации.
+
+**Инструкция:** [validation-development.md](./validation-development.md)
 
 ---
 
