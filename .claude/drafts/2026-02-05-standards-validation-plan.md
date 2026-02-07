@@ -200,16 +200,16 @@
 | ~~1.4~~ | standard-commit.md | Цикл | ✅ | ✅ | — |
 | ~~1.5~~ | standard-pull-request.md | Цикл | ✅ | ✅ | — |
 | ~~1.6~~ | standard-review.md | Цикл | ✅ | ✅ | — |
-| 1.8 | standard-sync.md | Цикл | ⏳ | ⏳ | — |
+| ~~1.8~~ | standard-sync.md | Цикл | ✅ | ✅ | — |
 | 1.9 | standard-release.md | Цикл | ⏳ | ⏳ | ⏳ |
 | 1.10 | standard-release-workflow.md | Цикл | ⏳ | ⏳ | — |
 | 2.1 | standard-github-workflow.md | Оркестратор | ⏳ | ⏳ | — |
 
-**Итого:** 19 стандартов. Этап 1: 14 ✅, 5 ⏳. Этап 2: 14 ✅, 5 ⏳. Этап 3: 8 ✅, 1 ⏳, 10 н/п.
+**Итого:** 19 стандартов. Этап 1: 15 ✅, 4 ⏳. Этап 2: 15 ✅, 4 ⏳. Этап 3: 8 ✅, 1 ⏳, 10 н/п.
 
 **ПОДГОТОВКА:** Завершена (0.1-0.9).
 
-**ЦИКЛ:** 1.1 ✅ (все 3 этапа), 1.2 ✅ (все 3 этапа, ветка task/standards-validation-34). 1.3 ✅ (Этап 1 v1.2 + Этап 2 validation + rule, Этап 3 н/п — процесс), 1.4 ✅ (Этап 1 v1.2 + Этап 2 rule в development.md, Этап 3 н/п — конвенция), 1.5 ✅ (Этап 1 ранее + Этап 2 rule в development.md, Этап 3 н/п), 1.6 ✅ (Этап 1 v1.1 + Этап 2 rule в development.md + initialization.md § 7, Этап 3 н/п — процесс).
+**ЦИКЛ:** 1.1 ✅ (все 3 этапа), 1.2 ✅ (все 3 этапа, ветка task/standards-validation-34). 1.3 ✅ (Этап 1 v1.2 + Этап 2 validation + rule, Этап 3 н/п — процесс), 1.4 ✅ (Этап 1 v1.2 + Этап 2 rule в development.md, Этап 3 н/п — конвенция), 1.5 ✅ (Этап 1 ранее + Этап 2 rule в development.md, Этап 3 н/п), 1.6 ✅ (Этап 1 v1.1 + Этап 2 rule в development.md + initialization.md § 7, Этап 3 н/п — процесс), 1.8 ✅ (Этап 1 v1.2 + Этап 2 rule в development.md, Этап 3 н/п — конвенция).
 
 ---
 
@@ -225,7 +225,7 @@
 | ~~1.4~~ | 5 | `commits/standard-commit.md` | ✅ v1.2 | ✅ rule в development.md | — |
 | ~~1.5~~ | 6 | `pull-requests/standard-pull-request.md` | ✅ | ✅ rule в development.md | — |
 | ~~1.6~~ | 7-8 | `review/standard-review.md` | ✅ v1.1 | ✅ rule в development.md | — |
-| **1.8** | 9 | `sync/standard-sync.md` | ⏳ | ⏳ validation | — |
+| ~~1.8~~ | 9 | `sync/standard-sync.md` | ✅ v1.2 | ✅ rule в development.md | — |
 | **1.9** | 10 | `releases/standard-release.md` | ⏳ | ⏳ validation, create, modify | ⏳ |
 | **1.10** | 10 | `releases/standard-release-workflow.md` | ⏳ | ⏳ validation | — |
 
@@ -234,7 +234,7 @@
 - 1.3 зависит от 1.2 ✅ (разблокирован)
 - 1.8 зависит от 1.2 ✅ (разблокирован)
 
-**Следующий шаг:** 1.8 (standard-sync.md) — Этап 1 + Этап 2.
+**Следующий шаг:** 1.9 + 1.10 (standard-release.md + standard-release-workflow.md) — обрабатывать ВМЕСТЕ (граница П7).
 
 ---
 
