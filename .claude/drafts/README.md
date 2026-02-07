@@ -55,7 +55,6 @@ index: .claude/README.md
 ├── 2026-02-03-recommendations-standard-development-workflow.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-release-workflow.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-release.md # TODO: добавить описание
-├── 2026-02-05-holt-analysis-standard-review.md # Семантический анализ standard-review.md
 ├── 2026-02-05-holt-analysis-standard-sync.md # Семантический анализ standard-sync.md
 ├── 2026-02-05-standards-validation-plan.md # План валидации стандартов
 └── 2026-02-06-holt-zone-intrusions.md     # Зональный анализ черновиков Холта

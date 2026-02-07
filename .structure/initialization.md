@@ -23,7 +23,8 @@ standard-version: v1.1
 - [5. Решение проблем](#5-решение-проблем)
 - [CI (автоматически)](#ci-автоматически)
 - [6. Настройка GitHub Security](#6-настройка-github-security)
-- [Настройка GitHub Labels (опционально)](#настройка-github-labels-опционально)
+- [7. Настройка Branch Protection Rules](#7-настройка-branch-protection-rules)
+- [8. Настройка GitHub Labels (опционально)](#8-настройка-github-labels-опционально)
 
 ---
 
@@ -232,7 +233,47 @@ Settings → Code security and analysis →
 
 ---
 
-## Настройка GitHub Labels (опционально)
+## 7. Настройка Branch Protection Rules
+
+Защита ветки main от некачественных изменений. Settings не копируются из template — настроить для каждого нового репозитория.
+
+**SSOT:** [standard-review.md § 4](/.github/.instructions/review/standard-review.md#4-branch-protection-rules)
+
+### Через GitHub UI
+
+```
+Settings → Branches → Branch protection rules → Add rule
+  Branch name pattern: main
+
+  ✅ Require a pull request before merging
+  ✅ Require approvals: 1
+  ✅ Require status checks to pass before merging
+  ✅ Require branches to be up to date before merging
+  □  Require conversation resolution (для команд 2+ человек)
+  □  Require signed commits (для публичных проектов)
+
+  → Save changes
+```
+
+### Через CLI (gh api)
+
+```bash
+# Посмотреть текущие правила
+gh api repos/{owner}/{repo}/branches/main/protection --method GET
+
+# Настроить правила (заменить {owner}/{repo})
+gh api repos/{owner}/{repo}/branches/main/protection --method PUT \
+  -f required_status_checks='{"strict":true,"contexts":["ci"]}' \
+  -f required_pull_request_reviews='{"required_approving_review_count":1}' \
+  -f enforce_admins=true \
+  -f restrictions=null
+```
+
+> **Примечание:** Точные `contexts` для status checks зависят от имён CI workflows в `.github/workflows/`.
+
+---
+
+## 8. Настройка GitHub Labels (опционально)
 
 После первоначальной настройки рекомендуется настроить систему меток GitHub:
 
