@@ -31,6 +31,120 @@
 
 ## Содержание
 
+
+#### Дерево файлов
+
+```
+.github/.instructions/
+│
+├── standard-github-workflow.md        ← HIGH-LEVEL оркестратор: ссылки на этапы
+│
+├── [НЕЗАВИСИМЫЕ]
+│   ├── codeowners/
+│   │   ├── README.md
+│   │   ├── standard-codeowners.md
+│   │   └── validation-codeowners.md
+│   ├── labels/
+│   │   ├── README.md
+│   │   ├── standard-labels.md
+│   │   ├── modify-labels.md
+│   │   └── validation-labels.md
+│   ├── milestones/
+│   │   ├── README.md
+│   │   ├── standard-milestone.md
+│   │   ├── validation-milestone.md
+│   │   ├── create-milestone.md
+│   │   └── modify-milestone.md
+│   └── projects/
+│       ├── README.md
+│       └── standard-project.md
+│
+├── [ЭТАПЫ ЖИЗНЕННОГО ЦИКЛА]                  (порядок = стадии workflow)
+│   ├── issues/                        ← стадия 1: планирование
+│   │   ├── README.md
+│   │   ├── standard-issue.md
+│   │   ├── validation-issue.md
+│   │   ├── create-issue.md
+│   │   ├── modify-issue.md
+│   │   └── issue-templates/
+│   │       ├── README.md
+│   │       ├── standard-issue-template.md
+│   │       └── validation-type-templates.md
+│   │
+│   ├── branches/                      ← стадия 3: создание ветки
+│   │   ├── README.md
+│   │   ├── standard-branching.md
+│   │   ├── validation-branch.md
+│   │   └── create-branch.md
+│   │
+│   ├── development/                   ← стадия 4: разработка
+│   │   ├── README.md
+│   │   └── standard-development.md
+│   │
+│   ├── commits/                       ← стадия 5: коммиты
+│   │   ├── README.md
+│   │   └── standard-commit.md
+│   │
+│   ├── pull-requests/                 ← стадия 6: создание PR
+│   │   ├── README.md
+│   │   ├── standard-pull-request.md
+│   │   └── pr-template/
+│   │       ├── README.md
+│   │       ├── standard-pr-template.md
+│   │       └── validation-pr-template.md
+│   │
+│   ├── review/                        ← стадия 7-8: ревью и merge
+│   │   ├── README.md
+│   │   └── standard-review.md
+│   │
+│   ├── sync/                          ← стадия 9: синхронизация
+│   │   ├── README.md
+│   │   └── standard-sync.md
+│   │
+│   └── releases/                      ← стадия 10: релиз
+│       ├── README.md
+│       ├── standard-release.md
+│       └── standard-release-workflow.md
+│
+├── [АВТОМАТИЗАЦИЯ]
+│   ├── actions/
+│   │   ├── README.md
+│   │   └── security/
+│   │       └── README.md
+│   └── actions/
+│       ├── README.md
+│       └── standard-action.md
+│
+└── [СЛУЖЕБНЫЕ]
+    └── .scripts/
+        └── *.py
+```
+
+
+#### Ответственности документов
+
+| Документ | Отвечает за |
+|----------|-------------|
+| **standard-github-workflow.md** | HIGH-LEVEL оркестратор: Фаза 0 + цикл 10 стадий, SSOT-ссылки |
+| **branches/standard-branching.md** | Модель GitHub Flow, naming convention, жизненный цикл ветки, запреты, граничные случаи |
+| **development/standard-development.md** | Процесс работы в feature-ветке, make-команды, тестирование, локальные проверки качества |
+| **commits/standard-commit.md** | Conventional Commits, типы, scope, body/footer, правила оформления, процесс коммита, pre-commit hooks |
+| **sync/standard-sync.md** | Триггеры синхронизации, процесс (main и feature-ветки), разрешение конфликтов, запреты |
+| **issues/standard-issue.md** | Жизненный цикл Issues |
+| **issues/issue-templates/standard-issue-template.md** | YAML-шаблоны Issues |
+| **pull-requests/standard-pull-request.md** | Создание PR, связь с Issues, Draft PR |
+| **pull-requests/pr-template/standard-pr-template.md** | Шаблон body PR |
+| **review/standard-review.md** | Code Review, Merge стратегии, Branch Protection |
+| **releases/standard-release.md** | SemVer, Git-теги, Changelog |
+| **releases/standard-release-workflow.md** | Процесс релиза: подготовка → публикация → hotfix → rollback |
+| **labels/standard-labels.md** | Naming convention, правила применения меток |
+| **milestones/standard-milestone.md** | Типы milestone, жизненный цикл |
+| **codeowners/standard-codeowners.md** | Синтаксис CODEOWNERS, автоназначение ревьюеров |
+| **projects/standard-project.md** | Канбан-доски, views, fields, автоматизация |
+| **actions/standard-action.md** | Структура YAML, триггеры, jobs/steps, secrets |
+| **actions/security/** | Dependabot, CodeQL, Secret Scanning |
+
+
 ### Подход
 
 Для каждого стандарта — полный цикл из 3 этапов:
@@ -73,7 +187,7 @@
 |---|----------|------|:------:|:------:|:------:|
 | ~~0.1~~ | standard-labels.md | Подготовка | ✅ | ✅ | ✅ |
 | ~~0.2~~ | standard-codeowners.md | Подготовка | ✅ | ✅ | ✅ |
-| ~~0.3~~ | standard-issue-template.md | Подготовка | ✅ | ⚠️ | ✅ |
+| ~~0.3~~ | standard-issue-template.md | Подготовка | ✅ | ✅ | ✅ |
 | ~~0.4~~ | standard-pr-template.md | Подготовка | ✅ | ✅ | ✅ |
 | ~~0.5~~ | standard-milestone.md | Подготовка | ✅ | ✅ | ✅ |
 | ~~0.6~~ | standard-project.md | Подготовка | ✅ деактивирован | — | — |
@@ -81,7 +195,7 @@
 | ~~0.8~~ | standard-security.md | Подготовка | ✅ | ✅ | ✅ |
 | ~~0.9~~ | standard-secrets.md | Подготовка | ✅ | ✅ | — |
 | ~~1.1~~ | standard-issue.md | Цикл | ✅ | ✅ | ✅ |
-| ~~1.2~~ | standard-branching.md | Цикл | ✅ | ✅ | — |
+| ~~1.2~~ | standard-branching.md | Цикл | ✅ | ✅ | ✅ |
 | 1.3 | standard-development.md | Цикл | ✅ | ⏳ | — |
 | 1.4 | standard-commit.md | Цикл | ⏳ | ⏳ | — |
 | 1.5 | standard-pull-request.md | Цикл | ✅ | ⏳ | — |
@@ -91,11 +205,11 @@
 | 1.10 | standard-release-workflow.md | Цикл | ⏳ | ⏳ | — |
 | 2.1 | standard-github-workflow.md | Оркестратор | ⏳ | ⏳ | — |
 
-**Итого:** 19 стандартов. Этап 1: 12 ✅, 7 ⏳. Этап 2: 9 ✅, 1 ⚠️, 9 ⏳. Этап 3: 7 ✅, 1 ⏳, 11 н/п.
+**Итого:** 19 стандартов. Этап 1: 12 ✅, 7 ⏳. Этап 2: 10 ✅, 9 ⏳. Этап 3: 8 ✅, 1 ⏳, 10 н/п.
 
-**ПОДГОТОВКА:** Завершена (0.1-0.9). Долг 0.3: validation ✅ (ссылки исправлены на `validation-type-templates.md`), create/modify отсутствуют.
+**ПОДГОТОВКА:** Завершена (0.1-0.9).
 
-**ЦИКЛ:** 1.1 ✅ (все 3 этапа), 1.2 ✅ (Этап 1+2, конвенция). 1.3 Этап 1 ✅, 1.5 Этап 1 ✅.
+**ЦИКЛ:** 1.1 ✅ (все 3 этапа), 1.2 ✅ (все 3 этапа, ветка task/standards-validation-34). 1.3 Этап 1 ✅, 1.5 Этап 1 ✅.
 
 ---
 
@@ -106,7 +220,7 @@
 | # | Стадия | Стандарт | Этап 1 | Этап 2 (docs) | Этап 3 |
 |---|--------|----------|:------:|:-------------:|:------:|
 | ~~1.1~~ | 1 | `issues/standard-issue.md` | ✅ v1.4 | ✅ validation + create + modify + скрипт + 3 скилла + rule | ✅ Issue #34 |
-| ~~1.2~~ | 3 | `branches/standard-branching.md` | ✅ v1.2 | ✅ validation + create + скрипт + скилл + pre-commit | — |
+| ~~1.2~~ | 3 | `branches/standard-branching.md` | ✅ v1.2 | ✅ validation + create + скрипт + скилл + pre-commit | ✅ task/standards-validation-34 |
 | **1.3** | 4 | `development/standard-development.md` | ✅ v1.1 | ⏳ validation | — |
 | **1.4** | 5 | `commits/standard-commit.md` | ⏳ | ⏳ validation | — |
 | 1.5 | 6 | `pull-requests/standard-pull-request.md` | ✅ | ⏳ validation, create, modify | — |
@@ -158,6 +272,5 @@
 ## Открытые вопросы
 
 1. **Граница release ↔ release-workflow (П7)** — решать ДО или ПОСЛЕ применения рекомендаций?
-2. **Долг 0.3** — создать create-issue-template.md и modify-issue-template.md?
 
 ---
