@@ -30,7 +30,6 @@ index: .claude/README.md
 | Файл | Описание |
 |------|----------|
 | [2026-02-03-github-ssot-refactoring.md](./2026-02-03-github-ssot-refactoring.md) | SSOT-рефакторинг .github/ |
-| [2026-02-05-github-instructions.md](./2026-02-05-github-instructions.md) | GitHub-инструкции: реструктуризация и валидация (объединённый) |
 
 ---
 
@@ -56,9 +55,7 @@ index: .claude/README.md
 ├── 2026-02-03-recommendations-standard-development-workflow.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-release-workflow.md # TODO: добавить описание
 ├── 2026-02-03-recommendations-standard-release.md # TODO: добавить описание
-├── 2026-02-05-github-instructions.md   # GitHub-инструкции (объединённый)
 ├── 2026-02-05-holt-analysis-standard-commit.md # Семантический анализ standard-commit.md
-├── 2026-02-05-holt-analysis-standard-development.md # Семантический анализ standard-development.md
 ├── 2026-02-05-holt-analysis-standard-review.md # Семантический анализ standard-review.md
 ├── 2026-02-05-holt-analysis-standard-sync.md # Семантический анализ standard-sync.md
 ├── 2026-02-05-standards-validation-plan.md # План валидации стандартов
