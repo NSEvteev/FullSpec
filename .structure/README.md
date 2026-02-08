@@ -8,7 +8,7 @@ standard-version: v1.1
 
 > **SSOT** — единый источник правды о структуре папок проекта.
 
-Корневые папки: инструменты Claude (`.claude/`), GitHub платформа (`.github/`), мета-инструкции (`.instructions/`), структура проекта (`.structure/`), конфигурации (`config/`), инфраструктура (`platform/`), общий код (`shared/`), спецификации (`specs/`), исходный код (`src/`), тесты (`tests/`). Корневые файлы: `.gitignore`, `CLAUDE.md`, `Makefile`, `README.md`.
+Корневые папки: инструменты Claude (`.claude/`), GitHub платформа (`.github/`), мета-инструкции (`.instructions/`), структура проекта (`.structure/`), конфигурации (`config/`), инфраструктура (`platform/`), общий код (`shared/`), спецификации (`specs/`), исходный код (`src/`), тесты (`tests/`). Корневые файлы: `.gitignore`, `.pre-commit-config.yaml`, `CHANGELOG.md`, `CLAUDE.md`, `Makefile`, `README.md`.
 
 **Полезные ссылки:**
 - [Точка входа Claude](../CLAUDE.md)
@@ -31,6 +31,8 @@ standard-version: v1.1
   - [tests/](#-tests)
 - [2. Корневые файлы](#2-корневые-файлы)
   - [.gitignore](#-gitignore)
+  - [.pre-commit-config.yaml](#-pre-commit-configyaml)
+  - [CHANGELOG.md](#-changelogmd)
   - [CLAUDE.md](#-claudemd)
   - [Makefile](#-makefile)
   - [README.md](#-readmemd)
@@ -45,19 +47,19 @@ standard-version: v1.1
 
 **Инструменты Claude Code.**
 
-Инструкции для написания скиллов и rules (`.instructions/skills/`, `.instructions/rules/`), скиллы автоматизации — 16 команд для управления инструкциями, скриптами, скиллами, rules, ссылками и структурой (`skills/`), контекстные правила для автозагрузки (`rules/`), автономные агенты (`agents/`), черновики и SSOT-документы (`drafts/`), настройки Claude (`settings.json`).
+Инструкции для написания скиллов, rules и агентов (`.instructions/`), скиллы автоматизации — 35 команд для управления инструкциями, скриптами, скиллами, rules, агентами, ссылками, структурой, issues, milestones, labels, ветками, миграциями и ревью (`skills/`), контекстные правила для автозагрузки (`rules/`), автономные агенты (`agents/`), черновики и SSOT-документы (`drafts/`), настройки Claude (`settings.json`).
 
 ### 🔗 [.github/](../.github/README.md)
 
 **GitHub платформа.**
 
-Стандарты работы с GitHub (`.instructions/`), шаблоны для создания Issues (`ISSUE_TEMPLATE/`), CI/CD pipelines — автоматизация сборки, тестирования и деплоя (`workflows/`).
+Стандарты работы с GitHub (`.instructions/`) — оркестратор workflow, 13 тематических подпапок (issues, pull-requests, review, releases, branches, commits, sync, development, actions, labels, milestones, codeowners, projects), шаблоны Issues (`ISSUE_TEMPLATE/`), шаблон Pull Request (`PULL_REQUEST_TEMPLATE.md`), CI/CD pipelines (`workflows/`), конфигурация code ownership (`CODEOWNERS`), Dependabot (`dependabot.yml`), политика безопасности (`SECURITY.md`), справочник меток (`labels.yml`), milestones (`milestones/`), история релизов (`releases/`).
 
 ### 🔗 [.instructions/](../.instructions/README.md)
 
 **Мета-инструкции.**
 
-Стандарты написания инструкций: структура, типы, валидация, статусы, связи между инструкциями, шаблоны, воркфлоу создания/обновления/деактивации.
+Стандарты написания инструкций: структура, типы, валидация, статусы, связи между инструкциями, шаблоны, воркфлоу создания/обновления/деактивации. Скрипты автоматизации (`.scripts/`), инструкции миграции стандартов (`migration/`).
 
 ### 🔗 .structure/ (этот файл)
 
@@ -111,6 +113,18 @@ standard-version: v1.1
 
 Файлы и папки, исключённые из системы контроля версий — временные файлы, зависимости, секреты, артефакты сборки.
 
+### 🔗 [.pre-commit-config.yaml](../.pre-commit-config.yaml)
+
+**Pre-commit hooks.**
+
+Конфигурация автоматических проверок перед коммитом — валидация README, rules, скриптов, скиллов, имени ветки.
+
+### 🔗 [CHANGELOG.md](../CHANGELOG.md)
+
+**История изменений.**
+
+Документирование заметных изменений проекта в формате [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
 ### 🔗 [CLAUDE.md](../CLAUDE.md)
 
 **Точка входа для Claude.**
@@ -140,36 +154,51 @@ standard-version: v1.1
 │   │   ├── agents/                      #   Как писать агентов
 │   │   ├── drafts/                      #   Как работать с черновиками
 │   │   ├── rules/                       #   Как писать rules
-│   │   ├── skills/                      #   Как писать скиллы
-│   │   └── state/                       #   Как работать с state
+│   │   └── skills/                      #   Как писать скиллы
 │   ├── agents/                          #   Конфигурации агентов
 │   ├── drafts/                          #   Черновики (в git)
-│   │   └── examples/                    #     Эталонные примеры черновиков для будущих запросов к LLM
-│   ├── hooks/                           #   Claude Code hooks
+│   │   └── examples/                    #     Эталонные примеры черновиков
 │   ├── rules/                           #   Rules для автозагрузки контекста
-│   ├── skills/                          #   Скиллы (16)
-│   ├── state/                           #   Состояние между вызовами
-│   ├── CHANGELOG.md                     #   История изменений
+│   ├── skills/                          #   Скиллы (35)
+│   ├── CHANGELOG.md                     #   История изменений .claude/
 │   ├── onboarding.md                    #   Руководство для новых участников
 │   ├── README.md                        #   Описание .claude/
 │   └── settings.json                    #   Настройки
 │
 ├── .github/                             # GitHub платформа
 │   ├── .instructions/                   #   Инструкции для работы с GitHub
-│   │   ├── branches/                    #     Стандарт именования и создания веток
+│   │   ├── actions/                     #     CI/CD и GitHub Actions
+│   │   │   └── security/               #       Security (Dependabot, secrets)
+│   │   ├── branches/                    #     Стандарт именования веток
+│   │   ├── codeowners/                  #     Стандарт CODEOWNERS
 │   │   ├── commits/                     #     Стандарт оформления коммитов
-│   │   ├── development/                 #     Инструкции для процесса локальной разработки
-│   │   └── sync/                        #     Стандарт синхронизации с main
+│   │   ├── development/                 #     Процесс локальной разработки
+│   │   ├── issues/                      #     Стандарт создания Issues
+│   │   │   └── issue-templates/         #       Стандарт шаблонов Issues
+│   │   ├── labels/                      #     Стандарт системы меток
+│   │   ├── milestones/                  #     Стандарт milestones
+│   │   ├── projects/                    #     Стандарт GitHub Projects
+│   │   ├── pull-requests/               #     Стандарт Pull Requests
+│   │   │   └── pr-template/             #       Стандарт шаблона PR
+│   │   ├── releases/                    #     Стандарт релизов
+│   │   ├── review/                      #     Стандарт code review
+│   │   ├── sync/                        #     Стандарт синхронизации веток
+│   │   ├── README.md                    #     Индекс инструкций
+│   │   └── standard-github-workflow.md  #     Оркестратор GitHub workflow
 │   ├── ISSUE_TEMPLATE/                  #   Шаблоны Issues
-│   ├── labels/                          #   Справочник меток проекта
-│   ├── milestones/                      #   Справочник milestones проекта
-│   ├── releases/                        #   История релизов проекта
+│   ├── milestones/                      #   Справочник milestones
+│   ├── releases/                        #   История релизов
 │   ├── workflows/                       #   CI/CD pipelines
-│   └── README.md                        #   Описание .github/
+│   ├── CODEOWNERS                       #   Code ownership
+│   ├── dependabot.yml                   #   Dependabot конфигурация
+│   ├── labels.yml                       #   Справочник меток
+│   ├── PULL_REQUEST_TEMPLATE.md         #   Шаблон Pull Request
+│   ├── README.md                        #   Описание .github/
+│   └── SECURITY.md                      #   Политика безопасности
 │
 ├── .instructions/                       # Мета-инструкции
 │   ├── .scripts/                        #   Скрипты автоматизации
-│   ├── migration/                       #   Инструкции для миграции стандартов
+│   ├── migration/                       #   Инструкции миграции стандартов
 │   └── README.md                        #   Индекс инструкций
 │
 ├── .structure/                          # SSOT структуры проекта
@@ -232,6 +261,7 @@ standard-version: v1.1
 │
 ├── .gitignore                           # Git ignore
 ├── .pre-commit-config.yaml              # Pre-commit hooks
+├── CHANGELOG.md                         # История изменений
 ├── CLAUDE.md                            # Точка входа для Claude
 ├── Makefile                             # Команды (make help)
 └── README.md                            # Главный README
