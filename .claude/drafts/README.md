@@ -29,7 +29,8 @@ index: .claude/README.md
 
 | Файл | Описание |
 |------|----------|
-| *нет активных* | *нет активных* |
+| [2026-02-08-specification-driven-development.md](./2026-02-08-specification-driven-development.md) | Исследование подходов к Specification-Driven Development |
+| [2026-02-08-specs-architecture.md](./2026-02-08-specs-architecture.md) | Архитектура specs/: папки, файлы, зоны ответственности |
 
 ---
 
@@ -50,7 +51,9 @@ index: .claude/README.md
 ├── examples/                           # Эталонные примеры
 │   ├── example-cross-standards-ssot-analysis.md #   Анализ SSOT между стандартами
 │   ├── example-github-platform-research.md      #   Исследование GitHub платформы
-│   ├── 2026-02-05-standards-validation-plan.md  #   План валидации стандартов
+│   ├── example-standards-validation-plan.md     #   План валидации стандартов
 │   └── README.md                                #   Индекс примеров
+├── 2026-02-08-specification-driven-development.md # Исследование SDD
+├── 2026-02-08-specs-architecture.md    # Архитектура specs/
 └── README.md                           # Этот файл (индекс)
 ```
