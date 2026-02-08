@@ -4,21 +4,7 @@ description: Обновление, деактивация и миграция и
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Write, Edit, Glob, Grep
-triggers:
-  commands:
-    - /instruction-modify
-  phrases:
-    ru:
-      - измени инструкцию
-      - обнови инструкцию
-      - добавь в инструкцию
-      - деактивируй инструкцию
-      - мигрируй инструкцию
-      - перенеси инструкцию
-    en:
-      - modify instruction
-      - update instruction
-      - deactivate instruction
+argument-hint: "<путь> [--deactivate] [--migrate <новый-путь>]"
 ---
 
 # Изменение инструкции

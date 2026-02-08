@@ -4,17 +4,7 @@ description: Валидация labels.yml и меток на Issues/PR
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep
-triggers:
-  commands:
-    - /labels-validate
-  phrases:
-    ru:
-      - валидация меток
-      - проверить метки
-      - валидация labels
-    en:
-      - validate labels
-      - check labels
+argument-hint: "[--file] [--sync] [--issue <number>] [--all]"
 ---
 
 # Валидация меток

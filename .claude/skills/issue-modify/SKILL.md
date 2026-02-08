@@ -4,20 +4,7 @@ description: Изменение GitHub Issue по стандарту
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep
-triggers:
-  commands:
-    - /issue-modify
-  phrases:
-    ru:
-      - изменить issue
-      - обновить issue
-      - закрыть issue
-      - переоткрыть issue
-    en:
-      - modify issue
-      - update issue
-      - close issue
-      - reopen issue
+argument-hint: "<number> [--close] [--reopen]"
 ---
 
 # Изменение Issue

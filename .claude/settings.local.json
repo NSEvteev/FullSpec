@@ -24,7 +24,20 @@
       "Bash(do gh issue close $i --reason \"not planned\" --comment \"Тестовый Issue — закрыт после проверки шаблона.\")",
       "Bash(done)",
       "Skill(instruction-modify)",
-      "Skill(migration-create)"
+      "Skill(migration-create)",
+      "Skill(skill-create)",
+      "Skill(milestone-create)",
+      "Bash(git rm:*)",
+      "Bash(pre-commit run:*)",
+      "Skill(issue-create)",
+      "Bash(for d in .claude .github .instructions .structure config platform shared specs src tests)",
+      "Bash(do if [ -d \"C:/00 Dev/project_template/$d/.instructions\" ])",
+      "Bash(then echo \"$d/.instructions/ — ЕСТЬ\")",
+      "Bash(else echo \"$d/.instructions/ — НЕТ\")",
+      "Bash(fi)",
+      "Bash(git pull:*)",
+      "Bash(find:*)",
+      "Skill(branch-create)"
     ]
   },
   "statusLine": {

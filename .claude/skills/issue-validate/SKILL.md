@@ -4,17 +4,7 @@ description: Валидация GitHub Issue по стандарту
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep
-triggers:
-  commands:
-    - /issue-validate
-  phrases:
-    ru:
-      - валидация issue
-      - проверить issue
-      - валидация задачи
-    en:
-      - validate issue
-      - check issue
+argument-hint: "[number] [--all] [--milestone <title>]"
 ---
 
 # Валидация Issue

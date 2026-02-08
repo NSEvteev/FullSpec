@@ -4,15 +4,7 @@ description: Валидация черновика по стандарту
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash
-triggers:
-  commands:
-    - /draft-validate
-  phrases:
-    ru:
-      - проверь черновик
-      - валидируй драфт
-    en:
-      - validate draft
+argument-hint: "[путь] [--all]"
 ---
 
 # Валидация черновика

@@ -28,9 +28,9 @@ index: .github/.instructions/releases/README.md
 | Тип | Документ |
 |-----|----------|
 | Стандарт | Этот документ |
-| Валидация | *Не требуется (процесс)* |
-| Создание | *Не требуется (процесс)* |
-| Модификация | *Не требуется (процесс)* |
+| Валидация | [validation-release.md](./validation-release.md) |
+| Создание | [create-release.md](./create-release.md) |
+| Модификация | *Не требуется — операции описаны в § 18* |
 
 ## Оглавление
 
@@ -48,7 +48,7 @@ index: .github/.instructions/releases/README.md
 - [12. Hotfix-релиз](#12-hotfix-релиз)
 - [13. Rollback процесс](#13-rollback-процесс)
 - [14. Yanking Release (отзыв версии)](#14-yanking-release-отзыв-версии)
-- [15. Переход Pre-release → Stable](#15-переход-pre-release--stable)
+- [15. Переход Pre-release - Stable](#15-переход-pre-release---stable)
 - [16. Draft Release (черновик)](#16-draft-release-черновик)
 - [17. Синхронизация CHANGELOG.md с Release](#17-синхронизация-changelogmd-с-release)
 - [18. CLI команды](#18-cli-команды)
@@ -532,7 +532,7 @@ Release:                        Release → production
 ### Переходы состояний
 
 - **Draft → Published:** `gh release edit v1.0.0 --draft=false`
-- **Pre-release → Stable:** создать новый Release `v1.0.0` (см. [§ 15](#15-переход-pre-release--stable))
+- **Pre-release - Stable:** создать новый Release `v1.0.0` (см. [§ 15](#15-переход-pre-release---stable))
 
 ---
 
@@ -867,7 +867,7 @@ gh release create v1.0.1 --generate-notes
 
 ---
 
-## 15. Переход Pre-release → Stable
+## 15. Переход Pre-release - Stable
 
 **Когда применять:**
 - Pre-release версия (`v1.0.0-rc.1`) протестирована и готова к публикации
@@ -1093,7 +1093,7 @@ git push origin :refs/tags/v1.0.0
 **Процесс:**
 1. `gh release create v1.0.0-rc1 --prerelease --title "Release Candidate 1" --generate-notes`
 2. Pre-release НЕ триггерит деплой на production (workflow должен проверять `!prerelease`)
-3. После тестирования — создать стабильный Release `v1.0.0` (см. [§ 15](#15-переход-pre-release--stable))
+3. После тестирования — создать стабильный Release `v1.0.0` (см. [§ 15](#15-переход-pre-release---stable))
 
 ### Параллельное создание релизов
 

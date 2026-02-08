@@ -33,6 +33,8 @@ index: .github/.instructions/.scripts/README.md
 | [validate-issue.py](./validate-issue.py) | Валидация Issue: title, body, labels, assignees, milestone, закрытие | [validation-issue.md](../issues/validation-issue.md) |
 | [rotate-secret.py](./rotate-secret.py) | Ротация секретов GitHub | [standard-secrets.md](../actions/security/standard-secrets.md) |
 | [validate-branch-name.py](./validate-branch-name.py) | Валидация имени ветки: формат, Issues, TYPE-метки (BR001-BR011) | [validation-branch.md](../branches/validation-branch.md) |
+| [validate-pre-release.py](./validate-pre-release.py) | Валидация пре-релизных условий | [validation-release.md](../releases/validation-release.md) |
+| [validate-post-release.py](./validate-post-release.py) | Валидация пост-релизных артефактов | [validation-release.md](../releases/validation-release.md) |
 | [check-github-required.py](./check-github-required.py) | Проверка наличия обязательных файлов GitHub | — |
 
 ---
@@ -55,6 +57,8 @@ index: .github/.instructions/.scripts/README.md
 ├── validate-security.py                # Валидация файлов безопасности
 ├── validate-issue.py                   # Валидация Issue по стандарту
 ├── validate-branch-name.py             # Валидация имени ветки
+├── validate-pre-release.py             # Валидация пре-релизных условий
+├── validate-post-release.py            # Валидация пост-релизных артефактов
 ├── rotate-secret.py                    # Ротация секретов GitHub
 └── check-github-required.py            # Проверка наличия обязательных файлов
 ```

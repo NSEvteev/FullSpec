@@ -4,17 +4,7 @@ description: Обновление, рефакторинг и удаление с
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
-triggers:
-  commands:
-    - /script-modify
-  phrases:
-    ru:
-      - измени скрипт
-      - обнови скрипт
-      - удали скрипт
-    en:
-      - modify script
-      - update script
+argument-hint: "<путь> [--action <тип>]"
 ---
 
 # Изменение скрипта

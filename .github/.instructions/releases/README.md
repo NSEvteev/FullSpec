@@ -30,7 +30,9 @@ index: .github/.instructions/releases/README.md
 ```
 /.github/.instructions/releases/
 ├── README.md                    # Этот файл (индекс)
-└── standard-release.md          # Стандарт релизов (версионирование, changelog, процесс, hotfix, rollback)
+├── standard-release.md          # Стандарт релизов (версионирование, changelog, процесс, hotfix, rollback)
+├── validation-release.md        # Валидация Release (pre/post чеклист)
+└── create-release.md            # Воркфлоу создания Release
 ```
 
 ---
@@ -58,13 +60,21 @@ index: .github/.instructions/releases/README.md
 
 # 2. Воркфлоу
 
-*Нет воркфлоу.*
+## 2.1. Создание Release
+
+Пошаговый процесс создания GitHub Release для LLM: определение версии → проверки → сборка body → публикация → CHANGELOG.
+
+**Инструкция:** [create-release.md](./create-release.md)
 
 ---
 
 # 3. Валидация
 
-*Нет валидаций.*
+## 3.1. Валидация Release
+
+Чеклист проверки GitHub Release: pre-release готовность, объект Release, Release Notes, CHANGELOG.md, деплой.
+
+**Инструкция:** [validation-release.md](./validation-release.md)
 
 ---
 

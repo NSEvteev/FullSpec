@@ -4,18 +4,7 @@ description: Обновление, деактивация и миграция с
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
-triggers:
-  commands:
-    - /skill-modify
-  phrases:
-    ru:
-      - измени скилл
-      - обнови скилл
-      - деактивируй скилл
-      - мигрируй скилл
-    en:
-      - modify skill
-      - update skill
+argument-hint: "<название> [--action <тип>]"
 ---
 
 # Изменение скилла

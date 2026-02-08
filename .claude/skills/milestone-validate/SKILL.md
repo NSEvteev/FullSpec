@@ -4,17 +4,7 @@ description: Валидация GitHub Milestone по стандарту
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep
-triggers:
-  commands:
-    - /milestone-validate
-  phrases:
-    ru:
-      - валидация milestone
-      - проверить milestone
-      - валидация мейлстоуна
-    en:
-      - validate milestone
-      - check milestone
+argument-hint: "[--number <N>] [--all]"
 ---
 
 # Валидация Milestone

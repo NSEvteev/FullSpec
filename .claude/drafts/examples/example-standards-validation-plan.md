@@ -174,8 +174,8 @@
 | Объект GitHub (milestone, issue, label, project) | да | да | да | Да — первый экземпляр |
 | Шаблон/конфиг (issue-template, pr-template, codeowners, workflow-file, security) | да | да | да | Да — первый файл |
 | Конвенция (branching, commit, sync) | да | нет | нет | Нет |
-| Процесс (development, review) | да | нет | нет | Нет |
-| Составной (pull-request, release, release-workflow) | да | да | да | По ситуации |
+| Процесс (development, review, pull-request) | да | нет | нет | Нет |
+| Процесс-составной (release) | да | да | нет | CHANGELOG.md |
 
 ---
 
@@ -200,13 +200,13 @@
 | ~~1.6~~ | standard-review.md | Цикл | ✅ | ✅ | — |
 | ~~1.8~~ | standard-sync.md | Цикл | ✅ | ✅ | — |
 | ~~1.9+1.10~~ | standard-release.md (объединён) | Цикл | ✅ | ✅ | — |
-| 2.1 | standard-github-workflow.md | Оркестратор | ⏳ | ⏳ | — |
+| ~~2.1~~ | standard-github-workflow.md | Оркестратор | ✅ | ✅ | — |
 
-**Итого:** 18 стандартов (release + release-workflow объединены). Этап 1: 17 ✅, 1 ⏳. Этап 2: 17 ✅, 1 ⏳. Этап 3: 8 ✅, 10 н/п.
+**Итого:** 18 стандартов (release + release-workflow объединены). Этап 1: 18/18 ✅. Этап 2: 18/18 ✅. Этап 3: 8 ✅, 10 н/п.
 
 **ПОДГОТОВКА:** Завершена (0.1-0.9).
 
-**ЦИКЛ:** 1.1 ✅ (все 3 этапа), 1.2 ✅ (все 3 этапа, ветка task/standards-validation-34). 1.3 ✅ (Этап 1 v1.2 + Этап 2 validation + rule, Этап 3 н/п — процесс), 1.4 ✅ (Этап 1 v1.2 + Этап 2 rule в development.md, Этап 3 н/п — конвенция), 1.5 ✅ (Этап 1 ранее + Этап 2 rule в development.md, Этап 3 н/п), 1.6 ✅ (Этап 1 v1.1 + Этап 2 rule в development.md + initialization.md § 7, Этап 3 н/п — процесс), 1.8 ✅ (Этап 1 v1.2 + Этап 2 rule в development.md, Этап 3 н/п — конвенция), 1.9+1.10 ✅ (Этап 1 v1.1 объединённый + Этап 2 rule в development.md, Этап 3 н/п — процесс).
+**ЦИКЛ:** 1.1 ✅ (все 3 этапа), 1.2 ✅ (все 3 этапа, ветка task/standards-validation-34). 1.3 ✅ (Этап 1 v1.2 + Этап 2 validation + rule, Этап 3 н/п — процесс), 1.4 ✅ (Этап 1 v1.2 + Этап 2 rule в development.md, Этап 3 н/п — конвенция), 1.5 ✅ (Этап 1 ранее + Этап 2 rule в development.md, Этап 3 н/п), 1.6 ✅ (Этап 1 v1.1 + Этап 2 validation + 2 скилла (review-branch, review-pr) + rule + initialization.md § 7, Этап 3 н/п — процесс), 1.8 ✅ (Этап 1 v1.2 + Этап 2 rule в development.md, Этап 3 н/п — конвенция), 1.9+1.10 ✅ (Этап 1 v1.1 объединённый + Этап 2 validation + create + 2 скрипта + rule + CHANGELOG.md, Этап 3 н/п — процесс).
 
 ---
 
@@ -221,11 +221,11 @@
 | ~~1.3~~ | 4 | `development/standard-development.md` | ✅ v1.2 | ✅ validation + rule | — |
 | ~~1.4~~ | 5 | `commits/standard-commit.md` | ✅ v1.2 | ✅ rule в development.md | — |
 | ~~1.5~~ | 6 | `pull-requests/standard-pull-request.md` | ✅ | ✅ rule в development.md | — |
-| ~~1.6~~ | 7-8 | `review/standard-review.md` | ✅ v1.1 | ✅ rule в development.md | — |
+| ~~1.6~~ | 7-8 | `review/standard-review.md` | ✅ v1.1 | ✅ validation + 2 скилла + rule | — |
 | ~~1.8~~ | 9 | `sync/standard-sync.md` | ✅ v1.2 | ✅ rule в development.md | — |
-| ~~1.9+1.10~~ | 10 | `releases/standard-release.md` (объединён) | ✅ v1.1 | ✅ rule в development.md | — |
+| ~~1.9+1.10~~ | 10 | `releases/standard-release.md` (объединён) | ✅ v1.1 | ✅ validation + create + 2 скрипта + rule + CHANGELOG.md | — |
 
-**Следующий шаг:** 2.1 (standard-github-workflow.md) — оркестратор, обрабатывается ПОСЛЕДНИМ.
+**Все стандарты завершены.** 18/18 Этап 1 ✅, 18/18 Этап 2 ✅.
 
 ---
 
@@ -235,28 +235,7 @@
 
 | # | Стандарт | Этап 1 | Этап 2 (docs) | Этап 3 |
 |---|----------|:------:|:-------------:|:------:|
-| **2.1** | `standard-github-workflow.md` | ⏳ | ⏳ validation | — |
-
-**Перед валидацией:**
-1. Исправить самоссылку Ц-1: `→ § 6. Стадия 4` → `→ standard-development.md`
-2. Убедиться, что все SSOT-ссылки ведут на актуальные якоря
-
----
-
-### Общие паттерны проблем
-
-Из 5 holt-анализов выявлено **100 проблем** (32 P1, 34 P2, 34 P3). Повторяющиеся паттерны:
-
-| ID | Паттерн | Файлы | Статус |
-|----|---------|-------|--------|
-| **П1** | Размытые временные критерии | branching, sync, development | ✅ branching v1.2, development v1.1 |
-| **П2** | Ручное vs автоматическое | commit, development | ✅ development v1.1 |
-| **П3** | Нет алгоритмов для LLM | branching, commit, sync | ✅ branching v1.2 |
-| **П5** | "При необходимости" без критериев | branching, development, security | Частично ✅ |
-| **П6** | Только happy path | branching, commit, sync, development | ✅ branching v1.2, development v1.1 |
-| **П7** | Граница release ↔ release-workflow | release, release-workflow | ✅ Объединены в standard-release.md v1.1 |
-
-**Стратегия:** P1 — обязательно, P2 — если < 5 строк, P3 — пропуск.
+| ~~**2.1**~~ | `standard-github-workflow.md` | ✅ | ✅ таблица обновлена | — |
 
 ---
 

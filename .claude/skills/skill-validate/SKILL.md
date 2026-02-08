@@ -4,15 +4,7 @@ description: Валидация скилла по стандарту
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep
-triggers:
-  commands:
-    - /skill-validate
-  phrases:
-    ru:
-      - проверь скилл
-      - валидируй скилл
-    en:
-      - validate skill
+argument-hint: "[название] [--all] [--json]"
 ---
 
 # Валидация скилла
