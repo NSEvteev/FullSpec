@@ -13,7 +13,7 @@ YAML-шаблоны для создания Issues в GitHub.
 - [GitHub конфигурация](../README.md)
 - [Структура проекта](/.structure/README.md)
 
-**Инструкции:** [.instructions/issue-templates/](../.instructions/issue-templates/README.md)
+**Инструкции:** [.instructions/issues/issue-templates/](../.instructions/issues/issue-templates/README.md)
 
 ## Оглавление
 
@@ -31,7 +31,15 @@ YAML-шаблоны для создания Issues в GitHub.
 
 ## 2. Файлы
 
-*Файлы будут добавлены после создания инструкций.*
+| Файл | Описание |
+|------|----------|
+| [bug-report.yml](./bug-report.yml) | Баг-репорт — сообщить о баге или неожиданном поведении |
+| [config.yml](./config.yml) | Конфигурация Issue chooser (blank issues отключены) |
+| [docs.yml](./docs.yml) | Документация — проблема или улучшение документации |
+| [feature-request.yml](./feature-request.yml) | Запрос фичи — новая функциональность или улучшение |
+| [question.yml](./question.yml) | Вопрос по проекту |
+| [refactor.yml](./refactor.yml) | Рефакторинг — без изменения функциональности |
+| [task.yml](./task.yml) | Задача — техническая задача или улучшение |
 
 ---
 
@@ -39,12 +47,12 @@ YAML-шаблоны для создания Issues в GitHub.
 
 ```
 /.github/ISSUE_TEMPLATE/
-├── README.md                           # Этот файл
-├── bug-report.yml                      # TODO: добавить описание
-├── config.yml                          # TODO: добавить описание
-├── docs.yml                            # TODO: добавить описание
-├── feature-request.yml                 # TODO: добавить описание
-├── question.yml                        # TODO: добавить описание
-├── refactor.yml                        # TODO: добавить описание
-└── task.yml                            # TODO: добавить описание
+├── bug-report.yml                      # Баг-репорт
+├── config.yml                          # Конфигурация Issue chooser
+├── docs.yml                            # Документация
+├── feature-request.yml                 # Запрос фичи
+├── question.yml                        # Вопрос
+├── refactor.yml                        # Рефакторинг
+├── task.yml                            # Задача
+└── README.md                           # Этот файл
 ```
