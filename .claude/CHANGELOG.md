@@ -24,18 +24,43 @@
 - Версионирование всех стандартов (`standard-version` в frontmatter)
 - Скрипты валидации версий: `bump-standard-version.py`, `check-version-drift.py`
 - Агент Captain Holt для семантического анализа документов
+- Скиллы `review-branch` и `review-pr` для ревью кода
+- Инструкции `validation-release.md`, `create-release.md` (releases)
+- Скрипты `validate-pre-release.py`, `validate-post-release.py`
+- Корневой `CHANGELOG.md` (Keep a Changelog)
+- Поле `argument-hint` в frontmatter скиллов (подсказка при автокомплите)
 
 ### Изменено
-- Миграция всех 11 стандартов на версионирование
-- Обновлены все Workflows и Экземпляры с `standard-version`
+- Валидация всех 18 стандартов `.github/.instructions/` (Этапы 1 и 2 — 18/18)
+- Объединение `standard-release.md` и `release-workflow.md` в один документ (v1.1)
+- Миграция frontmatter 34 скиллов: `triggers` → `argument-hint`
+- Обновлены 5 стандартов/инструкций скиллов для поддержки `argument-hint`
+- Скрипты `validate-skill.py` и `list-skills.py` — поддержка `argument-hint`
+- Актуализация README: `.structure/`, `.claude/`, `.github/`, `.claude/skills/`
+- CI: fallback для `git branch --show-current` в detached HEAD (GitHub Actions)
+- `validate-security.py`: проверка `codeql.yml` сделана опциональной (SEC008)
+
+### Удалено
+- Поле `triggers` из frontmatter всех 34 скиллов (заменено на `argument-hint`)
+- Проверки K005/K006 из `validate-skill.py` (были для triggers)
+- `codeql.yml` — Code Scanning требует GitHub Team/Enterprise или public repo
+- Пустые папки-заглушки `.github/milestones/` и `.github/releases/`
+- Несуществующие `hooks/` и `state/` из документации `.claude/`
+- Фантомные скиллы и графы зависимостей из `.claude/README.md`
+
+### Исправлено
+- `validate-branch-name.py`: пустой результат `git branch --show-current` в GitHub Actions
+- Колонка «Триггеры» убрана из 9 таблиц в `.claude/skills/README.md`
 
 ### Критичные изменения (breaking)
 - Обязательный frontmatter с `standard-version` для Workflows и Экземпляров
 - Миграция стандартов теперь требует 9 шагов (ранее — произвольно)
+- Поле `triggers` больше не поддерживается в SKILL.md — используется `argument-hint`
 
 ### Как обновить
 1. Запустить `/migration-validate` для проверки расхождений
 2. Для каждого расхождения — выполнить `/migration-create`
+3. В SKILL.md: заменить блок `triggers:` на `argument-hint:` в frontmatter
 
 ---
 
