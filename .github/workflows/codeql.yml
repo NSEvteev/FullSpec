@@ -22,8 +22,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ["python", "javascript-typescript"]
-        # Добавить используемые языки: "go", "java", "csharp", "ruby"
+        language: ["python"]
+        # Добавить языки по мере появления: "javascript-typescript", "go", "java"
 
     steps:
       - name: Checkout
