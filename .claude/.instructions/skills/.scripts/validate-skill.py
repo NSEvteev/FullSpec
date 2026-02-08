@@ -39,8 +39,6 @@ ERROR_CODES = {
     "K002": "Неверный формат `name` (не kebab-case)",
     "K003": "Отсутствует `description`",
     "K004": "Отсутствует `allowed-tools`",
-    "K005": "Отсутствует `triggers.commands`",
-    "K006": "Отсутствует `triggers.phrases`",
     "K010": "Отсутствует заголовок H1",
     "K011": "Несколько заголовков H1",
     "K012": "Отсутствует SSOT-ссылка",
@@ -111,13 +109,6 @@ def check_frontmatter(frontmatter: dict) -> list[tuple[str, str]]:
     # K004: allowed-tools
     if not frontmatter.get('allowed-tools'):
         errors.append(("K004", ERROR_CODES["K004"]))
-
-    # K005, K006: triggers
-    triggers = frontmatter.get('triggers', {})
-    if not triggers.get('commands'):
-        errors.append(("K005", ERROR_CODES["K005"]))
-    if not triggers.get('phrases'):
-        errors.append(("K006", ERROR_CODES["K006"]))
 
     return errors
 

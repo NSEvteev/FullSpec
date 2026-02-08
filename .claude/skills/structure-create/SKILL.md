@@ -4,17 +4,7 @@ description: Создание новой папки в структуре про
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
-triggers:
-  commands:
-    - /structure-create
-  phrases:
-    ru:
-      - создай папку
-      - добавь папку
-      - новая папка
-    en:
-      - create folder
-      - add folder
+argument-hint: '<путь> [--description "..."]'
 ---
 
 # Создание папки

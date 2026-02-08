@@ -4,19 +4,7 @@ description: Валидация формата и структуры rule
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash
-triggers:
-  commands:
-    - /rule-validate
-  phrases:
-    ru:
-      - проверь rule
-      - валидация rule
-      - валидируй rule
-      - проверь правило
-      - валидация правила
-      - провалидируй правило
-    en:
-      - validate rule
+argument-hint: "[имя] [--all]"
 ---
 
 # Валидация rule

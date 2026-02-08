@@ -4,22 +4,7 @@ description: Изменение, деактивация и миграция rule
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Edit, Grep
-triggers:
-  commands:
-    - /rule-modify
-  phrases:
-    ru:
-      - измени rule
-      - обнови rule
-      - деактивируй rule
-      - переименуй rule
-      - измени правило
-      - обнови правило
-      - деактивируй правило
-      - переименуй правило
-    en:
-      - modify rule
-      - update rule
+argument-hint: "<имя> [--type <тип>]"
 ---
 
 # Изменение rule

@@ -4,15 +4,7 @@ description: Создание нового скрипта автоматизац
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
-triggers:
-  commands:
-    - /script-create
-  phrases:
-    ru:
-      - создай скрипт
-      - новый скрипт
-    en:
-      - create script
+argument-hint: "[название] [--area <область>]"
 ---
 
 # Создание скрипта

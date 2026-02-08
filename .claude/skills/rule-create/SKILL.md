@@ -4,19 +4,7 @@ description: Создание нового rule-файла
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Write
-triggers:
-  commands:
-    - /rule-create
-  phrases:
-    ru:
-      - создай правило
-      - добавь правило
-      - новое правило
-      - создай rule
-      - добавь rule
-      - новый rule
-    en:
-      - create rule
+argument-hint: "[имя] [--global] [--paths <паттерны>]"
 ---
 
 # Создание rule

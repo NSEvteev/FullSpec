@@ -4,17 +4,7 @@ description: Изменение, закрытие и удаление GitHub Mil
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep
-triggers:
-  commands:
-    - /milestone-modify
-  phrases:
-    ru:
-      - изменить milestone
-      - закрыть milestone
-      - удалить milestone
-    en:
-      - modify milestone
-      - close milestone
+argument-hint: "[--number <N>] [--close] [--delete]"
 ---
 
 # Изменение Milestone

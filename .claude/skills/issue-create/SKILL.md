@@ -4,17 +4,7 @@ description: Создание GitHub Issue по стандарту
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep
-triggers:
-  commands:
-    - /issue-create
-  phrases:
-    ru:
-      - создать issue
-      - создать задачу
-      - новый issue
-    en:
-      - create issue
-      - new issue
+argument-hint: "[описание]"
 ---
 
 # Создание Issue

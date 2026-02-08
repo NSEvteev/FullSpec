@@ -161,7 +161,7 @@ index: .github/.instructions/milestones/README.md
 
 ### Шаг 5: Проверить связь с Release (для закрытых)
 
-**SSOT:** [standard-release-workflow.md § 3–4](../releases/standard-release-workflow.md#3-подготовка-релиза)
+**SSOT:** [standard-release.md § 9–10](../releases/standard-release.md#9-подготовка-релиза)
 
 **Вручную:**
 

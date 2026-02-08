@@ -13,7 +13,7 @@ index: .github/.instructions/releases/README.md
 - [Инструкции .github](../README.md)
 - [SSOT .github](../../README.md)
 
-**Содержание:** Версионирование, Changelog, Environments, Deploy.
+**Содержание:** Версионирование, Changelog, процесс релиза, Hotfix, Rollback.
 
 ---
 
@@ -30,8 +30,9 @@ index: .github/.instructions/releases/README.md
 ```
 /.github/.instructions/releases/
 ├── README.md                    # Этот файл (индекс)
-├── standard-release.md          # Стандарт релизов (версионирование, changelog)
-└── standard-release-workflow.md # Процесс релиза (подготовка → деплой → hotfix)
+├── standard-release.md          # Стандарт релизов (версионирование, changelog, процесс, hotfix, rollback)
+├── validation-release.md        # Валидация Release (pre/post чеклист)
+└── create-release.md            # Воркфлоу создания Release
 ```
 
 ---
@@ -40,43 +41,40 @@ index: .github/.instructions/releases/README.md
 
 ## 1.1. Стандарт релизов
 
-Когда релизить, версионирование, changelog, environments и deploy.
+Версионирование, changelog, процесс релиза, hotfix, rollback.
 
 **Оглавление:**
-- [Когда релизить](./standard-release.md#когда-релизить)
+- [Назначение](./standard-release.md#1-назначение)
 - [Версионирование](../milestones/standard-milestone.md#4-версионирование-semver)
-- [Changelog](./standard-release.md#changelog)
-- [Environments](./standard-release.md#environments)
-- [Deploy](./standard-release.md#deploy)
+- [Changelog](./standard-release.md#5-changelog)
+- [Жизненный цикл](./standard-release.md#8-жизненный-цикл-release)
+- [Подготовка](./standard-release.md#9-подготовка-релиза)
+- [Создание](./standard-release.md#10-создание-релиза)
+- [Публикация](./standard-release.md#11-публикация-на-production)
+- [Hotfix](./standard-release.md#12-hotfix-релиз)
+- [Rollback](./standard-release.md#13-rollback-процесс)
 
 **Инструкция:** [standard-release.md](./standard-release.md)
-
-## 1.2. Стандарт Release Workflow
-
-Полный процесс релиза: подготовка → создание → публикация → hotfix → rollback.
-
-**Оглавление:**
-- [Зона ответственности](./standard-release-workflow.md#1-зона-ответственности)
-- [Полный цикл релиза](./standard-release-workflow.md#2-полный-цикл-релиза)
-- [Подготовка релиза](./standard-release-workflow.md#3-подготовка-релиза)
-- [Создание релиза](./standard-release-workflow.md#4-создание-релиза)
-- [Публикация на production](./standard-release-workflow.md#5-публикация-на-production)
-- [Hotfix-релиз](./standard-release-workflow.md#6-hotfix-релиз)
-- [Rollback процесс](./standard-release-workflow.md#7-rollback-процесс)
-
-**Инструкция:** [standard-release-workflow.md](./standard-release-workflow.md)
 
 ---
 
 # 2. Воркфлоу
 
-*Нет воркфлоу.*
+## 2.1. Создание Release
+
+Пошаговый процесс создания GitHub Release для LLM: определение версии → проверки → сборка body → публикация → CHANGELOG.
+
+**Инструкция:** [create-release.md](./create-release.md)
 
 ---
 
 # 3. Валидация
 
-*Нет валидаций.*
+## 3.1. Валидация Release
+
+Чеклист проверки GitHub Release: pre-release готовность, объект Release, Release Notes, CHANGELOG.md, деплой.
+
+**Инструкция:** [validation-release.md](./validation-release.md)
 
 ---
 

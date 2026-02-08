@@ -48,10 +48,10 @@ index: .claude/.instructions/skills/README.md
 
 ## 1. Назначение
 
-**Скилл = триггер + ссылка на SSOT-инструкцию.**
+**Скилл = команда + ссылка на SSOT-инструкцию.**
 
 Скилл НЕ содержит логику — он только:
-- Определяет команду и фразы для вызова
+- Определяет команду для вызова
 - Указывает на SSOT-инструкцию с деталями
 - Описывает формат вызова и параметры
 
@@ -195,15 +195,7 @@ name: structure-create
 description: Создание новой папки в структуре проекта
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 ssot-version: v1.0
-triggers:
-  commands:
-    - /structure-create
-  phrases:
-    ru:
-      - создай папку
-      - добавь папку
-    en:
-      - create folder
+argument-hint: <путь> [--description "..."]
 ---
 
 # Создание папки
@@ -243,14 +235,7 @@ name: links-validate
 description: Валидация ссылок между документами
 allowed-tools: Bash, Read, Glob, Grep
 ssot-version: v1.0
-triggers:
-  commands:
-    - /links-validate
-  phrases:
-    ru:
-      - проверь ссылки
-    en:
-      - validate links
+argument-hint: "[--path <путь>] [--fix]"
 ---
 
 # Валидация ссылок
@@ -331,10 +316,6 @@ triggers:
 **Создан скилл:** `/{skill-name}`
 
 **SSOT-инструкция:** `{путь}`
-
-**Триггеры:**
-- Команда: `/{skill-name}`
-- Фразы: {список}
 
 **README обновлён:** ✅
 

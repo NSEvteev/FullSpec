@@ -83,13 +83,20 @@ def find_repo_root(start_path: Path) -> Path:
 
 
 def get_current_branch() -> str | None:
-    """Получить имя текущей ветки через git."""
+    """Получить имя текущей ветки через git или CI-переменные."""
+    import os
+
+    # CI: GitHub Actions (detached HEAD — git branch --show-current пуст)
+    branch = os.environ.get("GITHUB_HEAD_REF") or os.environ.get("GITHUB_REF_NAME")
+    if branch:
+        return branch
+
     try:
         result = subprocess.run(
             ["git", "branch", "--show-current"],
             capture_output=True, encoding="utf-8", timeout=10
         )
-        if result.returncode == 0:
+        if result.returncode == 0 and result.stdout.strip():
             return result.stdout.strip()
     except (subprocess.TimeoutExpired, FileNotFoundError):
         pass
@@ -311,6 +318,7 @@ def main():
                 print(f"   {code}: {msg}")
         else:
             print(f"✅ Ветка '{branch_name}' — валидация пройдена")
+            print(f"   ℹ️  Push в remote после первого коммита: git push -u origin {branch_name}")
 
     sys.exit(0 if not errors else 1)
 

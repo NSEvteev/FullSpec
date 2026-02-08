@@ -4,15 +4,7 @@ description: Создание нового скилла по шаблону
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
-triggers:
-  commands:
-    - /skill-create
-  phrases:
-    ru:
-      - создай скилл
-      - новый скилл
-    en:
-      - create skill
+argument-hint: "[название] [--dry-run]"
 ---
 
 # Создание скилла

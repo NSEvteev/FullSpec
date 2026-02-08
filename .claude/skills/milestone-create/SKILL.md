@@ -4,17 +4,7 @@ description: Создание GitHub Milestone по стандарту
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep
-triggers:
-  commands:
-    - /milestone-create
-  phrases:
-    ru:
-      - создать milestone
-      - создать мейлстоун
-      - новый milestone
-    en:
-      - create milestone
-      - new milestone
+argument-hint: "[version] [--due <date>]"
 ---
 
 # Создание Milestone

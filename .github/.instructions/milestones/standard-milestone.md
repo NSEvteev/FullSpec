@@ -397,7 +397,7 @@ gh api PATCH /repos/{owner}/{repo}/milestones/{number} \
 
 ## 7. Связь с Releases
 
-**SSOT:** [standard-release-workflow.md § 3–4](../releases/standard-release-workflow.md#3-подготовка-релиза)
+**SSOT:** [standard-release.md § 9–10](../releases/standard-release.md#9-подготовка-релиза)
 
 Последовательность: создать Milestone → добавить Issues → закрыть Milestone → создать Release. Процесс, проверки и шаблон Release Notes — см. SSOT.
 

@@ -151,8 +151,7 @@ def validate_codeql(repo_root: Path) -> list[tuple[str, str]]:
     file_path = repo_root / CODEQL_PATH
 
     if not file_path.exists():
-        errors.append(("SEC008", f"Файл не найден: {CODEQL_PATH}"))
-        return errors
+        return errors  # codeql.yml опционален (требует GitHub Team или публичного репо)
 
     try:
         content = file_path.read_text(encoding="utf-8")

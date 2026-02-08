@@ -107,8 +107,7 @@ python .claude/.instructions/skills/.scripts/validate-skill.py --json {skill-nam
 - [ ] `name` присутствует, kebab-case
 - [ ] `description` заполнено
 - [ ] `allowed-tools` указаны
-- [ ] `triggers.commands` минимум 1
-- [ ] `triggers.phrases` ru и en
+- [ ] `argument-hint` указан (если скилл принимает аргументы)
 
 ### Структура
 - [ ] Один заголовок H1
@@ -135,7 +134,7 @@ python .claude/.instructions/skills/.scripts/validate-skill.py --json {skill-nam
 
 ## Типичные ошибки
 
-### Frontmatter (K001-K006)
+### Frontmatter (K001-K004)
 
 | Код | Описание | Решение |
 |-----|----------|---------|
@@ -143,8 +142,6 @@ python .claude/.instructions/skills/.scripts/validate-skill.py --json {skill-nam
 | K002 | Неверный формат `name` | Использовать kebab-case |
 | K003 | Отсутствует `description` | Добавить описание |
 | K004 | Отсутствует `allowed-tools` | Указать инструменты |
-| K005 | Отсутствует `triggers.commands` | Добавить команду |
-| K006 | Отсутствует `triggers.phrases` | Добавить фразы ru/en |
 
 ### Структура (K010-K016)
 

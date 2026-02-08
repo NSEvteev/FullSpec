@@ -4,15 +4,7 @@ description: Создание нового агента по стандарту
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Write, Bash, Glob, Grep, Edit
-triggers:
-  commands:
-    - /agent-create
-  phrases:
-    ru:
-      - создай агента
-      - новый агент
-    en:
-      - create agent
+argument-hint: "[имя] [--type <тип>]"
 ---
 
 # Создание агента

@@ -69,7 +69,7 @@ def get_all_skills(skills_dir: Path) -> list[dict]:
     Получить список всех скиллов.
 
     Returns:
-        list[dict] с полями: name, description, path, triggers
+        list[dict] с полями: name, description, path, argument_hint
     """
     skills = []
 
@@ -93,13 +93,8 @@ def get_all_skills(skills_dir: Path) -> list[dict]:
                 "name": frontmatter.get('name', skill_dir.name),
                 "description": frontmatter.get('description', ''),
                 "path": f".claude/skills/{skill_dir.name}/SKILL.md",
-                "triggers": [],
+                "argument_hint": frontmatter.get('argument-hint', ''),
             }
-
-            # Извлекаем триггеры
-            triggers = frontmatter.get('triggers', {})
-            if triggers.get('commands'):
-                skill_info["triggers"].extend(triggers['commands'])
 
             skills.append(skill_info)
         except Exception:
@@ -144,10 +139,10 @@ def format_output(skills: list[dict], query: str | None, as_json: bool) -> str:
     lines.append("")
 
     for skill in skills:
-        triggers = ", ".join(skill["triggers"]) if skill["triggers"] else "—"
         lines.append(f"• {skill['name']}")
         lines.append(f"  {skill['description']}")
-        lines.append(f"  Триггеры: {triggers}")
+        if skill.get("argument_hint"):
+            lines.append(f"  Аргументы: {skill['argument_hint']}")
         lines.append("")
 
     return "\n".join(lines)

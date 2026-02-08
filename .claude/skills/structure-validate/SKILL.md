@@ -4,17 +4,7 @@ description: Валидация согласованности SSOT структ
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep
-triggers:
-  commands:
-    - /structure-validate
-  phrases:
-    ru:
-      - проверь структуру
-      - валидация структуры
-      - проверь редми
-    en:
-      - validate structure
-      - check structure
+argument-hint: "[--json]"
 ---
 
 # Валидация структуры

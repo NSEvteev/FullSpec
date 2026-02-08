@@ -181,7 +181,7 @@ python .instructions/.scripts/check-version-drift.py
 |------|------------|--------|
 | `name` | Имя скилла (kebab-case) | `structure-create` |
 | `allowed-tools` | Разрешённые инструменты | `Read, Bash, Glob, Grep, Write, Edit` |
-| `triggers` | Триггеры вызова | см. ниже |
+| `argument-hint` | Подсказка аргументов при автокомплите | `<путь> [--description]` |
 
 ### name
 
@@ -233,20 +233,23 @@ allowed-tools:
 - Регистр: первая буква заглавная (`Read`, `Bash`, НЕ `read`, `bash`)
 - Все инструменты: не указывать поле (по умолчанию все доступны)
 
-### triggers
+### argument-hint
 
-Триггеры для вызова скилла.
+Подсказка аргументов, отображаемая при автокомплите в Claude Code.
 
-```yaml
-triggers:
-  commands:
-    - /{skill-name}
-  phrases:
-    ru:
-      - {фраза на русском}
-    en:
-      - {phrase in english}
-```
+**Правила:**
+- Опциональное поле (добавлять, если скилл принимает аргументы)
+- Отражает синтаксис из секции "Формат вызова" скилла
+- Обязательные параметры: `<имя>`, опциональные: `[--опция]`
+
+**Примеры:**
+
+| Скилл | argument-hint |
+|-------|---------------|
+| `structure-create` | `<путь> [--description "..."]` |
+| `links-validate` | `[--path <путь>] [--fix]` |
+| `skill-validate` | `<skill-name> [--all] [--json]` |
+| `draft-validate` | — (без аргументов, поле не указывается) |
 
 ---
 
@@ -301,14 +304,7 @@ description: Создание новой папки в структуре про
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.0
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
-triggers:
-  commands:
-    - /structure-create
-  phrases:
-    ru:
-      - создай папку
-    en:
-      - create folder
+argument-hint: <путь> [--description "..."]
 ---
 ```
 

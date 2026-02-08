@@ -51,4 +51,4 @@ make clean     # Очистка (docker down -v)
 
 ## Задачи
 
-- [ ] Прочитать и выполнить валидацию смысла: [2026-02-03-github-instructions-validation.md](/.claude/drafts/2026-02-03-github-instructions-validation.md)
+*Нет активных задач.*

@@ -115,6 +115,8 @@ standard-version: v1.1
 | [issue-validate](./issue-validate/SKILL.md) | Валидация GitHub Issue по стандарту | `/issue-validate`, "проверь issue" |
 | [issue-modify](./issue-modify/SKILL.md) | Изменение GitHub Issue по стандарту | `/issue-modify`, "измени issue" |
 | [branch-create](./branch-create/SKILL.md) | Создание ветки по стандарту | `/branch-create`, "создай ветку" |
+| [review-branch](./review-branch/SKILL.md) | Локальное ревью ветки перед PR | `/review-branch`, "ревью ветки" |
+| [review-pr](./review-pr/SKILL.md) | Ревью Pull Request на GitHub | `/review-pr`, "ревью PR" |
 
 ### drafts
 

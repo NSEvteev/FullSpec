@@ -4,15 +4,7 @@ description: Изменение, деактивация и миграция аг
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Write, Bash, Glob, Grep, Edit
-triggers:
-  commands:
-    - /agent-modify
-  phrases:
-    ru:
-      - измени агента
-      - обнови агента
-    en:
-      - modify agent
+argument-hint: "<имя> [--type <тип>]"
 ---
 
 # Изменение агента

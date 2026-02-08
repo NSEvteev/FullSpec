@@ -4,18 +4,7 @@ description: Валидация ссылок в markdown-документах
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.1
 allowed-tools: Read, Bash, Glob, Grep
-triggers:
-  commands:
-    - /links-validate
-  phrases:
-    ru:
-      - проверь ссылки
-      - валидация ссылок
-      - найди битые ссылки
-    en:
-      - validate links
-      - check links
-      - find broken links
+argument-hint: "[--path <файл/папка>] [--json]"
 ---
 
 # Валидация ссылок

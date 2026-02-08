@@ -34,7 +34,6 @@ YAML-файлы GitHub Actions для CI/CD.
 | Файл | Описание |
 |------|----------|
 | [ci.yml](./ci.yml) | CI — pre-commit проверки при push/PR |
-| [codeql.yml](./codeql.yml) | Code Scanning — статический анализ (CodeQL) |
 
 ---
 
@@ -43,6 +42,5 @@ YAML-файлы GitHub Actions для CI/CD.
 ```
 /.github/workflows/
 ├── ci.yml                   # CI — pre-commit проверки
-├── codeql.yml               # Code Scanning — CodeQL
 └── README.md                # Этот файл
 ```
