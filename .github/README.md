@@ -22,36 +22,27 @@ index: .github/README.md
 
 ## 1. Папки
 
-### 🔗 [workflows/](./workflows/README.md)
+### 🔗 [.instructions/](./.instructions/README.md)
 
-**GitHub Actions workflows.**
+**Инструкции для работы с GitHub.**
 
+Инструкции для работы с GitHub: Issues, Pull Requests, Releases, Labels, Workflows и другие объекты. Оркестратор workflow, 13 тематических подпапок.
 
 ### 🔗 [ISSUE_TEMPLATE/](./ISSUE_TEMPLATE/README.md)
 
 **Шаблоны Issues.**
 
+### 🔗 [milestones/](./milestones/README.md)
+
+**Справочник milestones проекта.**
 
 ### 🔗 [releases/](./releases/README.md)
 
 **История релизов проекта.**
 
+### 🔗 [workflows/](./workflows/README.md)
 
-### 🔗 [milestones/](./milestones/README.md)
-
-**Справочник milestones проекта.**
-
-
-### 🔗 [labels/](./labels/README.md)
-
-**Справочник меток проекта.**
-
-
-### 🔗 [.instructions/](./.instructions/README.md)
-
-**Инструкции для работы с GitHub.**
-
-Инструкции для работы с GitHub: Issues, Pull Requests, Releases, Labels, Workflows и другие объекты.
+**GitHub Actions workflows.**
 
 ---
 
@@ -59,7 +50,10 @@ index: .github/README.md
 
 | Файл | Описание |
 |------|----------|
+| [CODEOWNERS](./CODEOWNERS) | Владельцы кода — автоматическое назначение ревьюеров |
 | [dependabot.yml](./dependabot.yml) | Конфигурация Dependabot (обновления зависимостей) |
+| [labels.yml](./labels.yml) | Справочник меток проекта (SSOT) |
+| [PULL_REQUEST_TEMPLATE.md](./PULL_REQUEST_TEMPLATE.md) | Шаблон Pull Request |
 | [SECURITY.md](./SECURITY.md) | Политика безопасности (confidential disclosure) |
 
 ---
@@ -73,10 +67,10 @@ index: .github/README.md
 ├── milestones/                         # Справочник milestones проекта
 ├── releases/                           # История релизов проекта
 ├── workflows/                          # GitHub Actions workflows
-├── README.md                           # Этот файл
+├── CODEOWNERS                          # Владельцы кода
 ├── dependabot.yml                      # Конфигурация Dependabot
-├── SECURITY.md                         # Политика безопасности
-├── labels.yml                          # TODO: добавить описание
-├── CODEOWNERS                          # TODO: добавить описание
-└── PULL_REQUEST_TEMPLATE.md            # TODO: добавить описание
+├── labels.yml                          # Справочник меток проекта
+├── PULL_REQUEST_TEMPLATE.md            # Шаблон Pull Request
+├── README.md                           # Этот файл
+└── SECURITY.md                         # Политика безопасности
 ```
