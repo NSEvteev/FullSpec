@@ -53,7 +53,7 @@ standard-version: v1.1
 
 **GitHub платформа.**
 
-Стандарты работы с GitHub (`.instructions/`) — оркестратор workflow, 13 тематических подпапок (issues, pull-requests, review, releases, branches, commits, sync, development, actions, labels, milestones, codeowners, projects), шаблоны Issues (`ISSUE_TEMPLATE/`), шаблон Pull Request (`PULL_REQUEST_TEMPLATE.md`), CI/CD pipelines (`workflows/`), конфигурация code ownership (`CODEOWNERS`), Dependabot (`dependabot.yml`), политика безопасности (`SECURITY.md`), справочник меток (`labels.yml`), milestones (`milestones/`), история релизов (`releases/`).
+Стандарты работы с GitHub (`.instructions/`) — оркестратор workflow, 13 тематических подпапок (issues, pull-requests, review, releases, branches, commits, sync, development, actions, labels, milestones, codeowners, projects), шаблоны Issues (`ISSUE_TEMPLATE/`), шаблон Pull Request (`PULL_REQUEST_TEMPLATE.md`), CI/CD pipelines (`workflows/`), конфигурация code ownership (`CODEOWNERS`), Dependabot (`dependabot.yml`), политика безопасности (`SECURITY.md`), справочник меток (`labels.yml`).
 
 ### 🔗 [.instructions/](../.instructions/README.md)
 
@@ -186,8 +186,6 @@ standard-version: v1.1
 │   │   ├── README.md                    #     Индекс инструкций
 │   │   └── standard-github-workflow.md  #     Оркестратор GitHub workflow
 │   ├── ISSUE_TEMPLATE/                  #   Шаблоны Issues
-│   ├── milestones/                      #   Справочник milestones
-│   ├── releases/                        #   История релизов
 │   ├── workflows/                       #   CI/CD pipelines
 │   ├── CODEOWNERS                       #   Code ownership
 │   ├── dependabot.yml                   #   Dependabot конфигурация

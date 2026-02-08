@@ -32,14 +32,6 @@ index: .github/README.md
 
 **Шаблоны Issues.**
 
-### 🔗 [milestones/](./milestones/README.md)
-
-**Справочник milestones проекта.**
-
-### 🔗 [releases/](./releases/README.md)
-
-**История релизов проекта.**
-
 ### 🔗 [workflows/](./workflows/README.md)
 
 **GitHub Actions workflows.**
@@ -64,8 +56,6 @@ index: .github/README.md
 /.github/
 ├── .instructions/                      # Инструкции для работы с GitHub
 ├── ISSUE_TEMPLATE/                     # Шаблоны Issues
-├── milestones/                         # Справочник milestones проекта
-├── releases/                           # История релизов проекта
 ├── workflows/                          # GitHub Actions workflows
 ├── CODEOWNERS                          # Владельцы кода
 ├── dependabot.yml                      # Конфигурация Dependabot
