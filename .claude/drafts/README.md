@@ -31,6 +31,7 @@ index: .claude/README.md
 |------|----------|
 | [2026-02-08-specification-driven-development.md](./2026-02-08-specification-driven-development.md) | Исследование подходов к Specification-Driven Development |
 | [2026-02-08-specs-architecture.md](./2026-02-08-specs-architecture.md) | Архитектура specs/: папки, файлы, зоны ответственности |
+| [2026-02-09-specs-architecture-rework.md](./2026-02-09-specs-architecture-rework.md) | План переработки архитектуры specs/ |
 
 ---
 
@@ -55,5 +56,6 @@ index: .claude/README.md
 │   └── README.md                                #   Индекс примеров
 ├── 2026-02-08-specification-driven-development.md # Исследование SDD
 ├── 2026-02-08-specs-architecture.md    # Архитектура specs/
+├── 2026-02-09-specs-architecture-rework.md # План переработки архитектуры
 └── README.md                           # Этот файл (индекс)
 ```
