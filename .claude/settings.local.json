@@ -37,7 +37,12 @@
       "Bash(fi)",
       "Bash(git pull:*)",
       "Bash(find:*)",
-      "Skill(branch-create)"
+      "Skill(branch-create)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:habr.com)",
+      "Bash(xargs:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(certutil -decode:*)"
     ]
   },
   "statusLine": {
