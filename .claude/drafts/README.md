@@ -34,6 +34,7 @@ index: .claude/README.md
 | [2026-02-09-specs-architecture-rework.md](./maybe-archive/2026-02-09-specs-architecture-rework.md) | План переработки архитектуры specs/ |
 | [2026-02-09-sdd-framework-comparison.md](./maybe-archive/2026-02-09-sdd-framework-comparison.md) | Сравнение SDD-подхода с фреймворками |
 | [2026-02-09-task-master-analysis.md](./maybe-archive/2026-02-09-task-master-analysis.md) | Анализ механик Task Master для адаптации в SDD |
+| [2026-02-09-specs-architecture-review.md](./maybe-archive/2026-02-09-specs-architecture-review.md) | Ревью архитектуры specs/: пробелы, двусмысленности, противоречия |
 
 ---
 
@@ -64,6 +65,7 @@ index: .claude/README.md
 │   └── README.md                                #   Индекс примеров
 ├── maybe-archive/                         # Черновики на рассмотрении
 │   ├── 2026-02-09-sdd-framework-comparison.md # Сравнение SDD с фреймворками
+│   ├── 2026-02-09-specs-architecture-review.md  # Ревью архитектуры
 │   ├── 2026-02-09-specs-architecture-rework.md # План переработки архитектуры
 │   └── 2026-02-09-task-master-analysis.md     # Анализ механик Task Master
 ├── 2026-02-08-specification-driven-development.md # Исследование SDD
