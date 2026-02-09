@@ -31,7 +31,9 @@ index: .claude/README.md
 |------|----------|
 | [2026-02-08-specification-driven-development.md](./2026-02-08-specification-driven-development.md) | Исследование подходов к Specification-Driven Development |
 | [2026-02-08-specs-architecture.md](./2026-02-08-specs-architecture.md) | Архитектура specs/: папки, файлы, зоны ответственности |
-| [2026-02-09-specs-architecture-rework.md](./2026-02-09-specs-architecture-rework.md) | План переработки архитектуры specs/ |
+| [2026-02-09-specs-architecture-rework.md](./maybe-archive/2026-02-09-specs-architecture-rework.md) | План переработки архитектуры specs/ |
+| [2026-02-09-sdd-framework-comparison.md](./maybe-archive/2026-02-09-sdd-framework-comparison.md) | Сравнение SDD-подхода с фреймворками |
+| [2026-02-09-task-master-analysis.md](./maybe-archive/2026-02-09-task-master-analysis.md) | Анализ механик Task Master для адаптации в SDD |
 
 ---
 
@@ -42,6 +44,12 @@ index: .claude/README.md
 **Эталонные черновики.**
 
 Коллекция "хороших" черновиков для использования как примеры в промптах. Не имеет зеркала в `.instructions/`.
+
+### [maybe-archive/](./maybe-archive/)
+
+**Черновики на рассмотрении для архивации.**
+
+Черновики, содержание которых перенесено в основные документы. Ожидают решения: удалить или оставить как историю.
 
 ---
 
@@ -54,8 +62,11 @@ index: .claude/README.md
 │   ├── example-github-platform-research.md      #   Исследование GitHub платформы
 │   ├── example-standards-validation-plan.md     #   План валидации стандартов
 │   └── README.md                                #   Индекс примеров
+├── maybe-archive/                         # Черновики на рассмотрении
+│   ├── 2026-02-09-sdd-framework-comparison.md # Сравнение SDD с фреймворками
+│   ├── 2026-02-09-specs-architecture-rework.md # План переработки архитектуры
+│   └── 2026-02-09-task-master-analysis.md     # Анализ механик Task Master
 ├── 2026-02-08-specification-driven-development.md # Исследование SDD
 ├── 2026-02-08-specs-architecture.md    # Архитектура specs/
-├── 2026-02-09-specs-architecture-rework.md # План переработки архитектуры
 └── README.md                           # Этот файл (индекс)
 ```

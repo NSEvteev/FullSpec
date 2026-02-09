@@ -51,4 +51,4 @@ make clean     # Очистка (docker down -v)
 
 ## Задачи
 
-*Нет активных задач.*
+- [ ] Удалить шаблоны `question.yml` и `feature-request.yml` из `.github/ISSUE_TEMPLATE/` — в SDD эти точки входа покрыты specs/ (Discussion + Clarify). Обновить `standard-issue-template.md`, `create-issue.md`, `standard-issue.md`, labels.
