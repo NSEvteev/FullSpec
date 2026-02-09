@@ -158,7 +158,7 @@ graph TD
 | Объект | Расположение | Назначение | Когда обновляется |
 |--------|-------------|------------|-------------------|
 | **Архитектура (системная)** | `specs/architecture/system/` | overview, data-flows, infrastructure | Design → DONE |
-| **Архитектура (сервисная)** | `specs/architecture/services/{svc}.md` | компоненты, tech stack, API, data model | ADR → DONE |
+| **Архитектура (сервисная)** | `specs/architecture/services/{svc}.md` | компоненты, tech stack, API, data model, Code Map (навигация по коду + границы автономии LLM) | ADR → DONE |
 | **Архитектура (доменная)** | `specs/architecture/domains/` | bounded contexts, агрегаты, события, context map | Design → DONE |
 | **Тесты (системные)** | `specs/tests/system/` | межсервисные e2e, integration, load. Зеркало `/tests/` | Design → DONE |
 | **Тесты (сервисные)** | `specs/tests/services/{svc}/` | e2e, integration, unit внутри сервиса. Зеркало `/src/{svc}/tests/` | Test Spec → DONE |
@@ -419,7 +419,7 @@ LLM при чтении AS IS **обязан** учитывать Planned Change
 | **КАК КОНКРЕТНО** | `services/{svc}/adr/` | Какое решение для сервиса? | Контекст, решение, trade-offs, последствия | Тестовые сценарии, задачи |
 | **КАК ПРОВЕРЯЕМ** | `services/{svc}/test-specs/` | Как проверяем решение? | Тестовые сценарии (e2e, integration, unit), acceptance criteria → тесты, тестовые данные | Реализацию тестов |
 | **ЧТО ДЕЛАЕМ** | `services/{svc}/plans/` | Какие задачи? | Задачи, сложность, зависимости, ссылки на тест-спеки | Бизнес-обоснование |
-| **АРХИТЕКТУРА** | `architecture/` | Как устроена система сейчас? | Живое AS IS: system/, services/, domains/. Planned Changes | Исторические решения (в ADR) |
+| **АРХИТЕКТУРА** | `architecture/` | Как устроена система сейчас? | Живое AS IS: system/, services/ (включая Code Map), domains/. Planned Changes | Исторические решения (в ADR) |
 | **ТЕСТЫ** | `tests/` | Какие тесты существуют? | Живое AS IS: system/, services/{svc}/. Зеркало кодовой базы | Сами тесты (в /tests/ и /src/) |
 | **ТЕРМИНЫ** | `glossary/` | Что означает этот термин? | Определения по доменам | Решения и требования |
 | **ПРАВИЛА** | `.instructions/` | Как создавать объекты? | Стандарты, чек-листы, шаблоны | Контент спецификаций |
@@ -532,7 +532,7 @@ specs/
 | Папка | Что хранит | Обновляется при |
 |-------|-----------|-----------------|
 | `architecture/system/` | Системная архитектура | Design → DONE |
-| `architecture/services/{svc}.md` | Архитектура сервиса. Planned Changes для параллельных дискуссий | ADR → DONE (+ Planned Changes при Design → WAITING) |
+| `architecture/services/{svc}.md` | Архитектура сервиса: компоненты, API, data model, **Code Map** (пакеты, точки входа, зависимости, границы автономии LLM). Planned Changes для параллельных дискуссий | ADR → DONE (+ Planned Changes при Design → WAITING) |
 | `architecture/domains/` | Bounded contexts, агрегаты, события | Design → DONE |
 | `tests/system/` | Межсервисные тест-спеки (e2e, integration, load) | Design → DONE |
 | `tests/services/{svc}/` | Внутрисервисные тест-спеки (e2e, integration, unit) | Test Spec → DONE |
@@ -541,6 +541,160 @@ specs/
 **Создание vs обновление:** При первом обращении файл **создаётся**. При последующих — **обновляется** (AS IS → TO BE).
 
 **Паттерн AS IS / TO BE:** LLM читает живые документы (включая Planned Changes) перед проектированием. Изменения фиксируются в объектах (TO BE), а при завершении — переносятся в живые документы (новый AS IS).
+
+#### Code Map — навигация по коду для LLM
+
+**Проблема:** Между `architecture/services/{svc}.md` (высокоуровневое описание сервиса) и реальным кодом в `src/{svc}/` существует навигационный разрыв. Когда LLM берёт задачу из GitHub Issue, он знает ЧТО делать (Plan), КАК проверить (Test Spec), КАКОЕ решение принято (ADR) — но не знает КУДА СМОТРЕТЬ в коде и ЧТО МОЖНО МЕНЯТЬ самостоятельно.
+
+```
+Issue → Plan → Test Spec → ADR → architecture/services/{svc}.md
+                                          ↓
+                                     Code Map     ← мост между спеками и кодом
+                                          ↓
+                                  src/{svc}/ (реальный код)
+```
+
+**Решение:** Code Map — секция внутри `architecture/services/{svc}.md`. Описывает внутреннюю структуру сервиса на уровне **пакетов/модулей** (не файлов).
+
+**Почему не per-file спецификации:**
+
+| Проблема per-file спеков | Как Code Map её избегает |
+|--------------------------|------------------------|
+| **Синхронизация** — 200 файлов = 200 точек рассинхронизации | Описание на уровне пакетов (5-15 на сервис), обновляется при ADR → DONE |
+| **Дублирование** — спек повторяет docstrings и type hints | Code Map описывает навигацию и границы, не реализацию |
+| **Масштаб** — невозможно поддерживать вручную | Пакеты меняются редко, файлы — постоянно |
+| **Мультиязычность** — docstring формат зависит от языка | Пакет/модуль — универсальная абстракция (Python package, TS module, Go package) |
+
+**Содержимое Code Map:**
+
+```markdown
+## Code Map
+
+### Tech Stack
+
+| Технология | Стандарт | Валидация | Назначение |
+|-----------|---------|-----------|-----------|
+| Python 3.12 | [standard-python.md] | [validation-python.md] | Бэкенд |
+| PostgreSQL 16 | [standard-postgresql.md] | [validation-postgresql.md] | Хранение |
+| FastAPI | [standard-fastapi.md] | [validation-fastapi.md] | API-фреймворк |
+
+### Пакеты
+
+| Пакет | Назначение | Ключевые модули |
+|-------|-----------|----------------|
+| `auth.tokens` | Управление JWT-токенами | `generator.py`, `validator.py` |
+| `auth.keys` | Ротация и хранение ключей | `rotation.py`, `store.py` |
+| `auth.middleware` | Аутентификация запросов | `jwt_middleware.py` |
+
+### Точки входа
+
+- API: `auth/api/routes.py`
+- Events: `auth/events/handlers.py`
+- CLI: `auth/cli/commands.py`
+
+### Внутренние зависимости
+
+auth.middleware → auth.tokens → auth.keys
+
+### Границы автономии LLM
+
+- **Свободно:** реализация внутри пакета (алгоритмы, рефакторинг, оптимизация)
+- **Флаг:** изменение контрактов между пакетами (может затронуть Test Spec)
+- **CONFLICT:** изменение API сервиса, data model, добавление/удаление пакетов (затрагивает ADR)
+```
+
+**Границы автономии LLM** — ключевая секция. Она явно говорит LLM при выполнении задачи:
+- **Свободно** — можно менять без согласования. Реализация, рефакторинг, оптимизация внутри пакета.
+- **Флаг** — можно менять, но нужно сообщить. Изменение может затронуть тестовые сценарии (Test Spec). LLM информирует, но не блокируется.
+- **CONFLICT** — нельзя менять самостоятельно. Изменение затрагивает архитектурные решения (ADR). Требуется обратная связь Code → Specs.
+
+Эти три уровня напрямую связаны с механизмом обратной связи Code → Specs (раздел 8): "свободно" = рабочие правки, "флаг" = возможный уровень Test Spec, "CONFLICT" = уровень ADR и выше.
+
+**Когда обновляется:** При ADR → DONE — как часть обычного каскада обновления `architecture/services/{svc}.md`. Не требует отдельного процесса.
+
+#### Технологические стандарты
+
+**Проблема:** Code Map говорит LLM КУДА смотреть и ЧТО можно менять. Но не говорит КАК писать код — какие конвенции приняты в проекте для конкретных языков, фреймворков и технологий.
+
+**Решение:** Технологические стандарты — пара `standard-{tech}.md` + `validation-{tech}.md` в `.instructions/technologies/`. Тот же паттерн, что и для остальных инструкций проекта.
+
+```
+.instructions/
+├── technologies/
+│   ├── standard-python.md
+│   ├── validation-python.md
+│   ├── standard-typescript.md
+│   ├── validation-typescript.md
+│   ├── standard-tailwind.md
+│   ├── validation-tailwind.md
+│   ├── standard-postgresql.md
+│   ├── validation-postgresql.md
+│   └── README.md
+```
+
+**Почему `.instructions/technologies/`, а не `specs/.instructions/`:** Стандарты применяются к **коду**, не к спецификациям. Загружаются при работе с файлами кода. Проектный уровень.
+
+**Автозагрузка через rules:**
+
+Каждый стандарт подключается как rule, активируемый при работе с соответствующими файлами:
+
+```markdown
+# .claude/rules/python.md
+При работе с Python-файлами (*.py) ОБЯЗАТЕЛЬНО следовать:
+- [standard-python.md](/.instructions/technologies/standard-python.md)
+- [validation-python.md](/.instructions/technologies/validation-python.md)
+```
+
+LLM автоматически получает стандарт при работе с файлами соответствующего типа.
+
+**Содержимое standard-{tech}.md** — конкретные правила с примерами, не абстрактные принципы:
+
+```markdown
+# standard-python.md
+
+## Module docstring (обязательно)
+"""
+Модуль: {package}.{module}
+Назначение: {что делает}
+Зависимости: {от кого зависит}
+Контракт: {публичные функции → типы}
+"""
+
+## Imports (порядок)
+1. stdlib
+2. third-party
+3. project shared/
+4. local package
+
+## Error handling
+- Кастомные исключения наследуют ServiceError
+- Никогда bare except
+```
+
+**Триггер создания — ADR:**
+
+Когда ADR вводит новую технологию ("используем Tailwind для стилизации"):
+
+1. Проверить: существует ли `standard-tailwind.md`?
+2. Если нет → создать `standard-tailwind.md` + `validation-tailwind.md` + rule в `.claude/rules/`
+3. Если да → ADR ссылается на существующий стандарт
+
+Это часть каскада ADR → DONE: технология введена → стандарт создан → rule активирован → Code Map в `architecture/services/{svc}.md` ссылается на стандарт в секции Tech Stack.
+
+**Связь Code Map ↔ Tech Stack ↔ Rules:**
+
+```
+ADR вводит технологию
+  → standard-{tech}.md + validation-{tech}.md в .instructions/technologies/
+  → rule в .claude/rules/ (автозагрузка по типу файла)
+  → Code Map → Tech Stack (ссылки на стандарт и валидацию)
+
+LLM берёт задачу из Issue
+  → Plan → ADR → Code Map → Tech Stack (какие стандарты)
+  → rule автоматически загружает стандарт при работе с файлами
+  → LLM пишет код по стандарту
+  → validation проверяет соответствие
+```
 
 #### Именование
 
@@ -963,6 +1117,8 @@ specs/.instructions/
 | 32 | Системные тест-сценарии | **Секция внутри Design-документа**. При Design → DONE переносятся в живой `specs/tests/system/`. Паттерн AS IS / TO BE соблюдён |
 | 33 | Модель статусов | **6 статусов:** DRAFT, WAITING, RUNNING, DONE, CONFLICT, REJECTED. REVIEW, AGREED, SUPERSEDED убраны |
 | 34 | Каскад REJECTED | **Вниз** (дети) + **сайблинги** → REJECTED, **родитель** → DRAFT для пересмотра. Откат Planned Changes из architecture/ |
+| 35 | Документирование кода в src/ | **Code Map** — секция в `architecture/services/{svc}.md`. Описывает пакеты, точки входа, внутренние зависимости, границы автономии LLM. Обновляется при ADR → DONE. Per-file спеки не нужны — навигация на уровне пакетов, не файлов |
+| 36 | Технологические стандарты | **`.instructions/technologies/`** — пара `standard-{tech}.md` + `validation-{tech}.md` для каждой технологии. Автозагрузка через rules в `.claude/rules/`. Создаются при ADR → DONE когда вводится новая технология. Code Map ссылается через секцию Tech Stack |
 
 ---
 
@@ -970,7 +1126,7 @@ specs/.instructions/
 
 | # | Вопрос | Статус |
 |---|--------|--------|
-| 2 | Документирование кода в src/ | Анализ: per-file спеки избыточны (проблемы: синхронизация, дублирование, масштаб). Предложен 3-уровневый подход: сервис (`architecture/services/`), модуль (README.md в пакете), файл (docstring + types). Подвопросы: (a) мультиязычность — формат для не-Python (TS, Go и др.), (b) стандарт кодовой документации (аналог standard-frontmatter.md для кода), (c) визуализация на SDD-диаграммах — показать, что код тоже часть потока, (d) механизм синхронизации (автогенерация после PR vs ручное обновление) |
-| 5 | Языково- и технологически-специфичные инструкции | В разных сервисах — разные языки и БД. Формировать ли инструкции как стандарты работы с конкретными языками/технологиями? (`standard-python.md`, `standard-postgresql.md`, `standard-typescript.md`) |
+
+**Все открытые вопросы решены.**
 
 **Следующий шаг:** создание `standard-specs-workflow.md` (оркестратор).
