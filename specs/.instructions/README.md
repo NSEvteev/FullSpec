@@ -43,11 +43,11 @@ index: specs/.instructions/README.md
 
 ### [plan-test/](./plan-test/README.md)
 
-**Инструкции для тест-спеков (ATDD).**
+**Инструкции для планов тестов (ATDD).**
 
 ### [plan-dev/](./plan-dev/README.md)
 
-**Инструкции для планов реализации.**
+**Инструкции для планов разработки.**
 
 ### [living-docs/](./living-docs/README.md)
 
@@ -87,9 +87,9 @@ index: specs/.instructions/README.md
 │   ├── tests/                      #   Тесты
 │   │   └── README.md
 │   └── README.md
-├── plan-dev/                       # Инструкции для планов реализации
+├── plan-dev/                       # Инструкции для планов разработки
 │   └── README.md
-├── plan-test/                      # Инструкции для тест-спеков (ATDD)
+├── plan-test/                      # Инструкции для планов тестов (ATDD)
 │   └── README.md
 ├── standard-specs-reference.md     # Справочник SDD (механики)
 ├── standard-specs-workflow.md      # Навигатор SDD (воркфлоу)

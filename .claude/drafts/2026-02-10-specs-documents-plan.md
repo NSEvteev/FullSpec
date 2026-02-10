@@ -39,7 +39,7 @@
 | Файл | Содержание | Статус |
 |------|-----------|--------|
 | `statuses.md` | Система статусов (7 шт., без CONFLICT/ROLLING_BACK) | Конфликтует |
-| `workflow.md` | Workflow Discussion→Impact→ADR→Plan (без Design, Test Spec) | Конфликтует |
+| `workflow.md` | Workflow Discussion→Impact→ADR→Plan (без Design, План тестов) | Конфликтует |
 | `architecture.md` | Формат architecture.md сервиса (без Code Map, Tech Stack) | Конфликтует |
 | `glossary.md` | Формат глоссария (один файл, не папка по доменам) | Конфликтует |
 | `naming.md` | Именование файлов | Частично полезен |
@@ -87,7 +87,7 @@ specs/.instructions/
 ├── adr/                            # Стандарт ADR
 │   ├── standard-adr.md            #   → секции 2, 4, 5 архитектуры
 │   └── README.md
-├── plan-test/                      # Стандарт тест-спеков (ATDD)
+├── plan-test/                      # Стандарт планов тестов (ATDD)
 │   ├── standard-test-spec.md      #   → секции 1, 4, 5 архитектуры
 │   └── README.md
 ├── plan-dev/                       # Стандарт планов
@@ -125,7 +125,7 @@ specs/.instructions/
 | Файл | Конфликт | Вердикт |
 |------|----------|---------|
 | `statuses.md` | Старые 7 статусов (REVIEW, APPROVED, SUPERSEDED) vs новые 7 (WAITING, CONFLICT, ROLLING_BACK). Каскадная логика полностью другая | Удалить |
-| `workflow.md` | 4 уровня vs 6 (нет Design, Test Spec). Точка синхронизации другая (APPROVED vs WAITING). Фазы 5+6 заменены на specs/architecture/ и specs/tests/ | Удалить |
+| `workflow.md` | 4 уровня vs 6 (нет Design, План тестов). Точка синхронизации другая (APPROVED vs WAITING). Фазы 5+6 заменены на specs/architecture/ и specs/tests/ | Удалить |
 | `architecture.md` | Расположение `specs/services/{svc}/architecture.md` vs `specs/architecture/services/{svc}.md`. Нет Code Map, Tech Stack, Planned Changes, Boundaries | Удалить |
 | `relations.md` | 4 уровня vs 6. Frontmatter `discussion:/impact:/adr:` vs `parent:/children:/status:/milestone:`. Секция `/specs/ ↔ /doc/` — в новой архитектуре нет /doc/, есть specs/architecture/ и specs/tests/ | Удалить |
 | `glossary.md` | Один файл vs папка по доменам. Пороги 50/100/150 заменены на "папка сразу". Скиллы glossary-* не существуют | Удалить |
@@ -135,7 +135,7 @@ specs/.instructions/
 | Файл | Что полезно | Что конфликтует | Вердикт |
 |------|-------------|-----------------|---------|
 | `naming.md` | Regex `^[0-9]{3}-[a-z0-9]+(-[a-z0-9]+)*\.md$`, 3-digit format | "Сокращённые пути" → мёртвые скиллы | Удалить (regex тривиально воссоздать) |
-| `indexes.md` | Базовый формат README-таблиц | Нет форматов для Design, Test Spec, architecture, tests, glossary. Workflow → мёртвые скиллы | Удалить (формат тривиален) |
+| `indexes.md` | Базовый формат README-таблиц | Нет форматов для Design, План тестов, architecture, tests, glossary. Workflow → мёртвые скиллы | Удалить (формат тривиален) |
 | `rules.md` | "Запрет миграции", "Запрет архивирования" — 2 принципа | "Запрет удаления" конфликтует с решением #41 (очистка REJECTED). Скиллы, шаблоны, workflow → мёртвые | Удалить (принципы тривиальны) |
 
 **Итог:** Все 11 файлов удаляются. Полезный контент (~20 строк суммарно) тривиально воссоздаётся из архитектурного черновика при создании оркестратора.
@@ -185,7 +185,7 @@ specs/.instructions/
 |---|-------|----------|
 | 1 | `specs/.instructions/design/` | Зеркало design/ |
 | 2 | `specs/.instructions/adr/` | Standalone — инструкции для per-service ADR |
-| 3 | `specs/.instructions/plan-test/` | Standalone — инструкции для per-service тест-спеков (бывш. test-specs/, решение #7) |
+| 3 | `specs/.instructions/plan-test/` | Standalone — инструкции для per-service планов тестов (бывш. test-specs/, решение #7) |
 | 4 | `specs/.instructions/plan-dev/` | Standalone — инструкции для per-service планов (бывш. plans/, решение #7) |
 | 5 | `specs/.instructions/living-docs/` | Группа живых документов (решение #6) |
 | 6 | `specs/.instructions/living-docs/architecture/` | Стандарт для specs/architecture/ |
@@ -211,7 +211,7 @@ specs/.instructions/
 | # | Документ | Источник из архитектуры |
 |---|----------|------------------------|
 | 1 | `specs/.instructions/standard-specs-reference.md` | §3 Связи и frontmatter, §3 Статусы (все 7, диаграмма переходов), §3 Каскады (RUNNING/DONE/REJECTED/ROLLING_BACK, откат артефактов), §3 Обратная связь Code→Specs (CONFLICT, фазы, примеры, кросс-цепочечная), §8 Живые документы (таблица, создание vs обновление), §6 Clarify и блокирующие правила (маркеры, Dependency Barrier, --auto-clarify), §8 Именование, §7 Запреты |
-| 1b | `specs/.instructions/standard-specs-workflow.md` | §1 Философия, §2 Объекты (6 уровней, таблица, дискуссия-контейнер, расширяемость), §5 Зоны ответственности (карта, границы), §4 Полный воркфлоу (диаграмма, прямой поток, общий паттерн объекта), §4 Фильтрация Design→ADR и ADR→Тест-спек, §4 Shared код, §4 Upward feedback, §4 Параллельные дискуссии (Planned Changes) |
+| 1b | `specs/.instructions/standard-specs-workflow.md` | §1 Философия, §2 Объекты (6 уровней, таблица, дискуссия-контейнер, расширяемость), §5 Зоны ответственности (карта, границы), §4 Полный воркфлоу (диаграмма, прямой поток, общий паттерн объекта), §4 Фильтрация Design→ADR и ADR→План тестов, §4 Shared код, §4 Upward feedback, §4 Параллельные дискуссии (Planned Changes) |
 
 **Контент справочника:** Общие механики SDD — статусы, каскады, связи parent→children, frontmatter, обратная связь Code→Specs, живые документы, Clarify-паттерн, Dependency Barrier, именование, запреты. **Не содержит:** навигацию по стадиям (в навигаторе) и детали конкретных объектов (в стандартах объектов).
 
@@ -241,11 +241,11 @@ specs/.instructions/
 | # | Документ | Источник из архитектуры | Зависит от |
 |---|----------|------------------------|------------|
 | 5 | `specs/.instructions/adr/standard-adr.md` | §2 Таблица объектов (ADR), §4 Фильтрация Design→ADR (правило чтения), §4 Дельта-блоки (ADDED/MODIFIED/REMOVED), §8 Code Map (когда обновляется), §8 Технологические стандарты (триггер создания), §4 Shared код (владение изменением) | справочник, design |
-| 6 | `specs/.instructions/plan-test/standard-test-spec.md` | §1 ATDD, §2 Таблица объектов (Test Spec), §4 Фильтрация ADR→Тест-спек | справочник, adr |
+| 6 | `specs/.instructions/plan-test/standard-test-spec.md` | §1 ATDD, §2 Таблица объектов (План тестов), §4 Фильтрация ADR→План тестов | справочник, adr |
 
 ---
 
-**Волна 5 — Plan (зависит от Test Spec):**
+**Волна 5 — Plan (зависит от План тестов):**
 
 | # | Документ | Источник из архитектуры | Зависит от |
 |---|----------|------------------------|------------|
@@ -293,11 +293,11 @@ specs/.instructions/
 | 4 | Контентные папки: пустыми или по необходимости? | **Создать сейчас** пустыми с README-заглушками |
 | 5 | Sub-зеркала .instructions для вложенных контентных папок? | **Не создавать.** Стандарт один на уровне родителя. Удалены 5 sub-зеркал: architecture/{system,services,domains}, tests/{system,services} |
 | 6 | Куда помещать стандарты живых документов? | **В `living-docs/`.** Папки `architecture/`, `tests/`, `glossary/` перенесены из корня `.instructions/` в `living-docs/` — группировка снимает путаницу |
-| 7 | Именование plans/ и test-specs/? | **`plan-dev/`** (планы реализации) и **`plan-test/`** (тест-спеки ATDD) — единый паттерн `plan-*` |
+| 7 | Именование plan-dev/ и plan-test/? | **`plan-dev/`** (планы разработки) и **`plan-test/`** (планы тестов ATDD) — единый паттерн `plan-*` |
 | 8 | Оркестратор первым или последним? | **Разделить на два:** справочник `standard-specs-reference.md` (shared-механика: статусы, каскады, frontmatter) — первым (волна 1). Оркестратор-навигатор `standard-specs-workflow.md` (карта стадий со ссылками на SSOT) — ~~последним (волна 8)~~ тоже в волне 1 (решение #9) |
 | 9 | Навигатор SDD: когда создавать? | **Вместе со справочником (волна 1).** Контент справочника и навигатора разделён по принципу "механики" vs "навигация". Создание обоих одновременно позволяет правильно разнести контент сразу, без рефакторинга. Навигатор содержит SSOT-ссылки на стандарты, которые будут созданы позже (*(будет создан)*) |
 | 10 | Досрочный перенос Plan и Architecture | **Перенести контент §7 и §8 из черновика сразу** в standard-plan.md (волна 5) и standard-architecture.md (волна 6). Ожидающий контент не должен блокироваться порядком волн — документы создаются с доступным содержанием, доработка при создании объектных стандартов |
-| 11 | Полное дерево specs/ | **Перенести в `specs/README.md` § 3 Дерево.** Единое дерево со всеми подпапками (.instructions/, discussion/, services/{service}/, architecture/, tests/, glossary/) и шаблонами файлов (NNN-topic.md, {service}.md). Заменяет упрощённое дерево (14 строк → 65 строк) |
+| 11 | Полное дерево specs/ | **Перенести в `specs/README.md` § 3 Дерево.** Единое дерево со всеми подпапками (.instructions/, discussion/, services/{service}/, architecture/, tests/, glossary/) и шаблонами файлов ({type}-NNNN-topic.md, {service}.md). Заменяет упрощённое дерево (14 строк → 65 строк) |
 
 ---
 

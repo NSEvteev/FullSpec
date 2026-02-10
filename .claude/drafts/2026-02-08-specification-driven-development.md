@@ -38,10 +38,10 @@
 
 | Тип | Расположение | Назначение |
 |-----|-------------|------------|
-| Discussion | `specs/discussions/NNN-topic.md` | Исследование проблемы |
-| Impact | `specs/impact/NNN-topic.md` | Анализ влияния на сервисы |
-| ADR | `specs/services/{svc}/adr/NNN-topic.md` | Архитектурное решение |
-| Plan | `specs/services/{svc}/plans/topic-plan.md` | Декомпозиция на задачи |
+| Discussion | `specs/discussions/disc-NNNN-topic.md` | Исследование проблемы |
+| Impact | `specs/impact/impact-NNNN-topic.md` | Анализ влияния на сервисы |
+| ADR | `specs/services/{svc}/adr/adr-NNNN-topic.md` | Архитектурное решение |
+| Plan | `specs/services/{svc}/plan-dev/plan-dev-NNNN-topic.md` | Декомпозиция на задачи |
 | Architecture | `specs/services/{svc}/architecture.md` | Живой документ архитектуры |
 | Glossary | `specs/glossary.md` | Терминология |
 
@@ -413,17 +413,17 @@ specs/
 ├── principles.md                # NEW: "Конституция" — архитектурные принципы
 ├── glossary.md                  # Глоссарий (существует)
 ├── discussions/                 # Обсуждения (существует)
-│   └── NNN-topic.md             #   Given/When/Then требования
+│   └── disc-NNNN-topic.md        #   Given/When/Then требования
 ├── impact/                      # Импакт-анализ (существует)
-│   └── NNN-topic.md
+│   └── impact-NNNN-topic.md
 ├── services/                    # Спецификации сервисов (существует)
 │   └── {service}/
 │       ├── specs/               # NEW: живой SSOT текущего поведения
 │       │   └── {domain}.md      #   Текущие требования (обновляются при DONE)
 │       ├── adr/                 # ADR (существует)
-│       │   └── NNN-topic.md
-│       └── plans/               # Планы (существует)
-│           └── topic-plan.md    #   + tasks + complexity + testStrategy
+│       │   └── adr-NNNN-topic.md
+│       └── plan-dev/            # Планы разработки (существует)
+│           └── plan-dev-NNNN-topic.md  #   + tasks + complexity + testStrategy
 └── checklists/                  # NEW: шаблоны чек-листов качества
     ├── spec-quality.md
     └── adr-quality.md

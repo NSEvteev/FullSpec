@@ -47,7 +47,7 @@ index: specs/README.md
 
 ### [services/](./services/)
 
-**Per-service спецификации — ADR, тест-спеки, планы реализации (уровни 4-6 SDD).**
+**Per-service спецификации — ADR, планы тестов, планы разработки (уровни 4-6 SDD).**
 
 ### [glossary/](./glossary/README.md)
 
@@ -70,7 +70,7 @@ index: specs/README.md
 │   ├── impact/                         #   Стандарт импакт-анализа
 │   ├── design/                         #   Стандарт проектирования
 │   ├── adr/                            #   Стандарт ADR
-│   ├── plan-test/                      #   Стандарт тест-спеков (ATDD)
+│   ├── plan-test/                      #   Стандарт планов тестов (ATDD)
 │   ├── plan-dev/                       #   Стандарт планов
 │   ├── living-docs/                    #   Стандарты живых документов
 │   │   ├── architecture/              #     Архитектура
@@ -81,27 +81,27 @@ index: specs/README.md
 │   └── README.md                       #   Индекс инструкций
 │
 ├── discussion/                         # Уровень 1: ЗАЧЕМ и ЧТО
-│   ├── NNN-topic.md
+│   ├── disc-NNNN-topic.md
 │   └── README.md
 │
 ├── impact/                             # Уровень 2: НА ЧТО ВЛИЯЕТ
-│   ├── NNN-topic.md
+│   ├── impact-NNNN-topic.md
 │   └── README.md
 │
 ├── design/                             # Уровень 3: КАК ВСТРАИВАЕМ
-│   ├── NNN-topic.md                    #   Секции по сервисам + блоки взаимодействия
+│   ├── design-NNNN-topic.md            #   Секции по сервисам + блоки взаимодействия
 │   └── README.md
 │
 ├── services/                           # Уровни 4-6: по сервисам
 │   └── {service}/
 │       ├── adr/                        #   Уровень 4: КАК КОНКРЕТНО
-│       │   ├── NNN-topic.md
+│       │   ├── adr-NNNN-topic.md
 │       │   └── README.md
-│       ├── test-specs/                 #   Уровень 5: КАК ПРОВЕРЯЕМ (ATDD)
-│       │   ├── NNN-topic.md
+│       ├── plan-test/                  #   Уровень 5: КАК ПРОВЕРЯЕМ (ATDD)
+│       │   ├── plan-test-NNNN-topic.md
 │       │   └── README.md
-│       ├── plans/                      #   Уровень 6: ЧТО ДЕЛАЕМ
-│       │   ├── topic-plan.md
+│       ├── plan-dev/                   #   Уровень 6: ЧТО ДЕЛАЕМ
+│       │   ├── plan-dev-NNNN-topic.md
 │       │   └── README.md
 │       └── README.md                   #   Индекс сервиса
 │

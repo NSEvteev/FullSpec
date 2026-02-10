@@ -1,5 +1,5 @@
 ---
-description: Инструкции для планов разработки — декомпозиция задач, этапы, зависимости. Индекс документов.
+description: Инструкции для планов разработки (SDD уровень 6) — декомпозиция задач, этапы, зависимости. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: specs/.instructions/plan-dev/README.md
@@ -7,7 +7,7 @@ index: specs/.instructions/plan-dev/README.md
 
 # /specs/.instructions/plan-dev/ — Инструкции для планов
 
-Инструкции для работы с планами реализации в `/specs/{service}/plans/`.
+Инструкции для работы с планами разработки в `/specs/{service}/plan-dev/`.
 
 **Полезные ссылки:**
 - [Инструкции /specs/](../README.md)
@@ -25,7 +25,7 @@ index: specs/.instructions/plan-dev/README.md
 
 ### [standard-plan.md](./standard-plan.md)
 
-**Стандарт планов реализации — формат задач, создание GitHub Issues, маппинг Plan→Issues, обработка CONFLICT.**
+**Стандарт планов разработки — формат задач, создание GitHub Issues, маппинг Plan→Issues, обработка CONFLICT.**
 
 ---
 
@@ -33,6 +33,6 @@ index: specs/.instructions/plan-dev/README.md
 
 ```
 /specs/.instructions/plan-dev/
-├── standard-plan.md                # Стандарт планов реализации
+├── standard-plan.md                # Стандарт планов разработки
 └── README.md                       # Этот файл (индекс)
 ```

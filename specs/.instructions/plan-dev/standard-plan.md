@@ -9,7 +9,7 @@ index: specs/.instructions/plan-dev/README.md
 
 Версия стандарта: 1.0
 
-Правила создания и обновления планов реализации (`specs/services/{svc}/plans/`). Формат задач, интеграция с GitHub Issues, обработка CONFLICT.
+Правила создания и обновления планов реализации (`specs/services/{svc}/plan-dev/`). Формат задач, интеграция с GitHub Issues, обработка CONFLICT.
 
 **Полезные ссылки:**
 - [Справочник SDD](../standard-specs-reference.md) — статусы, каскады, обратная связь
@@ -23,7 +23,7 @@ index: specs/.instructions/plan-dev/README.md
 |-----|----------|
 | Справочник | [standard-specs-reference.md](../standard-specs-reference.md) |
 | Навигатор | [standard-specs-workflow.md](../standard-specs-workflow.md) |
-| Тест-спек | [standard-test-spec.md](../plan-test/standard-test-spec.md) *(будет создан)* |
+| План тестов | [standard-test-spec.md](../plan-test/standard-test-spec.md) *(будет создан)* |
 | Валидация | — |
 | Создание | — |
 | Модификация | — |
@@ -68,7 +68,7 @@ DONE-ADR никогда не удаляется — это история при
 - **Сложность:** 7/10
 - **Приоритет:** high
 - **Зависимости:** —
-- **Тест-спек:** [001-oauth2-tests.md#token-generation](...)
+- **План тестов:** [plan-test-0001-oauth2-tests.md#token-generation](...)
 - **Дельта:** ADDED auth.tokens (из ADR)
 
 Подзадачи:
@@ -82,7 +82,7 @@ DONE-ADR никогда не удаляется — это история при
 - **Сложность:** 5/10
 - **Приоритет:** high
 - **Зависимости:** Задача 1
-- **Тест-спек:** [001-oauth2-tests.md#middleware-validation](...)
+- **План тестов:** [plan-test-0001-oauth2-tests.md#middleware-validation](...)
 - **Дельта:** MODIFIED auth.middleware (из ADR)
 
 Подзадачи:
@@ -97,7 +97,7 @@ DONE-ADR никогда не удаляется — это история при
 | **Сложность** | 1-10. LLM оценивает при генерации Plan (отдельный шаг анализа не нужен — контекст из 5 уровней спецификаций уже есть) |
 | **Приоритет** | high / medium / low. Маппится на label приоритета в Issue |
 | **Зависимости** | Внутри Plan — на задачи с меньшим номером. Между Plans — по имени: `Plan auth → Задача 1 "Создать схему UserCreatedEvent"`. При создании Issues LLM превращает именные ссылки в `#N`. Блокирующие — задача не берётся, пока зависимости не done |
-| **Тест-спек** | Ссылка на конкретный сценарий из Test Spec. Определяет, что именно тестировать |
+| **План тестов** | Ссылка на конкретный сценарий из плана тестов. Определяет, что именно тестировать |
 | **Дельта** | Ссылка на ADDED/MODIFIED/REMOVED из ADR. Определяет, что именно менять в коде |
 
 ### Порядок и подзадачи
@@ -127,7 +127,7 @@ GitHub Issues и Milestones создаются **только отдельной
 Интеграция с существующей инфраструктурой: [standard-issue.md](/.github/.instructions/issues/standard-issue.md), [create-issue.md](/.github/.instructions/issues/create-issue.md).
 
 ```
-Plan (specs/services/auth/plans/jwt-migration-plan.md)
+Plan (specs/services/auth/plan-dev/plan-dev-0001-jwt-migration.md)
     │
     ├── Задача 1 → Issue #201 "Создать модуль auth.tokens"
     │     ├── Подзадача 1.1 → чек-лист в body Issue
@@ -147,7 +147,7 @@ Plan (specs/services/auth/plans/jwt-migration-plan.md)
 | Подзадачи | Чек-лист в body Issue (или sub-issues, если нужен отдельный PR) |
 | Приоритет | Label приоритета (critical/high/medium/low) |
 | Зависимости | `**Зависит от:** #N` в body ([standard-issue.md § 8](/.github/.instructions/issues/standard-issue.md#8-декомпозиция-и-зависимости)) |
-| Тест-спек | Ссылка в секции "Связанная документация" |
+| План тестов | Ссылка в секции "Связанная документация" |
 | Milestone | Определён на уровне Discussion (решение #44) |
 | Дельта из ADR | В секции "Описание" Issue |
 
