@@ -1,5 +1,5 @@
 ---
-description: Процесс работы с GitHub Issues
+description: Стандарт работы с GitHub Issues — формат заголовка, метки, milestone, описание, жизненный цикл и связи.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/issues/README.md

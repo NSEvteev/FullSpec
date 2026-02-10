@@ -1,5 +1,5 @@
 ---
-description: Инструкции для живых документов тестов
+description: Инструкции для живой документации тестов — тест-планы, покрытие, стратегия. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: specs/.instructions/living-docs/tests/README.md

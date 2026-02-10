@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу создания новой инструкции
+description: Воркфлоу создания новой инструкции — проверка области, выбор типа (standard/validation/create/modify), frontmatter, секции, регистрация.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .instructions/README.md

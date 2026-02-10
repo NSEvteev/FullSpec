@@ -1,5 +1,5 @@
 ---
-description: Инструкции для планов реализации
+description: Инструкции для планов разработки — декомпозиция задач, этапы, зависимости. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: specs/.instructions/plan-dev/README.md

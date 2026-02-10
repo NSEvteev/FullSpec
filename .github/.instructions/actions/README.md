@@ -1,5 +1,5 @@
 ---
-description: GitHub Actions и автоматизация
+description: Инструкции для GitHub Actions — стандарт workflow, валидация, безопасность. Индекс документов и подпапок.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/actions/README.md

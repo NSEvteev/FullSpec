@@ -1,5 +1,5 @@
 ---
-description: Стандарт именования и создания веток
+description: Стандарт именования и создания веток — паттерны, привязка к Issue, защита main. Покрывает feature/bugfix/hotfix.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/branches/README.md

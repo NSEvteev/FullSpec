@@ -1,5 +1,5 @@
 ---
-description: Инициализация проекта — установка зависимостей и настройка окружения
+description: Инициализация проекта — установка зависимостей, pre-commit хуки, branch protection, labels. Руководство после клонирования.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 ---

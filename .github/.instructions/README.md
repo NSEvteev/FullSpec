@@ -1,5 +1,5 @@
 ---
-description: Инструкции для работы с GitHub
+description: Инструкции для работы с GitHub — issues, branches, commits, PRs, review, releases, actions, security. Индекс всех подпапок.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/README.md

@@ -1,5 +1,5 @@
 ---
-description: Проектирование — декомпозиция Impact на per-service решения
+description: Design-спецификации — детализация и реализация Impact на per-service уровне. Индекс design-документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: specs/design/README.md

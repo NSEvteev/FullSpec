@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для labels.yml
+description: Инструкции для GitHub Labels — стандарт, модификация, валидация labels.yml. Индекс документов и скриптов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/labels/README.md

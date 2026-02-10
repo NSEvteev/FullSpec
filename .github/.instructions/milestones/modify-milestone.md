@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу изменения GitHub Milestone
+description: Воркфлоу изменения GitHub Milestone — обновление описания, срока, закрытие или удаление.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/milestones/README.md

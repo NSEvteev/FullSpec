@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для platform/
+description: Инструкции для платформенной инфраструктуры — Docker, Gateway, Kubernetes, мониторинг. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: platform/.instructions/README.md

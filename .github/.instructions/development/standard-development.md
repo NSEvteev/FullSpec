@@ -1,5 +1,5 @@
 ---
-description: Стандарт процесса локальной разработки в feature-ветке
+description: Стандарт процесса локальной разработки в feature-ветке — этапы, чек-лист, тесты, линтинг, коммиты.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/development/README.md

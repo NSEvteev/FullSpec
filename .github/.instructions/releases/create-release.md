@@ -1,5 +1,5 @@
 ---
-description: Пошаговый процесс создания GitHub Release
+description: Воркфлоу создания GitHub Release — подготовка changelog, тегирование, публикация, post-release действия.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/releases/README.md

@@ -1,5 +1,5 @@
 ---
-description: Полный цикл разработки от Issue до Merge в GitHub
+description: Полный цикл разработки от Issue до Merge — этапы, ответственные, инструменты. Покрывает весь GitHub workflow проекта.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/README.md

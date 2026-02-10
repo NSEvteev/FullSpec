@@ -1,5 +1,5 @@
 ---
-description: Обзор инструментов .claude
+description: Корневая папка .claude — скиллы, агенты, rules, черновики, инструкции. Индекс конфигурации Claude Code.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 ---

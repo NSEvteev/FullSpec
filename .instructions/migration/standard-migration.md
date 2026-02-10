@@ -1,5 +1,5 @@
 ---
-description: Стандарт процесса миграции при обновлении стандартов
+description: Стандарт каскадной миграции при обновлении стандартов — этапы, порядок обновления, version drift.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .instructions/migration/README.md

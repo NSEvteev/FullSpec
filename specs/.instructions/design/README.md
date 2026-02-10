@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для design/
+description: Инструкции для design-документов — спецификации компонентов, API, UI. Индекс документов design/.
 standard: .structure/.instructions/standard-readme.md
 index: specs/.instructions/design/README.md
 ---

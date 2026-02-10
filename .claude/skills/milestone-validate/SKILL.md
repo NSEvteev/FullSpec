@@ -1,8 +1,8 @@
 ---
 name: milestone-validate
-description: Валидация GitHub Milestone по стандарту
+description: Проверка GitHub Milestone на соответствие стандарту — формат версии, описание, привязка Issue. Используй для аудита milestones, проверки перед релизом или валидации всех milestones проекта.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[--number <N>] [--all]"
 ---

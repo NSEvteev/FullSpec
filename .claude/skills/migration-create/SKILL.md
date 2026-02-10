@@ -1,8 +1,8 @@
 ---
 name: migration-create
-description: Выполнение миграции при обновлении стандартов
+description: Выполнение миграции зависимых файлов после обновления стандарта — Workflows, экземпляры, скрипты. Используй после изменения любого standard-*.md файла для синхронизации всех зависимостей.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep, Edit, Write
 argument-hint: "[стандарт]"
 ---

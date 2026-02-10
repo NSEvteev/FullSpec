@@ -1,5 +1,5 @@
 ---
-description: Стандарт GitHub Projects — канбан-доски, views, поля, автоматизация
+description: Стандарт GitHub Projects — канбан-доски, views, поля, автоматизация, интеграция с Issues и Milestones.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/README.md

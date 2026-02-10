@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу создания ветки по стандарту ветвления
+description: Воркфлоу создания ветки — формирование имени из Issue, проверка уникальности, привязка к milestone.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/branches/README.md

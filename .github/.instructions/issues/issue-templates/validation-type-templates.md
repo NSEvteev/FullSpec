@@ -1,5 +1,5 @@
 ---
-description: Валидация соответствия меток типа и Issue Templates
+description: Валидация соответствия меток типа (type:*) и Issue Templates — наличие шаблонов, формат полей.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/issues/issue-templates/README.md

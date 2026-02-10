@@ -1,5 +1,5 @@
 ---
-description: Стандарт управления GitHub Secrets — именование, уровни, ротация, категории
+description: Стандарт управления GitHub Secrets — именование, уровни (repo/env/org), ротация, категории секретов.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/actions/security/README.md

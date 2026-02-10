@@ -1,5 +1,5 @@
 ---
-description: Миграция при изменении стандартов
+description: Правила миграции standard-файлов — обязательное использование скиллов. Активируется при изменении standard-*.md.
 standard: .claude/.instructions/rules/standard-rule.md
 standard-version: v1.1
 index: .claude/.instructions/rules/README.md

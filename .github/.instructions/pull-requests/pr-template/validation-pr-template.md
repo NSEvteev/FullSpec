@@ -1,5 +1,5 @@
 ---
-description: Валидация шаблона Pull Request
+description: Валидация шаблона Pull Request — наличие секций, формат чек-листов, соответствие стандарту.
 standard: .instructions/standard-instruction.md
 standard-version: v1.1
 index: .github/.instructions/pull-requests/pr-template/README.md

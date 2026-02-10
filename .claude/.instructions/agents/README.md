@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для agents/
+description: Инструкции для Claude Code агентов — стандарт формата AGENT.md, создание, изменение, валидация. Индекс документов и скриптов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: .claude/.instructions/agents/README.md

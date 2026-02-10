@@ -42,7 +42,9 @@
       "WebFetch(domain:habr.com)",
       "Bash(xargs:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(certutil -decode:*)"
+      "Bash(certutil -decode:*)",
+      "Bash(pip install:*)",
+      "Bash(del \"C:\\\\00 Dev\\\\project_template\\\\_update_descriptions.py\")"
     ]
   },
   "statusLine": {

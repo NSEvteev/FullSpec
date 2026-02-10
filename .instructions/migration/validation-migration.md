@@ -1,5 +1,5 @@
 ---
-description: Валидация процесса миграции при обновлении стандартов
+description: Валидация завершённости миграции — version drift, соответствие Workflows стандарту, актуальность скриптов.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .instructions/migration/README.md

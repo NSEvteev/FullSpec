@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу создания нового агента
+description: Воркфлоу создания нового агента (AGENT.md) — промпт, конфигурация, тип, модель, инструменты. Включает регистрацию в README и валидацию.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .claude/.instructions/agents/README.md

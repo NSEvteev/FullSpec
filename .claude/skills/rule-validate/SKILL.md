@@ -1,8 +1,8 @@
 ---
 name: rule-validate
-description: Валидация формата и структуры rule
+description: Проверка rule-файла на соответствие стандарту — frontmatter, формат, пути, триггеры. Используй после создания или изменения rule, при code review или аудите правил Claude Code.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash
 argument-hint: "[имя] [--all]"
 ---

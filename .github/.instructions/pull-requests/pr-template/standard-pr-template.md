@@ -1,5 +1,5 @@
 ---
-description: Стандарт шаблона Pull Request
+description: Стандарт шаблона Pull Request — секции, чек-листы, формат описания, связь с Issue.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/pull-requests/pr-template/README.md

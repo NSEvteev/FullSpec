@@ -1,5 +1,5 @@
 ---
-description: Инструкции для GitHub Issues
+description: Инструкции для GitHub Issues — стандарт, создание, изменение, валидация, шаблоны. Индекс документов и скриптов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/issues/README.md

@@ -1,5 +1,5 @@
 ---
-description: Инструкции для живых документов архитектуры
+description: Инструкции для живой документации архитектуры — системная и доменная документация. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: specs/.instructions/living-docs/architecture/README.md

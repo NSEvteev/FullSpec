@@ -1,5 +1,5 @@
 ---
-description: Процедура валидации ссылок на соответствие стандарту
+description: Валидация ссылок между markdown-документами — frontmatter-поля, якоря, пути. Чек-лист и коды ошибок.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .structure/.instructions/README.md

@@ -1,5 +1,5 @@
 ---
-description: Системная архитектура — межсервисные документы
+description: Системная архитектура — общая структура, компоненты, межсервисное взаимодействие. Индекс системных документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: specs/architecture/system/README.md

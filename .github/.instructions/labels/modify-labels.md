@@ -1,5 +1,5 @@
 ---
-description: Модификация меток GitHub (добавление, удаление, переименование)
+description: Воркфлоу модификации меток GitHub — добавление, удаление, переименование с синхронизацией labels.yml.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/labels/README.md

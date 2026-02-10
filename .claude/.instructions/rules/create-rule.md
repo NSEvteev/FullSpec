@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу создания rule
+description: Воркфлоу создания нового rule-файла в .claude/rules/ — выбор типа, frontmatter, формат содержимого, регистрация.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .claude/.instructions/rules/README.md

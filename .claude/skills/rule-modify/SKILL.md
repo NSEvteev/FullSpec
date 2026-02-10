@@ -1,8 +1,8 @@
 ---
 name: rule-modify
-description: Изменение, деактивация и миграция rule
+description: Обновление содержания, деактивация или миграция rule-файла в .claude/rules/. Используй при изменении правил для Claude Code, переименовании rule или выводе устаревшего правила из эксплуатации.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Edit, Grep
 argument-hint: "<имя> [--type <тип>]"
 ---

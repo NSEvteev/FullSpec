@@ -1,8 +1,8 @@
 ---
 name: skill-create
-description: Создание нового скилла по шаблону
+description: Создание нового скилла (SKILL.md) с frontmatter, SSOT-ссылкой и регистрацией в README. Используй при добавлении новой команды для Claude Code на базе существующей SSOT-инструкции.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "[название] [--dry-run]"
 ---

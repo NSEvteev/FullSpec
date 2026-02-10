@@ -1,5 +1,5 @@
 ---
-description: Инструкции для GitHub Pull Requests
+description: Инструкции для GitHub Pull Requests — стандарт, шаблон PR. Индекс документов и подпапок.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/pull-requests/README.md

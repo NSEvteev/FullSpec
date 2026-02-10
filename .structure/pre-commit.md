@@ -1,5 +1,5 @@
 ---
-description: Pre-commit хуки — автоматическая валидация перед коммитом
+description: Pre-commit хуки проекта — автоматические проверки перед коммитом, конфигурация, описание проверок и обход.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 ---

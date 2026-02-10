@@ -1,8 +1,8 @@
 ---
 name: review-branch
-description: Локальное ревью ветки перед созданием PR
+description: Локальное ревью текущей ветки — проверка коммитов, файлов, тестов и стандартов перед созданием PR. Используй перед git push для предварительной проверки качества изменений.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[--base <branch>]"
 ---

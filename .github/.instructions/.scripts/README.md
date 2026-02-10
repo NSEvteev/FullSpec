@@ -1,5 +1,5 @@
 ---
-description: Скрипты автоматизации GitHub
+description: Скрипты автоматизации GitHub — валидация labels, issues, branches. Индекс Python-скриптов для CI/CD.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/.scripts/README.md

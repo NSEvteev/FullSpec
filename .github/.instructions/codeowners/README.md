@@ -1,5 +1,5 @@
 ---
-description: Инструкции для CODEOWNERS
+description: Инструкции для CODEOWNERS — стандарт формата, валидация. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/codeowners/README.md

@@ -1,8 +1,8 @@
 ---
 name: labels-modify
-description: Изменение меток GitHub (добавление, удаление, переименование)
+description: Добавление, удаление или переименование меток GitHub с синхронизацией labels.yml. Используй при изменении набора меток проекта, добавлении новой категории или исправлении опечатки в метке.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep, Edit
 argument-hint: "<действие> [аргументы]"
 ---

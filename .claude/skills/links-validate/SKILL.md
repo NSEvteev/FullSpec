@@ -1,8 +1,8 @@
 ---
 name: links-validate
-description: Валидация ссылок в markdown-документах
+description: Валидация ссылок между markdown-документами — проверка frontmatter-полей, якорных ссылок и путей. Используй после рефакторинга, переименования файлов или перед коммитом.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[--path <файл/папка>] [--json]"
 ---

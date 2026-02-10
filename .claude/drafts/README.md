@@ -1,5 +1,5 @@
 ---
-description: Черновики Claude — планы, заметки и исследования
+description: Черновики Claude — планы, анализы, спецификации в работе. Индекс активных и архивных черновиков.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: .claude/README.md
@@ -65,7 +65,7 @@ index: .claude/README.md
 │   ├── example-github-platform-research.md      #   Исследование GitHub платформы
 │   ├── example-standards-validation-plan.md     #   План валидации стандартов
 │   └── README.md                                #   Индекс примеров
-├── maybe-archive/                         # Черновики на рассмотрении
+├── maybe-archive/                      # Черновики на рассмотрении
 │   ├── 2026-02-09-sdd-framework-comparison.md # Сравнение SDD с фреймворками
 │   ├── 2026-02-09-specs-architecture-review.md  # Ревью архитектуры (раунд 1)
 │   ├── 2026-02-09-specs-architecture-review-2.md # Ревью архитектуры (раунд 2)
@@ -73,6 +73,7 @@ index: .claude/README.md
 │   └── 2026-02-09-task-master-analysis.md     # Анализ механик Task Master
 ├── 2026-02-08-specification-driven-development.md # Исследование SDD
 ├── 2026-02-08-specs-architecture.md    # Архитектура specs/
-├── 2026-02-10-specs-documents-plan.md # План выноса документов specs/
-└── README.md                           # Этот файл (индекс)
+├── 2026-02-10-specs-documents-plan.md  # План выноса документов specs/
+├── README.md                           # Этот файл (индекс)
+└── 2026-02-10-holt-analysis-standard-specs-reference.md # TODO: добавить описание
 ```

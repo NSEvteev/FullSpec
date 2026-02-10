@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу изменения rule
+description: Воркфлоу изменения rule-файла — обновление содержимого, деактивация, переименование или миграция правила.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .claude/.instructions/rules/README.md

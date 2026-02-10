@@ -1,5 +1,5 @@
 ---
-description: Шаблоны Issues
+description: YAML-шаблоны для создания GitHub Issues — config.yml, типы задач. Индекс шаблонов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/ISSUE_TEMPLATE/README.md

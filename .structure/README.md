@@ -1,5 +1,5 @@
 ---
-description: SSOT структуры проекта — единый источник правды о папках и файлах
+description: SSOT структуры проекта — полное дерево папок, назначение каждой директории. Главный индекс навигации по проекту.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 ---

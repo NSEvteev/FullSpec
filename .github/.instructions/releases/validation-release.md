@@ -1,5 +1,5 @@
 ---
-description: Чеклист валидации GitHub Release
+description: Валидация GitHub Release — версия, changelog, теги, артефакты. Чек-лист перед и после публикации.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/releases/README.md

@@ -1,8 +1,8 @@
 ---
 name: branch-create
-description: Создание ветки по стандарту ветвления
+description: Создание git-ветки по стандарту именования с привязкой к Issue. Используй при начале работы над задачей, багфиксом или фичей — автоматически формирует имя ветки из номера Issue.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[--issues <numbers>] [--description <name>]"
 ---

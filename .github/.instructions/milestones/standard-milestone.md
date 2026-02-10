@@ -1,5 +1,5 @@
 ---
-description: Процесс работы с GitHub Milestones
+description: Стандарт работы с GitHub Milestones — формат версии, описание, дата завершения, привязка Issue.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/milestones/README.md

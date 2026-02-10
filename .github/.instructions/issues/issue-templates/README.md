@@ -1,5 +1,5 @@
 ---
-description: Инструкции для шаблонов Issues
+description: Инструкции для YAML-шаблонов GitHub Issues — стандарт формата, валидация типов. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/issues/issue-templates/README.md

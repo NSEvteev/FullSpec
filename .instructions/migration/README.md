@@ -1,5 +1,5 @@
 ---
-description: Инструкции для процесса миграции стандартов
+description: Инструкции для каскадных миграций при обновлении стандартов — создание, валидация. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: .instructions/migration/README.md

@@ -38,6 +38,8 @@ ERROR_CODES = {
     "I011": "Отсутствует поле description",
     "I012": "Отсутствует поле standard",
     "I013": "Отсутствует поле index",
+    "I014": "Description слишком длинное (> 1024 символов)",
+    "I015": "Description слишком короткое (< 50 символов)",
     "I020": "Отсутствует заголовок H1",
     "I021": "Несколько заголовков H1",
     "I022": "Отсутствует секция Оглавление",
@@ -128,8 +130,16 @@ def check_frontmatter(content: str) -> list[tuple[str, str]]:
     fm = parse_frontmatter(content)
 
     # I011: description
-    if not fm.get("description"):
+    desc = fm.get("description", "")
+    if not desc:
         errors.append(("I011", "Отсутствует поле description"))
+    else:
+        # I014: description слишком длинное
+        if len(desc) > 1024:
+            errors.append(("I014", f"Description {len(desc)} символов (макс. 1024)"))
+        # I015: description слишком короткое
+        if len(desc) < 50:
+            errors.append(("I015", f"Description {len(desc)} символов (мин. 50)"))
 
     # I012: standard
     if not fm.get("standard"):

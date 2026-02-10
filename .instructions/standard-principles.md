@@ -1,5 +1,5 @@
 ---
-description: Принципы программирования (примеры на Python)
+description: Стандарт принципов программирования (ориентирован на Python) — SSOT, DRY, именование, структура, обработка ошибок.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .instructions/README.md

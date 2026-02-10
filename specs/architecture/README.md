@@ -1,5 +1,5 @@
 ---
-description: Живое состояние архитектуры системы
+description: Архитектурная документация — system, services, domains. Индекс архитектурных спецификаций проекта.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: specs/architecture/README.md

@@ -1,8 +1,8 @@
 ---
 name: review-pr
-description: Ревью Pull Request на GitHub
+description: Ревью Pull Request на GitHub — проверка кода, коммитов, описания и соответствия стандартам. Используй при получении PR на ревью или для самопроверки перед запросом ревью.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "<number>"
 ---

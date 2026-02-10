@@ -1,8 +1,8 @@
 ---
 name: issue-validate
-description: Валидация GitHub Issue по стандарту
+description: Проверка GitHub Issue на соответствие стандарту — заголовок, метки, milestone, описание. Используй для аудита Issue, проверки перед закрытием или валидации всех Issue в milestone.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[number] [--all] [--milestone <title>]"
 ---

@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу изменения GitHub Issue
+description: Воркфлоу изменения GitHub Issue — обновление описания, меток, milestone, статуса, закрытие и переоткрытие.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/issues/README.md

@@ -1,5 +1,5 @@
 ---
-description: Внутрисервисные тесты — unit, компонентные
+description: Сервисные тест-спецификации — unit-тесты, интеграционные тесты для каждого сервиса. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: specs/tests/services/README.md

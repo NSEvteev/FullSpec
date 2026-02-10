@@ -1,5 +1,5 @@
 ---
-description: Ревью и merge Pull Request
+description: Инструкции для Code Review — стандарт ревью, валидация, merge стратегия. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/review/README.md

@@ -1,5 +1,5 @@
 ---
-description: Валидация формата и структуры скиллов
+description: Валидация SKILL.md на соответствие стандарту — frontmatter, SSOT-ссылка, секции, размер и коды ошибок K001–K006.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .claude/.instructions/skills/README.md
@@ -7,7 +7,7 @@ index: .claude/.instructions/skills/README.md
 
 # Валидация скиллов
 
-Рабочая версия стандарта: 1.1
+Рабочая версия стандарта: 1.2
 
 Проверка соответствия скиллов стандарту формата.
 
@@ -134,7 +134,7 @@ python .claude/.instructions/skills/.scripts/validate-skill.py --json {skill-nam
 
 ## Типичные ошибки
 
-### Frontmatter (K001-K004)
+### Frontmatter (K001-K006)
 
 | Код | Описание | Решение |
 |-----|----------|---------|
@@ -142,6 +142,8 @@ python .claude/.instructions/skills/.scripts/validate-skill.py --json {skill-nam
 | K002 | Неверный формат `name` | Использовать kebab-case |
 | K003 | Отсутствует `description` | Добавить описание |
 | K004 | Отсутствует `allowed-tools` | Указать инструменты |
+| K005 | Description > 1024 символов | Сократить описание |
+| K006 | Description < 100 символов | Расширить: ЧТО + КОГДА ([стандарт](/.structure/.instructions/standard-frontmatter.md#расширенный-description-для-скиллов)) |
 
 ### Структура (K010-K016)
 

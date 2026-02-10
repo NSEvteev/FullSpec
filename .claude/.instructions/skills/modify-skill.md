@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу изменения и деактивации скиллов
+description: Воркфлоу изменения скилла — обновление SSOT-ссылки, параметров, деактивация или переименование. Включает миграцию.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .claude/.instructions/skills/README.md
@@ -7,7 +7,7 @@ index: .claude/.instructions/skills/README.md
 
 # Воркфлоу изменения скилла
 
-Рабочая версия стандарта: 1.1
+Рабочая версия стандарта: 1.2
 
 Обновление, деактивация и миграция скиллов.
 

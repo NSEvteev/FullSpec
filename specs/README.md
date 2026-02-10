@@ -1,5 +1,5 @@
 ---
-description: Спецификации проекта — SDD (Specification-Driven Development)
+description: Спецификационная документация SDD (Specification-Driven Development) — архитектура, design, тесты, глоссарий.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: specs/README.md

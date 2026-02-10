@@ -1,8 +1,8 @@
 ---
 name: skill-validate
-description: Валидация скилла по стандарту
+description: Проверка SKILL.md на соответствие стандарту — frontmatter, секции, SSOT-ссылка, размер. Используй после создания или изменения скилла, при code review или массовой валидации всех скиллов.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[название] [--all] [--json]"
 ---

@@ -1,5 +1,5 @@
 ---
-description: Процесс локальной разработки
+description: Правила процесса разработки — коммиты, PR, review, sync, релизы. Активируется при работе с git и GitHub.
 standard: .claude/.instructions/rules/standard-rule.md
 standard-version: v1.1
 index: .claude/.instructions/rules/README.md

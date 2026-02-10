@@ -1,5 +1,5 @@
 ---
-description: Процедура валидации согласованности /.structure/README.md
+description: Валидация согласованности SSOT структуры — дерево .structure/README.md, наличие README, .instructions/ в папках.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .structure/.instructions/README.md

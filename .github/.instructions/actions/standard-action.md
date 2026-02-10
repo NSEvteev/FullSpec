@@ -1,5 +1,5 @@
 ---
-description: Структура и best practices для GitHub Actions workflow файлов
+description: Стандарт GitHub Actions workflow — структура файла, best practices, именование, триггеры, переиспользование.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/README.md

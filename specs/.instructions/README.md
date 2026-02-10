@@ -1,5 +1,5 @@
 ---
-description: Инструкции для работы с документами спецификаций
+description: Инструкции для спецификационной документации SDD — ADR, design, discussion, impact, plans. Индекс всех подпапок.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: specs/.instructions/README.md
@@ -18,7 +18,8 @@ index: specs/.instructions/README.md
 ## Оглавление
 
 - [1. Подпапки](#1-подпапки)
-- [2. Дерево](#2-дерево)
+- [2. Файлы](#2-файлы)
+- [3. Дерево](#3-дерево)
 
 ---
 
@@ -54,7 +55,15 @@ index: specs/.instructions/README.md
 
 ---
 
-## 2. Дерево
+## 2. Файлы
+
+### [standard-specs-reference.md](./standard-specs-reference.md)
+
+**Справочник SDD — общие сущности системы спецификаций.**
+
+---
+
+## 3. Дерево
 
 ```
 /specs/.instructions/
@@ -78,5 +87,6 @@ index: specs/.instructions/README.md
 │   └── README.md
 ├── plan-test/                      # Инструкции для тест-спеков (ATDD)
 │   └── README.md
+├── standard-specs-reference.md     # Справочник SDD
 └── README.md                       # Этот файл (индекс)
 ```

@@ -1,5 +1,5 @@
 ---
-description: Релизы и деплой
+description: Инструкции для GitHub Releases — стандарт, создание, валидация. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/releases/README.md

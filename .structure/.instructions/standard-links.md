@@ -1,5 +1,5 @@
 ---
-description: Стандарт оформления ссылок — типы и форматы
+description: Стандарт оформления ссылок в .md файлах — типы путей, якоря, frontmatter-поля. Покрывает правила и форматы.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .structure/.instructions/README.md

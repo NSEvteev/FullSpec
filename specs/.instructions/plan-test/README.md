@@ -1,5 +1,5 @@
 ---
-description: Инструкции для тест-спеков (ATDD)
+description: Инструкции для тест-планов (ATDD) — acceptance criteria, сценарии, покрытие. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: specs/.instructions/plan-test/README.md

@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу выполнения миграции при обновлении стандарта
+description: Воркфлоу выполнения миграции зависимых файлов после обновления стандарта — Workflows, экземпляры, скрипты.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .instructions/migration/README.md

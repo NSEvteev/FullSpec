@@ -1,5 +1,5 @@
 ---
-description: Инструкции для дискуссий /specs/discussion/
+description: Инструкции для Discussion-этапа SDD — сбор требований, вопросы, анализ. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: specs/.instructions/discussion/README.md

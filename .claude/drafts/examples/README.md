@@ -1,5 +1,5 @@
 ---
-description: Эталонные примеры черновиков для будущих запросов к LLM
+description: Примеры черновиков Claude — образцы для обучения формату и структуре drafts. Справочник шаблонов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .claude/drafts/examples/README.md

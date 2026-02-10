@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для config/
+description: Инструкции для конфигураций окружений — dev, staging, prod. Индекс документов config/.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: config/.instructions/README.md

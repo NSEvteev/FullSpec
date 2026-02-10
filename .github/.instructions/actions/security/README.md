@@ -1,5 +1,5 @@
 ---
-description: Безопасность и сканирование
+description: Инструкции для безопасности GitHub — Dependabot, Secret Scanning, security policies. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/actions/security/README.md

@@ -1,8 +1,8 @@
 ---
 name: structure-create
-description: Создание новой папки в структуре проекта
+description: Создание новой папки в структуре проекта с README, .instructions/ и синхронизацией SSOT. Используй при добавлении нового модуля, сервиса или раздела документации.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: '<путь> [--description "..."]'
 ---

@@ -1,5 +1,5 @@
 ---
-description: Стандарт именования и создания веток
+description: Инструкции для веток Git — стандарт именования, создание, валидация. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/branches/README.md

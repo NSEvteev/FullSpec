@@ -1,5 +1,5 @@
 ---
-description: GitHub конфигурация и автоматизация
+description: GitHub конфигурация — шаблоны Issues/PR, workflows, labels, инструкции. Индекс .github/ директории.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/README.md

@@ -1,5 +1,5 @@
 ---
-description: Валидация черновиков по стандарту
+description: Валидация черновика на соответствие стандарту — frontmatter, именование файла, обязательные секции и статус.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .claude/.instructions/drafts/README.md

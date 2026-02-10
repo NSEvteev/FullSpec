@@ -1,5 +1,5 @@
 ---
-description: Валидация формата и структуры скриптов
+description: Валидация Python-скрипта на соответствие стандарту — docstring, argparse, кодировка, регистрация в README.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .instructions/README.md

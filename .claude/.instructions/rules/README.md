@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для создания и управления rules
+description: Инструкции для Claude Code rules — стандарт формата, создание, изменение, валидация. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: .claude/.instructions/rules/README.md

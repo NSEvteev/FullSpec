@@ -1,5 +1,5 @@
 ---
-description: Инструкции для процесса локальной разработки
+description: Инструкции для процесса локальной разработки — стандарт, валидация перед push. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/development/README.md

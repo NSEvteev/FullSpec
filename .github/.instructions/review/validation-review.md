@@ -1,5 +1,5 @@
 ---
-description: Валидация кода — локальное ревью ветки и ревью PR
+description: Валидация кода при ревью — локальное ревью ветки и ревью PR. Чек-листы проверки качества.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/review/README.md

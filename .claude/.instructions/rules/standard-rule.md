@@ -1,5 +1,5 @@
 ---
-description: Стандарт формата rule-файлов
+description: Стандарт формата rule-файлов — frontmatter, типы триггеров (glob/alwaysApply), формат содержимого и именование.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .claude/.instructions/rules/README.md

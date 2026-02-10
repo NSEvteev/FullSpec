@@ -1,5 +1,5 @@
 ---
-description: Стандарт оформления README — формат и шаблон
+description: Стандарт оформления README файлов — секции, формат дерева, шаблоны для папок проекта и .instructions/.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .structure/.instructions/README.md

@@ -1,5 +1,5 @@
 ---
-description: Валидация файла CODEOWNERS
+description: Валидация CODEOWNERS файла — синтаксис, существование пользователей, покрытие путей, конфликты правил.
 standard: .instructions/standard-instruction.md
 standard-version: v1.1
 index: .github/.instructions/codeowners/README.md

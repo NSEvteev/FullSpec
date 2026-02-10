@@ -1,5 +1,5 @@
 ---
-description: Живое состояние тестовой документации
+description: Тестовые спецификации — планы тестирования, acceptance criteria, покрытие. Индекс тестовых документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: specs/tests/README.md

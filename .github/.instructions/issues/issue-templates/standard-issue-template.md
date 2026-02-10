@@ -1,5 +1,5 @@
 ---
-description: Стандарт формата YAML-шаблонов для GitHub Issues
+description: Стандарт формата YAML-шаблонов для GitHub Issues — поля, валидация, структура файла config.yml.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/issues/issue-templates/README.md

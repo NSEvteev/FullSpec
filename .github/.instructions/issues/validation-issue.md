@@ -1,5 +1,5 @@
 ---
-description: Валидация Issue по стандарту
+description: Валидация GitHub Issue по стандарту — заголовок, метки, milestone, описание, привязка к ветке.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/issues/README.md

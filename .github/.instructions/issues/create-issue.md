@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу создания GitHub Issue
+description: Воркфлоу создания GitHub Issue — выбор типа, заголовок, метки, milestone, описание по шаблону.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/issues/README.md

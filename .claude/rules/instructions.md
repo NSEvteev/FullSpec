@@ -1,5 +1,5 @@
 ---
-description: Правила работы с инструкциями, скриптами, скиллами, rules, агентами и ссылками
+description: Правила работы с инструкциями, скриптами, скиллами, rules, агентами и черновиками. Активируется при создании или изменении документации.
 standard: .claude/.instructions/rules/standard-rule.md
 standard-version: v1.1
 index: .claude/.instructions/rules/README.md

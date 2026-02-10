@@ -1,5 +1,5 @@
 ---
-description: GitHub Actions workflows
+description: GitHub Actions workflows — CI/CD пайплайны, автоматические проверки. Индекс YAML-файлов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/workflows/README.md

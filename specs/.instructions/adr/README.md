@@ -1,5 +1,5 @@
 ---
-description: Инструкции для ADR (Architecture Decision Records)
+description: Инструкции для ADR (Architecture Decision Records) — стандарт формата, шаблоны, статусы. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: specs/.instructions/adr/README.md

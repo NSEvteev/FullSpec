@@ -1,5 +1,5 @@
 ---
-description: Валидация labels.yml и меток на Issues/PR
+description: Валидация labels.yml и меток на GitHub — синхронизация с репозиторием, проверка Issue/PR, формат.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/labels/README.md

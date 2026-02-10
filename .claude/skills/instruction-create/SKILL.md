@@ -1,8 +1,8 @@
 ---
 name: instruction-create
-description: Создание новой инструкции по стандарту
+description: Создание новой инструкции (standard/validation/create/modify) с frontmatter, секциями и регистрацией в README. Используй при добавлении нового процесса, стандарта или воркфлоу.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Write, Edit, Glob, Grep
 argument-hint: "[имя] [--path <область>] [--dry-run]"
 ---

@@ -1,5 +1,5 @@
 ---
-description: Валидация процесса локальной разработки
+description: Валидация процесса разработки перед push — тесты, линтинг, коммиты, ветка, конфликты. Чек-лист готовности.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/development/README.md

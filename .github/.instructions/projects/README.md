@@ -1,5 +1,5 @@
 ---
-description: GitHub Projects
+description: Инструкции для GitHub Projects — стандарт канбан-доски, views, автоматизация. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/projects/README.md

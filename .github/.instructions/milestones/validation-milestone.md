@@ -1,5 +1,5 @@
 ---
-description: Валидация Milestone по стандарту
+description: Валидация GitHub Milestone по стандарту — формат версии, описание, привязка Issue, статус.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/milestones/README.md

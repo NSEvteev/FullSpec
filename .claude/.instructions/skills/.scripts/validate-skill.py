@@ -39,6 +39,8 @@ ERROR_CODES = {
     "K002": "Неверный формат `name` (не kebab-case)",
     "K003": "Отсутствует `description`",
     "K004": "Отсутствует `allowed-tools`",
+    "K005": "Description превышает 1024 символа",
+    "K006": "Description слишком короткое (< 100 символов)",
     "K010": "Отсутствует заголовок H1",
     "K011": "Несколько заголовков H1",
     "K012": "Отсутствует SSOT-ссылка",
@@ -102,9 +104,16 @@ def check_frontmatter(frontmatter: dict) -> list[tuple[str, str]]:
     elif not is_kebab_case(frontmatter['name']):
         errors.append(("K002", ERROR_CODES["K002"]))
 
-    # K003: description
-    if not frontmatter.get('description'):
+    # K003, K005, K006: description
+    desc = frontmatter.get('description', '')
+    if not desc:
         errors.append(("K003", ERROR_CODES["K003"]))
+    else:
+        desc_str = str(desc)
+        if len(desc_str) > 1024:
+            errors.append(("K005", f"{ERROR_CODES['K005']} ({len(desc_str)} символов)"))
+        elif len(desc_str) < 100:
+            errors.append(("K006", f"{ERROR_CODES['K006']} ({len(desc_str)} символов)"))
 
     # K004: allowed-tools
     if not frontmatter.get('allowed-tools'):

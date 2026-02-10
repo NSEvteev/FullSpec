@@ -1,5 +1,5 @@
 ---
-description: Стандарт управления GitHub Releases
+description: Стандарт управления GitHub Releases — версионирование (SemVer), changelog, теги, артефакты.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/releases/README.md

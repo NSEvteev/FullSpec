@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для src/
+description: Инструкции для исходного кода сервисов — структура, тесты, стандарты. Индекс документов src/.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: src/.instructions/README.md

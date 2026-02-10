@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для shared/
+description: Инструкции для общих библиотек — контракты API, события, утилиты. Индекс документов shared/.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: shared/.instructions/README.md

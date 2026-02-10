@@ -1,5 +1,5 @@
 ---
-description: Стандарт синхронизации с основной веткой
+description: Инструкции для синхронизации веток — стандарт rebase/merge с основной веткой. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/sync/README.md

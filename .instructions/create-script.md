@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу создания нового скрипта
+description: Воркфлоу создания Python-скрипта автоматизации — docstring, argparse, кодировка, регистрация в README.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .instructions/README.md

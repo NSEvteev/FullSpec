@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для drafts/
+description: Инструкции для черновиков Claude — стандарт формата, валидация. Индекс документов drafts/.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: .claude/.instructions/drafts/README.md

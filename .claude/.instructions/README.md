@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для Claude Code окружения
+description: Инструкции для Claude Code окружения — agents, skills, rules, drafts. Индекс всех подпапок с инструкциями.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: .claude/.instructions/README.md

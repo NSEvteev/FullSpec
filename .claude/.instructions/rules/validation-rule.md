@@ -1,5 +1,5 @@
 ---
-description: Валидация формата и структуры rules
+description: Валидация rule-файла на соответствие стандарту — frontmatter, формат, пути триггеров и регистрация в settings.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .claude/.instructions/rules/README.md

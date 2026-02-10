@@ -1,5 +1,5 @@
 ---
-description: Валидация формата и структуры инструкций
+description: Валидация инструкции на соответствие стандарту — frontmatter, обязательные секции, ссылки, чек-лист проверки.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .instructions/README.md

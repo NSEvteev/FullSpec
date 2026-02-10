@@ -1,5 +1,5 @@
 ---
-description: Стандарт синхронизации с основной веткой
+description: Стандарт синхронизации с основной веткой — rebase vs merge, разрешение конфликтов, частота синхронизации.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/sync/README.md

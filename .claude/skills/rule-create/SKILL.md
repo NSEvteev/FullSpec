@@ -1,8 +1,8 @@
 ---
 name: rule-create
-description: Создание нового rule-файла
+description: Создание нового rule-файла в .claude/rules/ с frontmatter и регистрацией. Используй при добавлении нового автоматического правила для Claude Code — контекстного или глобального.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Write
 argument-hint: "[имя] [--global] [--paths <паттерны>]"
 ---

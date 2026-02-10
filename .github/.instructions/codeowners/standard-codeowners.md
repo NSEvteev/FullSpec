@@ -1,5 +1,5 @@
 ---
-description: Синтаксис и правила CODEOWNERS файла
+description: Стандарт CODEOWNERS файла — синтаксис, правила, приоритет, паттерны путей. Покрывает назначение ревьюеров.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/codeowners/README.md

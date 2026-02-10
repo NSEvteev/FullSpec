@@ -1,5 +1,5 @@
 ---
-description: Доменная архитектура — DDD контексты
+description: Доменная архитектура проекта — DDD-контексты, границы доменов, взаимодействия. Индекс доменных документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: specs/architecture/domains/README.md

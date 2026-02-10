@@ -1,5 +1,5 @@
 ---
-description: Стандарт формата скиллов
+description: Стандарт формата SKILL.md — frontmatter, SSOT-ссылка, секции, allowed-tools и argument-hint. Покрывает связь скилла с инструкцией.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .claude/.instructions/skills/README.md
@@ -7,7 +7,7 @@ index: .claude/.instructions/skills/README.md
 
 # Стандарт скиллов
 
-Версия стандарта: 1.1
+Версия стандарта: 1.2
 
 Формат и структура файлов SKILL.md.
 
@@ -102,7 +102,9 @@ index: .claude/.instructions/skills/README.md
 
 **SSOT:** [standard-frontmatter.md](/.structure/.instructions/standard-frontmatter.md#2-дополнительные-поля-для-скиллов)
 
-Скиллы используют расширенный frontmatter с дополнительными полями: [1. Обязательные поля](/.structure/.instructions/standard-frontmatter.md#1-обязательные-поля) + [2. Дополнительные поля для скиллов](/.structure/.instructions/standard-frontmatter.md#2-дополнительные-поля-для-скиллов))
+Скиллы используют расширенный frontmatter с дополнительными полями: [1. Обязательные поля](/.structure/.instructions/standard-frontmatter.md#1-обязательные-поля) + [2. Дополнительные поля для скиллов](/.structure/.instructions/standard-frontmatter.md#2-дополнительные-поля-для-скиллов)
+
+> **Description для скиллов:** Формат и требования к полю `description` — см. [standard-frontmatter.md § 1 → Расширенный description для скиллов](/.structure/.instructions/standard-frontmatter.md#расширенный-description-для-скиллов). Рекомендуемая длина: 150–300 символов, структура: ЧТО + КОГДА.
 
 ### Версионирование скиллов
 
@@ -192,7 +194,7 @@ ssot-version: v1.2  # версия SSOT-инструкции
 ```markdown
 ---
 name: structure-create
-description: Создание новой папки в структуре проекта
+description: Создание новой папки в структуре проекта с README, .instructions/ и синхронизацией SSOT. Используй при добавлении нового модуля, сервиса или раздела документации.
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 ssot-version: v1.0
 argument-hint: <путь> [--description "..."]
@@ -232,7 +234,7 @@ argument-hint: <путь> [--description "..."]
 ```markdown
 ---
 name: links-validate
-description: Валидация ссылок между документами
+description: Валидация ссылок между markdown-документами — проверка frontmatter-полей, якорных ссылок и путей. Используй после рефакторинга, переименования файлов или перед коммитом.
 allowed-tools: Bash, Read, Glob, Grep
 ssot-version: v1.0
 argument-hint: "[--path <путь>] [--fix]"

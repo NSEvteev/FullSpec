@@ -1,5 +1,5 @@
 ---
-description: Валидация файлов безопасности GitHub на соответствие standard-security.md
+description: Валидация безопасности GitHub — Dependabot, Secret Scanning, security policies. Чек-лист и коды ошибок.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/actions/security/README.md

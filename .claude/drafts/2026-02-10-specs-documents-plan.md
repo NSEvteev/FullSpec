@@ -319,7 +319,7 @@ specs/.instructions/
 - [x] plans/ → plan-dev/, test-specs/ → plan-test/ (решение #7)
 
 **Этап 2: Создание документов (11 шт.)**
-- [ ] Волна 1: Справочник SDD (0/1)
+- [x] Волна 1: Справочник SDD (1/1) — standard-specs-reference.md
 - [ ] Волна 2: Верхние уровни (0/2)
 - [ ] Волна 3: Design (0/1)
 - [ ] Волна 4: Per-service объекты (0/2)

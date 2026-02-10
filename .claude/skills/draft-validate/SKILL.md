@@ -1,8 +1,8 @@
 ---
 name: draft-validate
-description: Валидация черновика по стандарту
+description: Проверка черновика в .claude/drafts/ на соответствие стандарту — frontmatter, структура, именование файла. Используй после создания или изменения черновика, перед коммитом.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash
 argument-hint: "[путь] [--all]"
 ---

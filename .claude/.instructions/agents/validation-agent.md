@@ -1,5 +1,5 @@
 ---
-description: Валидация конфигурации и промпта агента
+description: Валидация AGENT.md на соответствие стандарту — frontmatter, промпт, обязательные секции, конфигурация и ссылки.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .claude/.instructions/agents/README.md

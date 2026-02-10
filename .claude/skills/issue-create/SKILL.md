@@ -1,8 +1,8 @@
 ---
 name: issue-create
-description: Создание GitHub Issue по стандарту
+description: Создание GitHub Issue с метками, milestone и описанием по стандарту проекта. Используй при постановке задачи, регистрации бага или запросе на улучшение.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[описание]"
 ---

@@ -1,5 +1,5 @@
 ---
-description: Стандарт формата скриптов автоматизации
+description: Стандарт формата скриптов автоматизации — docstring, argparse, кодировка, структура файла, коды ошибок.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .instructions/README.md

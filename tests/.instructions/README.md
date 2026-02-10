@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для tests/
+description: Инструкции для системных тестов — e2e, integration, load. Индекс документов tests/.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: tests/.instructions/README.md

@@ -1,5 +1,5 @@
 ---
-description: Стандарт формата файлов инструкций
+description: Стандарт формата файлов инструкций — frontmatter, типы (standard/validation/create/modify), секции, версионирование.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .instructions/README.md

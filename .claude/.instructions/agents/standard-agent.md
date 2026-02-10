@@ -1,5 +1,5 @@
 ---
-description: Стандарт формата и правил для агентов Claude
+description: Стандарт формата AGENT.md — frontmatter, промпт, конфигурация, тип и модель. Покрывает обязательные секции и поля для агентов Claude.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .claude/.instructions/agents/README.md

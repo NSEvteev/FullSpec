@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для написания скиллов
+description: Инструкции для Claude Code скиллов — стандарт SKILL.md, создание, изменение, валидация. Индекс документов и скриптов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: .claude/.instructions/skills/README.md

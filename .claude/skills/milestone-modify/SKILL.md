@@ -1,8 +1,8 @@
 ---
 name: milestone-modify
-description: Изменение, закрытие и удаление GitHub Milestone
+description: Обновление описания, закрытие или удаление GitHub Milestone. Используй при изменении срока релиза, закрытии завершённого milestone или удалении ошибочно созданного.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[--number <N>] [--close] [--delete]"
 ---

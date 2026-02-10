@@ -1,5 +1,5 @@
 ---
-description: Межсервисные тесты — e2e, интеграционные
+description: Системные тест-спецификации — e2e, интеграционные, нагрузочные тесты. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: specs/tests/system/README.md

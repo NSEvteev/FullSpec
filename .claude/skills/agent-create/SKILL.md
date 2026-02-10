@@ -1,8 +1,8 @@
 ---
 name: agent-create
-description: Создание нового агента по стандарту
+description: Создание нового агента (AGENT.md) с промптом, конфигурацией и регистрацией в README. Используй при добавлении нового AI-агента для автоматизации задач проекта.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Write, Bash, Glob, Grep, Edit
 argument-hint: "[имя] [--type <тип>]"
 ---

@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу создания GitHub Milestone
+description: Воркфлоу создания GitHub Milestone — версия, описание, срок, привязка Issue. Включает валидацию.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/milestones/README.md

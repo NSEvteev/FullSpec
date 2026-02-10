@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу изменения и деактивации инструкций
+description: Воркфлоу изменения инструкции — обновление содержания, деактивация, переименование или миграция на новую версию стандарта.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .instructions/README.md

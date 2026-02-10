@@ -1,5 +1,5 @@
 ---
-description: Инструкции для глоссария по доменам
+description: Инструкции для глоссария проекта — термины, определения, доменный язык. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: specs/.instructions/living-docs/glossary/README.md

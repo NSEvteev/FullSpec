@@ -1,5 +1,5 @@
 ---
-description: Инструкции для шаблона Pull Request
+description: Инструкции для шаблона Pull Request — стандарт формата, валидация. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/pull-requests/pr-template/README.md

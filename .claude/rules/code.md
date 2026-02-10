@@ -1,5 +1,5 @@
 ---
-description: Принципы программирования и верификация кода
+description: Правила программирования и кодирования — принципы, стиль, безопасность. Активируется при написании или review кода.
 standard: .claude/.instructions/rules/standard-rule.md
 standard-version: v1.1
 index: .claude/.instructions/rules/README.md

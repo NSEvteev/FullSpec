@@ -1,5 +1,5 @@
 ---
-description: Стандарт оформления коммитов (Conventional Commits)
+description: Инструкции для коммитов — Conventional Commits стандарт, типы, scope, breaking changes. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/commits/README.md

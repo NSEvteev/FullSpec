@@ -1,8 +1,8 @@
 ---
 name: agent-validate
-description: Валидация конфигурации и промпта агента
+description: Проверка AGENT.md на соответствие стандарту — frontmatter, промпт, секции, ссылки. Используй после создания или изменения агента, при code review или перед коммитом.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[путь] [--all]"
 ---

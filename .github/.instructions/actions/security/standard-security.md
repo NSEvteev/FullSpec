@@ -1,5 +1,5 @@
 ---
-description: Стандарт безопасности GitHub — Dependabot, CodeQL, Secret Scanning
+description: Стандарт безопасности GitHub — Dependabot, CodeQL, Secret Scanning, security advisories, SECURITY.md.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/actions/security/README.md

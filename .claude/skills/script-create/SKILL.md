@@ -1,8 +1,8 @@
 ---
 name: script-create
-description: Создание нового скрипта автоматизации
+description: Создание нового Python-скрипта автоматизации с docstring, argparse и регистрацией в README. Используй при добавлении скрипта валидации, синхронизации или другой автоматизации проекта.
 standard: .claude/.instructions/skills/standard-skill.md
-standard-version: v1.1
+standard-version: v1.2
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 argument-hint: "[название] [--area <область>]"
 ---

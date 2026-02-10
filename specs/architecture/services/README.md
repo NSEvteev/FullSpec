@@ -1,5 +1,5 @@
 ---
-description: Per-service архитектура — состояние каждого сервиса
+description: Per-service архитектура — спецификации отдельных сервисов, API, зависимости. Индекс сервисных документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: specs/architecture/services/README.md

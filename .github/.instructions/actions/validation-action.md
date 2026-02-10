@@ -1,5 +1,5 @@
 ---
-description: Валидация GitHub Actions workflows на соответствие standard-action.md
+description: Валидация GitHub Actions workflow на соответствие стандарту — структура, именование, секреты, permissions.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/actions/README.md

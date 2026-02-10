@@ -1,5 +1,5 @@
 ---
-description: Инструкции для живых документов (architecture, tests, glossary)
+description: Инструкции для живой документации — architecture, tests, glossary. Индекс подпапок и документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: specs/.instructions/living-docs/README.md

@@ -1,5 +1,5 @@
 ---
-description: Глоссарий терминов по доменам
+description: Глоссарий проекта — термины, определения, доменный язык. Индекс справочных документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: specs/glossary/README.md

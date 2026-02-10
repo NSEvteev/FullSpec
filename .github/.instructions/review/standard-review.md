@@ -1,5 +1,5 @@
 ---
-description: Стандарт Code Review и Merge в GitHub
+description: Стандарт Code Review и Merge — критерии одобрения, типы комментариев, squash merge, автоматизация.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/review/README.md

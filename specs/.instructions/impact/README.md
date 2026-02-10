@@ -1,5 +1,5 @@
 ---
-description: Инструкции для импакт-анализа /specs/impact/
+description: Инструкции для Impact Analysis — оценка влияния изменений на архитектуру и сервисы. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: specs/.instructions/impact/README.md

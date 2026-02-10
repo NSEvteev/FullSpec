@@ -1,5 +1,5 @@
 ---
-description: Стандарт работы с Pull Requests в GitHub
+description: Стандарт работы с Pull Requests — формат заголовка, описание, reviewers, метки, чек-лист готовности.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/pull-requests/README.md

@@ -1,5 +1,5 @@
 ---
-description: Стандарт управления метками GitHub
+description: Стандарт управления метками GitHub — категории, именование, цвета, синхронизация labels.yml с репозиторием.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/labels/README.md

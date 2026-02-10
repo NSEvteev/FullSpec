@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для milestones/
+description: Инструкции для GitHub Milestones — стандарт, создание, изменение, валидация. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: .github/.instructions/milestones/README.md

@@ -1,5 +1,5 @@
 ---
-description: Валидация имени ветки и соответствия стандарту ветвления
+description: Валидация имени ветки и соответствия стандарту — паттерн, привязка к Issue, актуальность base branch.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .github/.instructions/branches/README.md

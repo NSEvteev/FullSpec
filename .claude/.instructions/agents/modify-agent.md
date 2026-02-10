@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу изменения агента — обновление, деактивация, миграция
+description: Воркфлоу изменения агента — обновление промпта, конфигурации, деактивация или переименование. Включает миграцию зависимостей.
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: .claude/.instructions/agents/README.md
