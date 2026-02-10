@@ -1,5 +1,5 @@
 ---
-description: Базовые глобальные правила
+description: Базовые глобальные правила — приоритет скиллов, SSOT-чтение, шаблоны, структура. Активируется при работе с любыми файлами проекта.
 standard: .claude/.instructions/rules/standard-rule.md
 standard-version: v1.1
 index: .claude/.instructions/rules/README.md
@@ -22,9 +22,9 @@ index: .claude/.instructions/rules/README.md
 
 **Черновики:** После создания или изменения черновика в `/.claude/drafts/` — запустить `/draft-validate` для проверки соответствия стандарту.
 
-**Поиск по описаниям:** При поиске скриптов или документов по описанию — первым шагом использовать скрипты:
-  - `python .instructions/.scripts/list-instructions.py` — список документов с description
-  - `python .instructions/.scripts/parse-docstrings.py --search "запрос"` — поиск скриптов по docstring
+**Поиск по описаниям:** При поиске документов, скриптов или скиллов по описанию — использовать `/list-search` или напрямую:
+  - `python .instructions/.scripts/search-docs.py --search "запрос"` — поиск по всей документации
+  - `python .instructions/.scripts/search-docs.py --type skill --search "запрос"` — поиск по конкретному типу
 
 При работе с GitHub ОБЯЗАТЕЛЬНО использовать скиллы:
   - `/issue-create` - правильное создание Issue

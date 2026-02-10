@@ -6,10 +6,11 @@ list-instructions.py — Список всех инструкций проект
 извлекает frontmatter и возвращает структурированный список.
 
 Использование:
-    python list-instructions.py [--json] [--repo <dir>]
+    python list-instructions.py [--search <текст>] [--json] [--repo <dir>]
 
 Примеры:
     python list-instructions.py
+    python list-instructions.py --search "валидация"
     python list-instructions.py --json
     python list-instructions.py --repo /path/to/project
 
@@ -125,6 +126,17 @@ def find_all_instructions(repo_root: Path) -> list[dict]:
     return sorted(instructions, key=lambda x: (x["area"], x["type"], x["name"]))
 
 
+def search_instructions(instructions: list[dict], query: str) -> list[dict]:
+    """Фильтровать инструкции по поисковому запросу."""
+    query_lower = query.lower()
+    return [
+        i for i in instructions
+        if query_lower in i['name'].lower()
+        or query_lower in i['description'].lower()
+        or query_lower in i['title'].lower()
+    ]
+
+
 def format_text_output(instructions: list[dict]) -> str:
     """Форматировать вывод для LLM."""
     lines = [f"Найдено инструкций: {len(instructions)}", ""]
@@ -170,6 +182,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Список всех инструкций проекта"
     )
+    parser.add_argument("--search", help="Поиск по имени/описанию/заголовку")
     parser.add_argument("--json", action="store_true", help="JSON вывод")
     parser.add_argument("--repo", default=".", help="Корень репозитория")
 
@@ -177,6 +190,9 @@ def main():
 
     repo_root = find_repo_root(Path(args.repo))
     instructions = find_all_instructions(repo_root)
+
+    if args.search:
+        instructions = search_instructions(instructions, args.search)
 
     if not instructions:
         print("Инструкции не найдены", file=sys.stderr)

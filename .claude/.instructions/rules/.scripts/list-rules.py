@@ -5,12 +5,13 @@ list-rules.py — Список всех rules с описаниями.
 Сканирует /.claude/rules/ и выводит информацию о каждом rule.
 
 Использование:
-    python list-rules.py [--json] [--repo <dir>]
+    python list-rules.py [--search <текст>] [--json] [--repo <dir>]
 
 Примеры:
     python list-rules.py
+    python list-rules.py --search "структура"
     python list-rules.py --json
-    python list-rules.py --repo /path/to/repo
+    python list-rules.py --search "код" --json
 
 Возвращает:
     0 — успех
@@ -97,29 +98,17 @@ def check_paths_overlap(paths1: list[str] | None, paths2: list[str] | None) -> b
 
 
 # =============================================================================
-# Основная логика
+# Основные функции
 # =============================================================================
 
-def list_rules(repo_root: Path, json_output: bool = False) -> bool:
-    """Список всех rules."""
+def collect_rules(repo_root: Path) -> list[dict]:
+    """Собрать данные обо всех rules."""
     rules_dir = repo_root / ".claude" / "rules"
 
     if not rules_dir.exists():
-        if json_output:
-            print(json.dumps({"error": "Директория /.claude/rules/ не найдена"}))
-        else:
-            print("ℹ️  Директория /.claude/rules/ не найдена")
-        return True
+        return []
 
     rule_files = sorted(rules_dir.glob("*.md"))
-
-    if not rule_files:
-        if json_output:
-            print(json.dumps({"rules": []}))
-        else:
-            print("ℹ️  Rules не найдены в /.claude/rules/")
-        return True
-
     rules_data = []
 
     for rule_file in rule_files:
@@ -141,54 +130,82 @@ def list_rules(repo_root: Path, json_output: bool = False) -> bool:
             })
 
         except Exception as e:
-            if json_output:
-                rules_data.append({
-                    "file": rule_file.stem,
-                    "error": str(e),
-                })
-            else:
-                print(f"⚠️  Ошибка чтения {rule_file.name}: {e}")
+            rules_data.append({
+                "file": rule_file.stem,
+                "error": str(e),
+            })
 
-    if json_output:
-        print(json.dumps({"rules": rules_data}, ensure_ascii=False, indent=2))
+    return rules_data
+
+
+def search_rules(rules: list[dict], query: str) -> list[dict]:
+    """Фильтровать rules по поисковому запросу."""
+    query_lower = query.lower()
+    return [
+        r for r in rules
+        if query_lower in r['file'].lower()
+        or query_lower in r.get('description', '').lower()
+        or query_lower in r.get('type', '').lower()
+    ]
+
+
+def format_rules_text(rules: list[dict], search: str | None) -> str:
+    """Форматировать rules в текстовый вывод."""
+    if not rules:
+        if search:
+            return f"Rules по запросу '{search}' не найдены"
+        return "Rules не найдены"
+
+    lines = []
+    if search:
+        lines.append(f"Найдено {len(rules)} rules по запросу '{search}':")
     else:
-        # Вывод таблицы
-        print(f"Найдено rules: {len(rules_data)}\n")
-        print("| Rule | Type | Paths | Description |")
-        print("|------|------|-------|-------------|")
+        lines.append(f"Найдено rules: {len(rules)}")
+    lines.append("")
+    lines.append("| Rule | Type | Paths | Description |")
+    lines.append("|------|------|-------|-------------|")
 
-        for rule in rules_data:
-            if "error" in rule:
-                print(f"| {rule['file']} | ERROR | — | {rule['error']} |")
-            else:
-                paths_str = ", ".join(rule['paths']) if rule['paths'] else "—"
-                print(f"| {rule['file']}.md | {rule['type']} | {paths_str} | {rule['description']} |")
+    for rule in rules:
+        if "error" in rule:
+            lines.append(f"| {rule['file']} | ERROR | — | {rule['error']} |")
+        else:
+            paths_str = ", ".join(rule['paths']) if rule['paths'] else "—"
+            lines.append(f"| {rule['file']}.md | {rule['type']} | {paths_str} | {rule['description']} |")
 
-        # Проверка пересечений paths
-        print()
-        overlaps_found = False
+    # Проверка пересечений paths
+    lines.append("")
+    overlaps_found = False
 
-        for i, rule1 in enumerate(rules_data):
-            if "error" in rule1:
+    for i, rule1 in enumerate(rules):
+        if "error" in rule1:
+            continue
+
+        for rule2 in rules[i + 1:]:
+            if "error" in rule2:
                 continue
 
-            for rule2 in rules_data[i + 1:]:
-                if "error" in rule2:
-                    continue
+            if check_paths_overlap(rule1.get('paths'), rule2.get('paths')):
+                if not overlaps_found:
+                    lines.append("WARNING: Обнаружены пересечения paths:")
+                    overlaps_found = True
 
-                if check_paths_overlap(rule1.get('paths'), rule2.get('paths')):
-                    if not overlaps_found:
-                        print("⚠️  WARNING: Обнаружены пересечения paths:")
-                        overlaps_found = True
+                paths1_str = ", ".join(rule1['paths'])
+                paths2_str = ", ".join(rule2['paths'])
+                lines.append(f"   - {rule1['file']}.md ({paths1_str}) <-> {rule2['file']}.md ({paths2_str})")
 
-                    paths1_str = ", ".join(rule1['paths'])
-                    paths2_str = ", ".join(rule2['paths'])
-                    print(f"   - {rule1['file']}.md ({paths1_str}) ↔ {rule2['file']}.md ({paths2_str})")
+    if not overlaps_found:
+        lines.append("Пересечений paths не обнаружено")
 
-        if not overlaps_found:
-            print("✅ Пересечений paths не обнаружено")
+    return "\n".join(lines)
 
-    return True
+
+def format_rules_json(rules: list[dict], search: str | None) -> str:
+    """Форматировать rules в JSON вывод."""
+    return json.dumps({
+        "query": search,
+        "count": len(rules),
+        "rules": rules,
+    }, ensure_ascii=False, indent=2)
 
 
 def main():
@@ -200,6 +217,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Список всех rules с описаниями"
     )
+    parser.add_argument("--search", help="Поиск по имени/описанию/типу")
     parser.add_argument(
         "--json",
         action="store_true",
@@ -214,9 +232,17 @@ def main():
     args = parser.parse_args()
 
     repo_root = find_repo_root(Path(args.repo))
-    success = list_rules(repo_root, args.json)
+    rules = collect_rules(repo_root)
 
-    sys.exit(0 if success else 1)
+    if args.search:
+        rules = search_rules(rules, args.search)
+
+    if args.json:
+        print(format_rules_json(rules, args.search))
+    else:
+        print(format_rules_text(rules, args.search))
+
+    sys.exit(0 if rules else 1)
 
 
 if __name__ == "__main__":

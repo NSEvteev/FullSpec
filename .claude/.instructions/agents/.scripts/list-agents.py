@@ -6,12 +6,13 @@ list-agents.py — Вывод списка всех агентов с описа
 с их описаниями и типами для анализа LLM.
 
 Использование:
-    python list-agents.py [--search <pattern>]
+    python list-agents.py [--search <pattern>] [--json] [--repo <dir>]
 
 Примеры:
     python list-agents.py
     python list-agents.py --search "todo"
-    python list-agents.py --search "explore"
+    python list-agents.py --json
+    python list-agents.py --search "explore" --json
 
 Возвращает:
     0 — успех
@@ -19,6 +20,7 @@ list-agents.py — Вывод списка всех агентов с описа
 """
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -132,13 +134,26 @@ def list_agents(repo_root: Path, search: str | None = None) -> list[dict]:
     return agents
 
 
-def print_agents(agents: list[dict]) -> None:
-    """Вывести список агентов."""
-    if not agents:
-        print("Агентов не найдено.")
-        return
+def format_output(agents: list[dict], search: str | None, as_json: bool) -> str:
+    """Форматировать результат."""
+    if as_json:
+        return json.dumps({
+            "query": search,
+            "count": len(agents),
+            "agents": agents,
+        }, ensure_ascii=False, indent=2)
 
-    print(f"Найдено агентов: {len(agents)}\n")
+    if not agents:
+        if search:
+            return f"Агенты по запросу '{search}' не найдены"
+        return "Агентов не найдено."
+
+    lines = []
+    if search:
+        lines.append(f"Найдено {len(agents)} агентов по запросу '{search}':")
+    else:
+        lines.append(f"Найдено агентов: {len(agents)}")
+    lines.append("")
 
     # Группировка по типам
     by_type: dict[str, list] = {}
@@ -148,15 +163,17 @@ def print_agents(agents: list[dict]) -> None:
             by_type[agent_type] = []
         by_type[agent_type].append(agent)
 
-    # Вывод по типам
     for agent_type in sorted(by_type.keys()):
-        print(f"## Тип: {agent_type}\n")
+        lines.append(f"## Тип: {agent_type}")
+        lines.append("")
         for agent in by_type[agent_type]:
-            print(f"• {agent['name']}")
-            print(f"  {agent['description']}")
-            print(f"  Модель: {agent['model']}")
-            print(f"  Путь: {agent['path']}")
-            print()
+            lines.append(f"• {agent['name']}")
+            lines.append(f"  {agent['description']}")
+            lines.append(f"  Модель: {agent['model']}")
+            lines.append(f"  Путь: {agent['path']}")
+            lines.append("")
+
+    return "\n".join(lines)
 
 
 # =============================================================================
@@ -176,6 +193,7 @@ def main():
         "--search",
         help="Фильтр по имени, описанию или типу"
     )
+    parser.add_argument("--json", action="store_true", help="JSON вывод")
     parser.add_argument("--repo", default=".", help="Корень репозитория")
 
     args = parser.parse_args()
@@ -184,11 +202,11 @@ def main():
 
     try:
         agents = list_agents(repo_root, args.search)
-        print_agents(agents)
-        sys.exit(0)
+        print(format_output(agents, args.search, args.json))
+        sys.exit(0 if agents else 1)
 
     except Exception as e:
-        print(f"❌ Ошибка: {e}", file=sys.stderr)
+        print(f"Ошибка: {e}", file=sys.stderr)
         sys.exit(1)
 
 

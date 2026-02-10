@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для SSOT структуры проекта
+description: Инструкции для SSOT структуры проекта — frontmatter, README, ссылки, создание и модификация папок. Индекс документов и скриптов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: .structure/.instructions/README.md
@@ -46,6 +46,7 @@ index: .structure/.instructions/README.md
 ├── standard-frontmatter.md       # Стандарт frontmatter
 ├── standard-links.md             # Стандарт ссылок
 ├── standard-readme.md            # Стандарт README
+├── standard-search.md            # Стандарт поиска по документации
 ├── validation-links.md           # Валидация ссылок
 └── validation-structure.md       # Валидация структуры
 ```
@@ -86,6 +87,17 @@ index: .structure/.instructions/README.md
 - [Ссылки в SSOT](./standard-links.md#6-ссылки-в-ssot-структуры)
 
 **Инструкция:** [standard-links.md](./standard-links.md)
+
+## 1.4. Стандарт поиска по документации
+
+Единая система поиска: API скриптов, типы сущностей, формат вывода.
+
+**Оглавление:**
+- [Типы сущностей](./standard-search.md#2-типы-сущностей)
+- [API конвенция](./standard-search.md#3-api-конвенция)
+- [Скрипты поиска](./standard-search.md#4-скрипты-поиска)
+
+**Инструкция:** [standard-search.md](./standard-search.md)
 
 ---
 

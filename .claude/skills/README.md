@@ -1,5 +1,5 @@
 ---
-description: SSOT-индекс всех скиллов проекта
+description: SSOT-индекс всех скиллов Claude Code — полный список команд с описаниями и статусами. Справочник навигации.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 ---
@@ -76,6 +76,7 @@ standard-version: v1.1
 | Скилл | Описание |
 |-------|----------|
 | [links-validate](./links-validate/SKILL.md) | Валидация ссылок в markdown-документах |
+| [list-search](./list-search/SKILL.md) | Поиск по всей документации проекта |
 | [structure-create](./structure-create/SKILL.md) | Создание новой папки в структуре |
 | [structure-modify](./structure-modify/SKILL.md) | Изменение папки (rename/move/delete) |
 | [structure-validate](./structure-validate/SKILL.md) | Валидация согласованности SSOT структуры |

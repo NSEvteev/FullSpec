@@ -1,5 +1,5 @@
 ---
-description: Индекс инструкций для написания инструкций и скриптов
+description: Инструкции для управления инструкциями и скриптами — стандарты форматов, создание, модификация, валидация. Индекс документов.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.1
 index: .instructions/README.md
@@ -37,6 +37,7 @@ index: .instructions/README.md
 │   ├── list-instructions.py          # Список инструкций
 │   ├── parse-docstrings.py           # Поиск скриптов по описанию
 │   ├── pre-commit-migration-check.py # Pre-commit проверка миграций
+│   ├── search-docs.py               # Единый поиск по документации
 │   ├── sync-standard-version.py      # Синхронизация версий стандартов
 │   ├── update-references.py          # Замена ссылок
 │   ├── validate-instruction.py       # Валидация инструкций
@@ -190,6 +191,7 @@ index: .instructions/README.md
 | [validate-script.py](./.scripts/validate-script.py) | Валидация формата скриптов | [validation-script.md](./validation-script.md) |
 | [validate-principles.py](./.scripts/validate-principles.py) | Валидация принципов в Python-коде | [validation-principles.md](./validation-principles.md) |
 | [parse-docstrings.py](./.scripts/parse-docstrings.py) | Поиск скриптов по описанию | [create-script.md](./create-script.md) |
+| [search-docs.py](./.scripts/search-docs.py) | Единый поиск по документации | [standard-search.md](/.structure/.instructions/standard-search.md) |
 | [find-references.py](./.scripts/find-references.py) | Поиск всех ссылок на файл | [modify-instruction.md](./modify-instruction.md) |
 | [update-references.py](./.scripts/update-references.py) | Замена ссылок (старый → новый путь) | [modify-instruction.md](./modify-instruction.md) |
 
