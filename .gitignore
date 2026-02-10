@@ -1,5 +1,6 @@
-# Временные файлы Claude Code
+# Claude Code
 tmpclaude-*
+.claude/settings.local.json
 
 # Временные файлы ОС
 *.tmp
