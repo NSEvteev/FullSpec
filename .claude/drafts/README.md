@@ -9,7 +9,7 @@ index: .claude/README.md
 
 Временные рабочие файлы Claude: планы, заметки, исследования.
 
-Хранилище для размышлений, истории принятия решений и временных заметок. На основе drafts реализуется задуманное. Черновики могут быть источником материала для дискуссий в `/specs/discussions/`.
+Хранилище для размышлений, истории принятия решений и временных заметок. На основе drafts реализуется задуманное. Черновики могут быть источником материала для дискуссий в `/specs/discussion/`.
 
 **Полезные ссылки:**
 - [Claude Code окружение](../README.md)
@@ -31,6 +31,7 @@ index: .claude/README.md
 |------|----------|
 | [2026-02-08-specification-driven-development.md](./2026-02-08-specification-driven-development.md) | Исследование подходов к Specification-Driven Development |
 | [2026-02-08-specs-architecture.md](./2026-02-08-specs-architecture.md) | Архитектура specs/: папки, файлы, зоны ответственности |
+| [2026-02-10-specs-documents-plan.md](./2026-02-10-specs-documents-plan.md) | План выноса документов из архитектуры specs/ |
 | [2026-02-09-specs-architecture-rework.md](./maybe-archive/2026-02-09-specs-architecture-rework.md) | План переработки архитектуры specs/ |
 | [2026-02-09-sdd-framework-comparison.md](./maybe-archive/2026-02-09-sdd-framework-comparison.md) | Сравнение SDD-подхода с фреймворками |
 | [2026-02-09-task-master-analysis.md](./maybe-archive/2026-02-09-task-master-analysis.md) | Анализ механик Task Master для адаптации в SDD |
@@ -72,5 +73,6 @@ index: .claude/README.md
 │   └── 2026-02-09-task-master-analysis.md     # Анализ механик Task Master
 ├── 2026-02-08-specification-driven-development.md # Исследование SDD
 ├── 2026-02-08-specs-architecture.md    # Архитектура specs/
+├── 2026-02-10-specs-documents-plan.md # План выноса документов specs/
 └── README.md                           # Этот файл (индекс)
 ```
