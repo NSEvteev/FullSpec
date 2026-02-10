@@ -23,7 +23,7 @@
 
 **Связанные файлы:**
 - [2026-02-08-specification-driven-development.md](./2026-02-08-specification-driven-development.md) — исследование подходов
-- [2026-02-08-specs-architecture.md](./2026-02-08-specs-architecture.md) — архитектура specs/ (44 решения)
+- [2026-02-08-specs-architecture.md](../examples/2026-02-08-specs-architecture.md) — архитектура specs/ (44 решения)
 - [2026-02-09-specs-architecture-rework.md](./2026-02-09-specs-architecture-rework.md) — план переработки
 
 ---
@@ -166,7 +166,7 @@
 
 По результатам анализа Task Master ([task-master-analysis.md](./2026-02-09-task-master-analysis.md)) определён подход к управлению задачами в Plan.
 
-**SSOT:** [specs-architecture.md § 7 — Формат задач в Plan, Маппинг Plan → GitHub Issues](./2026-02-08-specs-architecture.md#формат-задач-в-plan)
+**SSOT:** [specs-architecture.md § 7 — Формат задач в Plan, Маппинг Plan → GitHub Issues](../examples/2026-02-08-specs-architecture.md#формат-задач-в-plan)
 
 #### 6.1. Что взяли из Task Master
 

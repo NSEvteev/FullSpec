@@ -22,7 +22,7 @@
 **Почему создан:** Открытый вопрос #1 архитектуры specs/: "Task management в Plan — как реализовать?"
 
 **Связанные файлы:**
-- [2026-02-08-specs-architecture.md](./2026-02-08-specs-architecture.md) — архитектура specs/
+- [2026-02-08-specs-architecture.md](../examples/2026-02-08-specs-architecture.md) — архитектура specs/
 - [2026-02-09-sdd-framework-comparison.md](./2026-02-09-sdd-framework-comparison.md) — сравнение с фреймворками
 
 **Источник:** https://github.com/eyaltoledano/claude-task-master

@@ -59,7 +59,11 @@ index: specs/.instructions/README.md
 
 ### [standard-specs-reference.md](./standard-specs-reference.md)
 
-**Справочник SDD — общие сущности системы спецификаций.**
+**Справочник SDD — общие механики: статусы, каскады, связи, обратная связь, Clarify-паттерн, именование, запреты.**
+
+### [standard-specs-workflow.md](./standard-specs-workflow.md)
+
+**Навигатор SDD — воркфлоу от намерения до разработки: стадии, уровни, фильтрация, Shared код, Upward feedback, Planned Changes.**
 
 ---
 
@@ -87,6 +91,7 @@ index: specs/.instructions/README.md
 │   └── README.md
 ├── plan-test/                      # Инструкции для тест-спеков (ATDD)
 │   └── README.md
-├── standard-specs-reference.md     # Справочник SDD
+├── standard-specs-reference.md     # Справочник SDD (механики)
+├── standard-specs-workflow.md      # Навигатор SDD (воркфлоу)
 └── README.md                       # Этот файл (индекс)
 ```

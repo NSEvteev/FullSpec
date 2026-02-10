@@ -30,7 +30,6 @@ index: .claude/README.md
 | Файл | Описание |
 |------|----------|
 | [2026-02-08-specification-driven-development.md](./2026-02-08-specification-driven-development.md) | Исследование подходов к Specification-Driven Development |
-| [2026-02-08-specs-architecture.md](./2026-02-08-specs-architecture.md) | Архитектура specs/: папки, файлы, зоны ответственности |
 | [2026-02-10-specs-documents-plan.md](./2026-02-10-specs-documents-plan.md) | План выноса документов из архитектуры specs/ |
 | [2026-02-09-specs-architecture-rework.md](./maybe-archive/2026-02-09-specs-architecture-rework.md) | План переработки архитектуры specs/ |
 | [2026-02-09-sdd-framework-comparison.md](./maybe-archive/2026-02-09-sdd-framework-comparison.md) | Сравнение SDD-подхода с фреймворками |
@@ -64,6 +63,7 @@ index: .claude/README.md
 │   ├── example-cross-standards-ssot-analysis.md #   Анализ SSOT между стандартами
 │   ├── example-github-platform-research.md      #   Исследование GitHub платформы
 │   ├── example-standards-validation-plan.md     #   План валидации стандартов
+│   ├── 2026-02-08-specs-architecture.md          #   Архитектура specs/ (SDD)
 │   └── README.md                                #   Индекс примеров
 ├── maybe-archive/                      # Черновики на рассмотрении
 │   ├── 2026-02-09-sdd-framework-comparison.md # Сравнение SDD с фреймворками
@@ -72,8 +72,6 @@ index: .claude/README.md
 │   ├── 2026-02-09-specs-architecture-rework.md # План переработки архитектуры
 │   └── 2026-02-09-task-master-analysis.md     # Анализ механик Task Master
 ├── 2026-02-08-specification-driven-development.md # Исследование SDD
-├── 2026-02-08-specs-architecture.md    # Архитектура specs/
 ├── 2026-02-10-specs-documents-plan.md  # План выноса документов specs/
-├── README.md                           # Этот файл (индекс)
-└── 2026-02-10-holt-analysis-standard-specs-reference.md # TODO: добавить описание
+└── README.md                           # Этот файл (индекс)
 ```
