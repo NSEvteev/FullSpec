@@ -1,7 +1,7 @@
 ---
 description: Валидация соответствия меток типа (type:*) и Issue Templates — наличие шаблонов, формат полей.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .github/.instructions/issues/issue-templates/README.md
 ---
 
@@ -28,6 +28,8 @@ index: .github/.instructions/issues/issue-templates/README.md
 
 - [Когда валидировать](#когда-валидировать)
 - [Шаги](#шаги)
+  - [Шаг 0: Автоматическая валидация](#шаг-0-автоматическая-валидация)
+  - [Шаг 1: Исправить ошибки](#шаг-1-исправить-ошибки)
 - [Чек-лист](#чек-лист)
 - [Типичные ошибки](#типичные-ошибки)
 - [Скрипты](#скрипты)
@@ -53,19 +55,17 @@ index: .github/.instructions/issues/issue-templates/README.md
 
 ## Шаги
 
-### Шаг 1: Запустить валидацию
+### Шаг 0: Автоматическая валидация
 
-**Автоматически:**
 ```bash
 python .github/.instructions/.scripts/validate-type-templates.py
 ```
 
-**С подробным выводом:**
-```bash
-python .github/.instructions/.scripts/validate-type-templates.py --verbose
-```
+Скрипт проверяет все правила TT001-TT007. Если валидация пройдена — **готово**, шаг 1 не нужен.
 
-### Шаг 2: Исправить ошибки
+**Если скрипт недоступен** — выполнить шаг 1 вручную.
+
+### Шаг 1: Исправить ошибки
 
 | Ошибка | Действие |
 |--------|----------|
@@ -74,10 +74,6 @@ python .github/.instructions/.scripts/validate-type-templates.py --verbose
 | TT003: Неизвестная метка | Добавить метку в `labels.yml` или исправить опечатку |
 | TT006: Нет поля dependencies | Добавить `id: dependencies` с `required: true` (см. [standard-issue-template.md § body](./standard-issue-template.md#body-обязательно)) |
 | TT007: Нет поля related-docs | Добавить `id: related-docs` с `required: true` (см. [standard-issue-template.md § body](./standard-issue-template.md#body-обязательно)) |
-
-### Шаг 3: Повторить валидацию
-
-После исправления повторить Шаг 1.
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 description: Валидация имени ветки и соответствия стандарту — паттерн, привязка к Issue, актуальность base branch.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .github/.instructions/branches/README.md
 ---
 
@@ -32,6 +32,7 @@ index: .github/.instructions/branches/README.md
 
 - [Когда валидировать](#когда-валидировать)
 - [Шаги](#шаги)
+  - [Шаг 0: Автоматическая валидация](#шаг-0-автоматическая-валидация)
   - [Шаг 1: Валидация формата имени](#шаг-1-валидация-формата-имени)
   - [Шаг 2: Валидация Issues](#шаг-2-валидация-issues)
   - [Шаг 3: Валидация соответствия TYPE-меток](#шаг-3-валидация-соответствия-type-меток)
@@ -56,14 +57,17 @@ index: .github/.instructions/branches/README.md
 
 ## Шаги
 
-### Шаг 1: Валидация формата имени
+### Шаг 0: Автоматическая валидация
 
-**Автоматически:**
 ```bash
 python .github/.instructions/.scripts/validate-branch-name.py $(git branch --show-current)
 ```
 
-**Вручную (если скрипт недоступен):**
+Скрипт проверяет все правила BR001-BR011. Если валидация пройдена — **готово**, шаги 1-4 не нужны.
+
+**Если скрипт недоступен** — выполнить шаги 1-4 вручную.
+
+### Шаг 1: Валидация формата имени
 
 1. Получить имя текущей ветки:
    ```bash
@@ -94,13 +98,6 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
 
 ### Шаг 2: Валидация Issues
 
-**Автоматически:**
-```bash
-python .github/.instructions/.scripts/validate-branch-name.py $(git branch --show-current) --check-issues
-```
-
-**Вручную (если скрипт недоступен):**
-
 1. Извлечь номера Issues из имени ветки (все числа после description)
 
 2. Для каждого номера проверить существование:
@@ -122,13 +119,6 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
 ---
 
 ### Шаг 3: Валидация соответствия TYPE-меток
-
-**Автоматически:**
-```bash
-python .github/.instructions/.scripts/validate-branch-name.py $(git branch --show-current) --check-labels
-```
-
-**Вручную (если скрипт недоступен):**
 
 1. Определить Issue с минимальным номером из имени ветки
 
@@ -153,8 +143,6 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
 ---
 
 ### Шаг 4: Валидация источника ветки
-
-**Вручную:**
 
 1. Проверить, что ветка создана от main:
    ```bash

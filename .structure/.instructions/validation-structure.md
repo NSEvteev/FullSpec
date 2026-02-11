@@ -1,7 +1,7 @@
 ---
 description: Валидация согласованности SSOT структуры — дерево .structure/README.md, наличие README, .instructions/ в папках.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .structure/.instructions/README.md
 ---
 
@@ -28,6 +28,7 @@ index: .structure/.instructions/README.md
 
 - [Когда валидировать](#когда-валидировать)
 - [Шаги](#шаги)
+  - [Шаг 0: Автоматическая валидация](#шаг-0-автоматическая-валидация)
   - [Шаг 1: Проверить дерево](#шаг-1-проверить-дерево)
   - [Шаг 2: Проверить синхронизацию](#шаг-2-проверить-синхронизацию)
   - [Шаг 3: Проверить ссылки](#шаг-3-проверить-ссылки)
@@ -57,14 +58,18 @@ index: .structure/.instructions/README.md
 
 ## Шаги
 
-### Шаг 1: Проверить дерево
+### Шаг 0: Автоматическая валидация
 
-**Автоматически:**
 ```bash
 python .structure/.instructions/.scripts/validate-structure.py
 ```
 
-**Вручную (если нужно):**
+Скрипт проверяет все правила S010-S012 и структурные проверки. Если валидация пройдена — **готово**, шаги 1-4.1 не нужны.
+
+**Если скрипт недоступен** — выполнить шаги 1-4.1 вручную.
+
+### Шаг 1: Проверить дерево
+
 1. Открыть секцию "Дерево папок" в `/.structure/README.md`
 2. Для каждой папки в дереве проверить:
    - Папка существует в файловой системе?
@@ -111,12 +116,6 @@ python .structure/.instructions/.scripts/validate-structure.py
 
 > **ПРАВИЛО:** Папка в SSOT → зеркало в `.instructions`.
 
-**Автоматически:**
-```bash
-python .structure/.instructions/.scripts/validate-structure.py --check-instructions
-```
-
-**Вручную (если нужно):**
 1. Для каждой корневой папки в SSOT проверить:
    - Существует `{папка}/.instructions/`?
    - Существует `{папка}/.instructions/README.md`?
@@ -138,12 +137,6 @@ src/auth/ в SSOT    → src/.instructions/auth/README.md существует?
 
 > **Если в папке `.instructions/` есть подпапки (кроме `.scripts/`):**
 
-**Автоматически:**
-```bash
-python .structure/.instructions/.scripts/validate-structure.py --check-nested
-```
-
-**Вручную (если нужно):**
 1. Секция "Вложенные области" существует?
 2. Все подпапки перечислены в таблице?
 3. Ссылки на README подпапок валидны?

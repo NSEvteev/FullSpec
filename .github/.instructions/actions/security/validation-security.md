@@ -1,7 +1,7 @@
 ---
 description: Валидация безопасности GitHub — Dependabot, Secret Scanning, security policies. Чек-лист и коды ошибок.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .github/.instructions/actions/security/README.md
 ---
 
@@ -27,7 +27,8 @@ index: .github/.instructions/actions/security/README.md
 
 - [Когда валидировать](#когда-валидировать)
 - [Шаги](#шаги)
-  - [Шаг 1: Автоматическая проверка](#шаг-1-автоматическая-проверка)
+  - [Шаг 0: Автоматическая валидация](#шаг-0-автоматическая-валидация)
+  - [Шаг 1: Проверка файлов безопасности](#шаг-1-проверка-файлов-безопасности)
   - [Шаг 2: Ручная проверка (при review)](#шаг-2-ручная-проверка-при-review)
 - [Чек-лист](#чек-лист)
 - [Типичные ошибки](#типичные-ошибки)
@@ -49,14 +50,17 @@ index: .github/.instructions/actions/security/README.md
 
 ## Шаги
 
-### Шаг 1: Автоматическая проверка
-
-**Скрипт:**
+### Шаг 0: Автоматическая валидация
 
 ```bash
 python .github/.instructions/.scripts/validate-security.py
-python .github/.instructions/.scripts/validate-security.py --json
 ```
+
+Скрипт проверяет все правила SEC001-SEC010. Если валидация пройдена — **готово**, шаги 1-2 не нужны.
+
+**Если скрипт недоступен** — выполнить шаги 1-2 вручную.
+
+### Шаг 1: Проверка файлов безопасности
 
 **Что проверяет:**
 

@@ -1,7 +1,7 @@
 ---
 description: Валидация labels.yml и меток на GitHub — синхронизация с репозиторием, проверка Issue/PR, формат.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .github/.instructions/labels/README.md
 ---
 
@@ -27,6 +27,7 @@ index: .github/.instructions/labels/README.md
 
 - [Когда валидировать](#когда-валидировать)
 - [Шаги](#шаги)
+  - [Шаг 0: Автоматическая валидация](#шаг-0-автоматическая-валидация)
   - [Шаг 1: Валидация структуры labels.yml](#шаг-1-валидация-структуры-labelsyml)
   - [Шаг 2: Синхронизация с GitHub](#шаг-2-синхронизация-с-github)
   - [Шаг 3: Валидация меток на Issue/PR](#шаг-3-валидация-меток-на-issuepr)
@@ -50,14 +51,17 @@ index: .github/.instructions/labels/README.md
 
 ## Шаги
 
-### Шаг 1: Валидация структуры labels.yml
+### Шаг 0: Автоматическая валидация
 
-**Автоматически:**
 ```bash
-python .github/.instructions/.scripts/validate-labels.py --file
+python .github/.instructions/.scripts/validate-labels.py
 ```
 
-**Вручную (если скрипт недоступен):**
+Скрипт проверяет все правила E001-E017. Если валидация пройдена — **готово**, шаги 1-3 не нужны.
+
+**Если скрипт недоступен** — выполнить шаги 1-3 вручную.
+
+### Шаг 1: Валидация структуры labels.yml
 
 1. Прочитать `.github/labels.yml`
 2. Для каждой метки проверить:
@@ -80,13 +84,6 @@ python .github/.instructions/.scripts/validate-labels.py --file
 
 ### Шаг 2: Синхронизация с GitHub
 
-**Автоматически:**
-```bash
-python .github/.instructions/.scripts/validate-labels.py --sync
-```
-
-**Вручную (если скрипт недоступен):**
-
 1. Получить метки из GitHub:
    ```bash
    gh label list --json name,description,color
@@ -108,18 +105,6 @@ python .github/.instructions/.scripts/validate-labels.py --sync
 ---
 
 ### Шаг 3: Валидация меток на Issue/PR
-
-**Автоматически:**
-```bash
-# Конкретный Issue/PR
-python .github/.instructions/.scripts/validate-labels.py --issue 123
-python .github/.instructions/.scripts/validate-labels.py --pr 456
-
-# Все открытые
-python .github/.instructions/.scripts/validate-labels.py --all
-```
-
-**Вручную (если скрипт недоступен):**
 
 1. Получить метки:
    ```bash
