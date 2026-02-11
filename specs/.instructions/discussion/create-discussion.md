@@ -1,7 +1,7 @@
 ---
 description: Воркфлоу создания документа дискуссии SDD — Clarify, генерация, валидация, перевод DRAFT → WAITING.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: specs/.instructions/discussion/README.md
 ---
 
@@ -31,10 +31,10 @@ index: specs/.instructions/discussion/README.md
 - [Принципы](#принципы)
 - [Шаги](#шаги)
   - [Шаг 1: Определить тип дискуссии](#шаг-1-определить-тип-дискуссии)
-  - [Шаг 2: Clarify](#шаг-2-clarify)
-  - [Шаг 3: Определить номер и имя файла](#шаг-3-определить-номер-и-имя-файла)
-  - [Шаг 4: Создать файл из шаблона](#шаг-4-создать-файл-из-шаблона)
-  - [Шаг 5: Заполнить frontmatter](#шаг-5-заполнить-frontmatter)
+  - [Шаг 2: Определить номер и имя файла](#шаг-2-определить-номер-и-имя-файла)
+  - [Шаг 3: Создать файл из шаблона](#шаг-3-создать-файл-из-шаблона)
+  - [Шаг 4: Заполнить frontmatter](#шаг-4-заполнить-frontmatter)
+  - [Шаг 5: Clarify](#шаг-5-clarify)
   - [Шаг 6: Заполнить разделы](#шаг-6-заполнить-разделы)
   - [Шаг 7: Валидация](#шаг-7-валидация)
   - [Шаг 8: Регистрация в README](#шаг-8-регистрация-в-readme)
@@ -53,7 +53,9 @@ index: specs/.instructions/discussion/README.md
 
 > **Зона: ЗАЧЕМ и ЧТО.** Discussion описывает проблему и требования. Технические детали, сервисы, API — на следующих уровнях.
 
-> **Clarify до генерации.** LLM уточняет неясности через AskUserQuestion перед генерацией документа. Пропуск — только по `--auto-clarify`.
+> **Файл до Clarify.** Сначала создать файл из шаблона и заполнить базовые поля — затем уточнять содержание. Это обеспечивает resumability при прерывании LLM.
+
+> **Clarify до генерации.** LLM уточняет неясности через AskUserQuestion перед генерацией контента разделов. Пропуск — только по `--auto-clarify`.
 
 > **DRAFT → WAITING — единственный переход этого документа.** Все последующие переходы управляются на уровне цепочки.
 
@@ -73,7 +75,44 @@ index: specs/.instructions/discussion/README.md
 | Группа багфиксов | Связанные баги | Минимум: Проблема + Критерии. Фичи/User Stories обычно не нужны |
 | Cross-cutting concern (NFR) | Производительность, безопасность, масштабируемость | Требования + Критерии, фичи опционально |
 
-### Шаг 2: Clarify
+### Шаг 2: Определить номер и имя файла
+
+**SSOT:** [standard-discussion.md § 2](./standard-discussion.md#2-расположение-и-именование)
+
+1. Проверить существующие файлы в `specs/discussion/`
+2. Следующий номер = максимальный существующий NNNN + 1
+3. Сформировать имя: `disc-NNNN-topic.md` (topic — kebab-case, латиница)
+
+```bash
+# Определить следующий номер
+ls specs/discussion/disc-*.md 2>/dev/null | sort -r | head -1
+```
+
+**Если `specs/discussion/` не существует:** вызвать `/structure-create specs/discussion`.
+
+### Шаг 3: Создать файл из шаблона
+
+**SSOT:** [standard-discussion.md § 7](./standard-discussion.md#7-шаблон)
+
+Скопировать шаблон из [standard-discussion.md § 7](./standard-discussion.md#7-шаблон) и создать файл `specs/discussion/disc-NNNN-topic.md`.
+
+### Шаг 4: Заполнить frontmatter
+
+**SSOT:** [standard-discussion.md § 3](./standard-discussion.md#3-frontmatter)
+
+Заполнить поля, известные до Clarify:
+
+| Поле | Значение |
+|------|----------|
+| `description` | Краткое описание из запроса пользователя (до 1024 символов) |
+| `standard` | `specs/.instructions/discussion/standard-discussion.md` |
+| `standard-version` | `v1.0` |
+| `index` | `specs/discussion/README.md` |
+| `children` | `[]` (Impact ещё не создан) |
+| `status` | `DRAFT` |
+| `milestone` | `[ТРЕБУЕТ УТОЧНЕНИЯ: milestone?]` (уточняется на шаге 5) |
+
+### Шаг 5: Clarify
 
 **SSOT:** [standard-discussion.md § 6](./standard-discussion.md#6-clarify), [Справочник SDD § 5](../standard-specs-reference.md#5-clarify-и-блокирующие-правила)
 
@@ -92,46 +131,13 @@ LLM уточняет через AskUserQuestion по таблице из [standa
 
 LLM пропускает Clarify, генерирует документ на основе своего понимания и ставит маркеры `[ТРЕБУЕТ УТОЧНЕНИЯ]` на все неясности.
 
-### Шаг 3: Определить номер и имя файла
-
-**SSOT:** [standard-discussion.md § 2](./standard-discussion.md#2-расположение-и-именование)
-
-1. Проверить существующие файлы в `specs/discussion/`
-2. Следующий номер = максимальный существующий NNNN + 1
-3. Сформировать имя: `disc-NNNN-topic.md` (topic — kebab-case, латиница)
-
-```bash
-# Определить следующий номер
-ls specs/discussion/disc-*.md 2>/dev/null | sort -r | head -1
-```
-
-**Если `specs/discussion/` не существует:** вызвать `/structure-create specs/discussion`.
-
-### Шаг 4: Создать файл из шаблона
-
-**SSOT:** [standard-discussion.md § 7](./standard-discussion.md#7-шаблон)
-
-Скопировать шаблон из [standard-discussion.md § 7](./standard-discussion.md#7-шаблон) и создать файл `specs/discussion/disc-NNNN-topic.md`.
-
-### Шаг 5: Заполнить frontmatter
-
-**SSOT:** [standard-discussion.md § 3](./standard-discussion.md#3-frontmatter)
-
-| Поле | Значение |
-|------|----------|
-| `description` | Описание из Clarify (до 1024 символов) |
-| `standard` | `specs/.instructions/discussion/standard-discussion.md` |
-| `standard-version` | `v1.0` |
-| `index` | `specs/discussion/README.md` |
-| `children` | `[]` (Impact ещё не создан) |
-| `status` | `DRAFT` |
-| `milestone` | Из Clarify (или `[ТРЕБУЕТ УТОЧНЕНИЯ: milestone?]`) |
+**После Clarify:** Обновить frontmatter — `description` (уточнённое) и `milestone` (из ответов).
 
 ### Шаг 6: Заполнить разделы
 
 **SSOT:** [standard-discussion.md § 5](./standard-discussion.md#5-разделы-документа)
 
-На основе результатов Clarify (шаг 2) и типа дискуссии (шаг 1):
+На основе результатов Clarify (шаг 5) и типа дискуссии (шаг 1):
 
 1. **Проблема / Контекст** — ОБЯЗАТЕЛЬНО. Заполнить AS IS и Проблема
 2. **Фичи** — если тип = новая функциональность. Нумерация F-N
@@ -200,13 +206,16 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 ### Подготовка
 - [ ] Определён тип дискуссии
-- [ ] Clarify проведён (или `--auto-clarify`)
 - [ ] Определён номер NNNN
-- [ ] Определён Milestone
-
-### Создание
 - [ ] Файл создан из шаблона
-- [ ] Frontmatter заполнен
+- [ ] Frontmatter заполнен (базовые поля)
+
+### Clarify
+- [ ] Clarify проведён (или `--auto-clarify`)
+- [ ] Определён Milestone
+- [ ] Frontmatter обновлён (description, milestone)
+
+### Содержание
 - [ ] "Проблема / Контекст" заполнен
 - [ ] "Критерии успеха" заполнены и измеримы
 - [ ] Опциональные разделы заполнены по типу
@@ -228,10 +237,11 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 Пользователь: "Нужна OAuth2 авторизация вместо session-based"
 
 1. Тип: новая функциональность
-2. Clarify: scope, SLA, audience, milestone
-3. Номер: disc-0001-oauth2-authorization.md
-4. Разделы: Проблема, Фичи (F-1..F-3), User Stories, Требования (REQ-1..REQ-3), Критерии
-5. Milestone: v1.2.0
+2. Номер: disc-0001-oauth2-authorization.md
+3. Файл создан из шаблона
+4. Frontmatter: status=DRAFT, milestone=[ТРЕБУЕТ УТОЧНЕНИЯ]
+5. Clarify: scope, SLA, audience, milestone → v1.2.0
+6. Разделы: Проблема, Фичи (F-1..F-3), User Stories, Требования (REQ-1..REQ-3), Критерии
 ```
 
 ### Создание дискуссии для группы багфиксов
@@ -240,10 +250,11 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 Пользователь: "Исправить race conditions в кэше — 3 бага"
 
 1. Тип: группа багфиксов
-2. Clarify: какие баги, метрики, приоритет
-3. Номер: disc-0005-cache-race-conditions.md
-4. Разделы: Проблема (BUG-101, BUG-115, BUG-122), Критерии
-5. Milestone: v1.1.1
+2. Номер: disc-0005-cache-race-conditions.md
+3. Файл создан из шаблона
+4. Frontmatter: status=DRAFT
+5. Clarify: какие баги, метрики, приоритет → v1.1.1
+6. Разделы: Проблема (BUG-101, BUG-115, BUG-122), Критерии
 ```
 
 ### Создание с --auto-clarify
@@ -252,10 +263,11 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 Пользователь: "Создай дискуссию про снижение latency API, --auto-clarify"
 
 1. Тип: NFR
-2. Clarify пропущен — маркеры на все неясности
-3. Номер: disc-0008-api-latency-reduction.md
-4. Разделы: Проблема, Требования, Критерии + маркеры [ТРЕБУЕТ УТОЧНЕНИЯ]
-5. Milestone: [ТРЕБУЕТ УТОЧНЕНИЯ: milestone?]
+2. Номер: disc-0008-api-latency-reduction.md
+3. Файл создан из шаблона
+4. Frontmatter: status=DRAFT, milestone=[ТРЕБУЕТ УТОЧНЕНИЯ]
+5. Clarify пропущен — маркеры на все неясности
+6. Разделы: Проблема, Требования, Критерии + маркеры [ТРЕБУЕТ УТОЧНЕНИЯ]
 ```
 
 ---
