@@ -31,8 +31,7 @@ index: specs/.instructions/discussion/README.md
 - [Принципы](#принципы)
 - [Шаги](#шаги)
   - [Шаг 1: Определить тип дискуссии](#шаг-1-определить-тип-дискуссии)
-  - [Шаг 2: Определить номер и имя файла](#шаг-2-определить-номер-и-имя-файла)
-  - [Шаг 3: Создать файл из шаблона](#шаг-3-создать-файл-из-шаблона)
+  - [Шаг 2–3: Определить номер и создать файл из шаблона](#шаг-23-определить-номер-и-создать-файл-из-шаблона)
   - [Шаг 4: Заполнить frontmatter](#шаг-4-заполнить-frontmatter)
   - [Шаг 5: Clarify](#шаг-5-clarify)
   - [Шаг 6: Заполнить разделы](#шаг-6-заполнить-разделы)
@@ -75,26 +74,23 @@ index: specs/.instructions/discussion/README.md
 | Группа багфиксов | Связанные баги | Минимум: Проблема + Критерии. Фичи/User Stories обычно не нужны |
 | Cross-cutting concern (NFR) | Производительность, безопасность, масштабируемость | Требования + Критерии, фичи опционально |
 
-### Шаг 2: Определить номер и имя файла
+### Шаг 2–3: Определить номер и создать файл из шаблона
 
-**SSOT:** [standard-discussion.md § 2](./standard-discussion.md#2-расположение-и-именование)
-
-1. Проверить существующие файлы в `specs/discussion/`
-2. Следующий номер = максимальный существующий NNNN + 1
-3. Сформировать имя: `disc-NNNN-topic.md` (topic — kebab-case, латиница)
+**SSOT:** [standard-discussion.md § 2](./standard-discussion.md#2-расположение-и-именование), [§ 7](./standard-discussion.md#7-шаблон)
 
 ```bash
-# Определить следующий номер
-ls specs/discussion/disc-*.md 2>/dev/null | sort -r | head -1
+python specs/.instructions/.scripts/create-discussion-file.py <topic>
 ```
+
+Скрипт автоматически определяет следующий NNNN и создаёт `specs/discussion/disc-NNNN-topic.md` из шаблона.
 
 **Если `specs/discussion/` не существует:** вызвать `/structure-create specs/discussion`.
 
-### Шаг 3: Создать файл из шаблона
-
-**SSOT:** [standard-discussion.md § 7](./standard-discussion.md#7-шаблон)
-
-Скопировать шаблон из [standard-discussion.md § 7](./standard-discussion.md#7-шаблон) и создать файл `specs/discussion/disc-NNNN-topic.md`.
+**Вручную (если скрипт недоступен):**
+1. Проверить существующие файлы в `specs/discussion/`
+2. Следующий номер = максимальный существующий NNNN + 1
+3. Сформировать имя: `disc-NNNN-topic.md` (topic — kebab-case, латиница)
+4. Скопировать шаблон из [standard-discussion.md § 7](./standard-discussion.md#7-шаблон) и создать файл
 
 ### Шаг 4: Заполнить frontmatter
 
@@ -276,6 +272,7 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
+| [create-discussion-file.py](../.scripts/create-discussion-file.py) | Создание файла дискуссии из шаблона (шаг 2–3) | Этот документ |
 | [validate-discussion.py](../.scripts/validate-discussion.py) | Валидация созданного документа (шаг 7) | [validation-discussion.md](./validation-discussion.md) |
 
 ---
