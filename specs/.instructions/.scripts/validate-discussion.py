@@ -37,6 +37,15 @@ VALID_STATUSES = {
 }
 
 REQUIRED_STANDARD = "specs/.instructions/discussion/standard-discussion.md"
+REQUIRED_INDEX = "specs/discussion/README.md"
+STANDARD_VERSION_REGEX = re.compile(r'^v\d+\.\d+$')
+
+OPTIONAL_SECTION_ELEMENTS = {
+    "Фичи": re.compile(r'^### F-\d+:', re.MULTILINE),
+    "User Stories": re.compile(r'^### US-\d+:', re.MULTILINE),
+    "Требования": re.compile(r'^### REQ-\d+:', re.MULTILINE),
+    "Предложения": re.compile(r'^### PROP-\d+:', re.MULTILINE),
+}
 
 ELEMENT_PATTERNS = {
     "F": (re.compile(r'^### F-(\d+):', re.MULTILINE), "D008"),
@@ -65,6 +74,10 @@ ERROR_CODES = {
     "D017": "Рассинхрон статуса (README ≠ frontmatter)",
     "D018": "NNNN в имени файла ≠ NNNN в заголовке",
     "D019": "Отсутствует milestone",
+    "D020": "Отсутствует или неверный standard-version",
+    "D021": "Неверный index",
+    "D022": "Опциональная секция без элементов",
+    "D023": "Description слишком длинное (> 1024 символов)",
 }
 
 
@@ -149,7 +162,7 @@ def check_filename(path: Path) -> list[tuple[str, str]]:
 
 
 def check_frontmatter(content: str) -> list[tuple[str, str]]:
-    """D002-D005, D019: Проверить frontmatter."""
+    """D002-D005, D019-D021, D023: Проверить frontmatter."""
     errors = []
 
     if not content.startswith("---\n"):
@@ -159,13 +172,24 @@ def check_frontmatter(content: str) -> list[tuple[str, str]]:
     fm = parse_frontmatter(content)
 
     # D002: description
-    if not fm.get("description"):
+    desc = fm.get("description", "")
+    if not desc:
         errors.append(("D002", "Отсутствует поле description"))
+    elif len(desc) > 1024:
+        # D023: description слишком длинное
+        errors.append(("D023", f"Description {len(desc)} символов (макс. 1024)"))
 
     # D003: standard
     standard = fm.get("standard", "")
     if standard != REQUIRED_STANDARD:
         errors.append(("D003", f"standard = '{standard}', ожидается '{REQUIRED_STANDARD}'"))
+
+    # D020: standard-version
+    sv = fm.get("standard-version", "")
+    if not sv:
+        errors.append(("D020", "Отсутствует поле standard-version"))
+    elif not STANDARD_VERSION_REGEX.match(sv):
+        errors.append(("D020", f"standard-version = '{sv}', ожидается формат vX.Y"))
 
     # D004: status
     status = fm.get("status", "")
@@ -179,6 +203,11 @@ def check_frontmatter(content: str) -> list[tuple[str, str]]:
     # D019: milestone
     if not fm.get("milestone"):
         errors.append(("D019", "Отсутствует поле milestone"))
+
+    # D021: index
+    index = fm.get("index", "")
+    if index != REQUIRED_INDEX:
+        errors.append(("D021", f"index = '{index}', ожидается '{REQUIRED_INDEX}'"))
 
     return errors
 
@@ -222,6 +251,27 @@ def check_required_sections(content: str) -> list[tuple[str, str]]:
     # D007: Критерии успеха
     if not re.search(r'^## Критерии успеха', body_no_code, re.MULTILINE):
         errors.append(("D007", "Отсутствует раздел '## Критерии успеха'"))
+
+    return errors
+
+
+def check_optional_sections(content: str) -> list[tuple[str, str]]:
+    """D022: Проверить что опциональные секции содержат элементы."""
+    errors = []
+
+    body = get_body(content)
+    body_no_code = remove_code_blocks(body)
+
+    for section_name, element_pattern in OPTIONAL_SECTION_ELEMENTS.items():
+        # Найти секцию
+        section_match = re.search(
+            rf'^## {re.escape(section_name)}\s*\n(.*?)(?=^## |\Z)',
+            body_no_code, re.MULTILINE | re.DOTALL
+        )
+        if section_match:
+            section_text = section_match.group(1)
+            if not element_pattern.search(section_text):
+                errors.append(("D022", f"Секция '{section_name}' присутствует, но не содержит элементов"))
 
     return errors
 
@@ -304,7 +354,7 @@ def check_markers_and_status(content: str) -> list[tuple[str, str]]:
         errors.append(("D013", f"Найдено {len(markers)} маркеров при статусе {status}"))
 
     # D014: Dependency Barrier
-    if '⛔ DEPENDENCY BARRIER' in body or '⛔ DEPENDENCY BARRIER' in body:
+    if '⛔ DEPENDENCY BARRIER' in body or 'DEPENDENCY BARRIER' in body:
         errors.append(("D014", f"Dependency Barrier при статусе {status}"))
 
     return errors
@@ -401,7 +451,7 @@ def validate_discussion(path: Path, repo_root: Path) -> list[tuple[str, str]]:
     except Exception as e:
         return [("D001", f"Ошибка чтения файла: {e}")]
 
-    # D002-D005, D019: frontmatter
+    # D002-D005, D019-D021, D023: frontmatter
     errors.extend(check_frontmatter(content))
 
     # D018: NNNN совпадение
@@ -409,6 +459,9 @@ def validate_discussion(path: Path, repo_root: Path) -> list[tuple[str, str]]:
 
     # D006-D007: обязательные разделы
     errors.extend(check_required_sections(content))
+
+    # D022: опциональные секции без элементов
+    errors.extend(check_optional_sections(content))
 
     # D008-D011: нумерация
     errors.extend(check_numbering(content))

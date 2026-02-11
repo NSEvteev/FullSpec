@@ -318,7 +318,7 @@ Third-party интеграции требуют отдельного OAuth2-се
 
 `````markdown
 ---
-description: {Краткое описание — одно предложение}
+description: {Описание дискуссии — до 1024 символов}
 standard: specs/.instructions/discussion/standard-discussion.md
 standard-version: v1.0
 index: specs/discussion/README.md
@@ -371,7 +371,7 @@ milestone: {vX.Y.Z}
 ## 8. Чек-лист качества
 
 ### Frontmatter
-- [ ] `description` — одно предложение, описывает суть дискуссии
+- [ ] `description` — до 1024 символов
 - [ ] `standard` указывает на этот документ
 - [ ] `children` — путь к Impact (или пустой список если Impact ещё не создан)
 - [ ] `status` — валидный статус ([Справочник SDD § 2](../standard-specs-reference.md#2-статусы))

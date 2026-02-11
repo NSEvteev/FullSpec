@@ -81,7 +81,7 @@ python specs/.instructions/.scripts/validate-discussion.py {путь}
 
 | Поле | Проверка |
 |------|----------|
-| `description` | Присутствует, описан, до 1014 символов |
+| `description` | Присутствует, до 1024 символов |
 | `standard` | = `specs/.instructions/discussion/standard-discussion.md` |
 | `standard-version` | Присутствует, формат `vX.Y` |
 | `index` | = `specs/discussion/README.md` |
@@ -151,7 +151,7 @@ python specs/.instructions/.scripts/validate-discussion.py {путь}
 
 **SSOT:** [standard-discussion.md § 4](./standard-discussion.md#4-переходы-статусов), [standard-discussion.md § 6](./standard-discussion.md#6-clarify)
 
-Если `status` > DRAFT (WAITING, RUNNING, DONE):
+Если `status` > DRAFT (WAITING, RUNNING, DONE, CONFLICT, ROLLING_BACK, REJECTED):
 - Нет неразрешённых `[ТРЕБУЕТ УТОЧНЕНИЯ]` маркеров
 - Нет `⛔ DEPENDENCY BARRIER`
 
@@ -174,7 +174,7 @@ python specs/.instructions/.scripts/validate-discussion.py {путь}
 - [ ] NNNN в имени = NNNN в заголовке
 
 ### Frontmatter
-- [ ] `description` — одно предложение
+- [ ] `description` — до 1024 символов
 - [ ] `standard` = `specs/.instructions/discussion/standard-discussion.md`
 - [ ] `standard-version` — формат `vX.Y`
 - [ ] `index` = `specs/discussion/README.md`
@@ -231,6 +231,10 @@ python specs/.instructions/.scripts/validate-discussion.py {путь}
 | Рассинхрон статуса | D017 | Статус в README ≠ статус в frontmatter | Синхронизировать |
 | NNNN не совпадает | D018 | Номер в имени файла ≠ номер в заголовке | Исправить заголовок или имя файла |
 | Отсутствует `milestone` | D019 | Milestone не указан в frontmatter | Добавить milestone |
+| Отсутствует или неверный `standard-version` | D020 | standard-version не указан или не в формате `vX.Y` | Добавить/исправить standard-version |
+| Неверный `index` | D021 | index не указывает на `specs/discussion/README.md` | Исправить index |
+| Опциональная секция без элементов | D022 | Секция (Фичи, User Stories и т.д.) есть, но пуста | Добавить элементы или убрать секцию |
+| Description слишком длинное | D023 | Description > 1024 символов | Сократить description |
 
 ---
 

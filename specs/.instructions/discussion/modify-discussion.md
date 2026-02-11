@@ -122,7 +122,7 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc-NNNN-topic.md
 ```
 
-Скрипт выведет список маркеров с номерами строк.
+Скрипт покажет количество неразрешённых маркеров (если есть).
 
 ### Шаг 2: Уточнить у пользователя
 

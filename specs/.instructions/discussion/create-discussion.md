@@ -119,7 +119,7 @@ ls specs/discussion/disc-*.md 2>/dev/null | sort -r | head -1
 
 | Поле | Значение |
 |------|----------|
-| `description` | Одно предложение из Clarify |
+| `description` | Описание из Clarify (до 1024 символов) |
 | `standard` | `specs/.instructions/discussion/standard-discussion.md` |
 | `standard-version` | `v1.0` |
 | `index` | `specs/discussion/README.md` |
