@@ -71,11 +71,13 @@ index: specs/.instructions/README.md
 
 ```
 /specs/.instructions/
+├── .scripts/                       # Скрипты валидации
+│   └── validate-discussion.py
 ├── adr/                            # Инструкции для ADR
 │   └── README.md
 ├── design/                         # Инструкции для проектирования
 │   └── README.md
-├── discussion/                    # Инструкции для дискуссий
+├── discussion/                     # Инструкции для дискуссий
 │   └── README.md
 ├── impact/                         # Инструкции для импакт-анализа
 │   └── README.md

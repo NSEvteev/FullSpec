@@ -119,6 +119,16 @@ standard-version: v1.1
 | [review-branch](./review-branch/SKILL.md) | Локальное ревью ветки перед PR |
 | [review-pr](./review-pr/SKILL.md) | Ревью Pull Request на GitHub |
 
+### specs
+
+Работа со спецификациями SDD (Discussion, Impact, Design, ADR, Plans).
+
+| Скилл | Описание |
+|-------|----------|
+| [discussion-create](./discussion-create/SKILL.md) | Создание документа дискуссии |
+| [discussion-modify](./discussion-modify/SKILL.md) | Изменение документа дискуссии |
+| [discussion-validate](./discussion-validate/SKILL.md) | Валидация документа дискуссии |
+
 ### drafts
 
 Работа с черновиками.
