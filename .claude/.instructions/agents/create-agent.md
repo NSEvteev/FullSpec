@@ -352,15 +352,15 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 ### Шаг 10: Отчёт о проделанной работе
 
 ```
-## Отчёт о создании агента
+## 📋 Отчёт о создании агента
 
-**Создан агент:** `/.claude/agents/{name}/AGENT.md`
+✅ **Создан агент:** `/.claude/agents/{name}/AGENT.md`
 
-**Тип:** {explore | bash | plan | general-purpose}
+🏷️ **Тип:** {explore | bash | plan | general-purpose}
 
 **Версия:** v1.0
 
-**Описание:** {description}
+📝 **Описание:** {description}
 
 **Настройки:**
 - Модель: {model}
@@ -372,7 +372,7 @@ python .claude/.instructions/agents/.scripts/validate-agent.py .claude/agents/{a
 - `/.claude/agents/{name}/AGENT.md`
 - `/.claude/agents/{name}/CHANGELOG.md`
 
-**Валидация:** пройдена ✅
+✅ **Валидация:** пройдена
 ```
 
 ---

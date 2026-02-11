@@ -661,7 +661,7 @@ gh api repos/{owner}/{repo}/milestones -f state=open \
 **Пример отчёта:**
 
 ```markdown
-# Отчёт: v1.0.0
+# 📋 Отчёт: v1.0.0
 
 **Статус:** Завершён
 **Прогресс:** 10/10 Issues (100%)

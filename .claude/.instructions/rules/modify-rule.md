@@ -126,14 +126,14 @@ python .claude/.instructions/rules/.scripts/validate-rule.py {name}
 ### Шаг 4: Отчёт
 
 ```
-## Отчёт об обновлении rule
+## 📋 Отчёт об обновлении rule
 
-**Изменён rule:** `{name}.md`
+✏️ **Изменён rule:** `{name}.md`
 
-**Что изменено:**
+📝 **Что изменено:**
 - {список изменений}
 
-**Валидация:** пройдена ✅
+✅ **Валидация:** пройдена
 
 ---
 
@@ -179,9 +179,9 @@ mv .claude/rules/{name}.md .claude/rules/_old-{name}.md
 ### Шаг 3: Отчёт
 
 ```
-## Отчёт о деактивации rule
+## 📋 Отчёт о деактивации rule
 
-**Деактивирован rule:** `{name}.md`
+🚫 **Деактивирован rule:** `{name}.md`
 
 **Новое имя:** `_old-{name}.md`
 
@@ -233,7 +233,7 @@ python .claude/.instructions/rules/.scripts/validate-rule.py {new-name}
 ### Шаг 4: Отчёт о миграции
 
 ```
-## Отчёт о миграции rule
+## 📋 Отчёт о миграции rule
 
 **Старое имя:** `{old-name}.md`
 
@@ -241,7 +241,7 @@ python .claude/.instructions/rules/.scripts/validate-rule.py {new-name}
 
 **Обновлено ссылок:** {количество}
 
-**Валидация:** пройдена ✅
+✅ **Валидация:** пройдена
 
 ---
 
@@ -293,16 +293,16 @@ python .claude/.instructions/rules/.scripts/validate-rule.py {name}
 ### Шаг 4: Отчёт
 
 ```
-## Отчёт о добавлении скиллов в rule
+## 📋 Отчёт о добавлении скиллов в rule
 
-**Изменён rule:** `{name}.md`
+✏️ **Изменён rule:** `{name}.md`
 
 **Добавлены скиллы:**
 - /[область]-validate
 - /[область]-create
 - /[область]-modify
 
-**Валидация:** пройдена ✅
+✅ **Валидация:** пройдена
 
 ---
 

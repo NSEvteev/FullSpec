@@ -419,11 +419,11 @@ python .instructions/.scripts/validate-instruction.py {path}
 ### Шаг 10: Отчёт о проделанной работе
 
 ```
-## Отчёт о создании инструкции
+## 📋 Отчёт о создании инструкции
 
-**Создана инструкция:** `{путь к инструкции}`
-**Тип:** {standard/create/modify/validation}
-**Описание:** {description из frontmatter}
+✅ **Создана инструкция:** `{путь к инструкции}`
+🏷️ **Тип:** {standard/create/modify/validation}
+📝 **Описание:** {description из frontmatter}
 
 ### Чек-лист
 
