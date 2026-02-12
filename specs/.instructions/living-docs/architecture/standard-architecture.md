@@ -12,8 +12,7 @@ index: specs/.instructions/living-docs/architecture/README.md
 Правила создания и обновления живых документов архитектуры (`specs/architecture/`). Code Map, Tech Stack, границы автономии LLM, технологические стандарты, Planned Changes.
 
 **Полезные ссылки:**
-- [Справочник SDD](../../standard-specs-reference.md) — статусы, каскады, живые документы (таблица)
-- [Навигатор SDD](../../standard-specs-workflow.md) — полный воркфлоу
+- [Стандарт SDD](../../standard-specs.md) — статусы, каскады, живые документы (таблица), полный воркфлоу
 - [Инструкции specs/](../../README.md)
 - [Архитектура specs/ (черновик)](/.claude/drafts/examples/2026-02-08-specs-architecture.md)
 
@@ -21,8 +20,7 @@ index: specs/.instructions/living-docs/architecture/README.md
 
 | Тип | Документ |
 |-----|----------|
-| Справочник | [standard-specs-reference.md](../../standard-specs-reference.md) |
-| Навигатор | [standard-specs-workflow.md](../../standard-specs-workflow.md) |
+| Стандарт SDD | [standard-specs.md](../../standard-specs.md) |
 | ADR | [standard-adr.md](../../adr/standard-adr.md) *(будет создан)* |
 | Design | [standard-design.md](../../design/standard-design.md) *(будет создан)* |
 | Валидация | — |
@@ -152,7 +150,7 @@ auth.middleware → auth.tokens → auth.keys
 - **Флаг** — можно менять, но нужно сообщить. Изменение может затронуть тестовые сценарии (План тестов). LLM информирует, но не блокируется.
 - **CONFLICT** — нельзя менять самостоятельно. Изменение затрагивает архитектурные решения (ADR). Требуется обратная связь Code → Specs.
 
-Эти три уровня напрямую связаны с механизмом обратной связи Code → Specs ([§ 4 Справочника](../../standard-specs-reference.md#4-обратная-связь-code-specs)): "свободно" = нет обратной связи, "флаг" = рабочие правки, "CONFLICT" = уровень ADR и выше.
+Эти три уровня напрямую связаны с механизмом обратной связи Code → Specs ([Стандарт SDD § 8.3](../../standard-specs.md#83-running-to-conflict)): "свободно" = нет обратной связи, "флаг" = рабочие правки, "CONFLICT" = уровень ADR и выше.
 
 **Когда обновляется:** При ADR → DONE — как часть обычного каскада обновления `architecture/services/{svc}.md`. Не требует отдельного процесса.
 

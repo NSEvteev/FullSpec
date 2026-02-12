@@ -7,13 +7,13 @@ index: specs/.instructions/discussion/README.md
 
 # Воркфлоу изменения дискуссии
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Процессы изменения существующего документа дискуссии (`specs/discussion/disc-*.md`).
 
 **Полезные ссылки:**
 - [Стандарт дискуссий](./standard-discussion.md)
-- [Справочник SDD](../standard-specs-reference.md) — статусы, каскады
+- [Стандарт SDD](../standard-specs.md) — статусы, каскады
 - [Инструкции discussion/](./README.md)
 
 **Связанные документы:**
@@ -66,7 +66,7 @@ index: specs/.instructions/discussion/README.md
 
 > **Операции vs переходы.** Операции — изменения внутри текущего статуса. Переходы — смена статуса с условиями и шагами. Документ разделяет их явно.
 
-> **SSOT — Справочник SDD.** Каскады, условия переходов, уровни обратной связи — [Справочник SDD § 3](../standard-specs-reference.md#3-последовательность-статусов). Этот документ описывает операции на уровне Discussion, а не дублирует правила каскадов.
+> **SSOT — Стандарт SDD.** Каскады, условия переходов, уровни обратной связи — [Стандарт SDD § 8](../standard-specs.md#8-последовательность-статусов). Этот документ описывает операции на уровне Discussion, а не дублирует правила каскадов.
 
 ---
 
@@ -164,7 +164,7 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 Заменить каждый `[ТРЕБУЕТ УТОЧНЕНИЯ: вопрос]` на ответ пользователя.
 
-**Dependency Barrier** ([Справочник SDD § 5](../standard-specs-reference.md#dependency-barrier)): при создании документа LLM может остановить генерацию блоком `⛔ DEPENDENCY BARRIER`, если следующая секция зависит от неразрешённого маркера. Если в документе есть такой блок — после разрешения маркеров продолжить генерацию оставшихся секций.
+**Dependency Barrier** ([Стандарт SDD § 10](../standard-specs.md#dependency-barrier)): при создании документа LLM может остановить генерацию блоком `⛔ DEPENDENCY BARRIER`, если следующая секция зависит от неразрешённого маркера. Если в документе есть такой блок — после разрешения маркеров продолжить генерацию оставшихся секций.
 
 #### Шаг 4: Валидация
 
@@ -207,7 +207,7 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 ## Переход: DRAFT → WAITING
 
-**SSOT:** [standard-discussion.md § 4](./standard-discussion.md#4-переходы-статусов) | [Справочник SDD § 3.1](../standard-specs-reference.md#31-draft-waiting)
+**SSOT:** [standard-discussion.md § 4](./standard-discussion.md#4-переходы-статусов) | [Стандарт SDD § 8.1](../standard-specs.md#81-draft-to-waiting)
 
 Единственный переход, управляемый на уровне Discussion. Все последующие переходы — на уровне цепочки.
 
@@ -219,7 +219,7 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 |---------|----------|
 | Статус = DRAFT | frontmatter `status: DRAFT` |
 | Нет `[ТРЕБУЕТ УТОЧНЕНИЯ]` | Ни одного маркера в документе |
-| Нет [Dependency Barrier](../standard-specs-reference.md#dependency-barrier) | Нет `⛔ DEPENDENCY BARRIER` |
+| Нет [Dependency Barrier](../standard-specs.md#dependency-barrier) | Нет `⛔ DEPENDENCY BARRIER` |
 | Валидация пройдена | Скрипт validate-discussion.py → 0 ошибок |
 
 ```bash
@@ -247,7 +247,7 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 ### Каскад DRAFT (возврат из WAITING)
 
-**SSOT:** [Справочник SDD § 3.1](../standard-specs-reference.md#31-draft-waiting)
+**SSOT:** [Стандарт SDD § 8.1](../standard-specs.md#81-draft-to-waiting)
 
 При возврате документа из WAITING → DRAFT (контекст родителя изменился) все его WAITING-дочерние тоже → DRAFT.
 
@@ -261,7 +261,7 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 ## Переход: WAITING → RUNNING
 
-**SSOT:** [Справочник SDD § 3.2](../standard-specs-reference.md#32-waiting-running)
+**SSOT:** [Стандарт SDD § 8.2](../standard-specs.md#82-waiting-to-running)
 
 > **Tree-level.** Переход управляется на уровне цепочки, не Discussion.
 
@@ -273,7 +273,7 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 ## Статус RUNNING — ограничения
 
-> **Прямые изменения запрещены.** Документ в RUNNING — согласованная спецификация. Изменения возможны только через CONFLICT ([Справочник SDD § 3.3](../standard-specs-reference.md#33-running-conflict)).
+> **Прямые изменения запрещены.** Документ в RUNNING — согласованная спецификация. Изменения возможны только через CONFLICT ([Стандарт SDD § 8.3](../standard-specs.md#83-running-to-conflict)).
 
 Если обнаружена необходимость изменить Discussion в RUNNING — это сигнал CONFLICT-уровня. См. [Переход: RUNNING → CONFLICT](#переход-running-conflict).
 
@@ -281,11 +281,11 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 ## Переход: RUNNING → CONFLICT
 
-**SSOT:** [Справочник SDD § 3.3](../standard-specs-reference.md#33-running-conflict)
+**SSOT:** [Стандарт SDD § 8.3](../standard-specs.md#83-running-to-conflict)
 
 > **Tree-level каскад.** При обнаружении CONFLICT-уровня проблемы **все** документы цепочки → CONFLICT.
 
-**Триггер:** обратная связь от кода выявила несовместимость со спецификациями на уровне ADR или выше ([Справочник SDD § 3.3 — уровни обратной связи](../standard-specs-reference.md#33-running-conflict)).
+**Триггер:** обратная связь от кода выявила несовместимость со спецификациями на уровне ADR или выше ([Стандарт SDD § 8.3 — уровни обратной связи](../standard-specs.md#83-running-to-conflict)).
 
 **На уровне Discussion:** статус меняется `RUNNING` → `CONFLICT`. Переход инициируется на уровне цепочки — Discussion сама его не вызывает.
 
@@ -295,7 +295,7 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 ### Как Discussion попадает в CONFLICT
 
-Discussion попадает в CONFLICT через tree-level каскад ([Справочник SDD § 3.3](../standard-specs-reference.md#33-running-conflict)): при обнаружении CONFLICT на любом уровне **все** документы цепочки → CONFLICT, включая Discussion.
+Discussion попадает в CONFLICT через tree-level каскад ([Стандарт SDD § 8.3](../standard-specs.md#83-running-to-conflict)): при обнаружении CONFLICT на любом уровне **все** документы цепочки → CONFLICT, включая Discussion.
 
 LLM определяет самый высокий затронутый документ — снизу вверх, от Plan до Discussion: "Содержание этого документа стало неверным?"
 
@@ -317,7 +317,7 @@ LLM определяет самый высокий затронутый доку
 
 ## Переход: CONFLICT → WAITING
 
-**SSOT:** [Справочник SDD § 3.4](../standard-specs-reference.md#34-conflict-waiting)
+**SSOT:** [Стандарт SDD § 8.4](../standard-specs.md#84-conflict-to-waiting)
 
 > **Per-document.** Каждый документ переходит в WAITING независимо после разрешения.
 
@@ -329,21 +329,21 @@ LLM определяет самый высокий затронутый доку
 2. Пользователь ревьюит → одобряет
 3. Статус: `CONFLICT` → `WAITING`
 4. Обновить README: `CONFLICT` → `WAITING`
-5. Когда **все** документы цепочки в WAITING → каскад RUNNING ([Справочник SDD § 3.2](../standard-specs-reference.md#32-waiting-running))
+5. Когда **все** документы цепочки в WAITING → каскад RUNNING ([Стандарт SDD § 8.2](../standard-specs.md#82-waiting-to-running))
 
 **Если пользователь отклоняет разрешение:**
 
 | Исход | Переход |
 |-------|---------|
 | Конфликт разрешён | CONFLICT → WAITING |
-| Конфликт неразрешим | → ROLLING_BACK ([Справочник SDD § 3.6](../standard-specs-reference.md#36-rolling_back)) |
-| Пользователь отклоняет | → ROLLING_BACK ([Справочник SDD § 3.6](../standard-specs-reference.md#36-rolling_back)) |
+| Конфликт неразрешим | → ROLLING_BACK ([Стандарт SDD § 8.6](../standard-specs.md#86-to-rolling_back)) |
+| Пользователь отклоняет | → ROLLING_BACK ([Стандарт SDD § 8.6](../standard-specs.md#86-to-rolling_back)) |
 
 ---
 
 ## Переход: RUNNING → DONE
 
-**SSOT:** [Справочник SDD § 3.5](../standard-specs-reference.md#35-running-done)
+**SSOT:** [Стандарт SDD § 8.5](../standard-specs.md#85-running-to-done)
 
 > **Bottom-up каскад.** Discussion → DONE когда Impact (единственный child, 1:1) → DONE.
 
@@ -371,13 +371,13 @@ LLM определяет самый высокий затронутый доку
 
 ## Переход: → ROLLING_BACK
 
-**SSOT:** [Справочник SDD § 3.6](../standard-specs-reference.md#36-rolling_back)
+**SSOT:** [Стандарт SDD § 8.6](../standard-specs.md#86-to-rolling_back)
 
 > **Tree-level.** Все документы цепочки → ROLLING_BACK.
 
 **Триггеры:**
 - Пользователь даёт команду на откат
-- Конфликт неразрешим ([Справочник SDD § 3.4](../standard-specs-reference.md#34-conflict-waiting))
+- Конфликт неразрешим ([Стандарт SDD § 8.4](../standard-specs.md#84-conflict-to-waiting))
 - Пользователь отклоняет разрешение конфликта
 
 **На уровне Discussion:** Discussion не имеет артефактов — откат = **no-op**, только смена статуса → ROLLING_BACK.
@@ -389,7 +389,7 @@ LLM определяет самый высокий затронутый доку
 
 ## Переход: ROLLING_BACK → REJECTED
 
-**SSOT:** [Справочник SDD § 3.7](../standard-specs-reference.md#37-rolling_back-rejected)
+**SSOT:** [Стандарт SDD § 8.7](../standard-specs.md#87-rolling_back-to-rejected)
 
 > **REJECTED — финальный статус.** Изменения запрещены.
 
@@ -426,7 +426,7 @@ LLM определяет самый высокий затронутый доку
 - [ ] Все маркеры собраны
 - [ ] Ответы получены от пользователя
 - [ ] Маркеры заменены на ответы
-- [ ] [Dependency Barrier](../standard-specs-reference.md#dependency-barrier) разрешён (если был)
+- [ ] [Dependency Barrier](../standard-specs.md#dependency-barrier) разрешён (если был)
 - [ ] Валидация пройдена — маркеров нет
 
 ### Принятие предложений
@@ -439,7 +439,7 @@ LLM определяет самый высокий затронутый доку
 ### Переход DRAFT → WAITING
 - [ ] Статус = DRAFT
 - [ ] Нет `[ТРЕБУЕТ УТОЧНЕНИЯ]`
-- [ ] Нет [Dependency Barrier](../standard-specs-reference.md#dependency-barrier)
+- [ ] Нет [Dependency Barrier](../standard-specs.md#dependency-barrier)
 - [ ] Валидация пройдена — 0 ошибок
 - [ ] Пользователь подтвердил перевод
 - [ ] Статус обновлён в frontmatter

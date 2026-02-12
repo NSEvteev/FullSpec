@@ -137,3 +137,5 @@ index: .claude/.instructions/agents/README.md
 | Агент | Тип | Назначение |
 |-------|-----|------------|
 | [captain-holt](/.claude/agents/captain-holt/AGENT.md) | plan | Семантический анализ документов на ясность и однозначность |
+| [amy-santiago](/.claude/agents/amy-santiago/AGENT.md) | general-purpose | Помощник по созданию инструкций, скиллов, правил и структуры проекта |
+| [discussion-reviewer](/.claude/agents/discussion-reviewer/AGENT.md) | general-purpose | Ревью дискуссий SDD на полноту — анализ по объектам, генерация PROP-N рекомендаций |

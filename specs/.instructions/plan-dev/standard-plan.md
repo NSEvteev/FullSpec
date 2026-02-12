@@ -12,8 +12,7 @@ index: specs/.instructions/plan-dev/README.md
 Правила создания и обновления планов реализации (`specs/services/{svc}/plan-dev/`). Формат задач, интеграция с GitHub Issues, обработка CONFLICT.
 
 **Полезные ссылки:**
-- [Справочник SDD](../standard-specs-reference.md) — статусы, каскады, обратная связь
-- [Навигатор SDD](../standard-specs-workflow.md) — полный воркфлоу
+- [Стандарт SDD](../standard-specs.md) — статусы, каскады, обратная связь, полный воркфлоу
 - [Инструкции specs/](../README.md)
 - [Архитектура specs/ (черновик)](/.claude/drafts/examples/2026-02-08-specs-architecture.md)
 
@@ -21,8 +20,7 @@ index: specs/.instructions/plan-dev/README.md
 
 | Тип | Документ |
 |-----|----------|
-| Справочник | [standard-specs-reference.md](../standard-specs-reference.md) |
-| Навигатор | [standard-specs-workflow.md](../standard-specs-workflow.md) |
+| Стандарт SDD | [standard-specs.md](../standard-specs.md) |
 | План тестов | [standard-test-spec.md](../plan-test/standard-test-spec.md) *(будет создан)* |
 | Валидация | — |
 | Создание | — |

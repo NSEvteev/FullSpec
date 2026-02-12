@@ -332,7 +332,7 @@ allowed-tools:
 
 Документы спецификаций (specs/) расширяют базовые поля frontmatter полями связей и статуса.
 
-**SSOT специфичных полей:** [standard-specs-reference.md § 1](/specs/.instructions/standard-specs-reference.md#1-связи-и-frontmatter)
+**SSOT специфичных полей:** [standard-specs.md § 4](/specs/.instructions/standard-specs.md#4-связи-и-frontmatter)
 
 **Обязательные специфичные поля:**
 

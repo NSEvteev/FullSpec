@@ -57,13 +57,9 @@ index: specs/.instructions/README.md
 
 ## 2. Файлы
 
-### [standard-specs-reference.md](./standard-specs-reference.md)
+### [standard-specs.md](./standard-specs.md)
 
-**Справочник SDD — общие механики: статусы, каскады, связи, обратная связь, Clarify-паттерн, именование, запреты.**
-
-### [standard-specs-workflow.md](./standard-specs-workflow.md)
-
-**Навигатор SDD — воркфлоу от намерения до разработки: стадии, уровни, фильтрация, Shared код, Upward feedback, Planned Changes.**
+**Стандарт SDD — полное описание Specification-Driven Development: философия, уровни, воркфлоу, статусы, каскады, связи, обратная связь, Clarify, живые документы, именование, запреты.**
 
 ---
 
@@ -93,7 +89,6 @@ index: specs/.instructions/README.md
 │   └── README.md
 ├── plan-test/                      # Инструкции для планов тестов (ATDD)
 │   └── README.md
-├── standard-specs-reference.md     # Справочник SDD (механики)
-├── standard-specs-workflow.md      # Навигатор SDD (воркфлоу)
+├── standard-specs.md               # Стандарт SDD (полное описание)
 └── README.md                       # Этот файл (индекс)
 ```

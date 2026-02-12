@@ -76,8 +76,7 @@ index: specs/README.md
 │   │   ├── architecture/              #     Архитектура
 │   │   ├── tests/                     #     Тесты
 │   │   └── glossary/                  #     Глоссарий
-│   ├── standard-specs-reference.md     #   Справочник SDD (статусы, каскады, frontmatter)
-│   ├── standard-specs-workflow.md      #   Навигатор SDD (воркфлоу, стадии → SSOT)
+│   ├── standard-specs.md               #   Стандарт SDD (полное описание)
 │   └── README.md                       #   Индекс инструкций
 │
 ├── discussion/                         # Уровень 1: ЗАЧЕМ и ЧТО

@@ -40,18 +40,27 @@ REQUIRED_STANDARD = "specs/.instructions/discussion/standard-discussion.md"
 REQUIRED_INDEX = "specs/discussion/README.md"
 STANDARD_VERSION_REGEX = re.compile(r'^v\d+\.\d+$')
 
-OPTIONAL_SECTION_ELEMENTS = {
-    "Фичи": re.compile(r'^### F-\d+:', re.MULTILINE),
-    "User Stories": re.compile(r'^### US-\d+:', re.MULTILINE),
-    "Требования": re.compile(r'^### REQ-\d+:', re.MULTILINE),
-    "Предложения": re.compile(r'^### PROP-\d+:', re.MULTILINE),
+SECTION_HEADING_PREFIX = r'^##\s+(?:\S+\s+)?'  # Опциональный emoji перед именем
+
+SECTION_ELEMENTS = {
+    "Фичи": re.compile(r'^\|\s*F-\d+\s*\|', re.MULTILINE),
+    "User Stories": re.compile(r'^\|\s*US-\d+\s*\|', re.MULTILINE),
+    "Требования": re.compile(r'^\|\s*REQ-\d+\s*\|', re.MULTILINE),
+    "Предложения": re.compile(r'^\|\s*PROP-\d+\s*\|', re.MULTILINE),
+}
+
+SECTION_STUBS = {
+    "Фичи": re.compile(r'_Нет выделенных фич\._'),
+    "User Stories": re.compile(r'_Нет User Stories\._'),
+    "Требования": re.compile(r'_Нет формализованных требований\._'),
+    "Предложения": re.compile(r'_(Предложений нет|Все предложения проработаны)\._'),
 }
 
 ELEMENT_PATTERNS = {
-    "F": (re.compile(r'^### F-(\d+):', re.MULTILINE), "D008"),
-    "US": (re.compile(r'^### US-(\d+):', re.MULTILINE), "D009"),
-    "REQ": (re.compile(r'^### REQ-(\d+):', re.MULTILINE), "D010"),
-    "PROP": (re.compile(r'^### PROP-(\d+):', re.MULTILINE), "D011"),
+    "F": (re.compile(r'^\|\s*F-(\d+)\s*\|', re.MULTILINE), "D008"),
+    "US": (re.compile(r'^\|\s*US-(\d+)\s*\|', re.MULTILINE), "D009"),
+    "REQ": (re.compile(r'^\|\s*REQ-(\d+)\s*\|', re.MULTILINE), "D010"),
+    "PROP": (re.compile(r'^\|\s*PROP-(\d+)\s*\|', re.MULTILINE), "D011"),
 }
 
 ERROR_CODES = {
@@ -66,7 +75,7 @@ ERROR_CODES = {
     "D009": "Дублирование номера US-N",
     "D010": "Дублирование номера REQ-N",
     "D011": "Дублирование номера PROP-N",
-    "D012": "REQ без Given/When/Then",
+    "D012": "(удалено — требования теперь в формате естественных предложений)",
     "D013": "Маркер [ТРЕБУЕТ УТОЧНЕНИЯ] при статусе > DRAFT",
     "D014": "Dependency Barrier при статусе > DRAFT",
     "D015": "Привязка к сервису (зона ответственности)",
@@ -76,7 +85,7 @@ ERROR_CODES = {
     "D019": "Отсутствует milestone",
     "D020": "Отсутствует или неверный standard-version",
     "D021": "Неверный index",
-    "D022": "Опциональная секция без элементов",
+    "D022": "Секция без контента и без заглушки",
     "D023": "Description слишком длинное (> 1024 символов)",
 }
 
@@ -238,40 +247,47 @@ def check_heading(content: str, path: Path) -> list[tuple[str, str]]:
 
 
 def check_required_sections(content: str) -> list[tuple[str, str]]:
-    """D006-D007: Проверить обязательные разделы."""
+    """D006-D007: Проверить обязательные разделы (все 6)."""
     errors = []
 
     body = get_body(content)
     body_no_code = remove_code_blocks(body)
 
-    # D006: Проблема / Контекст
-    if not re.search(r'^## Проблема\s*/\s*Контекст', body_no_code, re.MULTILINE):
+    # D006: Проблема / Контекст (с опциональным emoji)
+    if not re.search(SECTION_HEADING_PREFIX + r'Проблема\s*/\s*Контекст', body_no_code, re.MULTILINE):
         errors.append(("D006", "Отсутствует раздел '## Проблема / Контекст'"))
 
-    # D007: Критерии успеха
-    if not re.search(r'^## Критерии успеха', body_no_code, re.MULTILINE):
+    # D007: Критерии успеха (с опциональным emoji)
+    if not re.search(SECTION_HEADING_PREFIX + r'Критерии успеха', body_no_code, re.MULTILINE):
         errors.append(("D007", "Отсутствует раздел '## Критерии успеха'"))
+
+    # Все 6 разделов обязательны (с опциональным emoji)
+    for section_name in SECTION_ELEMENTS:
+        if not re.search(SECTION_HEADING_PREFIX + re.escape(section_name), body_no_code, re.MULTILINE):
+            errors.append(("D006", f"Отсутствует обязательный раздел '## {section_name}'"))
 
     return errors
 
 
-def check_optional_sections(content: str) -> list[tuple[str, str]]:
-    """D022: Проверить что опциональные секции содержат элементы."""
+def check_section_content(content: str) -> list[tuple[str, str]]:
+    """D022: Проверить что секции содержат элементы или заглушку."""
     errors = []
 
     body = get_body(content)
     body_no_code = remove_code_blocks(body)
 
-    for section_name, element_pattern in OPTIONAL_SECTION_ELEMENTS.items():
-        # Найти секцию
+    for section_name, element_pattern in SECTION_ELEMENTS.items():
         section_match = re.search(
-            rf'^## {re.escape(section_name)}\s*\n(.*?)(?=^## |\Z)',
+            SECTION_HEADING_PREFIX + re.escape(section_name) + r'\s*\n(.*?)(?=^##\s|\Z)',
             body_no_code, re.MULTILINE | re.DOTALL
         )
         if section_match:
             section_text = section_match.group(1)
-            if not element_pattern.search(section_text):
-                errors.append(("D022", f"Секция '{section_name}' присутствует, но не содержит элементов"))
+            has_elements = element_pattern.search(section_text)
+            stub_pattern = SECTION_STUBS.get(section_name)
+            has_stub = stub_pattern and stub_pattern.search(section_text)
+            if not has_elements and not has_stub:
+                errors.append(("D022", f"Секция '{section_name}' без контента и без заглушки"))
 
     return errors
 
@@ -290,47 +306,6 @@ def check_numbering(content: str) -> list[tuple[str, str]]:
             if num in seen:
                 errors.append((error_code, f"Дубликат {prefix}-{num}"))
             seen.add(num)
-
-    return errors
-
-
-def check_requirements_format(content: str) -> list[tuple[str, str]]:
-    """D012: Проверить формат требований (Given/When/Then)."""
-    errors = []
-
-    body = get_body(content)
-    body_no_code = remove_code_blocks(body)
-
-    # Найти секцию Требования
-    req_section = re.search(r'^## Требования\s*\n(.*?)(?=^## |\Z)', body_no_code, re.MULTILINE | re.DOTALL)
-    if not req_section:
-        return errors  # секция опциональна
-
-    section_text = req_section.group(1)
-
-    # Найти все REQ-N в секции
-    req_headers = re.finditer(r'^### REQ-(\d+):\s*(.+?)$', section_text, re.MULTILINE)
-    for match in req_headers:
-        req_num = match.group(1)
-        # Найти текст от этого REQ до следующего ### или конца секции
-        start = match.end()
-        next_header = re.search(r'^### ', section_text[start:], re.MULTILINE)
-        end = start + next_header.start() if next_header else len(section_text)
-        req_body = section_text[start:end]
-
-        has_given = bool(re.search(r'\*\*GIVEN\*\*', req_body, re.IGNORECASE))
-        has_when = bool(re.search(r'\*\*WHEN\*\*', req_body, re.IGNORECASE))
-        has_then = bool(re.search(r'\*\*THEN\*\*', req_body, re.IGNORECASE))
-
-        if not (has_given and has_when and has_then):
-            missing = []
-            if not has_given:
-                missing.append("GIVEN")
-            if not has_when:
-                missing.append("WHEN")
-            if not has_then:
-                missing.append("THEN")
-            errors.append(("D012", f"REQ-{req_num}: отсутствует {', '.join(missing)}"))
 
     return errors
 
@@ -460,14 +435,11 @@ def validate_discussion(path: Path, repo_root: Path) -> list[tuple[str, str]]:
     # D006-D007: обязательные разделы
     errors.extend(check_required_sections(content))
 
-    # D022: опциональные секции без элементов
-    errors.extend(check_optional_sections(content))
+    # D022: секции без контента и без заглушки
+    errors.extend(check_section_content(content))
 
     # D008-D011: нумерация
     errors.extend(check_numbering(content))
-
-    # D012: формат требований
-    errors.extend(check_requirements_format(content))
 
     # D013-D014: маркеры и статус
     errors.extend(check_markers_and_status(content))

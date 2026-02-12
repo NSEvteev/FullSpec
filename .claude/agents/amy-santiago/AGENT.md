@@ -10,8 +10,9 @@ tools: Read, Grep, Glob, Bash, Edit, Write, AskUserQuestion
 disallowedTools: WebSearch, WebFetch
 permissionMode: default
 max_turns: 50
-version: v1.1
+version: v1.2
 skills:
+  - list-search
   - instruction-create
   - instruction-modify
   - instruction-validate
