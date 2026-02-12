@@ -23,7 +23,11 @@ index: specs/architecture/system/README.md
 
 ## 1. Файлы
 
-*Нет файлов.*
+| Файл | Описание |
+|------|----------|
+| [overview.md](overview.md) | Обзор системной архитектуры — сервисы, потоки, инфраструктура |
+| [data-flows.md](data-flows.md) | Детальные потоки данных между сервисами |
+| [infrastructure.md](infrastructure.md) | Deployment, networking, мониторинг |
 
 ---
 
@@ -31,5 +35,8 @@ index: specs/architecture/system/README.md
 
 ```
 /specs/architecture/system/
+├── overview.md              # Обзор системной архитектуры
+├── data-flows.md            # Потоки данных между сервисами
+├── infrastructure.md        # Инфраструктура
 └── README.md                # Этот файл
 ```

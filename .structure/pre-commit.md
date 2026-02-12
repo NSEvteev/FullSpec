@@ -36,6 +36,8 @@ make setup
 | `security-validate` | Файлы безопасности GitHub | `dependabot.yml`, `SECURITY.md`, `codeql.yml` |
 | `branch-validate` | Формат имени ветки (naming convention) | Все (always_run) |
 | `github-required` | Наличие обязательных файлов GitHub | Все (always_run) |
+| `service-labels-validate` | Соответствие `svc:*` ↔ `specs/services/*/` | `labels.yml`, `specs/services/*/` |
+| `architecture-validate` | Фиксированные файлы архитектуры + согласованность services/ | `specs/architecture/`, `specs/services/` |
 
 ---
 

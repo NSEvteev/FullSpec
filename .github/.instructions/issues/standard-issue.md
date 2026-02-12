@@ -215,6 +215,14 @@ GitHub Issues — система управления задачами, бага
 - Справочник меток — `.github/labels.yml`
 ```
 
+**Опциональная строка "Сервис":**
+
+Если Issue привязан к одному сервису — добавить строку "Сервис" со ссылкой на архитектурный документ. Если задача cross-service — не добавлять (информация в метках `svc:*`).
+
+```markdown
+**Сервис:** [auth](specs/architecture/services/auth.md)
+```
+
 **Полный пример body (с зависимостями, документацией и чек-листом):**
 
 ```markdown
@@ -244,7 +252,7 @@ GitHub Issues — система управления задачами, бага
 - Ровно 1 метка типа (bug, feature, task, docs, refactor, question)
 - Ровно 1 метка приоритета (critical, high, medium, low)
 
-**Опционально:** status (ready, wip, in-review, blocked), area, effort, env
+**Опционально:** status (ready, wip, in-review, blocked), area, effort, env, svc
 
 Правила применения и разрешение конфликтов — см. [standard-labels.md § 3, 5](../labels/standard-labels.md#3-правила-применения).
 

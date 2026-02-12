@@ -18,6 +18,11 @@ index: specs/.instructions/living-docs/service/README.md
 - [standard-design.md](../../design/standard-design.md)
 - [standard-adr.md](../../adr/standard-adr.md)
 
+**Файлы architecture/ (регулируемые этим стандартом):**
+- [architecture/services/](/specs/architecture/services/) — per-service документы
+- [architecture/system/](/specs/architecture/system/) — системная архитектура (overview, data-flows, infrastructure)
+- [architecture/domains/](/specs/architecture/domains/) — доменная архитектура (bounded contexts, context map)
+
 **Связанные документы:**
 
 | Тип | Документ |
@@ -96,23 +101,30 @@ index: specs/.instructions/living-docs/service/README.md
 - Содержимое спецификаций (Discussion, Impact, Design, ADR) — их собственные стандарты
 
 **Граничные случаи:**
-- **Пустой проект** — `architecture/` не содержит документов. Impact опирается на Discussion + Clarify, предлагает все сервисы как "Новый (план создания)" с уверенностью "Предположительно" ([§ 11.3](#113-пустой-проект))
+- **Пустой проект** — файлы `system/` и `domains/` существуют как пустые шаблоны, `services/` пуст. Impact опирается на Discussion + Clarify, предлагает все сервисы как "Новый (план создания)" с уверенностью "Предположительно" ([§ 11.3](#113-пустой-проект))
 - **shared/** — не сервис, документируется через сервисы-владельцы ([§ 7](#7-shared-код-shared))
 - **Монолит** — один `services/monolith.md`, system/ содержит только infrastructure.md
 
 **Жизненный цикл сервисной документации:**
 
 ```
-1. Discussion → Impact: "Нужен сервис X" (предложение)
+1. Инициализация проекта: system/ и domains/ файлы создаются как пустые шаблоны
+2. Discussion → Impact: "Нужен сервис X" (предложение)
    - Если architecture/services/X.md существует → читать Резюме + Planned Changes
    - Если не существует → Impact предлагает "Новый (план создания)"
-2. Impact → Design: Design РЕШАЕТ создание/использование
-3. Design → ADR: ADR для сервиса X
-4. ADR → DONE: Создаётся/обновляется architecture/services/X.md
-5. services/README.md обновляется (новая строка в таблице сервисов)
+3. Impact → Design: Design РЕШАЕТ создание/использование
+4. Design → WAITING: Planned Changes добавляются в system/, domains/, services/{svc}.md
+5. Design → ADR: ADR для сервиса X
+6. ADR → DONE: Создаётся/обновляется architecture/services/X.md
+7. Design → DONE: Planned Changes в system/ и domains/ становятся актуальным AS IS
+8. services/README.md обновляется (новая строка в таблице сервисов)
 ```
 
-**Ключевое правило:** Архитектурный документ `services/{svc}.md` **создаётся** при первом ADR → DONE для этого сервиса. До этого момента сервис существует только как предложение в Impact/Design.
+**Ключевые правила:**
+- Файлы `system/` и `domains/` (фиксированные: overview.md, data-flows.md, infrastructure.md, context-map.md) **создаются при инициализации проекта** как пустые шаблоны. Design → WAITING заполняет их Planned Changes, Design → DONE превращает планируемое в AS IS
+- Файлы `domains/{domain}.md` (per-domain) **создаются при первом Design → WAITING**, который идентифицирует этот домен
+- Архитектурный документ `services/{svc}.md` **создаётся** при первом ADR → DONE для этого сервиса. До этого момента сервис существует только как предложение в Impact/Design
+- При создании папки `specs/services/{svc}/` **ОБЯЗАТЕЛЬНО** создать метку `svc:{svc}` в `labels.yml`
 
 ---
 
@@ -134,11 +146,11 @@ specs/architecture/
 └── README.md
 ```
 
-| Папка | Что хранит | Обновляется при |
-|-------|-----------|-----------------|
-| `system/` | Системная архитектура: overview, data-flows, infrastructure | Design → DONE |
-| `services/{svc}.md` | Архитектура сервиса: резюме, API, data model, **Code Map**, **Planned Changes** | ADR → DONE (+ Planned Changes при Design → WAITING) |
-| `domains/` | Bounded contexts, агрегаты, события, context map | Design → DONE |
+| Папка | Что хранит | Создаётся | Обновляется при |
+|-------|-----------|-----------|-----------------|
+| `system/` | Системная архитектура: overview, data-flows, infrastructure | Инициализация проекта (пустые шаблоны) | Planned Changes при Design → WAITING, AS IS при Design → DONE |
+| `services/{svc}.md` | Архитектура сервиса: резюме, API, data model, **Code Map**, **Planned Changes** | Первый ADR → DONE | Planned Changes при Design → WAITING, AS IS при ADR → DONE |
+| `domains/` | Bounded contexts, агрегаты, события, context map | Инициализация проекта (пустые шаблоны); per-domain при первом Design → WAITING | Planned Changes при Design → WAITING, AS IS при Design → DONE |
 
 **Именование файлов:**
 
@@ -195,14 +207,27 @@ description: Обзор системной архитектуры — серви
 
 | Событие | Действие | Файлы |
 |---------|----------|-------|
+| Инициализация проекта | **Создать** пустые шаблоны | `system/overview.md`, `system/data-flows.md`, `system/infrastructure.md`, `domains/context-map.md` |
+| Design → WAITING | Добавить **Planned Changes** | `system/`, `domains/`, `services/{svc}.md` для затронутых сервисов |
+| Design → WAITING (первый для домена) | **Создать** + Planned Changes | `domains/{domain}.md` |
+| Design → DONE | **Обновить** AS IS (Planned Changes → актуальное) | `system/`, `domains/` файлы |
+| ADR → WAITING | Добавить ссылку на ADR в Planned Changes | `services/{svc}.md` |
 | ADR → DONE (первый для сервиса) | **Создать** | `services/{svc}.md`, строка в `services/README.md` |
 | ADR → DONE (последующий) | **Обновить** | `services/{svc}.md` (дельта-блоки), `services/README.md` |
-| Design → WAITING | Добавить Planned Changes | `services/{svc}.md` для затронутых сервисов |
-| Design → DONE (первый) | **Создать** | `system/overview.md`, `domains/{domain}.md` |
-| Design → DONE (последующий) | **Обновить** | `system/`, `domains/` файлы |
-| Design/ADR → REJECTED | Убрать Planned Changes | Затронутые `services/{svc}.md` |
+| Создание папки `specs/services/{svc}/` | **Создать** метку `svc:{svc}` в labels.yml | `labels.yml`, GitHub (через `/labels-modify`) |
+| Удаление папки `specs/services/{svc}/` | **Удалить** метку `svc:{svc}` из labels.yml | `labels.yml`, GitHub (через `/labels-modify`, с миграцией Issues) |
+| Design/ADR → REJECTED | Убрать Planned Changes | Затронутые `system/`, `domains/`, `services/{svc}.md` |
 
-**Создание vs обновление:** При первом обращении файл **создаётся** (первый Design → DONE создаёт `system/`, `domains/`; первый ADR → DONE создаёт `services/{svc}.md`). При последующих — **обновляется** (AS IS → TO BE).
+**Валидация svc-меток:**
+```bash
+python specs/.instructions/.scripts/validate-service-labels.py
+```
+Pre-commit хук `service-labels-validate` запускается автоматически при изменении `labels.yml` или `specs/services/`.
+
+**Создание файлов:**
+- **system/ и domains/ (фиксированные):** Создаются при инициализации проекта как пустые шаблоны. Первый Design → WAITING заполняет их Planned Changes
+- **domains/{domain}.md (per-domain):** Создаётся при первом Design → WAITING, который идентифицирует этот домен
+- **services/{svc}.md:** Создаётся при первом ADR → DONE для этого сервиса
 
 ### Дельта-блоки ADR
 
@@ -413,7 +438,12 @@ auth.rbac → auth.tokens
 
 ## 6. Системная и доменная архитектура
 
-Файлы `system/` и `domains/` — контекст, связывающий сервисы. Создаются при первом Design → DONE, обновляются при последующих.
+Файлы `system/` и `domains/` — контекст, связывающий сервисы.
+
+**Жизненный цикл:**
+1. **Инициализация проекта** — фиксированные файлы создаются как пустые шаблоны: `system/overview.md`, `system/data-flows.md`, `system/infrastructure.md`, `domains/context-map.md`
+2. **Design → WAITING** — LLM добавляет Planned Changes (ссылки на Design с описанием планируемых изменений). Per-domain файлы `domains/{domain}.md` создаются при первом обращении
+3. **Design → DONE** — Planned Changes превращаются в актуальный AS IS (контент обновляется, секция Planned Changes очищается)
 
 ### 6.1 system/overview.md
 
@@ -580,7 +610,7 @@ Impact Analysis ([standard-impact.md](../../impact/standard-impact.md)) обяз
 
 **Impact НЕ читает** детально Code Map, Tech Stack, границы автономии — это уровень ADR/Design.
 
-**Пустой проект:** Если `architecture/` не содержит документов — Impact опирается только на Discussion + Clarify. Предлагает все сервисы как "Новый (план создания)" с уверенностью "Предположительно".
+**Пустой проект:** Если `architecture/` содержит только пустые шаблоны (system/, domains/) и `services/` пуст — Impact опирается только на Discussion + Clarify. Предлагает все сервисы как "Новый (план создания)" с уверенностью "Предположительно".
 
 ---
 
@@ -677,6 +707,10 @@ description: Обзор системной архитектуры — серви
 ## Инфраструктура
 
 {Deployment, networking, мониторинг}
+
+## Planned Changes
+
+*Нет запланированных изменений.*
 `````
 
 ### 9.3 Шаблон domains/{domain}.md
@@ -704,6 +738,10 @@ description: Домен {domain} — {описание bounded context}.
 
 - {инвариант 1}
 - {инвариант 2}
+
+## Planned Changes
+
+*Нет запланированных изменений.*
 `````
 
 ---
@@ -744,6 +782,15 @@ description: Домен {domain} — {описание bounded context}.
 - [ ] Формат: ссылка на Discussion + Design + ADR
 - [ ] Не содержит дублирования дельт из ADR
 - [ ] Ссылки валидны (документы существуют)
+
+### System/ и Domains/
+- [ ] Фиксированные файлы существуют: `system/overview.md`, `system/data-flows.md`, `system/infrastructure.md`, `domains/context-map.md`
+- [ ] Секция Planned Changes присутствует в каждом файле system/ и domains/
+- [ ] При Design → WAITING — Planned Changes заполнены ссылками на Design
+- [ ] При Design → DONE — контент актуален (AS IS), Planned Changes очищены
+
+### Метки
+- [ ] Метка `svc:{svc}` существует в `labels.yml`
 
 ### README
 - [ ] Строка в `services/README.md` актуальна (Сервис, Описание, API, Технологии, Последний ADR)
@@ -880,16 +927,17 @@ auth.middleware → auth.tokens → auth.keys
 
 ### 11.3 Пустой проект
 
-Impact Analysis когда `architecture/` пуст:
+Impact Analysis когда `architecture/` содержит пустые шаблоны:
 
 ```
 1. Impact читает architecture/services/README.md → таблица пуста
-2. Impact читает architecture/system/overview.md → файл не существует
+2. Impact читает architecture/system/overview.md → файл существует, но пуст (шаблон)
 3. Impact опирается только на Discussion + Clarify
 4. Все предложенные сервисы получают:
    - Статус: "Новый (план создания)"
    - Уверенность: "Предположительно"
 5. Design принимает решение о создании сервисов
-6. Первый Design → DONE создаёт system/overview.md и domains/
-7. Первые ADR → DONE создают services/{svc}.md для каждого сервиса
+6. Design → WAITING: system/overview.md, domains/ заполняются Planned Changes
+7. Design → DONE: Planned Changes → актуальный AS IS
+8. Первые ADR → DONE создают services/{svc}.md для каждого сервиса
 ```

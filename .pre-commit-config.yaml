@@ -115,3 +115,21 @@ repos:
         pass_filenames: false
         always_run: true
         stages: [pre-commit]
+
+      # 13. Валидация соответствия svc:* и specs/services/
+      - id: service-labels-validate
+        name: Validate svc:* ↔ service dirs
+        entry: python specs/.instructions/.scripts/validate-service-labels.py
+        language: system
+        files: ^(\.github/labels\.yml|specs/services/.+)$
+        pass_filenames: false
+        stages: [pre-commit]
+
+      # 14. Валидация фиксированных файлов архитектуры
+      - id: architecture-validate
+        name: Validate architecture fixed files
+        entry: python specs/.instructions/.scripts/validate-architecture.py --check-services
+        language: system
+        files: ^specs/(architecture/|services/)
+        pass_filenames: false
+        stages: [pre-commit]

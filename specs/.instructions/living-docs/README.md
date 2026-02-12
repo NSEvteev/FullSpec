@@ -31,6 +31,10 @@ index: specs/.instructions/living-docs/README.md
 
 **Стандарт живых документов тестов** (`specs/tests/`).
 
+### [architecture/](./architecture/README.md)
+
+**Стандарт фиксированных файлов архитектуры** (`specs/architecture/system/`, `specs/architecture/domains/`).
+
 ### [glossary/](./glossary/README.md)
 
 **Стандарт глоссария по доменам** (`specs/glossary/`).
@@ -41,6 +45,8 @@ index: specs/.instructions/living-docs/README.md
 
 ```
 /specs/.instructions/living-docs/
+├── architecture/               # Стандарт фиксированных файлов архитектуры
+│   └── README.md
 ├── service/                    # Стандарт сервисной документации
 │   └── README.md
 ├── glossary/                   # Стандарт глоссария

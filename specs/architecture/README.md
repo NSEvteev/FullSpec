@@ -7,7 +7,7 @@ index: specs/architecture/README.md
 
 # /specs/architecture/ — Архитектура (живые документы)
 
-Текущее состояние архитектуры. Обновляется при ADR→DONE. Содержит системную, сервисную и доменную архитектуру.
+Текущее состояние архитектуры. Файлы system/ и domains/ создаются при инициализации проекта как пустые шаблоны, заполняются Planned Changes при Design → WAITING, обновляются до AS IS при Design → DONE. Per-service файлы создаются при ADR → DONE.
 
 **Полезные ссылки:**
 - [Спецификации проекта](../README.md)
@@ -44,7 +44,7 @@ index: specs/architecture/README.md
 | # | Что читать | Зачем |
 |---|-----------|-------|
 | 1 | [services/README.md](./services/README.md) — таблица сервисов | Список существующих сервисов, технологии, API |
-| 2 | [system/overview.md](./system/overview.md) (если существует) | Общая картина, потоки между сервисами |
+| 2 | [system/overview.md](./system/overview.md) | Общая картина, потоки между сервисами |
 | 3 | `services/{svc}.md` — Резюме + Planned Changes | Детали по затронутым сервисам |
 
 Подробнее: [standard-service.md § 8](../.instructions/living-docs/service/standard-service.md#8-quick-scan-для-impact)
@@ -56,7 +56,14 @@ index: specs/architecture/README.md
 ```
 /specs/architecture/
 ├── domains/                 # Доменная архитектура (DDD)
+│   ├── context-map.md       #   Карта взаимодействия контекстов
+│   └── README.md
 ├── services/                # Per-service архитектура
+│   └── README.md
 ├── system/                  # Системная архитектура
+│   ├── overview.md          #   Обзор: сервисы, потоки, инфраструктура
+│   ├── data-flows.md        #   Потоки данных между сервисами
+│   ├── infrastructure.md    #   Deployment, networking, мониторинг
+│   └── README.md
 └── README.md                # Этот файл
 ```

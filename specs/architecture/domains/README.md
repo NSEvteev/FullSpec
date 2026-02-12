@@ -23,7 +23,11 @@ index: specs/architecture/domains/README.md
 
 ## 1. Файлы
 
-*Нет файлов.*
+| Файл | Описание |
+|------|----------|
+| [context-map.md](context-map.md) | Карта взаимодействия между bounded contexts |
+
+Per-domain файлы (`{domain}.md`) создаются при первом Design → WAITING.
 
 ---
 
@@ -31,5 +35,8 @@ index: specs/architecture/domains/README.md
 
 ```
 /specs/architecture/domains/
+├── context-map.md           # Карта взаимодействия контекстов
 └── README.md                # Этот файл
 ```
+
+Per-domain файлы (`{domain}.md`) создаются динамически при первом Design → WAITING.
