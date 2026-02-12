@@ -302,6 +302,31 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
                     f"в полном документе"
                 )
 
+        # SVC008: проверка колонок таблиц
+        table_checks = {
+            "API контракты": ["Тип", "Endpoint/Event", "Метод", "Описание"],
+            "Data Model": ["Сущность", "Хранилище", "Назначение"],
+            "Внешние зависимости": ["Тип", "Путь/Сервис", "Что используем", "Роль"],
+        }
+        for section_name, expected_cols in table_checks.items():
+            sec_content = extract_section_content(content, section_name)
+            if not sec_content.strip():
+                continue
+            # Ищем первую строку таблицы (заголовок) с |
+            for line in sec_content.split("\n"):
+                cells = [c.strip() for c in line.split("|") if c.strip()]
+                if len(cells) >= 2 and cells[0] not in ("---", "-"):
+                    # Первая непустая строка с | — заголовок таблицы
+                    missing = [col for col in expected_cols if col not in cells]
+                    if missing:
+                        errors.append(
+                            f"[SVC008] {rel}: таблица '{section_name}' "
+                            f"без колонок: {', '.join(missing)}"
+                        )
+                    elif verbose:
+                        print(f"    таблица '{section_name}': колонки ✓")
+                    break
+
         # SVC009: Code Map подсекции
         h3 = extract_h3_sections(content)
         for sub in CODE_MAP_SUBSECTIONS:
@@ -338,8 +363,24 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
         changelog_content = extract_section_content(content, "Changelog").strip()
         if not changelog_content:
             errors.append(f"[SVC014] {rel}: секция Changelog пуста")
-        elif verbose:
-            print(f"    Changelog ✓")
+        elif changelog_content == "*Нет записей.*":
+            # Допустимо для full-документа, если Design ещё не DONE
+            if verbose:
+                print(f"    Changelog: пуст (нет записей) ✓")
+        else:
+            # Проверить формат записей: маркеры DONE/REJECTED/CONFLICT-RESOLVED
+            has_entries = False
+            for line in changelog_content.split("\n"):
+                stripped = line.strip()
+                if stripped.startswith("- **["):
+                    has_entries = True
+                    if "| DONE" not in stripped and "| REJECTED" not in stripped:
+                        errors.append(
+                            f"[SVC014] {rel}: запись Changelog без маркера "
+                            f"DONE или REJECTED"
+                        )
+            if has_entries and verbose:
+                print(f"    Changelog: формат ✓")
 
     # SVC012: строка в services/README.md
     if svc:

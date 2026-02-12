@@ -397,14 +397,7 @@ service: payments
 | `last-updated-by` | Отсутствует | Присутствует (`adr-NNNN`) |
 | Секции 2-6 | `*Заполняется при ADR → DONE.*` | Заполнены |
 
-**Правила валидации:**
-
-- Если `created-by` **отсутствует** → stub-режим:
-  - Секции 2-6 (API контракты, Data Model, Code Map, Внешние зависимости, Границы автономии LLM) **ДОЛЖНЫ** содержать `*Заполняется при ADR → DONE.*`
-  - Если секции заполнены → ошибка: "created-by обязателен для заполненного документа"
-- Если `created-by` **присутствует** → полный режим:
-  - Все секции **ДОЛЖНЫ** быть заполнены
-  - Если секция содержит `*Заполняется при ADR → DONE.*` → ошибка: "stub-placeholder в полном документе"
+**Правила валидации содержимого:** [validation-service.md — Stub-режим](/specs/.instructions/living-docs/service/validation-service.md#stub-режим-если-нет-created-by)
 
 **Для system/ и domains/ файлов:** см. [standard-architecture.md § 3](/specs/.instructions/living-docs/architecture/standard-architecture.md#3-frontmatter).
 

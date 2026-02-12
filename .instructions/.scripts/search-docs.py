@@ -314,8 +314,6 @@ def collect_services(repo_root: Path) -> list[dict]:
             "description": fm.get("description", ""),
             "area": "specs/architecture/services",
             "status": status,
-            "created-by": created_by,
-            "last-updated-by": fm.get("last-updated-by", ""),
         })
 
     return items
