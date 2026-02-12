@@ -17,6 +17,7 @@ index: specs/.instructions/living-docs/service/README.md
 - [standard-impact.md](../../impact/standard-impact.md)
 - [standard-design.md](../../design/standard-design.md)
 - [standard-adr.md](../../adr/standard-adr.md)
+- [standard-architecture.md](../architecture/standard-architecture.md) — существование и структура фиксированных файлов system/, domains/
 
 **Файлы architecture/ (регулируемые этим стандартом):**
 - [architecture/services/](/specs/architecture/services/) — per-service документы
@@ -28,6 +29,8 @@ index: specs/.instructions/living-docs/service/README.md
 | Тип | Документ |
 |-----|----------|
 | Стандарт SDD | [standard-specs.md](../../standard-specs.md) |
+| Структура фиксированных файлов | [standard-architecture.md](../architecture/standard-architecture.md) |
+| Валидация фиксированных файлов | [validation-architecture.md](../architecture/validation-architecture.md) |
 | Валидация | `validation-service.md` *(будет создан)* |
 | Создание | `create-service.md` *(будет создан)* |
 | Модификация | `modify-service.md` *(будет создан)* |
@@ -59,13 +62,13 @@ index: specs/.instructions/living-docs/service/README.md
 - [8. Quick Scan для Impact](#8-quick-scan-для-impact)
 - [9. Шаблоны](#9-шаблоны)
   - [9.1 Шаблон services/{svc}.md](#91-шаблон-servicessvcmd)
-  - [9.2 Шаблон system/overview.md](#92-шаблон-systemoverviewmd)
-  - [9.3 Шаблон domains/{domain}.md](#93-шаблон-domainsdomainmd)
+  - [9.2 Документы, обновляемые при изменении сервиса](#92-документы-обновляемые-при-изменении-сервиса)
 - [10. Чек-лист качества](#10-чек-лист-качества)
 - [11. Примеры](#11-примеры)
   - [11.1 Создание первого сервиса (auth)](#111-создание-первого-сервиса-auth)
   - [11.2 Обновление сервиса при ADR → DONE](#112-обновление-сервиса-при-adr--done)
-  - [11.3 Пустой проект](#113-пустой-проект)
+  - [11.3 Обновление system/domains при Design → DONE](#113-обновление-systemdomains-при-design--done)
+  - [11.4 Удаление сервиса](#114-удаление-сервиса)
 
 ---
 
@@ -101,11 +104,11 @@ index: specs/.instructions/living-docs/service/README.md
 - Содержимое спецификаций (Discussion, Impact, Design, ADR) — их собственные стандарты
 
 **Граничные случаи:**
-- **Пустой проект** — файлы `system/` и `domains/` существуют как пустые шаблоны, `services/` пуст. Impact опирается на Discussion + Clarify, предлагает все сервисы как "Новый (план создания)" с уверенностью "Предположительно" ([§ 11.3](#113-пустой-проект))
+- **Пустой проект** — файлы `system/` и `domains/` существуют как пустые шаблоны, `services/` пуст. Impact опирается на Discussion + Clarify, предлагает все сервисы как "Новый (план создания)" с уверенностью "Предположительно" ([§ 8](#8-quick-scan-для-impact))
 - **shared/** — не сервис, документируется через сервисы-владельцы ([§ 7](#7-shared-код-shared))
 - **Монолит** — один `services/monolith.md`, system/ содержит только infrastructure.md
 
-**Жизненный цикл сервисной документации:**
+**Жизненный цикл сервисной документации** (обзор; полная таблица триггеров — [§ 4](#4-триггеры-создания-и-обновления)):
 
 ```
 1. Инициализация проекта: system/ и domains/ файлы создаются как пустые шаблоны
@@ -120,11 +123,7 @@ index: specs/.instructions/living-docs/service/README.md
 8. services/README.md обновляется (новая строка в таблице сервисов)
 ```
 
-**Ключевые правила:**
-- Файлы `system/` и `domains/` (фиксированные: overview.md, data-flows.md, infrastructure.md, context-map.md) **создаются при инициализации проекта** как пустые шаблоны. Design → WAITING заполняет их Planned Changes, Design → DONE превращает планируемое в AS IS
-- Файлы `domains/{domain}.md` (per-domain) **создаются при первом Design → WAITING**, который идентифицирует этот домен
-- Архитектурный документ `services/{svc}.md` **создаётся** при первом ADR → DONE для этого сервиса. До этого момента сервис существует только как предложение в Impact/Design
-- При создании папки `specs/services/{svc}/` **ОБЯЗАТЕЛЬНО** создать метку `svc:{svc}` в `labels.yml`
+**Ключевые правила:** Правила создания и обновления файлов описаны в [§ 4](#4-триггеры-создания-и-обновления) (таблица триггеров).
 
 ---
 
@@ -191,13 +190,7 @@ last-updated-by: adr-0003
 ---
 ```
 
-**Для system/ и domains/ файлов:** Стандартный frontmatter проекта без специализированных полей:
-
-```yaml
----
-description: Обзор системной архитектуры — сервисы, потоки данных, инфраструктура.
----
-```
+**Для system/ и domains/ файлов:** см. [standard-architecture.md § 3](../architecture/standard-architecture.md#3-frontmatter).
 
 ---
 
@@ -223,6 +216,12 @@ description: Обзор системной архитектуры — серви
 python specs/.instructions/.scripts/validate-service-labels.py
 ```
 Pre-commit хук `service-labels-validate` запускается автоматически при изменении `labels.yml` или `specs/services/`.
+
+**Валидация фиксированных файлов архитектуры:**
+```bash
+python specs/.instructions/.scripts/validate-architecture.py --check-services
+```
+Pre-commit хук `architecture-validate` запускается при изменении `specs/architecture/` или `specs/services/`. Проверяет структуру фиксированных файлов (AC001-AC005) и согласованность: новые файлы в `specs/services/` должны сопровождаться обновлением `specs/architecture/` (AC006). Подробнее: [validation-architecture.md](../architecture/validation-architecture.md).
 
 **Создание файлов:**
 - **system/ и domains/ (фиксированные):** Создаются при инициализации проекта как пустые шаблоны. Первый Design → WAITING заполняет их Planned Changes
@@ -438,12 +437,7 @@ auth.rbac → auth.tokens
 
 ## 6. Системная и доменная архитектура
 
-Файлы `system/` и `domains/` — контекст, связывающий сервисы.
-
-**Жизненный цикл:**
-1. **Инициализация проекта** — фиксированные файлы создаются как пустые шаблоны: `system/overview.md`, `system/data-flows.md`, `system/infrastructure.md`, `domains/context-map.md`
-2. **Design → WAITING** — LLM добавляет Planned Changes (ссылки на Design с описанием планируемых изменений). Per-domain файлы `domains/{domain}.md` создаются при первом обращении
-3. **Design → DONE** — Planned Changes превращаются в актуальный AS IS (контент обновляется, секция Planned Changes очищается)
+Файлы `system/` и `domains/` — контекст, связывающий сервисы. Триггеры создания и обновления — [§ 4](#4-триггеры-создания-и-обновления). Обязательные секции и шаблоны фиксированных файлов — [standard-architecture.md § 4-5](../architecture/standard-architecture.md#4-обязательные-секции). Ниже — описание контента и примеры.
 
 ### 6.1 system/overview.md
 
@@ -685,35 +679,38 @@ last-updated-by: adr-NNNN
 *Нет запланированных изменений.*
 `````
 
-### 9.2 Шаблон system/overview.md
+### 9.2 Документы, обновляемые при изменении сервиса
 
-`````markdown
----
-description: Обзор системной архитектуры — сервисы, потоки данных, инфраструктура.
----
+При создании или модификации сервиса необходимо обновить не только `services/{svc}.md`, но и документы системного контекста. Ниже — полный перечень файлов и что в них меняется.
 
-# Обзор системной архитектуры
+**При создании нового сервиса (ADR → DONE, первый):**
 
-## Сервисы
+| Файл | Что обновить | Ссылка |
+|------|-------------|--------|
+| `services/{svc}.md` | Создать по шаблону [§ 9.1](#91-шаблон-servicessvcmd) | — |
+| `services/README.md` | Добавить строку в таблицу сервисов | — |
+| `system/overview.md` | Добавить сервис в таблицу домена, обновить потоки | [файл](/specs/architecture/system/overview.md) |
+| `system/data-flows.md` | Добавить блоки потоков нового сервиса | [файл](/specs/architecture/system/data-flows.md) |
+| `system/infrastructure.md` | Обновить ресурсы, networking (если применимо) | [файл](/specs/architecture/system/infrastructure.md) |
+| `domains/context-map.md` | Добавить сервис в домен, обновить связи | [файл](/specs/architecture/domains/context-map.md) |
+| `domains/{domain}.md` | Добавить агрегаты, события, инварианты | — |
+| `labels.yml` | Создать метку `svc:{svc}` | через `/labels-modify` |
 
-| Сервис | Назначение | Ключевые API |
-|--------|-----------|-------------|
-| {service} | {назначение} | {endpoints} |
+**При модификации существующего сервиса (ADR → DONE, последующий):**
 
-## Потоки данных
+| Файл | Когда обновлять |
+|------|----------------|
+| `services/{svc}.md` | Всегда (дельта из ADR) |
+| `services/README.md` | Если изменились API, технологии |
+| `system/overview.md` | Если изменилось назначение, ключевые API |
+| `system/data-flows.md` | Если изменились контракты, добавлены/удалены потоки |
+| `system/infrastructure.md` | Если изменились ресурсы, deployment, networking |
+| `domains/context-map.md` | Если изменились связи между контекстами |
+| `domains/{domain}.md` | Если изменились агрегаты, события, инварианты |
 
-{Высокоуровневая карта: кто с кем общается, через что}
+**Шаблоны фиксированных файлов** (overview.md, data-flows.md, infrastructure.md, context-map.md) — см. [standard-architecture.md § 5](../architecture/standard-architecture.md#5-шаблоны).
 
-## Инфраструктура
-
-{Deployment, networking, мониторинг}
-
-## Planned Changes
-
-*Нет запланированных изменений.*
-`````
-
-### 9.3 Шаблон domains/{domain}.md
+**Шаблон domains/{domain}.md** — per-domain файл, создаётся при первом Design → WAITING:
 
 `````markdown
 ---
@@ -925,19 +922,48 @@ auth.middleware → auth.tokens → auth.keys
 5. **Frontmatter** — `last-updated-by: adr-0002`
 6. **services/README.md** — обновляются колонки "Ключевые API" и "Последний ADR"
 
-### 11.3 Пустой проект
+### 11.3 Обновление system/domains при Design → DONE
 
-Impact Analysis когда `architecture/` содержит пустые шаблоны:
+Design завершён: Planned Changes в фиксированных файлах становятся актуальным AS IS.
 
-```
-1. Impact читает architecture/services/README.md → таблица пуста
-2. Impact читает architecture/system/overview.md → файл существует, но пуст (шаблон)
-3. Impact опирается только на Discussion + Clarify
-4. Все предложенные сервисы получают:
-   - Статус: "Новый (план создания)"
-   - Уверенность: "Предположительно"
-5. Design принимает решение о создании сервисов
-6. Design → WAITING: system/overview.md, domains/ заполняются Planned Changes
-7. Design → DONE: Planned Changes → актуальный AS IS
-8. Первые ADR → DONE создают services/{svc}.md для каждого сервиса
-```
+**Контекст:**
+- Design "Выделение Pricing из Catalog" перешёл в DONE
+- В `system/overview.md` был Planned Changes с описанием нового сервиса pricing
+- Все ADR этого Design тоже DONE
+
+**Что обновляется:**
+
+| Файл | Действие |
+|------|----------|
+| `system/overview.md` | Добавить `pricing` в таблицу сервисов домена Content. Обновить критический путь (cart → pricing вместо cart → catalog для цен). Удалить Planned Changes для этого Design |
+| `system/data-flows.md` | Заменить блок `cart → catalog: актуальные цены` на `cart → pricing: актуальные цены`. Добавить блок `pricing → catalog: PriceUpdatedEvent`. Удалить Planned Changes |
+| `system/infrastructure.md` | Обновить таблицу ресурсов (+1 сервис). Удалить Planned Changes |
+| `domains/context-map.md` | Добавить `pricing` в список сервисов Content. Обновить связи (Commerce → Content через pricing). Удалить Planned Changes |
+
+**Принцип:** Planned Changes содержит описание "что изменится". При Design → DONE — LLM читает Planned Changes, вносит описанные изменения в AS IS секции файла, затем удаляет блок Planned Changes для этого Design.
+
+### 11.4 Удаление сервиса
+
+Удаление сервиса — **полу-ручная операция**. Пользователь совместно с LLM проходит все файлы, где упоминается удаляемый сервис.
+
+**Порядок:**
+
+1. Создать черновик (`/.claude/drafts/`) с планом удаления: перечислить все файлы, содержащие упоминания сервиса (через Grep по имени сервиса в `specs/architecture/`)
+2. Для каждого файла — описать в черновике что именно удалить/изменить
+3. Пользователь утверждает план
+4. Последовательно обновить каждый файл:
+
+| Файл | Действие |
+|------|----------|
+| `services/{svc}.md` | Удалить файл |
+| `services/README.md` | Удалить строку из таблицы |
+| `system/overview.md` | Удалить сервис из таблицы домена, обновить потоки |
+| `system/data-flows.md` | Удалить блоки потоков, где сервис — участник |
+| `system/infrastructure.md` | Удалить из таблицы ресурсов, обновить networking |
+| `domains/context-map.md` | Удалить из списка сервисов домена, обновить связи |
+| `domains/{domain}.md` | Удалить агрегаты и события этого сервиса |
+| `labels.yml` | Удалить метку `svc:{svc}` (через `/labels-modify`, с миграцией Issues) |
+
+5. Валидация: `python specs/.instructions/.scripts/validate-architecture.py --verbose`
+
+**Важно:** Удаление может затронуть непредвиденные файлы. Черновик нужен, чтобы зафиксировать полный scope изменений до начала работы.
