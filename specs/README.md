@@ -1,5 +1,5 @@
 ---
-description: Спецификационная документация SDD (Specification-Driven Development) — архитектура, design, тесты, глоссарий.
+description: Спецификационная документация SDD (Specification-Driven Development) — архитектура, design, тесты, глоссарий, технологический реестр.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: specs/README.md
@@ -49,6 +49,10 @@ index: specs/README.md
 
 **Per-service спецификации — ADR, планы тестов, планы разработки (уровни 4-6 SDD).**
 
+### [technologies/](./technologies/README.md)
+
+**Технологический реестр — какие технологии используются, версии, сервисы, ссылки на стандарты.**
+
 ### [glossary/](./glossary/README.md)
 
 **Глоссарий терминов по доменам.**
@@ -73,9 +77,10 @@ index: specs/README.md
 │   ├── plan-test/                      #   Стандарт планов тестов (ATDD)
 │   ├── plan-dev/                       #   Стандарт планов
 │   ├── living-docs/                    #   Стандарты живых документов
-│   │   ├── architecture/              #     Архитектура
+│   │   ├── service/                   #     Сервисная документация
 │   │   ├── tests/                     #     Тесты
 │   │   └── glossary/                  #     Глоссарий
+│   ├── technologies/                   #   Инструкции для технологического реестра
 │   ├── standard-specs.md               #   Стандарт SDD (полное описание)
 │   └── README.md                       #   Индекс инструкций
 │
@@ -128,6 +133,9 @@ index: specs/README.md
 │   │       ├── integration/
 │   │       ├── unit/
 │   │       └── README.md
+│   └── README.md
+│
+├── technologies/                       # Технологический реестр
 │   └── README.md
 │
 ├── glossary/                           # Терминология (по доменам)

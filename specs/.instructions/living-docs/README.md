@@ -23,7 +23,7 @@ index: specs/.instructions/living-docs/README.md
 
 ## 1. Подпапки
 
-### [architecture/](./architecture/README.md)
+### [service/](./service/README.md)
 
 **Стандарт живых документов архитектуры** (`specs/architecture/`).
 
@@ -41,7 +41,7 @@ index: specs/.instructions/living-docs/README.md
 
 ```
 /specs/.instructions/living-docs/
-├── architecture/               # Стандарт архитектуры
+├── service/                    # Стандарт сервисной документации
 │   └── README.md
 ├── glossary/                   # Стандарт глоссария
 │   └── README.md

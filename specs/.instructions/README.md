@@ -53,6 +53,10 @@ index: specs/.instructions/README.md
 
 **Инструкции для живых документов (architecture, tests, glossary).**
 
+### [technologies/](./technologies/README.md)
+
+**Инструкции для технологического реестра.**
+
 ---
 
 ## 2. Файлы
@@ -67,28 +71,15 @@ index: specs/.instructions/README.md
 
 ```
 /specs/.instructions/
-├── .scripts/                       # Скрипты валидации
-│   └── validate-discussion.py
-├── adr/                            # Инструкции для ADR
-│   └── README.md
-├── design/                         # Инструкции для проектирования
-│   └── README.md
-├── discussion/                     # Инструкции для дискуссий
-│   └── README.md
-├── impact/                         # Инструкции для импакт-анализа
-│   └── README.md
-├── living-docs/                    # Инструкции для живых документов
-│   ├── architecture/               #   Архитектура
-│   │   └── README.md
-│   ├── glossary/                   #   Глоссарий
-│   │   └── README.md
-│   ├── tests/                      #   Тесты
-│   │   └── README.md
-│   └── README.md
-├── plan-dev/                       # Инструкции для планов разработки
-│   └── README.md
-├── plan-test/                      # Инструкции для планов тестов (ATDD)
-│   └── README.md
-├── standard-specs.md               # Стандарт SDD (полное описание)
-└── README.md                       # Этот файл (индекс)
+├── .scripts/            # Скрипты валидации
+├── adr/                 # Инструкции для ADR
+├── design/              # Инструкции для проектирования
+├── discussion/          # Инструкции для дискуссий
+├── impact/              # Инструкции для импакт-анализа
+├── living-docs/         # Инструкции для живых документов
+├── plan-dev/            # Инструкции для планов разработки
+├── plan-test/           # Инструкции для планов тестов (ATDD)
+├── technologies/        # Инструкции для technologies/
+├── standard-specs.md    # Стандарт SDD (полное описание)
+└── README.md            # Этот файл (индекс)
 ```

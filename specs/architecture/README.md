@@ -16,7 +16,8 @@ index: specs/architecture/README.md
 ## Оглавление
 
 - [1. Папки](#1-папки)
-- [2. Дерево](#2-дерево)
+- [2. Quick Scan для Impact](#2-quick-scan-для-impact)
+- [3. Дерево](#3-дерево)
 
 ---
 
@@ -36,7 +37,21 @@ index: specs/architecture/README.md
 
 ---
 
-## 2. Дерево
+## 2. Quick Scan для Impact
+
+При проведении Impact Analysis — порядок чтения архитектурных документов:
+
+| # | Что читать | Зачем |
+|---|-----------|-------|
+| 1 | [services/README.md](./services/README.md) — таблица сервисов | Список существующих сервисов, технологии, API |
+| 2 | [system/overview.md](./system/overview.md) (если существует) | Общая картина, потоки между сервисами |
+| 3 | `services/{svc}.md` — Резюме + Planned Changes | Детали по затронутым сервисам |
+
+Подробнее: [standard-service.md § 8](../.instructions/living-docs/service/standard-service.md#8-quick-scan-для-impact)
+
+---
+
+## 3. Дерево
 
 ```
 /specs/architecture/

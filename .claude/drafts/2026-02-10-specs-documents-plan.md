@@ -94,12 +94,15 @@ specs/.instructions/
 │   ├── standard-plan.md           #   → секции 4, 5, 7 архитектуры
 │   └── README.md
 ├── living-docs/                    # Стандарты живых документов
-│   ├── architecture/              #   → секция 8 архитектуры
-│   │   └── standard-architecture.md
+│   ├── service/                   #   → секция 8 архитектуры (решение #14)
+│   │   └── standard-service.md
 │   ├── tests/                     #   → секция 8 архитектуры
 │   │   └── standard-tests.md
 │   ├── glossary/                  #   → секция 8 архитектуры
 │   │   └── standard-glossary.md
+│   └── README.md
+├── technologies/                   # Технологические стандарты кодирования (решение #15)
+│   ├── standard-technology.md     #   Мета-стандарт: как создавать per-tech стандарты
 │   └── README.md
 ├── standard-specs.md               # Стандарт SDD (объединённый: механики + навигация)
 └── README.md                       # Индекс
@@ -164,7 +167,7 @@ specs/.instructions/
 
 Через `/structure-create`. Контентные папки созданы пустыми с README-заглушками (решение #4).
 
-**Контентные папки specs/ (9 шт.):**
+**Контентные папки specs/ (10 шт.):**
 
 | # | Папка | Описание |
 |---|-------|----------|
@@ -177,8 +180,9 @@ specs/.instructions/
 | 7 | `specs/tests/system/` | Межсервисные тесты |
 | 8 | `specs/tests/services/` | Внутрисервисные тесты |
 | 9 | `specs/glossary/` | Глоссарий по доменам |
+| 10 | `specs/technologies/` | Технологический реестр — живой реестр технологий проекта |
 
-**Папки инструкций (7 шт., без sub-зеркал — решения #5, #6):**
+**Папки инструкций (9 шт., без sub-зеркал — решения #5, #6):**
 
 | # | Папка | Описание |
 |---|-------|----------|
@@ -187,15 +191,16 @@ specs/.instructions/
 | 3 | `specs/.instructions/plan-test/` | Standalone — инструкции для per-service планов тестов (бывш. test-specs/, решение #7) |
 | 4 | `specs/.instructions/plan-dev/` | Standalone — инструкции для per-service планов (бывш. plans/, решение #7) |
 | 5 | `specs/.instructions/living-docs/` | Группа живых документов (решение #6) |
-| 6 | `specs/.instructions/living-docs/architecture/` | Стандарт для specs/architecture/ |
+| 6 | `specs/.instructions/living-docs/service/` | Стандарт per-service документации (решение #14) |
 | 7 | `specs/.instructions/living-docs/tests/` | Стандарт для specs/tests/ |
 | 8 | `specs/.instructions/living-docs/glossary/` | Стандарт для specs/glossary/ |
+| 9 | `specs/.instructions/technologies/` | Мета-стандарт технологических стандартов кодирования (решение #15) |
 
 ---
 
 ### Этап 2: Создание документов (последовательно по объектам)
 
-> **Статус:** В работе (Волна 1 + Discussion завершены)
+> **Статус:** В работе (Волна 1 + Discussion + Impact standard завершены)
 
 **Источник контента:** [2026-02-08-specs-architecture.md](./examples/2026-02-08-specs-architecture.md) — разделы указаны в описании каждого документа.
 
@@ -252,7 +257,7 @@ specs/.instructions/
 | # | Документ | Источник из архитектуры | Зависит от |
 |---|----------|------------------------|------------|
 | 2 | `specs/.instructions/discussion/standard-discussion.md` | §2 Дискуссия — гибкий контейнер (разделы: Проблема, Фичи, User Stories, Требования G/W/T, Предложения, Критерии успеха, Milestone), §6 Clarify на уровне Discussion | справочник |
-| 3 | `specs/.instructions/impact/standard-impact.md` | §2 Таблица объектов (Impact: сервисы, компоненты, данные, API, риски), §6 Clarify на уровне Impact | справочник |
+| 3 | `specs/.instructions/impact/standard-impact.md` | §2 Таблица объектов (Impact: сервисы, компоненты, данные, API, риски), §6 Clarify на уровне Impact. **Решение #12-13:** Impact = ПРЕДЛАГАТЕЛЬ (не РЕШАТЕЛЬ), читает `architecture/` | справочник, standard-service |
 
 ---
 
@@ -285,7 +290,7 @@ specs/.instructions/
 
 | # | Документ | Источник из архитектуры | Зависит от |
 |---|----------|------------------------|------------|
-| 8 | `specs/.instructions/living-docs/architecture/standard-architecture.md` | §8 Живые документы (architecture/system/, services/, domains/), §8 Code Map (содержимое, пакеты, точки входа, зависимости, границы автономии), §8 Технологические стандарты (standard-{tech}.md + validation-{tech}.md), §8 Planned Changes (формат секции) | справочник, adr, design |
+| 8 | `specs/.instructions/living-docs/service/standard-service.md` | §8 Живые документы (architecture/system/, services/, domains/), §8 Code Map (содержимое, пакеты, точки входа, зависимости, границы автономии), §8 Технологические стандарты (standard-{tech}.md + validation-{tech}.md), §8 Planned Changes (формат секции). **Факт:** переименован из `standard-architecture.md`, папка `architecture/` → `service/` (решение #14) | справочник, adr, design |
 | 9 | `specs/.instructions/living-docs/tests/standard-tests.md` | §8 Живые документы (tests/system/, tests/services/), §2 Таблица объектов (тесты системные и сервисные, когда обновляются) | справочник, design, test-spec |
 
 ---
@@ -304,10 +309,22 @@ specs/.instructions/
 
 ### Этап 3: Вспомогательные артефакты
 
-| # | Артефакт | Путь | Описание |
-|---|----------|------|----------|
-| 1 | Rule SDD entry point | `.claude/rules/specs.md` | При вводе функциональности — начинать с Discussion (решение #42 архитектуры) |
-| 2 | Заготовка technologies/ | `.instructions/technologies/README.md` | Папка для технологических стандартов (создаются по мере ADR→DONE) |
+| # | Артефакт | Путь | Описание | Статус |
+|---|----------|------|----------|--------|
+| 1 | Rule SDD entry point | `.claude/rules/specs.md` | При вводе функциональности — начинать с Discussion (решение #42 архитектуры) | |
+| 2 | Инфраструктура technologies/ | См. ниже | Три артефакта для технологических стандартов | ✅ |
+
+**Артефакт 2 — technologies/ (решения #15, #16, #17):**
+
+| Что создано | Путь | Описание |
+|-------------|------|----------|
+| Мета-стандарт | `specs/.instructions/technologies/standard-technology.md` | 10 секций: назначение, расположение, frontmatter, триггер создания (+ §4.1 когда НЕ создавать), секции per-tech стандарта (+ §5.7 связь с принципами), автозагрузка через rules, шаблоны (3 шт.), чек-лист, примеры, миграция |
+| README инструкций | `specs/.instructions/technologies/README.md` | Индекс инструкций для области technologies |
+| Реестр технологий | `specs/technologies/README.md` | Живой реестр: Технология / Версия / Сервисы / Стандарт / Последний ADR |
+
+**Что НЕ создано (решение #16):** `.instructions/technologies/` (корневая) — преждевременно, создаётся когда появится первый per-tech стандарт (standard-python.md и т.д.).
+
+**Captain-holt анализ:** 17 проблем, 8 уровня P1. Применены все P1 кроме версионирования (решение #17). Добавлены §4.1, §5.7, §10.
 
 ---
 
@@ -326,6 +343,12 @@ specs/.instructions/
 | 9 | Навигатор SDD: когда создавать? | ~~**Вместе со справочником (волна 1).**~~ → **Объединены в один `standard-specs.md`** (~1200 строк, 14 секций). `standard-specs-reference.md` — источник правды при конфликтах. 3 конфликта разрешены в его пользу |
 | 10 | Досрочный перенос Plan и Architecture | **Перенести контент §7 и §8 из черновика сразу** в standard-plan.md (волна 5) и standard-architecture.md (волна 6). Ожидающий контент не должен блокироваться порядком волн — документы создаются с доступным содержанием, доработка при создании объектных стандартов |
 | 11 | Полное дерево specs/ | **Перенести в `specs/README.md` § 3 Дерево.** Единое дерево со всеми подпапками (.instructions/, discussion/, services/{service}/, architecture/, tests/, glossary/) и шаблонами файлов ({type}-NNNN-topic.md, {service}.md). Заменяет упрощённое дерево (14 строк → 65 строк) |
+| 12 | Impact — роль ПРЕДЛАГАТЕЛЯ | **ПРЕДЛАГАЕТ, не РЕШАЕТ.** Impact быстро сканирует `architecture/` и предлагает варианты затронутых сервисов (1-3). Компоненты, используемые несколькими сервисами, маркируются как "shared". Если сервис не существует — Impact предлагает "план создать сервис". Design принимает "сомнения и предположения" Impact и РЕШАЕТ: думает на масштабирование, распределяет неопределённую функциональность, создаёт сервис с архитектурными инкрементами |
+| 13 | Зависимость Impact от живых документов | **Impact читает `architecture/`.** Для определения затронутых сервисов LLM должен смотреть в `specs/architecture/`. Необходимо: (1) стандарт "сущности сервиса" — что содержит `architecture/services/{svc}.md`, когда создаётся, по каким правилам; (2) папки и README для навигации. `standard-service.md` (Волна 6) — предпосылка для полноценной работы Impact |
+| 14 | Переименование architecture → service в living-docs | **`living-docs/architecture/` → `living-docs/service/`**, `standard-architecture.md` → `standard-service.md`. Стандарт описывает per-service документацию (`architecture/services/{svc}.md`), а не системную архитектуру. Имя `service` точнее отражает содержание |
+| 15 | Размещение standard-technology.md | **В `specs/.instructions/technologies/`** (не в `.instructions/technologies/`). Конвенция проекта: стандарты области размещаются в `.instructions/` этой области. Аналогично standard-discussion.md → `specs/.instructions/discussion/`, standard-service.md → `specs/.instructions/living-docs/service/` |
+| 16 | .instructions/technologies/ (корневая) | **НЕ создавать.** Преждевременно — папка для будущих per-tech стандартов кодирования (standard-python.md и т.д.), которые появятся при первом ADR→DONE с новой технологией |
+| 17 | Captain-holt анализ standard-technology.md | **Применены все P1 кроме версионирования.** 17 проблем найдено, 8 уровня P1. Добавлены: §4.1 "Когда НЕ создавать per-tech стандарт", §5.7 "Связь с принципами программирования", §10 "Миграция". Уточнены: порядок создания (последовательный), механизм автозагрузки, колонка Tech Stack |
 
 ---
 
@@ -338,25 +361,26 @@ specs/.instructions/
 - [x] Переписать README.md specs/.instructions/ (3/3)
 
 **Этап 1: Создание папок** ✅
-- [x] Контентные папки specs/ (9/9): design, architecture (system, services, domains), tests (system, services), glossary
-- [x] Папки инструкций (8/8): design, adr, plan-test, plan-dev, living-docs (architecture, tests, glossary)
-- [x] SSOT обновлён для всех 9 контентных папок
+- [x] Контентные папки specs/ (10/10): design, architecture (system, services, domains), tests (system, services), glossary, technologies
+- [x] Папки инструкций (9/9): design, adr, plan-test, plan-dev, living-docs (service, tests, glossary), technologies
+- [x] SSOT обновлён для всех 10 контентных папок
 - [x] README родительских папок обновлены (specs/, architecture/, tests/)
 - [x] Удалены 5 лишних sub-зеркал (решение #5)
 - [x] Живые документы сгруппированы в living-docs/ (решение #6)
 - [x] plans/ → plan-dev/, test-specs/ → plan-test/ (решение #7)
+- [x] living-docs/architecture/ → living-docs/service/ (решение #14)
 
 **Этап 2: Создание документов (11 шт.)**
 - [x] Волна 1: ~~Справочник + Навигатор SDD~~ → объединены в `standard-specs.md` (14 секций, ~1200 строк). Разделение оказалось искусственным, Planned Changes дублировались
 - [x] Волна 2: Discussion (полный комплект) — standard + validation + create + modify + скрипты (validate, create-file) + 3 скилла + E2E (disc-0001 → WAITING)
-- [ ] Волна 2: Impact (0/3 фаз)
+- [ ] Волна 2: Impact — **standard-impact.md создан** (фаза 1, шаг 1/4). 9 секций, 3 примера. Осталось: validation-impact.md, create-impact.md, modify-impact.md (фаза 1), скрипты + скиллы (фаза 2), E2E (фаза 3)
 - [ ] Волна 3: Design (0/1)
 - [ ] Волна 4: Per-service объекты (0/2)
 - [x] Волна 5: Plan (1/1) — standard-plan.md (контент §7 перенесён)
-- [x] Волна 6: Живые документы (1/2) — standard-architecture.md (контент §8 Code Map + Technologies перенесён)
+- [x] Волна 6: Живые документы (1/2) — standard-service.md (контент §8 Code Map + Technologies перенесён). **Факт:** переименован architecture → service (решение #14)
 - [ ] Волна 7: Глоссарий (0/1)
 - [x] Полное дерево specs/ → specs/README.md § 3 (решение #11)
 
 **Этап 3: Вспомогательные артефакты**
 - [ ] Rule SDD entry point
-- [ ] Заготовка technologies/
+- [x] Инфраструктура technologies/ — standard-technology.md (10 секций) + реестр specs/technologies/README.md + README инструкций (решения #15-17)

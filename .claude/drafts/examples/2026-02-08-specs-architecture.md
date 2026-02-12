@@ -6,7 +6,7 @@
 > 1. [Справочник SDD](../../../specs/.instructions/standard-specs-reference.md) — статусы, каскады, обратная связь, Clarify, именование, запреты
 > 2. [Навигатор SDD](../../../specs/.instructions/standard-specs-workflow.md) — философия, уровни, зоны, воркфлоу, связи, параллелизм
 > 3. [standard-plan.md](../../../specs/.instructions/plan-dev/standard-plan.md) — формат задач, Issues, маппинг, CONFLICT
-> 4. [standard-architecture.md](../../../specs/.instructions/living-docs/architecture/standard-architecture.md) — Code Map, Tech Stack, технологические стандарты, Planned Changes
+> 4. [standard-architecture.md](../../../specs/.instructions/living-docs/service/standard-service.md) — Code Map, Tech Stack, технологические стандарты, Planned Changes
 > 5. [specs/README.md](../../../specs/README.md#3-дерево) — полное дерево specs/
 >
 > **Непереносённые элементы (~1%):**
@@ -1159,10 +1159,10 @@ Done-подзадачи (чек-лист в body) сохраняются как 
 ### 8. Структура папок, живые документы и Code Map
 
 > **✅ Перенесено:**
-> - Живые документы (таблица 6 строк, Создание vs обновление, AS IS/TO BE) → [Справочник SDD § 5](../../../specs/.instructions/standard-specs-reference.md#5-живые-документы) + [standard-architecture.md § 1](../../../specs/.instructions/living-docs/architecture/standard-architecture.md#1-структура-architecture)
-> - Code Map (проблема, решение, таблица per-file vs Code Map, шаблон с 6 секциями, границы автономии LLM) → [standard-architecture.md § 2](../../../specs/.instructions/living-docs/architecture/standard-architecture.md#2-code-map)
-> - Технологические стандарты (дерево, содержимое, автозагрузка rules, триггер ADR, связь Code Map↔Tech Stack↔Rules) → [standard-architecture.md § 3](../../../specs/.instructions/living-docs/architecture/standard-architecture.md#3-технологические-стандарты)
-> - Planned Changes (формат, 5 правил) → [standard-architecture.md § 4](../../../specs/.instructions/living-docs/architecture/standard-architecture.md#4-planned-changes) + [Навигатор SDD § 6](../../../specs/.instructions/standard-specs-workflow.md#6-параллельные-дискуссии)
+> - Живые документы (таблица 6 строк, Создание vs обновление, AS IS/TO BE) → [Справочник SDD § 5](../../../specs/.instructions/standard-specs-reference.md#5-живые-документы) + [standard-architecture.md § 1](../../../specs/.instructions/living-docs/service/standard-service.md#1-структура-architecture)
+> - Code Map (проблема, решение, таблица per-file vs Code Map, шаблон с 6 секциями, границы автономии LLM) → [standard-architecture.md § 2](../../../specs/.instructions/living-docs/service/standard-service.md#2-code-map)
+> - Технологические стандарты (дерево, содержимое, автозагрузка rules, триггер ADR, связь Code Map↔Tech Stack↔Rules) → [standard-architecture.md § 3](../../../specs/.instructions/living-docs/service/standard-service.md#3-технологические-стандарты)
+> - Planned Changes (формат, 5 правил) → [standard-architecture.md § 4](../../../specs/.instructions/living-docs/service/standard-service.md#4-planned-changes) + [Навигатор SDD § 6](../../../specs/.instructions/standard-specs-workflow.md#6-параллельные-дискуссии)
 > - Именование файлов (таблица 6 объектов, NNN-автоинкремент, README-таблицы) → [Справочник SDD § 7](../../../specs/.instructions/standard-specs-reference.md#7-именование-и-формат-readme-таблиц)
 > - Полное дерево specs/ → [specs/README.md § 3](../../../specs/README.md#3-дерево)
 
@@ -1176,7 +1176,7 @@ specs/
 │   ├── plan-test/                      #   Стандарт планов тестов (ATDD)
 │   ├── plan-dev/                       #   Стандарт планов
 │   ├── living-docs/                    #   Стандарты живых документов
-│   │   ├── architecture/              #     Архитектура
+│   │   ├── service/                   #     Сервисная документация
 │   │   ├── tests/                     #     Тесты
 │   │   └── glossary/                  #     Глоссарий
 │   ├── standard-specs-reference.md     #   Справочник SDD (статусы, каскады, frontmatter)
@@ -1476,7 +1476,7 @@ specs/.instructions/
 5. `adr/standard-adr.md`
 6. `plan-test/standard-test-spec.md` — стандарт планов тестов (ATDD)
 7. `plan-dev/standard-plan.md`
-8. `living-docs/architecture/standard-architecture.md` — стандарт живых документов
+8. `living-docs/service/standard-service.md` — стандарт сервисной документации
 9. `living-docs/tests/standard-tests.md` — стандарт живых тестовых документов
 10. `living-docs/glossary/standard-glossary.md` — глоссарий
 11. `standard-specs-workflow.md` — оркестратор-навигатор (последним). Точка входа в SDD-процесс. Карта стадий со ссылками на SSOT стандартов каждого объекта (паттерн standard-github-workflow.md)

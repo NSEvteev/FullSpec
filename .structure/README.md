@@ -89,7 +89,7 @@ standard-version: v1.1
 
 **Спецификации проекта.**
 
-Инструкции по написанию specs (`.instructions/`), дискуссии по архитектурным решениям (`discussions/`), глоссарий терминов проекта (`glossary.md`), импакт-анализ изменений (`impact/`), спецификации сервисов — ADR (архитектурные решения) и планы реализации (`services/{service}/adr/`, `services/{service}/plans/`).
+Инструкции по написанию specs (`.instructions/`), дискуссии по архитектурным решениям (`discussions/`), глоссарий терминов проекта (`glossary.md`), импакт-анализ изменений (`impact/`), спецификации сервисов — ADR (архитектурные решения) и планы реализации (`services/{service}/adr/`, `services/{service}/plans/`), технологический реестр (`technologies/`).
 
 ### 🔗 [src/](../src/README.md)
 
@@ -238,7 +238,8 @@ standard-version: v1.1
 │
 ├── specs/                               # Спецификации проекта
 │   ├── .instructions/                   #   Как писать specs
-│   │   └── discussion/                  #     Инструкции для discussion/
+│   │   ├── discussion/                  #     Инструкции для discussion/
+│   │   └── technologies/                #     Инструкции для technologies/
 │   ├── architecture/                    #   Живое состояние архитектуры системы
 │   │   ├── domains/                     #     Доменная архитектура — DDD контексты
 │   │   ├── services/                    #     Per-service архитектура — состояние каждого сервиса
@@ -250,6 +251,7 @@ standard-version: v1.1
 │   ├── services/                        #   Спецификации сервисов
 │   ├── glossary.md                      #   Глоссарий терминов
 │   ├── README.md                        #   Описание specs/
+│   ├── technologies/                    #   Технологический реестр
 │   └── tests/                           #   Живое состояние тестовой документации
 │   │   ├── services/                    #     Внутрисервисные тесты — unit, компонентные
 │   │   └── system/                      #     Межсервисные тесты — e2e, интеграционные
