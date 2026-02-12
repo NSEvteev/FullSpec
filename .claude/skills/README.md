@@ -128,6 +128,8 @@ standard-version: v1.1
 | [discussion-create](./discussion-create/SKILL.md) | Создание документа дискуссии |
 | [discussion-modify](./discussion-modify/SKILL.md) | Изменение документа дискуссии |
 | [discussion-validate](./discussion-validate/SKILL.md) | Валидация документа дискуссии |
+| [service-create](./service-create/SKILL.md) | Создание сервисного документа (stub) |
+| [service-modify](./service-modify/SKILL.md) | Изменение сервисного документа по SDD-lifecycle |
 
 ### drafts
 

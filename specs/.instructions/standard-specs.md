@@ -141,7 +141,9 @@ graph TD
 
     LIVE["<b>ЖИВЫЕ ДОКУМЕНТЫ — AS IS</b>
 
-    architecture/ → Design/ADR → DONE
+    architecture/ → Planned Changes при → WAITING
+    architecture/ → AS IS при → DONE
+    Planned Changes → Changelog при Design → DONE
     tests/system/ → Design → DONE
     tests/services/ → План тестов → DONE"]
 
@@ -402,7 +404,7 @@ graph TD
 
 1. Discussion: DRAFT → [итерации с пользователем] → WAITING
 2. Impact: создаётся в DRAFT → [итерации] → WAITING
-3. Design: DRAFT → [итерации] → WAITING → Planned Changes добавляются в `architecture/`
+3. Design: DRAFT → [итерации] → WAITING → Planned Changes добавляются в `architecture/`, `services/{svc}.md` создаётся (stub) для новых сервисов
 4. ADR (по каждому сервису): DRAFT → [итерации] → WAITING
 5. План тестов (по каждому сервису): DRAFT → [итерации] → WAITING
 6. План разработки (по каждому сервису): DRAFT → [итерации] → WAITING
@@ -498,7 +500,7 @@ Design содержит **два типа секций**:
 
 ADR **не читает** секции других сервисов, если они не связаны с X через блок взаимодействия.
 
-**Greenfield:** Если `architecture/services/X.md` не существует (первый ADR для сервиса), ADR создаёт начальную архитектуру — вся дельта = ADDED. Code Map создаётся при первом ADR → DONE.
+**Greenfield:** Если сервис новый, stub `architecture/services/X.md` создаётся при Design → WAITING (с Резюме и Planned Changes). При ADR → DONE stub заполняется полным содержанием — вся дельта = ADDED. Code Map создаётся при первом ADR → DONE.
 
 **Дельта-блоки в ADR:** Каждый ADR содержит формальную секцию изменений относительно текущего `architecture/services/X.md`:
 
@@ -897,8 +899,8 @@ graph LR
 |---------|-----------|-----------------|
 | План разработки → DONE | все задачи выполнены | — |
 | План тестов → DONE | все планы разработки DONE | обновление `tests/services/{svc}/` |
-| ADR → DONE | все планы тестов DONE | обновление `architecture/services/{svc}.md`, применение Planned Changes (запланированное → актуальное) |
-| Design → DONE | все ADR DONE | обновление `architecture/system/`, `domains/`, `tests/system/` |
+| ADR → DONE | все планы тестов DONE | обновление `architecture/services/{svc}.md` (дельта → AS IS), обновление Planned Changes |
+| Design → DONE | все ADR DONE | обновление `architecture/system/`, `domains/`, `tests/system/`. Planned Changes → Changelog в `services/{svc}.md`, `system/`, `domains/` |
 | Impact → DONE | все дизайны DONE | — |
 | Discussion → DONE | все импакты DONE | — |
 
@@ -964,7 +966,7 @@ graph LR
 
 ### 9.1 Обновление при планировании (to WAITING)
 
-При переходе Design и ADR в WAITING в живых документах `architecture/` создаётся секция **Planned Changes** — навигационный указатель на цепочку спецификаций с планируемыми изменениями. Planned Changes не дублирует контент: дельты из ADR не копируются (SSOT). LLM при чтении AS IS **обязан** учитывать Planned Changes.
+При переходе Design и ADR в WAITING в живых документах `architecture/` создаётся секция **Planned Changes** — навигационный указатель на цепочку спецификаций с планируемыми изменениями. Для новых сервисов при Design → WAITING создаётся stub `services/{svc}.md` с Резюме и Planned Changes. Planned Changes не дублирует контент: дельты из ADR не копируются (SSOT). LLM при чтении AS IS **обязан** учитывать Planned Changes.
 
 Полная таблица триггеров, формат Planned Changes и правила — [standard-service.md § 4, § 5.7](living-docs/service/standard-service.md#4-триггеры-создания-и-обновления).
 
@@ -990,9 +992,9 @@ graph LR
 
 | Объект | Когда обновляется |
 |--------|-------------------|
-| **Архитектура (системная)** | Design → DONE |
-| **Архитектура (сервисная)** | ADR → DONE (применяются дельта-блоки ADDED/MODIFIED/REMOVED) |
-| **Архитектура (доменная)** | Design → DONE |
+| **Архитектура (системная)** | Design → DONE (AS IS обновляется, Planned Changes → Changelog) |
+| **Архитектура (сервисная)** | ADR → DONE (дельта → AS IS). Design → DONE (Planned Changes → Changelog) |
+| **Архитектура (доменная)** | Design → DONE (AS IS обновляется, Planned Changes → Changelog) |
 | **Тесты (системные)** | Design → DONE |
 | **Тесты (сервисные)** | План тестов → DONE |
 | **Глоссарий** | На каждом уровне |
