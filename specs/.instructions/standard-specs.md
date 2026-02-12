@@ -964,25 +964,9 @@ graph LR
 
 ### 9.1 Обновление при планировании (to WAITING)
 
-При переходе Design и ADR в WAITING в живых документах `architecture/` создаётся секция **Planned Changes** — навигационный указатель на цепочку спецификаций с планируемыми изменениями.
+При переходе Design и ADR в WAITING в живых документах `architecture/` создаётся секция **Planned Changes** — навигационный указатель на цепочку спецификаций с планируемыми изменениями. Planned Changes не дублирует контент: дельты из ADR не копируются (SSOT). LLM при чтении AS IS **обязан** учитывать Planned Changes.
 
-| Триггер | Что обновляется | Действие |
-|---------|----------------|----------|
-| **Design → WAITING** | Затронутые файлы `architecture/` | Создаётся секция Planned Changes со ссылкой на Discussion и Design |
-| **ADR → WAITING** | `architecture/services/{svc}.md` | В секцию Planned Changes добавляется ссылка на ADR |
-
-**Формат:**
-
-```markdown
-## Planned Changes
-
-- **[Discussion 001: OAuth2 авторизация](../discussion/disc-0001-oauth2-authorization.md)**
-  Статус: WAITING | Затрагивает: API endpoints, data model
-  Design: [design-0001-oauth2-service-design.md](../design/design-0001-oauth2-service-design.md)
-  ADR: [adr-0001-jwt-to-oauth2.md](../services/auth/adr/adr-0001-jwt-to-oauth2.md)
-```
-
-Planned Changes — навигационный указатель, не дублирование контента. Дельты из ADR не копируются: они могут измениться при CONFLICT, а дублирование нарушает SSOT. LLM при чтении AS IS **обязан** учитывать Planned Changes и при необходимости переходить по ссылкам для получения деталей.
+Полная таблица триггеров, формат Planned Changes и правила — [standard-service.md § 4, § 5.7](living-docs/service/standard-service.md#4-триггеры-создания-и-обновления).
 
 **Удаление:** секция удаляется при обновлении живого документа (каскад DONE, § 9.3) или при переходе связанной цепочки в REJECTED.
 
@@ -1013,7 +997,7 @@ Planned Changes — навигационный указатель, не дубл
 | **Тесты (сервисные)** | План тестов → DONE |
 | **Глоссарий** | На каждом уровне |
 
-**Создание vs обновление:** При первом обращении файл **создаётся** (первый Design → DONE создаёт `architecture/system/`, `architecture/domains/`, `tests/system/`; первый ADR → DONE создаёт `architecture/services/{svc}.md`; первый План тестов → DONE создаёт `tests/services/{svc}/`). При последующих — **обновляется** (AS IS → TO BE).
+Полная таблица триггеров для архитектуры — [standard-service.md § 4](living-docs/service/standard-service.md#4-триггеры-создания-и-обновления).
 
 ### 9.4 Параллельные дискуссии
 

@@ -133,6 +133,36 @@ description: Обзор системной архитектуры — серви
 | 3 | `## Инфраструктура` | Компоненты инфраструктуры |
 | 4 | `## Planned Changes` | Запланированные изменения (ссылки на Design) |
 
+**Пример заполненного файла:**
+
+```markdown
+# Обзор системной архитектуры
+
+## Домены и сервисы
+
+| Сервис | Назначение | Ключевые API |
+|--------|-----------|-------------|
+| auth | Аутентификация и авторизация | /auth/token, /auth/refresh |
+| gateway | API Gateway, маршрутизация, rate limiting | /api/v1/* |
+| users | Управление профилями пользователей | /users/{id} |
+
+## Потоки данных
+
+auth → gateway: JWT-валидация через middleware
+users → auth: проверка permissions через gRPC
+auth → notification: UserCreatedEvent (async, RabbitMQ)
+
+## Инфраструктура
+
+Deployment: Docker Compose (dev), Kubernetes (staging/prod)
+Networking: внутренняя сеть сервисов, gateway — единственная точка входа
+Мониторинг: Prometheus + Grafana
+
+## Planned Changes
+
+*Нет запланированных изменений.*
+```
+
 **Допустимые дополнительные секции:** архитектурные принципы, критический путь, домены и сервисы (группировка по доменам). Обязательные секции не удаляются.
 
 ### 4.2 [system/data-flows.md](/specs/architecture/system/data-flows.md)
@@ -157,6 +187,34 @@ description: Обзор системной архитектуры — серви
 | Протокол | AMQP, JSON-схема |
 ```
 
+**Пример заполненного файла:**
+
+```markdown
+# Потоки данных
+
+## auth → notification: UserCreatedEvent
+
+| Поле | Значение |
+|------|----------|
+| Участники | auth (publisher) → notification (consumer) |
+| Контракт | UserCreatedEvent {user_id, email, created_at} |
+| Паттерн | async/events (RabbitMQ) |
+| Протокол | AMQP, JSON-схема |
+
+## gateway → auth: JWT-валидация
+
+| Поле | Значение |
+|------|----------|
+| Участники | gateway (consumer) → auth (provider) |
+| Контракт | ValidateToken(token) → {valid, user_id, roles} |
+| Паттерн | sync/gRPC |
+| Протокол | gRPC, protobuf |
+
+## Planned Changes
+
+*Нет запланированных изменений.*
+```
+
 **Допустимые дополнительные секции:** принципы взаимодействия, группировка по темам (нумерованные разделы). Блоки могут быть вложены в тематические секции.
 
 ### 4.3 [system/infrastructure.md](/specs/architecture/system/infrastructure.md)
@@ -169,6 +227,37 @@ Deployment topology, networking, мониторинг, алерты.
 | 2 | `## Networking` | Путь запроса, DNS, Network Policies |
 | 3 | `## Мониторинг` | Метрики, логи, трейсинг, алерты |
 | 4 | `## Planned Changes` | Запланированные изменения |
+
+**Пример заполненного файла:**
+
+```markdown
+# Инфраструктура
+
+## Deployment
+
+| Окружение | Технология | Конфигурация |
+|-----------|-----------|-------------|
+| dev | Docker Compose | config/dev/ |
+| staging | Kubernetes | config/staging/ |
+| prod | Kubernetes | config/prod/ |
+
+## Networking
+
+- Внутренняя сеть: {network-name}
+- Gateway: единственная точка входа
+- Service mesh: нет (прямые вызовы)
+
+## Мониторинг
+
+- Метрики: Prometheus
+- Дашборды: Grafana
+- Логи: ELK Stack
+- Алерты: Alertmanager
+
+## Planned Changes
+
+*Нет запланированных изменений.*
+```
 
 **Допустимые дополнительные секции:** принципы, секреты, стратегии деплоя, ресурсы.
 
@@ -188,6 +277,36 @@ Deployment topology, networking, мониторинг, алерты.
 | Upstream | Downstream | Паттерн | Описание |
 |----------|-----------|---------|----------|
 | Identity | Commerce | Customer/Supplier | Commerce использует данные пользователей |
+```
+
+**Пример заполненного файла:**
+
+```markdown
+# Context Map
+
+## Домены
+
+### Identity — управление пользователями и авторизацией
+
+**Ответственность:** аутентификация, авторизация, управление ролями
+
+**Сервисы:** `auth`, `users`
+
+**Ключевые инварианты:**
+- Один пользователь — один email
+- Минимум одна роль у пользователя
+
+## Связи между контекстами
+
+| Upstream | Downstream | Паттерн | Описание |
+|----------|-----------|---------|----------|
+| Identity | Billing | Customer/Supplier | Billing получает информацию о пользователях |
+| Identity | Notification | Published Language | Стандартные события UserCreated, RoleAssigned |
+| Gateway | Identity | Conformist | Gateway конформен к API Identity |
+
+## Planned Changes
+
+*Нет запланированных изменений.*
 ```
 
 **Допустимые дополнительные секции:** визуализация (ASCII-диаграмма), Anti-Corruption Layers.
