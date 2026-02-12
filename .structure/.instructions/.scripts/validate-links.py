@@ -145,6 +145,8 @@ def extract_headings(content: str) -> list[str]:
     headings = []
     for match in re.finditer(r"^#+\s+(.+)$", content, re.MULTILINE):
         heading = match.group(1)
+        # Убрать markdown-ссылки: [text](url) → text
+        heading = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", heading)
         # Преобразование в якорь: lowercase, пробелы → дефисы, удаление спецсимволов
         anchor = heading.lower()
         anchor = re.sub(r"[^\w\s\-а-яё]", "", anchor, flags=re.IGNORECASE)

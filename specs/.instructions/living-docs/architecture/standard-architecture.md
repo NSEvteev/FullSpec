@@ -263,7 +263,7 @@ Deployment topology, networking, мониторинг, алерты.
 
 ### 4.4 [domains/context-map.md](/specs/architecture/domains/context-map.md)
 
-Карта доменов и их связей. Единственный **фиксированный** файл в `domains/` (per-domain файлы `{domain}.md` создаются динамически — см. [standard-service.md § 6.4](../service/standard-service.md#64-domainsdomainmd)).
+Карта доменов и их связей. Единственный **фиксированный** файл в `domains/` (per-domain файлы `{domain}.md` создаются динамически — см. [standard-service.md § 6](../service/standard-service.md#per-domain-файлы-domainsdomainmd)).
 
 | # | Секция | Назначение |
 |---|--------|-----------|
