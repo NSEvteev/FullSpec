@@ -39,6 +39,7 @@ index: specs/.instructions/discussion/README.md
   - [Шаг 2: Обновить статус](#шаг-2-обновить-статус)
   - [Шаг 3: Обновить README](#шаг-3-обновить-readme)
   - [Каскад DRAFT (возврат из WAITING)](#каскад-draft-возврат-из-waiting)
+- [Upward feedback при WAITING](#upward-feedback-при-waiting)
 - [Переход: WAITING → RUNNING](#переход-waiting-running)
 - [Статус RUNNING — ограничения](#статус-running-ограничения)
 - [Переход: RUNNING → CONFLICT](#переход-running-conflict)
@@ -77,7 +78,7 @@ index: specs/.instructions/discussion/README.md
 | Текущий статус | Доступные операции | Доступные переходы |
 |----------------|--------------------|--------------------|
 | **DRAFT** | [Обновление контента](#обновление-контента), [Разрешение маркеров](#разрешение-маркеров), [Принятие предложений](#принятие-предложений-prop-n) | [DRAFT → WAITING](#переход-draft-waiting) |
-| **WAITING** | — (нет операций) | [WAITING → RUNNING](#переход-waiting-running) |
+| **WAITING** | [Upward feedback](#upward-feedback-при-waiting) | [WAITING → RUNNING](#переход-waiting-running) |
 | **RUNNING** | — (прямые правки запрещены) | [RUNNING → CONFLICT](#переход-running-conflict), [RUNNING → DONE](#переход-running-done) |
 | **CONFLICT** | [Операции при CONFLICT](#операции-при-conflict) | [CONFLICT → WAITING](#переход-conflict-waiting), [→ ROLLING_BACK](#переход-rolling_back) |
 | **DONE** | [Только typo](#статус-done-ограничения) | — |
@@ -259,6 +260,34 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 ---
 
+## Upward feedback при WAITING
+
+**SSOT:** [Стандарт SDD § 6 — Upward feedback](../standard-specs.md#upward-feedback)
+
+При работе на нижестоящих уровнях (Impact, Design, ADR и т.д.) LLM может обнаружить информацию, которая должна быть отражена в Discussion. **Статус остаётся WAITING** — без перевода в DRAFT.
+
+**Отличие от "Каскад DRAFT":** Каскад DRAFT (WAITING → DRAFT) — пользователь решил переработать документ. Upward feedback — LLM дополняет документ точечно, пользователь подтверждает. Это разные сценарии.
+
+#### Шаг 1: LLM предлагает дополнение
+
+LLM формулирует конкретное дополнение (новое требование, уточнение критерия, расширение контекста) и предлагает пользователю через AskUserQuestion.
+
+#### Шаг 2: Пользователь подтверждает
+
+Пользователь подтверждает, корректирует или отклоняет предложение.
+
+#### Шаг 3: Внести изменения
+
+Дополнить затронутые секции Discussion. Нумерация элементов продолжается (следующий номер = max + 1).
+
+#### Шаг 4: Валидация
+
+```bash
+python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc-NNNN-topic.md
+```
+
+---
+
 ## Переход: WAITING → RUNNING
 
 **SSOT:** [Стандарт SDD § 8.2](../standard-specs.md#82-waiting-to-running)
@@ -435,6 +464,14 @@ LLM определяет самый высокий затронутый доку
 - [ ] Затронутые секции обновлены
 - [ ] Нумерация не нарушена
 - [ ] Валидация пройдена
+
+### Upward feedback при WAITING
+- [ ] Статус = WAITING
+- [ ] LLM предложил дополнение
+- [ ] Пользователь подтвердил
+- [ ] Секции дополнены, нумерация продолжена
+- [ ] Валидация пройдена
+- [ ] Статус остаётся WAITING (без перевода в DRAFT)
 
 ### Переход DRAFT → WAITING
 - [ ] Статус = DRAFT
