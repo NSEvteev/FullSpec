@@ -28,7 +28,7 @@ from pathlib import Path
 from typing import Optional
 
 # Допустимые имена меток по группам (SSOT: labels.yml)
-TYPE_LABELS = {"bug", "feature", "task", "docs", "refactor", "question"}
+TYPE_LABELS = {"bug", "task", "docs", "refactor"}
 PRIORITY_LABELS = {"critical", "high", "medium", "low"}
 AREA_LABELS = {"backend", "frontend", "database", "platform", "api", "tests", "specs"}
 ENV_LABELS = {"production", "staging", "local"}

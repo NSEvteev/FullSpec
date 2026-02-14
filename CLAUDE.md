@@ -51,4 +51,4 @@ make clean     # Очистка (docker down -v)
 
 ## Задачи
 
-- [ ] Удалить шаблоны `question.yml` и `feature-request.yml` из `.github/ISSUE_TEMPLATE/` — в SDD эти точки входа покрыты specs/ (Discussion + Clarify). Обновить `standard-issue-template.md`, `create-issue.md`, `standard-issue.md`, labels.
+- [ ] При реализации спеков плана — пересмотреть стандарт веток (`standard-branching.md`, `create-branch.md`, `validation-branch.md`, `validate-branch-name.py`): убрать фиксированные префиксы типов (feature, fix, docs и т.д.), ветки должны отводиться по документам плана, в рамках которых они создаются.

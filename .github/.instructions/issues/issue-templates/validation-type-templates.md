@@ -9,7 +9,7 @@ index: .github/.instructions/issues/issue-templates/README.md
 
 Рабочая версия стандарта: 1.2
 
-Проверка что для каждой метки типа (bug, feature, task, docs, refactor, question) в `labels.yml` существует Issue Template, и наоборот.
+Проверка что для каждой метки типа (bug, task, docs, refactor) в `labels.yml` существует Issue Template, и наоборот.
 
 **Полезные ссылки:**
 - [Инструкции Issue Templates](./README.md)

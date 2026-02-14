@@ -150,9 +150,9 @@ production
 s
 ```
 
-**Новая фича:**
+**Новая задача:**
 ```
-feature
+task
 medium
 frontend
 m

@@ -90,13 +90,12 @@ index: .github/.instructions/issues/issue-templates/README.md
 | Правило | Пример ✅ | Пример ❌ |
 |---------|----------|----------|
 | Kebab-case | `bug-report.yml` | `bug_report.yml` |
-| Латиница | `feature-request.yml` | `фича-запрос.yml` |
+| Латиница | `task.yml` | `задача.yml` |
 | Нижний регистр | `task.yml` | `Task.yml` |
 | Расширение `.yml` | `bug-report.yml` | `bug-report.yaml` |
 
 **Рекомендуемые имена для базовых шаблонов:**
 - `bug-report.yml` — баг-репорт
-- `feature-request.yml` — запрос новой функциональности
 - `task.yml` — техническая задача
 
 **Важно:** GitHub распознаёт файлы ТОЛЬКО в папке `.github/ISSUE_TEMPLATE/`. Вложенные папки игнорируются.
@@ -603,7 +602,7 @@ validations:
 
 ### Соответствие меток типа и шаблонов
 
-**Для каждой метки типа (bug, feature, task, docs, refactor, question) из [labels.yml](../../../labels.yml) ДОЛЖЕН существовать Issue Template.**
+**Для каждой метки типа (bug, task, docs, refactor) из [labels.yml](../../../labels.yml) ДОЛЖЕН существовать Issue Template.**
 
 **Правила:**
 - Шаблон ДОЛЖЕН содержать метку типа в `labels: [{type}]`
@@ -843,72 +842,6 @@ body:
 
 ---
 
-### Пример: feature-request.yml
-
-```yaml
-name: Feature Request
-description: Suggest a new feature or enhancement
-title: "[Feature]: "
-labels:
-  - feature
-  - low
-body:
-  - type: textarea
-    id: problem
-    attributes:
-      label: Problem Statement
-      description: What problem does this feature solve?
-      placeholder: "I'm frustrated when..."
-    validations:
-      required: true
-
-  - type: textarea
-    id: solution
-    attributes:
-      label: Proposed Solution
-      description: How should this feature work?
-      placeholder: "It should..."
-    validations:
-      required: true
-
-  - type: textarea
-    id: related-docs
-    attributes:
-      label: Related Documentation
-      description: "Project files that help understand the task context. Format: description — path. Write 'Связанной документации нет' if none"
-      placeholder: |
-        - Стандарт меток — .github/.instructions/labels/standard-labels.md
-    validations:
-      required: true
-
-  - type: input
-    id: dependencies
-    attributes:
-      label: Dependencies
-      description: "Issues this depends on (e.g. #123, #124). Write 'None' if no dependencies"
-      placeholder: "#123, #124 or None"
-    validations:
-      required: true
-
-  - type: textarea
-    id: alternatives
-    attributes:
-      label: Alternatives Considered
-      description: What other solutions have you considered?
-
-  - type: checkboxes
-    id: checklist
-    attributes:
-      label: Checklist
-      options:
-        - label: I have searched for similar feature requests
-          required: true
-        - label: I am willing to help implement this feature
-          required: false
-```
-
----
-
 ### Пример: task.yml
 
 ```yaml
@@ -967,69 +900,6 @@ body:
       options:
         - label: Subtask 1
         - label: Subtask 2
-```
-
----
-
-### Пример: question.yml
-
-```yaml
-name: Question
-description: Ask a question about the project
-title: "[Question]: "
-labels:
-  - question
-body:
-  - type: markdown
-    attributes:
-      value: |
-        ## Before asking
-
-        Please check the documentation and existing issues first.
-
-  - type: textarea
-    id: question
-    attributes:
-      label: Your Question
-      description: What would you like to know?
-      placeholder: "How do I configure..."
-    validations:
-      required: true
-
-  - type: textarea
-    id: related-docs
-    attributes:
-      label: Related Documentation
-      description: "Project files that help understand the question context. Format: description — path. Write 'Связанной документации нет' if none"
-      placeholder: |
-        - Стандарт меток — .github/.instructions/labels/standard-labels.md
-    validations:
-      required: true
-
-  - type: input
-    id: dependencies
-    attributes:
-      label: Dependencies
-      description: "Related issues (e.g. #123, #124). Write 'None' if no related issues"
-      placeholder: "#123, #124 or None"
-    validations:
-      required: true
-
-  - type: textarea
-    id: context
-    attributes:
-      label: Context
-      description: What are you trying to achieve? This helps us give a better answer.
-
-  - type: checkboxes
-    id: checklist
-    attributes:
-      label: Checklist
-      options:
-        - label: I have checked the documentation
-          required: true
-        - label: I have searched existing issues
-          required: true
 ```
 
 ---

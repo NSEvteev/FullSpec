@@ -13,7 +13,7 @@ validate-type-templates.py — Валидация соответствия TYPE-
     - Каждый Issue Template содержит обязательное поле dependencies
 
 TYPE-метки (из секции # TYPE в labels.yml):
-    bug, feature, task, docs, refactor, question
+    bug, task, docs, refactor
 
 Примеры:
     python validate-type-templates.py
@@ -34,7 +34,7 @@ import sys
 from pathlib import Path
 
 # TYPE-метки (SSOT: .github/labels.yml, секция # TYPE)
-TYPE_LABELS = {"bug", "feature", "task", "docs", "refactor", "question"}
+TYPE_LABELS = {"bug", "task", "docs", "refactor"}
 
 # Коды ошибок
 ERROR_CODES = {

@@ -112,7 +112,7 @@ python .github/.instructions/.scripts/validate-labels.py
    ```
 
 2. Проверить обязательные метки:
-   - Ровно одна метка типа (bug, feature, task, docs, refactor, question)
+   - Ровно одна метка типа (bug, task, docs, refactor)
    - Ровно одна метка приоритета (critical, high, medium, low)
 
 3. Проверить конфликты (SSOT: [standard-labels.md § 5](./standard-labels.md#5-разрешение-конфликтов)):
@@ -142,7 +142,7 @@ python .github/.instructions/.scripts/validate-labels.py
 - [ ] `description` и `color` совпадают
 
 ### Валидация меток на Issues/PR
-- [ ] Каждый Issue/PR имеет ровно одну метку типа (bug, feature, task, docs, refactor, question)
+- [ ] Каждый Issue/PR имеет ровно одну метку типа (bug, task, docs, refactor)
 - [ ] Каждый Issue/PR имеет ровно одну метку приоритета (critical, high, medium, low)
 - [ ] Нет конфликтов
 - [ ] `env:*` присутствует ТОЛЬКО на метке `bug`

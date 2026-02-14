@@ -131,7 +131,7 @@ index: .github/.instructions/issues/README.md
 
 | Группа | Требование | Проверка |
 |--------|-----------|----------|
-| Тип | Ровно 1 | Есть одна метка типа (bug, feature, task, docs, refactor, question) |
+| Тип | Ровно 1 | Есть одна метка типа (bug, task, docs, refactor) |
 | Приоритет | Ровно 1 | Есть одна метка приоритета (critical, high, medium, low) |
 
 3. Проверить допустимость меток:
@@ -141,7 +141,7 @@ index: .github/.instructions/issues/README.md
    ```
 
 **Критерии прохождения:**
-- Ровно 1 метка типа (bug, feature, task, docs, refactor, question)
+- Ровно 1 метка типа (bug, task, docs, refactor)
 - Ровно 1 метка приоритета (critical, high, medium, low)
 - Все метки существуют в репозитории
 
@@ -266,7 +266,7 @@ index: .github/.instructions/issues/README.md
 - [ ] Использован шаблон (если применимо)
 
 ### Labels
-- [ ] Ровно 1 метка типа (bug, feature, task, docs, refactor, question)
+- [ ] Ровно 1 метка типа (bug, task, docs, refactor)
 - [ ] Ровно 1 метка приоритета (critical, high, medium, low)
 - [ ] Все метки существуют в репозитории
 

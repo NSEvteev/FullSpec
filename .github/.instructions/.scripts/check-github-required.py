@@ -25,7 +25,7 @@ import sys
 from pathlib import Path
 
 # Допустимые имена меток типа (SSOT: labels.yml)
-TYPE_LABELS = {"bug", "feature", "task", "docs", "refactor", "question"}
+TYPE_LABELS = {"bug", "task", "docs", "refactor"}
 
 # Коды ошибок
 ERROR_CODES = {

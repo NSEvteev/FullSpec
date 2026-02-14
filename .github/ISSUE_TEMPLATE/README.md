@@ -36,8 +36,6 @@ YAML-шаблоны для создания Issues в GitHub.
 | [bug-report.yml](./bug-report.yml) | Баг-репорт — сообщить о баге или неожиданном поведении |
 | [config.yml](./config.yml) | Конфигурация Issue chooser (blank issues отключены) |
 | [docs.yml](./docs.yml) | Документация — проблема или улучшение документации |
-| [feature-request.yml](./feature-request.yml) | Запрос фичи — новая функциональность или улучшение |
-| [question.yml](./question.yml) | Вопрос по проекту |
 | [refactor.yml](./refactor.yml) | Рефакторинг — без изменения функциональности |
 | [task.yml](./task.yml) | Задача — техническая задача или улучшение |
 
@@ -50,8 +48,6 @@ YAML-шаблоны для создания Issues в GitHub.
 ├── bug-report.yml                      # Баг-репорт
 ├── config.yml                          # Конфигурация Issue chooser
 ├── docs.yml                            # Документация
-├── feature-request.yml                 # Запрос фичи
-├── question.yml                        # Вопрос
 ├── refactor.yml                        # Рефакторинг
 ├── task.yml                            # Задача
 └── README.md                           # Этот файл

@@ -50,13 +50,12 @@ index: .github/.instructions/issues/README.md
 
 ## 1. Назначение
 
-GitHub Issues — система управления задачами, багами, фичами и вопросами проекта.
+GitHub Issues — система управления задачами, багами и техническими работами проекта.
 
 **Применяется к:**
-- Задачи разработки (фичи, рефакторинг, документация)
+- Задачи разработки (рефакторинг, документация)
 - Баги и проблемы
 - Технические задачи
-- Вопросы и обсуждения
 
 **Цель:**
 - Организация работы команды
@@ -249,7 +248,7 @@ GitHub Issues — система управления задачами, бага
 **SSOT:** [standard-labels.md](../labels/standard-labels.md)
 
 **Обязательно при создании Issue:**
-- Ровно 1 метка типа (bug, feature, task, docs, refactor, question)
+- Ровно 1 метка типа (bug, task, docs, refactor)
 - Ровно 1 метка приоритета (critical, high, medium, low)
 
 **Опционально:** status (ready, wip, in-review, blocked), area, effort, env, svc

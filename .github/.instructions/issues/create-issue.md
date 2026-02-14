@@ -99,11 +99,9 @@ gh issue list --search "ключевое слово" --state all
 | Контекст | Шаблон | Метка типа |
 |----------|--------|------------|
 | Баг, ошибка, не работает | `bug-report.yml` | bug |
-| Новая функциональность, добавить | `feature-request.yml` | feature |
 | Техническая задача, настроить, CI/CD | `task.yml` | task |
 | Документация, описать, README | `docs.yml` | docs |
 | Рефакторинг, переписать, оптимизировать | `refactor.yml` | refactor |
-| Вопрос, обсудить, как лучше | `question.yml` | question |
 
 ### Шаг 4: Заполнить body
 
@@ -299,7 +297,7 @@ gh issue create --title "Создать инструкции для tests/" \
 - [ ] Заполнен body с обязательными секциями
 
 ### Метаданные
-- [ ] Ровно 1 метка типа (bug, feature, task, docs, refactor, question)
+- [ ] Ровно 1 метка типа (bug, task, docs, refactor)
 - [ ] Ровно 1 метка приоритета (critical, high, medium, low)
 - [ ] Milestone назначен
 
