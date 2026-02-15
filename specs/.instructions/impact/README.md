@@ -28,7 +28,12 @@ index: specs/.instructions/impact/README.md
 
 Формат и правила оформления документов импакт-анализа (`specs/impact/`).
 
-**Инструкция:** [standard-impact.md](./standard-impact.md)
+| Тип | Документ |
+|-----|----------|
+| Стандарт | [standard-impact.md](./standard-impact.md) |
+| Валидация | [validation-impact.md](./validation-impact.md) |
+| Создание | [create-impact.md](./create-impact.md) |
+| Модификация | [modify-impact.md](./modify-impact.md) |
 
 ---
 
@@ -37,5 +42,8 @@ index: specs/.instructions/impact/README.md
 ```
 /specs/.instructions/impact/
 ├── standard-impact.md              # Стандарт импакт-анализа
+├── validation-impact.md            # Валидация импакт-анализа
+├── create-impact.md                # Воркфлоу создания
+├── modify-impact.md                # Воркфлоу изменения
 └── README.md                       # Этот файл (индекс)
 ```

@@ -200,9 +200,9 @@ python specs/.instructions/.scripts/validate-architecture.py --check-services
 ```
 Pre-commit хук `architecture-validate` запускается при изменении `specs/architecture/` или `specs/services/`. Проверяет структуру фиксированных файлов (AC001-AC005) и согласованность: новые файлы в `specs/services/` должны сопровождаться обновлением `specs/architecture/` (AC006). Подробнее: [validation-architecture.md](../architecture/validation-architecture.md).
 
-**Дельта-блоки ADR:** Каждый ADR содержит формальную секцию ADDED/MODIFIED/REMOVED — спецификацию изменений для живого документа. Формат дельта-блоков определяется в [standard-specs.md § 6](../../standard-specs.md#6-связи-между-уровнями), будет детализирован в `standard-adr.md`.
+**Дельта-блоки ADR:** Каждый ADR содержит формальную секцию ADDED/MODIFIED/REMOVED — спецификацию изменений для живого документа. Формат дельта-блоков определяется в [standard-specs.md § 3.3](../../standard-specs.md#33-фильтрация-design--adr), будет детализирован в `standard-adr.md`.
 
-**Паттерн AS IS / TO BE:** LLM читает живые документы (AS IS, включая Planned Changes) перед проектированием. Дельта из ADR описывает TO BE. При ADR → DONE дельта применяется — TO BE становится новым AS IS. Подробнее: [standard-specs.md § 9](../../standard-specs.md#9-живые-документы).
+**Паттерн AS IS / TO BE:** LLM читает живые документы (AS IS, включая Planned Changes) перед проектированием. Дельта из ADR описывает TO BE. При ADR → DONE дельта применяется — TO BE становится новым AS IS. Подробнее: [standard-specs.md § 7](../../standard-specs.md#7-живые-документы).
 
 ---
 
@@ -347,9 +347,9 @@ auth.rbac → auth.tokens
 |---------|-----------------|--------------|
 | **Свободно** | Реализация внутри пакета: алгоритмы, рефакторинг, оптимизация | Нет обратной связи |
 | **Флаг** | Контракты между пакетами сервиса | Автономно обновляет План тестов/План разработки, информирует в чат |
-| **CONFLICT** | API сервиса, data model, добавление/удаление пакетов | Вся цепочка → CONFLICT ([§ 8.3 SDD](../../standard-specs.md#83-running-to-conflict)) |
+| **CONFLICT** | API сервиса, data model, добавление/удаление пакетов | Вся цепочка → CONFLICT ([§ 6.3 SDD](../../standard-specs.md#63-running-to-conflict)) |
 
-Три уровня напрямую связаны с механизмом обратной связи Code → Specs ([Стандарт SDD § 8.3](../../standard-specs.md#83-running-to-conflict)).
+Три уровня напрямую связаны с механизмом обратной связи Code → Specs ([Стандарт SDD § 6.3](../../standard-specs.md#63-running-to-conflict)).
 
 **Когда обновляется:** При ADR → DONE — как часть обычного каскада обновления `services/{svc}.md`.
 
@@ -375,7 +375,7 @@ auth.rbac → auth.tokens
 6. При Design → DONE — вся запись Planned Changes **перемещается в Changelog** ([§ 5.8](#58-changelog))
 7. При REJECTED — запись перемещается в Changelog с маркером `REJECTED`
 
-**Подробнее:** [Стандарт SDD § 9.1](../../standard-specs.md#91-обновление-при-планировании-to-waiting)
+**Подробнее:** [Стандарт SDD § 7.1](../../standard-specs.md#71-обновление-при-планировании-to-waiting)
 
 ### 5.8 Changelog
 
@@ -467,7 +467,7 @@ auth.rbac → auth.tokens
 4. **Обратная связь:** Изменение контракта в shared/ — изменение блока взаимодействия → CONFLICT уровня Design, каскад на все ADR сервисов-участников
 5. **Что НЕ попадает:** Код, используемый только одним сервисом. Выносится в `shared/` только при появлении второго потребителя
 
-**Подробнее:** [Стандарт SDD § 6 "Shared код"](../../standard-specs.md#shared-код-shared)
+**Подробнее:** [Стандарт SDD § 3.5 "Shared код"](../../standard-specs.md#35-shared-код-shared)
 
 ---
 

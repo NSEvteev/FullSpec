@@ -1,28 +1,28 @@
 ---
-description: Воркфлоу изменения документа дискуссии SDD — операции по статусам и переходы жизненного цикла (DRAFT, WAITING, RUNNING, CONFLICT, DONE).
+description: Воркфлоу изменения документа импакт-анализа SDD — операции по статусам и переходы жизненного цикла (DRAFT, WAITING, RUNNING, CONFLICT, DONE).
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
-index: specs/.instructions/discussion/README.md
+standard-version: v1.3
+index: specs/.instructions/impact/README.md
 ---
 
-# Воркфлоу изменения дискуссии
+# Воркфлоу изменения импакт-анализа
 
-Рабочая версия стандарта: 1.1
+Рабочая версия стандарта: 1.0
 
-Процессы изменения существующего документа дискуссии (`specs/discussion/disc-*.md`).
+Процессы изменения существующего документа импакт-анализа (`specs/impact/impact-*.md`).
 
 **Полезные ссылки:**
-- [Стандарт дискуссий](./standard-discussion.md)
+- [Стандарт импакт-анализа](./standard-impact.md)
 - [Стандарт SDD](../standard-specs.md) — статусы, каскады
-- [Инструкции discussion/](./README.md)
+- [Инструкции impact/](./README.md)
 
 **Связанные документы:**
 
 | Тип | Документ |
 |-----|----------|
-| Стандарт | [standard-discussion.md](./standard-discussion.md) |
-| Валидация | [validation-discussion.md](./validation-discussion.md) |
-| Создание | [create-discussion.md](./create-discussion.md) |
+| Стандарт | [standard-impact.md](./standard-impact.md) |
+| Валидация | [validation-impact.md](./validation-impact.md) |
+| Создание | [create-impact.md](./create-impact.md) |
 | Модификация | Этот документ |
 
 ## Оглавление
@@ -32,7 +32,6 @@ index: specs/.instructions/discussion/README.md
 - [Статус DRAFT — операции](#статус-draft-операции)
   - [Обновление контента](#обновление-контента)
   - [Разрешение маркеров](#разрешение-маркеров)
-  - [Принятие предложений (PROP-N)](#принятие-предложений-prop-n)
 - [Переход: DRAFT → WAITING](#переход-draft-waiting)
   - [Условия (блокирующие)](#условия-блокирующие)
   - [Шаг 1: Подтверждение пользователя](#шаг-1-подтверждение-пользователя)
@@ -44,7 +43,7 @@ index: specs/.instructions/discussion/README.md
 - [Статус RUNNING — ограничения](#статус-running-ограничения)
 - [Переход: RUNNING → CONFLICT](#переход-running-conflict)
 - [Статус CONFLICT — операции](#статус-conflict-операции)
-  - [Как Discussion попадает в CONFLICT](#как-discussion-попадает-в-conflict)
+  - [Как Impact попадает в CONFLICT](#как-impact-попадает-в-conflict)
   - [Операции при CONFLICT](#операции-при-conflict)
 - [Переход: CONFLICT → WAITING](#переход-conflict-waiting)
 - [Переход: RUNNING → DONE](#переход-running-done)
@@ -67,7 +66,9 @@ index: specs/.instructions/discussion/README.md
 
 > **Операции vs переходы.** Операции — изменения внутри текущего статуса. Переходы — смена статуса с условиями и шагами. Документ разделяет их явно.
 
-> **SSOT — Стандарт SDD.** Каскады, условия переходов, уровни обратной связи — [Стандарт SDD § 6](../standard-specs.md#6-последовательность-статусов). Этот документ описывает операции на уровне Discussion, а не дублирует правила каскадов.
+> **SSOT — Стандарт SDD.** Каскады, условия переходов, уровни обратной связи — [Стандарт SDD § 6](../standard-specs.md#6-последовательность-статусов). Этот документ описывает операции на уровне Impact, а не дублирует правила каскадов.
+
+> **Роль — ПРЕДЛАГАТЕЛЬ.** Impact ПРЕДЛАГАЕТ варианты, Design РЕШАЕТ. При изменениях в Impact не выходить за зону ответственности.
 
 ---
 
@@ -77,7 +78,7 @@ index: specs/.instructions/discussion/README.md
 
 | Текущий статус | Доступные операции | Доступные переходы |
 |----------------|--------------------|--------------------|
-| **DRAFT** | [Обновление контента](#обновление-контента), [Разрешение маркеров](#разрешение-маркеров), [Принятие предложений](#принятие-предложений-prop-n) | [DRAFT → WAITING](#переход-draft-waiting) |
+| **DRAFT** | [Обновление контента](#обновление-контента), [Разрешение маркеров](#разрешение-маркеров) | [DRAFT → WAITING](#переход-draft-waiting) |
 | **WAITING** | [Upward feedback](#upward-feedback-при-waiting) | [WAITING → RUNNING](#переход-waiting-running) |
 | **RUNNING** | — (прямые правки запрещены) | [RUNNING → CONFLICT](#переход-running-conflict), [RUNNING → DONE](#переход-running-done) |
 | **CONFLICT** | [Операции при CONFLICT](#операции-при-conflict) | [CONFLICT → WAITING](#переход-conflict-waiting), [→ ROLLING_BACK](#переход-rolling_back) |
@@ -97,43 +98,53 @@ index: specs/.instructions/discussion/README.md
 
 #### Шаг 1: Прочитать документ
 
-Прочитать весь документ дискуссии.
+Прочитать весь документ импакт-анализа.
 
 **Проверить:** статус = DRAFT. Если статус ≠ DRAFT — **СТОП**, см. [Шаг 0](#шаг-0-определить-статус-документа).
 
 #### Шаг 2: Внести изменения
 
-**SSOT:** [standard-discussion.md § 5](./standard-discussion.md#5-разделы-документа)
+**SSOT:** [standard-impact.md § 5](./standard-impact.md#5-разделы-документа)
 
 Допустимые изменения:
-- Добавление/изменение фич (F-N) — новый номер = max + 1
-- Добавление/изменение User Stories (US-N)
-- Добавление/изменение требований (REQ-N) — формат Given/When/Then
-- Добавление предложений (PROP-N) — с указанием "Влияет на"
-- Изменение критериев успеха
-- Изменение "Проблема / Контекст"
-- Обновление frontmatter (description, milestone)
+- Добавление/изменение сервисов (SVC-N) — новый номер = max + 1
+- Добавление/изменение компонентов (CMP-N)
+- Добавление/изменение данных (DATA-N)
+- Добавление/изменение API (API-N)
+- Добавление/изменение зависимостей (DEP-N)
+- Добавление/изменение рисков (RISK-N)
+- Изменение "Резюме"
+- Обновление frontmatter (description)
 
 **Правила нумерации:** При добавлении — следующий номер. При удалении — **не перенумеровывать**.
+
+**Зона ответственности ([standard-impact.md § 1](./standard-impact.md#1-назначение)):**
+
+При изменении убедиться, что документ НЕ содержит:
+- Окончательное распределение ответственностей между сервисами (→ Design)
+- Полные request/response контракты API (→ Design)
+- Архитектурные решения (→ ADR)
+- Тестовые сценарии (→ План тестов)
+- Задачи на реализацию (→ План разработки)
 
 #### Шаг 3: Валидация
 
 ```bash
-python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc-NNNN-topic.md
+python specs/.instructions/.scripts/validate-impact.py specs/impact/impact-NNNN-topic.md
 ```
 
-**Если скрипт недоступен:** пройти чек-лист из [validation-discussion.md](./validation-discussion.md).
+**Если скрипт недоступен:** пройти чек-лист из [validation-impact.md](./validation-impact.md).
 
 #### Шаг 4: Обновить README
 
-Если изменился `description` или другие отображаемые поля — обновить запись в `specs/discussion/README.md`.
+Если изменился `description` или другие отображаемые поля — обновить запись в `specs/impact/README.md`.
 
 #### Шаг 5: Отчёт о выполнении
 
 ```
-## 📋 Отчёт об изменении дискуссии
+## 📋 Отчёт об изменении импакт-анализа
 
-✏️ **Изменена дискуссия:** `specs/discussion/disc-NNNN-topic.md`
+✏️ **Изменён импакт-анализ:** `specs/impact/impact-NNNN-topic.md`
 
 🏷️ **Тип изменения:** Обновление
 
@@ -152,7 +163,7 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 Найти все `[ТРЕБУЕТ УТОЧНЕНИЯ: ...]` в документе.
 
 ```bash
-python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc-NNNN-topic.md
+python specs/.instructions/.scripts/validate-impact.py specs/impact/impact-NNNN-topic.md
 ```
 
 Скрипт покажет количество неразрешённых маркеров (если есть).
@@ -170,47 +181,18 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 #### Шаг 4: Валидация
 
 ```bash
-python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc-NNNN-topic.md
+python specs/.instructions/.scripts/validate-impact.py specs/impact/impact-NNNN-topic.md
 ```
 
 Проверить: маркеров не осталось.
-
-### Принятие предложений (PROP-N)
-
-**SSOT:** [standard-discussion.md § 5](./standard-discussion.md#5-разделы-документа) → механика итеративного уточнения.
-
-Применение одобренного PROP-N к секциям документа.
-
-#### Шаг 1: Идентифицировать PROP-N
-
-Прочитать предложение. Определить затронутые элементы по строке "Влияет на: ...".
-
-#### Шаг 2: Подтверждение пользователя
-
-**БЛОКИРУЮЩЕЕ.** AskUserQuestion: "Принять PROP-N: {описание}? Затронутые элементы: {список}"
-
-#### Шаг 3: Обновить затронутые секции
-
-На основе "Влияет на" обновить:
-- Секцию "Фичи" — изменить/добавить/удалить F-N
-- Секцию "User Stories" — изменить/добавить/удалить US-N
-- Секцию "Критерии успеха" — если затронуты
-
-**Правила:** При удалении элемента — **не перенумеровывать** остальные. История — через git.
-
-#### Шаг 4: Валидация
-
-```bash
-python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc-NNNN-topic.md
-```
 
 ---
 
 ## Переход: DRAFT → WAITING
 
-**SSOT:** [standard-discussion.md § 4](./standard-discussion.md#4-переходы-статусов) | [Стандарт SDD § 6.1](../standard-specs.md#61-draft-to-waiting)
+**SSOT:** [standard-impact.md § 4](./standard-impact.md#4-переходы-статусов) | [Стандарт SDD § 6.1](../standard-specs.md#61-draft-to-waiting)
 
-Единственный переход, управляемый на уровне Discussion. Все последующие переходы — на уровне цепочки.
+Единственный переход, управляемый на уровне Impact. Все последующие переходы — на уровне цепочки.
 
 ### Условия (блокирующие)
 
@@ -221,17 +203,17 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 | Статус = DRAFT | frontmatter `status: DRAFT` |
 | Нет `[ТРЕБУЕТ УТОЧНЕНИЯ]` | Ни одного маркера в документе |
 | Нет [Dependency Barrier](../standard-specs.md#dependency-barrier) | Нет `⛔ DEPENDENCY BARRIER` |
-| Валидация пройдена | Скрипт validate-discussion.py → 0 ошибок |
+| Валидация пройдена | Скрипт validate-impact.py → 0 ошибок |
 
 ```bash
-python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc-NNNN-topic.md
+python specs/.instructions/.scripts/validate-impact.py specs/impact/impact-NNNN-topic.md
 ```
 
 **Если условия не выполнены:** сообщить пользователю какие — предложить разрешить маркеры или исправить ошибки.
 
 ### Шаг 1: Подтверждение пользователя
 
-**БЛОКИРУЮЩЕЕ.** AskUserQuestion: "Дискуссия готова к переводу в WAITING. Подтверждаете?"
+**БЛОКИРУЮЩЕЕ.** AskUserQuestion: "Импакт-анализ готов к переводу в WAITING. Подтверждаете?"
 
 | Ответ | Действие |
 |-------|----------|
@@ -244,7 +226,7 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 ### Шаг 3: Обновить README
 
-Обновить статус в `specs/discussion/README.md`: `DRAFT` → `WAITING`.
+Обновить статус в `specs/impact/README.md`: `DRAFT` → `WAITING`.
 
 ### Каскад DRAFT (возврат из WAITING)
 
@@ -252,25 +234,26 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 При возврате документа из WAITING → DRAFT (контекст родителя изменился) все его WAITING-дочерние тоже → DRAFT.
 
-**На уровне Discussion:** если Discussion возвращается в DRAFT — её Impact (если в WAITING) тоже → DRAFT. Дискуссия снова открыта для операций из секции [Статус DRAFT — операции](#статус-draft-операции).
+**На уровне Impact:** если Impact возвращается в DRAFT — его Design (если в WAITING) тоже → DRAFT. Impact снова открыт для операций из секции [Статус DRAFT — операции](#статус-draft-операции).
 
 **Когда это происходит:**
 - Пользователь решил внести изменения после одобрения
-- Discussion вернулась из CONFLICT → при разрешении пользователь изменил контент (→ DRAFT вместо WAITING)
+- Parent Discussion вернулась в DRAFT → каскад: Impact (если WAITING) → DRAFT
+- Impact вернулся из CONFLICT → при разрешении пользователь изменил контент (→ DRAFT вместо WAITING)
 
 ---
 
 ## Upward feedback при WAITING
 
-**SSOT:** [Стандарт SDD § 3.6 — Upward feedback](../standard-specs.md#36-upward-feedback)
+**SSOT:** [Стандарт SDD § 3.6 — Upward feedback](../standard-specs.md#36-upward-feedback), [standard-impact.md § 5](./standard-impact.md#5-разделы-документа)
 
-При работе на нижестоящих уровнях (Impact, Design, ADR и т.д.) LLM может обнаружить информацию, которая должна быть отражена в Discussion. **Статус остаётся WAITING** — без перевода в DRAFT.
+При работе на нижестоящих уровнях (Design, ADR и т.д.) LLM может обнаружить информацию, которая должна быть отражена в Impact. **Статус остаётся WAITING** — без перевода в DRAFT.
 
 **Отличие от "Каскад DRAFT":** Каскад DRAFT (WAITING → DRAFT) — пользователь решил переработать документ. Upward feedback — LLM дополняет документ точечно, пользователь подтверждает. Это разные сценарии.
 
 #### Шаг 1: LLM предлагает дополнение
 
-LLM формулирует конкретное дополнение (новое требование, уточнение критерия, расширение контекста) и предлагает пользователю через AskUserQuestion.
+LLM формулирует конкретное дополнение (новый сервис, уточнение компонента, новый риск) и предлагает пользователю через AskUserQuestion.
 
 #### Шаг 2: Пользователь подтверждает
 
@@ -278,12 +261,12 @@ LLM формулирует конкретное дополнение (новое
 
 #### Шаг 3: Внести изменения
 
-Дополнить затронутые секции Discussion. Нумерация элементов продолжается (следующий номер = max + 1).
+Дополнить затронутые секции Impact. Нумерация элементов продолжается (следующий номер = max + 1).
 
 #### Шаг 4: Валидация
 
 ```bash
-python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc-NNNN-topic.md
+python specs/.instructions/.scripts/validate-impact.py specs/impact/impact-NNNN-topic.md
 ```
 
 ---
@@ -292,11 +275,11 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 **SSOT:** [Стандарт SDD § 6.2](../standard-specs.md#62-waiting-to-running)
 
-> **Tree-level.** Переход управляется на уровне цепочки, не Discussion.
+> **Tree-level.** Переход управляется на уровне цепочки, не Impact.
 
 **Триггер:** все документы цепочки (Discussion → Impact → ... → Plan Dev) в WAITING. LLM предлагает через AskUserQuestion: "Все спецификации готовы. Перейти в RUNNING?" Пользователь подтверждает.
 
-**На уровне Discussion:** статус меняется `WAITING` → `RUNNING`. Операций нет — документ просто переходит в режим реализации.
+**На уровне Impact:** статус меняется `WAITING` → `RUNNING`. Операций нет — документ просто переходит в режим реализации.
 
 ---
 
@@ -304,7 +287,7 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 > **Прямые изменения запрещены.** Документ в RUNNING — согласованная спецификация. Изменения возможны только через CONFLICT ([Стандарт SDD § 6.3](../standard-specs.md#63-running-to-conflict)).
 
-Если обнаружена необходимость изменить Discussion в RUNNING — это сигнал CONFLICT-уровня. См. [Переход: RUNNING → CONFLICT](#переход-running-conflict).
+Если обнаружена необходимость изменить Impact в RUNNING — это сигнал CONFLICT-уровня. См. [Переход: RUNNING → CONFLICT](#переход-running-conflict).
 
 ---
 
@@ -314,32 +297,32 @@ python specs/.instructions/.scripts/validate-discussion.py specs/discussion/disc
 
 > **Tree-level каскад.** При обнаружении CONFLICT-уровня проблемы **все** документы цепочки → CONFLICT.
 
-**Триггер:** обратная связь от кода выявила несовместимость со спецификациями на уровне ADR или выше ([Стандарт SDD § 6.3 — уровни обратной связи](../standard-specs.md#63-running-to-conflict)).
+**Триггер:** обратная связь от кода выявила несовместимость со спецификациями на уровне Impact или выше ([Стандарт SDD § 6.3 — уровни обратной связи](../standard-specs.md#63-running-to-conflict)).
 
-**На уровне Discussion:** статус меняется `RUNNING` → `CONFLICT`. Переход инициируется на уровне цепочки — Discussion сама его не вызывает.
+**На уровне Impact:** статус меняется `RUNNING` → `CONFLICT`. Переход инициируется на уровне цепочки — Impact сам его не вызывает.
 
 ---
 
 ## Статус CONFLICT — операции
 
-### Как Discussion попадает в CONFLICT
+### Как Impact попадает в CONFLICT
 
-Discussion попадает в CONFLICT через tree-level каскад ([Стандарт SDD § 6.3](../standard-specs.md#63-running-to-conflict)): при обнаружении CONFLICT на любом уровне **все** документы цепочки → CONFLICT, включая Discussion.
+Impact попадает в CONFLICT через tree-level каскад ([Стандарт SDD § 6.3](../standard-specs.md#63-running-to-conflict)): при обнаружении CONFLICT на любом уровне **все** документы цепочки → CONFLICT, включая Impact.
 
 LLM определяет самый высокий затронутый документ — снизу вверх, от Plan до Discussion: "Содержание этого документа стало неверным?"
 
 ### Операции при CONFLICT
 
-**Если Discussion затронута** (утверждения стали фактически неверными из-за изменений в коде):
+**Если Impact затронут** (анализ влияния оказался неточным — новые сервисы, изменённые зависимости):
 
 1. LLM читает **весь документ** целиком
-2. Вносит **точечные правки** в затронутые секции (фичи, требования, критерии успеха), сохраняя остальной контент
+2. Вносит **точечные правки** в затронутые секции (сервисы, компоненты, зависимости, риски), сохраняя остальной контент
 3. Пользователь ревьюит изменения → документ → WAITING ([Переход: CONFLICT → WAITING](#переход-conflict-waiting))
 
-**Если Discussion НЕ затронута** (самый частый случай — Discussion как самый высокий уровень обычно не затрагивается):
+**Если Impact НЕ затронут** (конфликт локализован на уровне Design или ниже):
 
 1. LLM и пользователь **верифицируют** документ без изменений
-2. Подтверждают, что утверждения остаются верными
+2. Подтверждают, что анализ влияния остаётся верным
 3. Документ → WAITING ([Переход: CONFLICT → WAITING](#переход-conflict-waiting))
 
 ---
@@ -350,7 +333,7 @@ LLM определяет самый высокий затронутый доку
 
 > **Per-document.** Каждый документ переходит в WAITING независимо после разрешения.
 
-**Разрешение — сверху вниз:** начиная с самого высокого затронутого документа. Если Discussion — самый высокий затронутый, разрешение начинается с неё.
+**Разрешение — сверху вниз:** начиная с самого высокого затронутого документа. Если Impact — самый высокий затронутый, разрешение начинается с него.
 
 **Шаги:**
 
@@ -374,27 +357,27 @@ LLM определяет самый высокий затронутый доку
 
 **SSOT:** [Стандарт SDD § 6.5](../standard-specs.md#65-running-to-done)
 
-> **Bottom-up каскад.** Discussion → DONE когда Impact (единственный child, 1:1) → DONE.
+> **Bottom-up каскад.** Impact → DONE когда Design (единственный child, 1:1) → DONE.
 
-**На уровне Discussion:** статус меняется `RUNNING` → `DONE` автоматически. Операций нет — переход инициируется снизу вверх.
+**На уровне Impact:** статус меняется `RUNNING` → `DONE` автоматически. Операций нет — переход инициируется снизу вверх.
 
 После перехода в DONE:
 - Обновить README: `RUNNING` → `DONE`
-- Discussion становится архивной записью реализованного решения
+- Impact становится архивной записью анализа влияния
 
 ---
 
 ## Статус DONE — ограничения
 
-**SSOT:** [standard-discussion.md § 1](./standard-discussion.md#1-назначение) → "После DONE"
+**SSOT:** [standard-impact.md § 1](./standard-impact.md#1-назначение) → "После DONE"
 
-> **Discussion — архивная запись.** Изменения запрещены.
+> **Impact — архивная запись.** Изменения запрещены.
 
 **Допустимые изменения:**
 - Исправление опечаток (typo corrections)
 - Исправление битых ссылок
 
-**Новые требования:** создать **новую** Discussion со ссылкой на DONE-дискуссию в секции "Проблема / Контекст".
+**Изменение scope:** при изменении scope требований — CONFLICT через обратную связь от кода.
 
 ---
 
@@ -409,7 +392,7 @@ LLM определяет самый высокий затронутый доку
 - Конфликт неразрешим ([Стандарт SDD § 6.4](../standard-specs.md#64-conflict-to-waiting))
 - Пользователь отклоняет разрешение конфликта
 
-**На уровне Discussion:** Discussion не имеет артефактов — откат = **no-op**, только смена статуса → ROLLING_BACK.
+**На уровне Impact:** Impact не имеет артефактов — откат = **no-op**, только смена статуса → ROLLING_BACK.
 
 - Обновить frontmatter: `status: ROLLING_BACK`
 - Обновить README: статус → `ROLLING_BACK`
@@ -424,21 +407,22 @@ LLM определяет самый высокий затронутый доку
 
 **Условие:** LLM проверяет, что все документы цепочки в ROLLING_BACK и артефакты каждого уровня откачены → вся цепочка → REJECTED.
 
-**На уровне Discussion:** статус меняется `ROLLING_BACK` → `REJECTED`.
+**На уровне Impact:** статус меняется `ROLLING_BACK` → `REJECTED`.
 
 - Обновить frontmatter: `status: REJECTED`
 - Обновить README: статус → `REJECTED`
 
-**Перезапуск:** если бизнес-потребность остаётся актуальной, создать **новую** Discussion со ссылкой на отклонённую в секции "Проблема / Контекст".
+**Перезапуск:** если бизнес-потребность остаётся актуальной, создать **новую** Discussion и **новый** Impact.
 
 ---
 
 ## Обновление ссылок
 
-Дискуссия содержит минимум ссылок (только frontmatter `children`). При изменении пути Impact-документа:
+Impact содержит ссылки в frontmatter (`parent`, `children`). При изменении путей связанных документов:
 
-1. Обновить `children` в frontmatter дискуссии
-2. Обновить запись в `specs/discussion/README.md` (колонка Impact)
+1. Обновить `parent` — если Discussion переименована
+2. Обновить `children` — если Design переименован
+3. Обновить запись в `specs/impact/README.md` (колонки Parent Discussion, Design)
 
 ---
 
@@ -448,6 +432,7 @@ LLM определяет самый высокий затронутый доку
 - [ ] Статус = DRAFT
 - [ ] Изменения внесены
 - [ ] Нумерация корректна (нет дублей, нет перенумерации)
+- [ ] Зона ответственности не нарушена (нет решений → Design)
 - [ ] Валидация пройдена
 - [ ] README обновлён (если нужно)
 
@@ -457,13 +442,6 @@ LLM определяет самый высокий затронутый доку
 - [ ] Маркеры заменены на ответы
 - [ ] [Dependency Barrier](../standard-specs.md#dependency-barrier) разрешён (если был)
 - [ ] Валидация пройдена — маркеров нет
-
-### Принятие предложений
-- [ ] PROP-N идентифицирован
-- [ ] Пользователь подтвердил
-- [ ] Затронутые секции обновлены
-- [ ] Нумерация не нарушена
-- [ ] Валидация пройдена
 
 ### Upward feedback при WAITING
 - [ ] Статус = WAITING
@@ -483,48 +461,49 @@ LLM определяет самый высокий затронутый доку
 - [ ] Статус обновлён в README
 
 ### Переход CONFLICT → WAITING
-- [ ] Определено: Discussion затронута или нет
-- [ ] Если затронута — точечные правки внесены
-- [ ] Если не затронута — верификация пройдена
+- [ ] Определено: Impact затронут или нет
+- [ ] Если затронут — точечные правки внесены
+- [ ] Если не затронут — верификация пройдена
 - [ ] Пользователь одобрил разрешение
 - [ ] Статус обновлён в frontmatter
 - [ ] Статус обновлён в README
 
 ### Статус DONE
 - [ ] Только typo corrections или битые ссылки
-- [ ] Новые требования → новая Discussion
+- [ ] Изменение scope → CONFLICT через обратную связь
 
 ### Переход → ROLLING_BACK / REJECTED
 - [ ] Статус обновлён в frontmatter
 - [ ] Статус обновлён в README
-- [ ] Артефакты Discussion = no-op (нет артефактов)
+- [ ] Артефакты Impact = no-op (нет артефактов)
 
 ---
 
 ## Примеры
 
-### Добавление фичи (DRAFT)
+### Добавление сервиса (DRAFT)
 
 ```
-Пользователь: "Добавь фичу — поддержка API-ключей для сервисных аккаунтов"
+Пользователь: "Добавь notification-service в импакт"
 
-1. Прочитать disc-0001-oauth2-authorization.md
+1. Прочитать impact-0001-oauth2-authorization.md
 2. Шаг 0: статус = DRAFT → секция "Статус DRAFT — операции"
-3. Определить следующий номер: F-3 удалена → F-4
-4. Добавить: ### F-4: API-ключи для сервисных аккаунтов
-5. Валидация → ОК
+3. Определить следующий номер: SVC-4
+4. Добавить: SVC-4 | notification-service | Новый (план создания) | Предположительно | ...
+5. Обновить "Резюме" (количество сервисов)
+6. Валидация → ОК
 ```
 
 ### Разрешение маркеров перед WAITING (DRAFT)
 
 ```
-Маркеры в disc-0001:
-- [ТРЕБУЕТ УТОЧНЕНИЯ: какой SLA по времени авторизации?]
-- [ТРЕБУЕТ УТОЧНЕНИЯ: поддержка offline-режима?]
+Маркеры в impact-0001:
+- [ТРЕБУЕТ УТОЧНЕНИЯ: какие компоненты внутри gateway затронуты?]
+- [ТРЕБУЕТ УТОЧНЕНИЯ: нужна ли миграция данных для refresh_tokens?]
 
 1. Шаг 0: статус = DRAFT → секция "Разрешение маркеров"
 2. Показать маркеры пользователю
-3. Ответы: "p99 < 100ms при 10k RPS", "Нет, только online"
+3. Ответы: "Rate Limiter и Proxy", "Новая таблица, не миграция"
 4. Заменить маркеры на ответы
 5. Валидация → 0 маркеров → можно в WAITING
 ```
@@ -534,34 +513,48 @@ LLM определяет самый высокий затронутый доку
 ```
 1. Шаг 0: статус = DRAFT → секция "Переход: DRAFT → WAITING"
 2. Проверить условия: маркеров нет, валидация ОК
-3. AskUserQuestion: "Перевести disc-0001 в WAITING?"
+3. AskUserQuestion: "Перевести impact-0001 в WAITING?"
 4. Пользователь: "Да"
 5. status: DRAFT → status: WAITING
 6. README обновлён
+```
+
+### Upward feedback (WAITING)
+
+```
+Ситуация: при создании Design обнаружено, что Impact не учёл зависимость от billing-service.
+
+1. Шаг 0: статус = WAITING → секция "Upward feedback при WAITING"
+2. LLM предлагает: "Добавить DEP-3: order → billing (sync REST)"
+3. AskUserQuestion: "Добавить зависимость от billing-service?"
+4. Пользователь: "Да"
+5. Добавить DEP-3 и обновить "Резюме"
+6. Валидация → ОК
+7. Статус остаётся WAITING
 ```
 
 ### Разрешение CONFLICT (CONFLICT → WAITING)
 
 ```
 Ситуация: вся цепочка → CONFLICT из-за обратной связи от кода.
-LLM определил самый высокий затронутый уровень: ADR.
-Discussion НЕ затронута.
+LLM определил самый высокий затронутый уровень: Impact.
+Impact затронут — обнаружен новый сервис, не учтённый в анализе.
 
 1. Шаг 0: статус = CONFLICT → секция "Статус CONFLICT — операции"
-2. Discussion не затронута → верификация без изменений
-3. LLM и пользователь подтверждают: утверждения верны
+2. Impact затронут → точечные правки: добавить SVC-5 (logging-service)
+3. LLM и пользователь ревьюят изменения
 4. status: CONFLICT → status: WAITING
 5. README обновлён
 ```
 
-### Discussion → DONE (RUNNING → DONE)
+### Impact → DONE (RUNNING → DONE)
 
 ```
-Ситуация: Impact (единственный child) → DONE → bottom-up каскад.
+Ситуация: Design (единственный child) → DONE → bottom-up каскад.
 
-1. Discussion автоматически → DONE
+1. Impact автоматически → DONE
 2. README обновлён: RUNNING → DONE
-3. Discussion — архивная запись. Новые требования → новая Discussion
+3. Impact — архивная запись. Изменение scope → CONFLICT
 ```
 
 ---
@@ -570,7 +563,7 @@ Discussion НЕ затронута.
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
-| [validate-discussion.py](../.scripts/validate-discussion.py) | Валидация документа (все статусы) | [validation-discussion.md](./validation-discussion.md) |
+| [validate-impact.py](../.scripts/validate-impact.py) | Валидация документа (все статусы) | [validation-impact.md](./validation-impact.md) |
 
 ---
 
@@ -578,4 +571,4 @@ Discussion НЕ затронута.
 
 | Скилл | Назначение | Инструкция |
 |-------|------------|------------|
-| [/discussion-modify](/.claude/skills/discussion-modify/SKILL.md) | Изменение документа дискуссии | Этот документ |
+| [/impact-modify](/.claude/skills/impact-modify/SKILL.md) | Изменение документа импакт-анализа | Этот документ |

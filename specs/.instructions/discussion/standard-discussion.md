@@ -46,7 +46,7 @@ index: specs/.instructions/discussion/README.md
 
 ## 1. Назначение
 
-**Зона ответственности:** ЗАЧЕМ и ЧТО ([Стандарт SDD § 3](../standard-specs.md#3-зоны-ответственности)).
+**Зона ответственности:** ЗАЧЕМ и ЧТО ([Стандарт SDD § 2.2](../standard-specs.md#22-таблица-объектов)).
 
 Дискуссия отвечает на вопросы: **Зачем это нужно? Какие требования?**
 
@@ -76,10 +76,10 @@ index: specs/.instructions/discussion/README.md
 
 **Когда создавать:**
 - Новая функциональность (фича, интеграция, миграция)
-- Группа связанных багфиксов ([решение #46](../standard-specs.md#14-решения))
-- Cross-cutting concern (NFR: производительность, безопасность — [решение #21](../standard-specs.md#14-решения))
+- Группа связанных багфиксов ([решение #46](../standard-specs.md#12-решения))
+- Cross-cutting concern (NFR: производительность, безопасность — [решение #21](../standard-specs.md#12-решения))
 
-**Связи:** Discussion не имеет родителя. Дочерний объект — Impact (1:1). ([Стандарт SDD § 4](../standard-specs.md#4-связи-и-frontmatter))
+**Связи:** Discussion не имеет родителя. Дочерний объект — Impact (1:1). ([Стандарт SDD § 3.1](../standard-specs.md#31-frontmatter-и-навигация))
 
 **После DONE:** Discussion становится архивной записью реализованного решения. Изменения запрещены (только исправление опечаток). При появлении новых требований — создать новую Discussion со ссылкой на DONE-дискуссию в секции "Проблема / Контекст".
 
@@ -121,7 +121,7 @@ index: specs/.instructions/discussion/README.md
 | `index` | `specs/discussion/README.md` | Обязательно |
 | `parent` | **Нет** (Discussion — корневой объект цепочки) | Не указывается |
 | `children` | Путь к Impact-документу (1:1) | Обязательно (после создания Impact) |
-| `status` | Текущий статус ([Стандарт SDD § 7](../standard-specs.md#7-статусы)) | Обязательно |
+| `status` | Текущий статус ([Стандарт SDD § 5](../standard-specs.md#5-статусы)) | Обязательно |
 | `milestone` | Целевой Milestone (определяется при Clarify) | Обязательно |
 
 ```yaml
@@ -139,25 +139,25 @@ milestone: v1.2.0
 
 **Milestone:** Целевая версия релиза (строка, например `v1.2.0`). Определяется при Clarify на уровне Discussion и сохраняется в frontmatter. Все дочерние документы цепочки наследуют milestone от Discussion. Один Milestone (например, `v1.2.0`) может быть указан в нескольких Discussions — это означает, что эти дискуссии реализуются в одном релизе.
 
-**Параллельные дискуссии в одном Milestone:** [Стандарт SDD § 9.4](../standard-specs.md#94-параллельные-дискуссии) — механизм Planned Changes для обнаружения конфликтов между дискуссиями.
+**Параллельные дискуссии в одном Milestone:** [Стандарт SDD § 7.4](../standard-specs.md#74-параллельные-дискуссии) — механизм Planned Changes для обнаружения конфликтов между дискуссиями.
 
 ---
 
 ## 4. Переходы статусов
 
-Happy path — нормальный поток жизненного цикла Discussion ([Стандарт SDD § 8](../standard-specs.md#8-последовательность-статусов)).
+Happy path — нормальный поток жизненного цикла Discussion ([Стандарт SDD § 6](../standard-specs.md#6-последовательность-статусов)).
 
 **Зона ответственности Discussion:** только переход DRAFT → WAITING (создание и модификация документа). Все последующие переходы управляются на уровне цепочки — дочерними документами, каскадами или обратной связью от кода.
 
 | Текущий статус | Условие перехода | Следующий статус | Кто управляет |
 |---|---|---|---|
 | **DRAFT** | Пользователь одобрил документ. Нет неразрешённых `[ТРЕБУЕТ УТОЧНЕНИЯ]`. Нет Dependency Barrier | **WAITING** | Discussion (этот документ) |
-| **WAITING** | Все документы цепочки (Discussion → ... → Plan Dev) в WAITING. Пользователь подтвердил запуск | **RUNNING** | Цепочка ([§ 8.2](../standard-specs.md#82-waiting-to-running)) |
-| **RUNNING** | Обратная связь от кода затронула уровень Discussion ([§ 8.3](../standard-specs.md#83-running-to-conflict)) | **CONFLICT** | Цепочка (tree-level) |
-| **CONFLICT** | LLM исправил документ, пользователь одобрил исправление ([§ 8.4](../standard-specs.md#84-conflict-to-waiting)) | **WAITING** | Цепочка (top-down) |
-| **RUNNING** | Impact (дочерний, 1:1) → DONE. Каскад снизу вверх ([§ 8.5](../standard-specs.md#85-running-to-done)) | **DONE** | Цепочка (bottom-up) |
+| **WAITING** | Все документы цепочки (Discussion → ... → Plan Dev) в WAITING. Пользователь подтвердил запуск | **RUNNING** | Цепочка ([§ 6.2](../standard-specs.md#62-waiting-to-running)) |
+| **RUNNING** | Обратная связь от кода затронула уровень Discussion ([§ 6.3](../standard-specs.md#63-running-to-conflict)) | **CONFLICT** | Цепочка (tree-level) |
+| **CONFLICT** | LLM исправил документ, пользователь одобрил исправление ([§ 6.4](../standard-specs.md#64-conflict-to-waiting)) | **WAITING** | Цепочка (top-down) |
+| **RUNNING** | Impact (дочерний, 1:1) → DONE. Каскад снизу вверх ([§ 6.5](../standard-specs.md#65-running-to-done)) | **DONE** | Цепочка (bottom-up) |
 
-Откат и отклонение (ROLLING_BACK, REJECTED): [Стандарт SDD § 8.6–8.7](../standard-specs.md#86-to-rolling_back).
+Откат и отклонение (ROLLING_BACK, REJECTED): [Стандарт SDD § 6.6–6.7](../standard-specs.md#66-to-rolling_back).
 
 ---
 
@@ -299,9 +299,9 @@ Happy path — нормальный поток жизненного цикла D
 
 ## 6. Clarify
 
-**SSOT:** [Стандарт SDD § 10](../standard-specs.md#10-clarify-и-блокирующие-правила) — полные правила Clarify, маркер `[ТРЕБУЕТ УТОЧНЕНИЯ]`, Dependency Barrier.
+**SSOT:** [Стандарт SDD § 8](../standard-specs.md#8-clarify-и-блокирующие-правила) — полные правила Clarify, маркер `[ТРЕБУЕТ УТОЧНЕНИЯ]`, Dependency Barrier.
 
-**Паттерн объекта:** [Стандарт SDD § 5 "Общий паттерн объекта"](../standard-specs.md#общий-паттерн-объекта) — цикл CLARIFY → GENERATE → VALIDATE → REVIEW.
+**Паттерн объекта:** [Стандарт SDD § 2.3 "Общий паттерн объекта"](../standard-specs.md#23-общий-паттерн-объекта) — цикл CLARIFY → GENERATE → VALIDATE → REVIEW.
 
 На уровне Discussion LLM уточняет через AskUserQuestion:
 
@@ -383,7 +383,7 @@ milestone: {vX.Y.Z}
 - [ ] `description` — до 1024 символов
 - [ ] `standard` указывает на этот документ
 - [ ] `children` — путь к Impact (или пустой список если Impact ещё не создан)
-- [ ] `status` — валидный статус ([Стандарт SDD § 7](../standard-specs.md#7-статусы))
+- [ ] `status` — валидный статус ([Стандарт SDD § 5](../standard-specs.md#5-статусы))
 - [ ] `milestone` — указан целевой Milestone
 
 ### Содержание
