@@ -131,8 +131,14 @@ standard-version: v1.1
 | [impact-create](./impact-create/SKILL.md) | Создание документа импакт-анализа |
 | [impact-modify](./impact-modify/SKILL.md) | Изменение документа импакт-анализа |
 | [impact-validate](./impact-validate/SKILL.md) | Валидация документа импакт-анализа |
-| [service-create](./service-create/SKILL.md) | Создание сервисного документа (stub) |
+| [design-create](./design-create/SKILL.md) | Создание документа проектирования |
+| [design-modify](./design-modify/SKILL.md) | Изменение документа проектирования |
+| [design-validate](./design-validate/SKILL.md) | Валидация документа проектирования |
+| [service-create](./service-create/SKILL.md) | Создание сервисного документа (заглушка) |
 | [service-modify](./service-modify/SKILL.md) | Изменение сервисного документа по SDD-lifecycle |
+| [technology-create](./technology-create/SKILL.md) | Создание per-tech стандарта (N агентов параллельно) |
+| [technology-modify](./technology-modify/SKILL.md) | Изменение per-tech стандарта |
+| [technology-validate](./technology-validate/SKILL.md) | Валидация per-tech стандарта |
 
 ### drafts
 

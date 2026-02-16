@@ -22,7 +22,9 @@ index: specs/design/README.md
 
 ## 1. Файлы
 
-*Нет файлов.*
+| ID | Документ | Статус | Parent Impact | ADR | Milestone | Описание |
+|----|----------|--------|---------------|-----|-----------|----------|
+| 0001 | design-0001-realtime-notifications.md | WAITING | impact-0001 | — | v0.1.0 | Проектирование системы уведомлений в реальном времени |
 
 ---
 
@@ -30,5 +32,6 @@ index: specs/design/README.md
 
 ```
 /specs/design/
-└── README.md                # Этот файл
+├── README.md                                   # Этот файл
+└── design-0001-realtime-notifications.md      # Система уведомлений в реальном времени
 ```

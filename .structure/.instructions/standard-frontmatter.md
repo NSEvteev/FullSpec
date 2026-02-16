@@ -360,8 +360,8 @@ allowed-tools:
 |------|-------------|----------|
 | `description` | Да | "Архитектура сервиса {service} — {назначение}" (до 1024 символов) |
 | `service` | Да | kebab-case имя сервиса (совпадает с `src/{service}/`) |
-| `created-by` | Условно | ID ADR, при котором документ заполнен (`adr-NNNN`). Обязательно для полного документа. Отсутствует у stub |
-| `last-updated-by` | Условно | ID последнего ADR, обновившего документ (`adr-NNNN`). Обязательно для полного документа. Отсутствует у stub |
+| `created-by` | Условно | ID ADR, при котором документ заполнен (`adr-NNNN`). Обязательно для полного документа. Отсутствует у заглушки |
+| `last-updated-by` | Условно | ID последнего ADR, обновившего документ (`adr-NNNN`). Обязательно для полного документа. Отсутствует у заглушки |
 
 ### Полный документ (full)
 
@@ -376,7 +376,7 @@ last-updated-by: adr-0003
 ---
 ```
 
-### Документ-заглушка (stub)
+### Документ-заглушка
 
 Создаётся при Design → WAITING (первый для сервиса). Содержит только Резюме и Planned Changes, секции 2-6 помечены `*Заполняется при ADR → DONE.*`.
 
@@ -387,17 +387,17 @@ service: payments
 ---
 ```
 
-**Отличие от полного документа:** отсутствуют поля `created-by` и `last-updated-by` — ADR ещё не существует на момент создания stub.
+**Отличие от полного документа:** отсутствуют поля `created-by` и `last-updated-by` — ADR ещё не существует на момент создания заглушки.
 
-### Детекция stub vs full
+### Детекция заглушка vs полный
 
-| Признак | stub | full |
+| Признак | заглушка | полный |
 |---------|------|------|
 | `created-by` | Отсутствует | Присутствует (`adr-NNNN`) |
 | `last-updated-by` | Отсутствует | Присутствует (`adr-NNNN`) |
 | Секции 2-6 | `*Заполняется при ADR → DONE.*` | Заполнены |
 
-**Правила валидации содержимого:** [validation-service.md — Stub-режим](/specs/.instructions/living-docs/service/validation-service.md#stub-режим-если-нет-created-by)
+**Правила валидации содержимого:** [validation-service.md — Режим заглушки](/specs/.instructions/living-docs/service/validation-service.md#режим-заглушки-если-нет-created-by)
 
 **Для system/ и domains/ файлов:** см. [standard-architecture.md § 3](/specs/.instructions/living-docs/architecture/standard-architecture.md#3-frontmatter).
 
@@ -484,7 +484,7 @@ last-updated-by: adr-0003
 ---
 ```
 
-### Живой документ архитектуры (stub)
+### Живой документ архитектуры (заглушка)
 
 ```yaml
 ---

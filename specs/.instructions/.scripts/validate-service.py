@@ -10,8 +10,8 @@ validate-service.py — Валидация сервисных документо
     - SVC001: Frontmatter существует
     - SVC002: description — формат "Архитектура сервиса X — ..." и длина ≤ 1024
     - SVC003: Поле service присутствует и kebab-case
-    - SVC004: created-by — stub: отсутствует; full: формат adr-NNNN
-    - SVC005: last-updated-by — stub: отсутствует; full: формат adr-NNNN
+    - SVC004: created-by — заглушка: отсутствует; полный: формат adr-NNNN
+    - SVC005: last-updated-by — заглушка: отсутствует; полный: формат adr-NNNN
     - SVC006: Все 8 обязательных секций присутствуют
     - SVC007: Порядок секций соответствует стандарту
     - SVC008: Таблицы содержат обязательные колонки
@@ -22,7 +22,9 @@ validate-service.py — Валидация сервисных документо
     - SVC013: Метка svc:{service} в labels.yml
     - SVC014: Секция Changelog — формат и содержание
 
-    Автоматически определяет stub/full по отсутствию created-by.
+    Режим заглушки: секции 2, 3, 5 — placeholder ИЛИ предварительные данные с маркером Planned.
+    Режим заглушки: секции 4, 6 — только placeholder.
+    Автоматически определяет заглушка/полный по отсутствию created-by.
 
 SSOT:
     - specs/.instructions/living-docs/service/standard-service.md
@@ -72,16 +74,26 @@ REQUIRED_SECTIONS = [
     "Changelog",
 ]
 
-# Секции 2-6 — в stub содержат placeholder
-STUB_PLACEHOLDER_SECTIONS = [
-    "API контракты",
-    "Data Model",
+# Секции 4, 6 — в заглушке содержат только placeholder
+STUB_PLACEHOLDER_ONLY_SECTIONS = [
     "Code Map",
-    "Внешние зависимости",
     "Границы автономии LLM",
 ]
 
+# Секции 2, 3, 5 — в заглушке могут содержать placeholder ИЛИ предварительные данные с маркером
+STUB_PLANNED_OR_PLACEHOLDER_SECTIONS = [
+    "API контракты",
+    "Data Model",
+    "Внешние зависимости",
+]
+
+# Все секции 2-6 (для полного режима проверки)
+STUB_PLACEHOLDER_SECTIONS = (
+    STUB_PLANNED_OR_PLACEHOLDER_SECTIONS + STUB_PLACEHOLDER_ONLY_SECTIONS
+)
+
 STUB_PLACEHOLDER = "*Заполняется при ADR → DONE.*"
+PLANNED_MARKER = "*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*"
 
 # 4 обязательные подсекции Code Map
 CODE_MAP_SUBSECTIONS = [
@@ -224,20 +236,20 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
     elif verbose:
         print(f"    service: {svc} ✓")
 
-    # Детекция stub vs full: отсутствие created-by = stub
+    # Детекция заглушка vs полный: отсутствие created-by = заглушка
     created = fm.get("created-by", "")
     updated_by = fm.get("last-updated-by", "")
     is_stub = not created
 
     if verbose:
-        mode = "stub" if is_stub else "full"
+        mode = "заглушка" if is_stub else "полный"
         print(f"  Режим: {mode}")
 
     # SVC004: created-by
     if is_stub:
-        # Stub: created-by отсутствует — ОК, но проверим секции на согласованность
+        # Заглушка: created-by отсутствует — ОК, но проверим секции на согласованность
         if verbose:
-            print(f"    created-by: отсутствует (stub) ✓")
+            print(f"    created-by: отсутствует (заглушка) ✓")
     else:
         if not ADR_PATTERN.match(created):
             errors.append(f"[SVC004] {rel}: created-by '{created}' не в формате adr-NNNN")
@@ -247,9 +259,9 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
     # SVC005: last-updated-by
     if is_stub:
         if updated_by:
-            errors.append(f"[SVC005] {rel}: last-updated-by присутствует в stub (должен отсутствовать)")
+            errors.append(f"[SVC005] {rel}: last-updated-by присутствует в заглушке (должен отсутствовать)")
         elif verbose:
-            print(f"    last-updated-by: отсутствует (stub) ✓")
+            print(f"    last-updated-by: отсутствует (заглушка) ✓")
     else:
         if not updated_by:
             errors.append(f"[SVC005] {rel}: отсутствует поле last-updated-by")
@@ -273,33 +285,54 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
     if len(found_order) == len(REQUIRED_SECTIONS) and found_order != sorted(found_order):
         errors.append(f"[SVC007] {rel}: порядок секций нарушен")
 
-    # Stub-режим: проверить placeholder в секциях 2-6
+    # Режим заглушки: проверить placeholder/planned в секциях 2-6
     if is_stub:
-        for section in STUB_PLACEHOLDER_SECTIONS:
+        # Секции 4, 6 — только placeholder
+        for section in STUB_PLACEHOLDER_ONLY_SECTIONS:
             sec_content = extract_section_content(content, section).strip()
             if sec_content and STUB_PLACEHOLDER not in sec_content:
                 errors.append(
                     f"[SVC004] {rel}: секция '{section}' заполнена, "
-                    f"но created-by отсутствует (stub-режим)"
+                    f"но created-by отсутствует (режим заглушки)"
                 )
             elif verbose:
                 print(f"    секция '{section}': placeholder ✓")
 
-        # Changelog в stub = *Нет записей.*
+        # Секции 2, 3, 5 — placeholder ИЛИ предварительные данные с маркером
+        for section in STUB_PLANNED_OR_PLACEHOLDER_SECTIONS:
+            sec_content = extract_section_content(content, section).strip()
+            if sec_content and STUB_PLACEHOLDER not in sec_content and PLANNED_MARKER not in sec_content:
+                errors.append(
+                    f"[SVC004] {rel}: секция '{section}' заполнена без маркера, "
+                    f"но created-by отсутствует (режим заглушки). "
+                    f"Ожидается placeholder или предварительные данные с маркером Planned"
+                )
+            elif verbose:
+                if PLANNED_MARKER in (sec_content or ""):
+                    print(f"    секция '{section}': planned ✓")
+                else:
+                    print(f"    секция '{section}': placeholder ✓")
+
+        # Changelog в заглушке = *Нет записей.*
         changelog_content = extract_section_content(content, "Changelog").strip()
         if changelog_content and "*Нет записей.*" not in changelog_content:
-            errors.append(f"[SVC014] {rel}: Changelog в stub должен быть '*Нет записей.*'")
+            errors.append(f"[SVC014] {rel}: Changelog в заглушке должен быть '*Нет записей.*'")
         elif verbose:
-            print(f"    Changelog: stub ✓")
+            print(f"    Changelog: заглушка ✓")
 
-    # Full-режим: проверить что нет placeholder, проверить содержание секций
+    # Полный режим: проверить что нет placeholder и planned маркеров
     if not is_stub:
         for section in STUB_PLACEHOLDER_SECTIONS:
             sec_content = extract_section_content(content, section).strip()
             if STUB_PLACEHOLDER in sec_content:
                 errors.append(
-                    f"[SVC008] {rel}: секция '{section}' содержит stub-placeholder "
+                    f"[SVC008] {rel}: секция '{section}' содержит placeholder заглушки "
                     f"в полном документе"
+                )
+            if PLANNED_MARKER in sec_content:
+                errors.append(
+                    f"[SVC008] {rel}: секция '{section}' содержит маркер Planned "
+                    f"в полном документе (должен быть убран при ADR → DONE)"
                 )
 
         # SVC008: проверка колонок таблиц

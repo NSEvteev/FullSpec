@@ -139,3 +139,7 @@ index: .claude/.instructions/agents/README.md
 | [captain-holt](/.claude/agents/captain-holt/AGENT.md) | plan | Семантический анализ документов на ясность и однозначность |
 | [amy-santiago](/.claude/agents/amy-santiago/AGENT.md) | general-purpose | Помощник по созданию инструкций, скиллов, правил и структуры проекта |
 | [discussion-reviewer](/.claude/agents/discussion-reviewer/AGENT.md) | general-purpose | Ревью дискуссий SDD на полноту — анализ по объектам, генерация PROP-N рекомендаций |
+| [impact-reviewer](/.claude/agents/impact-reviewer/AGENT.md) | general-purpose | Ревью импакт-анализов SDD на полноту — покрытие Discussion, сервисы, компоненты, риски |
+| [design-agent](/.claude/agents/design-agent/AGENT.md) | general-purpose | Создание документа проектирования SDD — Deep Scan, CLARIFY → GENERATE → VALIDATE |
+| [design-reviewer](/.claude/agents/design-reviewer/AGENT.md) | general-purpose | Ревью проектирования SDD на полноту — покрытие Impact, SVC/INT/STS, зона ответственности |
+| [technology-agent](/.claude/agents/technology-agent/AGENT.md) | general-purpose | Создание и обновление per-tech стандарта (standard-{tech}.md + validation-{tech}.md + rule + реестр) |

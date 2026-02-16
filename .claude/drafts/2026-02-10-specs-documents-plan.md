@@ -54,10 +54,10 @@
 
 | Папка | Содержит | Статус |
 |-------|---------|--------|
-| `discussions/` | README.md (stub) | Остаётся — переписать README, standard позже |
-| `impact/` | README.md (stub) | Остаётся — переписать README, standard позже |
-| `services/adr/` | README.md (stub) | Переместить → `.instructions/adr/` |
-| `services/plans/` | README.md (stub) | Переместить → `.instructions/plans/` |
+| `discussions/` | README.md (заглушка) | Остаётся — переписать README, standard позже |
+| `impact/` | README.md (заглушка) | Остаётся — переписать README, standard позже |
+| `services/adr/` | README.md (заглушка) | Переместить → `.instructions/adr/` |
+| `services/plans/` | README.md (заглушка) | Переместить → `.instructions/plans/` |
 
 **Артефакты, которые НЕ существуют** (ссылки в README битые):
 - Шаблоны `/.claude/templates/specs/` — не существуют
@@ -157,7 +157,7 @@ specs/.instructions/
 | 3 | Удалить частично полезные | `naming.md`, `indexes.md`, `rules.md` |
 | 4 | Удалить пустую папку | `specs/.instructions/services/` (adr/ и plans/ перемещаются на уровень выше) |
 | 5 | Мигрировать glossary | `specs/glossary.md` (файл) → `specs/glossary/README.md` (папка) |
-| 6 | Переписать README | `specs/.instructions/README.md` — минимальный stub до создания оркестратора |
+| 6 | Переписать README | `specs/.instructions/README.md` — минимальная заглушка до создания оркестратора |
 | 7 | Переписать README | `specs/.instructions/discussion/README.md` — переписать под новый формат |
 | 8 | Переписать README | `specs/.instructions/impact/README.md` — переписать под новый формат |
 
@@ -200,7 +200,7 @@ specs/.instructions/
 
 ### Этап 2: Создание документов (последовательно по объектам)
 
-> **Статус:** В работе (Волна 1 + Discussion + Impact standard завершены)
+> **Статус:** В работе (Волна 1 + Discussion + Impact завершены)
 
 **Источник контента:** [2026-02-08-specs-architecture.md](./examples/2026-02-08-specs-architecture.md) — разделы указаны в описании каждого документа.
 
@@ -349,6 +349,10 @@ specs/.instructions/
 | 15 | Размещение standard-technology.md | **В `specs/.instructions/technologies/`** (не в `.instructions/technologies/`). Конвенция проекта: стандарты области размещаются в `.instructions/` этой области. Аналогично standard-discussion.md → `specs/.instructions/discussion/`, standard-service.md → `specs/.instructions/living-docs/service/` |
 | 16 | .instructions/technologies/ (корневая) | **НЕ создавать.** Преждевременно — папка для будущих per-tech стандартов кодирования (standard-python.md и т.д.), которые появятся при первом ADR→DONE с новой технологией |
 | 17 | Captain-holt анализ standard-technology.md | **Применены все P1 кроме версионирования.** 17 проблем найдено, 8 уровня P1. Добавлены: §4.1 "Когда НЕ создавать per-tech стандарт", §5.7 "Связь с принципами программирования", §10 "Миграция". Уточнены: порядок создания (последовательный), механизм автозагрузки, колонка Tech Stack |
+| 18 | Структура Impact: per-aspect vs per-service | **Per-service.** Каждый SVC-N — h2 секция с 3 подсекциями h3 (Компоненты, Данные, API). Нумерация CMP/DATA/API — сквозная. Зависимости и Риски — отдельные h2 (cross-service). Облегчает генерацию per-service Design downstream |
+| 19 | Описание флоу в SVC-секциях Impact | **1–2 абзаца на SVC.** Триггер → поток → результат → связи. Заполняет gap между сухими таблицами и пониманием «как данные проходят через сервис». Не дублирует Discussion (бизнес-флоу) и Design (технический флоу) |
+| 20 | Агент impact-reviewer | **general-purpose, sonnet, Read/Grep/Glob/Edit.** Анализирует полноту Impact vs Discussion. Пишет PROP-N в секцию «Предложения». Upward feedback (`↑ Discussion:`) для обнаруженных пробелов в бизнес-требованиях |
+| 21 | Авто-предложение следующего этапа SDD | **После Discussion WAITING → предложить Impact. После Impact WAITING → предложить Design.** Через AskUserQuestion в последнем шаге create-воркфлоу (Шаг 12). Не автозапуск — только предложение |
 
 ---
 
@@ -373,7 +377,7 @@ specs/.instructions/
 **Этап 2: Создание документов (11 шт.)**
 - [x] Волна 1: ~~Справочник + Навигатор SDD~~ → объединены в `standard-specs.md` (14 секций, ~1200 строк). Разделение оказалось искусственным, Planned Changes дублировались
 - [x] Волна 2: Discussion (полный комплект) — standard + validation + create + modify + скрипты (validate, create-file) + 3 скилла + E2E (disc-0001 → WAITING)
-- [ ] Волна 2: Impact — **standard-impact.md создан** (фаза 1, шаг 1/4). 9 секций, 3 примера. Осталось: validation-impact.md, create-impact.md, modify-impact.md (фаза 1), скрипты + скиллы (фаза 2), E2E (фаза 3)
+- [x] Волна 2: Impact (полный комплект) — standard + validation + create + modify + скрипты (validate, create-file) + 3 скилла + агент impact-reviewer + E2E (impact-0001 → WAITING). Per-service структура (SVC-N → h2, подсекции → h3), описание флоу (1–2 абзаца на SVC)
 - [ ] Волна 3: Design (0/1)
 - [ ] Волна 4: Per-service объекты (0/2)
 - [x] Волна 5: Plan (1/1) — standard-plan.md (контент §7 перенесён)

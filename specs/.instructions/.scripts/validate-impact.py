@@ -3,6 +3,8 @@
 validate-impact.py — Валидация документов импакт-анализа SDD.
 
 Проверяет соответствие документа импакт-анализа стандарту standard-impact.md.
+Документ организован по сервисам: каждый SVC-N — отдельная h2 секция
+с подсекциями Компоненты, Данные и хранение, API.
 
 Использование:
     python validate-impact.py <path> [--json] [--all] [--repo <dir>]
@@ -44,20 +46,26 @@ PARENT_PATH_REGEX = re.compile(r'^discussion/disc-\d{4}-.+\.md$')
 
 SECTION_HEADING_PREFIX = r'^##\s+(?:\S+\s+)?'  # Опциональный emoji перед именем
 
-# Обязательные разделы (с emoji)
+# Фиксированные h2 секции (Резюме, Зависимости, Риски)
 REQUIRED_SECTIONS = {
     "Резюме": ("I007", "📋"),
-    "Затронутые сервисы": ("I008", "🏗️"),
-    "Компоненты": ("I009", "📦"),
-    "Данные и хранение": ("I010", "💾"),
-    "API": ("I011", "🔌"),
     "Зависимости": ("I012", "🔗"),
     "Риски": ("I013", "⚠️"),
 }
 
+# Паттерн для секций SVC-N
+SVC_SECTION_PATTERN = re.compile(r'^##\s+SVC-(\d+):\s+(.+)$', re.MULTILINE)
+
+# Обязательные подсекции внутри каждой SVC-секции (h3)
+SVC_SUBSECTIONS = {
+    "Компоненты": ("I009", "📦"),
+    "Данные и хранение": ("I010", "💾"),
+    "API": ("I011", "🔌"),
+}
+
 # Элементы с нумерацией
 ELEMENT_PATTERNS = {
-    "SVC": (re.compile(r'^\|\s*SVC-(\d+)\s*\|', re.MULTILINE), "I014"),
+    "SVC": (re.compile(r'^\|\s*SVC-(\d+)\s*\||^##\s+SVC-(\d+):', re.MULTILINE), "I014"),
     "CMP": (re.compile(r'^\|\s*CMP-(\d+)\s*\|', re.MULTILINE), "I015"),
     "DATA": (re.compile(r'^\|\s*DATA-(\d+)\s*\|', re.MULTILINE), "I016"),
     "API": (re.compile(r'^\|\s*API-(\d+)\s*\|', re.MULTILINE), "I017"),
@@ -65,13 +73,15 @@ ELEMENT_PATTERNS = {
     "RISK": (re.compile(r'^\|\s*RISK-(\d+)\s*\|', re.MULTILINE), "I019"),
 }
 
-# Заглушки для необязательных разделов
-SECTION_STUBS = {
+# Заглушки для подсекций
+SUBSECTION_STUBS = {
     "Компоненты": re.compile(r'_Компоненты не идентифицированы\._'),
     "Данные и хранение": re.compile(r'_Изменений в данных нет\._'),
     "API": re.compile(r'_Изменений в API нет\._'),
-    "Зависимости": re.compile(r'_Зависимостей нет\._'),
 }
+
+# Заглушка для Зависимостей (h2)
+DEPENDENCY_STUB = re.compile(r'_Зависимостей нет\._')
 
 ERROR_CODES = {
     "I001": "Неверный формат имени файла",
@@ -81,10 +91,10 @@ ERROR_CODES = {
     "I005": "Отсутствует parent",
     "I006": "Parent не существует",
     "I007": "Отсутствует раздел 'Резюме'",
-    "I008": "Отсутствует раздел 'Затронутые сервисы'",
-    "I009": "Отсутствует раздел 'Компоненты'",
-    "I010": "Отсутствует раздел 'Данные и хранение'",
-    "I011": "Отсутствует раздел 'API'",
+    "I008": "Нет секций SVC-N",
+    "I009": "Подсекция 'Компоненты' отсутствует в SVC",
+    "I010": "Подсекция 'Данные и хранение' отсутствует в SVC",
+    "I011": "Подсекция 'API' отсутствует в SVC",
     "I012": "Отсутствует раздел 'Зависимости'",
     "I013": "Отсутствует раздел 'Риски'",
     "I014": "Дублирование SVC-N",
@@ -103,8 +113,8 @@ ERROR_CODES = {
     "I027": "Отсутствует или неверный standard-version",
     "I028": "Неверный index",
     "I029": "Description слишком длинное (> 1024 символов)",
-    "I030": "Секция без контента и без заглушки",
-    "I031": "'Затронутые сервисы' — нет элементов SVC-N",
+    "I030": "Подсекция без контента и без заглушки",
+    "I031": "Нет секций SVC-N (минимум 1)",
     "I032": "'Риски' — нет элементов RISK-N",
     "I033": "Резюме пустое или содержит только placeholder",
     "I034": "Milestone Impact ≠ milestone parent Discussion",
@@ -178,9 +188,23 @@ def get_body(content: str) -> str:
 
 
 def get_section_text(body_no_code: str, section_name: str) -> str | None:
-    """Извлечь текст секции по имени (с опциональным emoji)."""
+    """Извлечь текст h2 секции по имени (с опциональным emoji)."""
     pattern = SECTION_HEADING_PREFIX + re.escape(section_name) + r'\s*\n(.*?)(?=^##\s|\Z)'
     match = re.search(pattern, body_no_code, re.MULTILINE | re.DOTALL)
+    return match.group(1) if match else None
+
+
+def get_svc_section_text(body_no_code: str, svc_num: str) -> str | None:
+    """Извлечь текст секции SVC-N (от ## SVC-N: до следующего ## или конца)."""
+    pattern = r'^##\s+SVC-' + re.escape(svc_num) + r':.*?\n(.*?)(?=^##\s|\Z)'
+    match = re.search(pattern, body_no_code, re.MULTILINE | re.DOTALL)
+    return match.group(1) if match else None
+
+
+def get_subsection_text(svc_text: str, subsection_name: str) -> str | None:
+    """Извлечь текст h3 подсекции внутри SVC-секции."""
+    pattern = r'^###\s+(?:\S+\s+)?' + re.escape(subsection_name) + r'\s*\n(.*?)(?=^###\s|\Z)'
+    match = re.search(pattern, svc_text, re.MULTILINE | re.DOTALL)
     return match.group(1) if match else None
 
 
@@ -279,12 +303,13 @@ def check_heading(content: str, path: Path) -> list[tuple[str, str]]:
 
 
 def check_required_sections(content: str) -> list[tuple[str, str]]:
-    """I007-I013: Проверить обязательные разделы (все 7)."""
+    """I007-I013: Проверить обязательные разделы и подсекции SVC."""
     errors = []
 
     body = get_body(content)
     body_no_code = remove_code_blocks(body)
 
+    # Фиксированные h2 секции (Резюме, Зависимости, Риски)
     for section_name, (error_code, emoji) in REQUIRED_SECTIONS.items():
         # Ищем с emoji и без
         found = (
@@ -294,11 +319,27 @@ def check_required_sections(content: str) -> list[tuple[str, str]]:
         if not found:
             errors.append((error_code, f"Отсутствует раздел '## {emoji} {section_name}'"))
 
+    # I008: Минимум 1 секция SVC-N
+    svc_sections = SVC_SECTION_PATTERN.findall(body_no_code)
+    if not svc_sections:
+        errors.append(("I008", "Нет секций SVC-N (минимум 1 обязательна)"))
+    else:
+        # I009-I011: Проверить подсекции в каждой SVC
+        for svc_num, svc_name in svc_sections:
+            svc_text = get_svc_section_text(body_no_code, svc_num)
+            if svc_text is None:
+                continue
+
+            for sub_name, (error_code, emoji) in SVC_SUBSECTIONS.items():
+                sub_pattern = r'###\s+(?:' + re.escape(emoji) + r'\s+)?' + re.escape(sub_name)
+                if not re.search(sub_pattern, svc_text, re.MULTILINE):
+                    errors.append((error_code, f"SVC-{svc_num} ({svc_name.strip()}): отсутствует подсекция '{emoji} {sub_name}'"))
+
     return errors
 
 
 def check_section_content(content: str) -> list[tuple[str, str]]:
-    """I030-I032: Проверить что секции содержат элементы или заглушку."""
+    """I030-I033: Проверить содержание секций и подсекций."""
     errors = []
 
     body = get_body(content)
@@ -311,13 +352,6 @@ def check_section_content(content: str) -> list[tuple[str, str]]:
         if not resume_stripped or '{Краткое описание' in resume_section:
             errors.append(("I033", "Резюме пустое или содержит только placeholder"))
 
-    # I031: Затронутые сервисы — минимум 1 SVC-N
-    svc_section = get_section_text(body_no_code, "Затронутые сервисы")
-    if svc_section is not None:
-        svc_pattern = ELEMENT_PATTERNS["SVC"][0]
-        if not svc_pattern.search(svc_section):
-            errors.append(("I031", "'Затронутые сервисы' — нет элементов SVC-N (минимум 1)"))
-
     # I032: Риски — минимум 1 RISK-N
     risk_section = get_section_text(body_no_code, "Риски")
     if risk_section is not None:
@@ -325,24 +359,34 @@ def check_section_content(content: str) -> list[tuple[str, str]]:
         if not risk_pattern.search(risk_section):
             errors.append(("I032", "'Риски' — нет элементов RISK-N (минимум 1)"))
 
-    # I030: Остальные секции — контент или заглушка
-    for section_name, stub_pattern in SECTION_STUBS.items():
-        section_text = get_section_text(body_no_code, section_name)
-        if section_text is not None:
-            # Проверить наличие элементов
-            element_prefix_map = {
-                "Компоненты": "CMP",
-                "Данные и хранение": "DATA",
-                "API": "API",
-                "Зависимости": "DEP",
-            }
-            prefix = element_prefix_map.get(section_name)
-            has_elements = False
-            if prefix and prefix in ELEMENT_PATTERNS:
-                has_elements = bool(ELEMENT_PATTERNS[prefix][0].search(section_text))
-            has_stub = bool(stub_pattern.search(section_text))
-            if not has_elements and not has_stub:
-                errors.append(("I030", f"Секция '{section_name}' без контента и без заглушки"))
+    # I030: Подсекции в каждой SVC — контент или заглушка
+    svc_sections = SVC_SECTION_PATTERN.findall(body_no_code)
+    subsection_element_map = {
+        "Компоненты": "CMP",
+        "Данные и хранение": "DATA",
+        "API": "API",
+    }
+
+    for svc_num, svc_name in svc_sections:
+        svc_text = get_svc_section_text(body_no_code, svc_num)
+        if svc_text is None:
+            continue
+
+        for sub_name, prefix in subsection_element_map.items():
+            sub_text = get_subsection_text(svc_text, sub_name)
+            if sub_text is not None:
+                has_elements = bool(ELEMENT_PATTERNS[prefix][0].search(sub_text))
+                has_stub = bool(SUBSECTION_STUBS[sub_name].search(sub_text))
+                if not has_elements and not has_stub:
+                    errors.append(("I030", f"SVC-{svc_num}: подсекция '{sub_name}' без контента и без заглушки"))
+
+    # I030: Зависимости — контент или заглушка
+    dep_section = get_section_text(body_no_code, "Зависимости")
+    if dep_section is not None:
+        has_deps = bool(ELEMENT_PATTERNS["DEP"][0].search(dep_section))
+        has_stub = bool(DEPENDENCY_STUB.search(dep_section))
+        if not has_deps and not has_stub:
+            errors.append(("I030", "Секция 'Зависимости' без контента и без заглушки"))
 
     return errors
 
@@ -355,7 +399,13 @@ def check_numbering(content: str) -> list[tuple[str, str]]:
     body_no_code = remove_code_blocks(body)
 
     for prefix, (pattern, error_code) in ELEMENT_PATTERNS.items():
-        numbers = pattern.findall(body_no_code)
+        numbers = []
+        for m in pattern.finditer(body_no_code):
+            # SVC pattern has 2 groups (table or heading), take first non-None
+            num = m.group(1) or (m.group(2) if m.lastindex and m.lastindex >= 2 else None)
+            if num:
+                numbers.append(num)
+
         seen = set()
         for num in numbers:
             if num in seen:
@@ -528,7 +578,7 @@ def check_dependency_type(content: str) -> list[tuple[str, str]]:
         return errors
 
     # Пропустить если секция содержит заглушку
-    if re.search(r'_Зависимостей нет\._', dep_section):
+    if DEPENDENCY_STUB.search(dep_section):
         return errors
 
     # Найти строки с DEP-N
@@ -536,7 +586,7 @@ def check_dependency_type(content: str) -> list[tuple[str, str]]:
     for line in dep_lines:
         columns = [col.strip() for col in line.split('|')]
         # columns[0] пустая (до первого |), columns[1] = ID, ...
-        # Типичный формат: | DEP-N | Описание | Источник | Тип | Статус |
+        # Типичный формат: | DEP-N | От | К | Тип | Описание | Версия |
         # Колонка 'Тип' — 4-я (индекс 4 в split)
         if len(columns) >= 5:
             dep_type = columns[4]
@@ -574,10 +624,10 @@ def validate_impact(path: Path, repo_root: Path) -> list[tuple[str, str]]:
     # I025: NNNN совпадение
     errors.extend(check_heading(content, path))
 
-    # I007-I013: обязательные разделы
+    # I007-I013: обязательные разделы и подсекции SVC
     errors.extend(check_required_sections(content))
 
-    # I030-I032: контент секций
+    # I030-I033: контент секций и подсекций
     errors.extend(check_section_content(content))
 
     # I014-I019: нумерация

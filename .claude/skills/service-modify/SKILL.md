@@ -20,7 +20,7 @@ argument-hint: "<service-name> [--scenario <A|B|C|D|E|F>]"
 | Параметр | Описание | Обязательный |
 |----------|----------|--------------|
 | `service-name` | Имя сервиса (kebab-case) | Да |
-| `--scenario` | Сценарий: A (Design WAITING), B (ADR WAITING), C (ADR DONE stub→full), D (ADR DONE последующий), E (Design DONE), F (REJECTED) | Нет (определит автоматически) |
+| `--scenario` | Сценарий: A (Design WAITING), B (ADR WAITING), C (ADR DONE заглушка→полный), D (ADR DONE последующий), E (Design DONE), F (REJECTED) | Нет (определит автоматически) |
 
 ## Воркфлоу
 

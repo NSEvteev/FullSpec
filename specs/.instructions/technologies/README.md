@@ -29,8 +29,11 @@ index: specs/.instructions/technologies/README.md
 
 ```
 /specs/.instructions/technologies/
-├── standard-technology.md   # Мета-стандарт технологий
-└── README.md                # Этот файл (индекс)
+├── standard-technology.md       # Мета-стандарт технологий
+├── validation-technology.md     # Валидация per-tech стандартов
+├── create-technology.md         # Создание per-tech стандарта
+├── modify-technology.md         # Изменение per-tech стандарта
+└── README.md                    # Этот файл (индекс)
 ```
 
 ---
@@ -39,14 +42,15 @@ index: specs/.instructions/technologies/README.md
 
 ## 1.1. Мета-стандарт технологий
 
-Как создавать per-tech стандарты кодирования (standard-{tech}.md + validation-{tech}.md).
+Как создавать per-tech стандарты кодирования (standard-{tech}.md + validation-{tech}.md). Двухфазная модель: заглушка при Design → WAITING, заполнение при ADR → DONE.
 
 **Оглавление:**
 - [Расположение и именование](./standard-technology.md#2-расположение-и-именование)
+- [Триггер создания (двухфазная модель)](./standard-technology.md#4-триггер-создания)
 - [Когда НЕ создавать](./standard-technology.md#41-когда-не-создавать-per-tech-стандарт)
-- [Триггер создания](./standard-technology.md#4-триггер-создания)
 - [Секции per-tech стандарта](./standard-technology.md#5-секции-per-tech-стандарта)
 - [Автозагрузка через rules](./standard-technology.md#6-автозагрузка-через-rules)
+- [Шаблоны (включая заглушки)](./standard-technology.md#7-шаблоны)
 
 **Инструкция:** [standard-technology.md](./standard-technology.md)
 
@@ -54,56 +58,54 @@ index: specs/.instructions/technologies/README.md
 
 # 2. Воркфлоу
 
-*Нет воркфлоу.*
+## 2.1. Создание per-tech стандарта
 
-<!-- Шаблон для добавления воркфлоу:
-## 2.1. Создание {объекта}
-
-{Описание — одно предложение.}
+Двухфазное создание: заглушка (Design → WAITING) + заполнение конвенциями (ADR → DONE).
 
 **Оглавление:**
-- [{Раздел}](./create-{object}.md#раздел)
+- [Фаза 1: Заглушка](./create-technology.md#фаза-1-заглушка-design--waiting)
+- [Фаза 2: Заполнение](./create-technology.md#фаза-2-заполнение-adr--done)
 
-**Инструкция:** [create-{object}.md](./create-{object}.md)
--->
+**Инструкция:** [create-technology.md](./create-technology.md)
+
+## 2.2. Изменение per-tech стандарта
+
+Обновление сервисов, заполнение заглушки, обновление конвенций, откат, деактивация.
+
+**Оглавление:**
+- [Типы изменений](./modify-technology.md#типы-изменений)
+- [Откат (ROLLING_BACK)](./modify-technology.md#сценарий-d-откат-rolling_back)
+
+**Инструкция:** [modify-technology.md](./modify-technology.md)
 
 ---
 
 # 3. Валидация
 
-*Нет валидаций.*
+## 3.1. Валидация per-tech стандарта
 
-<!-- Шаблон для добавления валидации:
-## 3.1. Валидация {объекта}
-
-{Описание — одно предложение.}
+Проверка frontmatter, секций, rule, реестра, режима заглушки.
 
 **Оглавление:**
-- [{Раздел}](./validation-{object}.md#раздел)
+- [Коды ошибок TECH001-TECH011](./validation-technology.md#типичные-ошибки)
+- [Режим заглушки](./validation-technology.md#режим-заглушки-если-секции-2-6-содержат-placeholder)
 
-**Инструкция:** [validation-{object}.md](./validation-{object}.md)
--->
+**Инструкция:** [validation-technology.md](./validation-technology.md)
 
 ---
 
 # 4. Скрипты
 
-*Нет скриптов.*
-
-<!-- Шаблон для добавления скриптов:
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
-| [{script}.py](./.scripts/{script}.py) | {описание} | [{инструкция}.md](./{инструкция}.md) |
--->
+| [validate-technology.py](../../.scripts/validate-technology.py) | Валидация per-tech стандартов | [validation-technology.md](./validation-technology.md) |
 
 ---
 
 # 5. Скиллы
 
-*Нет скиллов.*
-
-<!-- Шаблон для добавления скиллов:
 | Скилл | Назначение | Инструкция |
 |-------|------------|------------|
-| [/{skill}](/.claude/skills/{skill}/SKILL.md) | {описание} | [{инструкция}.md](./{инструкция}.md) |
--->
+| [/technology-create](/.claude/skills/technology-create/SKILL.md) | Создание per-tech стандарта | [create-technology.md](./create-technology.md) |
+| [/technology-modify](/.claude/skills/technology-modify/SKILL.md) | Изменение per-tech стандарта | [modify-technology.md](./modify-technology.md) |
+| [/technology-validate](/.claude/skills/technology-validate/SKILL.md) | Валидация per-tech стандарта | [validation-technology.md](./validation-technology.md) |

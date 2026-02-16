@@ -7,7 +7,7 @@ index: specs/.instructions/living-docs/service/README.md
 
 # Стандарт сервисной документации
 
-Версия стандарта: 2.1
+Версия стандарта: 2.2
 
 Правила создания и обновления живых документов архитектуры (`specs/architecture/`). Сервис-центричный подход: `services/{svc}.md` — главная сущность, `system/` и `domains/` — контекст.
 
@@ -109,7 +109,7 @@ index: specs/.instructions/living-docs/service/README.md
    - Если architecture/services/X.md существует → читать Резюме + Planned Changes
    - Если не существует → Impact предлагает "Новый (план создания)"
 3. Impact → Design: Design РЕШАЕТ создание/использование
-4. Design → WAITING: services/{svc}.md создаётся (stub + Planned Changes)
+4. Design → WAITING: services/{svc}.md создаётся (заглушка + Planned Changes)
    system/, domains/ получают Planned Changes
 5. Design → ADR: ADR для сервиса X
 6. ADR → WAITING: services/{svc}.md — Planned Changes расширены (ссылка на ADR)
@@ -143,7 +143,7 @@ specs/architecture/
 | Папка | Что хранит | Создаётся | Обновляется при |
 |-------|-----------|-----------|-----------------|
 | `system/` | Системная архитектура: overview, data-flows, infrastructure | Инициализация проекта (пустые шаблоны) | Planned Changes при Design → WAITING, AS IS при Design → DONE |
-| `services/{svc}.md` | Архитектура сервиса: резюме, API, data model, **Code Map**, **Planned Changes**, **Changelog** | Design → WAITING (stub); ADR → DONE (full) | Planned Changes при Design → WAITING, AS IS при ADR → DONE, Changelog при Design → DONE |
+| `services/{svc}.md` | Архитектура сервиса: резюме, API, data model, **Code Map**, **Planned Changes**, **Changelog** | Design → WAITING (заглушка); ADR → DONE (full) | Planned Changes при Design → WAITING, AS IS при ADR → DONE, Changelog при Design → DONE |
 | `domains/` | Bounded contexts, агрегаты, события, context map | Инициализация проекта (пустые шаблоны); per-domain при первом Design → WAITING | Planned Changes при Design → WAITING, AS IS при Design → DONE |
 
 **Именование файлов:**
@@ -165,7 +165,7 @@ specs/architecture/
 
 ## 3. Frontmatter
 
-**SSOT frontmatter:** [standard-frontmatter.md § 5](/.structure/.instructions/standard-frontmatter.md#5-дополнительные-поля-для-живых-документов-архитектуры) — поля, правила stub/full, детекция, примеры.
+**SSOT frontmatter:** [standard-frontmatter.md § 5](/.structure/.instructions/standard-frontmatter.md#5-дополнительные-поля-для-живых-документов-архитектуры) — поля, правила заглушка/полный, детекция, примеры.
 
 **Для system/ и domains/ файлов:** см. [standard-architecture.md § 3](../architecture/standard-architecture.md#3-frontmatter).
 
@@ -177,7 +177,7 @@ specs/architecture/
 
 | Событие | Действие | Файлы |
 |---------|----------|-------|
-| Design → WAITING (первый для сервиса) | **Создать** (stub + Planned Changes) | `services/{svc}.md` |
+| Design → WAITING (первый для сервиса) | **Создать** (заглушка + Planned Changes) | `services/{svc}.md` |
 | Design → WAITING | Добавить **Planned Changes** | `system/`, `domains/`, `services/{svc}.md` для затронутых сервисов |
 | Design → WAITING (первый для домена) | **Создать** + Planned Changes | `domains/{domain}.md` |
 | ADR → WAITING | Расширить Planned Changes (ссылка на ADR) | `services/{svc}.md` |
@@ -212,11 +212,11 @@ Pre-commit хук `architecture-validate` запускается при изме
 
 | Секция | Назначение | Обновляется при |
 |--------|-----------|-----------------|
-| **Резюме** | Назначение сервиса, ключевые характеристики | Design → WAITING (stub), ADR → DONE |
-| **API контракты** | Публичные endpoints, события, CLI | ADR → DONE |
-| **Data Model** | Основные сущности и хранилища | ADR → DONE |
+| **Резюме** | Назначение сервиса, ключевые характеристики | Design → WAITING (заглушка), ADR → DONE |
+| **API контракты** | Публичные endpoints, события, CLI | Design → WAITING (предварительно), ADR → DONE |
+| **Data Model** | Основные сущности и хранилища | Design → WAITING (предварительно), ADR → DONE |
 | **Code Map** | Tech Stack, пакеты, точки входа, внутренние зависимости | ADR → DONE |
-| **Внешние зависимости** | Зависимости от shared/ и других сервисов | ADR → DONE |
+| **Внешние зависимости** | Зависимости от shared/ и других сервисов | Design → WAITING (предварительно), ADR → DONE |
 | **Границы автономии LLM** | Три уровня: Свободно, Флаг, CONFLICT | ADR → DONE |
 | **Planned Changes** | Запланированные изменения (навигационные ссылки) | Design → WAITING / ADR → DONE / Design → DONE |
 | **Changelog** | История применённых Design-цепочек | Design → DONE |
@@ -552,7 +552,7 @@ last-updated-by: adr-NNNN
 *Нет записей.*
 `````
 
-#### Шаблон stub (Design → WAITING)
+#### Шаблон заглушки (Design → WAITING)
 
 `````markdown
 ---
@@ -568,11 +568,19 @@ service: {service-name}
 
 ## API контракты
 
-*Заполняется при ADR → DONE.*
+*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
+
+| Тип | Endpoint/Event | Метод | Описание |
+|-----|---------------|-------|----------|
+| {REST/Event/CLI} | {endpoint} | {метод} | {описание из Impact API-N} |
 
 ## Data Model
 
-*Заполняется при ADR → DONE.*
+*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
+
+| Сущность | Хранилище | Назначение |
+|----------|-----------|-----------|
+| {Entity} | {Storage: table/key} | {описание из Impact DATA-N} |
 
 ## Code Map
 
@@ -580,7 +588,11 @@ service: {service-name}
 
 ## Внешние зависимости
 
-*Заполняется при ADR → DONE.*
+*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
+
+| Тип | Путь/Сервис | Что используем | Роль |
+|-----|------------|---------------|------|
+| {shared/service} | {путь/сервис} | {что} | {provider/consumer/publisher/subscriber} |
 
 ## Границы автономии LLM
 
@@ -597,15 +609,29 @@ service: {service-name}
 *Нет записей.*
 `````
 
+**Маппинг данных для предварительного заполнения:**
+
+| Источник | Данные | Секция заглушки |
+|----------|--------|----------------|
+| Impact SVC-N → API-N | Endpoints, события | § API контракты |
+| Impact SVC-N → DATA-N | Сущности, хранилища | § Data Model |
+| Design SVC-N → Dependencies | Зависимости от shared/ и сервисов | § Внешние зависимости |
+| Design INT-N → Contract | Дополнительные зависимости из контрактов | § Внешние зависимости |
+
+**Правила предварительного заполнения:**
+- Секции 2 (API контракты), 3 (Data Model), 5 (Внешние зависимости) заполняются данными из Impact/Design с маркером `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*`
+- Секции 4 (Code Map), 6 (Границы автономии LLM) остаются как placeholder `*Заполняется при ADR → DONE.*` — эти данные появляются только на уровне ADR
+- Если данных нет (Impact не содержит API-N или DATA-N) — секция остаётся как placeholder `*Заполняется при ADR → DONE.*`
+
 ### 9.2 Документы, обновляемые при изменении сервиса
 
 При создании или модификации сервиса необходимо обновить не только `services/{svc}.md`, но и документы системного контекста. Ниже — полный перечень файлов и что в них меняется.
 
-**Фаза 1: Создание stub (Design → WAITING, первый для сервиса):**
+**Фаза 1: Создание заглушки (Design → WAITING, первый для сервиса):**
 
 | Файл | Что обновить | Ссылка |
 |------|-------------|--------|
-| `services/{svc}.md` | Создать stub по шаблону [§ 9.1](#шаблон-stub-design--waiting) | — |
+| `services/{svc}.md` | Создать заглушку по шаблону [§ 9.1](#шаблон-заглушки-design--waiting) | — |
 | `services/README.md` | Добавить строку в таблицу (минимально) | — |
 | `labels.yml` | Создать метку `svc:{svc}` | через `/labels-modify` |
 
@@ -673,8 +699,8 @@ description: Домен {domain} — {описание bounded context}.
 ### Frontmatter (services/{svc}.md)
 - [ ] `description` — до 1024 символов, формат "Архитектура сервиса X — назначение"
 - [ ] `service` — kebab-case, совпадает с `src/{service}/`
-- [ ] `created-by` — ID ADR (`adr-NNNN`). Обязательно для полного документа, отсутствует у stub
-- [ ] `last-updated-by` — ID последнего ADR. Обязательно для полного документа, отсутствует у stub
+- [ ] `created-by` — ID ADR (`adr-NNNN`). Обязательно для полного документа, отсутствует у заглушки
+- [ ] `last-updated-by` — ID последнего ADR. Обязательно для полного документа, отсутствует у заглушки
 
 ### Содержание
 - [ ] Все 8 секций присутствуют (Резюме, API, Data Model, Code Map, Внешние зависимости, Границы, Planned Changes, Changelog)
@@ -712,8 +738,9 @@ description: Домен {domain} — {описание bounded context}.
 - [ ] REJECTED-записи помечены маркером `REJECTED`
 - [ ] CONFLICT-RESOLVED пометки только при изменении AS IS секций
 
-### Stub-режим (если нет `created-by`)
-- [ ] Секции 2-6 содержат `*Заполняется при ADR → DONE.*`
+### Режим заглушки (если нет `created-by`)
+- [ ] Секции 2 (API контракты), 3 (Data Model), 5 (Внешние зависимости) содержат предварительные данные с маркером `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*` ИЛИ placeholder `*Заполняется при ADR → DONE.*` (если данных нет в Impact/Design)
+- [ ] Секции 4 (Code Map), 6 (Границы автономии LLM) содержат `*Заполняется при ADR → DONE.*`
 - [ ] Резюме заполнено (из Design)
 - [ ] Planned Changes заполнены
 
@@ -735,14 +762,14 @@ description: Домен {domain} — {описание bounded context}.
 
 ### 11.1 Создание первого сервиса (auth)
 
-Двухфазное создание: stub при Design → WAITING, заполнение при ADR → DONE.
+Двухфазное создание: заглушка при Design → WAITING, заполнение при ADR → DONE.
 
 **Контекст:**
 - Discussion: "OAuth2 авторизация"
 - Design решил: auth отвечает за токены
 - ADR auth: "JWT с ES256, ротация ключей, refresh-токены"
 
-**Фаза 1 — Design → WAITING: stub**
+**Фаза 1 — Design → WAITING: заглушка**
 
 ```markdown
 ---
@@ -758,11 +785,24 @@ service: auth
 
 ## API контракты
 
-*Заполняется при ADR → DONE.*
+*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
+
+| Тип | Endpoint/Event | Метод | Описание |
+|-----|---------------|-------|----------|
+| REST | /api/v1/auth/token | POST | Создание access + refresh token |
+| REST | /api/v1/auth/token | PUT | Обновление token по refresh_token |
+| REST | /api/v1/auth/token | DELETE | Отзыв refresh_token |
+| Event | UserCreatedEvent | publish | Уведомление о регистрации |
 
 ## Data Model
 
-*Заполняется при ADR → DONE.*
+*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
+
+| Сущность | Хранилище | Назначение |
+|----------|-----------|-----------|
+| User | PostgreSQL: users | Профиль пользователя |
+| RefreshToken | Redis: tokens:{user_id} | Токены обновления |
+| Role | PostgreSQL: roles | Роли для RBAC |
 
 ## Code Map
 
@@ -770,7 +810,12 @@ service: auth
 
 ## Внешние зависимости
 
-*Заполняется при ADR → DONE.*
+*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
+
+| Тип | Путь/Сервис | Что используем | Роль |
+|-----|------------|---------------|------|
+| shared | shared/events/user_created.py | UserCreatedEvent | publisher |
+| service | gateway | /api/v1/auth/* | provider |
 
 ## Границы автономии LLM
 

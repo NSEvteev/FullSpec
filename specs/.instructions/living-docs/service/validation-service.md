@@ -1,13 +1,13 @@
 ---
 description: Валидация сервисных документов services/{svc}.md — frontmatter, секции, формат таблиц, согласованность с README и labels.
 standard: .instructions/standard-instruction.md
-standard-version: v2.0
+standard-version: v2.2
 index: specs/.instructions/living-docs/service/README.md
 ---
 
 # Валидация сервисной документации
 
-Рабочая версия стандарта: 2.0
+Рабочая версия стандарта: 2.2
 
 Проверка файлов `specs/architecture/services/{svc}.md` на соответствие [standard-service.md](./standard-service.md).
 
@@ -32,7 +32,7 @@ index: specs/.instructions/living-docs/service/README.md
   - [Шаг 1: Frontmatter](#шаг-1-frontmatter)
   - [Шаг 2: Обязательные секции](#шаг-2-обязательные-секции)
   - [Шаг 3: Содержание секций](#шаг-3-содержание-секций)
-  - [Stub-режим (если нет `created-by`)](#stub-режим-если-нет-created-by)
+  - [Режим заглушки (если нет `created-by`)](#режим-заглушки-если-нет-created-by)
   - [Шаг 4: Согласованность с README и labels](#шаг-4-согласованность-с-readme-и-labels)
   - [Шаг 5: Валидация архитектурных документов](#шаг-5-валидация-архитектурных-документов)
 - [Чек-лист](#чек-лист)
@@ -60,7 +60,7 @@ index: specs/.instructions/living-docs/service/README.md
 python specs/.instructions/.scripts/validate-service.py specs/architecture/services/{svc}.md --verbose
 ```
 
-Скрипт проверяет правила SVC001-SVC014. Автоматически определяет stub/full по отсутствию `created-by`. Если валидация пройдена — переходить к **Шагу 5** (архитектурные документы).
+Скрипт проверяет правила SVC001-SVC014. Автоматически определяет заглушка/полный по отсутствию `created-by`. Если валидация пройдена — переходить к **Шагу 5** (архитектурные документы).
 
 **Если скрипт недоступен** — выполнить шаги 1-4 вручную, затем Шаг 5.
 
@@ -72,10 +72,10 @@ python specs/.instructions/.scripts/validate-service.py specs/architecture/servi
 |------|---------|-----|
 | `description` | Присутствует, до 1024 символов, формат "Архитектура сервиса {service} — {назначение}" | SVC001, SVC002 |
 | `service` | Присутствует, kebab-case | SVC003 |
-| `created-by` | **Stub:** отсутствует. **Full:** присутствует, формат `adr-NNNN` | SVC004 |
-| `last-updated-by` | **Stub:** отсутствует. **Full:** присутствует, формат `adr-NNNN` | SVC005 |
+| `created-by` | **Заглушка:** отсутствует. **Full:** присутствует, формат `adr-NNNN` | SVC004 |
+| `last-updated-by` | **Заглушка:** отсутствует. **Full:** присутствует, формат `adr-NNNN` | SVC005 |
 
-**Детекция stub vs full:** Отсутствие `created-by` = stub-режим. Подробности: [standard-frontmatter.md § 5](/.structure/.instructions/standard-frontmatter.md#5-дополнительные-поля-для-живых-документов-архитектуры).
+**Детекция заглушка vs полный:** Отсутствие `created-by` = режим заглушки. Подробности: [standard-frontmatter.md § 5](/.structure/.instructions/standard-frontmatter.md#5-дополнительные-поля-для-живых-документов-архитектуры).
 
 ### Шаг 2: Обязательные секции
 
@@ -126,23 +126,28 @@ python specs/.instructions/.scripts/validate-service.py specs/architecture/servi
 - Записи в обратном хронологическом порядке (SVC014)
 - Каждая запись — навигационный указатель (ссылки на Discussion, Design, ADR)
 - Маркер статуса: `DONE`, `REJECTED` или `CONFLICT-RESOLVED`
-- Stub-режим: `*Нет записей.*`
+- Режим заглушки: `*Нет записей.*`
 
-### Stub-режим (если нет `created-by`)
+### Режим заглушки (если нет `created-by`)
 
-При отсутствии `created-by` в frontmatter — файл является stub-заглушкой:
+При отсутствии `created-by` в frontmatter — файл является заглушкой:
 
 | Проверка | Правило |
 |----------|---------|
-| Секции 2-6 (API контракты — Границы автономии LLM) | Содержат `*Заполняется при ADR → DONE.*` |
+| Секции 2, 3, 5 (API контракты, Data Model, Внешние зависимости) | Содержат предварительные таблицы с маркером `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*` ИЛИ placeholder `*Заполняется при ADR → DONE.*` |
+| Секции 4, 6 (Code Map, Границы автономии LLM) | Содержат `*Заполняется при ADR → DONE.*` |
 | Резюме | Заполнено (1-3 предложения) |
 | Planned Changes | Заполнены (ссылка на Discussion + Design) |
 | Changelog | `*Нет записей.*` |
 | `created-by` / `last-updated-by` | Отсутствуют |
 
-**Ошибка:** Если `created-by` отсутствует, но секции 2-6 заполнены — `SVC004: created-by обязателен для заполненного документа`.
+**Допустимые варианты для секций 2, 3, 5 в заглушке:**
+1. Placeholder: `*Заполняется при ADR → DONE.*` — если данных нет в Impact/Design
+2. Предварительная таблица: маркер `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*` + таблица с данными из Impact/Design
 
-**Ошибка:** Если `created-by` присутствует, но секции содержат `*Заполняется при ADR → DONE.*` — `stub-placeholder в полном документе`.
+**Ошибка:** Если `created-by` отсутствует, но секции 4 (Code Map) или 6 (Границы автономии LLM) заполнены полноценным контентом (без placeholder/Planned маркера) — `SVC004: created-by обязателен для заполненного документа`.
+
+**Ошибка:** Если `created-by` присутствует, но секции содержат `*Заполняется при ADR → DONE.*` или `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*` — `заглушка-placeholder в полном документе`.
 
 ### Шаг 4: Согласованность с README и labels
 
@@ -172,8 +177,8 @@ python specs/.instructions/.scripts/validate-architecture.py --check-services --
 ### Frontmatter
 - [ ] `description` — до 1024 символов, формат "Архитектура сервиса X — назначение" (SVC001, SVC002)
 - [ ] `service` — kebab-case (SVC003)
-- [ ] **Full:** `created-by` — формат `adr-NNNN` (SVC004). **Stub:** отсутствует
-- [ ] **Full:** `last-updated-by` — формат `adr-NNNN` (SVC005). **Stub:** отсутствует
+- [ ] **Full:** `created-by` — формат `adr-NNNN` (SVC004). **Заглушка:** отсутствует
+- [ ] **Full:** `last-updated-by` — формат `adr-NNNN` (SVC005). **Заглушка:** отсутствует
 
 ### Секции
 - [ ] Все 8 секций присутствуют (SVC006)
@@ -189,9 +194,10 @@ python specs/.instructions/.scripts/validate-architecture.py --check-services --
 - [ ] Planned Changes — формат, без дублирования дельт
 - [ ] Changelog — обратный хронологический порядок, маркеры DONE/REJECTED (SVC014)
 
-### Содержание (Stub-режим)
+### Содержание (Режим заглушки)
 - [ ] Резюме — 1-3 предложения (SVC008)
-- [ ] Секции 2-6 — `*Заполняется при ADR → DONE.*`
+- [ ] Секции 2, 3, 5 — предварительные таблицы с маркером `*Предварительно...*` ИЛИ placeholder `*Заполняется при ADR → DONE.*`
+- [ ] Секции 4, 6 — `*Заполняется при ADR → DONE.*`
 - [ ] Planned Changes — ссылка на Discussion + Design
 - [ ] Changelog — `*Нет записей.*` (SVC014)
 
@@ -223,7 +229,7 @@ python specs/.instructions/.scripts/validate-architecture.py --check-services --
 | Нет строки в README | SVC012 | Сервис не добавлен в `services/README.md` | Добавить строку в таблицу |
 | Нет метки svc: | SVC013 | Метка не создана в `labels.yml` | Создать через `/labels-modify` |
 | Нет секции Changelog | SVC014 | Секция `## Changelog` отсутствует | Добавить Changelog по [standard-service.md § 5.8](./standard-service.md#58-changelog) |
-| Stub-placeholder в full | — | `*Заполняется при ADR → DONE.*` в документе с `created-by` | Заполнить секции или убрать `created-by` |
+| Заглушка-placeholder в full | — | `*Заполняется при ADR → DONE.*` в документе с `created-by` | Заполнить секции или убрать `created-by` |
 | Нет `created-by` в full | SVC004 | Секции заполнены, но `created-by` отсутствует | Добавить `created-by: adr-NNNN` |
 
 ---

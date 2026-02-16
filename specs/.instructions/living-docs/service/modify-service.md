@@ -1,13 +1,13 @@
 ---
 description: Воркфлоу изменения сервисного документа services/{svc}.md — обновление при ADR/Design событиях, деактивация и миграция сервиса.
 standard: .instructions/standard-instruction.md
-standard-version: v2.0
+standard-version: v2.2
 index: specs/.instructions/living-docs/service/README.md
 ---
 
 # Воркфлоу изменения сервисной документации
 
-Рабочая версия стандарта: 2.0
+Рабочая версия стандарта: 2.2
 
 Процессы изменения `specs/architecture/services/{svc}.md` в ответ на события SDD-lifecycle: заполнение содержания при ADR → DONE, перемещение Planned Changes → Changelog при Design → DONE, деактивация и миграция сервиса.
 
@@ -30,7 +30,7 @@ index: specs/.instructions/living-docs/service/README.md
 - [Обновление](#обновление)
   - [Сценарий A: повторный Design WAITING](#сценарий-a-повторный-design-waiting)
   - [Сценарий B: ADR WAITING](#сценарий-b-adr-waiting)
-  - [Сценарий C: ADR DONE, stub to full](#сценарий-c-adr-done-stub-to-full)
+  - [Сценарий C: ADR DONE, заглушка → полный](#сценарий-c-adr-done-заглушка--полный)
   - [Сценарий D: ADR DONE, последующий](#сценарий-d-adr-done-последующий)
   - [Сценарий E: Design DONE](#сценарий-e-design-done)
   - [Сценарий F: REJECTED](#сценарий-f-rejected)
@@ -117,11 +117,11 @@ python specs/.instructions/.scripts/validate-service.py specs/architecture/servi
 
 ---
 
-### Сценарий C: ADR DONE, stub to full
+### Сценарий C: ADR DONE, заглушка → полный
 
-**Триггер:** ADR → DONE, файл `services/{svc}.md` является **stub** (нет `created-by` в frontmatter).
+**Триггер:** ADR → DONE, файл `services/{svc}.md` является **заглушкой** (нет `created-by` в frontmatter).
 
-**Это ключевой сценарий:** stub заполняется полным содержанием из дельты ADR.
+**Это ключевой сценарий:** заглушка заполняется полным содержанием из дельты ADR.
 
 **Шаги:**
 
@@ -132,7 +132,7 @@ python specs/.instructions/.scripts/validate-service.py specs/architecture/servi
 
 #### Шаг C2: Обновить frontmatter
 
-Добавить поля, отсутствующие в stub:
+Добавить поля, отсутствующие в заглушке:
 
 ```yaml
 ---
@@ -147,16 +147,21 @@ last-updated-by: {adr-id}
 
 #### Шаг C3: Заполнить секции 1-6
 
-Заменить placeholder `*Заполняется при ADR → DONE.*` на реальное содержание из дельты ADR:
+Заменить placeholder `*Заполняется при ADR → DONE.*` и предварительные данные с маркером `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*` на финальное содержание из дельты ADR:
 
-| Секция | Источник |
-|--------|----------|
-| Резюме | Обновить (расширить из Design) |
-| API контракты | Дельта ADR — ADDED endpoints |
-| Data Model | Дельта ADR — ADDED entities |
-| Code Map | Дельта ADR — Tech Stack, пакеты, точки входа |
-| Внешние зависимости | Дельта ADR — зависимости от shared/ и других сервисов |
-| Границы автономии LLM | Дельта ADR — три уровня |
+| Секция | Источник | Примечание |
+|--------|----------|-----------|
+| Резюме | Обновить (расширить из Design) | — |
+| API контракты | Дельта ADR — ADDED endpoints | Убрать маркер Planned, заменить предварительные данные финальными |
+| Data Model | Дельта ADR — ADDED entities | Убрать маркер Planned, заменить предварительные данные финальными |
+| Code Map | Дельта ADR — Tech Stack, пакеты, точки входа | Заменить placeholder |
+| Внешние зависимости | Дельта ADR — зависимости от shared/ и других сервисов | Убрать маркер Planned, заменить предварительные данные финальными |
+| Границы автономии LLM | Дельта ADR — три уровня | Заменить placeholder |
+
+**Обработка предварительных данных (маркер Planned):**
+- Секции 2, 3, 5 могут содержать предварительные таблицы с маркером `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*`
+- При ADR → DONE: **убрать маркер** и **заменить** предварительные данные финальными из дельты ADR
+- Предварительные данные — ориентир, не факт. ADR может добавить, изменить или удалить записи
 
 **Формат секций:** [standard-service.md § 5](./standard-service.md#5-секции-документа-сервиса)
 
@@ -419,9 +424,9 @@ service: {new}
 - [ ] Строка `ADR:` добавлена к записи (ссылка на ADR)
 - [ ] Валидация пройдена
 
-### Обновление — Сценарий C (ADR → DONE, stub → full)
+### Обновление — Сценарий C (ADR → DONE, заглушка → полный)
 - [ ] ADR в статусе DONE
-- [ ] Файл — stub (нет `created-by`)
+- [ ] Файл — заглушка (нет `created-by`)
 - [ ] Frontmatter: добавлены `created-by`, `last-updated-by`
 - [ ] Все секции 1-6 заполнены (нет placeholder)
 - [ ] Planned Changes: ссылка на ADR убрана
@@ -468,10 +473,10 @@ service: {new}
 
 ## Примеры
 
-### ADR → DONE (stub → full) — сервис auth
+### ADR → DONE (заглушка → полный) — сервис auth
 
 ```bash
-# 1. ADR adr-0001 → DONE для auth (stub → full)
+# 1. ADR adr-0001 → DONE для auth (заглушка → полный)
 
 # 2. Обновить frontmatter — добавить created-by, last-updated-by
 # specs/architecture/services/auth.md
@@ -511,7 +516,7 @@ python specs/.instructions/.scripts/validate-architecture.py --check-services --
 
 | Скрипт | Назначение | Путь |
 |--------|------------|------|
-| `validate-service.py` | Валидация `services/{svc}.md` (full/stub) | [specs/.instructions/.scripts/validate-service.py](../../.scripts/validate-service.py) |
+| `validate-service.py` | Валидация `services/{svc}.md` (полный/заглушка) | [specs/.instructions/.scripts/validate-service.py](../../.scripts/validate-service.py) |
 | `validate-architecture.py` | Валидация фиксированных файлов | [specs/.instructions/.scripts/validate-architecture.py](../../.scripts/validate-architecture.py) |
 
 ---

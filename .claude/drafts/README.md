@@ -32,6 +32,9 @@ index: .claude/README.md
 | [2026-02-08-specification-driven-development.md](./2026-02-08-specification-driven-development.md) | Исследование подходов к Specification-Driven Development |
 | [2026-02-10-specs-documents-plan.md](./2026-02-10-specs-documents-plan.md) | План выноса документов из архитектуры specs/ |
 | [2026-02-15-specs-readme-format-gap.md](./2026-02-15-specs-readme-format-gap.md) | Проблема: README specs-папок не имеют процесса создания |
+| [binary-drifting-pine.md](./binary-drifting-pine.md) | План обогащения заглушек сервисных документов данными из Impact/Design |
+| [oh-my-techno.md](./oh-my-techno.md) | План: технологии + скрипт-генератор заглушек + интеграция в Design |
+| [oh-my-techno-testing.md](./oh-my-techno-testing.md) | Драфт-план тестирования изменений oh-my-techno |
 | [2026-02-09-specs-architecture-rework.md](./maybe-archive/2026-02-09-specs-architecture-rework.md) | План переработки архитектуры specs/ |
 | [2026-02-15-impact-instructions-testing.md](./maybe-archive/2026-02-15-impact-instructions-testing.md) | Impact: инструкции, скрипты, скиллы + тестовые итерации |
 | [2026-02-09-sdd-framework-comparison.md](./maybe-archive/2026-02-09-sdd-framework-comparison.md) | Сравнение SDD-подхода с фреймворками |
@@ -77,5 +80,8 @@ index: .claude/README.md
 ├── 2026-02-08-specification-driven-development.md # Исследование SDD
 ├── 2026-02-10-specs-documents-plan.md  # План выноса документов specs/
 ├── 2026-02-15-specs-readme-format-gap.md # README specs-папок: пробел в процессе
+├── binary-drifting-pine.md             # План обогащения заглушек сервисов
+├── oh-my-techno.md                     # План: технологии + интеграция в Design
+├── oh-my-techno-testing.md             # Драфт-план тестирования
 └── README.md                           # Этот файл (индекс)
 ```

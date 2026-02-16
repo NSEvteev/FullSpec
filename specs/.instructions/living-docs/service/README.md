@@ -34,7 +34,7 @@ index: specs/.instructions/living-docs/service/README.md
 
 ### [create-service.md](./create-service.md)
 
-**Воркфлоу создания сервисного документа services/{svc}.md — от Design → WAITING до создания stub с Резюме и Planned Changes, обновления README и labels.**
+**Воркфлоу создания сервисного документа services/{svc}.md — от Design → WAITING до создания заглушки с Резюме и Planned Changes, обновления README и labels.**
 
 ### [modify-service.md](./modify-service.md)
 
@@ -48,7 +48,7 @@ index: specs/.instructions/living-docs/service/README.md
 /specs/.instructions/living-docs/service/
 ├── standard-service.md            # Стандарт живых документов архитектуры
 ├── validation-service.md          # Валидация сервисных документов
-├── create-service.md              # Воркфлоу создания (stub при Design → WAITING)
+├── create-service.md              # Воркфлоу создания (заглушка при Design → WAITING)
 ├── modify-service.md              # Воркфлоу изменения (ADR/Design события)
 └── README.md                      # Этот файл (индекс)
 ```
