@@ -38,6 +38,8 @@ make setup
 | `github-required` | Наличие обязательных файлов GitHub | Все (always_run) |
 | `service-labels-validate` | Соответствие `svc:*` ↔ `specs/services/*/` | `labels.yml`, `specs/services/*/` |
 | `architecture-validate` | Фиксированные файлы архитектуры + согласованность services/ | `specs/architecture/`, `specs/services/` |
+| `postgresql-code-validate` | PostgreSQL: naming, timestamps, SELECT *, FK индексы | `**/*.sql` |
+| `redis-code-validate` | Redis: inline ключи, KEYS vs SCAN, сервис-префикс | `*.py`, `*.ts`, `*.js` (с Redis-импортами) |
 
 ---
 

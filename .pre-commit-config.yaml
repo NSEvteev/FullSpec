@@ -133,3 +133,23 @@ repos:
         files: ^specs/(architecture/|services/)
         pass_filenames: false
         stages: [pre-commit]
+
+      # 15. Валидация PostgreSQL-кода
+      - id: postgresql-code-validate
+        name: Validate PostgreSQL code
+        entry: python specs/.instructions/.scripts/validate-postgresql-code.py
+        language: system
+        files: \.sql$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]
+
+      # 16. Валидация Redis-кода
+      - id: redis-code-validate
+        name: Validate Redis code
+        entry: python specs/.instructions/.scripts/validate-redis-code.py
+        language: system
+        files: ^src/.*\.(py|ts|js|tsx|jsx)$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]

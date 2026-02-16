@@ -208,17 +208,25 @@ Pre-commit хук `architecture-validate` запускается при изме
 
 ## 5. Секции документа сервиса
 
-Документ `services/{svc}.md` содержит **8 секций** в фиксированном порядке. Все секции обязательны.
+Документ `services/{svc}.md` содержит **оглавление** и **8 секций** в фиксированном порядке. Все секции обязательны. Оглавление обязательно.
+
+**Двухслойная модель:**
+
+| Слой | Секции | Что содержит | Когда заполняется |
+|------|--------|-------------|------------------|
+| **AS IS** (факт) | 1–6 (Резюме, API, Data Model, Code Map, Зависимости, Границы) | Только реально существующее прямо сейчас. Для нового сервиса — пусто | ADR → DONE |
+| **Planned Changes** (план) | 7 | Дельты ADDED/MODIFIED/REMOVED по каждому активному Design. Множественный — по одному блоку на Design | Design → WAITING |
+| **Changelog** (история) | 8 | Завершённые Design-цепочки | Design → DONE |
 
 | Секция | Назначение | Обновляется при |
 |--------|-----------|-----------------|
-| **Резюме** | Назначение сервиса, ключевые характеристики | Design → WAITING (заглушка), ADR → DONE |
-| **API контракты** | Публичные endpoints, события, CLI | Design → WAITING (предварительно), ADR → DONE |
-| **Data Model** | Основные сущности и хранилища | Design → WAITING (предварительно), ADR → DONE |
-| **Code Map** | Tech Stack, пакеты, точки входа, внутренние зависимости | ADR → DONE |
-| **Внешние зависимости** | Зависимости от shared/ и других сервисов | Design → WAITING (предварительно), ADR → DONE |
-| **Границы автономии LLM** | Три уровня: Свободно, Флаг, CONFLICT | ADR → DONE |
-| **Planned Changes** | Запланированные изменения (навигационные ссылки) | Design → WAITING / ADR → DONE / Design → DONE |
+| **Резюме** | Назначение сервиса, ключевые характеристики | ADR → DONE (AS IS) |
+| **API контракты** | Публичные endpoints, события, CLI | ADR → DONE (AS IS) |
+| **Data Model** | Основные сущности и хранилища | ADR → DONE (AS IS) |
+| **Code Map** | Tech Stack, пакеты, точки входа, внутренние зависимости | ADR → DONE (AS IS) |
+| **Внешние зависимости** | Зависимости от shared/ и других сервисов | ADR → DONE (AS IS) |
+| **Границы автономии LLM** | Три уровня: Свободно, Флаг, CONFLICT | ADR → DONE (AS IS) |
+| **Planned Changes** | Дельты по каждому Design (ADDED/MODIFIED/REMOVED) | Design → WAITING, Design → DONE |
 | **Changelog** | История применённых Design-цепочек | Design → DONE |
 
 ### 5.1 Резюме
@@ -308,7 +316,7 @@ auth.middleware → auth.tokens → auth.keys
 auth.rbac → auth.tokens
 ```
 
-**Tech Stack и технологические стандарты:** При наличии `standard-{tech}.md` в `specs/.instructions/technologies/` — таблица Tech Stack дополняется ссылками на стандарт и валидацию. Технологические стандарты регулируются [standard-technology.md](/specs/.instructions/technologies/standard-technology.md).
+**Tech Stack и технологические стандарты:** При наличии `standard-{tech}.md` в `specs/technologies/` — таблица Tech Stack дополняется ссылками на стандарт и валидацию. Технологические стандарты регулируются [standard-technology.md](/specs/.instructions/technologies/standard-technology.md).
 
 ### 5.5 Внешние зависимости
 
@@ -355,25 +363,73 @@ auth.rbac → auth.tokens
 
 ### 5.7 Planned Changes
 
-Секция Planned Changes — навигационный указатель на запланированные, но ещё не применённые изменения.
+Секция Planned Changes содержит **структурированные дельты** запланированных изменений — по одному блоку на каждый активный Design, затрагивающий сервис. Каждый блок содержит три подсекции: ADDED, MODIFIED, REMOVED.
+
+**Назначение:** Кросс-дискуссионная осведомлённость. При чтении сервисного файла (например, при новом Impact) — видно ВСЕ активные Design'ы и что они планируют изменить.
 
 ```markdown
 ## Planned Changes
 
-- **[Discussion 001: OAuth2 авторизация](../../discussion/disc-0001-oauth2-authorization.md)**
-  Статус: RUNNING | Затрагивает: API endpoints, data model
-  Design: [design-0001-oauth2-service-design.md](../../design/design-0001-oauth2-service-design.md)
-  ADR: [adr-0001-jwt-to-oauth2.md](../services/auth/adr/adr-0001-jwt-to-oauth2.md)
+### design-0001: realtime notifications
+
+> [Discussion 0001](../../discussion/disc-0001-realtime-notifications.md) →
+> [Design 0001](../../design/design-0001-realtime-notifications.md) |
+> Статус: WAITING
+
+#### ADDED
+
+**Резюме:** Основной сервис уведомлений. WebSocket, REST API, event processing.
+
+**API контракты:**
+
+| Тип | Endpoint/Event | Метод | Описание |
+|-----|---------------|-------|----------|
+| REST | /api/v1/notifications | GET | Список уведомлений |
+
+**Data Model:**
+
+| Сущность | Хранилище | Назначение |
+|----------|-----------|-----------|
+| Notification | PostgreSQL: notifications | Хранение уведомлений |
+
+#### MODIFIED
+
+*Нет (новый сервис).*
+
+#### REMOVED
+
+*Нет.*
+```
+
+**Структура блока Planned Changes:**
+
+```
+### design-NNNN: {topic}           ← заголовок h3
+> навигация: Discussion → Design | Статус
+
+#### ADDED                          ← что добавляется
+  **Резюме:** ...                   ← если новый сервис
+  **API контракты:** таблица        ← повторяет структуру AS IS секций
+  **Data Model:** таблица
+  **Внешние зависимости:** таблица
+
+#### MODIFIED                       ← что изменяется
+  **API контракты:** таблица (Endpoint | Изменение)
+  **Data Model:** таблица (Сущность | Изменение)
+
+#### REMOVED                        ← что удаляется
+  список удаляемых элементов
 ```
 
 **Правила:**
-1. **Добавляется** когда Design переходит в WAITING
-2. LLM при чтении AS IS **обязан** учитывать Planned Changes
-3. При необходимости LLM переходит по ссылке на Design и читает дочерние ADR для получения дельт
-4. **Не дублирует контент** — навигационный указатель на цепочку, не копия дельт. Дельты могут измениться при CONFLICT, дублирование нарушает SSOT
-5. При ADR → DONE — ссылка на ADR убирается из Planned Changes (дельта применена в AS IS)
-6. При Design → DONE — вся запись Planned Changes **перемещается в Changelog** ([§ 5.8](#58-changelog))
-7. При REJECTED — запись перемещается в Changelog с маркером `REJECTED`
+1. **Добавляется** при Design → WAITING — один блок на Design
+2. **Множественный** — несколько Design = несколько блоков
+3. LLM при чтении AS IS **обязан** учитывать Planned Changes
+4. Структура ADDED повторяет структуру AS IS секций → при ADR → DONE данные мигрируют один к одному
+5. При ADR → DONE — данные из Planned Changes мигрируют в AS IS (ADDED → добавить, MODIFIED → обновить, REMOVED → удалить), блок для этого Design удаляется
+6. При Design → DONE — если блок ещё остался, перемещается в Changelog ([§ 5.8](#58-changelog))
+7. При REJECTED — блок перемещается в Changelog с маркером `REJECTED`
+8. Пустая секция: `*Нет активных Design.*`
 
 **Подробнее:** [Стандарт SDD § 7.1](../../standard-specs.md#71-обновление-при-планировании-to-waiting)
 
@@ -491,6 +547,19 @@ last-updated-by: adr-NNNN
 
 # {service-name}
 
+## Оглавление
+
+- [Резюме](#резюме)
+- [API контракты](#api-контракты)
+- [Data Model](#data-model)
+- [Code Map](#code-map)
+- [Внешние зависимости](#внешние-зависимости)
+- [Границы автономии LLM](#границы-автономии-llm)
+- [Planned Changes](#planned-changes)
+- [Changelog](#changelog)
+
+---
+
 ## Резюме
 
 {1-3 предложения: назначение, ключевые характеристики, роль в системе}
@@ -554,6 +623,8 @@ last-updated-by: adr-NNNN
 
 #### Шаблон заглушки (Design → WAITING)
 
+AS IS секции пусты (сервис ещё не реализован). Planned Changes содержит дельты из Design/Impact.
+
 `````markdown
 ---
 description: Архитектура сервиса {service} — {назначение из Design}.
@@ -562,66 +633,100 @@ service: {service-name}
 
 # {service-name}
 
+## Оглавление
+
+- [Резюме](#резюме)
+- [API контракты](#api-контракты)
+- [Data Model](#data-model)
+- [Code Map](#code-map)
+- [Внешние зависимости](#внешние-зависимости)
+- [Границы автономии LLM](#границы-автономии-llm)
+- [Planned Changes](#planned-changes)
+- [Changelog](#changelog)
+
+---
+
 ## Резюме
 
-{назначение из секции сервиса в Design — 1-3 предложения}
+*Сервис ещё не реализован.*
 
 ## API контракты
 
-*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
-
-| Тип | Endpoint/Event | Метод | Описание |
-|-----|---------------|-------|----------|
-| {REST/Event/CLI} | {endpoint} | {метод} | {описание из Impact API-N} |
+*Нет.*
 
 ## Data Model
 
-*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
+*Нет.*
+
+## Code Map
+
+*Нет.*
+
+## Внешние зависимости
+
+*Нет.*
+
+## Границы автономии LLM
+
+*Нет.*
+
+## Planned Changes
+
+### design-NNNN: {topic}
+
+> [Discussion NNNN]({путь}) →
+> [Design NNNN]({путь}) |
+> Статус: WAITING
+
+#### ADDED
+
+**Резюме:** {назначение из секции сервиса в Design — 1-3 предложения}
+
+**API контракты:**
+
+| Тип | Endpoint/Event | Метод | Описание |
+|-----|---------------|-------|----------|
+| {REST/Event/CLI} | {endpoint} | {метод} | {описание из Impact API-N / Design INT-N} |
+
+**Data Model:**
 
 | Сущность | Хранилище | Назначение |
 |----------|-----------|-----------|
 | {Entity} | {Storage: table/key} | {описание из Impact DATA-N} |
 
-## Code Map
-
-*Заполняется при ADR → DONE.*
-
-## Внешние зависимости
-
-*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
+**Внешние зависимости:**
 
 | Тип | Путь/Сервис | Что используем | Роль |
 |-----|------------|---------------|------|
 | {shared/service} | {путь/сервис} | {что} | {provider/consumer/publisher/subscriber} |
 
-## Границы автономии LLM
+#### MODIFIED
 
-*Заполняется при ADR → DONE.*
+*Нет (новый сервис).*
 
-## Planned Changes
+#### REMOVED
 
-- **[Discussion N: {topic}]({путь})**
-  Статус: WAITING | Затрагивает: {области}
-  Design: [{design-id}]({путь})
+*Нет.*
 
 ## Changelog
 
 *Нет записей.*
 `````
 
-**Маппинг данных для предварительного заполнения:**
+**Источники данных для Planned Changes → ADDED:**
 
-| Источник | Данные | Секция заглушки |
+| Источник | Данные | Подсекция ADDED |
 |----------|--------|----------------|
-| Impact SVC-N → API-N | Endpoints, события | § API контракты |
-| Impact SVC-N → DATA-N | Сущности, хранилища | § Data Model |
-| Design SVC-N → Dependencies | Зависимости от shared/ и сервисов | § Внешние зависимости |
-| Design INT-N → Contract | Дополнительные зависимости из контрактов | § Внешние зависимости |
+| Design SVC-N | Назначение, ответственность (1-3 предложения) | **Резюме** |
+| Impact SVC-N → API-N, Design INT-N | Endpoints, события, контракты | **API контракты** |
+| Impact SVC-N → DATA-N | Сущности, хранилища | **Data Model** |
+| Design SVC-N → Dependencies, Design INT-N | Зависимости от shared/ и сервисов | **Внешние зависимости** |
 
-**Правила предварительного заполнения:**
-- Секции 2 (API контракты), 3 (Data Model), 5 (Внешние зависимости) заполняются данными из Impact/Design с маркером `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*`
-- Секции 4 (Code Map), 6 (Границы автономии LLM) остаются как placeholder `*Заполняется при ADR → DONE.*` — эти данные появляются только на уровне ADR
-- Если данных нет (Impact не содержит API-N или DATA-N) — секция остаётся как placeholder `*Заполняется при ADR → DONE.*`
+**Правила заполнения заглушки:**
+- AS IS секции (1–6) содержат `*Нет.*` или `*Сервис ещё не реализован.*` — сервис ещё не существует
+- Planned Changes содержит один блок для Design с подсекциями ADDED/MODIFIED/REMOVED
+- Для нового сервиса: всё в ADDED, MODIFIED и REMOVED пусты
+- Для существующего сервиса (новый Design затрагивает его): AS IS заполнен, Planned Changes содержит дельты (ADDED/MODIFIED/REMOVED могут быть непусты)
 
 ### 9.2 Документы, обновляемые при изменении сервиса
 
@@ -703,6 +808,7 @@ description: Домен {domain} — {описание bounded context}.
 - [ ] `last-updated-by` — ID последнего ADR. Обязательно для полного документа, отсутствует у заглушки
 
 ### Содержание
+- [ ] Оглавление присутствует (после заголовка, перед первой секцией)
 - [ ] Все 8 секций присутствуют (Резюме, API, Data Model, Code Map, Внешние зависимости, Границы, Planned Changes, Changelog)
 - [ ] Порядок секций соответствует стандарту
 - [ ] Резюме — 1-3 предложения, без технических деталей реализации
@@ -727,9 +833,11 @@ description: Домен {domain} — {описание bounded context}.
 - [ ] Соответствует текущему Code Map (пакеты, API)
 
 ### Planned Changes
-- [ ] Формат: ссылка на Discussion + Design + ADR
-- [ ] Не содержит дублирования дельт из ADR
+- [ ] Формат: один блок (h3) на каждый активный Design
+- [ ] Каждый блок содержит навигацию (Discussion → Design | Статус) и подсекции ADDED/MODIFIED/REMOVED
+- [ ] Структура ADDED повторяет структуру AS IS секций
 - [ ] Ссылки валидны (документы существуют)
+- [ ] Пустая секция: `*Нет активных Design.*`
 
 ### Changelog
 - [ ] Секция присутствует (даже если пустая: `*Нет записей.*`)
@@ -739,10 +847,10 @@ description: Домен {domain} — {описание bounded context}.
 - [ ] CONFLICT-RESOLVED пометки только при изменении AS IS секций
 
 ### Режим заглушки (если нет `created-by`)
-- [ ] Секции 2 (API контракты), 3 (Data Model), 5 (Внешние зависимости) содержат предварительные данные с маркером `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*` ИЛИ placeholder `*Заполняется при ADR → DONE.*` (если данных нет в Impact/Design)
-- [ ] Секции 4 (Code Map), 6 (Границы автономии LLM) содержат `*Заполняется при ADR → DONE.*`
-- [ ] Резюме заполнено (из Design)
-- [ ] Planned Changes заполнены
+- [ ] Оглавление присутствует
+- [ ] AS IS секции (1–6) содержат `*Нет.*` или `*Сервис ещё не реализован.*` (данные НЕ копируются из Impact/Design)
+- [ ] Planned Changes содержит хотя бы один блок Design с подсекциями ADDED/MODIFIED/REMOVED
+- [ ] Данные из Impact/Design размещены в Planned Changes → ADDED (не в AS IS секциях)
 
 ### System/ и Domains/
 - [ ] Фиксированные файлы существуют: `system/overview.md`, `system/data-flows.md`, `system/infrastructure.md`, `domains/context-map.md`
@@ -779,13 +887,56 @@ service: auth
 
 # auth
 
+## Оглавление
+
+- [Резюме](#резюме)
+- [API контракты](#api-контракты)
+- [Data Model](#data-model)
+- [Code Map](#code-map)
+- [Внешние зависимости](#внешние-зависимости)
+- [Границы автономии LLM](#границы-автономии-llm)
+- [Planned Changes](#planned-changes)
+- [Changelog](#changelog)
+
+---
+
 ## Резюме
 
-Сервис аутентификации и авторизации. Управляет токенами, ролями и middleware-валидацией.
+*Сервис ещё не реализован.*
 
 ## API контракты
 
-*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
+*Нет.*
+
+## Data Model
+
+*Нет.*
+
+## Code Map
+
+*Нет.*
+
+## Внешние зависимости
+
+*Нет.*
+
+## Границы автономии LLM
+
+*Нет.*
+
+## Planned Changes
+
+### design-0001: OAuth2 авторизация
+
+> [Discussion 0001](../../discussion/disc-0001-oauth2-authorization.md) →
+> [Design 0001](../../design/design-0001-oauth2-service-design.md) |
+> Статус: WAITING
+
+#### ADDED
+
+**Резюме:** Сервис аутентификации и авторизации. Управляет токенами, ролями и middleware-валидацией.
+
+**API контракты:**
 
 | Тип | Endpoint/Event | Метод | Описание |
 |-----|---------------|-------|----------|
@@ -794,9 +945,7 @@ service: auth
 | REST | /api/v1/auth/token | DELETE | Отзыв refresh_token |
 | Event | UserCreatedEvent | publish | Уведомление о регистрации |
 
-## Data Model
-
-*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
+**Data Model:**
 
 | Сущность | Хранилище | Назначение |
 |----------|-----------|-----------|
@@ -804,35 +953,27 @@ service: auth
 | RefreshToken | Redis: tokens:{user_id} | Токены обновления |
 | Role | PostgreSQL: roles | Роли для RBAC |
 
-## Code Map
-
-*Заполняется при ADR → DONE.*
-
-## Внешние зависимости
-
-*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
+**Внешние зависимости:**
 
 | Тип | Путь/Сервис | Что используем | Роль |
 |-----|------------|---------------|------|
 | shared | shared/events/user_created.py | UserCreatedEvent | publisher |
 | service | gateway | /api/v1/auth/* | provider |
 
-## Границы автономии LLM
+#### MODIFIED
 
-*Заполняется при ADR → DONE.*
+*Нет (новый сервис).*
 
-## Planned Changes
+#### REMOVED
 
-- **[Discussion 1: OAuth2 авторизация](../../discussion/disc-0001-oauth2-authorization.md)**
-  Статус: WAITING | Затрагивает: создание сервиса
-  Design: [design-0001](../../design/design-0001-oauth2-service-design.md)
+*Нет.*
 
 ## Changelog
 
 *Нет записей.*
 ```
 
-**Фаза 2 — ADR → DONE: заполнение**
+**Фаза 2 — ADR → DONE: данные из Planned Changes → ADDED мигрируют в AS IS**
 
 ```markdown
 ---
@@ -843,6 +984,19 @@ last-updated-by: adr-0001
 ---
 
 # auth
+
+## Оглавление
+
+- [Резюме](#резюме)
+- [API контракты](#api-контракты)
+- [Data Model](#data-model)
+- [Code Map](#code-map)
+- [Внешние зависимости](#внешние-зависимости)
+- [Границы автономии LLM](#границы-автономии-llm)
+- [Planned Changes](#planned-changes)
+- [Changelog](#changelog)
+
+---
 
 ## Резюме
 
@@ -909,9 +1063,7 @@ auth.middleware → auth.tokens → auth.keys
 
 ## Planned Changes
 
-- **[Discussion 1: OAuth2 авторизация](../../discussion/disc-0001-oauth2-authorization.md)**
-  Статус: RUNNING | Затрагивает: создание сервиса
-  Design: [design-0001](../../design/design-0001-oauth2-service-design.md)
+*Нет активных Design.*
 
 ## Changelog
 

@@ -20,4 +20,6 @@ description: Обзор системной архитектуры — серви
 
 ## Planned Changes
 
-*Нет запланированных изменений.*
+- **[Discussion 0001: realtime notifications](../../discussion/disc-0001-realtime-notifications.md)**
+  Статус: WAITING | Затрагивает: 4 новых сервиса (notification, frontend, gateway, auth), WebSocket + REST + event-driven взаимодействие
+  Design: [design-0001](../../design/design-0001-realtime-notifications.md)

@@ -77,7 +77,9 @@ python specs/.instructions/.scripts/validate-service.py specs/architecture/servi
 
 **Детекция заглушка vs полный:** Отсутствие `created-by` = режим заглушки. Подробности: [standard-frontmatter.md § 5](/.structure/.instructions/standard-frontmatter.md#5-дополнительные-поля-для-живых-документов-архитектуры).
 
-### Шаг 2: Обязательные секции
+### Шаг 2: Оглавление и обязательные секции
+
+Проверить **оглавление** (после заголовка `# {service}`, перед первой секцией) — обязательно (SVC015).
 
 Проверить наличие и порядок **8 обязательных секций** (заголовки `##`):
 
@@ -119,8 +121,10 @@ python specs/.instructions/.scripts/validate-service.py specs/architecture/servi
 - Три уровня: **Свободно**, **Флаг**, **CONFLICT** (SVC011)
 
 **Planned Changes:**
-- Формат: ссылки на Discussion + Design + ADR
-- Не содержит дублирования дельт из ADR
+- Множественный: один блок (h3) на каждый активный Design
+- Каждый блок содержит навигацию (Discussion → Design | Статус) и подсекции ADDED/MODIFIED/REMOVED (SVC016)
+- Структура ADDED повторяет структуру AS IS секций
+- Пустая секция: `*Нет активных Design.*`
 
 **Changelog:**
 - Записи в обратном хронологическом порядке (SVC014)
@@ -130,24 +134,20 @@ python specs/.instructions/.scripts/validate-service.py specs/architecture/servi
 
 ### Режим заглушки (если нет `created-by`)
 
-При отсутствии `created-by` в frontmatter — файл является заглушкой:
+При отсутствии `created-by` в frontmatter — файл является заглушкой (двухслойная модель):
 
 | Проверка | Правило |
 |----------|---------|
-| Секции 2, 3, 5 (API контракты, Data Model, Внешние зависимости) | Содержат предварительные таблицы с маркером `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*` ИЛИ placeholder `*Заполняется при ADR → DONE.*` |
-| Секции 4, 6 (Code Map, Границы автономии LLM) | Содержат `*Заполняется при ADR → DONE.*` |
-| Резюме | Заполнено (1-3 предложения) |
-| Planned Changes | Заполнены (ссылка на Discussion + Design) |
+| Оглавление | Присутствует (SVC015) |
+| AS IS секции (1–6) | Содержат `*Нет.*` или `*Сервис ещё не реализован.*`. Данные НЕ копируются из Impact/Design |
+| Planned Changes | Содержит хотя бы один блок Design с подсекциями ADDED/MODIFIED/REMOVED (SVC016) |
+| Planned Changes → ADDED | Данные из Impact/Design размещены здесь (не в AS IS секциях) |
 | Changelog | `*Нет записей.*` |
 | `created-by` / `last-updated-by` | Отсутствуют |
 
-**Допустимые варианты для секций 2, 3, 5 в заглушке:**
-1. Placeholder: `*Заполняется при ADR → DONE.*` — если данных нет в Impact/Design
-2. Предварительная таблица: маркер `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*` + таблица с данными из Impact/Design
+**Ошибка:** Если `created-by` отсутствует, но AS IS секции (1–6) содержат полноценный контент (таблицы, данные) — `SVC004: created-by обязателен для заполненного документа`.
 
-**Ошибка:** Если `created-by` отсутствует, но секции 4 (Code Map) или 6 (Границы автономии LLM) заполнены полноценным контентом (без placeholder/Planned маркера) — `SVC004: created-by обязателен для заполненного документа`.
-
-**Ошибка:** Если `created-by` присутствует, но секции содержат `*Заполняется при ADR → DONE.*` или `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*` — `заглушка-placeholder в полном документе`.
+**Ошибка:** Если `created-by` присутствует, но AS IS секции содержат `*Нет.*` — `AS IS пуст в полном документе`.
 
 ### Шаг 4: Согласованность с README и labels
 
@@ -181,6 +181,7 @@ python specs/.instructions/.scripts/validate-architecture.py --check-services --
 - [ ] **Full:** `last-updated-by` — формат `adr-NNNN` (SVC005). **Заглушка:** отсутствует
 
 ### Секции
+- [ ] Оглавление присутствует (SVC015)
 - [ ] Все 8 секций присутствуют (SVC006)
 - [ ] Порядок секций соответствует стандарту (SVC007)
 
@@ -191,14 +192,14 @@ python specs/.instructions/.scripts/validate-architecture.py --check-services --
 - [ ] Code Map — 4 подсекции: Tech Stack, Пакеты, Точки входа, Внутренние зависимости (SVC009)
 - [ ] Внешние зависимости — роли корректны (SVC010)
 - [ ] Границы автономии LLM — три уровня (SVC011)
-- [ ] Planned Changes — формат, без дублирования дельт
+- [ ] Planned Changes — блоки по Design с ADDED/MODIFIED/REMOVED (SVC016)
 - [ ] Changelog — обратный хронологический порядок, маркеры DONE/REJECTED (SVC014)
 
 ### Содержание (Режим заглушки)
-- [ ] Резюме — 1-3 предложения (SVC008)
-- [ ] Секции 2, 3, 5 — предварительные таблицы с маркером `*Предварительно...*` ИЛИ placeholder `*Заполняется при ADR → DONE.*`
-- [ ] Секции 4, 6 — `*Заполняется при ADR → DONE.*`
-- [ ] Planned Changes — ссылка на Discussion + Design
+- [ ] Оглавление присутствует (SVC015)
+- [ ] AS IS секции (1–6) содержат `*Нет.*` или `*Сервис ещё не реализован.*`
+- [ ] Planned Changes — блок Design с ADDED/MODIFIED/REMOVED (SVC016)
+- [ ] Данные из Impact/Design в Planned Changes → ADDED (не в AS IS)
 - [ ] Changelog — `*Нет записей.*` (SVC014)
 
 ### Согласованность
@@ -229,7 +230,9 @@ python specs/.instructions/.scripts/validate-architecture.py --check-services --
 | Нет строки в README | SVC012 | Сервис не добавлен в `services/README.md` | Добавить строку в таблицу |
 | Нет метки svc: | SVC013 | Метка не создана в `labels.yml` | Создать через `/labels-modify` |
 | Нет секции Changelog | SVC014 | Секция `## Changelog` отсутствует | Добавить Changelog по [standard-service.md § 5.8](./standard-service.md#58-changelog) |
-| Заглушка-placeholder в full | — | `*Заполняется при ADR → DONE.*` в документе с `created-by` | Заполнить секции или убрать `created-by` |
+| Данные в AS IS заглушки | — | Таблицы/данные в AS IS секциях заглушки (без `created-by`) | Перенести данные в Planned Changes → ADDED |
+| Нет оглавления | SVC015 | Отсутствует секция "Оглавление" | Добавить оглавление после заголовка |
+| Planned Changes без структуры | SVC016 | Нет блоков Design с ADDED/MODIFIED/REMOVED | Привести к формату [standard-service.md § 5.7](./standard-service.md#57-planned-changes) |
 | Нет `created-by` в full | SVC004 | Секции заполнены, но `created-by` отсутствует | Добавить `created-by: adr-NNNN` |
 
 ---

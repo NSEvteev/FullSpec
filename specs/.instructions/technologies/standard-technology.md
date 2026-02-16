@@ -9,7 +9,7 @@ index: specs/.instructions/technologies/README.md
 
 Версия стандарта: 1.1
 
-Как создавать per-tech стандарты кодирования (standard-{tech}.md + validation-{tech}.md), подключать их через rules и связывать с Code Map в architecture/services/.
+Как создавать per-tech стандарты кодирования (standard-{tech}.md + validation-{tech}.md), подключать их через rules и связывать с Code Map в architecture/services/. Стандарт создаётся полностью при Design → WAITING — это прескриптивный словарь правил, не зависящий от ADR.
 
 **Полезные ссылки:**
 - [Инструкции технологий](./README.md)
@@ -67,8 +67,8 @@ index: specs/.instructions/technologies/README.md
 
 **Расположение per-tech стандартов:**
 ```
-specs/.instructions/technologies/standard-{tech}.md
-specs/.instructions/technologies/validation-{tech}.md
+specs/technologies/standard-{tech}.md
+specs/technologies/validation-{tech}.md
 ```
 
 **Именование `{tech}`:**
@@ -85,7 +85,7 @@ specs/.instructions/technologies/validation-{tech}.md
 description: Стандарт кодирования {Technology} — конвенции именования, структура, паттерны.
 standard: .instructions/standard-instruction.md
 standard-version: v1.0
-index: specs/.instructions/technologies/README.md
+index: specs/technologies/README.md
 technology: {tech}
 ---
 ```
@@ -102,37 +102,20 @@ technology: {tech}
 
 ## 4. Триггер создания
 
-Per-tech стандарт создаётся в **две фазы**: заглушка при Design → WAITING (декларация выбора технологии), заполнение конвенциями при ADR → DONE.
+Per-tech стандарт создаётся **полностью** при Design → WAITING (все секции заполнены конвенциями). Технологический стандарт — прескриптивный словарь правил. Конвенции использования технологии известны с момента выбора и не зависят от ADR.
 
-### 4.0. Двухфазная модель
-
-| Фаза | Триггер | Что создаётся | Кто выполняет |
-|------|---------|---------------|---------------|
-| **Заглушка** | Design → WAITING | `standard-{tech}.md` (§ 1 заполнен, § 2-6 placeholder), `validation-{tech}.md` (заглушка), rule, строка реестра | technology-agent (параллельно, по одному на технологию) |
-| **Заполнение** | ADR → DONE | `standard-{tech}.md` заполняется конвенциями (§ 2-6), `validation-{tech}.md` заполняется кодами ошибок | technology-agent |
-
-**Каскад Design → WAITING (заглушка):**
+**Каскад Design → WAITING:**
 
 ```
 Design выбирает технологию в Tech Stack
   → Проверить: существует standard-{tech}.md?
     → Нет (новая технология):
-        1. Создать standard-{tech}.md (заглушка — § 7.4)
-        2. Создать validation-{tech}.md (заглушка — § 7.5)
+        1. Создать standard-{tech}.md (полный — § 7.1)
+        2. Создать validation-{tech}.md (полный — § 7.2)
         3. Создать rule .claude/rules/{tech}.md (§ 7.3)
         4. Добавить строку в specs/technologies/README.md (реестр)
     → Да (существующая технология):
         → Обновить колонку "Сервисы" в реестре (добавить новый сервис)
-```
-
-**Каскад ADR → DONE (заполнение):**
-
-```
-ADR финализирует технические решения
-  → Проверить: standard-{tech}.md — заглушка?
-    → Да: заполнить конвенциями (§ 2-6), заполнить validation-{tech}.md
-    → Нет: ADR ссылается на существующий стандарт
-  → Обновить architecture/services/{svc}.md — Tech Stack ссылается на стандарт
 ```
 
 > **Порядок строго последовательный:** standard → validation → rule. Параллельное создание запрещено — см. [standard-instruction.md](/.instructions/standard-instruction.md).
@@ -141,8 +124,7 @@ ADR финализирует технические решения
 
 | Уровень | Действие |
 |---------|----------|
-| Design → ROLLING_BACK | Удалить заглушки `standard-{tech}.md`, `validation-{tech}.md`, rule, строку реестра (если технология введена этим Design) |
-| ADR → ROLLING_BACK | Вернуть `standard-{tech}.md` и `validation-{tech}.md` к состоянию заглушки (если ADR заполнил конвенции) |
+| Design → ROLLING_BACK | Удалить `standard-{tech}.md`, `validation-{tech}.md`, rule, строку реестра (если технология введена этим Design) |
 
 **Связь с Code Map:**
 
@@ -150,7 +132,7 @@ ADR финализирует технические решения
 
 | Технология | Версия | Назначение | Стандарт |
 |-----------|--------|------------|---------|
-| Python | 3.12 | Backend API | [standard-python.md](/specs/.instructions/technologies/standard-python.md) |
+| Python | 3.12 | Backend API | [standard-python.md](/specs/technologies/standard-python.md) |
 
 **Реестр технологий:**
 
@@ -158,7 +140,7 @@ ADR финализирует технические решения
 
 | Технология | Версия | Сервисы | Стандарт | Последний Design |
 |-----------|--------|---------|---------|-----------------|
-| Python | 3.12 | auth, billing | [standard-python.md](/specs/.instructions/technologies/standard-python.md) | design-0001 |
+| Python | 3.12 | auth, billing | [standard-python.md](/specs/technologies/standard-python.md) | design-0001 |
 
 ### 4.1. Когда НЕ создавать per-tech стандарт
 
@@ -199,7 +181,17 @@ ADR финализирует технические решения
 
 Ссылки на официальную документацию и style guides.
 
-### 5.7. Связь с принципами программирования
+### 5.7. Скрипт валидации кода (опционально)
+
+Для технологий с автоматизируемыми правилами создаётся скрипт `specs/.instructions/.scripts/validate-{tech}-code.py`:
+
+- Проверяет исходный код на соответствие standard-{tech}.md
+- Коды ошибок — из validation-{tech}.md § 2
+- Интегрируется в pre-commit через `.pre-commit-config.yaml`
+- Не все правила автоматизируемы — семантические проверки остаются для ручного review / Claude
+- Все проверки блокируют коммит (exit code 1)
+
+### 5.8. Связь с принципами программирования
 
 Все per-tech стандарты **ДОЛЖНЫ** соответствовать [standard-principles.md](/.instructions/standard-principles.md). При конфликте между per-tech стандартом и универсальными принципами — **приоритет у принципов**.
 
@@ -233,8 +225,8 @@ ADR финализирует технические решения
 
 ```markdown
 При работе с {Technology}-файлами ОБЯЗАТЕЛЬНО следовать:
-- [standard-{tech}.md](/specs/.instructions/technologies/standard-{tech}.md)
-- [validation-{tech}.md](/specs/.instructions/technologies/validation-{tech}.md)
+- [standard-{tech}.md](/specs/technologies/standard-{tech}.md)
+- [validation-{tech}.md](/specs/technologies/validation-{tech}.md)
 ```
 
 ---
@@ -248,7 +240,7 @@ ADR финализирует технические решения
 description: Стандарт кодирования {Technology} — конвенции именования, структура, паттерны.
 standard: .instructions/standard-instruction.md
 standard-version: v1.0
-index: specs/.instructions/technologies/README.md
+index: specs/technologies/README.md
 technology: {tech}
 ---
 
@@ -259,7 +251,7 @@ technology: {tech}
 Правила и конвенции кодирования на {Technology} в проекте.
 
 **Полезные ссылки:**
-- [Инструкции технологий](./README.md)
+- [Технологический реестр](./README.md)
 
 **Связанные документы:**
 
@@ -328,7 +320,7 @@ technology: {tech}
 description: Валидация кода на {Technology} — коды ошибок, чек-лист проверки.
 standard: .instructions/standard-instruction.md
 standard-version: v1.0
-index: specs/.instructions/technologies/README.md
+index: specs/technologies/README.md
 technology: {tech}
 ---
 
@@ -339,7 +331,7 @@ technology: {tech}
 Проверка соответствия кода стандарту [standard-{tech}.md](./standard-{tech}.md).
 
 **Полезные ссылки:**
-- [Инструкции технологий](./README.md)
+- [Технологический реестр](./README.md)
 
 **Связанные документы:**
 
@@ -389,179 +381,95 @@ globs:
 ---
 
 При работе с {Technology}-файлами ОБЯЗАТЕЛЬНО следовать:
-- [standard-{tech}.md](/specs/.instructions/technologies/standard-{tech}.md)
-- [validation-{tech}.md](/specs/.instructions/technologies/validation-{tech}.md)
+- [standard-{tech}.md](/specs/technologies/standard-{tech}.md)
+- [validation-{tech}.md](/specs/technologies/validation-{tech}.md)
 `````
 
-### 7.4. Шаблон заглушки standard-{tech}.md (Design → WAITING)
+### 7.4. Шаблон validate-{tech}-code.py (опционально)
 
-`````markdown
----
-description: Стандарт кодирования {Technology} — конвенции именования, структура, паттерны.
-standard: .instructions/standard-instruction.md
-standard-version: v1.0
-index: specs/.instructions/technologies/README.md
-technology: {tech}
----
+Каркас скрипта валидации кода (§ 5.7):
 
-# Стандарт {Technology}
+```python
+#!/usr/bin/env python3
+"""
+validate-{tech}-code.py — Валидация кода на соответствие standard-{tech}.md.
 
-Версия стандарта: 1.0
+Использование:
+    python validate-{tech}-code.py <файл или папка>
+    python validate-{tech}-code.py <файл или папка> --verbose
 
-Правила и конвенции кодирования на {Technology} в проекте.
+Проверяет автоматизируемые правила из validation-{tech}.md:
+    - {TECH}NNN: {описание}
 
-**Полезные ссылки:**
-- [Инструкции технологий](./README.md)
+SSOT:
+    - specs/technologies/standard-{tech}.md
+    - specs/technologies/validation-{tech}.md
 
-**Связанные документы:**
+Возвращает:
+    0 — все проверки пройдены
+    1 — ошибки валидации
+"""
 
-| Тип | Документ |
-|-----|----------|
-| Стандарт | Этот документ |
-| Валидация | [validation-{tech}.md](./validation-{tech}.md) |
+import argparse
+import re
+import sys
+from pathlib import Path
 
-## Оглавление
+ERROR_CODES = {
+    "{TECH}001": "{описание}",
+}
 
-- [1. Версия и источники](#1-версия-и-источники)
-- [2. Конвенции именования](#2-конвенции-именования)
-- [3. Структура кода](#3-структура-кода)
-- [4. Паттерны использования](#4-паттерны-использования)
-- [5. Типичные ошибки](#5-типичные-ошибки)
-- [6. Ссылки](#6-ссылки)
+# ... проверки ...
 
----
+def main():
+    if sys.platform == "win32":
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
 
-## 1. Версия и источники
+    parser = argparse.ArgumentParser(
+        description="Валидация кода на соответствие standard-{tech}.md"
+    )
+    parser.add_argument("path", nargs="*", help="Файлы или папки")
+    parser.add_argument("--verbose", "-v", action="store_true")
+    parser.add_argument("--repo", default=".")
+    args = parser.parse_args()
+    # ... валидация ...
 
-| Параметр | Значение |
-|----------|----------|
-| Версия | {version} |
-| Документация | {url} |
-| Style guide | {url} |
+if __name__ == "__main__":
+    main()
+```
 
----
-
-## 2. Конвенции именования
-
-*Заполняется при ADR → DONE.*
-
----
-
-## 3. Структура кода
-
-*Заполняется при ADR → DONE.*
-
----
-
-## 4. Паттерны использования
-
-*Заполняется при ADR → DONE.*
-
----
-
-## 5. Типичные ошибки
-
-*Заполняется при ADR → DONE.*
-
----
-
-## 6. Ссылки
-
-*Заполняется при ADR → DONE.*
-`````
-
-**Отличие от полного шаблона (§ 7.1):** § 1 (Версия и источники) заполняется сразу — Design уже знает технологию, версию, ссылки на документацию. Секции § 2-6 — placeholder. При ADR → DONE placeholder заменяются конвенциями.
-
-### 7.5. Шаблон заглушки validation-{tech}.md (Design → WAITING)
-
-`````markdown
----
-description: Валидация кода на {Technology} — коды ошибок, чек-лист проверки.
-standard: .instructions/standard-instruction.md
-standard-version: v1.0
-index: specs/.instructions/technologies/README.md
-technology: {tech}
----
-
-# Валидация {Technology}
-
-Рабочая версия стандарта: 1.0
-
-Проверка соответствия кода стандарту [standard-{tech}.md](./standard-{tech}.md).
-
-**Полезные ссылки:**
-- [Инструкции технологий](./README.md)
-
-**Связанные документы:**
-
-| Тип | Документ |
-|-----|----------|
-| Стандарт | [standard-{tech}.md](./standard-{tech}.md) |
-| Валидация | Этот документ |
-
-## Оглавление
-
-- [1. Когда валидировать](#1-когда-валидировать)
-- [2. Коды ошибок](#2-коды-ошибок)
-- [3. Чек-лист](#3-чек-лист)
-
----
-
-## 1. Когда валидировать
-
-*Заполняется при ADR → DONE.*
-
----
-
-## 2. Коды ошибок
-
-*Заполняется при ADR → DONE.*
-
----
-
-## 3. Чек-лист
-
-*Заполняется при ADR → DONE.*
-`````
+*Не все технологии требуют скрипт — шаг опционален (§ 5.7).*
 
 ---
 
 ## 8. Чек-лист качества
 
-### При создании заглушки (Design → WAITING)
+### При создании (Design → WAITING)
 
 - [ ] Design выбрал технологию в Tech Stack
-- [ ] `standard-{tech}.md` создан по шаблону заглушки (§ 7.4)
-- [ ] `validation-{tech}.md` создан по шаблону заглушки (§ 7.5)
-- [ ] § 1 (Версия и источники) заполнен
-- [ ] § 2-6 содержат placeholder `*Заполняется при ADR → DONE.*`
+- [ ] `standard-{tech}.md` создан по шаблону (§ 7.1), все 6 секций заполнены конвенциями
+- [ ] `validation-{tech}.md` создан по шаблону (§ 7.2), секции заполнены (коды ошибок, чек-лист)
+- [ ] Примеры кода — конкретные, не абстрактные
+- [ ] Не противоречит [standard-principles.md](/.instructions/standard-principles.md) (§ 5.7)
 - [ ] Rule в `.claude/rules/` создан с правильными globs (§ 7.3)
+- [ ] `validate-{tech}-code.py` создан (если есть автоматизируемые правила, § 7.4)
+- [ ] Pre-commit хук добавлен (если создан скрипт)
 - [ ] Строка добавлена в `/specs/technologies/README.md` (реестр)
 - [ ] README области (`specs/.instructions/technologies/README.md`) обновлён
-
-### При заполнении (ADR → DONE)
-
-- [ ] ADR ссылается на стандарт
-- [ ] `standard-{tech}.md` — все 6 секций заполнены (placeholder заменены конвенциями)
-- [ ] Примеры кода — конкретные, не абстрактные
-- [ ] `validation-{tech}.md` — секции заполнены (коды ошибок, чек-лист)
-- [ ] Не противоречит [standard-principles.md](/.instructions/standard-principles.md) (§ 5.7)
-- [ ] Tech Stack в `architecture/services/{svc}.md` обновлён (ссылка на стандарт)
 
 ---
 
 ## 9. Примеры
 
-### Пример: создание стандарта Python (двухфазное)
-
-#### Фаза 1: Design → WAITING (заглушка)
+### Пример: создание стандарта Python
 
 **1. Design design-0001 выбирает Python 3.12 для auth-сервиса → Design переходит в WAITING.**
 
-**2. Создать заглушки (technology-agent):**
+**2. Создать стандарт (technology-agent):**
 ```
-specs/.instructions/technologies/standard-python.md  — заглушка (§ 7.4)
-specs/.instructions/technologies/validation-python.md — заглушка (§ 7.5)
+specs/technologies/standard-python.md  — полный (§ 7.1), все секции заполнены
+specs/technologies/validation-python.md — полный (§ 7.2), коды ошибок и чек-лист
 ```
 
 **3. Создать rule:**
@@ -579,27 +487,15 @@ globs:
 ---
 
 При работе с Python-файлами ОБЯЗАТЕЛЬНО следовать:
-- [standard-python.md](/specs/.instructions/technologies/standard-python.md)
-- [validation-python.md](/specs/.instructions/technologies/validation-python.md)
+- [standard-python.md](/specs/technologies/standard-python.md)
+- [validation-python.md](/specs/technologies/validation-python.md)
 ```
 
 **4. Обновить реестр** (`/specs/technologies/README.md`):
 
 | Технология | Версия | Сервисы | Стандарт | Последний Design |
 |-----------|--------|---------|---------|-----------------|
-| Python | 3.12 | auth | [standard-python.md](/specs/.instructions/technologies/standard-python.md) | design-0001 |
-
-#### Фаза 2: ADR → DONE (заполнение)
-
-**5. ADR-0001 финализирует Python 3.12 для auth → ADR переходит в DONE.**
-
-**6. Заполнить стандарт (technology-agent):** Заменить placeholder в `standard-python.md` (§ 2-6) конвенциями кодирования. Заполнить `validation-python.md` кодами ошибок и чек-листом.
-
-**7. Обновить Code Map** (`architecture/services/auth.md`, секция Tech Stack):
-
-| Технология | Версия | Назначение | Стандарт |
-|-----------|--------|------------|---------|
-| Python | 3.12 | Backend API | [standard-python.md](/specs/.instructions/technologies/standard-python.md) |
+| Python | 3.12 | auth | [standard-python.md](/specs/technologies/standard-python.md) | design-0001 |
 
 ---
 

@@ -74,13 +74,12 @@ index: specs/.instructions/living-docs/service/README.md
 
 1. Найти **секцию сервиса** (`## SVC-N: {name}`) — Design содержит секции по сервисам
 2. Извлечь **имя сервиса** (kebab-case, совпадает с `src/{service}/`)
-3. Извлечь **назначение** (ответственность сервиса — 1-3 предложения для Резюме)
-4. Извлечь **области влияния** (для поля "Затрагивает" в Planned Changes)
-5. Из **parent Impact** (SVC-N для этого сервиса):
-   - **API-N** — предварительные endpoints/события для секции API контракты
-   - **DATA-N** — предварительные сущности/хранилища для секции Data Model
-6. Из **Design** (SVC-N + INT-N):
-   - **Dependencies** из SVC-N → Зависимости — для секции Внешние зависимости
+3. Извлечь **назначение** (ответственность сервиса — 1-3 предложения для Planned Changes → ADDED → Резюме)
+4. Из **parent Impact** (SVC-N для этого сервиса):
+   - **API-N** — endpoints/события для Planned Changes → ADDED → API контракты
+   - **DATA-N** — сущности/хранилища для Planned Changes → ADDED → Data Model
+5. Из **Design** (SVC-N + INT-N):
+   - **Dependencies** из SVC-N → для Planned Changes → ADDED → Внешние зависимости
    - **INT-N → Contract** — дополнительные зависимости из контрактов взаимодействия
 
 ### Шаг 2: Создать services/{svc}.md (заглушка)
@@ -106,49 +105,75 @@ service: {service}
 
 **SSOT frontmatter:** [standard-frontmatter.md § 5](/.structure/.instructions/standard-frontmatter.md#5-дополнительные-поля-для-живых-документов-архитектуры)
 
-### Шаг 3: Заполнить секции
+### Шаг 3: Заполнить секции (двухслойная модель)
 
-Заполнить секции по маппингу данных из Impact/Design:
+**AS IS секции (1–6)** — пусты. Сервис ещё не реализован, данные НЕ копируются из Impact/Design.
 
-| Секция | Содержание | Источник |
-|--------|-----------|----------|
-| Резюме | Назначение из секции сервиса в Design (1-3 предложения) | Design SVC-N |
-| API контракты | Предварительная таблица с маркером Planned | Impact SVC-N → API-N |
-| Data Model | Предварительная таблица с маркером Planned | Impact SVC-N → DATA-N |
-| Code Map | `*Заполняется при ADR → DONE.*` | — |
-| Внешние зависимости | Предварительная таблица с маркером Planned | Design SVC-N → Dependencies + INT-N |
-| Границы автономии LLM | `*Заполняется при ADR → DONE.*` | — |
-| Planned Changes | Ссылка на Discussion + Design | Design |
-| Changelog | `*Нет записей.*` | — |
+| Секция | Содержание |
+|--------|-----------|
+| Резюме | `*Сервис ещё не реализован.*` |
+| API контракты | `*Нет.*` |
+| Data Model | `*Нет.*` |
+| Code Map | `*Нет.*` |
+| Внешние зависимости | `*Нет.*` |
+| Границы автономии LLM | `*Нет.*` |
 
-**Маппинг данных:**
+**Planned Changes** — один блок для Design с дельтами ADDED/MODIFIED/REMOVED:
 
-| Источник | Данные | Секция заглушки |
-|----------|--------|----------------|
-| Impact SVC-N → API-N | Endpoints, события, CLI | API контракты (предварительно) |
-| Impact SVC-N → DATA-N | Сущности, хранилища | Data Model (предварительно) |
-| Design SVC-N → Dependencies | Зависимости от shared/ и сервисов | Внешние зависимости (предварительно) |
-| Design INT-N → Contract | Контракты взаимодействия с другими сервисами | Внешние зависимости (дополнительно) |
+| Подсекция | Содержание | Источник |
+|-----------|-----------|----------|
+| ADDED → Резюме | Назначение сервиса (1-3 предложения) | Design SVC-N |
+| ADDED → API контракты | Таблица endpoints/событий | Impact SVC-N → API-N, Design INT-N |
+| ADDED → Data Model | Таблица сущностей/хранилищ | Impact SVC-N → DATA-N |
+| ADDED → Внешние зависимости | Таблица зависимостей | Design SVC-N → Dependencies + INT-N |
+| MODIFIED | `*Нет (новый сервис).*` | — |
+| REMOVED | `*Нет.*` | — |
 
-**Маркер предварительных данных:**
+**Changelog:** `*Нет записей.*`
 
-```markdown
-*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*
-```
-
-Маркер ставится перед таблицей в секциях 2, 3, 5. Если данных для секции нет (Impact не содержит API-N или DATA-N) — секция остаётся как placeholder `*Заполняется при ADR → DONE.*`.
-
-**Формат Planned Changes:**
+**Формат Planned Changes блока:**
 
 ```markdown
 ## Planned Changes
 
-- **[Discussion N: {topic}]({путь к Discussion})**
-  Статус: WAITING | Затрагивает: {области из Design}
-  Design: [{design-id}]({путь к Design})
+### design-NNNN: {topic}
+
+> [Discussion NNNN]({путь к Discussion}) →
+> [Design NNNN]({путь к Design}) |
+> Статус: WAITING
+
+#### ADDED
+
+**Резюме:** {назначение из Design SVC-N — 1-3 предложения}
+
+**API контракты:**
+
+| Тип | Endpoint/Event | Метод | Описание |
+|-----|---------------|-------|----------|
+| ... | ... | ... | ... |
+
+**Data Model:**
+
+| Сущность | Хранилище | Назначение |
+|----------|-----------|-----------|
+| ... | ... | ... |
+
+**Внешние зависимости:**
+
+| Тип | Путь/Сервис | Что используем | Роль |
+|-----|------------|---------------|------|
+| ... | ... | ... | ... |
+
+#### MODIFIED
+
+*Нет (новый сервис).*
+
+#### REMOVED
+
+*Нет.*
 ```
 
-**Правила заполнения:** [standard-service.md § 5.7](./standard-service.md#57-planned-changes)
+**Правила:** [standard-service.md § 5.7](./standard-service.md#57-planned-changes)
 
 ### Шаг 4: Обновить services/README.md
 
@@ -193,10 +218,10 @@ python specs/.instructions/.scripts/validate-architecture.py --check-services --
 ### Создание файла
 - [ ] `services/{svc}.md` создан по шаблону заглушки
 - [ ] Frontmatter заполнен (description, service). БЕЗ `created-by`/`last-updated-by`
-- [ ] Резюме заполнено (1-3 предложения из Design)
-- [ ] Секции 2 (API контракты), 3 (Data Model), 5 (Внешние зависимости) — предварительные таблицы с маркером `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*` ИЛИ placeholder (если данных нет)
-- [ ] Секции 4 (Code Map), 6 (Границы автономии LLM) — `*Заполняется при ADR → DONE.*`
-- [ ] Planned Changes заполнены (ссылка на Discussion + Design)
+- [ ] Оглавление присутствует
+- [ ] AS IS секции (1–6) содержат `*Нет.*` или `*Сервис ещё не реализован.*`
+- [ ] Planned Changes содержит блок Design с ADDED/MODIFIED/REMOVED
+- [ ] Данные из Impact/Design размещены в Planned Changes → ADDED (не в AS IS)
 - [ ] Changelog содержит `*Нет записей.*`
 
 ### Каскадные обновления

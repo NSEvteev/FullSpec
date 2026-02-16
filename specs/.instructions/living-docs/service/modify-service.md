@@ -9,7 +9,7 @@ index: specs/.instructions/living-docs/service/README.md
 
 Рабочая версия стандарта: 2.2
 
-Процессы изменения `specs/architecture/services/{svc}.md` в ответ на события SDD-lifecycle: заполнение содержания при ADR → DONE, перемещение Planned Changes → Changelog при Design → DONE, деактивация и миграция сервиса.
+Процессы изменения `specs/architecture/services/{svc}.md` в ответ на события SDD-lifecycle. Двухслойная модель: AS IS (факт) + Planned Changes (дельты ADDED/MODIFIED/REMOVED по каждому Design). ADR → DONE = миграция из Planned Changes в AS IS. Design → DONE = удаление блока Planned Changes + запись в Changelog.
 
 **Полезные ссылки:**
 - [Стандарт сервисной документации](./standard-service.md)
@@ -69,15 +69,33 @@ index: specs/.instructions/living-docs/service/README.md
 1. Найти секцию сервиса в Design
 2. Извлечь **области влияния** (для поля "Затрагивает" в Planned Changes)
 
-#### Шаг A2: Добавить Planned Changes
+#### Шаг A2: Добавить блок Planned Changes
 
-Добавить запись в секцию `## Planned Changes` файла `services/{svc}.md`:
+Добавить **новый блок** в секцию `## Planned Changes` файла `services/{svc}.md`:
 
 ```markdown
-- **[Discussion N: {topic}]({путь к Discussion})**
-  Статус: WAITING | Затрагивает: {области из Design}
-  Design: [{design-id}]({путь к Design})
+### {design-id}: {topic}
+
+> [Discussion NNNN]({путь к Discussion}) →
+> [Design NNNN]({путь к Design}) |
+> Статус: WAITING
+
+#### ADDED
+
+{данные из Design — что этот Design добавляет в сервис}
+{формат повторяет структуру AS IS секций: Резюме, API контракты, Data Model, Внешние зависимости}
+
+#### MODIFIED
+
+{что этот Design изменяет в существующем AS IS}
+{таблица: Элемент | Изменение}
+
+#### REMOVED
+
+{что удаляется}
 ```
+
+**Если AS IS секции пусты** (новый сервис) — все данные в ADDED, секции MODIFIED и REMOVED содержат `*Нет (новый сервис).*` или `*Нет.*`.
 
 **Правила:** [standard-service.md § 5.7](./standard-service.md#57-planned-changes)
 
@@ -101,18 +119,23 @@ python specs/.instructions/.scripts/validate-service.py specs/architecture/servi
 
 #### Шаг B2: Добавить ссылку на ADR
 
-Добавить строку `ADR:` к существующей записи:
+Добавить строку `ADR:` в навигационный блок blockquote:
 
 ```markdown
-- **[Discussion N: {topic}]({путь})**
-  Статус: WAITING | Затрагивает: {области}
-  Design: [{design-id}]({путь})
-  ADR: [{adr-id}]({путь к ADR})
+### {design-id}: {topic}
+
+> [Discussion NNNN]({путь}) →
+> [Design NNNN]({путь}) |
+> ADR: [{adr-id}]({путь к ADR}) |
+> Статус: WAITING
+
+#### ADDED
+...
 ```
 
-При нескольких ADR в одном Design — добавляются все:
+При нескольких ADR в одном Design — перечисляются все:
 ```markdown
-  ADR: [{adr-1}]({путь}), [{adr-2}]({путь})
+> ADR: [{adr-1}]({путь}), [{adr-2}]({путь}) |
 ```
 
 ---
@@ -121,14 +144,15 @@ python specs/.instructions/.scripts/validate-service.py specs/architecture/servi
 
 **Триггер:** ADR → DONE, файл `services/{svc}.md` является **заглушкой** (нет `created-by` в frontmatter).
 
-**Это ключевой сценарий:** заглушка заполняется полным содержанием из дельты ADR.
+**Это ключевой сценарий:** данные из Planned Changes → ADDED мигрируют в AS IS секции (ранее пустые).
 
 **Шаги:**
 
-#### Шаг C1: Прочитать ADR
+#### Шаг C1: Прочитать ADR и Planned Changes
 
-1. Найти дельта-блоки ADR (ADDED/MODIFIED/REMOVED)
-2. Извлечь данные для секций 1-6
+1. Найти дельта-блоки ADR (ADDED/MODIFIED/REMOVED) — финальные данные
+2. Найти блок Planned Changes для этого Design в `services/{svc}.md` — предварительные дельты
+3. ADR = источник правды. Planned Changes = ориентир, ADR может добавить/изменить/удалить записи
 
 #### Шаг C2: Обновить frontmatter
 
@@ -145,37 +169,30 @@ last-updated-by: {adr-id}
 
 **SSOT frontmatter:** [standard-frontmatter.md § 5](/.structure/.instructions/standard-frontmatter.md#5-дополнительные-поля-для-живых-документов-архитектуры)
 
-#### Шаг C3: Заполнить секции 1-6
+#### Шаг C3: Заполнить AS IS секции 1-6
 
-Заменить placeholder `*Заполняется при ADR → DONE.*` и предварительные данные с маркером `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*` на финальное содержание из дельты ADR:
+AS IS секции заглушки содержат `*Нет.*` / `*Сервис ещё не реализован.*`. Заменить пустые маркеры финальным содержанием из дельты ADR:
 
 | Секция | Источник | Примечание |
 |--------|----------|-----------|
-| Резюме | Обновить (расширить из Design) | — |
-| API контракты | Дельта ADR — ADDED endpoints | Убрать маркер Planned, заменить предварительные данные финальными |
-| Data Model | Дельта ADR — ADDED entities | Убрать маркер Planned, заменить предварительные данные финальными |
-| Code Map | Дельта ADR — Tech Stack, пакеты, точки входа | Заменить placeholder |
-| Внешние зависимости | Дельта ADR — зависимости от shared/ и других сервисов | Убрать маркер Planned, заменить предварительные данные финальными |
-| Границы автономии LLM | Дельта ADR — три уровня | Заменить placeholder |
+| Резюме | Дельта ADR — Резюме | 1-3 предложения |
+| API контракты | Дельта ADR — ADDED endpoints | Таблица: Тип, Endpoint/Event, Метод, Описание |
+| Data Model | Дельта ADR — ADDED entities | Таблица: Сущность, Хранилище, Назначение |
+| Code Map | Дельта ADR — Tech Stack, пакеты, точки входа | 4 подсекции |
+| Внешние зависимости | Дельта ADR — зависимости | Таблица: Тип, Путь/Сервис, Что используем, Роль |
+| Границы автономии LLM | Дельта ADR — три уровня | Свободно, Флаг, CONFLICT |
 
-**Обработка предварительных данных (маркер Planned):**
-- Секции 2, 3, 5 могут содержать предварительные таблицы с маркером `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*`
-- При ADR → DONE: **убрать маркер** и **заменить** предварительные данные финальными из дельты ADR
-- Предварительные данные — ориентир, не факт. ADR может добавить, изменить или удалить записи
+**Источник данных:** ADR = финальный источник правды. Planned Changes → ADDED = ориентир, ADR может отличаться.
 
 **Формат секций:** [standard-service.md § 5](./standard-service.md#5-секции-документа-сервиса)
 
-#### Шаг C4: Обновить Planned Changes
+#### Шаг C4: Удалить блок Planned Changes
 
-Убрать ссылку на ADR из записи Planned Changes (дельта применена в AS IS):
+Удалить весь блок Planned Changes для этого Design (от `### {design-id}:` до следующего `###` или `## Changelog`). Дельта применена в AS IS секциях.
 
-```markdown
-- **[Discussion N: {topic}]({путь})**
-  Статус: RUNNING | Затрагивает: {области}
-  Design: [{design-id}]({путь})
-```
+Если других активных Design нет — секция Planned Changes содержит `*Нет активных Design.*`
 
-Если все ADR в цепочке DONE — запись готова к перемещению в Changelog при Design → DONE.
+Если Design → DONE одновременно — добавить запись в Changelog (см. Сценарий E).
 
 #### Шаг C5: Обновить services/README.md
 
@@ -207,9 +224,9 @@ python specs/.instructions/.scripts/validate-service.py specs/architecture/servi
 
 #### Шаг D2: Применить дельту к AS IS секциям
 
-Обновить затронутые секции `services/{svc}.md`:
+Применить изменения из дельты ADR к AS IS секциям `services/{svc}.md`. Блок Planned Changes для этого Design содержит предварительные ADDED/MODIFIED/REMOVED — ADR = финальный источник правды.
 
-| Дельта | Действие |
+| Дельта | Действие в AS IS |
 |--------|----------|
 | ADDED | Добавить новые элементы в таблицы/списки |
 | MODIFIED | Обновить существующие записи |
@@ -223,9 +240,11 @@ python specs/.instructions/.scripts/validate-service.py specs/architecture/servi
 last-updated-by: {adr-id}
 ```
 
-#### Шаг D4: Обновить Planned Changes
+#### Шаг D4: Удалить блок Planned Changes
 
-Убрать ссылку на этот ADR из записи Planned Changes (дельта применена).
+Удалить весь блок Planned Changes для этого Design (от `### {design-id}:` до следующего `###` или `## Changelog`). Дельта применена в AS IS.
+
+Если других активных Design нет — `*Нет активных Design.*`
 
 #### Шаг D5: Обновить services/README.md
 
@@ -251,17 +270,20 @@ python specs/.instructions/.scripts/validate-service.py specs/architecture/servi
 
 Найти запись для завершённого Design в `services/{svc}.md`.
 
-#### Шаг E2: Переместить в Changelog
+#### Шаг E2: Удалить блок Planned Changes и добавить в Changelog
 
-**Удалить** запись из `## Planned Changes` и **добавить** в начало `## Changelog`:
+**Удалить** весь блок для этого Design из `## Planned Changes` (от `### {design-id}:` до следующего `###` или `## Changelog`).
+
+**Добавить** запись в начало `## Changelog`:
 
 ```markdown
 ## Changelog
 
-- **[disc-NNNN: {topic}]({путь})** | DONE {дата}
-  Design: [{design-id}]({путь}) | ADR: [{adr-1}]({путь}), [{adr-2}]({путь})
-  Затрагивало: {области из Design}
+- **{design-id}** ({дата}): {topic} — {краткое описание изменений: ADDED: ..., MODIFIED: ..., REMOVED: ...}
+  [Discussion NNNN]({путь}) → [Design NNNN]({путь}) | ADR: [{adr-1}]({путь}) | DONE
 ```
+
+Если блоков Planned Changes не осталось — `*Нет активных Design.*`
 
 **Правила Changelog:** [standard-service.md § 5.8](./standard-service.md#58-changelog)
 
@@ -290,14 +312,15 @@ python specs/.instructions/.scripts/validate-architecture.py --check-services --
 
 **Шаги:**
 
-#### Шаг F1: Переместить в Changelog с маркером REJECTED
+#### Шаг F1: Удалить блок Planned Changes и добавить в Changelog
 
-**Удалить** запись из `## Planned Changes` и **добавить** в начало `## Changelog`:
+**Удалить** весь блок для этого Design из `## Planned Changes`.
+
+**Добавить** в начало `## Changelog`:
 
 ```markdown
-- **[disc-NNNN: {topic}]({путь})** | REJECTED {дата}
-  Design: [{design-id}]({путь}) | ADR: [{adr-1}]({путь})
-  Затрагивало: {области}
+- **{design-id}** ({дата}): {topic} — REJECTED
+  [Discussion NNNN]({путь}) → [Design NNNN]({путь}) | ADR: [{adr-1}]({путь}) | REJECTED
 ```
 
 #### Шаг F2: Откатить частичные изменения (если нужно)
@@ -415,42 +438,44 @@ service: {new}
 ### Обновление — Сценарий A (Design → WAITING)
 - [ ] Design в статусе WAITING (не DRAFT)
 - [ ] Файл `services/{svc}.md` существует
-- [ ] Запись Planned Changes добавлена (формат § 5.7)
+- [ ] Блок Planned Changes добавлен: `### {design-id}: {topic}` + ADDED/MODIFIED/REMOVED
+- [ ] AS IS секции не изменялись
 - [ ] Валидация пройдена
 
 ### Обновление — Сценарий B (ADR → WAITING)
 - [ ] ADR в статусе WAITING
-- [ ] Запись Planned Changes для этого Design найдена в `services/{svc}.md`
-- [ ] Строка `ADR:` добавлена к записи (ссылка на ADR)
+- [ ] Блок Planned Changes для этого Design найден в `services/{svc}.md`
+- [ ] Строка `ADR:` добавлена в навигационный blockquote блока
 - [ ] Валидация пройдена
 
 ### Обновление — Сценарий C (ADR → DONE, заглушка → полный)
 - [ ] ADR в статусе DONE
 - [ ] Файл — заглушка (нет `created-by`)
 - [ ] Frontmatter: добавлены `created-by`, `last-updated-by`
-- [ ] Все секции 1-6 заполнены (нет placeholder)
-- [ ] Planned Changes: ссылка на ADR убрана
+- [ ] AS IS секции 1-6 заполнены из дельты ADR (маркеры `*Нет.*` заменены)
+- [ ] Блок Planned Changes для этого Design удалён
 - [ ] `services/README.md`: колонки заполнены
 - [ ] Валидация в full-режиме пройдена
 
 ### Обновление — Сценарий D (ADR → DONE, последующий)
 - [ ] ADR в статусе DONE
 - [ ] Файл — full (есть `created-by`)
-- [ ] Дельта применена к затронутым секциям
+- [ ] Дельта из ADR применена к AS IS секциям (ADDED/MODIFIED/REMOVED)
 - [ ] `last-updated-by` обновлён
-- [ ] Planned Changes: ссылка на ADR убрана
+- [ ] Блок Planned Changes для этого Design удалён
 - [ ] `services/README.md` обновлён
 - [ ] Валидация пройдена
 
 ### Обновление — Сценарий E (Design → DONE)
 - [ ] Все ADR цепочки в DONE
-- [ ] Запись перемещена из Planned Changes в Changelog
-- [ ] Формат Changelog: маркер DONE + дата
+- [ ] Блок Planned Changes для этого Design удалён
+- [ ] Запись добавлена в Changelog: маркер DONE + дата + краткое описание
 - [ ] system/ и domains/ обновлены аналогично
 - [ ] Валидация пройдена
 
 ### Обновление — Сценарий F (REJECTED)
-- [ ] Запись перемещена из Planned Changes в Changelog с маркером REJECTED
+- [ ] Блок Planned Changes для этого Design удалён
+- [ ] Запись добавлена в Changelog с маркером REJECTED
 - [ ] Частичные изменения откачены (если были)
 - [ ] system/ и domains/ обновлены
 
@@ -481,9 +506,10 @@ service: {new}
 # 2. Обновить frontmatter — добавить created-by, last-updated-by
 # specs/architecture/services/auth.md
 
-# 3. Заполнить секции 1-6 из дельты ADR
+# 3. Заполнить AS IS секции 1-6 из дельты ADR (заменить *Нет.* на данные)
 
-# 4. Обновить Planned Changes — убрать ссылку на adr-0001
+# 4. Удалить блок Planned Changes для design-0001 (дельта применена в AS IS)
+#    Если Planned Changes пуст — *Нет активных Design.*
 
 # 5. Обновить services/README.md — заполнить колонки
 
@@ -491,21 +517,44 @@ service: {new}
 python specs/.instructions/.scripts/validate-service.py specs/architecture/services/auth.md --verbose
 ```
 
+### Design → WAITING для существующего сервиса
+
+```bash
+# 1. Design design-0002 → WAITING, затрагивает notification (уже существует, full)
+
+# 2. Добавить новый блок в Planned Changes:
+#    ### design-0002: notification preferences
+#    > [Discussion 0002](...) → [Design 0002](...) | Статус: WAITING
+#    #### ADDED
+#    ...новые endpoint'ы и сущности...
+#    #### MODIFIED
+#    ...что изменяется в существующем AS IS...
+#    #### REMOVED
+#    *Нет.*
+
+# 3. AS IS секции НЕ менять
+
+# 4. Валидация
+python specs/.instructions/.scripts/validate-service.py specs/architecture/services/notification.md --verbose
+```
+
 ### Design → DONE — перемещение в Changelog
 
 ```bash
 # 1. Design design-0001 → DONE (все ADR завершены)
 
-# 2. Переместить запись из Planned Changes в Changelog:
-#    - **[disc-0001: OAuth2 авторизация](...) ** | DONE 2026-02-15
-#      Design: [design-0001](...) | ADR: [adr-0001](...), [adr-0002](...)
-#      Затрагивало: Создание сервиса
+# 2. Удалить блок Planned Changes для design-0001
 
-# 3. Проверить полноту — все ADR DONE, AS IS секции содержат изменения
+# 3. Добавить запись в Changelog:
+#    - **design-0001** (2026-02-20): realtime notifications — ADDED: Notification service,
+#      REST API, WebSocket, PostgreSQL + Redis.
+#      [Discussion 0001](...) → [Design 0001](...) | ADR: [adr-0001](...) | DONE
 
-# 4. Обновить system/ и domains/ аналогично
+# 4. Проверить полноту — все ADR DONE, AS IS секции содержат изменения
 
-# 5. Валидация
+# 5. Обновить system/ и domains/ аналогично
+
+# 6. Валидация
 python specs/.instructions/.scripts/validate-service.py specs/architecture/services/auth.md --verbose
 python specs/.instructions/.scripts/validate-architecture.py --check-services --verbose
 ```

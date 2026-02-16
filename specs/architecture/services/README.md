@@ -23,13 +23,12 @@ index: specs/architecture/services/README.md
 
 ## 1. Сервисы
 
-*Нет сервисов. Первый сервис появится при ADR → DONE.*
-
-**Формат таблицы** (заполняется при ADR → DONE):
-
 | Сервис | Описание | Ключевые API | Технологии | Последний ADR |
 |--------|----------|-------------|-----------|---------------|
-| `{service}` | Одно предложение | endpoints | языки, фреймворки | adr-NNNN |
+| `notification` | Уведомления в реальном времени через WebSocket и REST API | — | — | — |
+| `frontend` | Клиентское приложение — UI компоненты уведомлений | — | — | — |
+| `gateway` | API Gateway — WebSocket proxy и rate limiting | — | — | — |
+| `auth` | Аутентификация — генерация и валидация JWT | — | — | — |
 
 ---
 
@@ -37,5 +36,9 @@ index: specs/architecture/services/README.md
 
 ```
 /specs/architecture/services/
-└── README.md                # Этот файл
+├── README.md                # Этот файл
+├── notification.md          # Сервис уведомлений (заглушка)
+├── frontend.md              # Клиентское приложение (заглушка)
+├── gateway.md               # API Gateway (заглушка)
+└── auth.md                  # Аутентификация (заглушка)
 ```

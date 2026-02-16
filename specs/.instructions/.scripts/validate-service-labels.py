@@ -132,11 +132,23 @@ def main():
 
     errors = validate(repo_root, verbose=args.verbose)
 
-    if errors:
+    # Разделить на ошибки и предупреждения
+    real_errors = [e for e in errors if "(warning)" not in e]
+    warnings = [e for e in errors if "(warning)" in e]
+
+    if warnings:
+        print("\n⚠ Предупреждения:")
+        for w in warnings:
+            print(f"  {w}")
+
+    if real_errors:
         print("\n❌ Найдены ошибки:")
-        for err in errors:
+        for err in real_errors:
             print(f"  {err}")
         sys.exit(1)
+    elif warnings:
+        print("\n✅ Нет блокирующих ошибок (только предупреждения)")
+        sys.exit(0)
     else:
         print("✅ Все svc:* метки соответствуют specs/services/")
         sys.exit(0)

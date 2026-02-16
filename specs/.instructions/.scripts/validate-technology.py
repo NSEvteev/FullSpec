@@ -14,20 +14,18 @@ validate-technology.py — Валидация per-tech стандартов stan
     - TECH005: Порядок секций соответствует стандарту
     - TECH006: Содержание секций — таблицы, формат
     - TECH007: § 5 не противоречит standard-principles.md (предупреждение)
-    - TECH008: § 1 обязателен даже для заглушки
-    - TECH009: Смешанное состояние — часть секций заполнена, часть placeholder
     - TECH010: Rule .claude/rules/{tech}.md существует и содержит ссылки
     - TECH011: Строка в реестре specs/technologies/README.md
 
-    Автоматически определяет заглушка/полный по наличию placeholder в § 2-6.
+    Все стандарты должны быть полными (заглушки не допускаются).
 
 SSOT:
     - specs/.instructions/technologies/standard-technology.md
     - specs/.instructions/technologies/validation-technology.md
 
 Примеры:
-    python validate-technology.py specs/.instructions/technologies/standard-python.md
-    python validate-technology.py specs/.instructions/technologies/ --verbose
+    python validate-technology.py specs/technologies/standard-python.md
+    python validate-technology.py specs/technologies/ --verbose
 
 Возвращает:
     0 — все проверки пройдены
@@ -48,8 +46,6 @@ ERROR_CODES = {
     "TECH005": "Порядок секций нарушен",
     "TECH006": "Некорректное содержание секции",
     "TECH007": "Возможный конфликт с standard-principles.md",
-    "TECH008": "§ 1 обязателен даже для заглушки",
-    "TECH009": "Смешанное состояние — часть секций заполнена, часть placeholder",
     "TECH010": "Нет rule или некорректное содержание",
     "TECH011": "Нет строки в реестре technologies/README.md",
 }
@@ -64,13 +60,10 @@ REQUIRED_SECTIONS = [
     "Ссылки",
 ]
 
-# Секции § 2-6 (могут быть placeholder в режиме заглушки)
-PLACEHOLDER_SECTIONS = REQUIRED_SECTIONS[1:]  # все кроме § 1
-
 STUB_PLACEHOLDER = "*Заполняется при ADR → DONE.*"
 
 EXPECTED_STANDARD = ".instructions/standard-instruction.md"
-EXPECTED_INDEX = "specs/.instructions/technologies/README.md"
+EXPECTED_INDEX = "specs/technologies/README.md"
 
 KEBAB_PATTERN = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
 STANDARD_VERSION_PATTERN = re.compile(r"^v\d+\.\d+$")
@@ -245,42 +238,18 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
     ):
         errors.append(f"[TECH005] {rel}: порядок секций нарушен")
 
-    # Определить режим: заглушка vs полный
-    placeholder_count = 0
-    filled_count = 0
-    for section in PLACEHOLDER_SECTIONS:
+    # Проверить отсутствие placeholder (заглушки не допускаются)
+    for section in REQUIRED_SECTIONS:
         sec_content = extract_section_content(content, section).strip()
         if STUB_PLACEHOLDER in sec_content:
-            placeholder_count += 1
-        elif sec_content:
-            filled_count += 1
-
-    is_stub = placeholder_count > 0
-
-    if verbose:
-        mode = "заглушка" if is_stub else "полный"
-        print(f"  Режим: {mode}")
-
-    # TECH009: смешанное состояние
-    if placeholder_count > 0 and filled_count > 0:
-        errors.append(
-            f"[TECH009] {rel}: смешанное состояние — "
-            f"{filled_count} секций заполнено, {placeholder_count} placeholder"
-        )
-
-    # TECH008: § 1 обязателен даже для заглушки
-    sec1_content = extract_section_content(content, "Версия и источники").strip()
-    if is_stub:
-        if not sec1_content or STUB_PLACEHOLDER in sec1_content:
             errors.append(
-                f"[TECH008] {rel}: § 1 (Версия и источники) обязателен "
-                f"даже для заглушки"
+                f"[TECH006] {rel}: секция '{section}' содержит placeholder "
+                f"— заглушки не допускаются, все секции должны быть заполнены"
             )
-        elif verbose:
-            print(f"    § 1 (Версия и источники): заполнен ✓")
 
-    # TECH006: содержание секций (полный режим)
-    if not is_stub:
+    # TECH006: содержание секций
+    sec1_content = extract_section_content(content, "Версия и источники").strip()
+    if True:
         # § 1: таблица Параметр/Значение
         if sec1_content:
             if "Параметр" not in sec1_content or "Значение" not in sec1_content:

@@ -155,6 +155,22 @@
 # Стандарт: standard-service.md, standard-labels.md
 # =============================================================================
 # Метки создаются динамически. Пример:
-# - name: "svc:auth"
-#   description: "🔧 Сервис auth"
+# - name: "svc:example"
+#   description: "🔧 Сервис example"
 #   color: "0ea5e9"
+
+- name: "svc:notification"
+  description: "Сервис notification"
+  color: "0ea5e9"
+
+- name: "svc:frontend"
+  description: "Сервис frontend"
+  color: "0ea5e9"
+
+- name: "svc:gateway"
+  description: "Сервис gateway"
+  color: "0ea5e9"
+
+- name: "svc:auth"
+  description: "Сервис auth"
+  color: "0ea5e9"

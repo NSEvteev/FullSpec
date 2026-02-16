@@ -1,5 +1,5 @@
 ---
-description: Технологический реестр проекта — какие технологии используются, версии, сервисы, ссылки на стандарты. Обновляется при ADR → DONE.
+description: Технологический реестр проекта — какие технологии используются, версии, сервисы, ссылки на стандарты.
 standard: .structure/.instructions/standard-readme.md
 standard-version: v1.2
 index: specs/technologies/README.md
@@ -7,7 +7,7 @@ index: specs/technologies/README.md
 
 # /specs/technologies/ — Технологический реестр
 
-Какие технологии используются в проекте — версии, сервисы, ссылки на стандарты. Обновляется при ADR → DONE.
+Какие технологии используются в проекте — версии, сервисы, ссылки на стандарты.
 
 **Полезные ссылки:**
 - [Спецификации проекта](../README.md)
@@ -30,15 +30,22 @@ index: specs/technologies/README.md
 
 ## 2. Файлы
 
-*Нет файлов.*
+| Файл | Описание |
+|------|----------|
+| [README.md](./README.md) | Этот файл (реестр технологий) |
+| [standard-postgresql.md](./standard-postgresql.md) | Стандарт PostgreSQL |
+| [validation-postgresql.md](./validation-postgresql.md) | Валидация PostgreSQL |
+| [standard-redis.md](./standard-redis.md) | Стандарт Redis |
+| [validation-redis.md](./validation-redis.md) | Валидация Redis |
 
 ---
 
 ## 3. Реестр технологий
 
-| Технология | Версия | Сервисы | Стандарт | Последний ADR |
-|-----------|--------|---------|---------|---------------|
-| *(пусто — заполняется при ADR → DONE)* | | | | |
+| Технология | Версия | Сервисы | Стандарт | Последний Design |
+|-----------|--------|---------|---------|-----------------|
+| PostgreSQL | 16 | notification | [standard-postgresql.md](/specs/technologies/standard-postgresql.md) | design-0001 |
+| Redis | 7 | notification | [standard-redis.md](/specs/technologies/standard-redis.md) | design-0001 |
 
 ---
 
@@ -46,5 +53,9 @@ index: specs/technologies/README.md
 
 ```
 /specs/technologies/
-└── README.md                # Этот файл (реестр)
+├── standard-postgresql.md   # Стандарт PostgreSQL
+├── validation-postgresql.md # Валидация PostgreSQL
+├── standard-redis.md        # Стандарт Redis
+├── validation-redis.md      # Валидация Redis
+└── README.md                # Этот файл (реестр технологий)
 ```

@@ -36,6 +36,8 @@ index: specs/.instructions/technologies/README.md
 └── README.md                    # Этот файл (индекс)
 ```
 
+> Per-tech стандарты (`standard-{tech}.md`, `validation-{tech}.md`) размещаются в `/specs/technologies/` — см. [standard-technology.md § 2](./standard-technology.md#2-расположение-и-именование).
+
 ---
 
 # 1. Стандарты

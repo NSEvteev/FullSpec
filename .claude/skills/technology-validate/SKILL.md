@@ -1,6 +1,6 @@
 ---
 name: technology-validate
-description: Проверка per-tech стандарта на соответствие стандарту — frontmatter, секции, rule, реестр, режим заглушки. Используй после создания или изменения per-tech стандарта, при code review или перед коммитом.
+description: Проверка per-tech стандарта на соответствие стандарту — frontmatter, секции, rule, реестр. Используй после создания или изменения per-tech стандарта, при code review или перед коммитом.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep
@@ -35,6 +35,6 @@ argument-hint: "[tech-name | path]"
 
 ```
 /technology-validate python
-/technology-validate specs/.instructions/technologies/standard-python.md
-/technology-validate specs/.instructions/technologies/
+/technology-validate specs/technologies/standard-python.md
+/technology-validate specs/technologies/
 ```

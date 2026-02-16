@@ -1,10 +1,10 @@
 ---
 name: technology-modify
-description: Изменение per-tech стандарта кодирования — добавление сервиса, заполнение заглушки, обновление конвенций, откат, деактивация. Используй при изменении существующего per-tech стандарта.
+description: Изменение per-tech стандарта кодирования — добавление сервиса, обновление конвенций, откат, деактивация. Используй при изменении существующего per-tech стандарта.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
-argument-hint: "<tech-name> [--scenario A|B|C|D|E]"
+argument-hint: "<tech-name> [--scenario A|B|C|D]"
 ---
 
 # Изменение per-tech стандарта
@@ -14,13 +14,13 @@ argument-hint: "<tech-name> [--scenario A|B|C|D|E]"
 ## Формат вызова
 
 ```
-/technology-modify <tech-name> [--scenario A|B|C|D|E]
+/technology-modify <tech-name> [--scenario A|B|C|D]
 ```
 
 | Параметр | Описание | Обязательный |
 |----------|----------|--------------|
 | `tech-name` | Имя технологии (kebab-case, например `python`) | Да |
-| `--scenario` | Сценарий: A (новый сервис), B (заполнение), C (обновление), D (откат), E (деактивация) | Нет (спросит) |
+| `--scenario` | Сценарий: A (новый сервис), B (обновление конвенций), C (откат), D (деактивация) | Нет (спросит) |
 
 ## Воркфлоу
 
@@ -39,5 +39,5 @@ argument-hint: "<tech-name> [--scenario A|B|C|D|E]"
 ```
 /technology-modify python --scenario A
 /technology-modify tailwind-css --scenario B
-/technology-modify postgresql --scenario D
+/technology-modify postgresql --scenario C
 ```

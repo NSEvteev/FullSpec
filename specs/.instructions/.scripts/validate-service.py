@@ -21,9 +21,13 @@ validate-service.py — Валидация сервисных документо
     - SVC012: Строка сервиса в services/README.md
     - SVC013: Метка svc:{service} в labels.yml
     - SVC014: Секция Changelog — формат и содержание
+    - SVC015: Оглавление присутствует
+    - SVC016: Planned Changes — блоки Design с ADDED/MODIFIED/REMOVED
 
-    Режим заглушки: секции 2, 3, 5 — placeholder ИЛИ предварительные данные с маркером Planned.
-    Режим заглушки: секции 4, 6 — только placeholder.
+    Двухслойная модель:
+    - Заглушка: AS IS секции (1-6) содержат *Нет.* или *Сервис ещё не реализован.*
+    - Заглушка: Planned Changes содержит блоки Design с ADDED/MODIFIED/REMOVED
+    - Полный: AS IS секции заполнены, нет *Нет.* placeholder'ов
     Автоматически определяет заглушка/полный по отсутствию created-by.
 
 SSOT:
@@ -60,6 +64,8 @@ ERROR_CODES = {
     "SVC012": "Нет строки в services/README.md",
     "SVC013": "Нет метки svc: в labels.yml",
     "SVC014": "Некорректная секция Changelog",
+    "SVC015": "Отсутствует оглавление",
+    "SVC016": "Planned Changes без структуры ADDED/MODIFIED/REMOVED",
 }
 
 # 8 обязательных секций в порядке
@@ -74,26 +80,21 @@ REQUIRED_SECTIONS = [
     "Changelog",
 ]
 
-# Секции 4, 6 — в заглушке содержат только placeholder
-STUB_PLACEHOLDER_ONLY_SECTIONS = [
+# AS IS секции (1-6) — в заглушке пусты, в полном заполнены
+AS_IS_SECTIONS = [
+    "Резюме",
+    "API контракты",
+    "Data Model",
     "Code Map",
+    "Внешние зависимости",
     "Границы автономии LLM",
 ]
 
-# Секции 2, 3, 5 — в заглушке могут содержать placeholder ИЛИ предварительные данные с маркером
-STUB_PLANNED_OR_PLACEHOLDER_SECTIONS = [
-    "API контракты",
-    "Data Model",
-    "Внешние зависимости",
+# Допустимые placeholder'ы для пустых AS IS секций в заглушке
+STUB_EMPTY_MARKERS = [
+    "*Нет.*",
+    "*Сервис ещё не реализован.*",
 ]
-
-# Все секции 2-6 (для полного режима проверки)
-STUB_PLACEHOLDER_SECTIONS = (
-    STUB_PLANNED_OR_PLACEHOLDER_SECTIONS + STUB_PLACEHOLDER_ONLY_SECTIONS
-)
-
-STUB_PLACEHOLDER = "*Заполняется при ADR → DONE.*"
-PLANNED_MARKER = "*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*"
 
 # 4 обязательные подсекции Code Map
 CODE_MAP_SUBSECTIONS = [
@@ -171,6 +172,11 @@ def extract_h3_sections(content: str) -> list[str]:
     return extract_headings(content, 3)
 
 
+def extract_h4_sections(content: str) -> list[str]:
+    """Извлечь все заголовки #### из markdown (вне code blocks)."""
+    return extract_headings(content, 4)
+
+
 def extract_section_content(content: str, section_name: str) -> str:
     """Извлечь содержимое секции ## до следующей секции ##."""
     pattern = rf"^##\s+{re.escape(section_name)}\s*$"
@@ -190,6 +196,50 @@ def extract_section_content(content: str, section_name: str) -> str:
     if end is None:
         end = len(lines)
     return "\n".join(lines[start:end])
+
+
+def has_toc(content: str) -> bool:
+    """Проверить наличие оглавления (## Оглавление) в документе."""
+    h2 = extract_h2_sections(content)
+    return "Оглавление" in h2
+
+
+def check_planned_changes_structure(content: str) -> tuple[bool, list[str]]:
+    """Проверить структуру Planned Changes: блоки Design с ADDED/MODIFIED/REMOVED.
+
+    Returns:
+        (has_blocks, issues): has_blocks — найдены ли блоки Design, issues — список проблем.
+    """
+    pc_content = extract_section_content(content, "Planned Changes")
+    if not pc_content.strip():
+        return False, []
+
+    # Если пустая секция — допустимо для полного документа
+    if "*Нет активных Design.*" in pc_content:
+        return False, []
+
+    # Ищем h3 блоки (design-NNNN: ...)
+    h3_in_pc = []
+    h4_in_pc = []
+    for _, line in iter_lines_outside_code(pc_content):
+        h3_match = re.match(r"^###\s+(.+)$", line)
+        if h3_match:
+            h3_in_pc.append(h3_match.group(1).strip())
+        h4_match = re.match(r"^####\s+(.+)$", line)
+        if h4_match:
+            h4_in_pc.append(h4_match.group(1).strip())
+
+    if not h3_in_pc:
+        return False, ["нет блоков Design (h3)"]
+
+    issues = []
+    required_h4 = {"ADDED", "MODIFIED", "REMOVED"}
+    found_h4 = {h.strip() for h in h4_in_pc}
+    missing = required_h4 - found_h4
+    if missing:
+        issues.append(f"отсутствуют подсекции: {', '.join(sorted(missing))}")
+
+    return True, issues
 
 
 def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> list[str]:
@@ -239,7 +289,6 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
 
     # SVC004: created-by
     if is_stub:
-        # Заглушка: created-by отсутствует — ОК, но проверим секции на согласованность
         if verbose:
             print(f"    created-by: отсутствует (заглушка) ✓")
     else:
@@ -262,48 +311,60 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
         elif verbose:
             print(f"    last-updated-by: {updated_by} ✓")
 
+    # SVC015: оглавление
+    if not has_toc(content):
+        errors.append(f"[SVC015] {rel}: отсутствует оглавление (## Оглавление)")
+    elif verbose:
+        print(f"    оглавление ✓")
+
     # SVC006 + SVC007: обязательные секции и порядок
     h2 = extract_h2_sections(content)
+    # Исключаем "Оглавление" из проверки порядка 8 секций
+    h2_without_toc = [h for h in h2 if h != "Оглавление"]
     found_order = []
 
     for section in REQUIRED_SECTIONS:
-        if section not in h2:
+        if section not in h2_without_toc:
             errors.append(f"[SVC006] {rel}: отсутствует секция '{section}'")
         else:
-            found_order.append(h2.index(section))
+            found_order.append(h2_without_toc.index(section))
             if verbose:
                 print(f"    секция: {section} ✓")
 
     if len(found_order) == len(REQUIRED_SECTIONS) and found_order != sorted(found_order):
         errors.append(f"[SVC007] {rel}: порядок секций нарушен")
 
-    # Режим заглушки: проверить placeholder/planned в секциях 2-6
+    # --- Режим заглушки ---
     if is_stub:
-        # Секции 4, 6 — только placeholder
-        for section in STUB_PLACEHOLDER_ONLY_SECTIONS:
+        # AS IS секции (1-6) должны быть пусты
+        for section in AS_IS_SECTIONS:
             sec_content = extract_section_content(content, section).strip()
-            if sec_content and STUB_PLACEHOLDER not in sec_content:
+            if not sec_content:
+                continue
+            # Проверяем что содержимое — один из допустимых placeholder'ов
+            is_empty_marker = any(marker in sec_content for marker in STUB_EMPTY_MARKERS)
+            if not is_empty_marker:
                 errors.append(
-                    f"[SVC004] {rel}: секция '{section}' заполнена, "
-                    f"но created-by отсутствует (режим заглушки)"
+                    f"[SVC004] {rel}: AS IS секция '{section}' содержит данные в заглушке. "
+                    f"Данные должны быть в Planned Changes → ADDED, а не в AS IS"
                 )
             elif verbose:
-                print(f"    секция '{section}': placeholder ✓")
+                print(f"    AS IS '{section}': пусто ✓")
 
-        # Секции 2, 3, 5 — placeholder ИЛИ предварительные данные с маркером
-        for section in STUB_PLANNED_OR_PLACEHOLDER_SECTIONS:
-            sec_content = extract_section_content(content, section).strip()
-            if sec_content and STUB_PLACEHOLDER not in sec_content and PLANNED_MARKER not in sec_content:
+        # SVC016: Planned Changes должны содержать блоки Design с ADDED/MODIFIED/REMOVED
+        has_blocks, pc_issues = check_planned_changes_structure(content)
+        if not has_blocks:
+            pc_content = extract_section_content(content, "Planned Changes").strip()
+            if pc_content and "*Нет активных Design.*" not in pc_content:
                 errors.append(
-                    f"[SVC004] {rel}: секция '{section}' заполнена без маркера, "
-                    f"но created-by отсутствует (режим заглушки). "
-                    f"Ожидается placeholder или предварительные данные с маркером Planned"
+                    f"[SVC016] {rel}: Planned Changes в заглушке должны содержать "
+                    f"блоки Design с ADDED/MODIFIED/REMOVED"
                 )
-            elif verbose:
-                if PLANNED_MARKER in (sec_content or ""):
-                    print(f"    секция '{section}': planned ✓")
-                else:
-                    print(f"    секция '{section}': placeholder ✓")
+        elif pc_issues:
+            for issue in pc_issues:
+                errors.append(f"[SVC016] {rel}: Planned Changes: {issue}")
+        elif verbose:
+            print(f"    Planned Changes: структура ✓")
 
         # Changelog в заглушке = *Нет записей.*
         changelog_content = extract_section_content(content, "Changelog").strip()
@@ -312,20 +373,17 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
         elif verbose:
             print(f"    Changelog: заглушка ✓")
 
-    # Полный режим: проверить что нет placeholder и planned маркеров
+    # --- Полный режим ---
     if not is_stub:
-        for section in STUB_PLACEHOLDER_SECTIONS:
+        # AS IS секции не должны содержать stub placeholder'ы
+        for section in AS_IS_SECTIONS:
             sec_content = extract_section_content(content, section).strip()
-            if STUB_PLACEHOLDER in sec_content:
-                errors.append(
-                    f"[SVC008] {rel}: секция '{section}' содержит placeholder заглушки "
-                    f"в полном документе"
-                )
-            if PLANNED_MARKER in sec_content:
-                errors.append(
-                    f"[SVC008] {rel}: секция '{section}' содержит маркер Planned "
-                    f"в полном документе (должен быть убран при ADR → DONE)"
-                )
+            for marker in STUB_EMPTY_MARKERS:
+                if sec_content == marker:
+                    errors.append(
+                        f"[SVC008] {rel}: AS IS секция '{section}' содержит placeholder "
+                        f"'{marker}' в полном документе"
+                    )
 
         # SVC008: проверка колонок таблиц
         table_checks = {
@@ -364,7 +422,6 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
         deps_content = extract_section_content(content, "Внешние зависимости")
         if deps_content:
             for line in deps_content.split("\n"):
-                # Ищем строки таблицы с ролью в последней колонке
                 cells = [c.strip() for c in line.split("|") if c.strip()]
                 if len(cells) >= 4 and cells[0] not in ("Тип", "---", "-"):
                     role = cells[-1].strip()
@@ -393,7 +450,6 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
             if verbose:
                 print(f"    Changelog: пуст (нет записей) ✓")
         else:
-            # Проверить формат записей: маркеры DONE/REJECTED/CONFLICT-RESOLVED
             has_entries = False
             for line in changelog_content.split("\n"):
                 stripped = line.strip()
@@ -406,6 +462,17 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
                         )
             if has_entries and verbose:
                 print(f"    Changelog: формат ✓")
+
+        # SVC016: Planned Changes структура (полный режим — допустимо *Нет активных Design.*)
+        has_blocks, pc_issues = check_planned_changes_structure(content)
+        if has_blocks and pc_issues:
+            for issue in pc_issues:
+                errors.append(f"[SVC016] {rel}: Planned Changes: {issue}")
+        elif verbose:
+            if has_blocks:
+                print(f"    Planned Changes: структура ✓")
+            else:
+                print(f"    Planned Changes: нет активных Design ✓")
 
     # SVC012: строка в services/README.md
     if svc:
