@@ -204,6 +204,12 @@ def get_subsection_text(section_text: str, subsection_name: str) -> str | None:
 # Проверки
 # =============================================================================
 
+def extract_file_nnnn(path: Path) -> str | None:
+    """Извлечь NNNN из имени файла design-NNNN-topic.md."""
+    m = FILENAME_REGEX.match(path.name)
+    return m.group(1) if m else None
+
+
 def check_filename(path: Path) -> list[tuple[str, str]]:
     """D001: Проверить формат имени файла."""
     errors = []
@@ -274,11 +280,9 @@ def check_heading(content: str, path: Path) -> list[tuple[str, str]]:
     """D025: Проверить совпадение NNNN в имени файла и заголовке."""
     errors = []
 
-    file_match = FILENAME_REGEX.match(path.name)
-    if not file_match:
+    file_nnnn = extract_file_nnnn(path)
+    if not file_nnnn:
         return errors
-
-    file_nnnn = file_match.group(1)
     body = get_body(content)
     heading_match = HEADING_REGEX.search(body)
 
@@ -540,11 +544,9 @@ def check_number_matches_parent(path: Path, content: str) -> list[tuple[str, str
     """D033: Проверить совпадение NNNN Design с NNNN parent Discussion (через Impact)."""
     errors = []
 
-    file_match = FILENAME_REGEX.match(path.name)
-    if not file_match:
+    file_nnnn = extract_file_nnnn(path)
+    if not file_nnnn:
         return errors
-
-    file_nnnn = file_match.group(1)
 
     fm = parse_frontmatter(content)
     parent = fm.get("parent", "")

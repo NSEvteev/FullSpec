@@ -138,38 +138,37 @@ def parse_frontmatter(content: str) -> dict | None:
     return result
 
 
-def extract_h2_sections(content: str) -> list[str]:
-    """Извлечь все заголовки ## из markdown (вне code blocks)."""
-    sections = []
+def iter_lines_outside_code(content: str):
+    """Итерировать строки markdown вне code blocks. Yields (index, stripped_line)."""
     in_code = False
-    for line in content.split("\n"):
+    for i, line in enumerate(content.split("\n")):
         stripped = line.strip()
         if stripped.startswith("```"):
             in_code = not in_code
             continue
-        if in_code:
-            continue
-        match = re.match(r"^##\s+(.+)$", stripped)
-        if match:
-            sections.append(match.group(1).strip())
-    return sections
+        if not in_code:
+            yield i, stripped
+
+
+def extract_headings(content: str, level: int) -> list[str]:
+    """Извлечь заголовки указанного уровня из markdown (вне code blocks)."""
+    prefix = "#" * level
+    pattern = re.compile(rf"^{prefix}\s+(.+)$")
+    return [
+        m.group(1).strip()
+        for _, line in iter_lines_outside_code(content)
+        if (m := pattern.match(line))
+    ]
+
+
+def extract_h2_sections(content: str) -> list[str]:
+    """Извлечь все заголовки ## из markdown (вне code blocks)."""
+    return extract_headings(content, 2)
 
 
 def extract_h3_sections(content: str) -> list[str]:
     """Извлечь все заголовки ### из markdown (вне code blocks)."""
-    sections = []
-    in_code = False
-    for line in content.split("\n"):
-        stripped = line.strip()
-        if stripped.startswith("```"):
-            in_code = not in_code
-            continue
-        if in_code:
-            continue
-        match = re.match(r"^###\s+(.+)$", stripped)
-        if match:
-            sections.append(match.group(1).strip())
-    return sections
+    return extract_headings(content, 3)
 
 
 def extract_section_content(content: str, section_name: str) -> str:
@@ -178,15 +177,8 @@ def extract_section_content(content: str, section_name: str) -> str:
     lines = content.split("\n")
     start = None
     end = None
-    in_code = False
 
-    for i, line in enumerate(lines):
-        stripped = line.strip()
-        if stripped.startswith("```"):
-            in_code = not in_code
-            continue
-        if in_code:
-            continue
+    for i, stripped in iter_lines_outside_code(content):
         if re.match(pattern, stripped) and start is None:
             start = i + 1
         elif start is not None and re.match(r"^##\s+", stripped):
@@ -439,6 +431,7 @@ def validate_file(file_path: Path, repo_root: Path, verbose: bool = False) -> li
 
 
 def main():
+    """Точка входа: парсинг аргументов и запуск валидации сервисных документов."""
     if sys.platform == "win32":
         sys.stdout.reconfigure(encoding="utf-8")
         sys.stderr.reconfigure(encoding="utf-8")
