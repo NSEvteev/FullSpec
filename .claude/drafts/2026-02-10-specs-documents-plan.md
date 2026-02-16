@@ -200,7 +200,7 @@ specs/.instructions/
 
 ### Этап 2: Создание документов (последовательно по объектам)
 
-> **Статус:** В работе (Волна 1 + Discussion + Impact завершены)
+> **Статус:** В работе (Волны 1-3 + 5-6 завершены, осталось: ADR, Plan Test, Tests, Glossary)
 
 **Источник контента:** [2026-02-08-specs-architecture.md](./examples/2026-02-08-specs-architecture.md) — разделы указаны в описании каждого документа.
 
@@ -353,6 +353,15 @@ specs/.instructions/
 | 19 | Описание флоу в SVC-секциях Impact | **1–2 абзаца на SVC.** Триггер → поток → результат → связи. Заполняет gap между сухими таблицами и пониманием «как данные проходят через сервис». Не дублирует Discussion (бизнес-флоу) и Design (технический флоу) |
 | 20 | Агент impact-reviewer | **general-purpose, sonnet, Read/Grep/Glob/Edit.** Анализирует полноту Impact vs Discussion. Пишет PROP-N в секцию «Предложения». Upward feedback (`↑ Discussion:`) для обнаруженных пробелов в бизнес-требованиях |
 | 21 | Авто-предложение следующего этапа SDD | **После Discussion WAITING → предложить Impact. После Impact WAITING → предложить Design.** Через AskUserQuestion в последнем шаге create-воркфлоу (Шаг 12). Не автозапуск — только предложение |
+| 22 | Нумерация дочерних объектов SDD | **Дочерние объекты наследуют NNNN от parent Discussion.** disc-0001 → impact-0001 → design-0001. Discussion — автоинкремент (NNNN = max + 1) |
+| 23 | Design: количество источников Deep Scan | **6 источников:** (1) standard-specs.md, (2) standard-design.md, (3) parent Impact, (4) parent Discussion, (5) specs/architecture/services/, (6) specs/technologies/ + per-tech стандарты |
+| 24 | Design: количество типов артефактов при WAITING | **5 типов:** (1) Обновление Impact, (2) Обновление Discussion, (3) Service-заглушки, (4) Per-tech стандарты (заглушки), (5) ADR-документы |
+| 25 | Design: агент design-agent | **general-purpose, sonnet, Read/Grep/Glob/Edit/Write/Bash.** Deep Scan (6 источников), CLARIFY → GENERATE → VALIDATE в изолированном контексте. Генерация секций SVC/INT/STS, контрактов API, sequence-диаграмм |
+| 26 | Design: агент design-reviewer | **general-purpose, sonnet, Read/Grep/Glob/Edit.** Ревью проектирования на полноту — покрытие Impact, распределение ответственностей (SVC-N), блоки взаимодействия (INT-N), контракты API, системные тесты (STS-N), зона ответственности |
+| 27 | Service: скрипт create-service-file.py | **Создание заглушки при Design → WAITING.** Извлекает Discussion/Design ссылки из frontmatter-цепочки. Секции 2,3,5 — маркер Planned, секции 4,6 — placeholder |
+| 28 | Technologies: полный комплект инструкций | **4 инструкции + скрипт + 3 скилла + агент.** Двухфазная модель: заглушка при Design → WAITING (technology-agent mode=stub), заполнение при ADR → DONE (mode=fill). Мета-стандарт v1.1 (10 секций) |
+| 29 | Design: миграция v1.0 → v1.1 | **Добавлен 6-й источник Deep Scan (technologies) и 5-й тип артефактов (per-tech стандарты).** Все шаблоны и экземпляры обновлены с standard-version v1.0 → v1.1 |
+| 30 | links-validate: двойные дефисы в якорях | **Символ `→` в заголовках генерирует одиночный `-` в якоре, не `--`.** Исправлено 36 битых ссылок в 15 файлах. Также: пути скриптов, относительные пути агентов, устаревшие якоря |
 
 ---
 
@@ -378,13 +387,13 @@ specs/.instructions/
 - [x] Волна 1: ~~Справочник + Навигатор SDD~~ → объединены в `standard-specs.md` (14 секций, ~1200 строк). Разделение оказалось искусственным, Planned Changes дублировались
 - [x] Волна 2: Discussion (полный комплект) — standard + validation + create + modify + скрипты (validate, create-file) + 3 скилла + E2E (disc-0001 → WAITING)
 - [x] Волна 2: Impact (полный комплект) — standard + validation + create + modify + скрипты (validate, create-file) + 3 скилла + агент impact-reviewer + E2E (impact-0001 → WAITING). Per-service структура (SVC-N → h2, подсекции → h3), описание флоу (1–2 абзаца на SVC)
-- [ ] Волна 3: Design (0/1)
-- [ ] Волна 4: Per-service объекты (0/2)
+- [x] Волна 3: Design (полный комплект) — standard + validation + create + modify + скрипты (validate, create-file) + 3 скилла + 2 агента (design-agent, design-reviewer) + E2E (design-0001 → WAITING). Deep Scan 6 источников, 5 типов артефактов, standard-version v1.1
+- [ ] Волна 4: Per-service объекты (0/2) — ADR, Plan Test
 - [x] Волна 5: Plan (1/1) — standard-plan.md (контент §7 перенесён)
-- [x] Волна 6: Живые документы (1/2) — standard-service.md (контент §8 Code Map + Technologies перенесён). **Факт:** переименован architecture → service (решение #14)
+- [x] Волна 6: Живые документы (1/2) — standard-service.md (полный комплект): standard + validation + create + modify + скрипты (validate, create-file) + 2 скилла (service-create, service-modify). **Факт:** переименован architecture → service (решение #14)
 - [ ] Волна 7: Глоссарий (0/1)
 - [x] Полное дерево specs/ → specs/README.md § 3 (решение #11)
 
 **Этап 3: Вспомогательные артефакты**
 - [ ] Rule SDD entry point
-- [x] Инфраструктура technologies/ — standard-technology.md (10 секций) + реестр specs/technologies/README.md + README инструкций (решения #15-17)
+- [x] Инфраструктура technologies/ (полный комплект) — standard + validation + create + modify + скрипт (validate) + 3 скилла + агент (technology-agent). Мета-стандарт (10 секций), реестр specs/technologies/README.md, README инструкций (решения #15-17). Двухфазная модель: заглушка при Design → WAITING, заполнение при ADR → DONE
