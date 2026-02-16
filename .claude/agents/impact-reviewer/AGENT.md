@@ -48,7 +48,7 @@ version: v1.0
    - Наблюдаемость: нужны ли компоненты мониторинга/логирования?
    - Масштабируемость: учтены ли ограничения при росте нагрузки?
 7. **Upward feedback (→ Discussion):**
-   Для каждого факта/вывода в Impact проверить: попадает ли он в зону ответственности Discussion (бизнес-требования, фичи, критерии успеха) и отсутствует ли в parent Discussion? Если оба условия выполнены — это upward feedback ([standard-specs.md § 3.6](specs/.instructions/standard-specs.md#36-upward-feedback)).
+   Для каждого факта/вывода в Impact проверить: попадает ли он в зону ответственности Discussion (бизнес-требования, фичи, критерии успеха) и отсутствует ли в parent Discussion? Если оба условия выполнены — это upward feedback ([standard-specs.md § 3.6](/specs/.instructions/standard-specs.md#36-upward-feedback)).
    - Обнаружены новые бизнес-требования, не зафиксированные в Discussion?
    - Нужны ли новые фичи (F-N) или User Stories (US-N)?
    - Критерии успеха Discussion неполны (не покрывают обнаруженные аспекты)?

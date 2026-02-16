@@ -21,7 +21,7 @@ version: v1.0
 
 ## Задача
 
-Заполнить документ проектирования (`specs/design/design-*.md`), выполняя фазы CLARIFY → GENERATE → VALIDATE из [Общего паттерна объекта (§ 2.3)](specs/.instructions/standard-specs.md#23-общий-паттерн-объекта).
+Заполнить документ проектирования (`specs/design/design-*.md`), выполняя фазы CLARIFY → GENERATE → VALIDATE из [Общего паттерна объекта (§ 2.3)](/specs/.instructions/standard-specs.md#23-общий-паттерн-объекта).
 
 ### Входные данные
 
@@ -35,7 +35,7 @@ version: v1.0
 
 #### Фаза 1: Deep Scan
 
-**SSOT:** [standard-design.md § 1](specs/.instructions/design/standard-design.md#1-назначение)
+**SSOT:** [standard-design.md § 1](/specs/.instructions/design/standard-design.md#1-назначение)
 
 Прочитать 6 источников в указанном порядке:
 
@@ -52,7 +52,7 @@ version: v1.0
 
 #### Фаза 2: CLARIFY
 
-**SSOT:** [standard-design.md § 6](specs/.instructions/design/standard-design.md#6-clarify)
+**SSOT:** [standard-design.md § 6](/specs/.instructions/design/standard-design.md#6-clarify)
 
 **Если `--auto-clarify`:** пропустить Clarify, генерировать на основе своего понимания, ставить маркеры `[ТРЕБУЕТ УТОЧНЕНИЯ]` на все неясности.
 
@@ -70,7 +70,7 @@ version: v1.0
 
 #### Фаза 3: GENERATE
 
-**SSOT:** [standard-design.md § 5](specs/.instructions/design/standard-design.md#5-разделы-документа)
+**SSOT:** [standard-design.md § 5](/specs/.instructions/design/standard-design.md#5-разделы-документа)
 
 Заполнить разделы документа:
 
@@ -104,7 +104,7 @@ version: v1.0
 
 #### Фаза 5: Upward feedback
 
-**SSOT:** [standard-design.md § 5 — Upward feedback](specs/.instructions/design/standard-design.md#5-разделы-документа)
+**SSOT:** [standard-design.md § 5 — Upward feedback](/specs/.instructions/design/standard-design.md#5-разделы-документа)
 
 Если при Deep Scan или генерации обнаружена информация, изменяющая характер взаимодействия или состав сервисов в Impact:
 

@@ -63,8 +63,8 @@ index: specs/.instructions/technologies/README.md
 Двухфазное создание: заглушка (Design → WAITING) + заполнение конвенциями (ADR → DONE).
 
 **Оглавление:**
-- [Фаза 1: Заглушка](./create-technology.md#фаза-1-заглушка-design--waiting)
-- [Фаза 2: Заполнение](./create-technology.md#фаза-2-заполнение-adr--done)
+- [Фаза 1: Заглушка](./create-technology.md#фаза-1-заглушка-design-waiting)
+- [Фаза 2: Заполнение](./create-technology.md#фаза-2-заполнение-adr-done)
 
 **Инструкция:** [create-technology.md](./create-technology.md)
 
@@ -98,7 +98,7 @@ index: specs/.instructions/technologies/README.md
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
-| [validate-technology.py](../../.scripts/validate-technology.py) | Валидация per-tech стандартов | [validation-technology.md](./validation-technology.md) |
+| [validate-technology.py](../.scripts/validate-technology.py) | Валидация per-tech стандартов | [validation-technology.md](./validation-technology.md) |
 
 ---
 

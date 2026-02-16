@@ -28,7 +28,7 @@ index: specs/.instructions/technologies/README.md
 
 - [Типы изменений](#типы-изменений)
 - [Сценарий A: Новый сервис использует технологию](#сценарий-a-новый-сервис-использует-технологию)
-- [Сценарий B: Заполнение заглушки (ADR → DONE)](#сценарий-b-заполнение-заглушки-adr--done)
+- [Сценарий B: Заполнение заглушки (ADR → DONE)](#сценарий-b-заполнение-заглушки-adr-done)
 - [Сценарий C: Обновление конвенций](#сценарий-c-обновление-конвенций)
 - [Сценарий D: Откат (ROLLING_BACK)](#сценарий-d-откат-rolling_back)
 - [Сценарий E: Деактивация](#сценарий-e-деактивация)
@@ -74,7 +74,7 @@ index: specs/.instructions/technologies/README.md
 
 **Триггер:** ADR → DONE, `standard-{tech}.md` содержит placeholder.
 
-Выполнить Фазу 2 из [create-technology.md](./create-technology.md#фаза-2-заполнение-adr--done): шаги 7-10.
+Выполнить Фазу 2 из [create-technology.md](./create-technology.md#фаза-2-заполнение-adr-done): шаги 7-10.
 
 ---
 
@@ -201,7 +201,7 @@ python specs/.instructions/.scripts/validate-technology.py specs/.instructions/t
 
 | Скрипт | Назначение | Путь |
 |--------|------------|------|
-| `validate-technology.py` | Валидация per-tech стандарта | [specs/.instructions/.scripts/validate-technology.py](../../.scripts/validate-technology.py) |
+| `validate-technology.py` | Валидация per-tech стандарта | [specs/.instructions/.scripts/validate-technology.py](../.scripts/validate-technology.py) |
 
 ---
 

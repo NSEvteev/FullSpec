@@ -29,9 +29,9 @@ index: specs/.instructions/living-docs/service/README.md
 - [Принципы](#принципы)
 - [Когда создавать](#когда-создавать)
 - [Шаги](#шаги)
-  - [Шаг 1: Прочитать Design](#шаг-1-прочитать-design)
+  - [Шаг 1: Прочитать Design и Impact](#шаг-1-прочитать-design-и-impact)
   - [Шаг 2: Создать services/{svc}.md (заглушка)](#шаг-2-создать-servicessvcmd-заглушка)
-  - [Шаг 3: Заполнить Резюме и Planned Changes](#шаг-3-заполнить-резюме-и-planned-changes)
+  - [Шаг 3: Заполнить секции](#шаг-3-заполнить-секции)
   - [Шаг 4: Обновить services/README.md](#шаг-4-обновить-servicesreadmemd)
   - [Шаг 5: Создать метку svc:{svc}](#шаг-5-создать-метку-svcsvc)
   - [Шаг 6: Валидация](#шаг-6-валидация)
@@ -46,7 +46,7 @@ index: specs/.instructions/living-docs/service/README.md
 
 > **Триггер создания — Design → WAITING (первый для сервиса).** Заглушка создаётся когда Design определил новый сервис. До ADR → DONE секции 2-6 остаются как placeholder.
 
-> **Шаблон — из стандарта.** Использовать шаблон заглушки из [standard-service.md § 9.1](./standard-service.md#шаблон-заглушки-design--waiting). Запрещено придумывать свой формат.
+> **Шаблон — из стандарта.** Использовать шаблон заглушки из [standard-service.md § 9.1](./standard-service.md#шаблон-заглушки-design-waiting). Запрещено придумывать свой формат.
 
 > **Заглушка — минимальная операция.** Создаётся только `services/{svc}.md` (заглушка), строка в README и метка. Архитектурные файлы (system/, domains/) обновляются своим воркфлоу при Design → WAITING (Planned Changes).
 
@@ -89,7 +89,7 @@ index: specs/.instructions/living-docs/service/README.md
 python specs/.instructions/.scripts/create-service-file.py --svc {service} --design specs/design/design-NNNN-topic.md [--description "назначение"]
 ```
 
-Скрипт создаёт `specs/architecture/services/{service}.md` по шаблону заглушки из [standard-service.md § 9.1](./standard-service.md#шаблон-заглушки-design--waiting). Проверяет status Design = WAITING, извлекает ссылки на Discussion/Design для Planned Changes.
+Скрипт создаёт `specs/architecture/services/{service}.md` по шаблону заглушки из [standard-service.md § 9.1](./standard-service.md#шаблон-заглушки-design-waiting). Проверяет status Design = WAITING, извлекает ссылки на Discussion/Design для Planned Changes.
 
 **Вручную (если скрипт недоступен):**
 

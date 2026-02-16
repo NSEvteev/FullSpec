@@ -33,7 +33,7 @@ argument-hint: "[имя] [--path <область>] [--dry-run]"
 
 ## Чек-лист
 
-→ См. [create-instruction.md#5-чек-лист](/.instructions/create-instruction.md#5-чек-лист)
+→ См. [create-instruction.md#чек-лист](/.instructions/create-instruction.md#чек-лист)
 
 ## Примеры
 

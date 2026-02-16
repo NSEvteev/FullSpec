@@ -30,7 +30,7 @@ index: specs/.instructions/living-docs/service/README.md
 - [Обновление](#обновление)
   - [Сценарий A: повторный Design WAITING](#сценарий-a-повторный-design-waiting)
   - [Сценарий B: ADR WAITING](#сценарий-b-adr-waiting)
-  - [Сценарий C: ADR DONE, заглушка → полный](#сценарий-c-adr-done-заглушка--полный)
+  - [Сценарий C: ADR DONE, заглушка → полный](#сценарий-c-adr-done-заглушка-полный)
   - [Сценарий D: ADR DONE, последующий](#сценарий-d-adr-done-последующий)
   - [Сценарий E: Design DONE](#сценарий-e-design-done)
   - [Сценарий F: REJECTED](#сценарий-f-rejected)

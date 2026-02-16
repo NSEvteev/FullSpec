@@ -42,7 +42,7 @@
 - [x] Шаблон содержит `standard-version: v1.1`
 
 ### 1.7 create-impact-file.py
-- [ ] ~~Базовая проверка~~ — не тестировали (не изменялся в этой итерации)
+- [x] Базовая проверка (`--help`) — OK, корректный вывод
 
 ---
 
@@ -56,7 +56,7 @@
 - [x] § 3: шаблон frontmatter — `standard-version: v1.1`
 - [x] § 6: "6 источников" в описании Clarify
 - [x] § 7: шаблон документа — `standard-version: v1.1`
-- [ ] `/links-validate` — отложено
+- [x] `/links-validate` — 2 E003 найдены и исправлены (двойные дефисы `--` в якорях, устаревший якорь `#4-триггеры-создания-и-обновления`)
 
 ### 2.2 create-design.md
 - [x] Архитектура процесса: "6 источников"
@@ -140,8 +140,8 @@
 - [x] `specs/impact/README.md` — impact-0001 в таблице
 - [x] `.claude/.instructions/agents/README.md` — 4 агента (проверено при создании)
 - [x] `.claude/skills/README.md` — все скиллы (проверено при создании)
-- [ ] ~~`specs/.instructions/design/README.md`~~ — отложено
-- [ ] ~~`specs/.instructions/technologies/README.md`~~ — отложено
+- [x] `specs/.instructions/design/README.md` — OK (5 файлов, 2 скрипта, 3 скилла, дерево совпадает)
+- [x] `specs/.instructions/technologies/README.md` — OK (5 файлов, 1 скрипт, 3 скилла, дерево совпадает)
 
 ---
 
@@ -149,7 +149,7 @@
 
 - [x] Нет устаревших "5 источников" или "4 артефакта" в Design файлах
 - [x] `v1.0` присутствует ТОЛЬКО в frontmatter standard-design.md (ссылка на standard-instruction.md)
-- [ ] `/links-validate` полный прогон — отложено (длительная операция)
+- [x] `/links-validate` полный прогон — 36 ошибок найдено и исправлено (двойные дефисы, пути скриптов, относительные пути агентов, якоря скиллов). Остались 4 ожидаемых false positive: шаблонные пути `standard-{tech}.md`, `standard-python.md`, несуществующий `standard-adr.md`
 
 ---
 
@@ -180,3 +180,9 @@
 | 2 | P002: дублирование code-block логики (8 строк) | validate-service.py | `iter_lines_outside_code()` + `extract_headings()` |
 | 3 | P006: main() без docstring | validate-service.py | Добавлен docstring |
 | 4 | "5 источников" в CHANGELOG | design-agent/CHANGELOG.md | Исправлено на "6 источников" |
+| 5 | E003: двойные дефисы `--` в якорях (символ `→`) | 10 файлов (standard-specs, technologies/*, service/*, agents/*) | `--waiting` → `-waiting`, `--done` → `-done`, `--adr` → `-adr` и др. |
+| 6 | E001: неверный путь `../../.scripts/` | technologies/{create,modify,validation,README} | `../../.scripts/` → `../.scripts/` |
+| 7 | E001: относительные пути без `/` в агентах | agents/{design-agent,design-reviewer,impact-reviewer} | `(specs/` → `(/specs/` |
+| 8 | E003: устаревшие якоря в оглавлении | service/create-service.md | Обновлены на актуальные заголовки |
+| 9 | E003: устаревший якорь `#4-триггеры-создания-и-обновления` | design/standard-design.md | `#4-триггер-создания` |
+| 10 | E003: устаревшие якоря `#5-чек-лист` | skills/instruction-{create,modify} | `#чек-лист` |

@@ -29,14 +29,14 @@ index: specs/.instructions/technologies/README.md
 
 - [Принципы](#принципы)
 - [Когда создавать](#когда-создавать)
-- [Фаза 1: Заглушка (Design → WAITING)](#фаза-1-заглушка-design--waiting)
+- [Фаза 1: Заглушка (Design → WAITING)](#фаза-1-заглушка-design-waiting)
   - [Шаг 1: Проверить существование](#шаг-1-проверить-существование)
   - [Шаг 2: Создать standard-{tech}.md (заглушка)](#шаг-2-создать-standard-techmd-заглушка)
   - [Шаг 3: Создать validation-{tech}.md (заглушка)](#шаг-3-создать-validation-techmd-заглушка)
   - [Шаг 4: Создать rule](#шаг-4-создать-rule)
   - [Шаг 5: Обновить реестр](#шаг-5-обновить-реестр)
   - [Шаг 6: Валидация](#шаг-6-валидация)
-- [Фаза 2: Заполнение (ADR → DONE)](#фаза-2-заполнение-adr--done)
+- [Фаза 2: Заполнение (ADR → DONE)](#фаза-2-заполнение-adr-done)
   - [Шаг 7: Заполнить standard-{tech}.md](#шаг-7-заполнить-standard-techmd)
   - [Шаг 8: Заполнить validation-{tech}.md](#шаг-8-заполнить-validation-techmd)
   - [Шаг 9: Обновить Code Map](#шаг-9-обновить-code-map)
@@ -54,7 +54,7 @@ index: specs/.instructions/technologies/README.md
 
 > **Параллельный запуск.** При множестве технологий оркестратор запускает N technology-agent параллельно — по одному на технологию. Каждый агент создаёт полный комплект (standard + validation + rule + реестр).
 
-> **Шаблон — из стандарта.** Использовать шаблоны заглушки из [standard-technology.md § 7.4-7.5](./standard-technology.md#74-шаблон-заглушки-standard-techmd-design--waiting). Запрещено придумывать свой формат.
+> **Шаблон — из стандарта.** Использовать шаблоны заглушки из [standard-technology.md § 7.4-7.5](./standard-technology.md#74-шаблон-заглушки-standard-techmd-design-waiting). Запрещено придумывать свой формат.
 
 > **Порядок строго последовательный.** standard → validation → rule. Параллельное создание файлов одной технологии запрещено.
 
@@ -91,7 +91,7 @@ ls specs/.instructions/technologies/standard-{tech}.md
 
 ### Шаг 2: Создать standard-{tech}.md (заглушка)
 
-Создать файл по шаблону заглушки из [standard-technology.md § 7.4](./standard-technology.md#74-шаблон-заглушки-standard-techmd-design--waiting).
+Создать файл по шаблону заглушки из [standard-technology.md § 7.4](./standard-technology.md#74-шаблон-заглушки-standard-techmd-design-waiting).
 
 **Путь:** `specs/.instructions/technologies/standard-{tech}.md`
 
@@ -102,7 +102,7 @@ ls specs/.instructions/technologies/standard-{tech}.md
 
 ### Шаг 3: Создать validation-{tech}.md (заглушка)
 
-Создать файл по шаблону заглушки из [standard-technology.md § 7.5](./standard-technology.md#75-шаблон-заглушки-validation-techmd-design--waiting).
+Создать файл по шаблону заглушки из [standard-technology.md § 7.5](./standard-technology.md#75-шаблон-заглушки-validation-techmd-design-waiting).
 
 **Путь:** `specs/.instructions/technologies/validation-{tech}.md`
 
@@ -262,7 +262,7 @@ python specs/.instructions/.scripts/validate-technology.py specs/.instructions/t
 
 | Скрипт | Назначение | Путь |
 |--------|------------|------|
-| `validate-technology.py` | Валидация per-tech стандарта (шаги 6, 10) | [specs/.instructions/.scripts/validate-technology.py](../../.scripts/validate-technology.py) |
+| `validate-technology.py` | Валидация per-tech стандарта (шаги 6, 10) | [specs/.instructions/.scripts/validate-technology.py](../.scripts/validate-technology.py) |
 
 ---
 

@@ -53,7 +53,7 @@ version: v1.0
    - Типы корректны (e2e/integration/load)?
    - Источники ссылаются на INT-N?
 9. **Upward feedback (→ Impact):**
-   Для каждого решения Design проверить: изменяет ли оно характер взаимодействия или состав сервисов, описанных в Impact? Если да — это upward feedback ([standard-specs.md § 3.6](specs/.instructions/standard-specs.md#36-upward-feedback)).
+   Для каждого решения Design проверить: изменяет ли оно характер взаимодействия или состав сервисов, описанных в Impact? Если да — это upward feedback ([standard-specs.md § 3.6](/specs/.instructions/standard-specs.md#36-upward-feedback)).
    - Design добавил новый сервис, не упомянутый в Impact?
    - Design изменил тип зависимости (sync → async)?
    - Design обнаружил новую зависимость от инфраструктуры?

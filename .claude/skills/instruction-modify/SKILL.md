@@ -36,7 +36,7 @@ argument-hint: "<путь> [--deactivate] [--migrate <новый-путь>]"
 
 ## Чек-лист
 
-→ См. [modify-instruction.md#5-чек-лист](/.instructions/modify-instruction.md#5-чек-лист)
+→ См. [modify-instruction.md#чек-лист](/.instructions/modify-instruction.md#чек-лист)
 
 ## Примеры
 

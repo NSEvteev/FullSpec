@@ -43,12 +43,12 @@ version: v1.0
 1. **Проверить существование:** `standard-{tech}.md` существует?
    - Да → переключиться на режим `update`
    - Нет → продолжить
-2. **Прочитать шаблон заглушки** из [standard-technology.md § 7.4](/specs/.instructions/technologies/standard-technology.md#74-шаблон-заглушки-standard-techmd-design--waiting)
+2. **Прочитать шаблон заглушки** из [standard-technology.md § 7.4](/specs/.instructions/technologies/standard-technology.md#74-шаблон-заглушки-standard-techmd-design-waiting)
 3. **Создать `standard-{tech}.md`** по шаблону:
    - Frontmatter: заполнить все поля (technology: {tech})
    - § 1 (Версия и источники): заполнить версию, документацию, style guide
    - § 2-6: placeholder `*Заполняется при ADR → DONE.*`
-4. **Прочитать шаблон заглушки validation** из [standard-technology.md § 7.5](/specs/.instructions/technologies/standard-technology.md#75-шаблон-заглушки-validation-techmd-design--waiting)
+4. **Прочитать шаблон заглушки validation** из [standard-technology.md § 7.5](/specs/.instructions/technologies/standard-technology.md#75-шаблон-заглушки-validation-techmd-design-waiting)
 5. **Создать `validation-{tech}.md`** по шаблону (все секции — placeholder)
 6. **Создать rule** `.claude/rules/{tech}.md` по [standard-technology.md § 7.3](/specs/.instructions/technologies/standard-technology.md#73-шаблон-rule-для-автозагрузки):
    - `globs` — определить по типу технологии (см. таблицу в стандарте)

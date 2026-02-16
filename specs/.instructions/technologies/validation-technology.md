@@ -193,7 +193,7 @@ python specs/.instructions/.scripts/validate-technology.py specs/.instructions/t
 
 | Скрипт | Назначение | Путь |
 |--------|------------|------|
-| `validate-technology.py` | Валидация `standard-{tech}.md` — frontmatter, секции, rule, реестр | [specs/.instructions/.scripts/validate-technology.py](../../.scripts/validate-technology.py) |
+| `validate-technology.py` | Валидация `standard-{tech}.md` — frontmatter, секции, rule, реестр | [specs/.instructions/.scripts/validate-technology.py](../.scripts/validate-technology.py) |
 
 ```bash
 # Валидация одного файла

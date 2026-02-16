@@ -200,7 +200,7 @@ python specs/.instructions/.scripts/validate-architecture.py --check-services
 ```
 Pre-commit хук `architecture-validate` запускается при изменении `specs/architecture/` или `specs/services/`. Проверяет структуру фиксированных файлов (AC001-AC005) и согласованность: новые файлы в `specs/services/` должны сопровождаться обновлением `specs/architecture/` (AC006). Подробнее: [validation-architecture.md](../architecture/validation-architecture.md).
 
-**Дельта-блоки ADR:** Каждый ADR содержит формальную секцию ADDED/MODIFIED/REMOVED — спецификацию изменений для живого документа. Формат дельта-блоков определяется в [standard-specs.md § 3.3](../../standard-specs.md#33-фильтрация-design--adr), будет детализирован в `standard-adr.md`.
+**Дельта-блоки ADR:** Каждый ADR содержит формальную секцию ADDED/MODIFIED/REMOVED — спецификацию изменений для живого документа. Формат дельта-блоков определяется в [standard-specs.md § 3.3](../../standard-specs.md#33-фильтрация-design-adr), будет детализирован в `standard-adr.md`.
 
 **Паттерн AS IS / TO BE:** LLM читает живые документы (AS IS, включая Planned Changes) перед проектированием. Дельта из ADR описывает TO BE. При ADR → DONE дельта применяется — TO BE становится новым AS IS. Подробнее: [standard-specs.md § 7](../../standard-specs.md#7-живые-документы).
 
@@ -631,7 +631,7 @@ service: {service-name}
 
 | Файл | Что обновить | Ссылка |
 |------|-------------|--------|
-| `services/{svc}.md` | Создать заглушку по шаблону [§ 9.1](#шаблон-заглушки-design--waiting) | — |
+| `services/{svc}.md` | Создать заглушку по шаблону [§ 9.1](#шаблон-заглушки-design-waiting) | — |
 | `services/README.md` | Добавить строку в таблицу (минимально) | — |
 | `labels.yml` | Создать метку `svc:{svc}` | через `/labels-modify` |
 

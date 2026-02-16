@@ -48,7 +48,7 @@ index: specs/.instructions/design/README.md
 
 Design отвечает на вопрос: **Как распределяем ответственности между сервисами? (РЕШАЕТ)**
 
-**Роль — РЕШАТЕЛЬ:** Design **критически оценивает** все предложения Impact и **РЕШАЕТ** окончательное распределение. Impact ПРЕДЛАГАЕТ варианты затронутых сервисов, Design РЕШАЕТ: подтверждает, изменяет или отклоняет предложения, думает на масштабирование, распределяет нераспределённую функциональность, создаёт новые сервисы с архитектурными инкрементами ([Стандарт SDD § 3.2](../standard-specs.md#32-impact--design-предлагатель--решатель)).
+**Роль — РЕШАТЕЛЬ:** Design **критически оценивает** все предложения Impact и **РЕШАЕТ** окончательное распределение. Impact ПРЕДЛАГАЕТ варианты затронутых сервисов, Design РЕШАЕТ: подтверждает, изменяет или отклоняет предложения, думает на масштабирование, распределяет нераспределённую функциональность, создаёт новые сервисы с архитектурными инкрементами ([Стандарт SDD § 3.2](../standard-specs.md#32-impact-design-предлагатель-решатель)).
 
 **Источник контекста — Deep Scan:** Design обязан прочитать архитектурные документы **в деталях** до фазы Clarify. Порядок чтения:
 
@@ -195,7 +195,7 @@ Happy path — нормальный поток жизненного цикла D
 | 1 | **Planned Changes** | `specs/architecture/services/{svc}.md` для каждого SVC | Навигационный указатель: ссылка на Discussion, Design, статус, что затрагивает | [standard-service.md § 5.7](../living-docs/service/standard-service.md#57-planned-changes) |
 | 2 | **Planned Changes** | `specs/architecture/system/overview.md`, `specs/architecture/domains/{domain}.md` | Навигационный указатель (если Design затрагивает системную/доменную архитектуру) | [standard-service.md § 5.7](../living-docs/service/standard-service.md#57-planned-changes) |
 | 3 | **Заглушка сервиса** (только для новых) | `specs/architecture/services/{svc}.md` | Файл-заглушка: Резюме + Planned Changes. Заполняется полным содержанием при ADR → DONE | [standard-service.md § 4](../living-docs/service/standard-service.md#4-триггеры-создания-и-обновления) |
-| 4 | **Per-tech стандарты** (только для новых технологий) | `specs/technologies/standard-{tech}.md` | Заглушка: § 1 (версия, сервисы), § 2-6 placeholder. Заполняется при ADR → DONE | [standard-technology.md § 4](../technologies/standard-technology.md#4-триггеры-создания-и-обновления) |
+| 4 | **Per-tech стандарты** (только для новых технологий) | `specs/technologies/standard-{tech}.md` | Заглушка: § 1 (версия, сервисы), § 2-6 placeholder. Заполняется при ADR → DONE | [standard-technology.md § 4](../technologies/standard-technology.md#4-триггер-создания) |
 | 5 | **ADR-документы** (1:N) | `specs/design/services/{svc}/adr/adr-NNNN-topic.md` | По одному ADR на каждый сервис из секций SVC. ADR детализирует внутрисервисные решения | Следующий шаг цепочки |
 
 **Побочные эффекты Design → DONE:**
