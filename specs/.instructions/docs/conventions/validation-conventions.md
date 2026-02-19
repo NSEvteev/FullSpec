@@ -22,7 +22,7 @@ index: specs/.instructions/README.md
 | Стандарт | [standard-conventions.md](./standard-conventions.md) |
 | Валидация | Этот документ |
 | Создание | *Не требуется* |
-| Модификация | *Не создано* |
+| Модификация | [modify-conventions.md](./modify-conventions.md) |
 
 ## Оглавление
 
