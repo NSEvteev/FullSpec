@@ -37,7 +37,7 @@
 | Фаза | Что делать | Входные драфты | Выходные артефакты | Статус |
 |------|-----------|---------------|-------------------|--------|
 | **0. Миграция** | Переместить старые specs/ в _old/ | — | `specs/_old/`, новая структура specs/ | **done** |
-| **1. Мета-стандарт** | Написать верхнеуровневый стандарт docs/ | sdd-structure | `specs/.instructions/standard-docs.md` | **done** |
+| **1. Мета-стандарт** | Написать верхнеуровневый стандарт docs/ + валидацию + стартовый набор | sdd-structure | `standard-docs.md`, `validation-docs.md`, `validate-docs.py`, pre-commit hook, `specs/docs/` (7 файлов) | **done** |
 | **2. docs/README.md** | Стандарт + шаблон docs/README.md | sdd-docs-readme | standard + validation + create скрипты | — |
 | **3. overview.md** | Стандарт + шаблон overview.md | sdd-docs-overview | standard + validation | — |
 | **4. conventions.md** | Стандарт + шаблон conventions.md | sdd-docs-conventions | standard + validation | — |
@@ -69,6 +69,10 @@
 - [x] Новые пустые папки: `specs/analysis/`, `specs/docs/`, `specs/.instructions/`
 - [x] Новый `specs/README.md` — индекс с двумя контурами + ссылка на _old
 - [x] `.claude/rules/` обновлены — нет ссылок на старые пути
+- [x] Удалены устаревшие pre-commit хуки (service-labels, architecture, postgresql-code, redis-code)
+- [x] Удалены устаревшие rules (postgresql.md, redis.md)
+- [x] Стартовый набор `specs/docs/` создан (README, 4 системных, 2 примера)
+- [x] Pre-commit хук `docs-validate` добавлен и работает
 
 ### Контур analysis/ — ОТЛОЖЕН
 
