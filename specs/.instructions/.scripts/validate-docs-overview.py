@@ -3,7 +3,7 @@
 validate-docs-overview.py — Валидация формата docs/.system/overview.md.
 
 Проверяет frontmatter, обязательные секции, таблицы, mermaid-схему,
-сквозные потоки и консистентность сервисов между секциями.
+сквозные потоки, консистентность сервисов, DDD-паттерны и вводные абзацы.
 
 Использование:
     python validate-docs-overview.py [--json] [--repo <dir>]
@@ -47,6 +47,15 @@ TABLE_COLUMNS = {
     "Shared-код": ["Пакет", "Назначение", "Владелец", "Потребители"],
 }
 
+# Секции, требующие вводный абзац перед таблицей/содержимым
+SECTIONS_REQUIRING_INTRO = [
+    "Карта сервисов",
+    "Связи между сервисами",
+    "Сквозные потоки",
+    "Контекстная карта доменов",
+    "Shared-код",
+]
+
 # Actors and external systems to exclude from consistency checks
 KNOWN_NON_SERVICES = {"frontend", "admin frontend", "backend", "gateway", "broker", "client"}
 
@@ -55,10 +64,12 @@ ERROR_CODES = {
     "OVW002": "Отсутствует обязательная секция",
     "OVW003": "Секции в неправильном порядке",
     "OVW004": "Таблица не содержит обязательных колонок",
-    "OVW005": "Отсутствует mermaid-схема",
+    "OVW005": "Mermaid-схема отсутствует или некорректна",
     "OVW006": "Сквозной поток некорректен",
     "OVW007": "Консистентность сервисов нарушена",
     "OVW008": "Нарушен алфавитный порядок",
+    "OVW009": "Отсутствует подраздел DDD-паттернов",
+    "OVW010": "Отсутствует вводный абзац",
 }
 
 
@@ -116,10 +127,6 @@ def extract_table_column(section_text: str, col_index: int) -> list[str]:
         if in_table and stripped.startswith("|---"):
             continue  # Skip separator
         if in_table and stripped.startswith("|"):
-            cells = [c.strip() for c in stripped.split("|")]
-            # Remove empty first/last from split
-            cells = [c for c in cells if c or cells.index(c) not in (0, len(cells) - 1)]
-            cells = [c for i, c in enumerate(stripped.strip("|").split("|")) if True]
             cells = [c.strip() for c in stripped.strip().strip("|").split("|")]
             if col_index < len(cells):
                 val = cells[col_index].strip()
@@ -138,6 +145,26 @@ def extract_table_header(section_text: str) -> list[str]:
             cols = [c.strip() for c in stripped.strip().strip("|").split("|")]
             return cols
     return []
+
+
+def extract_table_rows(section_text: str) -> list[list[str]]:
+    """Извлечь все строки таблицы как списки ячеек."""
+    rows = []
+    lines = section_text.strip().split("\n")
+    in_table = False
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith("|") and not in_table:
+            in_table = True
+            continue  # Skip header
+        if in_table and stripped.startswith("|---"):
+            continue  # Skip separator
+        if in_table and stripped.startswith("|"):
+            cells = [c.strip() for c in stripped.strip().strip("|").split("|")]
+            rows.append(cells)
+        elif in_table and not stripped.startswith("|"):
+            break
+    return rows
 
 
 # =============================================================================
@@ -206,16 +233,41 @@ def validate_tables(content: str) -> list[tuple[str, str]]:
 
 
 def validate_mermaid(content: str) -> list[tuple[str, str]]:
-    """OVW005: Проверка наличия mermaid-схемы."""
+    """OVW005: Проверка mermaid-схемы — наличие, subgraph, узлы, связи."""
     errors = []
     section_text = get_section_content(content, "Карта сервисов")
-    if section_text and "```mermaid" not in section_text:
+    if not section_text:
+        return errors
+
+    if "```mermaid" not in section_text:
         errors.append(("OVW005", "Секция «Карта сервисов»: отсутствует mermaid-схема"))
+        return errors
+
+    # Extract mermaid content
+    mermaid_match = re.search(r"```mermaid\s*\n(.*?)```", section_text, re.DOTALL)
+    if not mermaid_match:
+        errors.append(("OVW005", "Mermaid-блок не удалось распарсить"))
+        return errors
+
+    mermaid_content = mermaid_match.group(1)
+
+    # Check for subgraph (grouping required by standard)
+    if "subgraph" not in mermaid_content:
+        errors.append(("OVW005", "Mermaid-схема: отсутствует subgraph (группировка по ролям обязательна)"))
+
+    # Check for at least one node definition (NAME["label"] or NAME[label])
+    if not re.search(r'\w+\[', mermaid_content):
+        errors.append(("OVW005", "Mermaid-схема: не содержит узлов"))
+
+    # Check for edges (connections between nodes)
+    if "-->" not in mermaid_content and "---" not in mermaid_content:
+        errors.append(("OVW005", "Mermaid-схема: не содержит связей между узлами"))
+
     return errors
 
 
 def validate_flows(content: str) -> list[tuple[str, str]]:
-    """OVW006: Проверка сквозных потоков."""
+    """OVW006: Проверка сквозных потоков — структура, количество, контракты."""
     errors = []
     section_text = get_section_content(content, "Сквозные потоки")
     if not section_text:
@@ -226,6 +278,12 @@ def validate_flows(content: str) -> list[tuple[str, str]]:
     if not flows:
         errors.append(("OVW006", "Секция «Сквозные потоки»: нет ни одного потока (h3-подсекции)"))
         return errors
+
+    # Check flow count (standard: 2-5)
+    if len(flows) < 2:
+        errors.append(("OVW006", f"Секция «Сквозные потоки»: {len(flows)} поток, требуется 2-5"))
+    elif len(flows) > 5:
+        errors.append(("OVW006", f"Секция «Сквозные потоки»: {len(flows)} потоков, максимум 5"))
 
     # Check each flow
     for flow_name in flows:
@@ -241,6 +299,18 @@ def validate_flows(content: str) -> list[tuple[str, str]]:
             errors.append(("OVW006", f"Поток «{flow_name}»: отсутствует code-блок с шагами"))
         if "**Ключевые контракты:**" not in flow_text:
             errors.append(("OVW006", f"Поток «{flow_name}»: отсутствует раздел **Ключевые контракты:**"))
+        else:
+            # Check that contracts section has at least one link/reference
+            contracts_match = re.search(
+                r"\*\*Ключевые контракты:\*\*\s*\n(.*?)(?=\n### |\n## |\Z)",
+                flow_text, re.DOTALL,
+            )
+            if contracts_match:
+                contracts_text = contracts_match.group(1).strip()
+                has_link = bool(re.search(r"\[.+\]\(.+\)", contracts_text))
+                has_ref = "см." in contracts_text.lower()
+                if not has_link and not has_ref:
+                    errors.append(("OVW006", f"Поток «{flow_name}»: раздел «Ключевые контракты» не содержит ни одной ссылки"))
 
     return errors
 
@@ -293,19 +363,79 @@ def validate_alphabetical(content: str) -> list[tuple[str, str]]:
     """OVW008: Проверка алфавитного порядка в таблицах."""
     errors = []
 
-    checks = [
+    # Single-column sort checks
+    simple_checks = [
         ("Карта сервисов", 0, "Сервис"),
-        ("Связи между сервисами", 0, "Источник"),
         ("Контекстная карта доменов", 0, "Домен"),
     ]
 
-    for section_name, col_idx, col_name in checks:
+    for section_name, col_idx, col_name in simple_checks:
         section_text = get_section_content(content, section_name)
         if not section_text:
             continue
         values = extract_table_column(section_text, col_idx)
         if values and values != sorted(values, key=str.lower):
             errors.append(("OVW008", f"Секция «{section_name}»: строки не в алфавитном порядке по «{col_name}»"))
+
+    # Two-column sort for Связи: Источник (col 0), then Приёмник (col 1)
+    section_text = get_section_content(content, "Связи между сервисами")
+    if section_text:
+        rows = extract_table_rows(section_text)
+        if len(rows) >= 2:
+            pairs = [(r[0].lower(), r[1].lower()) for r in rows if len(r) >= 2]
+            if pairs != sorted(pairs):
+                errors.append(("OVW008", "Секция «Связи между сервисами»: строки не в алфавитном порядке по «Источник» → «Приёмник»"))
+
+    return errors
+
+
+def validate_ddd(content: str) -> list[tuple[str, str]]:
+    """OVW009: Проверка DDD-паттернов в Контекстной карте доменов."""
+    errors = []
+    section_text = get_section_content(content, "Контекстная карта доменов")
+    if not section_text:
+        return errors
+
+    # Stub check — if section is just italic stub text, skip
+    stripped = section_text.strip()
+    if stripped.startswith("*") and stripped.endswith("*") and len(stripped) < 200:
+        return errors
+
+    # Standard requires either "DDD-паттерны связей" or "Связи между доменами" (non-DDD alternative)
+    has_ddd = bool(re.search(r"DDD-паттерны связей", section_text))
+    has_alt = bool(re.search(r"Связи между доменами", section_text))
+
+    if not has_ddd and not has_alt:
+        errors.append(("OVW009", "Секция «Контекстная карта доменов»: отсутствует подраздел «DDD-паттерны связей» или «Связи между доменами»"))
+
+    return errors
+
+
+def validate_intro_paragraphs(content: str) -> list[tuple[str, str]]:
+    """OVW010: Проверка вводных абзацев перед таблицами/содержимым."""
+    errors = []
+
+    for section_name in SECTIONS_REQUIRING_INTRO:
+        section_text = get_section_content(content, section_name)
+        if not section_text:
+            continue
+
+        # Stub check — skip if section is just italic stub text
+        stripped = section_text.strip()
+        if stripped.startswith("*") and stripped.endswith("*") and len(stripped) < 200:
+            continue
+
+        # First non-empty line must be regular text (not table, not mermaid, not h3)
+        for line in stripped.split("\n"):
+            line_stripped = line.strip()
+            if not line_stripped:
+                continue
+            # Structural elements that should NOT be first
+            if (line_stripped.startswith("|")
+                    or line_stripped.startswith("```")
+                    or line_stripped.startswith("### ")):
+                errors.append(("OVW010", f"Секция «{section_name}»: отсутствует вводный абзац перед таблицей/содержимым"))
+            break  # Only check the first non-empty line
 
     return errors
 
@@ -321,7 +451,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация docs/.system/overview.md (OVW001-OVW008)"
+        description="Валидация docs/.system/overview.md (OVW001-OVW010)"
     )
     parser.add_argument(
         "path",
@@ -364,6 +494,8 @@ def main():
     all_errors.extend(validate_flows(content))
     all_errors.extend(validate_consistency(content))
     all_errors.extend(validate_alphabetical(content))
+    all_errors.extend(validate_ddd(content))
+    all_errors.extend(validate_intro_paragraphs(content))
 
     has_errors = len(all_errors) > 0
 
