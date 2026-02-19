@@ -34,18 +34,18 @@
 
 Из каждого драфта создаётся набор артефактов в `specs/.instructions/`:
 
-| Фаза | Что делать | Входные драфты | Выходные артефакты |
-|------|-----------|---------------|-------------------|
-| **0. Миграция** | Переместить старые specs/ в _old/ | — | `specs/_old/`, новая структура specs/ |
-| **1. Мета-стандарт** | Написать верхнеуровневый стандарт docs/ | sdd-structure | `specs/.instructions/standard-docs.md` |
-| **2. docs/README.md** | Стандарт + шаблон docs/README.md | sdd-docs-readme | standard + validation + create скрипты |
-| **3. overview.md** | Стандарт + шаблон overview.md | sdd-docs-overview | standard + validation |
-| **4. conventions.md** | Стандарт + шаблон conventions.md | sdd-docs-conventions | standard + validation |
-| **5. infrastructure.md** | Стандарт + шаблон infrastructure.md | sdd-docs-infrastructure | standard + validation |
-| **6. testing.md** | Стандарт + шаблон testing.md | sdd-docs-testing | standard + validation |
-| **7. {svc}.md** | Стандарт + шаблон сервисного документа | sdd-docs-service | standard + validation + create + modify |
-| **8. standard-{tech}.md** | Стандарт + шаблон per-tech | sdd-docs-technology | standard + validation + create + modify |
-| **9. analysis/** | Определить контур аналитики | **ОТЛОЖЕНО** | TBD |
+| Фаза | Что делать | Входные драфты | Выходные артефакты | Статус |
+|------|-----------|---------------|-------------------|--------|
+| **0. Миграция** | Переместить старые specs/ в _old/ | — | `specs/_old/`, новая структура specs/ | **done** |
+| **1. Мета-стандарт** | Написать верхнеуровневый стандарт docs/ | sdd-structure | `specs/.instructions/standard-docs.md` | **done** |
+| **2. docs/README.md** | Стандарт + шаблон docs/README.md | sdd-docs-readme | standard + validation + create скрипты | — |
+| **3. overview.md** | Стандарт + шаблон overview.md | sdd-docs-overview | standard + validation | — |
+| **4. conventions.md** | Стандарт + шаблон conventions.md | sdd-docs-conventions | standard + validation | — |
+| **5. infrastructure.md** | Стандарт + шаблон infrastructure.md | sdd-docs-infrastructure | standard + validation | — |
+| **6. testing.md** | Стандарт + шаблон testing.md | sdd-docs-testing | standard + validation | — |
+| **7. {svc}.md** | Стандарт + шаблон сервисного документа | sdd-docs-service | standard + validation + create + modify | — |
+| **8. standard-{tech}.md** | Стандарт + шаблон per-tech | sdd-docs-technology | standard + validation + create + modify | — |
+| **9. analysis/** | Определить контур аналитики | **ОТЛОЖЕНО** | TBD | — |
 
 **Зависимости:**
 - Фазы 2-8 независимы друг от друга (можно параллельно)
