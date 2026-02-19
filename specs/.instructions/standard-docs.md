@@ -19,9 +19,7 @@ index: specs/.instructions/README.md
 | Тип | Документ |
 |-----|----------|
 | Стандарт | Этот документ |
-| Валидация | validation-docs.md (не создан) |
-| Создание | create-docs.md (не создан) |
-| Модификация | modify-docs.md (не создан) |
+| Валидация | [validation-docs.md](./validation-docs.md) |
 
 ## Оглавление
 
@@ -397,6 +395,12 @@ Notification использует auth-сервис для валидации JW
 3. Обновить `docs/.system/overview.md` — убрать сервис с карты и из связей
 4. Проверить ссылки в документах потребителей (секции "Зависимости") — убрать или перенаправить
 
-### Скиллы
+### Валидация
 
-*Скиллы будут созданы вместе с create/modify инструкциями.*
+Скрипт валидации проверяет наличие обязательных документов docs/:
+
+```bash
+python specs/.instructions/.scripts/validate-docs.py
+```
+
+Скрипт включён в pre-commit hook. Подробнее — [validation-docs.md](./validation-docs.md).
