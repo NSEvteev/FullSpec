@@ -32,12 +32,8 @@ index: .claude/README.md
 | [2026-02-08-specification-driven-development.md](./2026-02-08-specification-driven-development.md) | Исследование подходов к Specification-Driven Development |
 | [2026-02-10-specs-documents-plan.md](./2026-02-10-specs-documents-plan.md) | План выноса документов из архитектуры specs/ |
 | [2026-02-15-specs-readme-format-gap.md](./2026-02-15-specs-readme-format-gap.md) | Проблема: README specs-папок не имеют процесса создания |
-| [2026-02-16-per-tech-validation-scripts.md](./2026-02-16-per-tech-validation-scripts.md) | Per-tech скрипты валидации кода + pre-commit |
-| [2026-02-16-pre-release-cleanup.md](./2026-02-16-pre-release-cleanup.md) | Финальная очистка проекта перед релизом |
-| [2026-02-19-architecture-simplification.md](./2026-02-19-architecture-simplification.md) | Анализ упрощения архитектурных артефактов SDD: избыточность файлов + преждевременная материализация |
 | [2026-02-19-sdd-orchestrator.md](./2026-02-19-sdd-orchestrator.md) | Оркестратор реализации SDD v2: последовательность, зависимости, чеклист миграции |
 | [2026-02-19-sdd-structure.md](./2026-02-19-sdd-structure.md) | Структура SDD v2: два контура, решения, открытые вопросы |
-| [2026-02-19-sdd-docs-readme.md](./2026-02-19-sdd-docs-readme.md) | docs/README.md: секции, шаблон, пример — индекс сервисов |
 | [2026-02-19-sdd-docs-overview.md](./2026-02-19-sdd-docs-overview.md) | docs/.system/overview.md: секции, шаблон, пример — архитектура системы |
 | [2026-02-19-sdd-docs-conventions.md](./2026-02-19-sdd-docs-conventions.md) | docs/.system/conventions.md: секции, шаблон, пример — конвенции API и shared |
 | [2026-02-19-sdd-docs-infrastructure.md](./2026-02-19-sdd-docs-infrastructure.md) | docs/.system/infrastructure.md: секции, шаблон, пример — платформа и окружения |
@@ -92,7 +88,6 @@ index: .claude/README.md
 ├── 2026-02-15-specs-readme-format-gap.md # README specs-папок: пробел в процессе
 ├── 2026-02-19-sdd-orchestrator.md      # Оркестратор реализации SDD v2
 ├── 2026-02-19-sdd-structure.md         # Структура SDD v2: решения
-├── 2026-02-19-sdd-docs-readme.md       # docs/README.md
 ├── 2026-02-19-sdd-docs-overview.md     # docs/.system/overview.md
 ├── 2026-02-19-sdd-docs-conventions.md  # docs/.system/conventions.md
 ├── 2026-02-19-sdd-docs-infrastructure.md # docs/.system/infrastructure.md

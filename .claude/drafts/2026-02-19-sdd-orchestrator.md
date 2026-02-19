@@ -38,7 +38,7 @@
 |------|-----------|---------------|-------------------|--------|
 | **0. Миграция** | Переместить старые specs/ в _old/ | — | `specs/_old/`, новая структура specs/ | **done** |
 | **1. Мета-стандарт** | Написать верхнеуровневый стандарт docs/ + валидацию + стартовый набор | sdd-structure | `standard-docs.md`, `validation-docs.md`, `validate-docs.py`, pre-commit hook, `specs/docs/` (7 файлов) | **done** |
-| **2. docs/README.md** | Стандарт + шаблон docs/README.md | sdd-docs-readme | standard + validation + create скрипты | — |
+| **2. docs/README.md** | Стандарт + шаблон docs/README.md | sdd-docs-readme | `standard-readme.md`, `validation-readme.md`, `validate-docs-readme.py`, pre-commit hook | **done** |
 | **3. overview.md** | Стандарт + шаблон overview.md | sdd-docs-overview | standard + validation | — |
 | **4. conventions.md** | Стандарт + шаблон conventions.md | sdd-docs-conventions | standard + validation | — |
 | **5. infrastructure.md** | Стандарт + шаблон infrastructure.md | sdd-docs-infrastructure | standard + validation | — |
