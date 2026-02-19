@@ -41,7 +41,7 @@
 | **2. docs/README.md** | Стандарт + шаблон docs/README.md | sdd-docs-readme | `standard-readme.md`, `validation-readme.md`, `validate-docs-readme.py`, pre-commit hook | **done** |
 | **3. overview.md** | Стандарт + шаблон overview.md | sdd-docs-overview | `standard-overview.md` (captain-holt: 16 рекомендаций), `validation-overview.md` (OVW001-OVW008), `validate-docs-overview.py`, `modify-overview.md` (6 сценариев), pre-commit hook | **done** |
 | **4. conventions.md** | Стандарт + шаблон conventions.md | sdd-docs-conventions | `standard-conventions.md` (captain-holt: 10 рекомендаций), `validation-conventions.md` (CNV001-CNV007), `validate-docs-conventions.py`, `modify-conventions.md` (6 сценариев), pre-commit hook | **done** |
-| **5. infrastructure.md** | Стандарт + шаблон infrastructure.md | sdd-docs-infrastructure | standard + validation | — |
+| **5. infrastructure.md** | Стандарт + шаблон infrastructure.md | sdd-docs-infrastructure | `standard-infrastructure.md` (captain-holt: 11 рекомендаций), `validation-infrastructure.md` (INF001-INF007), `validate-docs-infrastructure.py`, `modify-infrastructure.md` (6 сценариев), pre-commit hook | **done** |
 | **6. testing.md** | Стандарт + шаблон testing.md | sdd-docs-testing | standard + validation | — |
 | **7. {svc}.md** | Стандарт + шаблон сервисного документа | sdd-docs-service | standard + validation + create + modify | — |
 | **8. standard-{tech}.md** | Стандарт + шаблон per-tech | sdd-docs-technology | standard + validation + create + modify | — |
