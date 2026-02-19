@@ -38,6 +38,7 @@ make setup
 | `github-required` | Наличие обязательных файлов GitHub | Все (always_run) |
 | `docs-validate` | Наличие обязательных документов docs/ | Все (always_run) |
 | `docs-readme-validate` | Дерево и таблицы docs/README.md соответствуют файловой системе | `specs/docs/` |
+| `overview-validate` | Секции, таблицы, mermaid, консистентность overview.md | `specs/docs/.system/overview.md` |
 
 ---
 

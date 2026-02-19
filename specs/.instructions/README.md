@@ -29,11 +29,14 @@ index: specs/.instructions/README.md
 ```
 /specs/.instructions/
 ├── .scripts/
+│   ├── validate-docs-overview.py     # Валидация формата docs/.system/overview.md
 │   ├── validate-docs-readme.py       # Валидация формата docs/README.md
 │   └── validate-docs.py              # Валидация структуры docs/
 ├── docs/
 │   ├── overview/
-│   │   └── standard-overview.md      # Стандарт docs/.system/overview.md
+│   │   ├── modify-overview.md        # Воркфлоу модификации overview.md
+│   │   ├── standard-overview.md      # Стандарт docs/.system/overview.md
+│   │   └── validation-overview.md    # Валидация docs/.system/overview.md
 │   └── readme/
 │       ├── standard-readme.md        # Стандарт docs/README.md
 │       └── validation-readme.md      # Валидация docs/README.md
@@ -87,6 +90,7 @@ index: specs/.instructions/README.md
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [validate-docs.py](./.scripts/validate-docs.py) | Проверка наличия обязательных документов docs/ | [validation-docs.md](./validation-docs.md) |
+| [validate-docs-overview.py](./.scripts/validate-docs-overview.py) | Валидация формата docs/.system/overview.md | [validation-overview.md](./docs/overview/validation-overview.md) |
 | [validate-docs-readme.py](./.scripts/validate-docs-readme.py) | Валидация формата docs/README.md | [validation-readme.md](./docs/readme/validation-readme.md) |
 
 ---

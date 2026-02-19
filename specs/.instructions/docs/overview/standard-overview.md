@@ -22,7 +22,7 @@ index: specs/.instructions/README.md
 | Стандарт | Этот документ |
 | Валидация | [validation-overview.md](./validation-overview.md) |
 | Создание | *Не создано* |
-| Модификация | *Не создано* |
+| Модификация | [modify-overview.md](./modify-overview.md) |
 
 ## Оглавление
 

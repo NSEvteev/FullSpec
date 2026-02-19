@@ -133,3 +133,12 @@ repos:
         files: ^specs/docs/
         pass_filenames: false
         stages: [pre-commit]
+
+      # 15. Валидация docs/.system/overview.md
+      - id: overview-validate
+        name: Validate overview.md
+        entry: python specs/.instructions/.scripts/validate-docs-overview.py
+        language: system
+        files: ^specs/docs/\.system/overview\.md$
+        pass_filenames: false
+        stages: [pre-commit]
