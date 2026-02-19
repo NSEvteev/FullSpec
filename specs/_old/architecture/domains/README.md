@@ -26,6 +26,8 @@ index: specs/architecture/domains/README.md
 | Файл | Описание |
 |------|----------|
 | [context-map.md](context-map.md) | Карта взаимодействия между bounded contexts |
+| [identity.md](identity.md) | Домен Identity — аутентификация, авторизация, JWT-валидация |
+| [notifications.md](notifications.md) | Домен Notifications — уведомления в реальном времени |
 
 Per-domain файлы (`{domain}.md`) создаются при первом Design → WAITING.
 
@@ -36,7 +38,9 @@ Per-domain файлы (`{domain}.md`) создаются при первом Des
 ```
 /specs/architecture/domains/
 ├── context-map.md           # Карта взаимодействия контекстов
-└── README.md                # Этот файл
+├── identity.md              # Домен Identity
+├── notifications.md         # Домен Notifications
+└── README.md                # Этот файл (индекс)
 ```
 
 Per-domain файлы (`{domain}.md`) создаются динамически при первом Design → WAITING.

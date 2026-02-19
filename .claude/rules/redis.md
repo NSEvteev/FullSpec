@@ -8,5 +8,7 @@ globs:
 ---
 
 При работе с Redis-файлами ОБЯЗАТЕЛЬНО следовать:
-- [standard-redis.md](/specs/technologies/standard-redis.md)
-- [validation-redis.md](/specs/technologies/validation-redis.md)
+- [standard-redis.md](/specs/_old/technologies/standard-redis.md)
+- [validation-redis.md](/specs/_old/technologies/validation-redis.md)
+
+> Пути указывают на _old/ — будут обновлены после создания новых стандартов в specs/docs/.technologies/

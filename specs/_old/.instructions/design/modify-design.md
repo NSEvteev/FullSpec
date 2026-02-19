@@ -241,7 +241,7 @@ python specs/.instructions/.scripts/validate-design.py specs/design/design-NNNN-
 | # | Артефакт | Действие |
 |---|----------|----------|
 | 1 | **Planned Changes** в `services/{svc}.md` | Для каждого SVC-N: добавить запись в секцию Planned Changes. Вызвать `/service-modify` или вручную |
-| 2 | **Planned Changes** в `system/overview.md`, `domains/{domain}.md` | Если Design затрагивает системную/доменную архитектуру |
+| 2 | **Planned Changes** в `system/overview.md`, `system/data-flows.md` (если INT-N), `system/infrastructure.md` (если инфраструктура), `domains/context-map.md`, `domains/{domain}.md` (если новый домен) | Системная/доменная архитектура |
 | 3 | **Заглушка сервиса** (только для новых) | Для сервисов "Подтверждён (новый)" / "Добавлен Design": вызвать `/service-create {svc}` |
 | 4 | **ADR-документы** (1:N) | Для каждого SVC-N: создать ADR. Обновить `children` в frontmatter Design |
 
@@ -401,13 +401,16 @@ LLM определяет самый высокий затронутый доку
 
 **Изменение scope:** при изменении scope — CONFLICT через обратную связь от кода.
 
-**Побочные эффекты при DONE:**
+**Побочные эффекты при DONE** ([standard-specs.md § 7.3](../standard-specs.md#73-обновление-при-реализации-to-done)):
 
 | # | Что обновляется | Как |
 |---|----------------|-----|
-| 1 | `specs/architecture/system/overview.md` | AS IS обновляется, Planned Changes → Changelog |
-| 2 | `specs/architecture/domains/{domain}.md` | AS IS обновляется, Planned Changes → Changelog |
-| 3 | `specs/tests/system/` | Системные тест-сценарии (STS-N) → AS IS |
+| 1 | `specs/architecture/system/overview.md` | Planned Changes → AS IS, Planned Changes → Changelog |
+| 2 | `specs/architecture/system/data-flows.md` | Planned Changes → AS IS, Planned Changes → Changelog |
+| 3 | `specs/architecture/system/infrastructure.md` | Planned Changes → AS IS, Planned Changes → Changelog |
+| 4 | `specs/architecture/domains/context-map.md` | Planned Changes → AS IS, Planned Changes → Changelog |
+| 5 | `specs/architecture/domains/{domain}.md` | Planned Changes → AS IS, Planned Changes → Changelog |
+| 6 | `specs/tests/system/` | Системные тест-сценарии (STS-N) → AS IS |
 
 ---
 
@@ -429,9 +432,10 @@ LLM определяет самый высокий затронутый доку
 | # | Артефакт | Действие |
 |---|----------|----------|
 | 1 | Planned Changes в `services/{svc}.md` | Удалить записи Planned Changes, добавленные этим Design |
-| 2 | Planned Changes в `system/overview.md`, `domains/` | Удалить записи |
+| 2 | Planned Changes в `system/overview.md`, `system/data-flows.md`, `system/infrastructure.md`, `domains/context-map.md`, `domains/{domain}.md` | Удалить записи |
 | 3 | Заглушки новых сервисов | Удалить файлы-заглушки (если сервис не создан другим Design) |
-| 4 | ADR-документы | ADR → ROLLING_BACK (каскад вниз) |
+| 4 | Per-tech стандарты | Удалить (если технология введена этим Design). См. [§ 7.5](../standard-specs.md#75-обновление-при-откате-rolling_back-rejected) |
+| 5 | ADR-документы | ADR → ROLLING_BACK (каскад вниз) |
 
 - Обновить frontmatter: `status: ROLLING_BACK`
 - Обновить README: статус → `ROLLING_BACK`

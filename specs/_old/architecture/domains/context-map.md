@@ -23,6 +23,9 @@ description: Карта взаимодействия между bounded contexts
 
 ## Planned Changes
 
-- **[Discussion 0001: realtime notifications](../../discussion/disc-0001-realtime-notifications.md)**
+- **[design-0001: realtime notifications](../../design/design-0001-realtime-notifications.md)**
   Статус: WAITING | Затрагивает: домен Notifications (notification, frontend), домен Identity (auth, gateway)
-  Design: [design-0001](../../design/design-0001-realtime-notifications.md)
+
+## Changelog
+
+*Нет записей.*

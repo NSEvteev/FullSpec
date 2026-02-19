@@ -12,7 +12,8 @@ index: specs/.instructions/living-docs/architecture/README.md
 Правила существования и структуры фиксированных файлов `specs/architecture/` (system/ и domains/). Файлы создаются при инициализации проекта и содержат системный контекст.
 
 **Полезные ссылки:**
-- [Стандарт сервисной документации](../service/standard-service.md) — обновление файлов (триггеры, Planned Changes, AS IS)
+- [SSOT триггеров обновления](../../standard-specs.md#7-живые-документы) — когда и что обновлять
+- [Стандарт сервисной документации](../service/standard-service.md) — формат services/{svc}.md
 - [Инструкции living-docs](../README.md)
 
 **Связанные документы:**
@@ -20,14 +21,14 @@ index: specs/.instructions/living-docs/architecture/README.md
 | Тип | Документ |
 |-----|----------|
 | Стандарт | Этот документ |
-| Обновление | [standard-service.md](../service/standard-service.md) § 4, § 6 |
+| Обновление | [standard-specs.md § 7](../../standard-specs.md#7-живые-документы) (SSOT триггеров) |
 | Валидация | [validation-architecture.md](./validation-architecture.md) |
 
 **Разделение ответственности:**
 
 | Аспект | Кто отвечает |
 |--------|-------------|
-| Когда обновлять (триггеры, Planned Changes, AS IS) | [standard-service.md](../service/standard-service.md) § 4, § 6 |
+| Когда обновлять (триггеры, Planned Changes, AS IS) | [standard-specs.md § 7](../../standard-specs.md#7-живые-документы) (SSOT триггеров) |
 | Что должно быть (структура, секции, шаблоны) | Этот документ |
 | Валидация структуры, pre-commit хук | [validation-architecture.md](./validation-architecture.md) + скрипт |
 
@@ -68,9 +69,9 @@ index: specs/.instructions/living-docs/architecture/README.md
 - Шаблонами для инициализации
 
 **Этот стандарт НЕ управляет:**
-- Когда и как обновлять файлы — это [standard-service.md](../service/standard-service.md) § 4 (триггеры), § 6 (описания секций)
+- Когда и как обновлять файлы — это [standard-specs.md § 7](../../standard-specs.md#7-живые-документы) (SSOT триггеров)
 - Per-service документами `services/{svc}.md` — это [standard-service.md](../service/standard-service.md) § 5
-- Per-domain файлами `domains/{domain}.md` — это [standard-service.md](../service/standard-service.md) § 6.4
+- Per-domain файлами `domains/{domain}.md` — это [standard-service.md](../service/standard-service.md) § 6
 
 ---
 

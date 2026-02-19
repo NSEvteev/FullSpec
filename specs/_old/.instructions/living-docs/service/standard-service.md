@@ -101,7 +101,7 @@ index: specs/.instructions/living-docs/service/README.md
 - **shared/** — не сервис, документируется через сервисы-владельцы ([§ 7](#7-shared-код-shared))
 - **Монолит** — один `services/monolith.md`, system/ содержит только infrastructure.md
 
-**Жизненный цикл сервисной документации** (обзор; полная таблица триггеров — [§ 4](#4-триггеры-создания-и-обновления)):
+**Жизненный цикл сервисной документации** (обзор; полная таблица триггеров — [standard-specs.md § 7](../../standard-specs.md#7-живые-документы)):
 
 ```
 1. Инициализация проекта: system/ и domains/ файлы создаются как пустые шаблоны
@@ -118,7 +118,7 @@ index: specs/.instructions/living-docs/service/README.md
 8. Design → DONE: Planned Changes → Changelog в services/{svc}.md, system/, domains/
 ```
 
-**Ключевые правила:** Правила создания и обновления файлов описаны в [§ 4](#4-триггеры-создания-и-обновления) (таблица триггеров).
+**Ключевые правила:** Полная таблица создания и обновления файлов — [standard-specs.md § 7](../../standard-specs.md#7-живые-документы) (SSOT). Краткая service-specific сводка — [§ 4](#4-триггеры-создания-и-обновления).
 
 ---
 
@@ -173,20 +173,19 @@ specs/architecture/
 
 ## 4. Триггеры создания и обновления
 
-### Таблица триггеров
+**SSOT:** [standard-specs.md § 7 "Живые документы"](../../standard-specs.md#7-живые-документы) — полная таблица триггеров обновления **всех** живых документов при переходах статусов SDD.
 
-| Событие | Действие | Файлы |
-|---------|----------|-------|
-| Design → WAITING (первый для сервиса) | **Создать** (заглушка + Planned Changes) | `services/{svc}.md` |
-| Design → WAITING | Добавить **Planned Changes** | `system/`, `domains/`, `services/{svc}.md` для затронутых сервисов |
-| Design → WAITING (первый для домена) | **Создать** + Planned Changes | `domains/{domain}.md` |
-| ADR → WAITING | Расширить Planned Changes (ссылка на ADR) | `services/{svc}.md` |
-| ADR → DONE (первый для сервиса) | **Заполнить** полное содержание (дельта → AS IS) | `services/{svc}.md`, строка в `services/README.md` |
-| ADR → DONE (последующий) | **Обновить** (дельта → AS IS) | `services/{svc}.md`, `services/README.md` |
-| Design → DONE | Проверить полноту, **Planned Changes → Changelog** | `system/`, `domains/`, `services/{svc}.md` |
-| Создание папки `specs/services/{svc}/` | **Создать** метку `svc:{svc}` в labels.yml | `labels.yml`, GitHub (через `/labels-modify`) |
-| Удаление папки `specs/services/{svc}/` | **Удалить** метку `svc:{svc}` из labels.yml | `labels.yml`, GitHub (через `/labels-modify`, с миграцией Issues) |
-| Design/ADR → REJECTED | Убрать Planned Changes, **→ Changelog** (с маркером REJECTED) | Затронутые `system/`, `domains/`, `services/{svc}.md` |
+Ниже — краткая сводка триггеров, специфичных для `services/{svc}.md`:
+
+| Событие | Действие |
+|---------|----------|
+| Design → WAITING (первый для сервиса) | Создать заглушку + Planned Changes |
+| Design → WAITING (существующий сервис) | Добавить блок Planned Changes |
+| ADR → WAITING | Расширить Planned Changes (ссылка на ADR) |
+| ADR → DONE (первый для сервиса) | Заполнить AS IS из дельты ADR |
+| ADR → DONE (последующий) | Обновить AS IS (дельта → AS IS) |
+| Design → DONE | Planned Changes → Changelog |
+| Design/ADR → REJECTED | Откат (см. [§ 7.5](../../standard-specs.md#75-обновление-при-откате-rolling_back-rejected)) |
 
 **Валидация svc-меток:**
 ```bash
@@ -466,8 +465,8 @@ auth.rbac → auth.tokens
 Файлы `system/` и `domains/` — контекст, связывающий сервисы.
 
 - **Фиксированные файлы** (overview.md, data-flows.md, infrastructure.md, context-map.md): структура, обязательные секции, примеры контента — [standard-architecture.md](../architecture/standard-architecture.md)
-- **Триггеры обновления** — [§ 4](#4-триггеры-создания-и-обновления)
-- **Документы, обновляемые при изменении сервиса** — [§ 9.2](#92-документы-обновляемые-при-изменении-сервиса)
+- **Триггеры обновления** — [standard-specs.md § 7](../../standard-specs.md#7-живые-документы) (SSOT)
+- **Навигация по обновляемым файлам** — [§ 9.2](#92-документы-обновляемые-при-изменении-сервиса)
 
 ### Per-domain файлы: domains/{domain}.md
 
@@ -730,39 +729,12 @@ service: {service-name}
 
 ### 9.2 Документы, обновляемые при изменении сервиса
 
-При создании или модификации сервиса необходимо обновить не только `services/{svc}.md`, но и документы системного контекста. Ниже — полный перечень файлов и что в них меняется.
+**SSOT:** [standard-specs.md § 7](../../standard-specs.md#7-живые-документы) — полный перечень файлов, обновляемых при каждом переходе статуса.
 
-**Фаза 1: Создание заглушки (Design → WAITING, первый для сервиса):**
-
-| Файл | Что обновить | Ссылка |
-|------|-------------|--------|
-| `services/{svc}.md` | Создать заглушку по шаблону [§ 9.1](#шаблон-заглушки-design-waiting) | — |
-| `services/README.md` | Добавить строку в таблицу (минимально) | — |
-| `labels.yml` | Создать метку `svc:{svc}` | через `/labels-modify` |
-
-**Фаза 2: Заполнение содержания (ADR → DONE, первый для сервиса):**
-
-| Файл | Что обновить | Ссылка |
-|------|-------------|--------|
-| `services/{svc}.md` | Заполнить все секции из дельты ADR, добавить `created-by`/`last-updated-by` | — |
-| `services/README.md` | Обновить строку (API, технологии, последний ADR) | — |
-| `system/overview.md` | Добавить сервис в таблицу домена, обновить потоки | [файл](/specs/architecture/system/overview.md) |
-| `system/data-flows.md` | Добавить блоки потоков нового сервиса | [файл](/specs/architecture/system/data-flows.md) |
-| `system/infrastructure.md` | Обновить ресурсы, networking (если применимо) | [файл](/specs/architecture/system/infrastructure.md) |
-| `domains/context-map.md` | Добавить сервис в домен, обновить связи | [файл](/specs/architecture/domains/context-map.md) |
-| `domains/{domain}.md` | Добавить агрегаты, события, инварианты | — |
-
-**При модификации существующего сервиса (ADR → DONE, последующий):**
-
-| Файл | Когда обновлять |
-|------|----------------|
-| `services/{svc}.md` | Всегда (дельта из ADR) |
-| `services/README.md` | Если изменились API, технологии |
-| `system/overview.md` | Если изменилось назначение, ключевые API |
-| `system/data-flows.md` | Если изменились контракты, добавлены/удалены потоки |
-| `system/infrastructure.md` | Если изменились ресурсы, deployment, networking |
-| `domains/context-map.md` | Если изменились связи между контекстами |
-| `domains/{domain}.md` | Если изменились агрегаты, события, инварианты |
+Навигация по ключевым переходам для сервисов:
+- Design → WAITING: [§ 7.1](../../standard-specs.md#71-обновление-при-планировании-to-waiting)
+- ADR → DONE, Design → DONE: [§ 7.3](../../standard-specs.md#73-обновление-при-реализации-to-done)
+- Откат: [§ 7.5](../../standard-specs.md#75-обновление-при-откате-rolling_back-rejected)
 
 **Шаблоны фиксированных файлов** (overview.md, data-flows.md, infrastructure.md, context-map.md) — см. [standard-architecture.md § 5](../architecture/standard-architecture.md#5-шаблоны).
 

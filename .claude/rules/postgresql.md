@@ -8,5 +8,7 @@ globs:
 ---
 
 При работе с PostgreSQL-файлами ОБЯЗАТЕЛЬНО следовать:
-- [standard-postgresql.md](/specs/technologies/standard-postgresql.md)
-- [validation-postgresql.md](/specs/technologies/validation-postgresql.md)
+- [standard-postgresql.md](/specs/_old/technologies/standard-postgresql.md)
+- [validation-postgresql.md](/specs/_old/technologies/validation-postgresql.md)
+
+> Пути указывают на _old/ — будут обновлены после создания новых стандартов в specs/docs/.technologies/

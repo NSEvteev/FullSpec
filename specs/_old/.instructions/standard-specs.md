@@ -55,6 +55,7 @@ index: specs/.instructions/README.md
   - [7.2 Конфликт исполнения (CONFLICT)](#72-конфликт-исполнения-conflict)
   - [7.3 Обновление при реализации (to DONE)](#73-обновление-при-реализации-to-done)
   - [7.4 Параллельные дискуссии](#74-параллельные-дискуссии)
+  - [7.5 Обновление при откате (ROLLING_BACK → REJECTED)](#75-обновление-при-откате-rolling_back-rejected)
 - [8. Clarify и блокирующие правила](#8-clarify-и-блокирующие-правила)
   - [Clarify на каждом уровне](#clarify-на-каждом-уровне)
   - [Маркер ТРЕБУЕТ УТОЧНЕНИЯ](#маркер-требует-уточнения)
@@ -735,7 +736,7 @@ graph LR
 
 ## 7. Живые документы
 
-Текущее состояние системы. Не имеют статусов — обновляются при планировании (§ 7.1) и реализации (§ 7.3).
+Текущее состояние системы. Не имеют статусов — обновляются при планировании (§ 7.1), реализации (§ 7.3) и откате (§ 7.5).
 
 | Объект | Расположение | Назначение |
 |--------|-------------|------------|
@@ -749,14 +750,34 @@ graph LR
 
 ### 7.1 Обновление при планировании (to WAITING)
 
-При переходе в WAITING создаются **Planned Changes** — структурированные дельты (ADDED/MODIFIED/REMOVED) в `specs/architecture/`, по одному блоку на каждый активный Design. LLM при чтении AS IS **обязан** учитывать Planned Changes. Удаляются при каскаде DONE (§ 7.3) или REJECTED.
+При переходе в WAITING создаются **Planned Changes** — структурированные дельты (ADDED/MODIFIED/REMOVED) в `specs/architecture/`, по одному блоку на каждый активный Design. LLM при чтении AS IS **обязан** учитывать Planned Changes. Удаляются при каскаде DONE (§ 7.3) или REJECTED (§ 7.5).
 
-| Уровень | Что происходит | Подробности |
-|---------|---------------|-------------|
-| **Design → WAITING** | Planned Changes в `services/{svc}.md`, `system/`, `domains/`. Заглушка для новых сервисов. Per-tech стандарты (полные) для новых технологий + обновление реестра. Создание ADR (1:N) | [standard-design.md § 4](design/standard-design.md#4-переходы-статусов) |
-| **ADR → WAITING** | Planned Changes расширены (ссылка на ADR) в `services/{svc}.md` | — |
+#### Design → WAITING
 
-Формат Planned Changes и правила — [standard-service.md § 5.7](living-docs/service/standard-service.md#57-planned-changes). Таблица триггеров — [standard-service.md § 4](living-docs/service/standard-service.md#4-триггеры-создания-и-обновления).
+| Условие | Файл | Действие | Формат |
+|---------|------|----------|--------|
+| Первый для сервиса | `services/{svc}.md` | Создать заглушку + Planned Changes | [standard-service.md § 9.1](living-docs/service/standard-service.md#шаблон-заглушки-design-waiting) |
+| Существующий сервис | `services/{svc}.md` | Добавить блок Planned Changes | [standard-service.md § 5.7](living-docs/service/standard-service.md#57-planned-changes) |
+| Новый сервис | `services/README.md` | Добавить строку (минимально) | [standard-service.md § 2](living-docs/service/standard-service.md#2-расположение-и-именование) |
+| Всегда | `system/overview.md` | Добавить Planned Changes | [standard-architecture.md § 4.1](living-docs/architecture/standard-architecture.md#41-systemoverviewmd) |
+| Если есть INT-N | `system/data-flows.md` | Добавить Planned Changes | [standard-architecture.md § 4.2](living-docs/architecture/standard-architecture.md#42-systemdata-flowsmd) |
+| Если затрагивает инфраструктуру | `system/infrastructure.md` | Добавить Planned Changes | [standard-architecture.md § 4.3](living-docs/architecture/standard-architecture.md#43-systeminfrastructuremd) |
+| Всегда | `domains/context-map.md` | Добавить Planned Changes | [standard-architecture.md § 4.4](living-docs/architecture/standard-architecture.md#44-domainscontext-mapmd) |
+| Первый для домена | `domains/{domain}.md` | Создать + Planned Changes | [standard-service.md § 9.2 (шаблон)](living-docs/service/standard-service.md#92-документы-обновляемые-при-изменении-сервиса) |
+| Новая технология | `technologies/standard-{tech}.md` | Создать per-tech стандарт | [standard-technology.md § 7.1](technologies/standard-technology.md#71-шаблон-standard-techmd) |
+| Новая технология | `technologies/validation-{tech}.md` | Создать валидацию | [standard-technology.md § 7.2](technologies/standard-technology.md#72-шаблон-validation-techmd) |
+| Новая технология | `.claude/rules/{tech}.md` | Создать rule автозагрузки | [standard-technology.md § 7.3](technologies/standard-technology.md#73-шаблон-rule-для-автозагрузки) |
+| Новая технология | `technologies/README.md` | Добавить строку в реестр | [standard-technology.md § 4](technologies/standard-technology.md#4-триггер-создания) |
+| Существующая технология | `technologies/README.md` | Обновить колонку "Сервисы" | [standard-technology.md § 4](technologies/standard-technology.md#4-триггер-создания) |
+| Новый сервис | `labels.yml` + GitHub | Создать метку `svc:{svc}` | через `/labels-modify` |
+
+#### ADR → WAITING
+
+| Условие | Файл | Действие |
+|---------|------|----------|
+| Всегда | `services/{svc}.md` | Расширить Planned Changes (ссылка на ADR) |
+
+Формат Planned Changes и правила — [standard-service.md § 5.7](living-docs/service/standard-service.md#57-planned-changes).
 
 ### 7.2 Конфликт исполнения (CONFLICT)
 
@@ -776,23 +797,76 @@ graph LR
 
 ### 7.3 Обновление при реализации (to DONE)
 
-| Объект | Когда обновляется |
-|--------|-------------------|
-| **Архитектура (системная)** | Design → DONE (AS IS обновляется, Planned Changes → Changelog) |
-| **Архитектура (сервисная)** | ADR → DONE (дельта → AS IS). Design → DONE (Planned Changes → Changelog) |
-| **Технологические стандарты** | Design → WAITING (per-tech стандарт создаётся полностью — прескриптивный словарь правил). Design → DONE (нет изменений) |
-| **Архитектура (доменная)** | Design → DONE (AS IS обновляется, Planned Changes → Changelog) |
-| **Тесты (системные)** | Design → DONE |
-| **Тесты (сервисные)** | План тестов → DONE |
-| **Глоссарий** | На каждом уровне |
+#### ADR → DONE
 
-Полная таблица триггеров для архитектуры — [standard-service.md § 4](living-docs/service/standard-service.md#4-триггеры-создания-и-обновления).
+| Условие | Файл | Действие |
+|---------|------|----------|
+| Первый для сервиса | `services/{svc}.md` | Заполнить все AS IS секции из дельты ADR, добавить `created-by`/`last-updated-by` |
+| Первый для сервиса | `services/README.md` | Обновить строку (API, технологии, последний ADR) |
+| Последующий | `services/{svc}.md` | Обновить AS IS (дельта → AS IS) |
+| Последующий | `services/README.md` | Обновить строку (API, технологии, последний ADR) |
+
+#### Design → DONE
+
+| Файл | Действие |
+|------|----------|
+| `services/{svc}.md` | Planned Changes → Changelog |
+| `system/overview.md` | Planned Changes → AS IS, Planned Changes → Changelog |
+| `system/data-flows.md` | Planned Changes → AS IS, Planned Changes → Changelog |
+| `system/infrastructure.md` | Planned Changes → AS IS, Planned Changes → Changelog |
+| `domains/context-map.md` | Planned Changes → AS IS, Planned Changes → Changelog |
+| `domains/{domain}.md` | Planned Changes → AS IS, Planned Changes → Changelog |
+| `specs/tests/system/` | Системные тест-сценарии (STS-N) → AS IS |
+
+#### Plan Test → DONE
+
+| Файл | Действие |
+|------|----------|
+| `specs/tests/services/{svc}/` | Тестовые спецификации → AS IS |
+
+#### Глоссарий
+
+Обновляется **на каждом уровне** SDD при появлении или изменении терминологии.
 
 ### 7.4 Параллельные дискуссии
 
 **Проблема:** Дискуссия А в работе, дискуссия Б стартует. Б не видит планируемых изменений от А — живые документы (`specs/architecture/`) ещё не обновлены.
 
 **Механизм:** Planned Changes в `specs/architecture/` ([§ 7.1](#71-обновление-при-планировании-to-waiting)). Каждый блок Planned Changes содержит дельты ADDED/MODIFIED/REMOVED с данными из Design — другие цепочки видят запланированные изменения напрямую в сервисном файле, без перехода в Design.
+
+### 7.5 Обновление при откате (ROLLING_BACK → REJECTED)
+
+При откате (§ 6.6–6.7) все артефакты, созданные или изменённые отвергнутым уровнем, должны быть приведены к состоянию "как будто этого уровня не было".
+
+#### Design → REJECTED
+
+| Файл | Действие |
+|------|----------|
+| `services/{svc}.md` | Удалить блок Planned Changes этого Design. Если заглушка (нет `created-by`) и нет других Design → удалить файл |
+| `services/README.md` | Удалить строку (если сервис создан этим Design и удалён) |
+| `system/overview.md` | Удалить блок Planned Changes этого Design |
+| `system/data-flows.md` | Удалить блок Planned Changes этого Design |
+| `system/infrastructure.md` | Удалить блок Planned Changes этого Design |
+| `domains/context-map.md` | Удалить блок Planned Changes этого Design |
+| `domains/{domain}.md` | Удалить блок Planned Changes. Если домен создан этим Design и нет других → удалить файл |
+| `technologies/standard-{tech}.md` | Удалить per-tech стандарт (если технология введена этим Design) |
+| `technologies/validation-{tech}.md` | Удалить валидацию (если технология введена этим Design) |
+| `.claude/rules/{tech}.md` | Удалить rule (если технология введена этим Design) |
+| `technologies/README.md` | Удалить строку реестра (если технология введена этим Design) |
+| `labels.yml` + GitHub | Удалить метку `svc:{svc}` (если сервис создан этим Design) |
+
+#### ADR → REJECTED
+
+| Файл | Действие |
+|------|----------|
+| `services/{svc}.md` | Откат AS IS секций по дельте (ADDED → удалить, MODIFIED → вернуть, REMOVED → восстановить) |
+| `services/README.md` | Обновить строку (откат API, технологий) |
+
+#### Plan Test → REJECTED
+
+| Файл | Действие |
+|------|----------|
+| `specs/tests/services/{svc}/` | Откат тестовых спецификаций |
 
 ---
 

@@ -257,7 +257,7 @@ Task tool:
 | # | Артефакт | Действие |
 |---|----------|----------|
 | 1 | **Planned Changes** в `services/{svc}.md` | Для каждого SVC-N: добавить запись в секцию Planned Changes сервисного документа. Вызвать `/service-modify` или добавить вручную |
-| 2 | **Planned Changes** в `system/overview.md`, `domains/{domain}.md` | Если Design затрагивает системную/доменную архитектуру — добавить Planned Changes |
+| 2 | **Planned Changes** в `system/overview.md`, `system/data-flows.md` (если есть INT-N), `system/infrastructure.md` (если затрагивает инфраструктуру), `domains/context-map.md`, `domains/{domain}.md` (если новый домен) | Добавить Planned Changes в файлы системной/доменной архитектуры |
 | 3 | **Заглушка сервиса** (только для новых) | Для сервисов с решением "Подтверждён (новый)" или "Добавлен Design": вызвать `/service-create {svc} --design {design-path} --impact {impact-path}` — создаст файл-заглушку с Резюме, предварительными данными (API, Data Model, Внешние зависимости) и Planned Changes. Маппинг: `svc` = имя из SVC-N, `description` = описание из SVC-N, `api` = API-N из parent Impact, `data` = DATA-N из parent Impact, `dependencies` = Dependencies из Design SVC-N + INT-N |
 | 4 | **Per-tech стандарты** (только для новых технологий) | Для каждой технологии из Tech Stack Design, у которой нет per-tech стандарта: вызвать `/technology-create {tech}:{version} --design {design-path} --mode stub`. Запускает N technology-agent параллельно (по одному на технологию). Создаёт заглушку `specs/technologies/standard-{tech}.md` с § 1 заполненным и § 2-6 placeholder |
 | 5 | **ADR-документы** (1:N) | Для каждого SVC-N: вызвать `/adr-create` — создаст ADR-документ. Обновить `children` в frontmatter Design |
@@ -266,7 +266,7 @@ Task tool:
 
 **Если скиллы `/service-create`, `/service-modify`, `/adr-create` недоступны:** создать артефакты вручную по стандартам:
 - Planned Changes: [standard-service.md § 5.7](../living-docs/service/standard-service.md#57-planned-changes)
-- Заглушки: [standard-service.md § 4](../living-docs/service/standard-service.md#4-триггеры-создания-и-обновления)
+- Заглушки: [standard-service.md § 9.1](../living-docs/service/standard-service.md#шаблон-заглушки-design-waiting)
 
 ### Шаг 10: Отчёт о выполнении
 
@@ -356,7 +356,11 @@ AskUserQuestion: "Перейти к заполнению ADR?"
 
 ### Артефакты (шаг 9)
 - [ ] Planned Changes добавлены в `services/{svc}.md` для каждого SVC
-- [ ] Planned Changes добавлены в `system/overview.md` (если затрагивает)
+- [ ] Planned Changes добавлены в `system/overview.md`
+- [ ] Planned Changes добавлены в `system/data-flows.md` (если есть INT-N)
+- [ ] Planned Changes добавлены в `system/infrastructure.md` (если затрагивает инфраструктуру)
+- [ ] Planned Changes добавлены в `domains/context-map.md`
+- [ ] Per-domain файлы `domains/{domain}.md` созданы (если новые домены)
 - [ ] Заглушки созданы для новых сервисов
 - [ ] Per-tech стандарты созданы для новых технологий (`/technology-create`)
 - [ ] ADR-документы созданы (1:N по сервисам)

@@ -190,15 +190,17 @@ Happy path — нормальный поток жизненного цикла D
 
 **Артефакты Design → WAITING:**
 
+**SSOT триггеров:** [standard-specs.md § 7.1](../standard-specs.md#71-обновление-при-планировании-to-waiting) — полная таблица файлов, создаваемых/обновляемых при Design → WAITING.
+
 | # | Артефакт | Куда | Что создаётся | Формат |
 |---|----------|------|---------------|--------|
 | 1 | **Planned Changes** | `specs/architecture/services/{svc}.md` для каждого SVC | Навигационный указатель: ссылка на Discussion, Design, статус, что затрагивает | [standard-service.md § 5.7](../living-docs/service/standard-service.md#57-planned-changes) |
-| 2 | **Planned Changes** | `specs/architecture/system/overview.md`, `specs/architecture/domains/{domain}.md` | Навигационный указатель (если Design затрагивает системную/доменную архитектуру) | [standard-service.md § 5.7](../living-docs/service/standard-service.md#57-planned-changes) |
-| 3 | **Заглушка сервиса** (только для новых) | `specs/architecture/services/{svc}.md` | Файл-заглушка: Резюме + Planned Changes. Заполняется полным содержанием при ADR → DONE | [standard-service.md § 4](../living-docs/service/standard-service.md#4-триггеры-создания-и-обновления) |
-| 4 | **Per-tech стандарты** (только для новых технологий) | `specs/technologies/standard-{tech}.md` | Заглушка: § 1 (версия, сервисы), § 2-6 placeholder. Заполняется при ADR → DONE | [standard-technology.md § 4](../technologies/standard-technology.md#4-триггер-создания) |
+| 2 | **Planned Changes** | `system/overview.md`, `system/data-flows.md` (если INT-N), `system/infrastructure.md` (если затрагивает инфраструктуру), `domains/context-map.md`, `domains/{domain}.md` (если новый домен) | Навигационный указатель + дельты для системной/доменной архитектуры | [standard-architecture.md § 4](../living-docs/architecture/standard-architecture.md#4-обязательные-секции) |
+| 3 | **Заглушка сервиса** (только для новых) | `specs/architecture/services/{svc}.md` | Файл-заглушка: Резюме + Planned Changes. Заполняется полным содержанием при ADR → DONE | [standard-service.md § 9.1](../living-docs/service/standard-service.md#шаблон-заглушки-design-waiting) |
+| 4 | **Per-tech стандарты** (только для новых технологий) | `specs/technologies/standard-{tech}.md` | Полный per-tech стандарт — прескриптивный словарь правил | [standard-technology.md § 4](../technologies/standard-technology.md#4-триггер-создания) |
 | 5 | **ADR-документы** (1:N) | `specs/design/services/{svc}/adr/adr-NNNN-topic.md` | По одному ADR на каждый сервис из секций SVC. ADR детализирует внутрисервисные решения | Следующий шаг цепочки |
 
-**Побочные эффекты Design → DONE:**
+**Побочные эффекты Design → DONE** ([standard-specs.md § 7.3](../standard-specs.md#73-обновление-при-реализации-to-done)):
 - Обновляются `specs/architecture/system/`, `specs/architecture/domains/` (AS IS обновляется, Planned Changes → Changelog)
 - Обновляются `specs/tests/system/` (системные тест-сценарии → AS IS)
 
