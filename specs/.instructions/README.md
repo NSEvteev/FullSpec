@@ -33,6 +33,8 @@ index: specs/.instructions/README.md
 │   ├── validate-docs-readme.py       # Валидация формата docs/README.md
 │   └── validate-docs.py              # Валидация структуры docs/
 ├── docs/
+│   ├── conventions/
+│   │   └── standard-conventions.md   # Стандарт docs/.system/conventions.md
 │   ├── overview/
 │   │   ├── modify-overview.md        # Воркфлоу модификации overview.md
 │   │   ├── standard-overview.md      # Стандарт docs/.system/overview.md
@@ -78,7 +80,7 @@ index: specs/.instructions/README.md
 | docs/README.md | [standard-readme.md](./docs/readme/standard-readme.md) | done |
 | {svc}.md | `docs/service/standard-service.md` | — |
 | overview.md | [standard-overview.md](./docs/overview/standard-overview.md) | done |
-| conventions.md | `docs/conventions/standard-conventions.md` | — |
+| conventions.md | [standard-conventions.md](./docs/conventions/standard-conventions.md) | done |
 | infrastructure.md | `docs/infrastructure/standard-infrastructure.md` | — |
 | testing.md | `docs/testing/standard-testing.md` | — |
 | standard-{tech}.md | `docs/technology/standard-technology.md` | — |
