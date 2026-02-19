@@ -42,6 +42,8 @@ index: specs/.instructions/README.md
 │   │   ├── modify-overview.md        # Воркфлоу модификации overview.md
 │   │   ├── standard-overview.md      # Стандарт docs/.system/overview.md
 │   │   └── validation-overview.md    # Валидация docs/.system/overview.md
+│   ├── infrastructure/
+│   │   └── standard-infrastructure.md # Стандарт docs/.system/infrastructure.md
 │   └── readme/
 │       ├── standard-readme.md        # Стандарт docs/README.md
 │       └── validation-readme.md      # Валидация docs/README.md
@@ -84,7 +86,7 @@ index: specs/.instructions/README.md
 | {svc}.md | `docs/service/standard-service.md` | — |
 | overview.md | [standard-overview.md](./docs/overview/standard-overview.md) | done |
 | conventions.md | [standard-conventions.md](./docs/conventions/standard-conventions.md) | done |
-| infrastructure.md | `docs/infrastructure/standard-infrastructure.md` | — |
+| infrastructure.md | [standard-infrastructure.md](./docs/infrastructure/standard-infrastructure.md) | done |
 | testing.md | `docs/testing/standard-testing.md` | — |
 | standard-{tech}.md | `docs/technology/standard-technology.md` | — |
 

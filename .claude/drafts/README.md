@@ -40,6 +40,7 @@ index: .claude/README.md
 | [2026-02-19-sdd-docs-service.md](./2026-02-19-sdd-docs-service.md) | docs/{svc}.md: 10 секций, шаблон, пример — сервисный документ |
 | [2026-02-19-sdd-docs-technology.md](./2026-02-19-sdd-docs-technology.md) | docs/.technologies/standard-{tech}.md: секции, шаблон, пример — per-tech стандарт |
 | [2026-02-19-holt-analysis-standard-conventions.md](./2026-02-19-holt-analysis-standard-conventions.md) | Анализ captain-holt: standard-conventions.md |
+| [2026-02-19-holt-analysis-standard-infrastructure.md](./2026-02-19-holt-analysis-standard-infrastructure.md) | Анализ captain-holt: standard-infrastructure.md |
 | [pre-release-cleanup.md](./pre-release-cleanup.md) | Финальная очистка проекта перед релизом (обновлённая) |
 | [2026-02-09-specs-architecture-rework.md](./maybe-archive/2026-02-09-specs-architecture-rework.md) | План переработки архитектуры specs/ |
 | [2026-02-15-impact-instructions-testing.md](./maybe-archive/2026-02-15-impact-instructions-testing.md) | Impact: инструкции, скрипты, скиллы + тестовые итерации |
@@ -89,6 +90,7 @@ index: .claude/README.md
 ├── 2026-02-19-sdd-orchestrator.md      # Оркестратор реализации SDD v2
 ├── 2026-02-19-sdd-structure.md         # Структура SDD v2: решения
 ├── 2026-02-19-holt-analysis-standard-conventions.md # Анализ captain-holt: conventions
+├── 2026-02-19-holt-analysis-standard-infrastructure.md # Анализ captain-holt: infrastructure
 ├── 2026-02-19-sdd-docs-conventions.md  # docs/.system/conventions.md
 ├── 2026-02-19-sdd-docs-infrastructure.md # docs/.system/infrastructure.md
 ├── 2026-02-19-sdd-docs-testing.md      # docs/.system/testing.md
