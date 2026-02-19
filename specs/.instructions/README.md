@@ -29,8 +29,9 @@ index: specs/.instructions/README.md
 ```
 /specs/.instructions/
 ├── .scripts/
-│   ├── validate-docs-conventions.py   # Валидация формата docs/.system/conventions.md
-│   ├── validate-docs-overview.py     # Валидация формата docs/.system/overview.md
+│   ├── validate-docs-conventions.py    # Валидация формата docs/.system/conventions.md
+│   ├── validate-docs-infrastructure.py # Валидация формата docs/.system/infrastructure.md
+│   ├── validate-docs-overview.py      # Валидация формата docs/.system/overview.md
 │   ├── validate-docs-readme.py       # Валидация формата docs/README.md
 │   └── validate-docs.py              # Валидация структуры docs/
 ├── docs/
@@ -43,7 +44,9 @@ index: specs/.instructions/README.md
 │   │   ├── standard-overview.md      # Стандарт docs/.system/overview.md
 │   │   └── validation-overview.md    # Валидация docs/.system/overview.md
 │   ├── infrastructure/
-│   │   └── standard-infrastructure.md # Стандарт docs/.system/infrastructure.md
+│   │   ├── modify-infrastructure.md   # Воркфлоу модификации infrastructure.md
+│   │   ├── standard-infrastructure.md # Стандарт docs/.system/infrastructure.md
+│   │   └── validation-infrastructure.md # Валидация docs/.system/infrastructure.md
 │   └── readme/
 │       ├── standard-readme.md        # Стандарт docs/README.md
 │       └── validation-readme.md      # Валидация docs/README.md
@@ -98,6 +101,7 @@ index: specs/.instructions/README.md
 |--------|------------|------------|
 | [validate-docs.py](./.scripts/validate-docs.py) | Проверка наличия обязательных документов docs/ | [validation-docs.md](./validation-docs.md) |
 | [validate-docs-conventions.py](./.scripts/validate-docs-conventions.py) | Валидация формата docs/.system/conventions.md | [validation-conventions.md](./docs/conventions/validation-conventions.md) |
+| [validate-docs-infrastructure.py](./.scripts/validate-docs-infrastructure.py) | Валидация формата docs/.system/infrastructure.md | [validation-infrastructure.md](./docs/infrastructure/validation-infrastructure.md) |
 | [validate-docs-overview.py](./.scripts/validate-docs-overview.py) | Валидация формата docs/.system/overview.md | [validation-overview.md](./docs/overview/validation-overview.md) |
 | [validate-docs-readme.py](./.scripts/validate-docs-readme.py) | Валидация формата docs/README.md | [validation-readme.md](./docs/readme/validation-readme.md) |
 

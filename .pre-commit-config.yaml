@@ -151,3 +151,12 @@ repos:
         files: ^specs/docs/\.system/conventions\.md$
         pass_filenames: false
         stages: [pre-commit]
+
+      # 17. Валидация docs/.system/infrastructure.md
+      - id: infrastructure-validate
+        name: Validate infrastructure.md
+        entry: python specs/.instructions/.scripts/validate-docs-infrastructure.py
+        language: system
+        files: ^specs/docs/\.system/infrastructure\.md$
+        pass_filenames: false
+        stages: [pre-commit]

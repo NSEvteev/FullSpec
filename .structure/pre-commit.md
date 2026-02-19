@@ -40,6 +40,7 @@ make setup
 | `docs-readme-validate` | Дерево и таблицы docs/README.md соответствуют файловой системе | `specs/docs/` |
 | `overview-validate` | Секции, таблицы, mermaid, консистентность overview.md | `specs/docs/.system/overview.md` |
 | `conventions-validate` | Секции, таблицы, code-блоки, shared-пакеты conventions.md | `specs/docs/.system/conventions.md` |
+| `infrastructure-validate` | Секции, таблицы, хранилища, окружения infrastructure.md | `specs/docs/.system/infrastructure.md` |
 
 ---
 
