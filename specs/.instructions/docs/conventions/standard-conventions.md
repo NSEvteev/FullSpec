@@ -20,9 +20,9 @@ index: specs/.instructions/README.md
 | Тип | Документ |
 |-----|----------|
 | Стандарт | Этот документ |
-| Валидация | *Не создано* |
+| Валидация | [validation-conventions.md](./validation-conventions.md) |
 | Создание | *Не требуется* |
-| Модификация | *Не создано* |
+| Модификация | [modify-conventions.md](./modify-conventions.md) |
 
 ## Оглавление
 

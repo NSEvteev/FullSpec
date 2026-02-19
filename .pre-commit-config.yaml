@@ -142,3 +142,12 @@ repos:
         files: ^specs/docs/\.system/overview\.md$
         pass_filenames: false
         stages: [pre-commit]
+
+      # 16. Валидация docs/.system/conventions.md
+      - id: conventions-validate
+        name: Validate conventions.md
+        entry: python specs/.instructions/.scripts/validate-docs-conventions.py
+        language: system
+        files: ^specs/docs/\.system/conventions\.md$
+        pass_filenames: false
+        stages: [pre-commit]
