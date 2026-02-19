@@ -124,3 +124,12 @@ repos:
         pass_filenames: false
         always_run: true
         stages: [pre-commit]
+
+      # 14. Валидация docs/README.md
+      - id: docs-readme-validate
+        name: Validate docs/README.md
+        entry: python specs/.instructions/.scripts/validate-docs-readme.py
+        language: system
+        files: ^specs/docs/
+        pass_filenames: false
+        stages: [pre-commit]

@@ -37,6 +37,7 @@ make setup
 | `branch-validate` | Формат имени ветки (naming convention) | Все (always_run) |
 | `github-required` | Наличие обязательных файлов GitHub | Все (always_run) |
 | `docs-validate` | Наличие обязательных документов docs/ | Все (always_run) |
+| `docs-readme-validate` | Дерево и таблицы docs/README.md соответствуют файловой системе | `specs/docs/` |
 
 ---
 

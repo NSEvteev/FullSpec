@@ -1,39 +1,47 @@
+---
+description: Индекс сервисов и навигация по docs/
+standard: specs/.instructions/docs/readme/standard-readme.md
+---
+
 # Документация для поставки
 
 Рабочий контекст LLM-разработчика — всё, что нужно для написания кода.
 
+**Архитектура:** [overview.md](.system/overview.md) — связи сервисов, data flows, контекстная карта доменов.
+
 ## Сервисы
 
-| Сервис | Описание | Технологии |
-|--------|----------|-----------|
-| [example](./example.md) | Пример сервисного документа | — |
+| Сервис | Назначение | Технологии | Документ |
+|--------|-----------|-----------|---------|
+
+*Per-service документы добавляются по мере появления сервисов.*
 
 ## Системные документы
 
-| Документ | Назначение |
-|----------|-----------|
-| [overview.md](./.system/overview.md) | Архитектура системы |
-| [conventions.md](./.system/conventions.md) | Конвенции API и shared-интерфейсы |
-| [infrastructure.md](./.system/infrastructure.md) | Платформа и окружения |
-| [testing.md](./.system/testing.md) | Стратегия тестирования |
+| Документ | Описание |
+|----------|----------|
+| [overview.md](.system/overview.md) | Архитектура системы: связи сервисов, сквозные потоки, контекстная карта |
+| [conventions.md](.system/conventions.md) | Конвенции API: формат ошибок, пагинация, auth + shared-интерфейсы |
+| [infrastructure.md](.system/infrastructure.md) | Платформа: деплой, сети, мониторинг, окружения |
+| [testing.md](.system/testing.md) | Тестирование: типы, структура, мокирование, команды |
 
 ## Стандарты технологий
 
-| Стандарт | Технология |
-|----------|-----------|
-| [standard-example.md](./.technologies/standard-example.md) | Пример per-tech стандарта |
+| Технология | Стандарт |
+|-----------|---------|
+
+*Per-tech стандарты добавляются при подключении технологии.*
 
 ## Дерево
 
 ```
 specs/docs/
-├── README.md                          # Этот файл (индекс)
-├── example.md                         # Пример сервисного документа
 ├── .system/
-│   ├── overview.md                    # Архитектура системы
-│   ├── conventions.md                 # Конвенции API и shared-интерфейсы
-│   ├── infrastructure.md              # Платформа и окружения
-│   └── testing.md                     # Стратегия тестирования
-└── .technologies/
-    └── standard-example.md            # Пример per-tech стандарта
+│   ├── conventions.md                 # Конвенции API, shared-интерфейсы
+│   ├── infrastructure.md              # Платформа, деплой, мониторинг
+│   ├── overview.md                    # Архитектура, связи, потоки
+│   └── testing.md                     # Тестирование: типы, структура, команды
+├── .technologies/
+│   └── standard-example.md            # Пример per-tech стандарта
+└── example.md                         # Пример сервисного документа
 ```

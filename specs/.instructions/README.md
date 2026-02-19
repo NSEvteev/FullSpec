@@ -22,16 +22,20 @@ index: specs/.instructions/README.md
 | [1. Стандарты](#1-стандарты) | standard-docs.md | Форматы и правила |
 | [2. Воркфлоу](#2-воркфлоу) | — | Создание и изменение |
 | [3. Валидация](#3-валидация) | validation-docs.md | Проверка согласованности |
-| [4. Скрипты](#4-скрипты) | validate-docs.py | Автоматизация |
-| [5. Скиллы](#5-скиллы) | — | Скиллы для этой области |
+| [4. Per-document стандарты](#4-per-document-стандарты) | docs/*/ | Стандарт каждого типа документа |
+| [5. Скрипты](#5-скрипты) | validate-docs.py | Автоматизация |
+| [6. Скиллы](#6-скиллы) | — | Скиллы для этой области |
 
 ```
 /specs/.instructions/
 ├── .scripts/
-│   └── validate-docs.py     # Валидация структуры docs/
-├── standard-docs.md         # Стандарт документации для поставки (docs/)
-├── validation-docs.md       # Валидация наличия обязательных документов docs/
-└── README.md                # Этот файл (индекс)
+│   └── validate-docs.py              # Валидация структуры docs/
+├── docs/
+│   └── readme/
+│       └── standard-readme.md        # Стандарт docs/README.md
+├── standard-docs.md                  # Мета-стандарт документации для поставки (docs/)
+├── validation-docs.md                # Валидация наличия обязательных документов docs/
+└── README.md                         # Этот файл (индекс)
 ```
 
 ---
@@ -58,7 +62,23 @@ index: specs/.instructions/README.md
 
 ---
 
-# 4. Скрипты
+# 4. Per-document стандарты
+
+Стандарты для каждого типа документа в `specs/docs/`. Расположены в подпапках `docs/{тип}/`.
+
+| Тип документа | Стандарт | Статус |
+|---------------|---------|--------|
+| docs/README.md | [standard-readme.md](./docs/readme/standard-readme.md) | done |
+| {svc}.md | `docs/service/standard-service.md` | — |
+| overview.md | `docs/overview/standard-overview.md` | — |
+| conventions.md | `docs/conventions/standard-conventions.md` | — |
+| infrastructure.md | `docs/infrastructure/standard-infrastructure.md` | — |
+| testing.md | `docs/testing/standard-testing.md` | — |
+| standard-{tech}.md | `docs/technology/standard-technology.md` | — |
+
+---
+
+# 5. Скрипты
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
@@ -66,6 +86,6 @@ index: specs/.instructions/README.md
 
 ---
 
-# 5. Скиллы
+# 6. Скиллы
 
 *Нет скиллов.*
