@@ -34,7 +34,6 @@ index: .claude/README.md
 | [2026-02-15-specs-readme-format-gap.md](./2026-02-15-specs-readme-format-gap.md) | Проблема: README specs-папок не имеют процесса создания |
 | [2026-02-19-sdd-orchestrator.md](./2026-02-19-sdd-orchestrator.md) | Оркестратор реализации SDD v2: последовательность, зависимости, чеклист миграции |
 | [2026-02-19-sdd-structure.md](./2026-02-19-sdd-structure.md) | Структура SDD v2: два контура, решения, открытые вопросы |
-| [2026-02-19-sdd-docs-overview.md](./2026-02-19-sdd-docs-overview.md) | docs/.system/overview.md: секции, шаблон, пример — архитектура системы |
 | [2026-02-19-sdd-docs-conventions.md](./2026-02-19-sdd-docs-conventions.md) | docs/.system/conventions.md: секции, шаблон, пример — конвенции API и shared |
 | [2026-02-19-sdd-docs-infrastructure.md](./2026-02-19-sdd-docs-infrastructure.md) | docs/.system/infrastructure.md: секции, шаблон, пример — платформа и окружения |
 | [2026-02-19-sdd-docs-testing.md](./2026-02-19-sdd-docs-testing.md) | docs/.system/testing.md: секции, шаблон, пример — стратегия тестирования |
@@ -88,7 +87,6 @@ index: .claude/README.md
 ├── 2026-02-15-specs-readme-format-gap.md # README specs-папок: пробел в процессе
 ├── 2026-02-19-sdd-orchestrator.md      # Оркестратор реализации SDD v2
 ├── 2026-02-19-sdd-structure.md         # Структура SDD v2: решения
-├── 2026-02-19-sdd-docs-overview.md     # docs/.system/overview.md
 ├── 2026-02-19-sdd-docs-conventions.md  # docs/.system/conventions.md
 ├── 2026-02-19-sdd-docs-infrastructure.md # docs/.system/infrastructure.md
 ├── 2026-02-19-sdd-docs-testing.md      # docs/.system/testing.md
