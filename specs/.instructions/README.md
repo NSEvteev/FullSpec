@@ -29,10 +29,14 @@ index: specs/.instructions/README.md
 ```
 /specs/.instructions/
 ├── .scripts/
+│   ├── validate-docs-readme.py       # Валидация формата docs/README.md
 │   └── validate-docs.py              # Валидация структуры docs/
 ├── docs/
+│   ├── overview/
+│   │   └── standard-overview.md      # Стандарт docs/.system/overview.md
 │   └── readme/
-│       └── standard-readme.md        # Стандарт docs/README.md
+│       ├── standard-readme.md        # Стандарт docs/README.md
+│       └── validation-readme.md      # Валидация docs/README.md
 ├── standard-docs.md                  # Мета-стандарт документации для поставки (docs/)
 ├── validation-docs.md                # Валидация наличия обязательных документов docs/
 └── README.md                         # Этот файл (индекс)
@@ -70,7 +74,7 @@ index: specs/.instructions/README.md
 |---------------|---------|--------|
 | docs/README.md | [standard-readme.md](./docs/readme/standard-readme.md) | done |
 | {svc}.md | `docs/service/standard-service.md` | — |
-| overview.md | `docs/overview/standard-overview.md` | — |
+| overview.md | [standard-overview.md](./docs/overview/standard-overview.md) | done |
 | conventions.md | `docs/conventions/standard-conventions.md` | — |
 | infrastructure.md | `docs/infrastructure/standard-infrastructure.md` | — |
 | testing.md | `docs/testing/standard-testing.md` | — |
@@ -83,6 +87,7 @@ index: specs/.instructions/README.md
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [validate-docs.py](./.scripts/validate-docs.py) | Проверка наличия обязательных документов docs/ | [validation-docs.md](./validation-docs.md) |
+| [validate-docs-readme.py](./.scripts/validate-docs-readme.py) | Валидация формата docs/README.md | [validation-readme.md](./docs/readme/validation-readme.md) |
 
 ---
 
