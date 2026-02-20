@@ -279,3 +279,26 @@ async def send_notification(user_id: str, type: str):
 ```
 
 **Именование событий:** `{domain}.{action}` в snake_case — `notification.sent`, `user.registered`, `task.assigned`, `auth.login_failed`.
+
+## Требования по уровням критичности
+
+Конвенции отказоустойчивости и логирования зависят от уровня критичности сервиса. Уровень определяется в `{svc}.md` (поле `criticality`).
+
+**Отказоустойчивость:**
+
+| Критерий | critical-high | critical-medium | critical-low |
+|----------|--------------|-----------------|--------------|
+| Retry policy | Aggressive (3-5 retries, exponential backoff) | Moderate (2-3 retries) | Basic (1 retry) |
+| Circuit breaker | Обязателен | Обязателен | Рекомендуется |
+| Fallback strategy | Обязательна (graceful degradation) | Рекомендуется | Не требуется |
+| Replicas (min) | ≥3 | ≥2 | ≥1 |
+| Auto-scaling | Обязательно | Обязательно | Опционально |
+
+**Логирование:**
+
+| Критерий | critical-high | critical-medium | critical-low |
+|----------|--------------|-----------------|--------------|
+| Уровень логирования | Structured, все операции | Structured, ошибки + ключевые операции | Ошибки |
+| Retention | ≥90 дней | ≥30 дней | ≥14 дней |
+| Tracing | Distributed tracing обязателен | Рекомендуется | Не требуется |
+| Audit log | Обязателен для мутаций | Рекомендуется | Не требуется |

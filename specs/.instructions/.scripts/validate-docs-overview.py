@@ -41,7 +41,7 @@ REQUIRED_SECTIONS = [
 ]
 
 TABLE_COLUMNS = {
-    "Карта сервисов": ["Сервис", "Зона ответственности", "Владеет данными", "Ключевые API"],
+    "Карта сервисов": ["Сервис", "Зона ответственности", "Критичность", "Владеет данными", "Ключевые API"],
     "Связи между сервисами": ["Источник", "Приёмник", "Протокол", "Назначение", "Паттерн"],
     "Контекстная карта доменов": ["Домен", "Реализует сервис", "Агрегаты", "Связь с другими доменами"],
     "Shared-код": ["Пакет", "Назначение", "Владелец", "Потребители"],
@@ -70,7 +70,10 @@ ERROR_CODES = {
     "OVW008": "Нарушен алфавитный порядок",
     "OVW009": "Отсутствует подраздел DDD-паттернов",
     "OVW010": "Отсутствует вводный абзац",
+    "OVW011": "Некорректное значение критичности",
 }
+
+VALID_CRITICALITY_VALUES = {"critical-high", "critical-medium", "critical-low"}
 
 
 # =============================================================================
@@ -440,6 +443,31 @@ def validate_intro_paragraphs(content: str) -> list[tuple[str, str]]:
     return errors
 
 
+def validate_criticality(content: str) -> list[tuple[str, str]]:
+    """OVW011: Проверка допустимых значений колонки «Критичность» в Карте сервисов."""
+    errors = []
+    section_text = get_section_content(content, "Карта сервисов")
+    if not section_text:
+        return errors
+
+    header = extract_table_header(section_text)
+    if not header or "Критичность" not in header:
+        # Missing column is caught by OVW004
+        return errors
+
+    crit_index = header.index("Критичность")
+    rows = extract_table_rows(section_text)
+    for row in rows:
+        if crit_index < len(row):
+            value = row[crit_index].strip()
+            if value and value not in VALID_CRITICALITY_VALUES:
+                errors.append(("OVW011", f"Некорректное значение критичности «{value}». Допустимые: critical-high, critical-medium, critical-low"))
+            elif not value:
+                errors.append(("OVW011", "Пустое значение критичности в таблице Карты сервисов"))
+
+    return errors
+
+
 # =============================================================================
 # Main
 # =============================================================================
@@ -451,7 +479,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация docs/.system/overview.md (OVW001-OVW010)"
+        description="Валидация docs/.system/overview.md (OVW001-OVW011)"
     )
     parser.add_argument(
         "path",
@@ -496,6 +524,7 @@ def main():
     all_errors.extend(validate_alphabetical(content))
     all_errors.extend(validate_ddd(content))
     all_errors.extend(validate_intro_paragraphs(content))
+    all_errors.extend(validate_criticality(content))
 
     has_errors = len(all_errors) > 0
 

@@ -253,7 +253,7 @@ gh pr merge 123 --disable-auto
 
 1. **Локально обновить ветку:**
    ```bash
-   git checkout feature/auth-42-43-44
+   git checkout 0001-oauth2-auth
    git pull origin main
    # Разрешить конфликты вручную в редакторе
    git add .
@@ -323,19 +323,19 @@ git push origin main
 # 1. Создать Issue
 gh issue create --title "Quick fix" --label bug --label medium
 
-# 2. Создать ветку от main
-git checkout -b fix/130-quick-fix
+# 2. Создать ветку от main (NNNN — номер analysis chain)
+git checkout -b 0042-quick-fix
 
 # 3. Внести изменения
 git add .
 git commit -m "fix: quick fix"
-git push -u origin fix/130-quick-fix
+git push -u origin 0042-quick-fix
 
 # 4. Создать PR
 gh pr create --title "fix: quick fix" --body "Closes #130"
 
 # 5. Мержить через PR
-gh pr merge 130 --squash
+gh pr merge --squash
 ```
 
 ---
@@ -358,8 +358,8 @@ gh pr merge 130 --squash
    ```
 3. Удалить feature-ветку:
    ```bash
-   git branch -D feature/auth-42-43
-   git push origin --delete feature/auth-42-43
+   git branch -D 0001-oauth2-auth
+   git push origin --delete 0001-oauth2-auth
    ```
 
 ### Провал CI checks

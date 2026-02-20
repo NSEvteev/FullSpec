@@ -128,14 +128,18 @@ standard-version: v1.1
 | [discussion-create](./discussion-create/SKILL.md) | Создание документа дискуссии |
 | [discussion-modify](./discussion-modify/SKILL.md) | Изменение документа дискуссии |
 | [discussion-validate](./discussion-validate/SKILL.md) | Валидация документа дискуссии |
-| [impact-create](./impact-create/SKILL.md) | Создание документа импакт-анализа |
-| [impact-modify](./impact-modify/SKILL.md) | Изменение документа импакт-анализа |
-| [impact-validate](./impact-validate/SKILL.md) | Валидация документа импакт-анализа |
 | [design-create](./design-create/SKILL.md) | Создание документа проектирования |
 | [design-modify](./design-modify/SKILL.md) | Изменение документа проектирования |
 | [design-validate](./design-validate/SKILL.md) | Валидация документа проектирования |
-| [service-create](./service-create/SKILL.md) | Создание сервисного документа (заглушка) |
-| [service-modify](./service-modify/SKILL.md) | Изменение сервисного документа по SDD-lifecycle |
+| [plan-test-create](./plan-test-create/SKILL.md) | Создание документа плана тестов |
+| [plan-test-modify](./plan-test-modify/SKILL.md) | Изменение документа плана тестов |
+| [plan-test-validate](./plan-test-validate/SKILL.md) | Валидация документа плана тестов |
+| [plan-dev-create](./plan-dev-create/SKILL.md) | Создание документа плана разработки |
+| [plan-dev-modify](./plan-dev-modify/SKILL.md) | Изменение документа плана разработки |
+| [plan-dev-validate](./plan-dev-validate/SKILL.md) | Валидация документа плана разработки |
+| [service-create](./service-create/SKILL.md) | Создание docs/{svc}.md — per-service документ |
+| [service-modify](./service-modify/SKILL.md) | Изменение docs/{svc}.md (обновление, деактивация, миграция) |
+| [service-validate](./service-validate/SKILL.md) | Валидация docs/{svc}.md по стандарту |
 | [technology-create](./technology-create/SKILL.md) | Создание per-tech стандарта (N агентов параллельно) |
 | [technology-modify](./technology-modify/SKILL.md) | Изменение per-tech стандарта |
 | [technology-validate](./technology-validate/SKILL.md) | Валидация per-tech стандарта |

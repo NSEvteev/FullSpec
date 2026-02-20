@@ -1,23 +1,21 @@
 ---
-description: Валидация имени ветки и соответствия стандарту — паттерн, привязка к Issue, актуальность base branch.
+description: Валидация имени ветки и соответствия стандарту — паттерн NNNN-description, kebab-case, актуальность base branch.
 standard: .instructions/standard-instruction.md
-standard-version: v1.3
+standard-version: v2.0
 index: .github/.instructions/branches/README.md
 ---
 
 # Валидация ветки
 
-Рабочая версия стандарта: 1.2
+Рабочая версия стандарта: 2.0
 
-Проверка формата имени ветки, существования Issues и соответствия TYPE-меток.
+Проверка формата имени ветки и соответствия стандарту.
 
 **Полезные ссылки:**
 - [Инструкции branches](./README.md)
 
 **SSOT-зависимости:**
 - [standard-branching.md](./standard-branching.md) — стандарт ветвления (SSOT правил)
-- [standard-labels.md](../labels/standard-labels.md) — TYPE-метки определяют префикс
-- [standard-issue.md](../issues/standard-issue.md) — номера Issues в имени ветки
 
 **Связанные документы:**
 
@@ -34,9 +32,7 @@ index: .github/.instructions/branches/README.md
 - [Шаги](#шаги)
   - [Шаг 0: Автоматическая валидация](#шаг-0-автоматическая-валидация)
   - [Шаг 1: Валидация формата имени](#шаг-1-валидация-формата-имени)
-  - [Шаг 2: Валидация Issues](#шаг-2-валидация-issues)
-  - [Шаг 3: Валидация соответствия TYPE-меток](#шаг-3-валидация-соответствия-type-меток)
-  - [Шаг 4: Валидация источника ветки](#шаг-4-валидация-источника-ветки)
+  - [Шаг 2: Валидация источника ветки](#шаг-2-валидация-источника-ветки)
 - [Чек-лист](#чек-лист)
 - [Типичные ошибки](#типичные-ошибки)
 - [Скрипты](#скрипты)
@@ -48,10 +44,10 @@ index: .github/.instructions/branches/README.md
 
 Запускать валидацию:
 
-1. **Перед push ветки** — проверить формат имени и существование Issues
+1. **Перед push ветки** — проверить формат имени
 2. **После создания ветки** → [create-branch.md](./create-branch.md)
 3. **При code review** — убедиться, что ветка соответствует стандарту
-4. **Периодически** — аудит всех открытых веток (раз в спринт)
+4. **Автоматически** — через pre-commit hook при каждом коммите
 
 ---
 
@@ -63,9 +59,9 @@ index: .github/.instructions/branches/README.md
 python .github/.instructions/.scripts/validate-branch-name.py $(git branch --show-current)
 ```
 
-Скрипт проверяет все правила BR001-BR011. Если валидация пройдена — **готово**, шаги 1-4 не нужны.
+Скрипт проверяет все правила BR001-BR006. Если валидация пройдена — **готово**, шаги 1-2 не нужны.
 
-**Если скрипт недоступен** — выполнить шаги 1-4 вручную.
+**Если скрипт недоступен** — выполнить шаги 1-2 вручную.
 
 ### Шаг 1: Валидация формата имени
 
@@ -74,75 +70,26 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
    git branch --show-current
    ```
 
-2. Проверить формат `{type}/{description}-{issue-numbers}`:
+2. Проверить формат `{NNNN}-{description}`:
 
 | Элемент | Правило | Пример ✅ | Пример ❌ |
 |---------|---------|-----------|-----------|
-| `{type}` | Один из: `feature`, `fix`, `docs`, `task`, `refactor` | `feature/` | `add/` |
-| `{description}` | Kebab-case, 2-3 слова, lowercase. Акронимы строчные (`api`, `jwt`) | `auth-flow` | `Auth_Flow` |
-| `{issue-numbers}` | Номера через дефис, в порядке возрастания | `42-43-44` | `44-42-43` |
-| Разделитель | `/` между type и description | `feature/auth-42` | `feature-auth-42` |
+| `{NNNN}` | Ровно 4 цифры | `0001-` | `01-`, `auth-` |
+| `{description}` | Kebab-case, 1-4 слова, lowercase. Акронимы строчные (`api`, `jwt`) | `oauth2-auth` | `Auth_Flow` |
 
 3. Проверить regex:
    ```
-   ^(feature|fix|docs|task|refactor)/[a-z][a-z0-9-]*-\d+(-\d+)*$
+   ^\d{4}-[a-z][a-z0-9]*(-[a-z][a-z0-9]*)*$
    ```
 
 **Критерии прохождения:**
 - Имя соответствует regex
-- Префикс из списка допустимых
-- Description в kebab-case
-- Номера Issues в порядке возрастания
+- Начинается с 4-значного номера
+- Description в kebab-case, lowercase
 
 ---
 
-### Шаг 2: Валидация Issues
-
-1. Извлечь номера Issues из имени ветки (все числа после description)
-
-2. Для каждого номера проверить существование:
-   ```bash
-   gh issue view {number} --json state,labels -q '.state'
-   ```
-
-3. Проверить:
-
-| Проверка | Правило | Решение при ошибке |
-|----------|---------|-------------------|
-| Issue существует | `gh issue view` не возвращает ошибку | Создать Issue или исправить номер |
-| Issue открыт | `state == "OPEN"` | Переоткрыть или создать новый |
-
-**Критерии прохождения:**
-- Все Issues из имени ветки существуют в репозитории
-- Все Issues открыты (state = OPEN)
-
----
-
-### Шаг 3: Валидация соответствия TYPE-меток
-
-1. Определить Issue с минимальным номером из имени ветки
-
-2. Получить TYPE-метку этого Issue:
-   ```bash
-   gh issue view {min-number} --json labels -q '[.labels[].name] | map(select(. == "bug" or . == "feature" or . == "task" or . == "docs" or . == "refactor")) | .[0]'
-   ```
-
-3. Проверить соответствие (→ [standard-branching.md § 2](./standard-branching.md#2-naming-convention)):
-
-| TYPE-метка Issue | Ожидаемый префикс |
-|------------------|-------------------|
-| `feature` | `feature/` |
-| `bug` | `fix/` |
-| `task` | `task/` |
-| `docs` | `docs/` |
-| `refactor` | `refactor/` |
-
-**Критерии прохождения:**
-- Префикс ветки соответствует TYPE-метке Issue с минимальным номером
-
----
-
-### Шаг 4: Валидация источника ветки
+### Шаг 2: Валидация источника ветки
 
 1. Проверить, что ветка создана от main:
    ```bash
@@ -164,18 +111,12 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
 ## Чек-лист
 
 ### Формат имени
-- [ ] Имя соответствует формату `{type}/{description}-{issue-numbers}`
-- [ ] Префикс из списка: feature, fix, docs, task, refactor
-- [ ] Description в kebab-case, lowercase, 2-3 слова
+- [ ] Имя соответствует формату `{NNNN}-{description}`
+- [ ] Начинается с 4-значного номера анализа
+- [ ] Description в kebab-case, lowercase, 1-4 слова
 - [ ] Акронимы строчными (api, jwt, cors)
-- [ ] Номера Issues через дефис, в порядке возрастания
-
-### Issues
-- [ ] Все Issues из имени ветки существуют
-- [ ] Все Issues открыты (state = OPEN)
-
-### TYPE-метки
-- [ ] Префикс ветки соответствует TYPE-метке Issue с минимальным номером
+- [ ] Нет подчёркиваний
+- [ ] Нет верхнего регистра
 
 ### Источник
 - [ ] Ветка создана от main
@@ -187,17 +128,12 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
 
 | Ошибка | Код | Причина | Решение |
 |--------|-----|---------|---------|
-| Нет префикса типа | BR001 | Имя без `type/` | Переименовать: `git branch -m {correct-name}` |
-| Неизвестный префикс | BR002 | Тип не из списка (feature/fix/docs/task/refactor) | Исправить на допустимый префикс |
-| Нет номера Issue | BR003 | Имя без `-{numbers}` | Создать Issue, переименовать ветку |
+| Нет NNNN-префикса | BR001 | Имя не начинается с 4 цифр | Переименовать: `git branch -m {correct-name}` |
+| Невалидный формат | BR002 | Не соответствует regex | Привести к формату `{NNNN}-{description}` |
+| Description не в kebab-case | BR003 | CamelCase или другой стиль | Переименовать в kebab-case |
 | Подчёркивание в имени | BR004 | `_` вместо `-` | Переименовать с дефисами |
-| Верхний регистр | BR005 | CamelCase или UPPER | Переименовать в lowercase |
-| Issue не существует | BR006 | Опечатка в номере | Исправить номер или создать Issue |
-| Issue закрыт | BR007 | Issue уже завершён | Переоткрыть или создать новый |
-| Несоответствие TYPE-метки | BR008 | Префикс не совпадает с меткой min Issue | Переименовать ветку или исправить метку |
-| Номера не по возрастанию | BR009 | `44-42` вместо `42-44` | Переименовать с правильным порядком |
-| Невалидный формат имени | BR010 | Не соответствует regex | Привести к формату `{type}/{description}-{numbers}` |
-| Прямой push в main | BR011 | Коммит без PR | Отменить, создать ветку и PR |
+| Верхний регистр | BR005 | Заглавные буквы | Переименовать в lowercase |
+| Прямой push в main | BR006 | Коммит без PR | Отменить, создать ветку и PR |
 
 ---
 
@@ -205,7 +141,7 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
-| [validate-branch-name.py](../.scripts/validate-branch-name.py) | Валидация имени ветки и Issues | Этот документ |
+| [validate-branch-name.py](../.scripts/validate-branch-name.py) | Валидация имени ветки | Этот документ |
 
 ---
 

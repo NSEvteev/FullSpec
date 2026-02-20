@@ -39,6 +39,7 @@ REQUIRED_SECTIONS = [
     "Версионирование API",
     "Shared-пакеты",
     "Логирование",
+    "Требования по уровням критичности",
 ]
 
 TABLE_COLUMNS = {
@@ -61,6 +62,7 @@ ERROR_CODES = {
     "CNV005": "Отсутствует code-блок с реализацией",
     "CNV006": "Shared-пакет без обязательного элемента",
     "CNV007": "Пустая обязательная секция без stub-текста",
+    "CNV008": "Секция «Требования по уровням критичности» отсутствует или неполная",
 }
 
 
@@ -273,6 +275,41 @@ def validate_empty_sections(content: str) -> list[tuple[str, str]]:
     return errors
 
 
+CRITICALITY_TABLE_COLUMNS = {
+    "отказоустойчивость": ["Критерий", "critical-high", "critical-medium", "critical-low"],
+    "логирование": ["Критерий", "critical-high", "critical-medium", "critical-low"],
+}
+
+
+def validate_criticality_section(content: str) -> list[tuple[str, str]]:
+    """CNV008: Проверка секции «Требования по уровням критичности»."""
+    errors = []
+    section_text = get_section_content(content, "Требования по уровням критичности")
+    if not section_text:
+        return errors  # CNV002 already catches missing section
+
+    # Check introductory paragraph (non-empty text before first table or bold)
+    stripped = section_text.strip()
+    if not stripped or stripped.startswith("|"):
+        errors.append(("CNV008", "Секция «Требования по уровням критичности»: отсутствует вводный абзац"))
+
+    # Check for two tables with correct columns
+    tables = find_all_tables(section_text)
+    if len(tables) < 2:
+        errors.append(("CNV008", "Секция «Требования по уровням критичности»: нужно минимум 2 таблицы (отказоустойчивость + логирование)"))
+        return errors
+
+    expected_cols = ["Критерий", "critical-high", "critical-medium", "critical-low"]
+    valid_tables = 0
+    for header in tables:
+        if all(col in header for col in expected_cols):
+            valid_tables += 1
+    if valid_tables < 2:
+        errors.append(("CNV008", "Секция «Требования по уровням критичности»: таблицы должны содержать колонки: Критерий, critical-high, critical-medium, critical-low"))
+
+    return errors
+
+
 # =============================================================================
 # Main
 # =============================================================================
@@ -284,7 +321,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация docs/.system/conventions.md (CNV001-CNV007)"
+        description="Валидация docs/.system/conventions.md (CNV001-CNV008)"
     )
     parser.add_argument(
         "path",
@@ -326,6 +363,7 @@ def main():
     all_errors.extend(validate_code_blocks(content))
     all_errors.extend(validate_shared_packages(content))
     all_errors.extend(validate_empty_sections(content))
+    all_errors.extend(validate_criticality_section(content))
 
     has_errors = len(all_errors) > 0
 

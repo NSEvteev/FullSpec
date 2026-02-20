@@ -13,8 +13,7 @@ standard: specs/.instructions/docs/readme/standard-readme.md
 
 | Сервис | Назначение | Технологии | Документ |
 |--------|-----------|-----------|---------|
-
-*Per-service документы добавляются по мере появления сервисов.*
+| example | Демонстрационный сервис формата документации | Node.js, PostgreSQL | [example.md](example.md) |
 
 ## Системные документы
 

@@ -9,7 +9,7 @@ argument-hint: "<technologies...>"
 
 # Создание per-tech стандарта
 
-**SSOT:** [create-technology.md](/specs/.instructions/technologies/create-technology.md)
+**SSOT:** [create-technology.md](/specs/.instructions/docs/technology/create-technology.md)
 
 ## Формат вызова
 
@@ -24,7 +24,7 @@ argument-hint: "<technologies...>"
 
 ## Воркфлоу
 
-> ⚠️ **Перед выполнением** прочитать [create-technology.md](/specs/.instructions/technologies/create-technology.md)
+> ⚠️ **Перед выполнением** прочитать [create-technology.md](/specs/.instructions/docs/technology/create-technology.md)
 
 > ⚠️ **Шаблон** — найти пример в SSOT (секция "Примеры"), скопировать структуру. Запрещено придумывать свой формат.
 
@@ -34,7 +34,7 @@ argument-hint: "<technologies...>"
 
 ## Чек-лист
 
-→ См. [create-technology.md#чек-лист](/specs/.instructions/technologies/create-technology.md#чек-лист)
+→ См. [create-technology.md#чек-лист](/specs/.instructions/docs/technology/create-technology.md#чек-лист)
 
 ## Примеры
 

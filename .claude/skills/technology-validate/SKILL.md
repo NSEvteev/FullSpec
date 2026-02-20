@@ -9,7 +9,7 @@ argument-hint: "[tech-name | path]"
 
 # Валидация per-tech стандарта
 
-**SSOT:** [validation-technology.md](/specs/.instructions/technologies/validation-technology.md)
+**SSOT:** [validation-technology.md](/specs/.instructions/docs/technology/validation-technology.md)
 
 ## Формат вызова
 
@@ -23,18 +23,18 @@ argument-hint: "[tech-name | path]"
 
 ## Воркфлоу
 
-> ⚠️ **Перед выполнением** прочитать [validation-technology.md](/specs/.instructions/technologies/validation-technology.md)
+> ⚠️ **Перед выполнением** прочитать [validation-technology.md](/specs/.instructions/docs/technology/validation-technology.md)
 
 → Выполнить шаги из SSOT-инструкции.
 
 ## Чек-лист
 
-→ См. [validation-technology.md#чек-лист](/specs/.instructions/technologies/validation-technology.md#чек-лист)
+→ См. [validation-technology.md#чек-лист](/specs/.instructions/docs/technology/validation-technology.md#чек-лист)
 
 ## Примеры
 
 ```
 /technology-validate python
-/technology-validate specs/technologies/standard-python.md
-/technology-validate specs/technologies/
+/technology-validate specs/docs/.technologies/standard-python.md
+/technology-validate specs/docs/.technologies/
 ```

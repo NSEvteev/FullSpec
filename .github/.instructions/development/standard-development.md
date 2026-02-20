@@ -7,7 +7,7 @@ index: .github/.instructions/development/README.md
 
 # Стандарт локальной разработки
 
-Версия стандарта: 1.2
+Версия стандарта: 1.3
 
 Процесс работы в feature-ветке: запуск окружения, написание кода, тестирование, проверки качества перед коммитом.
 
@@ -42,6 +42,7 @@ index: .github/.instructions/development/README.md
 - [6. Работа с зависимостями](#6-работа-с-зависимостями)
 - [7. Завершение работы над Issue](#7-завершение-работы-над-issue)
 - [8. Запреты и ограничения](#8-запреты-и-ограничения)
+- [9. Требования по уровням критичности сервисов](#9-требования-по-уровням-критичности-сервисов)
 
 ---
 
@@ -86,7 +87,7 @@ gh issue view {dep-number} --json state --jq '.state'
 gh issue edit {number} --add-assignee @me
 
 # Создать ветку (→ standard-branching.md)
-git checkout -b {type}/{number}-{description}
+git checkout -b {NNNN}-{description}
 ```
 
 ---
@@ -110,7 +111,7 @@ git checkout -b {type}/{number}-{description}
    └─ make dev
 
 2. НАПИСАНИЕ КОДА
-   └─ Реализация задач из Issues, указанных в имени ветки
+   └─ Реализация задач из analysis chain, указанного в имени ветки
    └─ → standard-branching.md § 2
    └─ Следовать принципам программирования (→ standard-principles.md)
 
@@ -222,7 +223,7 @@ git checkout -b {type}/{number}-{description}
 
 ОБЯЗАТЕЛЬНО провести провеку по чек-листу:
 
-- [ ] Код реализует ВСЕ задачи из Issues, указанных в имени ветки (→ [standard-branching.md § 2](../branches/standard-branching.md#2-naming-convention))
+- [ ] Код реализует ВСЕ задачи из analysis chain, указанного в имени ветки (→ [standard-branching.md § 2](../branches/standard-branching.md#2-naming-convention))
 - [ ] Unit-тесты написаны и проходят (`make test`)
 - [ ] Линтер проходит (`make lint`)
 - [ ] Проект собирается (`make build` — exit code 0, нет ошибок компиляции)
@@ -313,3 +314,16 @@ gh issue view {number}
 | Не пропускать failing тесты | Сломанные тесты блокируют CI и merge |
 | Не пропускать `make setup` после клонирования | Pre-commit hooks не будут работать |
 | Не разрабатывать в main | Все изменения только в feature-ветке (→ [standard-branching.md § 4](../branches/standard-branching.md#4-запреты-и-ограничения)) |
+
+---
+
+## 9. Требования по уровням критичности сервисов
+
+Требования к процессу разработки зависят от уровня критичности сервиса. Уровень определяется в `{svc}.md` (поле `criticality`). Допустимые значения: `critical-high`, `critical-medium`, `critical-low`.
+
+| Критерий | critical-high | critical-medium | critical-low |
+|----------|--------------|-----------------|--------------|
+| Reviewers для PR | ≥2, включая senior/lead | ≥1 | ≥1 (self-merge допустим) |
+| Branch protection | Strict (no force push, required reviews) | Standard (required reviews) | Basic |
+| Feature flags | Обязательны для крупных изменений | Рекомендуются | Не требуются |
+| Документация API | Обязательна (OpenAPI/AsyncAPI) | Обязательна | Рекомендуется |

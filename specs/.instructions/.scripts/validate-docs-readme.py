@@ -224,7 +224,7 @@ def validate_services_table(content: str, docs_root: Path) -> list[tuple[str, st
 
     # Get links from Сервисы table
     links = extract_table_links(content, "Сервисы")
-    table_files = {Path(link).name for link in links if not link.startswith(".") and link.endswith(".md")}
+    table_files = {Path(link).name for link in links if not link.startswith(".") and link.endswith(".md")} - EXCLUDED_FILES
 
     # Service files not in table
     for f in sorted(service_files - table_files):

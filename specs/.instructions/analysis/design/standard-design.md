@@ -1,0 +1,1036 @@
+---
+description: Стандарт проектирования SDD v2 — объединённый уровень (Impact + Design + ADR), Unified Scan, 9 подсекций SVC-N (8:8 маппинг с {svc}.md + WHY), блоки взаимодействия, системные тест-сценарии, delta-формат, шаблон, чек-лист.
+standard: .instructions/standard-instruction.md
+standard-version: v1.3
+index: specs/.instructions/README.md
+---
+
+# Стандарт проектирования
+
+Версия стандарта: 2.0
+
+Формат и правила оформления документов проектирования (`specs/analysis/NNNN-{topic}/design.md`). Дизайн — второй уровень SDD-иерархии: структурированный документ для распределения ответственностей между сервисами, определения контрактов взаимодействия и системных тест-сценариев. В v2 объединяет три бывших уровня: Impact, Design, ADR.
+
+**Полезные ссылки:**
+- [Стандарт аналитического контура](../standard-analysis.md) — статусы, каскады, воркфлоу, общий паттерн объекта
+- [Инструкции specs/](../../README.md)
+
+**Связанные документы:**
+
+| Тип | Документ |
+|-----|----------|
+| Стандарт | Этот документ |
+| Валидация | [validation-design.md](./validation-design.md) |
+| Создание | [create-design.md](./create-design.md) |
+| Модификация | [modify-design.md](./modify-design.md) |
+
+## Оглавление
+
+- [1. Назначение](#1-назначение)
+- [2. Расположение и именование](#2-расположение-и-именование)
+- [3. Frontmatter](#3-frontmatter)
+- [4. Переходы статусов](#4-переходы-статусов)
+- [5. Разделы документа](#5-разделы-документа)
+  - [Резюме](#резюме)
+  - [SVC-N: {Сервис}](#svc-n-сервис)
+  - [INT-N: Блоки взаимодействия](#int-n-блоки-взаимодействия)
+  - [Системные тест-сценарии](#системные-тест-сценарии)
+- [6. Clarify](#6-clarify)
+- [7. Шаблон](#7-шаблон)
+- [8. Чек-лист качества](#8-чек-лист-качества)
+- [9. Примеры по типам](#9-примеры-по-типам)
+
+---
+
+## 1. Назначение
+
+**Зона ответственности:** AFFECTED + HOW + DETAILS ([Стандарт analysis/ § 2.2](../standard-analysis.md#22-таблица-объектов)).
+
+Design отвечает на вопросы: **Какие сервисы затронуты? Как распределить ответственности? Какие решения по реализации?**
+
+**Роль — Предлагатель + Решатель (объединены):** Design в v2 объединяет роли бывших Impact (предлагатель) и Design (решатель). Design **сам сканирует** docs/, **предлагает** затронутые сервисы и **решает** окончательное распределение: подтверждает, изменяет или отклоняет свои предложения, распределяет нераспределённую функциональность, создаёт новые сервисы. ([Стандарт analysis/ § 2.3](../standard-analysis.md#23-design-v2-объединённый-уровень))
+
+**Источник контекста — Unified Scan:** Design выполняет Unified Scan из **5 источников** до фазы Clarify:
+
+| # | Что читать | Зачем |
+|---|-----------|-------|
+| 1 | **Parent Discussion** (целиком) | Требования, user stories, критерии успеха |
+| 2 | **`docs/README.md`** | Таблица всех сервисов, технологии — обзор ландшафта |
+| 3 | **`docs/.system/overview.md`** | Архитектура, data flows, Planned Changes — текущее состояние + запланированные изменения |
+| 4 | **`docs/{svc}.md`** для каждого сервиса-кандидата (см. алгоритм ниже) | API, Data Model, Потоки, Code Map, зависимости — детали сервисов |
+| 5 | **`docs/.technologies/`** per-tech стандарты | Технологические конвенции |
+
+**Алгоритм выбора {svc}.md (шаг 4):** После шагов 2-3 LLM составляет список кандидатов:
+- (a) сервисы, **явно упомянутые** в Discussion;
+- (b) сервисы из `overview.md`, **связанные** с затронутыми по data flow;
+- (c) сервисы из `Planned Changes` overview.md, **пересекающиеся** по домену.
+Читать `docs/{svc}.md` **только** для кандидатов из этого списка. Не читать все сервисы подряд.
+
+Unified Scan объединяет Quick Scan (бывший Impact: 2 файла) и Deep Scan (бывший Design: 6 источников) в одну фазу из 5 источников.
+
+**При отсутствии `docs/` (новый проект):** шаги 2-5 Unified Scan пропускаются. LLM фиксирует: «docs/ не найден — проект новый». Clarify расширяется: LLM уточняет через AskUserQuestion весь технологический стек, список сервисов, которые планируется создать, и их ответственности.
+
+**Содержит:**
+- Scan docs/ — выявление затронутых сервисов
+- Окончательное распределение ответственностей между сервисами (SVC-N)
+- Per-service дельты с 9 подсекциями (8:8 маппинг с {svc}.md + решения по реализации)
+- Блоки взаимодействия между сервисами (INT-N: контракты, sequences)
+- Решения о shared-компонентах (размещение в `/shared/` или внутри сервиса-владельца)
+- Системные тест-сценарии (STS-N: межсервисные e2e, integration, load)
+- Решения о создании новых сервисов
+- WHY-решения по реализации (trade-offs, алгоритмы, библиотеки) — бывший ADR
+
+**НЕ содержит:**
+- Бизнес-обоснование и требования (→ Discussion)
+- Тестовые сценарии конкретного сервиса — unit, integration внутри сервиса (→ Plan Tests)
+- Задачи на реализацию (→ Plan Dev)
+
+**Граничные случаи (Design vs Plan Tests / Plan Dev):**
+- Допустимо: "auth-сервис отвечает за генерацию и валидацию JWT" — распределение ответственности
+- Допустимо: "POST /auth/token → {access_token, refresh_token, expires_in}" — контракт API в INT-N
+- Допустимо: "Использовать RS256 вместо HS256 для JWT" — выбор алгоритма (§ 9 Решения по реализации)
+- Допустимо: "Connection pool size = 20" — конфигурация (§ 9 Решения по реализации)
+- Допустимо: "Пакет auth.oauth2 — обработка OAuth2 flow" — структура кода (§ 5 Code Map)
+- Недопустимо: "Unit-тест: проверить генерацию JWT с невалидными credentials" — тест конкретного сервиса (→ Plan Tests)
+- Недопустимо: "Задача: реализовать endpoint POST /auth/token" — задача (→ Plan Dev)
+
+**Когда создавать:**
+- После одобрения Discussion (статус WAITING)
+- Всегда один Design на одну Discussion (1:1)
+
+**Связи:** Parent — Discussion (обязателен, 1:1). Дочерний объект — Plan Tests (1:1). ([Стандарт analysis/ § 3.1](../standard-analysis.md#31-frontmatter-и-навигация))
+
+**Агентный режим ([решение #45](../standard-analysis.md#12-решения)):** Design выполняется через скилл `/design-create`, который оркестрирует многоагентный процесс:
+1. Скилл вызывает **design-agent** — агент выполняет Unified Scan, CLARIFY → GENERATE → VALIDATE (шаги 2-4 из [§ 2.4](../standard-analysis.md#24-общий-паттерн-объекта)), создаёт Design-документ (DRAFT). Агент читает `docs/` в деталях, не засоряя контекст оркестратора.
+2. LLM получает результат агента и **обязательно** вызывает **design-reviewer** — ревьюер проверяет распределение ответственностей, полноту 9 подсекций SVC-N, delta-формат, предлагает правки при необходимости (AGENT REVIEW, шаг 5). **Исключение:** в [standard-analysis.md § 2.4](../standard-analysis.md#24-общий-паттерн-объекта) AGENT REVIEW опционален; для Design он **обязателен** из-за сложности документа.
+3. **USER REVIEW (шаг 6) обязателен** — пользователь финально ревьюит результат и одобряет → WAITING.
+
+**При WAITING:** Артефакты из [§ 4](#4-переходы-статусов) создаются LLM **автоматически** в момент перевода статуса DRAFT → WAITING (шаг REPORT из [§ 2.4 standard-analysis.md](../standard-analysis.md#24-общий-паттерн-объекта)), без отдельной команды пользователя.
+
+**После DONE:** Design становится архивной записью проектных решений. При DONE → обновляются живые документы ([Стандарт analysis/ § 7.3](../standard-analysis.md#73-обновление-при-реализации-to-done)). Изменения запрещены (только исправление опечаток). При изменении scope — CONFLICT через обратную связь от кода.
+
+---
+
+## 2. Расположение и именование
+
+**Расположение:** `specs/analysis/NNNN-{topic}/design.md`
+
+**Имя файла:** `design.md` (фиксированное)
+
+NNNN и topic определяются папкой цепочки. Все документы цепочки (Discussion, Design, Plan Tests, Plan Dev) расположены в одной папке `specs/analysis/NNNN-{topic}/`.
+
+**Заголовок документа:** `# NNNN: {Тема} — Design`
+
+**Формат `{Тема}`:** совпадает с темой Discussion из той же цепочки. Свободный текст, язык проекта (русский), первое слово с заглавной буквы, без точки, до 80 символов. Пример: `# 0001: OAuth2 авторизация — Design`.
+
+---
+
+## 3. Frontmatter
+
+**SSOT frontmatter:** [standard-frontmatter.md](/.structure/.instructions/standard-frontmatter.md) ([§ 1 — базовые поля](/.structure/.instructions/standard-frontmatter.md#1-обязательные-поля) + [§ 4 — поля specs](/.structure/.instructions/standard-frontmatter.md#4-дополнительные-поля-для-спецификаций-specs))
+
+| Поле | Значение для Design | Обязательность |
+|------|---------------------|----------------|
+| `description` | Описание проектирования (до 1024 символов) | Обязательно |
+| `standard` | `specs/.instructions/analysis/design/standard-design.md` | Обязательно |
+| `standard-version` | `v2.0` | Обязательно |
+| `index` | `specs/analysis/README.md` | Обязательно |
+| `parent` | Путь к Discussion-документу (обязателен) | Обязательно |
+| `children` | Путь к Plan Tests документу (1:1) | Обязательно (присутствие поля; `children: []` до создания Plan Tests, `[plan-test.md]` — после) |
+| `status` | Текущий статус ([Стандарт analysis/ § 5](../standard-analysis.md#5-статусы)) | Обязательно |
+| `milestone` | Наследуется от parent Discussion | Обязательно |
+
+```yaml
+---
+description: Design OAuth2 авторизации — распределение ответственностей auth/gateway/users, контракты API, решения по реализации.
+standard: specs/.instructions/analysis/design/standard-design.md
+standard-version: v2.0
+index: specs/analysis/README.md
+parent: discussion.md
+children:
+  - plan-test.md
+status: DRAFT
+milestone: v1.2.0
+---
+```
+
+**Parent (обязателен):** Путь к Discussion-документу в той же папке цепочки. Design всегда имеет parent — Discussion (1:1). Без parent документ невалиден.
+
+**Children (1:1):** Plan Tests создаётся после Design. Один Design порождает один Plan Tests.
+
+**Milestone:** Наследуется от parent Discussion. Значение milestone в Design **всегда совпадает** с milestone в parent Discussion. Вопросы о milestone на уровне Design не задаются.
+
+---
+
+## 4. Переходы статусов
+
+Happy path — нормальный поток жизненного цикла Design ([Стандарт analysis/ § 6](../standard-analysis.md#6-последовательность-статусов)).
+
+**Зона ответственности Design:** Design самостоятельно управляет только переходом DRAFT → WAITING (создание и модификация документа). При последующих переходах Design является **объектом изменений**, а не инициатором: его секции могут обновляться при разрешении CONFLICT.
+
+| Текущий статус | Условие перехода | Следующий статус | Кто управляет |
+|---|---|---|---|
+| **DRAFT** | Пользователь одобрил. Нет `[ТРЕБУЕТ УТОЧНЕНИЯ]`. Нет Dependency Barrier | **WAITING** | Design |
+| **WAITING** | Все документы цепочки в WAITING. Пользователь подтвердил запуск | **RUNNING** | Цепочка ([§ 6.2](../standard-analysis.md#62-waiting-to-running)) |
+| **RUNNING** | Обратная связь от кода затронула Design ([§ 6.3](../standard-analysis.md#63-running-to-conflict)) | **CONFLICT** | Цепочка (tree-level) |
+| **CONFLICT** | LLM исправил, пользователь одобрил ([§ 6.4](../standard-analysis.md#64-conflict-to-waiting)) | **WAITING** | Цепочка (top-down) |
+| **RUNNING** | Plan Tests → DONE. Каскад снизу вверх ([§ 6.5](../standard-analysis.md#65-running-to-done)) | **DONE** | Цепочка (bottom-up) |
+
+Откат и отклонение (ROLLING_BACK, REJECTED): [Стандарт analysis/ § 6.6–6.7](../standard-analysis.md#66-to-rolling_back).
+
+**Артефакты Design → WAITING:**
+
+**SSOT:** [standard-analysis.md § 7.1](../standard-analysis.md#71-обновление-при-планировании-to-waiting)
+
+| # | Артефакт | Куда | Что создаётся |
+|---|----------|------|---------------|
+| 1 | **Planned Changes** | `docs/{svc}.md` § 9 для каждого SVC-N | Дельта-записи из подсекций §§ 1-8, ссылка на Design |
+| 2 | **Planned Changes** | `docs/.system/overview.md` § 8 | Дельта-записи (если архитектурные изменения) |
+| 3 | **Planned Changes** | `docs/.system/conventions.md` | Дельта-записи (если новые конвенции) |
+| 4 | **Planned Changes** | `docs/.system/infrastructure.md` | Дельта-записи (если инфраструктурные изменения) |
+| 5 | **Заглушка сервиса** | `docs/{svc}.md` (только для сервисов, отсутствующих в `docs/README.md`) | Через `/service-create`. Заполняется AS IS при DONE |
+| 6 | **Per-tech стандарты** | `docs/.technologies/standard-{tech}.md` (только для новых) | Через `/technology-create` (включает обновление реестра) |
+
+**Побочные эффекты Design → DONE** ([standard-analysis.md § 7.3](../standard-analysis.md#73-обновление-при-реализации-to-done)):
+- `docs/{svc}.md` §§ 1-8 — Planned Changes → AS IS (по маппингу SVC-N §§ 1-8 → {svc}.md §§ 1-8, см. «Механика записи» в [§ 5](#5-разделы-документа))
+- `docs/{svc}.md` § 10 — добавить запись в Changelog
+- `docs/.system/overview.md` — Planned Changes → AS IS + Changelog
+- `docs/.system/conventions.md` — Planned Changes → AS IS + Changelog (если были изменения)
+- `docs/.system/infrastructure.md` — Planned Changes → AS IS + Changelog (если были изменения)
+
+**INT-N при Design → DONE:** INT-N контракты **не записываются** отдельно — они уже включены в SVC-N § 2 (ADDED/MODIFIED endpoint-ы) соответствующих провайдеров. INT-N остаётся в `design.md` как архивная запись с sequence-диаграммами.
+
+**Параллельные цепочки:** Если `docs/{svc}.md` уже содержит Planned Changes другой цепочки (chain: NNNN), Design применяет свою дельту к **текущему AS IS** (не к Planned Changes). Блоки Planned Changes разных цепочек существуют параллельно в § 9 `{svc}.md`, каждый маркирован идентификатором цепочки ([standard-analysis.md § 7.4](../standard-analysis.md#74-параллельные-цепочки))).
+
+**Формат записи Planned Changes:** Каждый блок в `{svc}.md` § 9 маркируется идентификатором цепочки: `<!-- chain: NNNN-{topic} -->`. LLM **не перезаписывает** существующие блоки других цепочек — добавляет свой блок ниже.
+
+**MODIFIED элемент не существует в {svc}.md:** Если при Design → DONE LLM находит маркер MODIFIED для элемента, отсутствующего в текущем AS IS `{svc}.md` (например, элемент создан другой цепочкой, ещё не DONE) — LLM трактует его как ADDED и создаёт элемент заново.
+
+---
+
+## 5. Разделы документа
+
+Design — **структурированный документ с тремя типами секций**: секции по сервисам (9 подсекций с 8:8 маппингом), блоки взаимодействия (контракты между сервисами) и системные тест-сценарии.
+
+| Раздел | Уровень | Нумерация | Обязательность | Заглушка |
+|--------|---------|-----------|---------------|----------|
+| **Резюме** | h2 | — | Обязательный (контент) | — |
+| **SVC-N: {Сервис}** | h2 | SVC-N | Обязательный (мин. 1) | — |
+| ├── 1. Назначение | h3 | — | Обязательный (контент) | — |
+| ├── 2. API контракты | h3 | — | Обязательный | _Нет изменений в API._ |
+| ├── 3. Data Model | h3 | — | Обязательный | _Нет изменений в Data Model._ |
+| ├── 4. Потоки | h3 | — | Обязательный | _Нет изменений в потоках._ |
+| ├── 5. Code Map | h3 | — | Обязательный | _Нет изменений в Code Map._ |
+| ├── 6. Зависимости | h3 | — | Обязательный | _Нет изменений в зависимостях._ |
+| ├── 7. Доменная модель | h3 | — | Обязательный | _Нет изменений в доменной модели._ |
+| ├── 8. Границы автономии LLM | h3 | — | Обязательный | _Нет изменений в границах автономии._ |
+| └── 9. Решения по реализации | h3 | — | Обязательный (контент) | — |
+| **INT-N: {Взаимодействие}** | h2 | INT-N | Условный (мин. 1, если Design описывает взаимодействие между 2+ сервисами, включая существующие вне SVC-N) | — |
+| ├── Контракт | h3 | — | Обязательный (контент) | — |
+| └── Sequence | h3 | — | Обязательный (контент) | — |
+| **Системные тест-сценарии** | h2 | STS-N | Обязательный | _Системных тест-сценариев нет._ |
+
+**Структура документа:** Резюме → секции SVC (по сервисам, каждая с 9 подсекциями) → блоки INT (взаимодействия, каждый с 2 подсекциями) → Системные тест-сценарии.
+
+**8:8 маппинг SVC-N → {svc}.md:** Подсекции §§ 1-8 в SVC-N имеют **идентичные названия** с секциями §§ 1-8 в `docs/{svc}.md` ([standard-service.md](../../docs/service/standard-service.md)). Каждая подсекция описывает **дельту** к текущему состоянию соответствующей секции {svc}.md. Подсекция § 9 — Design-only, не пишется в {svc}.md.
+
+**Механика записи при Design → DONE:** Для каждой подсекции K (K=1..8) найти секцию с **тем же номером** в `docs/{svc}.md`. Если подсекция K содержит контент (не заглушку) — **заменить** содержимое секции K в {svc}.md содержимым из SVC-N, убрав маркеры ADDED/MODIFIED/REMOVED (данные становятся AS IS). Если подсекция K — заглушка — секция K в {svc}.md **не изменяется**. Заголовок секции в {svc}.md не изменяется.
+
+**Секции §§ 9-10 из {svc}.md** (Planned Changes, Changelog) НЕ включаются в SVC-N — они процессные и заполняются автоматически при переходах статусов ([§ 4](#4-переходы-статусов)).
+
+**Группировка секций SVC (опционально, при > 5 сервисов):** Если Design затрагивает 5+ сервисов с **идентичной ответственностью** (cross-cutting concern), допустима группировка в одну секцию SVC-N с таблицей затронутых сервисов. Только при идентичной ответственности.
+
+**Правила нумерации (SVC-N, INT-N, STS-N):** Последовательная автоинкрементная, **сквозная по документу**. При удалении — **не перенумеровывать** (пропуски допустимы).
+
+**Upward feedback:** При проектировании Design может обнаружить информацию, затрагивающую Discussion.
+
+**Механика ([Стандарт analysis/ § 3.5](../standard-analysis.md#35-upward-feedback)):**
+1. LLM фиксирует текущее состояние Design в файле (write с частичным контентом и маркером `[ТРЕБУЕТ УТОЧНЕНИЯ: upward feedback]`). Работа с Design **приостанавливается**
+2. LLM обновляет Discussion (статус остаётся WAITING)
+3. Пользователь подтверждает изменения в Discussion
+4. Работа с Design **возобновляется** с той секции, на которой остановился. Маркер `[ТРЕБУЕТ УТОЧНЕНИЯ]` снимается
+
+**Критерий:** обнаруженная информация **изменяет требования или критерии успеха** Discussion. Детализация в рамках уже определённых требований — не триггер.
+
+### Резюме
+
+Краткое описание проектных решений. Формат: свободный текст (1–3 абзаца).
+
+**Обязательное содержимое:**
+- Общий scope: количество сервисов затронутых/добавленных/отклонённых
+- Ключевые решения (распределение ответственностей, shared-компоненты)
+- Количество блоков взаимодействия и системных тест-сценариев
+- Ключевые WHY-решения (только cross-cutting: затрагивающие несколько сервисов или меняющие архитектурный паттерн; per-service решения — только в § 9 SVC-N)
+
+### SVC-N: {Сервис}
+
+Каждый сервис — **отдельная секция h2** с описанием и 9 обязательными подсекциями.
+
+**Заголовок:** `## SVC-N: {имя сервиса}`
+
+**Описание (1–2 абзаца, после заголовка):** что сервис делает в контексте этого изменения, какие данные проходят, с какими сервисами взаимодействует. Последнее предложение включает решение в формате: `**Решение:** подтверждён / изменён ({что изменено}) / добавлен (новый сервис).`
+
+**Порядок секций SVC:** Основной → Вторичный → Новый. Отклонённые — только в Резюме (без секции SVC).
+
+**Определения:**
+- **Основной сервис** — сервис, в котором Design затрагивает § 1 «Назначение» (зона ответственности меняется принципиально).
+- **Вторичный сервис** — сервис с изменениями в §§ 2-8 без изменения § 1 «Назначение».
+- **Новый сервис** — сервис, отсутствующий в `docs/README.md` на момент создания Design (заглушки нет в docs/).
+- **Отклонённый сервис** — сервис, предложенный при Unified Scan или Clarify, но исключённый из Design (пользователь отказался или LLM после анализа решил не включать). Упоминается только в Резюме с причиной отклонения.
+
+**Delta-формат:** Подсекции §§ 2-7 используют маркеры (§ 1 — свободный текст, § 8 — таблица уровней, § 9 — список решений):
+- **ADDED** — новый элемент
+- **MODIFIED** — изменение существующего (указать что меняется)
+- **REMOVED** — удаление (указать причину)
+
+#### 1. Назначение
+
+Delta к `docs/{svc}.md` § 1. Как меняется зона ответственности сервиса.
+
+**Формат:** свободный текст (1-3 предложения). **Контент обязателен** — каждый затронутый сервис имеет изменение в назначении.
+
+#### 2. API контракты
+
+Delta к `docs/{svc}.md` § 2. Новые, изменённые или удалённые endpoint-ы / WebSocket / Event channels.
+
+**Формат:** bullet list с маркерами ADDED/MODIFIED/REMOVED. Для ADDED — полный контракт: path + method, краткое описание (1 предложение), Auth, Request body (для POST/PUT/PATCH), Response (200), Errors (4xx). Таблица параметров — только для GET с query params. Для MODIFIED — только изменения. Формат endpoint-ов совпадает с `docs/{svc}.md` § 2 ([standard-service.md](../../docs/service/standard-service.md)).
+
+**Разграничение SVC-N § 2 и INT-N:** SVC-N § 2 описывает **все** API-изменения сервиса (включая межсервисные). INT-N описывает **контракт взаимодействия** между двумя конкретными участниками с sequence-диаграммой. Endpoint, описанный в INT-N, **должен** быть также перечислен в SVC-N § 2 соответствующего провайдера (краткая строка с маркером). INT-N содержит расширенные детали контракта (request/response schema, errors, sequence). При Design → DONE в `{svc}.md` § 2 попадает содержимое из SVC-N § 2.
+
+**Заглушка:** `*Нет изменений в API.*`
+
+#### 3. Data Model
+
+Delta к `docs/{svc}.md` § 3. Новые, изменённые или удалённые таблицы, колонки, индексы.
+
+**Формат:** таблица или bullet list с маркерами ADDED/MODIFIED/REMOVED. Для ADDED таблиц — полная схема (колонки, типы, constraints, индексы). **Уровень:** имплементационный — достаточно для миграции.
+
+**Заглушка:** `*Нет изменений в Data Model.*`
+
+#### 4. Потоки
+
+Delta к `docs/{svc}.md` § 4. Новые или изменённые runtime-сценарии.
+
+**Формат:** описание с маркерами ADDED/MODIFIED. Каждый поток — шаги обработки (текст или numbered list).
+
+**Заглушка:** `*Нет изменений в потоках.*`
+
+#### 5. Code Map
+
+Delta к `docs/{svc}.md` § 5. Новые или изменённые пакеты, модули, точки входа.
+
+**Формат:** bullet list с маркерами ADDED/MODIFIED/REMOVED.
+
+**Заглушка:** `*Нет изменений в Code Map.*`
+
+#### 6. Зависимости
+
+Delta к `docs/{svc}.md` § 6. Ссылки на INT-N блоки, новые зависимости от shared-кода.
+
+**Формат:** bullet list, сгруппированный по направлению (Предоставляет / Потребляет / Публикует / Подписан / Shared).
+
+**Заглушка:** `*Нет изменений в зависимостях.*`
+
+#### 7. Доменная модель
+
+Delta к `docs/{svc}.md` § 7. Новые или изменённые агрегаты, инварианты, доменные события.
+
+**Формат:** bullet list или таблица с маркерами ADDED/MODIFIED/REMOVED.
+
+**Заглушка:** `*Нет изменений в доменной модели.*`
+
+#### 8. Границы автономии LLM
+
+Delta к `docs/{svc}.md` § 8. Новые или изменённые правила автономии для кода, добавляемого этим Design.
+
+**Формат:** таблица с тремя уровнями (Свободно / Флаг / CONFLICT). При Design → DONE таблица **конвертируется** в маркированный список (формат `docs/{svc}.md` § 8 — bullet list, не таблица).
+
+**Заглушка:** `*Нет изменений в границах автономии.*`
+
+#### 9. Решения по реализации
+
+**Design-only подсекция** — WHY-контекст: trade-offs, выбор алгоритмов, библиотек, обоснования. **Не пишется** в {svc}.md при Design → DONE. Остаётся в design.md как архивная запись.
+
+**Формат:** список решений, каждое с обоснованием (WHY). **Контент обязателен** — минимум одно решение с явным WHY. Формат: `- **{Название решения}:** {описание} — WHY: {обоснование выбора}`.
+
+### INT-N: Блоки взаимодействия
+
+Описывают **как сервисы общаются между собой**. Каждый блок — секция h2 с контрактом и sequence. Нумерация: `INT-N` (сквозная).
+
+**Заголовок:** `## INT-N: {Описание взаимодействия}`
+
+**Метаданные** — сразу после заголовка:
+
+```markdown
+## INT-1: Token Issuance
+
+**Участники:** auth (provider) ↔ gateway (consumer)
+**Паттерн:** sync (REST)
+```
+
+**Паттерн:** `sync (REST)`, `sync (gRPC)`, `async (events)`, `async (queue)`, `async (scheduled)`.
+
+#### Контракт
+
+Спецификация **межсервисного** API или формата события. Design определяет полный контракт — endpoint, метод, request/response, статус-коды, ошибки. **Внутрисервисные решения** (параметры, не меняющие контракт провайдера: retry policy, timeout, circuit breaker, кэширование на стороне потребителя) — в подсекции § 9 соответствующего SVC-N, не в INT-N.
+
+**Breaking changes:** при наличии — пометка `⚠️ Breaking change` с описанием.
+
+**Версионирование:** при v2 — новый INT-N, старый с пометкой `[deprecated: vX.Y.Z]`. При параллельных цепочках — см. [standard-analysis.md § 7.4](../standard-analysis.md#74-параллельные-цепочки).
+
+**Async с несколькими consumers:** один INT-N с перечислением всех consumers.
+
+#### Sequence
+
+Mermaid-диаграмма последовательности. **Обязательна для каждого INT-N.** Показывает межсервисные вызовы. Внутренние шаги — только если критичны для потока.
+
+### Системные тест-сценарии
+
+Межсервисные тест-сценарии из INT-N блоков. **Формат: таблица.** Нумерация: `STS-N`. Секция общая для документа.
+
+**Уровень:** краткое описание (без Given/When/Then). Детальные шаги — Plan Tests.
+
+**Связь с Plan Tests:** STS-N — входные данные для Plan Tests. Plan Tests обязан покрыть каждый STS-N.
+
+| Колонка | Содержание |
+|---------|-----------|
+| ID | STS-N |
+| Сценарий | Что тестируется |
+| Участники | Сервисы |
+| Тип | e2e / integration / load |
+| Источник | INT-N ссылки |
+
+---
+
+## 6. Clarify
+
+**SSOT:** [Стандарт analysis/ § 8](../standard-analysis.md#8-clarify-и-блокирующие-правила) — полные правила Clarify, маркер `[ТРЕБУЕТ УТОЧНЕНИЯ]`, Dependency Barrier.
+
+**Паттерн объекта:** [Стандарт analysis/ § 2.4](../standard-analysis.md#24-общий-паттерн-объекта) — цикл CLARIFY → GENERATE → VALIDATE → REVIEW.
+
+**Принцип Clarify на уровне Design:** LLM **сам анализирует** Unified Scan и **предлагает** проектные решения. Пользователь подтверждает или корректирует. LLM **НЕ спрашивает** "как распределить ответственности?" — это работа LLM.
+
+| Что предлагает LLM | Пример через AskUserQuestion |
+|---------------------|------------------------------|
+| Затронутые сервисы | "Unified Scan: auth (основной), gateway, users. Согласны?" |
+| Shared-компоненты | "Token Validator → /shared/auth/. Или внутри auth?" |
+| Новый сервис | "Предлагаю notification-service. Или отдельная Discussion?" |
+| Контракты | "gateway → auth: REST /api/v1/auth/token. Или gRPC?" |
+| Алгоритмы | "JWT: RS256 (asymmetric). Альтернатива: HS256. Выбор?" |
+| Системные тесты | "INT-1: 3 сценария (happy, expired, rate limit). Достаточно?" |
+
+**Маркер `[ТРЕБУЕТ УТОЧНЕНИЯ]`:** ставится на неясности. Блокирует WAITING.
+
+**Пропуск:** `--auto-clarify` — LLM генерирует на основе Scan, ставит маркеры. USER REVIEW обязателен.
+
+---
+
+## 7. Шаблон
+
+`````markdown
+---
+description: {Описание проектирования — до 1024 символов}
+standard: specs/.instructions/analysis/design/standard-design.md
+standard-version: v2.0
+index: specs/analysis/README.md
+parent: discussion.md
+children: []
+status: DRAFT
+milestone: {vX.Y.Z — наследуется от parent Discussion}
+---
+
+# {NNNN}: {Тема} — Design
+
+## Резюме
+
+{Scope, ключевые решения, кол-во INT-N и STS-N}
+
+## SVC-1: {Сервис}
+
+{Описание: что делает в контексте изменения, данные, взаимодействия — 1-2 абзаца}
+
+### 1. Назначение
+
+{Delta к § 1 — как меняется зона ответственности}
+
+### 2. API контракты
+
+{ADDED/MODIFIED/REMOVED endpoints}
+
+### 3. Data Model
+
+{ADDED/MODIFIED/REMOVED таблицы, колонки, индексы}
+
+### 4. Потоки
+
+{ADDED/MODIFIED runtime-сценарии}
+
+### 5. Code Map
+
+{ADDED/MODIFIED/REMOVED пакеты, модули}
+
+### 6. Зависимости
+
+{ADDED/MODIFIED — ссылки на INT-N, shared-код}
+
+### 7. Доменная модель
+
+{ADDED/MODIFIED/REMOVED агрегаты, события}
+
+### 8. Границы автономии LLM
+
+{ADDED/MODIFIED — Свободно/Флаг/CONFLICT}
+
+### 9. Решения по реализации
+
+{WHY: trade-offs, алгоритмы, библиотеки}
+
+## INT-1: {Описание взаимодействия}
+
+**Участники:** {provider} ({role}) ↔ {consumer} ({role})
+**Паттерн:** {sync/async} ({протокол})
+
+### Контракт
+
+{Спецификация endpoint/события}
+
+### Sequence
+
+```mermaid
+sequenceDiagram
+    {участники и вызовы}
+```
+
+## Системные тест-сценарии
+
+| ID | Сценарий | Участники | Тип | Источник |
+|----|----------|-----------|-----|----------|
+| STS-1 | {Описание} | {Сервисы} | {e2e/integration/load} | {INT-N} |
+`````
+
+---
+
+## 8. Чек-лист качества
+
+> Для автоматической проверки: `python specs/.instructions/.scripts/validate-analysis-design.py {путь}`. Ручной чек-лист — при отсутствии скрипта.
+
+### Frontmatter
+- [ ] `description` — до 1024 символов
+- [ ] `standard` указывает на этот документ
+- [ ] `parent` — путь к Discussion-документу (обязателен)
+- [ ] `children` — путь к Plan Tests (или `[]` до создания)
+- [ ] `status` — валидный ([Стандарт analysis/ § 5](../standard-analysis.md#5-статусы))
+- [ ] `milestone` — совпадает с parent Discussion
+
+### Структура документа
+- [ ] Секция "Резюме" заполнена контентом
+- [ ] Минимум 1 секция SVC-N
+- [ ] Каждая SVC-N: описание (1-2 абзаца) + 9 подсекций (§§ 1-9)
+- [ ] § 1 "Назначение" — контент (не заглушка)
+- [ ] § 9 "Решения по реализации" — контент (не заглушка)
+- [ ] §§ 2-8 — контент или заглушка
+- [ ] Delta-формат (ADDED/MODIFIED/REMOVED) в §§ 2-7
+- [ ] Минимум 1 INT-N (если > 1 сервиса)
+- [ ] Каждый INT-N: метаданные + Контракт + Sequence
+- [ ] "Системные тест-сценарии" — контент или заглушка
+- [ ] Все SVC ссылаются на INT через § 6 "Зависимости"
+- [ ] Каждый INT-N упомянут в § 6 минимум одного SVC-N
+- [ ] Shared-компоненты — решение о размещении
+
+### 8:8 маппинг
+- [ ] Названия §§ 1-8 SVC-N совпадают с §§ 1-8 {svc}.md
+- [ ] Delta корректна относительно текущего {svc}.md
+
+### Нумерация
+- [ ] SVC-N, INT-N, STS-N — сквозная по документу
+- [ ] Пропуски допустимы, перенумерация запрещена
+
+### Источники
+- [ ] Unified Scan: Discussion + docs/ (5 источников)
+- [ ] Parent Discussion прочитан целиком
+
+### Зона ответственности
+- [ ] Нет бизнес-обоснований (→ Discussion)
+- [ ] Нет тестов конкретного сервиса (→ Plan Tests)
+- [ ] Нет задач (→ Plan Dev)
+
+### Маркеры
+- [ ] Нет `[ТРЕБУЕТ УТОЧНЕНИЯ]` (если статус > DRAFT)
+- [ ] Нет Dependency Barrier (если статус > DRAFT)
+
+### Именование
+- [ ] Файл: `specs/analysis/NNNN-{topic}/design.md`
+- [ ] Заголовок: `# NNNN: {Тема} — Design`
+
+---
+
+## 9. Примеры по типам
+
+### Пример 1: Новая функциональность (OAuth2)
+
+```markdown
+# 0001: OAuth2 авторизация — Design
+
+## Резюме
+
+Design выявил 3 затронутых сервиса: auth (основной), gateway (вторичный), users (вторичный).
+Отклонён notification-service — вынесен в отдельную Discussion. Token Validator размещён как
+shared-компонент в /shared/auth/. 4 блока взаимодействия, 3 системных тест-сценария.
+Ключевое решение: RS256 для JWT (asymmetric signing для gateway-валидации без обращения к auth).
+
+## SVC-1: auth
+
+Auth — основной сервис изменения. Добавляется полный жизненный цикл OAuth2-токенов: генерация
+JWT access + refresh пары при логине, валидация подписи, обновление по refresh-токену и отзыв.
+Владеет таблицей refresh_tokens в PostgreSQL и blacklist в Redis. Gateway обращается к auth
+через INT-1 и INT-2.
+
+### 1. Назначение
+
+Auth расширяет зону ответственности: помимо session-based аутентификации, добавляется полный
+жизненный цикл OAuth2-токенов — генерация, валидация, обновление и отзыв.
+
+### 2. API контракты
+
+**ADDED:** `POST /api/v1/auth/token` — генерация OAuth2 токенов (password, refresh_token grant types)
+**ADDED:** `DELETE /api/v1/auth/token/{refresh_token_id}` — отзыв refresh-токена
+**MODIFIED:** `GET /api/v1/auth/me` — добавлен `oauth2_provider` в response
+
+### 3. Data Model
+
+**ADDED:** Таблица `refresh_tokens`:
+
+| Колонка | Тип | Constraints | Описание |
+|---------|-----|------------|----------|
+| id | UUID | PK | Идентификатор |
+| user_id | UUID | FK → users.id, NOT NULL | Владелец |
+| token_hash | VARCHAR(256) | UNIQUE, NOT NULL | SHA-256 хеш |
+| expires_at | TIMESTAMP | NOT NULL | Истечение |
+| revoked_at | TIMESTAMP | NULL | Отзыв |
+
+**Индексы:** `idx_refresh_tokens_user_id`, `idx_refresh_tokens_expires`
+
+**ADDED:** Redis key `auth:blacklist:{token_jti}` — TTL = access_token lifetime
+
+### 4. Потоки
+
+**ADDED:** Поток "OAuth2 Login":
+1. Client → Gateway: POST /auth/token {credentials}
+2. Gateway → Auth: forward
+3. Auth → Users: GET /users/{id}/roles
+4. Auth: generate JWT (access + refresh), store refresh_token
+5. Auth → Client: {access_token, refresh_token}
+
+**ADDED:** Поток "Token Refresh":
+1. Client → Auth: POST /auth/token {refresh_token}
+2. Auth: validate, revoke old, generate new pair
+3. Auth → Client: {new tokens}
+
+### 5. Code Map
+
+**ADDED:** Пакет `auth.oauth2` — OAuth2 flow (Token Generator, Token Revoker)
+**ADDED:** Shared `/shared/auth/token_validator.py` — JWT валидация (auth + gateway)
+**MODIFIED:** `auth.middleware` — JWT middleware вместо session-based
+
+### 6. Зависимости
+
+**ADDED:**
+- **Предоставляет:** INT-1 (Token Issuance → gateway), INT-2 (Token Refresh → gateway)
+- **Потребляет:** INT-3 (User Roles ← users)
+- **Публикует:** INT-4 (AuthTokenIssued → audit)
+- **Shared:** `/shared/auth/token_validator.py` (provider)
+
+### 7. Доменная модель
+
+**ADDED:** Агрегат `RefreshToken` — жизненный цикл refresh-токена
+**ADDED:** Событие `AuthTokenIssued` — при выпуске access-токена
+**ADDED:** Инвариант: refresh_token не может быть использован после revoked_at
+
+### 8. Границы автономии LLM
+
+**ADDED:**
+
+| Уровень | Действие |
+|---------|----------|
+| Свободно | Добавлять новые grant_type в TokenGenerator |
+| Флаг | Изменять TTL access/refresh токенов |
+| CONFLICT | Менять алгоритм подписи JWT (RS256) |
+
+### 9. Решения по реализации
+
+- **RS256 для JWT:** Asymmetric — gateway валидирует по public key без обращения к auth. HS256 требует shared secret
+- **Opaque refresh tokens:** Хранятся в БД → отзыв возможен. JWT refresh нельзя отозвать до истечения
+- **Redis blacklist:** TTL = access lifetime. O(1) проверка. Для немедленного отзыва
+- **Connection pool 20:** 10k RPS × 5ms/query ÷ 4 workers ≈ 13. Запас 50%
+
+## SVC-2: gateway
+
+Gateway — вторичный сервис. Перехватывает входящие запросы и выполняет JWT-валидацию через
+shared Token Validator из /shared/auth/. Rate limiter переключается с session ID на client_id.
+
+### 1. Назначение
+
+Gateway добавляет JWT-валидацию входящих запросов и переключает rate limiting на OAuth2 client_id.
+
+### 2. API контракты
+
+*Нет изменений в API.*
+
+### 3. Data Model
+
+*Нет изменений в Data Model.*
+
+### 4. Потоки
+
+**MODIFIED:** Поток "Request Validation" — session check заменён на JWT validation через shared Token Validator
+
+### 5. Code Map
+
+**MODIFIED:** `gateway.middleware` — подключение `/shared/auth/token_validator.py`
+**MODIFIED:** `gateway.rate_limiter` — переключение ключа с session_id на client_id
+
+### 6. Зависимости
+
+**ADDED:**
+- **Потребляет:** INT-1 (Token Issuance ← auth), INT-2 (Token Refresh ← auth)
+- **Shared:** `/shared/auth/token_validator.py` (consumer)
+
+### 7. Доменная модель
+
+*Нет изменений в доменной модели.*
+
+### 8. Границы автономии LLM
+
+**ADDED:**
+
+| Уровень | Действие |
+|---------|----------|
+| Свободно | Настраивать rate limit thresholds |
+| CONFLICT | Отключать JWT-валидацию |
+
+### 9. Решения по реализации
+
+- **Shared Token Validator:** Валидация через /shared/auth/ вместо HTTP-вызова к auth — O(1) vs O(network). Public key кэшируется с TTL 1h
+
+## SVC-3: users
+
+Users — вторичный. Предоставляет роли пользователя для JWT-claims при генерации токенов.
+
+### 1. Назначение
+
+Users добавляет endpoint для получения ролей по user_id (для JWT-claims auth-сервиса).
+
+### 2. API контракты
+
+**ADDED:** `GET /api/v1/users/{user_id}/roles` — роли пользователя для JWT-claims
+
+### 3. Data Model
+
+*Нет изменений в Data Model.*
+
+### 4. Потоки
+
+*Нет изменений в потоках.*
+
+### 5. Code Map
+
+**ADDED:** `users.api.roles` — endpoint для ролей
+
+### 6. Зависимости
+
+**ADDED:**
+- **Предоставляет:** INT-3 (User Roles → auth)
+
+### 7. Доменная модель
+
+*Нет изменений в доменной модели.*
+
+### 8. Границы автономии LLM
+
+*Нет изменений в границах автономии.*
+
+### 9. Решения по реализации
+
+- **Read-only endpoint:** GET /users/{id}/roles — только чтение, без кэширования на стороне users (auth кэширует при необходимости)
+
+## INT-1: Token Issuance
+
+**Участники:** auth (provider) ↔ gateway (consumer)
+**Паттерн:** sync (REST)
+
+### Контракт
+
+**Endpoint:** `POST /api/v1/auth/token`
+
+**Request:**
+` ``json
+{
+  "grant_type": "password",
+  "username": "string",
+  "password": "string"
+}
+` ``
+
+**Response (200):**
+` ``json
+{
+  "access_token": "string (JWT)",
+  "refresh_token": "string (opaque)",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+` ``
+
+**Ошибки:**
+
+| Код | Описание |
+|-----|----------|
+| 400 | Невалидные credentials |
+| 429 | Rate limit exceeded |
+
+### Sequence
+
+` ``mermaid
+sequenceDiagram
+    participant C as Client
+    participant G as Gateway
+    participant A as Auth
+    participant U as Users
+
+    C->>G: POST /auth/token {credentials}
+    G->>A: Forward request
+    A->>U: GET /users/{id}/roles
+    U-->>A: {roles}
+    A->>A: Generate JWT + refresh token
+    A-->>G: 200 {access_token, refresh_token}
+    G-->>C: 200 {access_token, refresh_token}
+` ``
+
+## INT-2: Token Refresh
+
+**Участники:** auth (provider) ↔ gateway (consumer)
+**Паттерн:** sync (REST)
+
+### Контракт
+
+**Endpoint:** `POST /api/v1/auth/token`
+
+**Request:**
+` ``json
+{
+  "grant_type": "refresh_token",
+  "refresh_token": "string"
+}
+` ``
+
+**Response (200):**
+` ``json
+{
+  "access_token": "string (JWT)",
+  "refresh_token": "string (opaque)",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+` ``
+
+**Ошибки:**
+
+| Код | Описание |
+|-----|----------|
+| 400 | Невалидный или отозванный refresh_token |
+
+### Sequence
+
+` ``mermaid
+sequenceDiagram
+    participant C as Client
+    participant G as Gateway
+    participant A as Auth
+
+    C->>G: POST /auth/token {refresh_token}
+    G->>A: Forward request
+    A->>A: Validate + revoke old + generate new
+    A-->>G: 200 {access_token, refresh_token}
+    G-->>C: 200 {access_token, refresh_token}
+` ``
+
+## INT-3: User Roles
+
+**Участники:** users (provider) ↔ auth (consumer)
+**Паттерн:** sync (REST)
+
+### Контракт
+
+**Endpoint:** `GET /api/v1/users/{user_id}/roles`
+
+**Response (200):**
+` ``json
+{
+  "user_id": "UUID",
+  "roles": ["admin", "user"]
+}
+` ``
+
+**Ошибки:**
+
+| Код | Описание |
+|-----|----------|
+| 404 | Пользователь не найден |
+
+### Sequence
+
+` ``mermaid
+sequenceDiagram
+    participant A as Auth
+    participant U as Users
+
+    A->>U: GET /users/{user_id}/roles
+    U-->>A: 200 {roles}
+` ``
+
+## INT-4: Auth Events
+
+**Участники:** auth (publisher) → audit (consumer)
+**Паттерн:** async (events, message broker)
+
+### Контракт
+
+**Событие:** `AuthTokenIssued`
+**Канал:** `auth.events`
+
+**Формат:**
+` ``json
+{
+  "event_type": "AuthTokenIssued",
+  "user_id": "UUID",
+  "issued_at": "ISO 8601",
+  "ip_address": "string"
+}
+` ``
+
+### Sequence
+
+` ``mermaid
+sequenceDiagram
+    participant A as Auth
+    participant MB as Message Broker
+    participant AU as Audit
+
+    A->>MB: publish AuthTokenIssued
+    MB-->>AU: deliver
+` ``
+
+## Системные тест-сценарии
+
+| ID | Сценарий | Участники | Тип | Источник |
+|----|----------|-----------|-----|----------|
+| STS-1 | Полный цикл: логин → токен → запрос → успех | Client, Gateway, Auth, Users | e2e | INT-1, INT-3 |
+| STS-2 | Refresh: access истёк → refresh → новый access → успех | Client, Gateway, Auth | e2e | INT-2 |
+| STS-3 | Rate limiting: 100+ запросов/мин → 429 | Client, Gateway | integration | INT-1 |
+```
+
+### Пример 2: Минимальный Design (один сервис, нет взаимодействий)
+
+```markdown
+# 0003: Оптимизация кэша — Design
+
+## Резюме
+
+Design затрагивает 1 сервис: catalog (основной). Нет межсервисных взаимодействий.
+0 блоков INT-N, 0 системных тест-сценариев.
+Ключевое решение: Redis вместо in-memory для распределённого кэша.
+
+## SVC-1: catalog
+
+Catalog — основной сервис. Переход с in-memory кэша на Redis для поддержки
+горизонтального масштабирования. **Решение:** изменён.
+
+### 1. Назначение
+
+Catalog расширяет ответственность: управление кэшем вынесено из runtime в Redis.
+
+### 2. API контракты
+
+*Нет изменений в API.*
+
+### 3. Data Model
+
+**ADDED:** Redis key `catalog:cache:{product_id}` — TTL = 5 мин
+
+### 4. Потоки
+
+**MODIFIED:** Поток "Product Lookup" — чтение из Redis вместо in-memory HashMap
+
+### 5. Code Map
+
+**ADDED:** `catalog.cache.redis_adapter` — адаптер Redis
+**REMOVED:** `catalog.cache.memory_store` — in-memory кэш
+
+### 6. Зависимости
+
+**ADDED:**
+- **Shared:** нет
+
+### 7. Доменная модель
+
+*Нет изменений в доменной модели.*
+
+### 8. Границы автономии LLM
+
+*Нет изменений в границах автономии.*
+
+### 9. Решения по реализации
+
+- **Redis вместо in-memory:** Распределённый кэш для 3+ инстансов — WHY: in-memory не шарится между подами
+
+## Системные тест-сценарии
+
+*Системных тест-сценариев нет.*
+```
+
+### Пример 3: Удаление сервиса
+
+```markdown
+## SVC-3: legacy-notifier [УДАЛЯЕТСЯ]
+
+Legacy-notifier удаляется — функциональность перенесена в notification-service (SVC-1).
+**Решение:** удалён.
+
+### 1. Назначение
+
+**REMOVED:** Сервис legacy-notifier прекращает существование. Все обязанности
+переданы notification-service.
+
+### 2. API контракты
+
+**REMOVED:** `POST /api/v1/legacy-notifier/send` — заменён на notification-service endpoint
+
+### 3. Data Model
+
+**REMOVED:** Таблица `legacy_notifications` — данные мигрированы в notification-service
+
+### 4. Потоки
+
+**REMOVED:** Поток "Legacy Send" — заменён потоком "Unified Send" в notification-service
+
+### 5. Code Map
+
+**REMOVED:** Весь пакет `legacy-notifier/` — код не переиспользуется
+
+### 6. Зависимости
+
+**REMOVED:**
+- **Потребляет:** INT-2 (Email Gateway ← email-service) — передано notification-service
+
+### 7. Доменная модель
+
+**REMOVED:** Агрегат `LegacyNotification` — заменён `Notification` в notification-service
+
+### 8. Границы автономии LLM
+
+**REMOVED:** Все правила автономии legacy-notifier удалены
+
+### 9. Решения по реализации
+
+- **Удаление вместо deprecation:** Сервис не имеет внешних потребителей — WHY: нет зависимых клиентов, deprecation period не нужен
+```

@@ -121,7 +121,7 @@ git checkout main
 git pull origin main
 
 # 2. Вернуться в feature-ветку
-git checkout feature/auth-42-43
+git checkout 0001-oauth2-auth
 
 # 3. Выполнить rebase
 git rebase main
@@ -130,7 +130,7 @@ git rebase main
 # Если rebase прошёл успешно:
 
 # 4. Обновить remote-ветку (требуется force push)
-git push --force-with-lease origin feature/auth-42-43
+git push --force-with-lease origin 0001-oauth2-auth
 ```
 
 **Важно:** После rebase история feature-ветки изменяется — требуется force push. Использовать `--force-with-lease` (проверяет, что remote не обновлён другим разработчиком).
@@ -208,7 +208,7 @@ git rebase --abort
 
 ```bash
 # После rebase feature-ветки — push с force (ДО создания PR)
-git push --force-with-lease origin feature/auth-42-43
+git push --force-with-lease origin 0001-oauth2-auth
 ```
 
 `--force-with-lease` безопаснее `--force`: проверяет, что remote-ветка не была обновлена другим разработчиком.

@@ -9,7 +9,7 @@ argument-hint: "<tech-name> [--scenario A|B|C|D]"
 
 # Изменение per-tech стандарта
 
-**SSOT:** [modify-technology.md](/specs/.instructions/technologies/modify-technology.md)
+**SSOT:** [modify-technology.md](/specs/.instructions/docs/technology/modify-technology.md)
 
 ## Формат вызова
 
@@ -24,7 +24,7 @@ argument-hint: "<tech-name> [--scenario A|B|C|D]"
 
 ## Воркфлоу
 
-> ⚠️ **Перед выполнением** прочитать [modify-technology.md](/specs/.instructions/technologies/modify-technology.md)
+> ⚠️ **Перед выполнением** прочитать [modify-technology.md](/specs/.instructions/docs/technology/modify-technology.md)
 
 > ⚠️ **Шаблон** — найти пример в SSOT (секция "Примеры"), скопировать структуру. Запрещено придумывать свой формат.
 
@@ -32,7 +32,7 @@ argument-hint: "<tech-name> [--scenario A|B|C|D]"
 
 ## Чек-лист
 
-→ См. [modify-technology.md#чек-лист](/specs/.instructions/technologies/modify-technology.md#чек-лист)
+→ См. [modify-technology.md#чек-лист](/specs/.instructions/docs/technology/modify-technology.md#чек-лист)
 
 ## Примеры
 

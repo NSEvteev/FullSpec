@@ -41,6 +41,13 @@ make setup
 | `overview-validate` | Секции, таблицы, mermaid, консистентность overview.md | `specs/docs/.system/overview.md` |
 | `conventions-validate` | Секции, таблицы, code-блоки, shared-пакеты conventions.md | `specs/docs/.system/conventions.md` |
 | `infrastructure-validate` | Секции, таблицы, хранилища, окружения infrastructure.md | `specs/docs/.system/infrastructure.md` |
+| `testing-validate` | Секции, таблицы, фреймворки, матрица покрытия testing.md | `specs/docs/.system/testing.md` |
+| `service-validate` | Frontmatter, 10 секций, таблицы, подсекции API/Data Model в {svc}.md | `specs/docs/*.md` (кроме README) |
+| `service-readme-validate` | Синхронизация docs/README.md с деревом сервисов | `specs/docs/` |
+| `technology-validate` | Frontmatter, 8 секций, таблицы, версия standard-{tech}.md | `specs/docs/.technologies/standard-*.md` |
+| `design-validate` | Frontmatter, SVC-N (9 подсекций), INT-N, STS-N, маркеры, зона ответственности design.md | `specs/analysis/*/design.md` |
+| `plan-test-validate` | Frontmatter, TC-N формат, покрытие REQ-N/STS-N, маркеры, зона ответственности plan-test.md | `specs/analysis/*/plan-test.md` |
+| `plan-dev-validate` | Frontmatter, TASK-N (5 полей), подзадачи, зависимости, TC трассируемость, маркеры plan-dev.md | `specs/analysis/*/plan-dev.md` |
 
 ---
 

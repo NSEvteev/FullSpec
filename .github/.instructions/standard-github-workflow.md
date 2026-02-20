@@ -104,7 +104,7 @@ index: .github/.instructions/README.md
 
 3. СОЗДАНИЕ ВЕТКИ
    └─ git checkout main && git pull origin main
-   └─ git checkout -b {type}/{description}-{issue-numbers}
+   └─ git checkout -b {NNNN}-{description}
    └─ → standard-branching.md
 
 4. РАЗРАБОТКА
@@ -285,7 +285,7 @@ Issues группируются по фиче/области. Одна груп�
 ### Процесс
 
 1. **Локальное ревью** — `/review-branch` (исправить замечания до создания PR)
-2. **Push ветки** — `git push -u origin feature/auth-42-43-44`
+2. **Push ветки** — `git push -u origin 0001-oauth2-auth`
 3. **Создать PR** — `gh pr create --title "..." --body "..." --label ...`
 
 > **Формат title, body, labels, CLI команды:** см. [standard-pull-request.md](./pull-requests/standard-pull-request.md)

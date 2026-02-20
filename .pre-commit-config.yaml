@@ -160,3 +160,73 @@ repos:
         files: ^specs/docs/\.system/infrastructure\.md$
         pass_filenames: false
         stages: [pre-commit]
+
+      # 18. Валидация docs/.system/testing.md
+      - id: testing-validate
+        name: Validate testing.md
+        entry: python specs/.instructions/.scripts/validate-docs-testing.py
+        language: system
+        files: ^specs/docs/\.system/testing\.md$
+        pass_filenames: false
+        stages: [pre-commit]
+
+      # 19. Валидация docs/{svc}.md
+      - id: service-validate
+        name: Validate service docs
+        entry: python specs/.instructions/.scripts/validate-docs-service.py
+        language: system
+        files: ^specs/docs/[^/]+\.md$
+        exclude: ^specs/docs/README\.md$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]
+
+      # 20. Синхронизация docs/README.md с деревом сервисов
+      - id: service-readme-validate
+        name: Validate docs/README.md services sync
+        entry: python specs/.instructions/.scripts/validate-docs-readme-services.py
+        language: system
+        files: ^specs/docs/
+        pass_filenames: false
+        stages: [pre-commit]
+
+      # 21. Валидация docs/.technologies/standard-{tech}.md
+      - id: technology-validate
+        name: Validate technology standards
+        entry: python specs/.instructions/.scripts/validate-docs-technology.py
+        language: system
+        files: ^specs/docs/\.technologies/standard-.*\.md$
+        exclude: ^specs/docs/\.technologies/standard-example\.md$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]
+
+      # 22. Валидация analysis/*/design.md
+      - id: design-validate
+        name: Validate design documents
+        entry: python specs/.instructions/.scripts/validate-analysis-design.py
+        language: system
+        files: ^specs/analysis/.*/design\.md$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]
+
+      # 23. Валидация analysis/*/plan-test.md
+      - id: plan-test-validate
+        name: Validate plan-test documents
+        entry: python specs/.instructions/.scripts/validate-analysis-plan-test.py
+        language: system
+        files: ^specs/analysis/.*/plan-test\.md$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]
+
+      # 24. Валидация analysis/*/plan-dev.md
+      - id: plan-dev-validate
+        name: Validate plan-dev documents
+        entry: python specs/.instructions/.scripts/validate-analysis-plan-dev.py
+        language: system
+        files: ^specs/analysis/.*/plan-dev\.md$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]

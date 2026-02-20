@@ -13,7 +13,7 @@ index: specs/.instructions/README.md
 
 **Полезные ссылки:**
 - [Инструкции specs/](../../README.md)
-- [Мета-стандарт docs/](../../standard-docs.md)
+- [Мета-стандарт docs/](../standard-docs.md)
 
 **Связанные документы:**
 

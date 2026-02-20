@@ -1,13 +1,13 @@
 ---
-description: Воркфлоу создания ветки — формирование имени из Issue, проверка уникальности, привязка к milestone.
+description: Воркфлоу создания ветки — формирование имени из analysis chain, проверка уникальности.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v2.0
 index: .github/.instructions/branches/README.md
 ---
 
 # Воркфлоу создания ветки
 
-Рабочая версия стандарта: 1.2
+Рабочая версия стандарта: 2.0
 
 Пошаговый процесс создания ветки от main с корректным именем.
 
@@ -17,8 +17,6 @@ index: .github/.instructions/branches/README.md
 **SSOT-зависимости:**
 - [standard-branching.md](./standard-branching.md) — стандарт ветвления (SSOT правил)
 - [standard-sync.md](../sync/standard-sync.md) — синхронизация main
-- [standard-labels.md](../labels/standard-labels.md) — TYPE-метки определяют префикс
-- [standard-issue.md](../issues/standard-issue.md) — номера Issues в имени ветки
 
 **Связанные документы:**
 
@@ -33,12 +31,11 @@ index: .github/.instructions/branches/README.md
 
 - [Принципы](#принципы)
 - [Шаги](#шаги)
-  - [Шаг 1: Подготовить Issues](#шаг-1-подготовить-issues)
-  - [Шаг 2: Определить префикс](#шаг-2-определить-префикс)
-  - [Шаг 3: Сформировать имя ветки](#шаг-3-сформировать-имя-ветки)
-  - [Шаг 4: Синхронизировать main](#шаг-4-синхронизировать-main)
-  - [Шаг 5: Создать ветку](#шаг-5-создать-ветку)
-  - [Шаг 6: Валидация](#шаг-6-валидация)
+  - [Шаг 1: Определить номер анализа](#шаг-1-определить-номер-анализа)
+  - [Шаг 2: Сформировать имя ветки](#шаг-2-сформировать-имя-ветки)
+  - [Шаг 3: Синхронизировать main](#шаг-3-синхронизировать-main)
+  - [Шаг 4: Создать ветку](#шаг-4-создать-ветку)
+  - [Шаг 5: Валидация](#шаг-5-валидация)
 - [Чек-лист](#чек-лист)
 - [Примеры](#примеры)
 - [Скрипты](#скрипты)
@@ -48,68 +45,40 @@ index: .github/.instructions/branches/README.md
 
 ## Принципы
 
-> **Каждая ветка привязана к Issue.** Нет Issue — нет ветки. Сначала создать Issue (→ [create-issue.md](../issues/create-issue.md)).
+> **Каждая ветка привязана к analysis chain.** Нет analysis — нет ветки. Сначала пройти цепочку Discussion → Design → Plan Tests → Plan Dev.
 
 > **Ветка создаётся ТОЛЬКО от актуального main.** Перед созданием обязательна синхронизация.
 
-> **Одна задача (или группа связанных) — одна ветка — один PR.**
+> **Один analysis chain — одна ветка — один PR.** При большом объёме — несколько веток с одним NNNN и разными description.
 
 ---
 
 ## Шаги
 
-### Шаг 1: Подготовить Issues
+### Шаг 1: Определить номер анализа
 
-1. Убедиться, что Issues созданы и имеют TYPE-метки:
-   ```bash
-   gh issue view {number} --json labels -q '[.labels[].name]'
-   ```
+1. Убедиться, что analysis chain существует в `specs/analysis/NNNN-{topic}/`
 
-2. Если Issues ещё нет — создать: `/issue-create`
+2. Получить 4-значный номер NNNN (например, `0001`, `0042`)
 
-3. Собрать номера Issues для ветки. Критерии группировки (→ [standard-issue.md § 9](../issues/standard-issue.md#8-декомпозиция-и-зависимости)):
-   - Issues имеют общую цель
-   - Issues затрагивают файлы с > 20% пересечений
-   - Желательно одинаковые TYPE-метки
+3. Если analysis chain ещё нет — пройти цепочку SDD: начать с `/discussion-create`
 
-### Шаг 2: Определить префикс
+### Шаг 2: Сформировать имя ветки
 
-**SSOT:** [standard-branching.md § 2](./standard-branching.md#2-naming-convention)
+**Формат:** `{NNNN}-{description}`
 
-1. Найти Issue с минимальным номером в группе
+1. **NNNN** — 4-значный номер анализа
 
-2. Получить его TYPE-метку:
-   ```bash
-   gh issue view {min-number} --json labels -q '[.labels[].name] | map(select(. == "bug" or . == "feature" or . == "task" or . == "docs" or . == "refactor")) | .[0]'
-   ```
-
-3. Определить префикс:
-
-| TYPE-метка | Префикс |
-|------------|---------|
-| `feature` | `feature/` |
-| `bug` | `fix/` |
-| `task` | `task/` |
-| `docs` | `docs/` |
-| `refactor` | `refactor/` |
-
-### Шаг 3: Сформировать имя ветки
-
-**Формат:** `{type}/{description}-{issue-numbers}`
-
-1. **Description** — 2-3 слова в kebab-case:
-   - Для feature/task — название функции: `auth`, `two-factor`, `api-gateway`
-   - Для bug — симптом проблемы: `upload-errors`, `null-response`
+2. **Description** — 1-4 слова в kebab-case:
+   - Из topic slug analysis directory: `oauth2-auth`, `notification-service`
+   - Или уточнение при нескольких ветках: `oauth2-backend`, `oauth2-frontend`
    - Акронимы строчными: `api`, `jwt`, `cors`
 
-2. **Issue numbers** — через дефис, в порядке возрастания:
-   - Issues #45, #42, #50 → `42-45-50`
+3. Собрать: `{NNNN}-{description}`
 
-3. Собрать: `{prefix}/{description}-{numbers}`
+**Пример:** analysis `0001-oauth2-authorization/` → ветка `0001-oauth2-auth`
 
-**Пример:** Issues #42 (feature), #43 (feature), #44 (task) → `feature/auth-42-43-44`
-
-### Шаг 4: Синхронизировать main
+### Шаг 3: Синхронизировать main
 
 **SSOT:** [standard-sync.md](../sync/standard-sync.md)
 
@@ -118,7 +87,7 @@ git checkout main
 git pull origin main
 ```
 
-### Шаг 5: Создать ветку
+### Шаг 4: Создать ветку
 
 ```bash
 git checkout -b {branch-name}
@@ -126,10 +95,10 @@ git checkout -b {branch-name}
 
 **Пример:**
 ```bash
-git checkout -b feature/auth-42-43-44
+git checkout -b 0001-oauth2-auth
 ```
 
-### Шаг 6: Валидация
+### Шаг 5: Валидация
 
 Проверить формат имени:
 
@@ -147,14 +116,12 @@ git branch -m {old-name} {correct-name}
 ## Чек-лист
 
 ### Подготовка
-- [ ] Issues созданы и имеют TYPE-метки
-- [ ] Номера Issues собраны и отсортированы по возрастанию
-- [ ] Определён Issue с минимальным номером
-- [ ] Определён префикс по TYPE-метке min Issue
+- [ ] Analysis chain существует (`specs/analysis/NNNN-{topic}/`)
+- [ ] Определён 4-значный номер NNNN
 
 ### Создание
-- [ ] Сформировано имя: `{type}/{description}-{numbers}`
-- [ ] Description в kebab-case, 2-3 слова, акронимы строчными
+- [ ] Сформировано имя: `{NNNN}-{description}`
+- [ ] Description в kebab-case, 1-4 слова, акронимы строчными
 - [ ] main синхронизирован (`git pull origin main`)
 - [ ] Ветка создана от main (`git checkout -b`)
 
@@ -166,47 +133,49 @@ git branch -m {old-name} {correct-name}
 
 ## Примеры
 
-### Одиночный Issue (feature)
+### Стандартная ветка
 
 ```bash
-# Issue #42: "Добавить авторизацию", метка: feature
+# Analysis: specs/analysis/0001-oauth2-authorization/
 
-# 1. Определить: TYPE=feature → prefix=feature
-# 2. Имя: feature/auth-42
+# 1. Определить: NNNN=0001, topic=oauth2-authorization
+# 2. Имя: 0001-oauth2-auth
 # 3. Синхронизировать
 git checkout main && git pull origin main
 
 # 4. Создать
-git checkout -b feature/auth-42
+git checkout -b 0001-oauth2-auth
 
 # 5. Валидация
 python .github/.instructions/.scripts/validate-branch-name.py
-# ✅ Ветка 'feature/auth-42' — валидация пройдена
+# ✅ Ветка '0001-oauth2-auth' — валидация пройдена
 ```
 
-### Группа Issues (bug)
+### Несколько веток для одного analysis
 
 ```bash
-# Issues: #50 (bug: upload fails), #51 (bug: timeout on large files)
+# Analysis: specs/analysis/0001-oauth2-authorization/
+# Объём большой — делим на backend и frontend
 
-# 1. Min issue = #50, TYPE=bug → prefix=fix
-# 2. Имя: fix/upload-errors-50-51
-# 3. Синхронизировать
+# Ветка 1:
 git checkout main && git pull origin main
+git checkout -b 0001-oauth2-backend
 
-# 4. Создать
-git checkout -b fix/upload-errors-50-51
+# ... merge первой ветки ...
+
+# Ветка 2:
+git checkout main && git pull origin main
+git checkout -b 0001-oauth2-frontend
 ```
 
-### Разные TYPE-метки в группе
+### Срочный баг
 
 ```bash
-# Issues: #42 (feature), #45 (bug), #50 (task)
+# Даже hotfix проходит через analysis chain
+# Analysis: specs/analysis/0015-payment-crash/
 
-# 1. Min issue = #42, TYPE=feature → prefix=feature
-# 2. Имя: feature/auth-flow-42-45-50
 git checkout main && git pull origin main
-git checkout -b feature/auth-flow-42-45-50
+git checkout -b 0015-hotfix-payment-crash
 ```
 
 ---

@@ -1,14 +1,20 @@
-# Стандарт Example Technology
+---
+description: Стандарт кодирования Example Framework — конвенции именования, паттерны, антипаттерны.
+standard: specs/.instructions/docs/technology/standard-technology.md
+technology: example
+---
 
-Пример per-tech стандарта — демонстрирует все 8 секций.
+# Стандарт Example Framework v1.0
 
-## 1. Версия и настройка
+## Версия и настройка
 
-- **Технология:** Example Framework v1.0
-- **Установка:** `npm install example-framework`
-- **Конфигурация:** `example.config.ts` в корне проекта
+| Параметр | Значение |
+|----------|----------|
+| Версия | Example Framework 1.0 |
+| Ключевые библиотеки | — |
+| Конфигурация | `example.config.ts` в корне проекта |
 
-## 2. Именование
+## Конвенции именования
 
 | Объект | Конвенция | Пример |
 |--------|-----------|--------|
@@ -17,9 +23,11 @@
 | Переменные | camelCase | `userName` |
 | Константы | SCREAMING_SNAKE | `MAX_RETRIES` |
 
-## 3. Паттерны кода
+## Паттерны кода
 
 ### Repository Pattern
+
+Все операции с данными через Repository. Каждый агрегат — свой Repository.
 
 ```typescript
 class ExampleRepository {
@@ -29,14 +37,14 @@ class ExampleRepository {
 }
 ```
 
-## 4. Анти-паттерны
+## Антипаттерны
 
-| Запрещено | Почему | Вместо этого |
-|-----------|--------|-------------|
+| Антипаттерн | Почему плохо | Правильно |
+|-------------|----------|-------------|
 | `any` типы | Теряется типобезопасность | Использовать конкретные типы или generics |
 | Бизнес-логика в routes | Нарушает SRP | Выносить в services/ |
 
-## 5. Структура файлов
+## Структура файлов
 
 ```
 src/{svc}/backend/src/
@@ -47,18 +55,42 @@ src/{svc}/backend/src/
 └── utils/          # Helpers
 ```
 
-## 6. Валидация
+## Валидация
 
-```bash
-# Запуск валидации (когда скрипт будет создан)
-# python specs/.instructions/.scripts/validate-example-code.py
+*Скрипт валидации кода не создан. Валидация выполняется вручную.*
+
+## Тестирование
+
+### Фреймворк и плагины
+
+| Компонент | Пакет | Назначение |
+|-----------|-------|-----------|
+| Фреймворк | `jest` | Основной test runner |
+| Конфигурация | `jest.config.ts` | Настройка Jest |
+
+### Фикстуры
+
+```typescript
+// tests/fixtures/example.ts
+export const exampleFixture = {
+  id: "ex-001",
+  title: "Test Example",
+  createdAt: new Date("2026-01-01"),
+};
 ```
 
-## 7. Тестирование
+### Мокирование
 
-- **Фреймворк:** Jest
-- **Конфигурация:** `jest.config.ts`
-- **Фикстуры:** `tests/fixtures/`
+- **Unit-тесты:** мокируем Repository целиком.
+- **Integration-тесты:** реальная БД (Docker).
+
+```typescript
+const mockRepository = {
+  findById: jest.fn().mockResolvedValue(exampleFixture),
+};
+```
+
+### Паттерны тестов
 
 ```typescript
 describe("ExampleService", () => {
@@ -69,7 +101,12 @@ describe("ExampleService", () => {
 });
 ```
 
-## 8. Логирование
+## Логирование
+
+| Событие | Уровень | Пример сообщения |
+|---------|---------|-----------------|
+| Создание | INFO | `example.created id=ex-001` |
+| Ошибка создания | ERROR | `example.creation_failed error="validation failed"` |
 
 ```typescript
 import { logger } from "@shared/logger";
@@ -77,7 +114,3 @@ import { logger } from "@shared/logger";
 logger.info("example.created", { id: example.id });
 logger.error("example.creation_failed", { error: err.message });
 ```
-
-**Уровни:** `error` > `warn` > `info` > `debug`
-
-**Запрет PII:** Не логировать email, phone, password.

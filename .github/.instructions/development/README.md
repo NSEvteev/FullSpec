@@ -51,6 +51,7 @@ index: .github/.instructions/development/README.md
 - [Работа с зависимостями](./standard-development.md#6-работа-с-зависимостями)
 - [Завершение работы над Issue](./standard-development.md#7-завершение-работы-над-issue)
 - [Запреты и ограничения](./standard-development.md#8-запреты-и-ограничения)
+- [Требования по уровням критичности сервисов](./standard-development.md#9-требования-по-уровням-критичности-сервисов)
 
 **Инструкция:** [standard-development.md](./standard-development.md)
 

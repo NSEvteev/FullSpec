@@ -1,6 +1,6 @@
 ---
 name: service-create
-description: Создание сервисного документа services/{svc}.md (заглушка) при Design → WAITING. Используй при первом появлении нового сервиса в Design для создания заглушки с Резюме и Planned Changes.
+description: Создание нового docs/{svc}.md — per-service документа с 10 секциями по стандарту. Используй при появлении нового сервиса или перед началом работы с сервисом без документации.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
@@ -9,39 +9,34 @@ argument-hint: "[service-name]"
 
 # Создание сервисной документации
 
-**SSOT:** [create-service.md](/specs/.instructions/living-docs/service/create-service.md)
+**SSOT:** [create-service.md](/specs/.instructions/docs/service/create-service.md)
 
 ## Формат вызова
 
 ```
-/service-create [service-name] [--design <path>] [--impact <path>]
+/service-create [service-name]
 ```
 
 | Параметр | Описание | Обязательный |
 |----------|----------|--------------|
 | `service-name` | Имя сервиса (kebab-case, совпадает с `src/{service}/`) | Нет (спросит) |
-| `--design` | Путь к Design-документу (источник Dependencies, INT-N) | Нет (извлекается из контекста) |
-| `--impact` | Путь к parent Impact-документу (источник API-N, DATA-N) | Нет (извлекается из контекста) |
-
-При наличии `--design` и `--impact` — секции 2 (API контракты), 3 (Data Model), 5 (Внешние зависимости) заполняются предварительными данными из Impact/Design с маркером `*Предварительно (Design → WAITING). Финализируется при ADR → DONE.*`.
 
 ## Воркфлоу
 
-> ⚠️ **Перед выполнением** прочитать [create-service.md](/specs/.instructions/living-docs/service/create-service.md)
+> ⚠️ **Перед выполнением** прочитать [create-service.md](/specs/.instructions/docs/service/create-service.md)
 
-> ⚠️ **Шаблон** — найти пример в SSOT (секция "Примеры"), скопировать структуру. Запрещено придумывать свой формат.
+> ⚠️ **Шаблон** — взять из [standard-service.md § 5](/specs/.instructions/docs/service/standard-service.md#5-шаблон). Запрещено придумывать свой формат.
 
 → Выполнить шаги из SSOT-инструкции.
 
 ## Чек-лист
 
-→ См. [create-service.md#чек-лист](/specs/.instructions/living-docs/service/create-service.md#чек-лист)
+→ См. [create-service.md#чек-лист](/specs/.instructions/docs/service/create-service.md#чек-лист)
 
 ## Примеры
 
 ```
 /service-create auth
-/service-create auth --design specs/design/design-0001-oauth2.md --impact specs/impact/impact-0001-oauth2.md
-/service-create billing
-/service-create notification-gateway
+/service-create notification
+/service-create api-gateway
 ```

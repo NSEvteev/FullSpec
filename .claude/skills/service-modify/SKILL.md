@@ -1,43 +1,43 @@
 ---
 name: service-modify
-description: Изменение сервисного документа services/{svc}.md по событию SDD-lifecycle — заполнение при ADR DONE, перемещение в Changelog при Design DONE, деактивация и миграция.
+description: Изменение docs/{svc}.md — обновление секций, деактивация при удалении сервиса, миграция при переименовании. Используй при изменении API, Data Model, зависимостей или Tech Stack сервиса.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
-argument-hint: "<service-name> [--scenario <A|B|C|D|E|F>]"
+argument-hint: "<service-name> [--scenario <1-6>]"
 ---
 
 # Изменение сервисной документации
 
-**SSOT:** [modify-service.md](/specs/.instructions/living-docs/service/modify-service.md)
+**SSOT:** [modify-service.md](/specs/.instructions/docs/service/modify-service.md)
 
 ## Формат вызова
 
 ```
-/service-modify <service-name> [--scenario <A|B|C|D|E|F>]
+/service-modify <service-name> [--scenario <1-6>]
 ```
 
 | Параметр | Описание | Обязательный |
 |----------|----------|--------------|
 | `service-name` | Имя сервиса (kebab-case) | Да |
-| `--scenario` | Сценарий: A (Design WAITING), B (ADR WAITING), C (ADR DONE заглушка→полный), D (ADR DONE последующий), E (Design DONE), F (REJECTED) | Нет (определит автоматически) |
+| `--scenario` | Сценарий: 1 (endpoint), 2 (Data Model), 3 (зависимости), 4 (Tech Stack), 5 (analysis/ DONE), 6 (новый analysis/) | Нет (определит по триггеру) |
 
 ## Воркфлоу
 
-> ⚠️ **Перед выполнением** прочитать [modify-service.md](/specs/.instructions/living-docs/service/modify-service.md)
+> ⚠️ **Перед выполнением** прочитать [modify-service.md](/specs/.instructions/docs/service/modify-service.md)
 
-> ⚠️ **Шаблон** — найти пример в SSOT (секция "Примеры"), скопировать структуру. Запрещено придумывать свой формат.
+> ⚠️ **Шаблон** — форматы секций в [standard-service.md § 3](/specs/.instructions/docs/service/standard-service.md#3-секции).
 
 → Выполнить шаги из SSOT-инструкции.
 
 ## Чек-лист
 
-→ См. [modify-service.md#чек-лист](/specs/.instructions/living-docs/service/modify-service.md#чек-лист)
+→ См. [modify-service.md#чек-лист](/specs/.instructions/docs/service/modify-service.md#чек-лист)
 
 ## Примеры
 
 ```
-/service-modify auth --scenario C
-/service-modify billing --scenario E
-/service-modify auth --scenario F
+/service-modify auth --scenario 1
+/service-modify notification --scenario 2
+/service-modify billing
 ```

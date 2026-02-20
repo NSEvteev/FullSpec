@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Валидация infrastructure.md
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Процедура проверки `specs/docs/.system/infrastructure.md` на соответствие [standard-infrastructure.md](./standard-infrastructure.md). Основные проверки — наличие обязательных секций, таблиц и корректность хранилищ.
 

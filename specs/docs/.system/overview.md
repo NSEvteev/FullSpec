@@ -18,12 +18,12 @@ MyApp — платформа управления задачами для ком
 
 Система разделена на 4 сервиса по принципу бизнес-домена. auth — центральный сервис, от которого зависят все остальные (JWT-авторизация). task — основная бизнес-логика. notification — вспомогательный сервис, подписанный на события остальных. admin — надстройка над auth с дополнительной проверкой ролей.
 
-| Сервис | Зона ответственности | Владеет данными | Ключевые API |
-|--------|---------------------|----------------|-------------|
-| admin | Админ-панель, управление ролями, аудит-лог | audit_log | GET /admin/users, PATCH /admin/users/{id}/role |
-| auth | Регистрация, логин, JWT, роли | users, roles, sessions | POST /auth/register, POST /auth/login, POST /auth/validate |
-| notification | Push-уведомления, WebSocket, история | notifications, ws:connections | GET /notifications, WS /ws/notifications |
-| task | Задачи, проекты, назначения, статусы | tasks, projects, assignments | CRUD /tasks, CRUD /projects |
+| Сервис | Зона ответственности | Критичность | Владеет данными | Ключевые API |
+|--------|---------------------|-------------|----------------|-------------|
+| admin | Админ-панель, управление ролями, аудит-лог | critical-low | audit_log | GET /admin/users, PATCH /admin/users/{id}/role |
+| auth | Регистрация, логин, JWT, роли | critical-high | users, roles, sessions | POST /auth/register, POST /auth/login, POST /auth/validate |
+| notification | Push-уведомления, WebSocket, история | critical-medium | notifications, ws:connections | GET /notifications, WS /ws/notifications |
+| task | Задачи, проекты, назначения, статусы | critical-high | tasks, projects, assignments | CRUD /tasks, CRUD /projects |
 
 ```mermaid
 graph TD

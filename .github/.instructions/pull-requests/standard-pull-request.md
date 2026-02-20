@@ -153,7 +153,7 @@ gh pr ready 123
 |------|---------|--------|
 | `title` | Короткий заголовок (до 70 символов) | `feature: add user authentication` |
 | `body` | Описание изменений | См. [5. Структура body](#5-структура-body) |
-| `head` | Исходная ветка (автоматически) | `feature/auth-42-43-44` |
+| `head` | Исходная ветка (автоматически) | `0001-oauth2-auth` |
 | `base` | Целевая ветка | `main` |
 
 ### Опциональные поля
@@ -423,7 +423,7 @@ gh pr create --title "docs: fix typo in README" \
 
 **Процесс:**
 1. Создать Issue с меткой `critical`
-2. Создать ветку `fix/{issue-number}-{description}` от main
+2. Создать ветку `{NNNN}-hotfix-{description}` от main
 3. Внести исправление + тесты
 4. Создать PR с `--label critical`
 5. Ускоренное ревью (минимум 1 approval)
@@ -439,7 +439,7 @@ gh pr create --title "docs: fix typo in README" \
 **Процесс:**
 1. Регулярно синхронизировать feature-ветку с main:
    ```bash
-   git checkout feature/auth-42-43-44
+   git checkout 0001-oauth2-auth
    git pull origin main
    # Разрешить конфликты (если есть)
    git push

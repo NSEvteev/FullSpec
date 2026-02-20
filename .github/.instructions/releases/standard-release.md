@@ -490,7 +490,7 @@ MILESTONE_URL=$(gh api repos/$OWNER/$REPO/milestones/$MILESTONE_NUMBER --method 
 
 5. HOTFIX (§ 12, если production сломался)
    └─ Создать Issue с меткой critical
-   └─ Создать ветку fix/{issue}-{description}
+   └─ Создать ветку {NNNN}-hotfix-{description}
    └─ Исправить → PR → merge в main
    └─ Создать hotfix-релиз: gh release create v1.0.1
    └─ Деплой на production (автоматически)
@@ -710,7 +710,7 @@ gh run view {run-id} --log
 2. СОЗДАТЬ ВЕТКУ ОТ MAIN
    └─ git checkout main
    └─ git pull origin main
-   └─ git checkout -b fix/{issue-number}-{description}
+   └─ git checkout -b {NNNN}-hotfix-{description}
 
 3. ИСПРАВИТЬ БАГ
    └─ Внести изменения
@@ -718,7 +718,7 @@ gh run view {run-id} --log
    └─ git commit -m "fix: {description}"
 
 4. СОЗДАТЬ PR
-   └─ git push -u origin fix/{issue-number}-{description}
+   └─ git push -u origin {NNNN}-hotfix-{description}
    └─ gh pr create --title "fix: {description}" --body "Closes #{issue-number}" \
         --label bug --label critical
 
@@ -796,7 +796,7 @@ gh run view {run-id} --log
         --label bug --label critical
 
 6. ИСПРАВИТЬ ПРОБЛЕМУ
-   └─ Создать ветку fix/{issue}-...
+   └─ Создать ветку {NNNN}-hotfix-...
    └─ Исправить баг → PR → merge
    └─ Создать новый релиз v1.0.1 (после исправления)
 ```

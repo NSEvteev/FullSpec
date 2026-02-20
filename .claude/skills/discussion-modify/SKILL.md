@@ -9,7 +9,7 @@ argument-hint: "<путь> [--status WAITING]"
 
 # Изменение дискуссии
 
-**SSOT:** [modify-discussion.md](/specs/.instructions/discussion/modify-discussion.md)
+**SSOT:** [modify-discussion.md](/specs/.instructions/analysis/discussion/modify-discussion.md)
 
 ## Формат вызова
 
@@ -24,18 +24,18 @@ argument-hint: "<путь> [--status WAITING]"
 
 ## Воркфлоу
 
-> ⚠️ **Перед выполнением** прочитать [modify-discussion.md](/specs/.instructions/discussion/modify-discussion.md)
+> ⚠️ **Перед выполнением** прочитать [modify-discussion.md](/specs/.instructions/analysis/discussion/modify-discussion.md)
 
 → Выполнить шаги из SSOT-инструкции.
 
 ## Чек-лист
 
-→ См. [modify-discussion.md#чек-лист](/specs/.instructions/discussion/modify-discussion.md#чек-лист)
+→ См. [modify-discussion.md#чек-лист](/specs/.instructions/analysis/discussion/modify-discussion.md#чек-лист)
 
 ## Примеры
 
 ```
-/discussion-modify specs/discussion/disc-0001-oauth2-authorization.md
-/discussion-modify specs/discussion/disc-0001-oauth2-authorization.md --status WAITING
-/discussion-modify specs/discussion/disc-0005-cache-race-conditions.md
+/discussion-modify specs/analysis/0001-oauth2-authorization/discussion.md
+/discussion-modify specs/analysis/0001-oauth2-authorization/discussion.md --status WAITING
+/discussion-modify specs/analysis/0005-cache-race-conditions/discussion.md
 ```

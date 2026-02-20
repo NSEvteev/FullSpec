@@ -111,7 +111,7 @@ GitHub Issues — система управления задачами, бага
 │  (READY)    │
 └──────┬──────┘
        │
-       ├─ Создание ветки: git checkout -b feature/123-description
+       ├─ Создание ветки: git checkout -b 0001-auth
        │
        v
 ┌─────────────┐
@@ -143,7 +143,7 @@ GitHub Issues — система управления задачами, бага
 **Ключевые этапы:**
 1. **СОЗДАНИЕ** — Issue создаётся в GitHub
 2. **ОТКРЫТ** — Ожидает начала работы
-3. **В РАБОТЕ** — Разработка ведётся локально. **Триггер:** создана ветка `{type}/{issue-number}-*` через `git checkout -b`. Метка `status:wip` опциональна — для команды ≤3 человек прозрачность обеспечивается малым размером команды.
+3. **В РАБОТЕ** — Разработка ведётся локально. **Триггер:** создана ветка `{NNNN}-{description}` через `git checkout -b`. Метка `status:wip` опциональна — для команды ≤3 человек прозрачность обеспечивается малым размером команды.
 4. **PR СОЗДАН** — Код отправлен на ревью
 5. **REVIEW** — Проходит code review
 6. **ЗАКРЫТ** — PR смержен, Issue автоматически закрывается
@@ -260,7 +260,7 @@ GitHub Issues — система управления задачами, бага
 **Когда назначать:**
 - Issue создан И известен исполнитель → назначить через `--assignee {username}`
 - Issue создан И исполнитель неизвестен → оставить без assignee
-- Создана ветка `{type}/{issue-number}-*` → назначить себя через `gh issue edit {number} --add-assignee @me`
+- Создана ветка `{NNNN}-{description}` → назначить себя через `gh issue edit {number} --add-assignee @me`
 
 **Правила:**
 - Максимум 3 assignee на Issue
@@ -277,7 +277,7 @@ CLI команды назначения — см. [§7 CLI команды](#7-cl
 - Именование веток — [standard-branching.md](../branches/standard-branching.md#2-naming-convention)
 - Формат PR и ключевые слова — [standard-pull-request.md](../pull-requests/standard-pull-request.md)
 
-**Процесс:** Issue → ветка `{type}/{number}-{описание}` → PR с `Fixes #N` → мерж → Issue закрывается автоматически.
+**Процесс:** Issue → ветка `{NNNN}-{описание}` → PR с `Fixes #N` → мерж → Issue закрывается автоматически.
 
 Детали процесса — см. [§3 Жизненный цикл](#3-жизненный-цикл). Ключевые слова автозакрытия: `Fixes`, `Closes`, `Resolves` — см. [standard-pull-request.md](../pull-requests/standard-pull-request.md#6-связь-с-issues).
 

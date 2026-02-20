@@ -1,13 +1,13 @@
 ---
-description: Стандарт именования и создания веток — паттерны, привязка к Issue, защита main. Покрывает feature/bugfix/hotfix.
+description: Стандарт именования и создания веток — паттерн NNNN-description, привязка к analysis chain, защита main.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v2.0
 index: .github/.instructions/branches/README.md
 ---
 
 # Стандарт ветвления
 
-Версия стандарта: 1.2
+Версия стандарта: 2.0
 
 Правила создания, именования и жизненного цикла веток в репозитории.
 
@@ -15,9 +15,7 @@ index: .github/.instructions/branches/README.md
 - [Инструкции branches](./README.md)
 
 **SSOT-зависимости:**
-- [standard-issue.md](../issues/standard-issue.md) — номера Issues используются в имени ветки
 - [standard-pull-request.md](../pull-requests/standard-pull-request.md) — ветка привязывается к PR
-- [standard-labels.md](../labels/standard-labels.md) — TYPE-метка определяет префикс ветки
 - [standard-sync.md](../sync/standard-sync.md) — синхронизация main перед созданием ветки
 
 **Связанные документы:**
@@ -46,10 +44,10 @@ index: .github/.instructions/branches/README.md
 
 ```
 main (protected, stable)
-  ├─ feature/auth-42-43-44
-  ├─ fix/upload-errors-50-51
-  ├─ docs/deploy-guide-70
-  └─ task/deps-update-60
+  ├─ 0001-oauth2-auth
+  ├─ 0002-notification-service
+  ├─ 0015-hotfix-payment-crash
+  └─ 0042-cache-optimization
 ```
 
 **Ключевые свойства main:**
@@ -58,7 +56,7 @@ main (protected, stable)
 - Единственный источник для создания feature-веток
 
 **Принципы:**
-- Одна функциональная задача (фича/баг/задача) или группа связанных задач с общей целью — одна ветка — один PR. Критерии объединения: → [standard-issue.md § 8](../issues/standard-issue.md#8-декомпозиция-и-зависимости).
+- Одна ветка соответствует одному analysis chain (`specs/analysis/NNNN-{topic}/`) — одна ветка — один PR
 - Feature-ветки удаляются после merge
 - Fork-модель не используется — проект работает с одним origin
 
@@ -69,45 +67,31 @@ main (protected, stable)
 ### Формат имени
 
 ```
-{type}/{description}-{issue-numbers}
+{NNNN}-{description}
 ```
 
 | Элемент | Правило | Пример |
 |---------|---------|--------|
-| `{type}` | Определяется TYPE-меткой Issue с минимальным номером в группе | `feature`, `fix`, `docs` |
-| `{description}` | Kebab-case (lowercase, дефисы), 2-3 слова. Для feature/task — название функции (`auth`, `two-factor`). Для bug — симптом проблемы (`upload-errors`, `null-response`). Акронимы строчными: `api`, `jwt`, `cors`. | `auth`, `upload-errors`, `api-gateway` |
-| `{issue-numbers}` | Номера всех Issues группы через дефис в порядке возрастания | `42-43-44` (42 < 43 < 44) |
+| `{NNNN}` | 4-значный номер анализа из `specs/analysis/NNNN-{topic}/` | `0001`, `0042` |
+| `{description}` | Kebab-case (lowercase, дефисы), 1-4 слова. Из topic slug или уточнение. Акронимы строчными: `api`, `jwt`, `cors`. | `oauth2-auth`, `cache-optimization` |
 
-### Соответствие TYPE-меток и префиксов
+### Связь с analysis chain
 
-| TYPE-метка Issue | Префикс ветки |
-|------------------|---------------|
-| `feature` | `feature/` |
-| `bug` | `fix/` |
-| `task` | `task/` |
-| `docs` | `docs/` |
-| `refactor` | `refactor/` |
-
-### Правила выбора type
-
-Если в группе Issues разные TYPE-метки — использовать тип Issue с минимальным номером.
-
-**Пример:** Issues #45 (bug), #42 (feature), #50 (task) → префикс `feature/` (т.к. #42 — минимальный номер).
-
-### Обязательность Issue
-
-Каждая ветка ОБЯЗАНА ссылаться хотя бы на один Issue. Создание ветки без Issue запрещено. Перед созданием ветки — создать Issue и получить его номер.
+Каждая ветка привязана к analysis chain через номер NNNN. Вся работа в проекте организована через цепочку Discussion → Design → Plan Tests → Plan Dev. Номер NNNN — это номер analysis directory в `specs/analysis/`.
 
 ### Допустимые и запрещённые форматы
 
 | Формат | Статус | Причина |
 |--------|--------|---------|
-| `feature/auth-42-43-44` | Допустимо | Полный формат |
-| `fix/null-response-50` | Допустимо | Один Issue |
-| `docs/deploy-guide-70-71` | Допустимо | Два Issues |
-| `add-auth` | Запрещено | Нет типа и номеров |
-| `feature/add-auth` | Запрещено | Нет номеров Issues |
-| `feature/42_auth` | Запрещено | Подчёркивание вместо дефиса |
+| `0001-oauth2-auth` | Допустимо | Полный формат |
+| `0002-notification-service` | Допустимо | Полный формат |
+| `0015-hotfix-payment-crash` | Допустимо | Срочный баг — но через analysis chain |
+| `feature/auth-42` | Запрещено | Старый формат с type-префиксом |
+| `add-auth` | Запрещено | Нет NNNN-префикса |
+| `0001_auth` | Запрещено | Подчёркивание вместо дефиса |
+| `0001-Auth` | Запрещено | Верхний регистр |
+
+**Regex:** `^\d{4}-[a-z][a-z0-9]*(-[a-z][a-z0-9]*)*$`
 
 ---
 
@@ -121,10 +105,10 @@ git checkout main
 git pull origin main
 
 # 2. Создать ветку
-git checkout -b {type}/{description}-{issue-numbers}
+git checkout -b {NNNN}-{description}
 ```
 
-**Пример:** `git checkout -b feature/auth-42-43-44`
+**Пример:** `git checkout -b 0001-oauth2-auth`
 
 Ветка создаётся ТОЛЬКО от актуального main. Перед созданием обязательна синхронизация.
 
@@ -163,37 +147,33 @@ git push -u origin {branch-name}
 |---------|-------------|
 | Прямые коммиты в main запрещены | Все изменения только через PR с review |
 | Вложенные ветки запрещены (ветка от ветки) | Усложняет merge, создаёт скрытые зависимости |
-| Ветка без Issue запрещена | Нарушает трассируемость работы |
-| Ветка без номера Issue в имени запрещена | Невозможно отследить связь с задачей |
+| Ветка без analysis chain запрещена | Нарушает трассируемость работы |
 
 **Вложенные ветки — запрещено:**
 ```
-feature/auth-42-43
-  └─ feature/auth-ui-44   ← НЕ создавать
+0001-oauth2-auth
+  └─ 0001-oauth2-ui   ← НЕ создавать
 ```
 
-**Правильно — одна ветка с объединёнными Issues:**
+**Правильно — отдельные ветки от main:**
 ```
 main
-  └─ feature/auth-42-43-44
+  ├─ 0001-oauth2-auth
+  └─ 0001-oauth2-ui       (создать от main ПОСЛЕ merge первой)
 ```
 
 ---
 
 ## 5. Граничные случаи
 
-### Issues слишком разные для одной ветки
+### Несколько веток для одного analysis chain
 
-Разделить на отдельные ветки, если выполнено ЛЮБОЕ из условий:
-- Issues затрагивают файлы с менее чем 20% пересечений
-- Issues имеют разные TYPE-метки (bug, feature, docs)
-
-Мержить последовательно:
+Если объём работы по одному analysis chain слишком велик для одной ветки — разделить на этапы. Каждая ветка использует тот же NNNN с уточнением в description:
 
 ```
 main
-  ├─ feature/auth-backend-42-43    (merge первым)
-  └─ feature/auth-frontend-44-45   (создать от свежего main ПОСЛЕ merge первой)
+  ├─ 0001-oauth2-backend    (merge первым)
+  └─ 0001-oauth2-frontend   (создать от свежего main ПОСЛЕ merge первой)
 ```
 
 Последовательность:
@@ -201,36 +181,18 @@ main
 2. Синхронизировать main (`git checkout main && git pull origin main`)
 3. Создать вторую ветку от обновлённого main
 
-### Ветка создана без Issue (ошибка, требует исправления)
-
-**Как возникла ситуация:** Разработчик создал ветку вручную до прочтения стандарта или забыл создать Issue.
-
-**Процесс исправления:**
-1. Создать Issue для задачи (→ [create-issue.md](../issues/create-issue.md))
-2. Получить номер (например, #123)
-3. Переименовать ветку:
-   ```bash
-   git branch -m old-name feature/auth-123
-   ```
-
-### Issue переименован после создания ветки
-
-Имя ветки НЕ меняется при переименовании Issue. Ветка уже запушена в remote — переименование усложнит трассируемость.
-
-Расхождение между `{description}` в имени ветки и title Issue — допустимо. Связь сохраняется через номер Issue в имени ветки.
-
 ### Зависимые задачи
 
-Если Issue A зависит от Issue B (который ещё не смержен):
+Если analysis A зависит от analysis B (который ещё не смержен):
 
 **Вариант 1 (рекомендуется):** Дождаться merge B → создать ветку A от обновлённой main.
 
 **Вариант 2 (если B большой):** Создать draft PR для B → создать ветку A от main → синхронизировать A с веткой B вручную:
 
 ```bash
-git checkout feature/A-50
-git fetch origin feature/B-49
-git rebase origin/feature/B-49
+git checkout 0002-notification-service
+git fetch origin 0001-oauth2-auth
+git rebase origin/0001-oauth2-auth
 ```
 
 **ЗАПРЕЩЕНО:** Создание ветки A от ветки B через `git checkout -b` (вложенные ветки).
@@ -246,10 +208,10 @@ git stash save "WIP: описание"
 # Переключиться
 git checkout main
 git pull origin main
-git checkout -b fix/urgent-bug-99
+git checkout -b 0015-hotfix-payment-crash
 
 # Вернуться и восстановить
-git checkout feature/auth-42-43
+git checkout 0001-oauth2-auth
 git stash pop
 ```
 
@@ -266,10 +228,8 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
 ```
 
 Скрипт проверяет:
-- Наличие префикса из таблицы соответствия TYPE-меток
-- Формат `{type}/{description}-{issue-numbers}`
-- Существование Issues с указанными номерами
+- Наличие 4-значного NNNN-префикса
+- Формат `{NNNN}-{description}`
+- Description в kebab-case, lowercase
 
-*Скрипт будет создан через `/script-create`.*
-
-**Автоматизация:** Добавить в pre-push hook.
+**Автоматизация:** Добавлен в pre-commit hook.

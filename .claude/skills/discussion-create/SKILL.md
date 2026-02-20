@@ -9,7 +9,7 @@ argument-hint: "[тема] [--auto-clarify]"
 
 # Создание дискуссии
 
-**SSOT:** [create-discussion.md](/specs/.instructions/discussion/create-discussion.md)
+**SSOT:** [create-discussion.md](/specs/.instructions/analysis/discussion/create-discussion.md)
 
 ## Формат вызова
 
@@ -24,13 +24,13 @@ argument-hint: "[тема] [--auto-clarify]"
 
 ## Воркфлоу
 
-> ⚠️ **Перед выполнением** прочитать [create-discussion.md](/specs/.instructions/discussion/create-discussion.md)
+> ⚠️ **Перед выполнением** прочитать [create-discussion.md](/specs/.instructions/analysis/discussion/create-discussion.md)
 
 → Выполнить шаги из SSOT-инструкции.
 
 ## Чек-лист
 
-→ См. [create-discussion.md#чек-лист](/specs/.instructions/discussion/create-discussion.md#чек-лист)
+→ См. [create-discussion.md#чек-лист](/specs/.instructions/analysis/discussion/create-discussion.md#чек-лист)
 
 ## Примеры
 
