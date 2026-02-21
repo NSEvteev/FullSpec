@@ -27,7 +27,11 @@ index: .claude/README.md
 
 ## 1. Файлы
 
-*Нет активных черновиков.*
+| Файл | Описание |
+|------|----------|
+| [2026-02-20-post-push-review.md](./2026-02-20-post-push-review.md) | Чек-лист ревью после пушей f26c67e, 4b48e15: 5 блоков проверки |
+| [process-map.md](./process-map.md) | Карта процесса от идеи до деплоя — 17 шагов, покрытие скиллами/агентами |
+| [review-document-design.md](./review-document-design.md) | Дизайн документа review.md — ревью кода в analysis chain |
 
 ---
 
@@ -51,5 +55,8 @@ index: .claude/README.md
 │   ├── example-standards-validation-plan.md     #   План валидации стандартов
 │   ├── 2026-02-08-specs-architecture.md          #   Архитектура specs/ (SDD)
 │   └── README.md                                #   Индекс примеров
+├── 2026-02-20-post-push-review.md      # Чек-лист ревью после пушей
+├── process-map.md                      # Карта процесса (17 шагов)
+├── review-document-design.md           # Дизайн review.md
 └── README.md                           # Этот файл (индекс)
 ```
