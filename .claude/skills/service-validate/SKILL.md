@@ -3,6 +3,7 @@ name: service-validate
 description: Проверка docs/{svc}.md на соответствие стандарту — frontmatter, 10 секций, таблицы, подсекции API/Data Model, автономия, Changelog. Используй после создания или изменения сервисного документа, при code review или перед коммитом.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[service-name | --all]"
 ---

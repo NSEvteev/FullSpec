@@ -1,5 +1,5 @@
 ---
-description: Стандарт именования и создания веток — паттерн NNNN-description, привязка к analysis chain, защита main.
+description: Стандарт именования и создания веток — имя ветки = имя папки analysis chain, защита main.
 standard: .instructions/standard-instruction.md
 standard-version: v2.0
 index: .github/.instructions/branches/README.md
@@ -17,6 +17,12 @@ index: .github/.instructions/branches/README.md
 **SSOT-зависимости:**
 - [standard-pull-request.md](../pull-requests/standard-pull-request.md) — ветка привязывается к PR
 - [standard-sync.md](../sync/standard-sync.md) — синхронизация main перед созданием ветки
+- [standard-analysis.md](/specs/.instructions/analysis/standard-analysis.md) — analysis chain (NNNN-нумерация, привязка ветки к цепочке)
+- [standard-commit.md](../commits/standard-commit.md) — формат коммитов, pre-commit hooks
+- [standard-review.md](../review/standard-review.md) — Branch Protection Rules, merge-стратегии
+- [standard-issue.md](../issues/standard-issue.md) — связь NNNN ветки с GitHub Issues
+- [standard-github-workflow.md](../standard-github-workflow.md) — общий workflow (стадии 3-5)
+- [standard-development.md](../development/standard-development.md) — процесс разработки в ветке
 
 **Связанные документы:**
 
@@ -44,7 +50,7 @@ index: .github/.instructions/branches/README.md
 
 ```
 main (protected, stable)
-  ├─ 0001-oauth2-auth
+  ├─ 0001-oauth2-authorization
   ├─ 0002-notification-service
   ├─ 0015-hotfix-payment-crash
   └─ 0042-cache-optimization
@@ -56,7 +62,7 @@ main (protected, stable)
 - Единственный источник для создания feature-веток
 
 **Принципы:**
-- Одна ветка соответствует одному analysis chain (`specs/analysis/NNNN-{topic}/`) — одна ветка — один PR
+- Одна ветка соответствует одному analysis chain — одна ветка — один PR. Имя ветки = имя папки `specs/analysis/NNNN-{topic}/` (→ [standard-analysis.md § 9](/specs/.instructions/analysis/standard-analysis.md))
 - Feature-ветки удаляются после merge
 - Fork-модель не используется — проект работает с одним origin
 
@@ -66,26 +72,30 @@ main (protected, stable)
 
 ### Формат имени
 
+**Имя ветки = имя папки analysis chain.** Ветка называется точно так же, как папка `specs/analysis/{name}/`.
+
 ```
-{NNNN}-{description}
+specs/analysis/0001-oauth2-authorization/  →  ветка 0001-oauth2-authorization
+specs/analysis/0042-cache-optimization/    →  ветка 0042-cache-optimization
 ```
 
 | Элемент | Правило | Пример |
 |---------|---------|--------|
-| `{NNNN}` | 4-значный номер анализа из `specs/analysis/NNNN-{topic}/` | `0001`, `0042` |
-| `{description}` | Kebab-case (lowercase, дефисы), 1-4 слова. Из topic slug или уточнение. Акронимы строчными: `api`, `jwt`, `cors`. | `oauth2-auth`, `cache-optimization` |
+| `{NNNN}` | 4-значный номер анализа | `0001`, `0042` |
+| `{topic}` | Topic slug из имени папки analysis. Kebab-case (lowercase, дефисы). Акронимы строчными: `api`, `jwt`, `cors`. | `oauth2-authorization`, `cache-optimization` |
 
 ### Связь с analysis chain
 
-Каждая ветка привязана к analysis chain через номер NNNN. Вся работа в проекте организована через цепочку Discussion → Design → Plan Tests → Plan Dev. Номер NNNN — это номер analysis directory в `specs/analysis/`.
+Каждая ветка привязана к analysis chain 1:1. Вся работа в проекте организована через цепочку Discussion → Design → Plan Tests → Plan Dev. Имя ветки = имя папки analysis directory в `specs/analysis/`.
 
 ### Допустимые и запрещённые форматы
 
 | Формат | Статус | Причина |
 |--------|--------|---------|
-| `0001-oauth2-auth` | Допустимо | Полный формат |
-| `0002-notification-service` | Допустимо | Полный формат |
-| `0015-hotfix-payment-crash` | Допустимо | Срочный баг — но через analysis chain |
+| `0001-oauth2-authorization` | Допустимо | Совпадает с именем папки analysis |
+| `0002-notification-service` | Допустимо | Совпадает с именем папки analysis |
+| `0015-hotfix-payment-crash` | Допустимо | Совпадает с именем папки analysis |
+| `0001-oauth2-auth` | Запрещено | Не совпадает с именем папки (сокращение) |
 | `feature/auth-42` | Запрещено | Старый формат с type-префиксом |
 | `add-auth` | Запрещено | Нет NNNN-префикса |
 | `0001_auth` | Запрещено | Подчёркивание вместо дефиса |
@@ -93,22 +103,18 @@ main (protected, stable)
 
 **Regex:** `^\d{4}-[a-z][a-z0-9]*(-[a-z][a-z0-9]*)*$`
 
+**Дополнительная проверка:** папка `specs/analysis/{branch-name}/` ДОЛЖНА существовать.
+
 ---
 
 ## 3. Жизненный цикл ветки
 
 ### Создание
 
-```bash
-# 1. Синхронизировать main (→ standard-sync.md)
-git checkout main
-git pull origin main
+1. Синхронизировать main (→ [standard-sync.md § 3](../sync/standard-sync.md#3-процесс-синхронизации))
+2. Создать ветку с именем папки analysis: `git checkout -b {NNNN}-{topic}`
 
-# 2. Создать ветку
-git checkout -b {NNNN}-{description}
-```
-
-**Пример:** `git checkout -b 0001-oauth2-auth`
+**Пример:** `git checkout -b 0001-oauth2-authorization`
 
 Ветка создаётся ТОЛЬКО от актуального main. Перед созданием обязательна синхронизация.
 
@@ -145,55 +151,37 @@ git push -u origin {branch-name}
 
 | Правило | Обоснование |
 |---------|-------------|
-| Прямые коммиты в main запрещены | Все изменения только через PR с review |
+| Прямые коммиты в main запрещены | Все изменения только через PR с review (→ [standard-github-workflow.md](../standard-github-workflow.md)) |
 | Вложенные ветки запрещены (ветка от ветки) | Усложняет merge, создаёт скрытые зависимости |
 | Ветка без analysis chain запрещена | Нарушает трассируемость работы |
+| Несколько веток для одного analysis запрещено | Один analysis chain = одна ветка = один PR. Если объём слишком велик — разбить Discussion на несколько analysis chains |
 
 **Вложенные ветки — запрещено:**
 ```
-0001-oauth2-auth
+0001-oauth2-authorization
   └─ 0001-oauth2-ui   ← НЕ создавать
 ```
 
-**Правильно — отдельные ветки от main:**
+**Правильно — отдельные analysis chains от main:**
 ```
 main
-  ├─ 0001-oauth2-auth
-  └─ 0001-oauth2-ui       (создать от main ПОСЛЕ merge первой)
+  ├─ 0001-oauth2-authorization   (analysis chain 0001)
+  └─ 0002-oauth2-ui              (отдельный analysis chain 0002)
 ```
 
 ---
 
 ## 5. Граничные случаи
 
-### Несколько веток для одного analysis chain
+### Большой объём работы
 
-Если объём работы по одному analysis chain слишком велик для одной ветки — разделить на этапы. Каждая ветка использует тот же NNNN с уточнением в description:
-
-```
-main
-  ├─ 0001-oauth2-backend    (merge первым)
-  └─ 0001-oauth2-frontend   (создать от свежего main ПОСЛЕ merge первой)
-```
-
-Последовательность:
-1. Создать и смержить первую ветку
-2. Синхронизировать main (`git checkout main && git pull origin main`)
-3. Создать вторую ветку от обновлённого main
+Если analysis chain слишком велик для одного PR — **разбить на уровне analysis chain**: создать несколько Discussion с отдельными NNNN. Каждая Discussion → своя ветка → свой PR.
 
 ### Зависимые задачи
 
 Если analysis A зависит от analysis B (который ещё не смержен):
 
-**Вариант 1 (рекомендуется):** Дождаться merge B → создать ветку A от обновлённой main.
-
-**Вариант 2 (если B большой):** Создать draft PR для B → создать ветку A от main → синхронизировать A с веткой B вручную:
-
-```bash
-git checkout 0002-notification-service
-git fetch origin 0001-oauth2-auth
-git rebase origin/0001-oauth2-auth
-```
+Дождаться merge B → создать ветку A от обновлённой main.
 
 **ЗАПРЕЩЕНО:** Создание ветки A от ветки B через `git checkout -b` (вложенные ветки).
 
@@ -211,7 +199,7 @@ git pull origin main
 git checkout -b 0015-hotfix-payment-crash
 
 # Вернуться и восстановить
-git checkout 0001-oauth2-auth
+git checkout 0001-oauth2-authorization
 git stash pop
 ```
 
@@ -229,7 +217,7 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
 
 Скрипт проверяет:
 - Наличие 4-значного NNNN-префикса
-- Формат `{NNNN}-{description}`
-- Description в kebab-case, lowercase
+- Формат kebab-case, lowercase
+- Существование папки `specs/analysis/{branch-name}/`
 
-**Автоматизация:** Добавлен в pre-commit hook.
+**Автоматизация:** Добавлен в pre-commit hook (→ [standard-commit.md § 6](../commits/standard-commit.md)).

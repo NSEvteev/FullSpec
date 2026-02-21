@@ -3,6 +3,7 @@ name: plan-test-modify
 description: Изменение документа плана тестов SDD — обновление TC-N, разрешение маркеров, перевод DRAFT в WAITING, обработка CONFLICT. Используй при изменении существующего плана тестов.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "<путь> [--status WAITING]"
 ---

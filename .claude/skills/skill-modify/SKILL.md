@@ -3,6 +3,7 @@ name: skill-modify
 description: Обновление SSOT-ссылки, параметров или деактивация существующего скилла. Используй при изменении SSOT-инструкции, переименовании скилла или выводе из эксплуатации.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "<название> [--action <тип>]"
 ---

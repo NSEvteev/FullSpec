@@ -47,7 +47,13 @@ index: specs/.instructions/README.md
 
 **Содержит:** стратегию — типы тестов, структуру файлов, стратегию мокирования, межсервисные тесты, тестовые данные, команды запуска.
 
-**НЕ содержит:** per-tech паттерны тестирования (pytest fixtures, mocking asyncpg, Jest configuration) — это в `standard-{tech}.md` секция Тестирование. Структуру сервисов и потоки данных — это в `overview.md`. Конвенции именования тестов в коде — это в `conventions.md`. Конфигурацию CI pipeline — это в `infrastructure.md`.
+**НЕ содержит:** per-tech паттерны тестирования (pytest fixtures, mocking asyncpg, Jest configuration) — это в `standard-{tech}.md` секция Тестирование. Структуру сервисов и потоки данных — это в `overview.md`. Конвенции именования тестов в коде — это в `conventions.md`. Конфигурацию CI pipeline — это в `infrastructure.md`. Процесс запуска тестов (make test, make test-e2e) — это в `standard-development.md`.
+
+**Разграничение:** testing.md = стратегия тестирования (какие типы, где размещены, что мокировать), [standard-development.md](/.github/.instructions/development/standard-development.md) = процесс (make test, make test-e2e, порядок запуска при разработке).
+
+**SSOT-зависимости:**
+- [standard-development.md](/.github/.instructions/development/standard-development.md) — процесс запуска тестов (make test, make test-e2e)
+- [standard-plan-test.md](/specs/.instructions/analysis/plan-test/standard-plan-test.md) — TC-N тестовые сценарии из analysis chain
 
 **Целевая аудитория:** LLM-разработчик, которому нужно написать тест для своего изменения, определить тип теста, разместить файл в правильном месте, настроить моки и запустить.
 

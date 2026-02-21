@@ -3,6 +3,7 @@ name: migration-validate
 description: Проверка завершённости миграции — version drift, соответствие содержания Workflows стандарту, актуальность скриптов. Используй после /migration-create для подтверждения что все зависимости синхронизированы.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[стандарт]"
 ---

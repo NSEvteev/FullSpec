@@ -13,8 +13,16 @@ index: .github/.instructions/pull-requests/README.md
 
 **Полезные ссылки:**
 - [Инструкции](./README.md)
-- [Стандарт меток](../labels/standard-labels.md) — категоризация PR
 - [standard-pr-template.md](./pr-template/standard-pr-template.md) — Шаблон PR
+
+**SSOT-зависимости:**
+- [standard-branching.md](../branches/standard-branching.md) — PR создаётся из feature-ветки
+- [standard-labels.md](../labels/standard-labels.md) — категоризация PR
+- [standard-review.md](../review/standard-review.md) — процесс review после создания PR
+- [standard-issue.md](../issues/standard-issue.md) — Closes #N, связь PR → Issues
+- [standard-development.md](../development/standard-development.md) — проверки до создания PR
+- [standard-sync.md](../sync/standard-sync.md) — синхронизация при длительной разработке
+- [standard-github-workflow.md](../standard-github-workflow.md) — полный цикл (стадия 5: PR)
 
 **Связанные документы:**
 
@@ -153,7 +161,7 @@ gh pr ready 123
 |------|---------|--------|
 | `title` | Короткий заголовок (до 70 символов) | `feature: add user authentication` |
 | `body` | Описание изменений | См. [5. Структура body](#5-структура-body) |
-| `head` | Исходная ветка (автоматически) | `0001-oauth2-auth` |
+| `head` | Исходная ветка (автоматически) | `0001-oauth2-authorization` |
 | `base` | Целевая ветка | `main` |
 
 ### Опциональные поля
@@ -439,7 +447,7 @@ gh pr create --title "docs: fix typo in README" \
 **Процесс:**
 1. Регулярно синхронизировать feature-ветку с main:
    ```bash
-   git checkout 0001-oauth2-auth
+   git checkout 0001-oauth2-authorization
    git pull origin main
    # Разрешить конфликты (если есть)
    git push
@@ -453,21 +461,17 @@ gh pr create --title "docs: fix typo in README" \
 
 **Сценарий:** Работа над зависимыми фичами (например, backend API и frontend интеграция).
 
-**Рекомендация:** Объединить зависимые Issues в одну группу и одну ветку:
-
-```bash
-git checkout -b feature/user-crud-42-43-44-45
-```
+**Рекомендация:** Один analysis chain = одна ветка = один PR. Если объём слишком велик — разбить на уровне Discussion (создать отдельные analysis chains).
 
 **Если разделение необходимо:**
-1. Создать две группы Issues
-2. Первая группа (backend) мержится первой
-3. Вторая группа (frontend) создаётся от свежего main после merge первой
+1. Создать отдельные analysis chains (Discussion → Design → Plan Tests → Plan Dev)
+2. Первая цепочка (например, backend API) мержится первой
+3. Вторая цепочка (например, frontend) создаётся от свежего main после merge первой
 
 ```
 main
-  ├─ feature/user-api-42-43       (мержим первым)
-  └─ feature/user-ui-44-45        (создаём после merge первой)
+  ├─ 0042-user-api               (мержим первым)
+  └─ 0043-user-ui                (создаём после merge первой)
 ```
 
 ### Один Issue = один PR

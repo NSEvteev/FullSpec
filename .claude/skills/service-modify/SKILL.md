@@ -3,6 +3,7 @@ name: service-modify
 description: Изменение docs/{svc}.md — обновление секций, деактивация при удалении сервиса, миграция при переименовании. Используй при изменении API, Data Model, зависимостей или Tech Stack сервиса.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "<service-name> [--scenario <1-6>]"
 ---

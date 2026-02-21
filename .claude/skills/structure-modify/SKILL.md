@@ -3,6 +3,7 @@ name: structure-modify
 description: Переименование, перемещение или удаление папки в структуре проекта с обновлением всех ссылок и SSOT. Используй при реорганизации структуры, переименовании модуля или удалении устаревшего раздела.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "<операция> <аргументы>"
 ---

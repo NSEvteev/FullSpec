@@ -350,9 +350,9 @@ Plan Tests попадает в CONFLICT через tree-level каскад. LLM 
 
 **Побочные эффекты Plan Tests → DONE** ([standard-plan-test.md § 4](./standard-plan-test.md#4-переходы-статусов)):
 
-| # | Действие |
-|---|----------|
-| 1 | `docs/.system/testing.md` — обновить стратегию тестирования (если изменилась) |
+| # | Действие | SSOT |
+|---|----------|------|
+| 1 | `docs/.system/testing.md` — обновить стратегию тестирования (если изменилась) | [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md) |
 
 Обновить README: `RUNNING` → `DONE`.
 

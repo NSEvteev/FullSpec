@@ -3,6 +3,7 @@ name: design-modify
 description: Изменение документа проектирования SDD — обновление контента, разрешение маркеров, перевод DRAFT в WAITING, откат артефактов. Используй при изменении существующего проектирования.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "<путь> [--status WAITING]"
 ---

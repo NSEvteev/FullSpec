@@ -3,6 +3,7 @@ name: discussion-create
 description: Создание документа дискуссии SDD с Clarify, генерацией разделов и валидацией. Используй при вызове пользователем "новой дискуссии", запуске нового "воркфлоу" и т.д. — в общем при разговоре с пользователем о проблеме, требованиях и критериях успеха проекта.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "[тема] [--auto-clarify]"
 ---

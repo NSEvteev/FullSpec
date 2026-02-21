@@ -3,6 +3,7 @@ name: labels-validate
 description: Проверка labels.yml и меток на GitHub — синхронизация с репозиторием, валидация Issue/PR. Используй для аудита меток, после изменения labels.yml или при проверке корректности меток на Issue.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[--file] [--sync] [--issue <number>] [--all]"
 ---

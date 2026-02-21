@@ -3,6 +3,7 @@ name: service-create
 description: Создание нового docs/{svc}.md — per-service документа с 10 секциями по стандарту. Используй при появлении нового сервиса или перед началом работы с сервисом без документации.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "[service-name]"
 ---

@@ -3,6 +3,7 @@ name: discussion-validate
 description: Проверка документа дискуссии на соответствие стандарту SDD — frontmatter, именование, секции, нумерация, маркеры, зона ответственности. Используй после создания или изменения дискуссии, при code review или перед коммитом.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[путь] [--all] [--json]"
 ---

@@ -3,6 +3,7 @@ name: labels-modify
 description: Добавление, удаление или переименование меток GitHub с синхронизацией labels.yml. Используй при изменении набора меток проекта, добавлении новой категории или исправлении опечатки в метке.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Edit
 argument-hint: "<действие> [аргументы]"
 ---

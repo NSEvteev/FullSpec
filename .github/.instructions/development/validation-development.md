@@ -17,8 +17,11 @@ index: .github/.instructions/development/README.md
 **SSOT-зависимости:**
 - [standard-development.md](./standard-development.md) — стандарт процесса разработки (SSOT правил)
 - [CLAUDE.md](/CLAUDE.md) — make-команды проекта
-- [standard-branching.md](../branches/standard-branching.md) — имя ветки → номера Issues
+- [standard-branching.md](../branches/standard-branching.md) — имя ветки = имя папки analysis chain, § 6 валидация имени
 - [standard-principles.md](/.instructions/standard-principles.md) — принципы программирования
+- [standard-issue.md](../issues/standard-issue.md) — критерии готовности, описание задачи
+- [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md) — стратегия тестирования
+- [standard-sync.md](../sync/standard-sync.md) — синхронизация main перед запуском тестов
 
 **Связанные документы:**
 
@@ -60,7 +63,7 @@ index: .github/.instructions/development/README.md
 
 ### Шаг 1: Проверить тесты
 
-**SSOT:** [standard-development.md § 4](./standard-development.md#4-тестирование)
+**SSOT:** [standard-development.md § 4](./standard-development.md#4-тестирование), стратегия тестирования: [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md)
 
 **Автоматически:**
 ```bash
@@ -164,11 +167,11 @@ make test-e2e
 
 **Вручную:**
 
-1. Получить номера Issues из имени ветки:
+1. Получить номер анализа из имени ветки:
    ```bash
    git branch --show-current
    ```
-   Извлечь номер анализа из формата `{NNNN}-{description}`.
+   Имя ветки = имя папки analysis chain (`{NNNN}-{topic}`).
 
 2. Для каждого Issue проверить, что задача реализована:
    ```bash
@@ -179,7 +182,7 @@ make test-e2e
 
 | Проверка | Правило |
 |----------|---------|
-| Критерии готовности | Все пункты из "Критерии готовности" в body Issue выполнены |
+| Критерии готовности | Все пункты из "Критерии готовности" в body Issue выполнены (→ [standard-issue.md](../issues/standard-issue.md)) |
 | Код соответствует описанию | Реализация покрывает "Описание" из Issue |
 | Принципы программирования | Код следует [standard-principles.md](/.instructions/standard-principles.md) |
 

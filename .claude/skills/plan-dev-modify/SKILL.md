@@ -3,6 +3,7 @@ name: plan-dev-modify
 description: Изменение документа плана разработки SDD — обновление TASK-N, разрешение маркеров, перевод DRAFT в WAITING, рабочие правки при RUNNING, обработка CONFLICT с синхронизацией Issues. Используй при изменении существующего плана разработки.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "<путь> [--status WAITING]"
 ---

@@ -3,6 +3,7 @@ name: skill-validate
 description: Проверка SKILL.md на соответствие стандарту — frontmatter, секции, SSOT-ссылка, размер. Используй после создания или изменения скилла, при code review или массовой валидации всех скиллов.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[название] [--all] [--json]"
 ---

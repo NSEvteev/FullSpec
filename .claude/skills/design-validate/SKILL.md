@@ -3,6 +3,7 @@ name: design-validate
 description: Проверка документа проектирования на соответствие стандарту SDD — frontmatter, именование, секции SVC-N (9 подсекций, 8:8 маппинг), INT-N, STS-N, delta-формат, маркеры, зона ответственности. Используй после создания или изменения проектирования, при code review или перед коммитом.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[путь] [--all] [--json]"
 ---

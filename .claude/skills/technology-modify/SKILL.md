@@ -3,6 +3,7 @@ name: technology-modify
 description: Изменение per-tech стандарта кодирования — добавление сервиса, обновление конвенций, откат, деактивация. Используй при изменении существующего per-tech стандарта.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "<tech-name> [--scenario A|B|C|D]"
 ---

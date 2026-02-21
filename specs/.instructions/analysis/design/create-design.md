@@ -122,7 +122,7 @@ index: specs/.instructions/README.md
 
 **При отсутствии `docs/`:** шаги 2-5 пропускаются, LLM фиксирует «docs/ не найден — проект новый», Clarify расширяется.
 
-**Агентный режим:** Unified Scan выполняется **design-agent** — агент читает все 5 источников в изолированном контексте.
+**Агентный режим:** Unified Scan выполняется **design-agent** — агент читает все 5 источников в изолированном контексте. Структура секций `docs/{svc}.md` определена в [standard-service.md § 3](/specs/.instructions/docs/service/standard-service.md) — design-agent использует её для 8:8 маппинга подсекций SVC-N.
 
 ### Шаг 5: Clarify
 

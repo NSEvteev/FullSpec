@@ -3,6 +3,7 @@ name: plan-dev-create
 description: Создание документа плана разработки SDD — чтение Plan Tests (TC-N), Design (SVC-N), Discussion (REQ-N), Clarify, генерация TASK-N с 5 полями, подзадачи, кросс-сервисные зависимости, маппинг Issues. Используй после одобрения Plan Tests (WAITING) для определения задач реализации.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "<parent-plan-test> [--auto-clarify]"
 ---

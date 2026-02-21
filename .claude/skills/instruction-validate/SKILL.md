@@ -3,6 +3,7 @@ name: instruction-validate
 description: Проверка инструкции на соответствие стандарту — frontmatter, обязательные секции, ссылки, чек-лист. Используй после создания или изменения инструкции, при code review или перед коммитом.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[путь] [--all] [--json]"
 ---

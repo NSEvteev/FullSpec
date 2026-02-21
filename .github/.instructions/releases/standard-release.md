@@ -19,9 +19,12 @@ index: .github/.instructions/releases/README.md
 
 **SSOT-зависимости:**
 - [standard-milestone.md](../milestones/standard-milestone.md) — версионирование SemVer, связь Release-Milestone
-- [standard-commit.md](../commits/standard-commit.md) — Conventional Commits для автоопределения версии
+- [standard-commit.md](../commits/standard-commit.md) — Conventional Commits для автоопределения версии, § 7 тип "revert" для rollback
 - [standard-pull-request.md](../pull-requests/standard-pull-request.md) — PR, попадающие в Release
 - [standard-action.md](../actions/standard-action.md) — CI/CD workflows для деплоя
+- [standard-sync.md](../sync/standard-sync.md) — синхронизация main перед подготовкой Release
+- [standard-issue.md](../issues/standard-issue.md) — связь Issues с Milestones (§ 9)
+- [standard-branching.md](../branches/standard-branching.md) — hotfix-ветки, формат именования
 
 **Связанные документы:**
 
@@ -490,7 +493,7 @@ MILESTONE_URL=$(gh api repos/$OWNER/$REPO/milestones/$MILESTONE_NUMBER --method 
 
 5. HOTFIX (§ 12, если production сломался)
    └─ Создать Issue с меткой critical
-   └─ Создать ветку {NNNN}-hotfix-{description}
+   └─ Создать ветку {NNNN}-hotfix-{topic}
    └─ Исправить → PR → merge в main
    └─ Создать hotfix-релиз: gh release create v1.0.1
    └─ Деплой на production (автоматически)
@@ -710,15 +713,15 @@ gh run view {run-id} --log
 2. СОЗДАТЬ ВЕТКУ ОТ MAIN
    └─ git checkout main
    └─ git pull origin main
-   └─ git checkout -b {NNNN}-hotfix-{description}
+   └─ git checkout -b {NNNN}-hotfix-{topic}
 
 3. ИСПРАВИТЬ БАГ
    └─ Внести изменения
    └─ Написать тесты (воспроизвести баг → исправить → проверить)
-   └─ git commit -m "fix: {description}"
+   └─ git commit -m "fix: {topic}"
 
 4. СОЗДАТЬ PR
-   └─ git push -u origin {NNNN}-hotfix-{description}
+   └─ git push -u origin {NNNN}-hotfix-{topic}
    └─ gh pr create --title "fix: {description}" --body "Closes #{issue-number}" \
         --label bug --label critical
 
@@ -796,7 +799,7 @@ gh run view {run-id} --log
         --label bug --label critical
 
 6. ИСПРАВИТЬ ПРОБЛЕМУ
-   └─ Создать ветку {NNNN}-hotfix-...
+   └─ Создать ветку {NNNN}-hotfix-{topic}
    └─ Исправить баг → PR → merge
    └─ Создать новый релиз v1.0.1 (после исправления)
 ```

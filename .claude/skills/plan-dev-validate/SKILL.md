@@ -3,6 +3,7 @@ name: plan-dev-validate
 description: Проверка документа плана разработки на соответствие стандарту SDD — frontmatter, именование, TASK-N (5 полей), подзадачи, зависимости (циклы, порядок), TC трассируемость, INFRA лимит, маркеры, зона ответственности. Используй после создания или изменения плана разработки, при code review или перед коммитом.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[путь] [--all] [--json]"
 ---

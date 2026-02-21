@@ -3,6 +3,7 @@ name: technology-create
 description: Создание per-tech стандарта кодирования (полностью при Design → WAITING). Используй при добавлении новой технологии в Tech Stack — запускает N technology-agent параллельно, по одному на технологию.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "<technologies...>"
 ---

@@ -3,6 +3,7 @@ name: instruction-modify
 description: Обновление содержания, деактивация или миграция инструкции. Используй при изменении процесса, переименовании файла, обновлении standard-version или выводе инструкции из эксплуатации.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Write, Edit, Glob, Grep
 argument-hint: "<путь> [--deactivate] [--migrate <новый-путь>]"
 ---

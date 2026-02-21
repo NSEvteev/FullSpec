@@ -3,6 +3,7 @@ name: discussion-modify
 description: Изменение документа дискуссии SDD — обновление контента, разрешение маркеров, принятие предложений, перевод DRAFT в WAITING. Используй при изменении существующей дискуссии.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "<путь> [--status WAITING]"
 ---

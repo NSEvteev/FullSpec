@@ -1,5 +1,5 @@
 ---
-description: Валидация имени ветки и соответствия стандарту — паттерн NNNN-description, kebab-case, актуальность base branch.
+description: Валидация имени ветки и соответствия стандарту — имя = имя папки analysis chain, kebab-case, актуальность base branch.
 standard: .instructions/standard-instruction.md
 standard-version: v2.0
 index: .github/.instructions/branches/README.md
@@ -47,7 +47,7 @@ index: .github/.instructions/branches/README.md
 1. **Перед push ветки** — проверить формат имени
 2. **После создания ветки** → [create-branch.md](./create-branch.md)
 3. **При code review** — убедиться, что ветка соответствует стандарту
-4. **Автоматически** — через pre-commit hook при каждом коммите
+4. **Автоматически** — через pre-commit hook при каждом коммите (→ [standard-commit.md § 6](../commits/standard-commit.md))
 
 ---
 
@@ -59,7 +59,7 @@ index: .github/.instructions/branches/README.md
 python .github/.instructions/.scripts/validate-branch-name.py $(git branch --show-current)
 ```
 
-Скрипт проверяет все правила BR001-BR006. Если валидация пройдена — **готово**, шаги 1-2 не нужны.
+Скрипт проверяет все правила BR001-BR007 (→ [standard-branching.md § 2](./standard-branching.md#2-naming-convention)), включая существование папки analysis. Если валидация пройдена — **готово**, шаги 1-2 не нужны.
 
 **Если скрипт недоступен** — выполнить шаги 1-2 вручную.
 
@@ -70,33 +70,35 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
    git branch --show-current
    ```
 
-2. Проверить формат `{NNNN}-{description}`:
+2. Проверить что имя ветки = имя папки analysis chain:
 
 | Элемент | Правило | Пример ✅ | Пример ❌ |
 |---------|---------|-----------|-----------|
 | `{NNNN}` | Ровно 4 цифры | `0001-` | `01-`, `auth-` |
-| `{description}` | Kebab-case, 1-4 слова, lowercase. Акронимы строчные (`api`, `jwt`) | `oauth2-auth` | `Auth_Flow` |
+| `{topic}` | Topic slug из имени папки analysis. Kebab-case, lowercase. | `oauth2-authorization` | `oauth2-auth` (сокращение) |
 
-3. Проверить regex:
+3. Проверить regex (определён в [standard-branching.md § 2](./standard-branching.md#2-naming-convention)):
    ```
    ^\d{4}-[a-z][a-z0-9]*(-[a-z][a-z0-9]*)*$
    ```
 
+4. Проверить существование папки `specs/analysis/{branch-name}/`
+
 **Критерии прохождения:**
 - Имя соответствует regex
 - Начинается с 4-значного номера
-- Description в kebab-case, lowercase
+- Папка `specs/analysis/{branch-name}/` существует
 
 ---
 
 ### Шаг 2: Валидация источника ветки
 
-1. Проверить, что ветка создана от main:
+1. Проверить, что ветка создана от main (→ [standard-branching.md § 3](./standard-branching.md#3-жизненный-цикл-ветки)):
    ```bash
    git merge-base --is-ancestor main HEAD && echo "OK" || echo "FAIL"
    ```
 
-2. Проверить, что ветка не создана от другой feature-ветки (вложенные ветки запрещены):
+2. Проверить, что ветка не создана от другой feature-ветки (вложенные ветки запрещены, → [standard-branching.md § 4](./standard-branching.md#4-запреты-и-ограничения)):
    ```bash
    git log --oneline main..HEAD --decorate
    ```
@@ -111,10 +113,9 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
 ## Чек-лист
 
 ### Формат имени
-- [ ] Имя соответствует формату `{NNNN}-{description}`
+- [ ] Имя ветки = имя папки analysis chain (`specs/analysis/{branch-name}/`)
 - [ ] Начинается с 4-значного номера анализа
-- [ ] Description в kebab-case, lowercase, 1-4 слова
-- [ ] Акронимы строчными (api, jwt, cors)
+- [ ] Kebab-case, lowercase
 - [ ] Нет подчёркиваний
 - [ ] Нет верхнего регистра
 
@@ -129,8 +130,9 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
 | Ошибка | Код | Причина | Решение |
 |--------|-----|---------|---------|
 | Нет NNNN-префикса | BR001 | Имя не начинается с 4 цифр | Переименовать: `git branch -m {correct-name}` |
-| Невалидный формат | BR002 | Не соответствует regex | Привести к формату `{NNNN}-{description}` |
-| Description не в kebab-case | BR003 | CamelCase или другой стиль | Переименовать в kebab-case |
+| Невалидный формат | BR002 | Не соответствует regex | Привести к формату имени папки analysis |
+| Topic не в kebab-case | BR003 | CamelCase или другой стиль | Переименовать в kebab-case |
+| Папка analysis не найдена | BR007 | `specs/analysis/{branch}/` не существует | Создать analysis chain или исправить имя ветки |
 | Подчёркивание в имени | BR004 | `_` вместо `-` | Переименовать с дефисами |
 | Верхний регистр | BR005 | Заглавные буквы | Переименовать в lowercase |
 | Прямой push в main | BR006 | Коммит без PR | Отменить, создать ветку и PR |
@@ -148,5 +150,5 @@ python .github/.instructions/.scripts/validate-branch-name.py $(git branch --sho
 ## Скиллы
 
 *Нет отдельного скилла.* Валидация выполняется:
-- **Автоматически** — через pre-commit hook при каждом коммите
+- **Автоматически** — через pre-commit hook при каждом коммите (→ [standard-commit.md § 6](../commits/standard-commit.md))
 - **При создании** — скилл [/branch-create](/.claude/skills/branch-create/SKILL.md) включает валидацию

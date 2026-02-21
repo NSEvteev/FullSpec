@@ -22,6 +22,10 @@ index: .github/.instructions/development/README.md
 - [standard-commit.md](../commits/standard-commit.md) — коммит создаётся после завершения разработки
 - [standard-principles.md](/.instructions/standard-principles.md) — принципы программирования при написании кода
 - [standard-pull-request.md](../pull-requests/standard-pull-request.md) — PR создаётся после завершения разработки
+- [standard-analysis.md](/specs/.instructions/analysis/standard-analysis.md) — analysis chain (контекст задач в ветке)
+- [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md) — стратегия тестирования (КАК писать тесты)
+- [standard-sync.md](../sync/standard-sync.md) — синхронизация main при длительной разработке
+- [standard-github-workflow.md](../standard-github-workflow.md) — полный цикл (стадия 4: Development)
 
 **Связанные документы:**
 
@@ -85,10 +89,9 @@ gh issue view {dep-number} --json state --jq '.state'
 ```bash
 # Назначить себя
 gh issue edit {number} --add-assignee @me
-
-# Создать ветку (→ standard-branching.md)
-git checkout -b {NNNN}-{description}
 ```
+
+Создать ветку: → [create-branch.md](../branches/create-branch.md)
 
 ---
 
@@ -111,8 +114,8 @@ git checkout -b {NNNN}-{description}
    └─ make dev
 
 2. НАПИСАНИЕ КОДА
-   └─ Реализация задач из analysis chain, указанного в имени ветки
-   └─ → standard-branching.md § 2
+   └─ Реализация задач из analysis chain (→ standard-analysis.md)
+   └─ Ветка привязана к NNNN (→ standard-branching.md § 2)
    └─ Следовать принципам программирования (→ standard-principles.md)
 
 3. ЛОКАЛЬНОЕ ТЕСТИРОВАНИЕ
@@ -172,6 +175,8 @@ git checkout -b {NNNN}-{description}
 ---
 
 ## 4. Тестирование
+
+> **Стратегия тестирования** (КАК писать тесты) определена в [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md). Здесь описано КОГДА запускать тесты.
 
 ### Требования перед коммитом
 

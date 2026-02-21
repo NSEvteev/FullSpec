@@ -219,7 +219,7 @@ def validate_services_table(content: str, docs_root: Path) -> list[tuple[str, st
     # Get actual service files
     service_files = set()
     for item in sorted(docs_root.iterdir()):
-        if item.is_file() and item.suffix == ".md" and item.name not in EXCLUDED_FILES and item.name != "README.md":
+        if item.is_file() and item.suffix == ".md" and item.name not in EXCLUDED_FILES:
             service_files.add(item.name)
 
     # Get links from Сервисы table

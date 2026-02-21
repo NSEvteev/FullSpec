@@ -18,6 +18,7 @@ index: .github/.instructions/sync/README.md
 - [standard-branching.md](../branches/standard-branching.md) — создание ветки требует актуальной main
 - [standard-review.md](../review/standard-review.md) — после merge PR необходима синхронизация
 - [standard-pull-request.md](../pull-requests/standard-pull-request.md) — force push запрещён после создания PR
+- [standard-development.md](../development/standard-development.md) — триггеры синхронизации: перед тестами, при разработке >2 дней
 
 **Связанные документы:**
 
@@ -121,7 +122,7 @@ git checkout main
 git pull origin main
 
 # 2. Вернуться в feature-ветку
-git checkout 0001-oauth2-auth
+git checkout 0001-oauth2-authorization
 
 # 3. Выполнить rebase
 git rebase main
@@ -130,7 +131,7 @@ git rebase main
 # Если rebase прошёл успешно:
 
 # 4. Обновить remote-ветку (требуется force push)
-git push --force-with-lease origin 0001-oauth2-auth
+git push --force-with-lease origin 0001-oauth2-authorization
 ```
 
 **Важно:** После rebase история feature-ветки изменяется — требуется force push. Использовать `--force-with-lease` (проверяет, что remote не обновлён другим разработчиком).
@@ -208,7 +209,7 @@ git rebase --abort
 
 ```bash
 # После rebase feature-ветки — push с force (ДО создания PR)
-git push --force-with-lease origin 0001-oauth2-auth
+git push --force-with-lease origin 0001-oauth2-authorization
 ```
 
 `--force-with-lease` безопаснее `--force`: проверяет, что remote-ветка не была обновлена другим разработчиком.

@@ -3,6 +3,7 @@ name: script-modify
 description: Обновление логики, рефакторинг или удаление Python-скрипта автоматизации. Используй при изменении поведения скрипта, добавлении новых проверок, исправлении ошибок или удалении устаревшего скрипта.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 argument-hint: "<путь> [--action <тип>]"
 ---

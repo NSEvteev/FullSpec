@@ -3,6 +3,7 @@ name: structure-validate
 description: Проверка согласованности SSOT структуры проекта — README, .instructions/, дерево папок, ссылки. Используй после изменения структуры, при аудите проекта или перед релизом для проверки целостности.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[--json]"
 ---

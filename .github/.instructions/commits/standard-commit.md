@@ -18,6 +18,8 @@ index: .github/.instructions/commits/README.md
 **SSOT-зависимости:**
 - [standard-development.md](../development/standard-development.md) — процесс разработки (коммит = шаг 5 цикла)
 - [standard-sync.md](../sync/standard-sync.md) — force push после amend в feature-ветке
+- [standard-review.md](../review/standard-review.md) — § 7 исправление коммитов при review
+- [standard-github-workflow.md](../standard-github-workflow.md) — полный цикл
 
 **Связанные документы:**
 

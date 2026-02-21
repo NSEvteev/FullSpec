@@ -3,6 +3,7 @@ name: principles-validate
 description: Проверка Python-кода на соответствие принципам программирования проекта — SSOT, DRY, именование, структура. Используй при code review, после написания нового кода или рефакторинга.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[путь] [--all] [--json]"
 ---

@@ -3,6 +3,7 @@ name: milestone-create
 description: Создание GitHub Milestone с версией, описанием и датой завершения по стандарту проекта. Используй при планировании нового релиза или группировки задач в итерацию.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[version] [--due <date>]"
 ---

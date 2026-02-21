@@ -21,7 +21,7 @@ standard-version: v1.1
 | Создать ветку | `/branch-create` |
 | Создать папку | `/structure-create` |
 | Проверить черновик | `/draft-validate` |
-| Ревью ветки | `/review-branch` |
+| Ревью кода | `/review` |
 
 ---
 

@@ -3,6 +3,7 @@ name: plan-test-create
 description: Создание документа плана тестов SDD — чтение Design (SVC-N, INT-N, STS-N) и Discussion (REQ-N), Clarify, генерация TC-N acceptance-сценариев, тестовых данных, системных сценариев и матрицы покрытия. Используй после одобрения Design (WAITING) для определения тестовых сценариев.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "<parent-design> [--auto-clarify]"
 ---

@@ -3,6 +3,7 @@ name: design-create
 description: Создание документа проектирования SDD с Unified Scan (5 источников), Clarify, генерацией секций SVC-N (9 подсекций, 8:8 маппинг), INT-N, STS-N, валидацией и артефактами. Используй после одобрения Discussion (WAITING) для распределения ответственностей между сервисами.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 argument-hint: "<parent-discussion> [--auto-clarify]"
 ---

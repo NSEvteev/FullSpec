@@ -31,7 +31,7 @@ index: .github/.instructions/review/README.md
 /.github/.instructions/review/
 ├── README.md              # Этот файл (индекс)
 ├── standard-review.md     # Стандарт ревью и merge
-└── validation-review.md   # Валидация (review-branch + review-pr)
+└── validation-review.md   # Валидация (скилл /review)
 ```
 
 ---
@@ -77,5 +77,10 @@ Code Review процесс, merge стратегии и Branch Protection Rules.
 
 | Скилл | Назначение | Инструкция |
 |-------|------------|------------|
-| [/review-branch](/.claude/skills/review-branch/SKILL.md) | Локальное ревью ветки (Этап 1) | [validation-review.md](./validation-review.md) |
-| [/review-pr](/.claude/skills/review-pr/SKILL.md) | Ревью PR на GitHub (Этап 2) | [validation-review.md](./validation-review.md) |
+| [/review](/.claude/skills/review/SKILL.md) | Ревью кода (Этап 1 — ветка, Этап 2 — PR) | [validation-review.md](./validation-review.md) |
+
+**Агент:**
+
+| Агент | Назначение |
+|-------|------------|
+| [code-reviewer](/.claude/agents/code-reviewer/AGENT.md) | Глубокий анализ diff, сверка с постановкой из specs/analysis/ |

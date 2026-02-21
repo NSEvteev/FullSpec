@@ -156,6 +156,8 @@ python specs/.instructions/.scripts/validate-analysis-discussion.py {путь}
 
 **Допустимо:** упоминание технологий без привязки к сервисам ("использовать OAuth2", "рассмотреть варианты: OAuth2, SAML").
 
+**Примечание:** Design проверяется в [standard-design.md](/specs/.instructions/analysis/design/standard-design.md).
+
 ### Шаг 8: Маркеры и статус
 
 **SSOT:** [standard-discussion.md § 4](./standard-discussion.md#4-переходы-статусов), [standard-discussion.md § 6](./standard-discussion.md#6-clarify)

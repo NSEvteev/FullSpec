@@ -53,7 +53,7 @@ index: specs/.instructions/README.md
 - User Stories
 - Варианты и предложения
 - Критерии успеха
-- Milestone
+- Milestone (в frontmatter, [§ 3](./standard-discussion.md#3-frontmatter))
 
 **НЕ содержит:**
 - Технические детали реализации (→ Design)
@@ -78,7 +78,7 @@ index: specs/.instructions/README.md
 - Группа связанных багфиксов ([решение #33](../standard-analysis.md#12-решения))
 - Cross-cutting concern (NFR: производительность, безопасность — [решение #21](../standard-analysis.md#12-решения))
 
-**Связи:** Discussion не имеет родителя. Дочерний объект — Design (1:1). ([Стандарт analysis/ § 3.1](../standard-analysis.md#31-frontmatter-и-навигация))
+**Связи:** Discussion не имеет родителя. Дочерний объект — Design (1:1). ([Стандарт analysis/ § 3.1](../standard-analysis.md#31-frontmatter-и-навигация)). Переход Discussion → Design описан в [standard-design.md](/specs/.instructions/analysis/design/standard-design.md).
 
 **После DONE:** Discussion становится архивной записью реализованного решения. Изменения запрещены (только исправление опечаток). При появлении новых требований — создать новую Discussion со ссылкой на DONE-дискуссию в секции "Проблема / Контекст".
 

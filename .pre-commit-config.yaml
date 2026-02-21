@@ -36,7 +36,7 @@ repos:
         name: Validate scripts format
         entry: python .instructions/.scripts/validate-script.py
         language: system
-        files: \.scripts/.*\.py$
+        files: ^\.instructions/\.scripts/.*\.py$
         pass_filenames: true
         require_serial: true
         stages: [pre-commit]
@@ -227,6 +227,16 @@ repos:
         entry: python specs/.instructions/.scripts/validate-analysis-plan-dev.py
         language: system
         files: ^specs/analysis/.*/plan-dev\.md$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]
+
+      # 25. Валидация analysis/*/discussion.md
+      - id: discussion-validate
+        name: Validate discussion documents
+        entry: python specs/.instructions/.scripts/validate-analysis-discussion.py
+        language: system
+        files: ^specs/analysis/.*/discussion\.md$
         pass_filenames: true
         require_serial: true
         stages: [pre-commit]

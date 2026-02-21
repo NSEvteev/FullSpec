@@ -3,6 +3,7 @@ name: issue-modify
 description: Обновление, закрытие или переоткрытие GitHub Issue с соблюдением стандарта проекта. Используй при изменении описания, меток, milestone или статуса существующего Issue.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "<number> [--close] [--reopen]"
 ---

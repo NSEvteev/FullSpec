@@ -3,6 +3,7 @@ name: script-validate
 description: Проверка Python-скрипта на соответствие стандарту — docstring, argparse, кодировка, регистрация в README. Используй после создания или изменения скрипта, при code review или аудите автоматизации.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[путь] [--all] [--json]"
 ---

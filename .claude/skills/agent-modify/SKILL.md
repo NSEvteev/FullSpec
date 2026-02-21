@@ -3,6 +3,7 @@ name: agent-modify
 description: Обновление конфигурации, деактивация или переименование агента. Используй при изменении промпта агента, смене модели, деактивации устаревшего агента или миграции на новое имя.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Write, Bash, Glob, Grep, Edit
 argument-hint: "<имя> [--type <тип>]"
 ---

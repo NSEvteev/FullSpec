@@ -298,6 +298,8 @@ index: specs/.instructions/README.md
 |-----------|--------|-----------|---------|
 | {tech} | {ver} | {назначение} | [standard-{tech}.md](../.technologies/standard-{tech}.md) |
 
+**SSOT-зависимость:** Для каждой технологии в таблице Tech Stack ДОЛЖЕН существовать per-tech стандарт [standard-{tech}.md](/specs/docs/.technologies/) — обязательный SSOT для версий и конвенций кодирования. Если стандарт отсутствует — создать через [create-technology.md](/specs/.instructions/docs/technology/create-technology.md).
+
 **Формат Пакеты:**
 
 | Пакет | Назначение | Ключевые модули |

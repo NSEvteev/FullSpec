@@ -2,13 +2,13 @@
 """
 validate-branch-name.py — Валидация имени ветки по стандарту ветвления.
 
-Проверяет формат имени ветки: {NNNN}-{description}.
+Проверяет что имя ветки = имя папки analysis chain (specs/analysis/{branch-name}/).
 
 Использование:
     python validate-branch-name.py [branch-name] [--json]
 
 Примеры:
-    python validate-branch-name.py 0001-oauth2-auth
+    python validate-branch-name.py 0001-oauth2-authorization
     python validate-branch-name.py
     python validate-branch-name.py 0042-cache-optimization --json
 
@@ -22,16 +22,15 @@ import json
 import re
 import subprocess
 import sys
-from pathlib import Path
 
 
 # =============================================================================
 # Константы
 # =============================================================================
 
-# Regex: {NNNN}-{description}
+# Regex: {NNNN}-{topic} — имя ветки = имя папки analysis chain
 # - NNNN: ровно 4 цифры (номер анализа)
-# - description: kebab-case, каждая часть начинается с буквы
+# - topic: kebab-case, каждая часть начинается с буквы
 BRANCH_PATTERN = re.compile(
     r'^\d{4}-[a-z][a-z0-9]*(-[a-z][a-z0-9]*)*$'
 )
@@ -41,25 +40,17 @@ SKIP_BRANCHES = ("main", "master", "develop", "release", "hotfix")
 ERROR_CODES = {
     "BR001": "Нет NNNN-префикса",
     "BR002": "Невалидный формат",
-    "BR003": "Description не в kebab-case",
+    "BR003": "Topic не в kebab-case",
     "BR004": "Подчёркивание в имени",
     "BR005": "Верхний регистр",
     "BR006": "Прямой push в main",
+    "BR007": "Папка analysis не найдена",
 }
 
 
 # =============================================================================
 # Общие функции
 # =============================================================================
-
-def find_repo_root(start_path: Path) -> Path:
-    """Найти корень репозитория (папка с .git)."""
-    current = start_path.resolve()
-    while current != current.parent:
-        if (current / ".git").exists():
-            return current
-        current = current.parent
-    return start_path.resolve()
 
 
 def get_current_branch() -> str | None:
@@ -83,6 +74,39 @@ def get_current_branch() -> str | None:
     return None
 
 
+def find_repo_root() -> str | None:
+    """Найти корень git-репозитория."""
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--show-toplevel"],
+            capture_output=True, encoding="utf-8", timeout=10
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            return result.stdout.strip()
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        pass
+    return None
+
+
+def validate_analysis_folder(branch_name: str) -> list[tuple[str, str]]:
+    """Проверить существование папки specs/analysis/{branch-name}/.
+
+    Returns:
+        list: [(код ошибки, сообщение)]
+    """
+    import os
+
+    repo_root = find_repo_root()
+    if not repo_root:
+        return []  # не можем проверить — не блокируем
+
+    analysis_path = os.path.join(repo_root, "specs", "analysis", branch_name)
+    if not os.path.isdir(analysis_path):
+        return [("BR007", ERROR_CODES["BR007"] + f": specs/analysis/{branch_name}/")]
+
+    return []
+
+
 # =============================================================================
 # Валидация
 # =============================================================================
@@ -90,41 +114,32 @@ def get_current_branch() -> str | None:
 def validate_format(branch_name: str) -> list[tuple[str, str]]:
     """Валидация формата имени ветки.
 
+    Проверяет все правила BR001-BR005 без раннего выхода,
+    чтобы накопить все ошибки за один запуск.
+
     Returns:
         list: [(код ошибки, сообщение)]
     """
     errors = []
 
-    # Пропуск системных веток
-    if branch_name in SKIP_BRANCHES:
-        return errors
-
-    # BR006: Прямой push в main
-    if branch_name == "main":
-        errors.append(("BR006", "Прямой push в main запрещён"))
-        return errors
-
     # BR005: Верхний регистр
     if branch_name != branch_name.lower():
-        errors.append(("BR005", f"Верхний регистр в '{branch_name}'"))
+        errors.append(("BR005", ERROR_CODES["BR005"] + f": '{branch_name}'"))
 
     # BR004: Подчёркивание
     if "_" in branch_name:
-        errors.append(("BR004", f"Подчёркивание в '{branch_name}' — используйте дефис"))
+        errors.append(("BR004", ERROR_CODES["BR004"] + f": '{branch_name}' — используйте дефис"))
 
     # BR001: Нет NNNN-префикса (не начинается с 4 цифр)
     if not re.match(r'^\d{4}-', branch_name):
-        errors.append(("BR001", f"Нет NNNN-префикса в '{branch_name}' — ожидается 4-значный номер анализа"))
-        return errors
-
-    # BR002: Полный regex
-    if not BRANCH_PATTERN.match(branch_name):
-        # BR003: Description не в kebab-case
+        errors.append(("BR001", ERROR_CODES["BR001"] + f": '{branch_name}' — ожидается 4-значный номер анализа"))
+    elif not BRANCH_PATTERN.match(branch_name):
+        # BR002/BR003: Полный regex не прошёл (проверяем только если NNNN-префикс есть)
         desc_part = branch_name[5:]  # после NNNN-
         if desc_part != desc_part.lower() or not re.match(r'^[a-z][a-z0-9]*(-[a-z][a-z0-9]*)*$', desc_part):
-            errors.append(("BR003", f"Description не в kebab-case: '{desc_part}'"))
+            errors.append(("BR003", ERROR_CODES["BR003"] + f": '{desc_part}'"))
         else:
-            errors.append(("BR002", f"Невалидный формат: '{branch_name}'"))
+            errors.append(("BR002", ERROR_CODES["BR002"] + f": '{branch_name}'"))
 
     return errors
 
@@ -167,8 +182,9 @@ def main():
             print(f"⏭️  Системная ветка '{branch_name}' — пропуск валидации")
         sys.exit(0)
 
-    # Валидация
+    # Валидация формата + существования папки analysis
     errors = validate_format(branch_name)
+    errors.extend(validate_analysis_folder(branch_name))
 
     # Вывод результатов
     if args.json:

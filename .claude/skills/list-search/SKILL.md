@@ -3,6 +3,7 @@ name: list-search
 description: Поиск по всей документации проекта — инструкции, скиллы, агенты, правила, README и скрипты. Используй при поиске документов по ключевым словам, для навигации по проекту или перед созданием нового объекта (проверка дубликатов).
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[--type <type>] [--search <query>] [--json]"
 ---

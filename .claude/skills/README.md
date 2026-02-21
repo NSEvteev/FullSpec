@@ -116,12 +116,11 @@ standard-version: v1.1
 | [issue-validate](./issue-validate/SKILL.md) | Валидация GitHub Issue по стандарту |
 | [issue-modify](./issue-modify/SKILL.md) | Изменение GitHub Issue по стандарту |
 | [branch-create](./branch-create/SKILL.md) | Создание ветки по стандарту |
-| [review-branch](./review-branch/SKILL.md) | Локальное ревью ветки перед PR |
-| [review-pr](./review-pr/SKILL.md) | Ревью Pull Request на GitHub |
+| [review](./review/SKILL.md) | Ревью кода (ветка или PR) |
 
 ### specs
 
-Работа со спецификациями SDD (Discussion, Impact, Design, ADR, Plans).
+Работа со спецификациями SDD (Discussion, Design, Plan Tests, Plan Dev, Services, Technologies).
 
 | Скилл | Описание |
 |-------|----------|
@@ -160,32 +159,6 @@ standard-version: v1.1
 |-------|----------|
 | [migration-create](./migration-create/SKILL.md) | Выполнение миграции |
 | [migration-validate](./migration-validate/SKILL.md) | Валидация миграции |
-
----
-
-## Справочник allowed-tools
-
-| Инструмент | Описание |
-|------------|----------|
-| `Bash` | Выполнение команд в терминале |
-| `Read` | Чтение файлов |
-| `Write` | Создание файлов |
-| `Edit` | Редактирование файлов |
-| `Glob` | Поиск файлов по паттерну |
-| `Grep` | Поиск в содержимом файлов |
-
----
-
-## Стандарт параметров
-
-### Общие флаги
-
-| Флаг | Описание | Тип |
-|------|----------|-----|
-| `--dry-run` | Показать план без выполнения | boolean |
-| `--auto` | Автоматический режим без подтверждений | boolean |
-
-**Правило:** Все скиллы должны поддерживать `--dry-run` для предварительного просмотра.
 
 ---
 

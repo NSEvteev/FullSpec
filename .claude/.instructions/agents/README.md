@@ -142,3 +142,4 @@ index: .claude/.instructions/agents/README.md
 | [design-agent](/.claude/agents/design-agent/AGENT.md) | general-purpose | Создание документа проектирования SDD — Deep Scan, CLARIFY → GENERATE → VALIDATE |
 | [design-reviewer](/.claude/agents/design-reviewer/AGENT.md) | general-purpose | Ревью проектирования SDD на полноту — покрытие Impact, SVC/INT/STS, зона ответственности |
 | [technology-agent](/.claude/agents/technology-agent/AGENT.md) | general-purpose | Создание и обновление per-tech стандарта (standard-{tech}.md + validation-{tech}.md + rule + реестр) |
+| [code-reviewer](/.claude/agents/code-reviewer/AGENT.md) | general-purpose | Ревью кода — анализ diff, сверка с постановкой из specs/analysis/, 7 критериев качества |

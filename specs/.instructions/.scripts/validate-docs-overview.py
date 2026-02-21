@@ -462,8 +462,6 @@ def validate_criticality(content: str) -> list[tuple[str, str]]:
             value = row[crit_index].strip()
             if value and value not in VALID_CRITICALITY_VALUES:
                 errors.append(("OVW011", f"Некорректное значение критичности «{value}». Допустимые: critical-high, critical-medium, critical-low"))
-            elif not value:
-                errors.append(("OVW011", "Пустое значение критичности в таблице Карты сервисов"))
 
     return errors
 

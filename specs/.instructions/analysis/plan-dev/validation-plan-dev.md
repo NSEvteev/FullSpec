@@ -150,7 +150,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
    - Сложность: целое число 1-10, формат `N/10`
    - Приоритет: ровно одно из трёх значений
    - Зависимости: если нет — символ `—` (em-dash, не дефис)
-   - TC: хотя бы один TC-N из Plan Tests. Отсутствие TC-N — блокирующая ошибка (статус > DRAFT). Исключение: `TC: INFRA` для инфраструктурных задач
+   - TC: хотя бы один TC-N из Plan Tests ([standard-plan-test.md](../plan-test/standard-plan-test.md)). Отсутствие TC-N — блокирующая ошибка (статус > DRAFT). Исключение: `TC: INFRA` для инфраструктурных задач
    - Источник: `SVC-N § K` — N = номер SVC-N секции, K = номер подсекции (1-9)
 
 4. **Лимит INFRA:** Задачи с `TC: INFRA` — не более 20% от общего числа TASK-N

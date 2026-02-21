@@ -17,6 +17,7 @@ index: .github/.instructions/branches/README.md
 **SSOT-зависимости:**
 - [standard-branching.md](./standard-branching.md) — стандарт ветвления (SSOT правил)
 - [standard-sync.md](../sync/standard-sync.md) — синхронизация main
+- [standard-analysis.md](/specs/.instructions/analysis/standard-analysis.md) — analysis chain (именование NNNN, жизненный цикл)
 
 **Связанные документы:**
 
@@ -45,11 +46,11 @@ index: .github/.instructions/branches/README.md
 
 ## Принципы
 
-> **Каждая ветка привязана к analysis chain.** Нет analysis — нет ветки. Сначала пройти цепочку Discussion → Design → Plan Tests → Plan Dev.
+> **Каждая ветка привязана к analysis chain** (→ [standard-analysis.md](/specs/.instructions/analysis/standard-analysis.md))**.** Нет analysis — нет ветки. Сначала пройти цепочку Discussion → Design → Plan Tests → Plan Dev.
 
 > **Ветка создаётся ТОЛЬКО от актуального main.** Перед созданием обязательна синхронизация.
 
-> **Один analysis chain — одна ветка — один PR.** При большом объёме — несколько веток с одним NNNN и разными description.
+> **Один analysis chain — одна ветка — один PR.** Если объём слишком велик — разбить Discussion на несколько analysis chains.
 
 ---
 
@@ -57,26 +58,21 @@ index: .github/.instructions/branches/README.md
 
 ### Шаг 1: Определить номер анализа
 
-1. Убедиться, что analysis chain существует в `specs/analysis/NNNN-{topic}/`
+1. Убедиться, что analysis chain существует в `specs/analysis/NNNN-{topic}/` (→ [standard-analysis.md § 9](/specs/.instructions/analysis/standard-analysis.md))
 
 2. Получить 4-значный номер NNNN (например, `0001`, `0042`)
 
-3. Если analysis chain ещё нет — пройти цепочку SDD: начать с `/discussion-create`
+3. Если analysis chain ещё нет — пройти цепочку SDD: начать с `/discussion-create` (→ [standard-discussion.md](/specs/.instructions/analysis/discussion/standard-discussion.md))
 
-### Шаг 2: Сформировать имя ветки
+### Шаг 2: Определить имя ветки
 
-**Формат:** `{NNNN}-{description}`
+**Имя ветки = имя папки analysis chain.** Без сокращений, без ручного выбора description.
 
-1. **NNNN** — 4-значный номер анализа
+```
+specs/analysis/0001-oauth2-authorization/  →  ветка 0001-oauth2-authorization
+```
 
-2. **Description** — 1-4 слова в kebab-case:
-   - Из topic slug analysis directory: `oauth2-auth`, `notification-service`
-   - Или уточнение при нескольких ветках: `oauth2-backend`, `oauth2-frontend`
-   - Акронимы строчными: `api`, `jwt`, `cors`
-
-3. Собрать: `{NNNN}-{description}`
-
-**Пример:** analysis `0001-oauth2-authorization/` → ветка `0001-oauth2-auth`
+**Пример:** analysis `0001-oauth2-authorization/` → ветка `0001-oauth2-authorization`
 
 ### Шаг 3: Синхронизировать main
 
@@ -95,7 +91,7 @@ git checkout -b {branch-name}
 
 **Пример:**
 ```bash
-git checkout -b 0001-oauth2-auth
+git checkout -b 0001-oauth2-authorization
 ```
 
 ### Шаг 5: Валидация
@@ -120,8 +116,7 @@ git branch -m {old-name} {correct-name}
 - [ ] Определён 4-значный номер NNNN
 
 ### Создание
-- [ ] Сформировано имя: `{NNNN}-{description}`
-- [ ] Description в kebab-case, 1-4 слова, акронимы строчными
+- [ ] Имя ветки = имя папки analysis chain
 - [ ] main синхронизирован (`git pull origin main`)
 - [ ] Ветка создана от main (`git checkout -b`)
 
@@ -138,34 +133,17 @@ git branch -m {old-name} {correct-name}
 ```bash
 # Analysis: specs/analysis/0001-oauth2-authorization/
 
-# 1. Определить: NNNN=0001, topic=oauth2-authorization
-# 2. Имя: 0001-oauth2-auth
+# 1. Определить: папка = 0001-oauth2-authorization
+# 2. Имя ветки = 0001-oauth2-authorization
 # 3. Синхронизировать
 git checkout main && git pull origin main
 
 # 4. Создать
-git checkout -b 0001-oauth2-auth
+git checkout -b 0001-oauth2-authorization
 
 # 5. Валидация
 python .github/.instructions/.scripts/validate-branch-name.py
-# ✅ Ветка '0001-oauth2-auth' — валидация пройдена
-```
-
-### Несколько веток для одного analysis
-
-```bash
-# Analysis: specs/analysis/0001-oauth2-authorization/
-# Объём большой — делим на backend и frontend
-
-# Ветка 1:
-git checkout main && git pull origin main
-git checkout -b 0001-oauth2-backend
-
-# ... merge первой ветки ...
-
-# Ветка 2:
-git checkout main && git pull origin main
-git checkout -b 0001-oauth2-frontend
+# ✅ Ветка '0001-oauth2-authorization' — валидация пройдена
 ```
 
 ### Срочный баг

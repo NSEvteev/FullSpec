@@ -86,7 +86,7 @@ index: specs/.instructions/README.md
 4. Создать папку `specs/analysis/NNNN-{topic}/`
 5. Скопировать шаблон из [standard-discussion.md § 7](./standard-discussion.md#7-шаблон) и создать файл `discussion.md`
 
-**Если `specs/analysis/` не существует:** вызвать `/structure-create specs/analysis`.
+**Если `specs/analysis/` не существует:** вызвать `/structure-create specs/analysis` (-> [core.md](/.claude/rules/core.md) правило скиллов).
 
 ### Шаг 4: Заполнить frontmatter
 
@@ -238,7 +238,7 @@ AskUserQuestion: "Перейти к созданию Design?"
 
 | Ответ | Действие |
 |-------|----------|
-| Да | Вызвать `/design-create` с путём к текущей Discussion |
+| Да | Вызвать `/design-create` с путём к текущей Discussion (SSOT: [standard-discussion.md § 1](./standard-discussion.md#1-назначение) — Discussion → Design) |
 | Нет | Завершить воркфлоу |
 
 ---

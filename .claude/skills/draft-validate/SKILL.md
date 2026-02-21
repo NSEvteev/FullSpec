@@ -3,6 +3,7 @@ name: draft-validate
 description: Проверка черновика в .claude/drafts/ на соответствие стандарту — frontmatter, структура, именование файла. Используй после создания или изменения черновика, перед коммитом.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash
 argument-hint: "[путь] [--all]"
 ---

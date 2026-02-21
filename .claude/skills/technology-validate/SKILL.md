@@ -3,6 +3,7 @@ name: technology-validate
 description: Проверка per-tech стандарта на соответствие стандарту — frontmatter, секции, rule, реестр. Используй после создания или изменения per-tech стандарта, при code review или перед коммитом.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
+index: .claude/skills/README.md
 allowed-tools: Read, Bash, Glob, Grep
 argument-hint: "[tech-name | path]"
 ---
