@@ -71,7 +71,9 @@ make clean     # Очистка (docker down -v)
 6. ✅ Группы B/C version drift исправлены (12 файлов: добавлен standard-version в frontmatter)
 7. ✅ `.claude/drafts/2026-02-24-dev-restructure.md` — реструктуризация /dev → /dev-create + /dev, создание modify-development.md, интеграция validation-development.md в review
 8. ✅ `.claude/drafts/2026-02-24-dev-scripts.md` — check-chain-readiness.py и dev-next-issue.py, интеграция в create/modify-development.md, регистрация в README
+9. ✅ `.claude/drafts/2026-02-24-status-manager.md` — chain_status.py (ChainManager): 24 задачи, модуль + рефакторинг 4 скриптов + интеграция в 33 документа + rule + переработка standard-analysis.md §5-§7
 
 ### Следующая сессия
 
 1. `.claude/drafts/2026-02-20-post-push-review.md` — провести полный code review блоков 1-8 (приоритет: блок 1 ветвление → блок 5 code-reviewer → блок 8 dev-scripts)
+2. `.claude/drafts/2026-02-22-process-map.md` — закрыть пробелы: шаг 5 (WAITING→RUNNING — теперь /dev-create), шаг 15 (DONE — теперь chain_status.py T7), обновить карту
