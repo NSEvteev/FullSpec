@@ -24,6 +24,9 @@ plan-test.md, plan-dev.md) и review.md. Выводит сводку по одн
 Возвращает:
     0 — успех
     1 — ошибка (цепочка не найдена, неверный формат)
+
+Рефакторинг: утилиты (parse_frontmatter, find_repo_root, count_iterations,
+find_all_chains) делегированы chain_status.ChainManager (SSOT).
 """
 
 import argparse
@@ -31,48 +34,17 @@ import re
 import sys
 from pathlib import Path
 
+# --- sys.path для импорта chain_status из той же директории ---
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
 
-def find_repo_root(start_path: Path) -> Path:
-    """Найти корень репозитория (папка с .git)."""
-    current = start_path.resolve()
-    while current != current.parent:
-        if (current / ".git").exists():
-            return current
-        current = current.parent
-    return start_path.resolve()
+from chain_status import ChainManager, CHAIN_DOCS  # noqa: E402
 
 
-def parse_frontmatter(file_path: Path) -> dict:
-    """Извлечь frontmatter из markdown-файла."""
-    if not file_path.exists():
-        return {}
-    text = file_path.read_text(encoding="utf-8")
-    match = re.match(r"^---\s*\n(.*?)\n---", text, re.DOTALL)
-    if not match:
-        return {}
-    result = {}
-    for line in match.group(1).splitlines():
-        if ":" in line:
-            key, _, value = line.partition(":")
-            result[key.strip()] = value.strip()
-    return result
-
-
-def count_iterations(file_path: Path) -> int:
-    """Подсчитать количество итераций в review.md."""
-    if not file_path.exists():
-        return 0
-    text = file_path.read_text(encoding="utf-8")
-    return len(re.findall(r"^## Итерация \d+", text, re.MULTILINE))
-
-
-def count_tasks(file_path: Path) -> int:
-    """Подсчитать количество TASK-N в plan-dev.md."""
-    if not file_path.exists():
-        return 0
-    text = file_path.read_text(encoding="utf-8")
-    return len(re.findall(r"^### TASK-\d+", text, re.MULTILINE))
-
+# =============================================================================
+# Константы (display-only, не дублируют chain_status)
+# =============================================================================
 
 STATUS_SHORT = {
     "DRAFT": "D",
@@ -87,16 +59,28 @@ STATUS_SHORT = {
     "RESOLVED": "RS",
 }
 
-DOCS = [
-    ("Discussion", "discussion.md"),
-    ("Design", "design.md"),
-    ("Plan Tests", "plan-test.md"),
-    ("Plan Dev", "plan-dev.md"),
-    ("Review", "review.md"),
+DOCS_DISPLAY = [
+    ("Discussion", "discussion"),
+    ("Design", "design"),
+    ("Plan Tests", "plan-test"),
+    ("Plan Dev", "plan-dev"),
+    ("Review", "review"),
 ]
 
 
-def get_chain_info(chain_dir: Path) -> dict | None:
+def count_tasks(file_path: Path) -> int:
+    """Подсчитать количество TASK-N в plan-dev.md."""
+    if not file_path.exists():
+        return 0
+    text = file_path.read_text(encoding="utf-8")
+    return len(re.findall(r"^### TASK-\d+", text, re.MULTILINE))
+
+
+# =============================================================================
+# Логика
+# =============================================================================
+
+def get_chain_info(chain_dir: Path, repo_root: Path) -> dict | None:
     """Получить информацию о цепочке из директории."""
     if not chain_dir.is_dir():
         return None
@@ -108,21 +92,20 @@ def get_chain_info(chain_dir: Path) -> dict | None:
         "docs": {},
     }
 
-    for label, filename in DOCS:
-        file_path = chain_dir / filename
-        fm = parse_frontmatter(file_path)
-        status = fm.get("status", "—")
-        info["docs"][label] = status
+    # Статусы через ChainManager.parse_frontmatter_file (SSOT)
+    for label, doc_name in DOCS_DISPLAY:
+        fm = ChainManager.parse_frontmatter_file(chain_dir / f"{doc_name}.md")
+        info["docs"][label] = fm.get("status", "—")
 
     # Milestone из discussion.md
-    disc_fm = parse_frontmatter(chain_dir / "discussion.md")
+    disc_fm = ChainManager.parse_frontmatter_file(chain_dir / "discussion.md")
     info["milestone"] = disc_fm.get("milestone", "—")
 
-    # TASK-N count
+    # TASK-N count (специфично для этого скрипта)
     info["task_count"] = count_tasks(chain_dir / "plan-dev.md")
 
-    # Iteration count for review.md
-    info["iteration_count"] = count_iterations(chain_dir / "review.md")
+    # Iteration count через ChainManager.count_iterations (SSOT)
+    info["iteration_count"] = ChainManager.count_iterations(chain_dir / "review.md")
 
     return info
 
@@ -132,7 +115,7 @@ def get_chain_status(info: dict) -> str:
     priority = ["DRAFT", "WAITING", "RUNNING", "REVIEW", "DONE",
                 "CONFLICT", "ROLLING_BACK", "REJECTED"]
     statuses = [info["docs"].get(label, "—")
-                for label, _ in DOCS[:4]]  # Только 4 основных
+                for label, _ in DOCS_DISPLAY[:4]]  # Только 4 основных
     for p in priority:
         if p in statuses:
             return p
@@ -145,14 +128,14 @@ def print_single(info: dict) -> None:
     name = info["full_name"]
 
     print(f"+-  {name} " + "-" * (width - len(name) - 5) + "+")
-    for label, _ in DOCS:
+    for label, doc_name in DOCS_DISPLAY:
         status = info["docs"].get(label, "—")
         extra = ""
         if label == "Plan Dev" and info["task_count"] > 0:
             extra = f"  ({info['task_count']} TASK-N)"
         if label == "Review" and info["iteration_count"] > 0:
             extra = f"  (итерация {info['iteration_count']})"
-        print(f"| {label:<12} {status:<10} {label.lower().replace(' ', '-')}.md{extra}")
+        print(f"| {label:<12} {status:<10} {doc_name}.md{extra}")
 
     print(f"|")
     print(f"| Milestone:  {info['milestone']}")
@@ -188,69 +171,41 @@ def print_all(chains: list[dict]) -> None:
     print("         OP=OPEN, RS=RESOLVED")
 
 
-def update_readme(repo_root: Path, chains: list[dict]) -> bool:
-    """Обновить dashboard в specs/analysis/README.md."""
-    readme_path = repo_root / "specs" / "analysis" / "README.md"
-    if not readme_path.exists():
-        print(f"Ошибка: {readme_path} не найден", file=sys.stderr)
+def update_readme(repo_root: Path) -> bool:
+    """Обновить dashboard в specs/analysis/README.md через ChainManager."""
+    chain_names = ChainManager.find_all_chains(repo_root)
+    if not chain_names:
+        print("Нет цепочек — dashboard не обновлён")
+        return True
+
+    # Создаём ChainManager для первой цепочки — _update_readme_dashboard
+    # перегенерирует ВСЮ таблицу (все цепочки), не только текущую
+    try:
+        mgr = ChainManager(chain_names[0][:4], repo_root=repo_root)
+        mgr._update_readme_dashboard()
+        print(f"Dashboard обновлён в specs/analysis/README.md")
+        return True
+    except Exception as e:
+        print(f"Ошибка при обновлении dashboard: {e}", file=sys.stderr)
         return False
 
-    text = readme_path.read_text(encoding="utf-8")
 
-    begin = "<!-- BEGIN:analysis-status -->"
-    end = "<!-- END:analysis-status -->"
-
-    if begin not in text or end not in text:
-        print(f"Ошибка: маркеры {begin} / {end} не найдены в README.md",
-              file=sys.stderr)
-        return False
-
-    # Формируем таблицу
-    lines = []
-    lines.append("| NNNN | Тема | Disc | Design | P.Test | P.Dev | Review | Branch | Milestone |")
-    lines.append("|------|------|------|--------|--------|-------|--------|--------|-----------|")
-    for info in chains:
-        nnnn = info["nnnn"]
-        topic = info["topic"]
-        d = STATUS_SHORT.get(info["docs"].get("Discussion", "—"), "—")
-        de = STATUS_SHORT.get(info["docs"].get("Design", "—"), "—")
-        pt = STATUS_SHORT.get(info["docs"].get("Plan Tests", "—"), "—")
-        pd = STATUS_SHORT.get(info["docs"].get("Plan Dev", "—"), "—")
-        rev = STATUS_SHORT.get(info["docs"].get("Review", "—"), "—")
-        branch = info["full_name"]
-        ms = info["milestone"]
-        lines.append(f"| {nnnn} | {topic} | {d} | {de} | {pt} | {pd} | {rev} | {branch} | {ms} |")
-
-    table = "\n".join(lines)
-    new_block = f"{begin}\n{table}\n{end}"
-
-    pattern = re.compile(
-        re.escape(begin) + r".*?" + re.escape(end),
-        re.DOTALL,
-    )
-    new_text = pattern.sub(new_block, text)
-    readme_path.write_text(new_text, encoding="utf-8")
-    print(f"Dashboard обновлён в {readme_path}")
-    return True
-
-
-def find_all_chains(repo_root: Path) -> list[dict]:
-    """Найти все цепочки в specs/analysis/."""
+def find_all_chains_info(repo_root: Path) -> list[dict]:
+    """Найти все цепочки и собрать информацию через ChainManager."""
     analysis_dir = repo_root / "specs" / "analysis"
-    if not analysis_dir.exists():
-        return []
-
+    chain_names = ChainManager.find_all_chains(repo_root)
     chains = []
-    for d in sorted(analysis_dir.iterdir()):
-        if not d.is_dir():
-            continue
-        if not re.match(r"\d{4}-", d.name):
-            continue
-        info = get_chain_info(d)
+    for name in chain_names:
+        chain_dir = analysis_dir / name
+        info = get_chain_info(chain_dir, repo_root)
         if info:
             chains.append(info)
     return chains
 
+
+# =============================================================================
+# Точка входа
+# =============================================================================
 
 def main():
     if sys.platform == "win32":
@@ -278,37 +233,28 @@ def main():
     )
 
     args = parser.parse_args()
-    repo_root = find_repo_root(Path(args.repo))
+    repo_root = ChainManager.find_repo_root(Path(args.repo))
 
     if not args.nnnn and not args.all and not args.update:
         parser.error("Укажите NNNN, --all или --update")
 
     if args.all or args.update:
-        chains = find_all_chains(repo_root)
         if args.update:
-            success = update_readme(repo_root, chains)
+            success = update_readme(repo_root)
             sys.exit(0 if success else 1)
         else:
+            chains = find_all_chains_info(repo_root)
             print_all(chains)
             sys.exit(0)
 
     # Одна цепочка
-    nnnn = args.nnnn
-    analysis_dir = repo_root / "specs" / "analysis"
-    matching = [d for d in analysis_dir.iterdir()
-                if d.is_dir() and d.name.startswith(nnnn)]
-
-    if not matching:
-        print(f"Ошибка: цепочка {nnnn} не найдена в {analysis_dir}",
-              file=sys.stderr)
+    try:
+        mgr = ChainManager(args.nnnn, repo_root=repo_root)
+    except Exception as e:
+        print(f"Ошибка: {e}", file=sys.stderr)
         sys.exit(1)
 
-    if len(matching) > 1:
-        print(f"Ошибка: найдено несколько цепочек для {nnnn}: "
-              f"{[d.name for d in matching]}", file=sys.stderr)
-        sys.exit(1)
-
-    info = get_chain_info(matching[0])
+    info = get_chain_info(mgr.chain_dir(), repo_root)
     if info:
         print_single(info)
     sys.exit(0)

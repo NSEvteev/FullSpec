@@ -169,6 +169,8 @@ Happy path — нормальный поток жизненного цикла P
 
 Откат и отклонение (ROLLING_BACK, REJECTED): [Стандарт analysis/ § 6.7–6.8](../standard-analysis.md#67-to-rolling_back).
 
+**Управление статусами:** [`chain_status.py`](../../.scripts/chain_status.py) — SSOT-модуль для всех переходов. Вызовы `ChainManager.transition()` — в `create-plan-test.md` и `modify-plan-test.md`.
+
 **Артефакты Plan Tests → WAITING:** Нет артефактов в docs/. Plan Tests не создаёт Planned Changes — только определяет тестовые сценарии.
 
 **Побочные эффекты Plan Tests → DONE** ([standard-analysis.md § 7.3](../standard-analysis.md#73-обновление-при-реализации-to-done)):

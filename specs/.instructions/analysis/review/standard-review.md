@@ -171,6 +171,8 @@ status: OPEN
 
 **review.md не участвует** в каскадах DONE, CONFLICT, ROLLING_BACK как субъект. При откате цепочки (ROLLING_BACK) review.md остаётся в текущем статусе. При повторном прохождении цепочки к RUNNING — запускается новая итерация `/review`.
 
+**Связь с chain_status.py:** [`chain_status.py`](../../.scripts/chain_status.py) читает review.md через `mgr.status()` → `{"review": "OPEN"}`, проверяет prerequisites T7 (`review.md status==RESOLVED`), но **не управляет** переходами OPEN/RESOLVED — это делает `/review`.
+
 ---
 
 ## 5. Разделы документа

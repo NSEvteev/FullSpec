@@ -206,9 +206,21 @@ python specs/.instructions/.scripts/validate-analysis-discussion.py specs/analys
 
 | Ответ | Действие |
 |-------|----------|
-| Да, всё корректно | Перевести DRAFT → WAITING: обновить frontmatter (`status: WAITING`), обновить README → шаг 10 |
+| Да, всё корректно | Перевести DRAFT → WAITING через `chain_status.py` (см. ниже) → шаг 10 |
 | Нет, нужны правки | Внести изменения → продолжить с шага 8 |
 | Запустить ревью агентом | Запустить агента `discussion-reviewer` → обработать PROP-N (шаг 6) → вернуться к шагу 8 |
+
+**Переход DRAFT → WAITING** — через модуль `chain_status.py` (SSOT статусов):
+
+```python
+from chain_status import ChainManager
+mgr = ChainManager("NNNN")
+result = mgr.transition(to="WAITING", document="discussion")
+# Модуль автоматически: обновляет frontmatter + README dashboard
+```
+
+- `result.side_effects` — список побочных действий (для discussion обычно пуст)
+- `result.auto_propose` — предложение следующего шага (`/design-create NNNN`)
 
 ### Шаг 10: Отчёт о выполнении
 

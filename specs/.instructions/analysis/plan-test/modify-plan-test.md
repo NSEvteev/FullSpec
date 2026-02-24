@@ -216,7 +216,12 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py specs/analysi
 
 ### Шаг 2: Обновить статус
 
-В frontmatter документа: `status: DRAFT` → `status: WAITING`. Обновить README.
+```python
+from chain_status import ChainManager
+mgr = ChainManager("NNNN")
+result = mgr.transition(to="WAITING", document="plan-test")
+# Модуль автоматически: обновляет frontmatter + README dashboard
+```
 
 **Артефакты Plan Tests → WAITING:** нет артефактов в docs/. Plan Tests не создаёт Planned Changes.
 
@@ -225,6 +230,11 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py specs/analysi
 **SSOT:** [Стандарт analysis/ § 6.1](../standard-analysis.md#61-draft-to-waiting)
 
 При возврате Plan Tests из WAITING → DRAFT — Plan Dev (если в WAITING) тоже → DRAFT.
+
+```python
+result = mgr.transition(to="DRAFT", document="plan-test")
+# T2: автокаскад — дочерние WAITING-документы (plan-dev) тоже → DRAFT
+```
 
 **Когда это происходит:**
 - Пользователь решил внести изменения после одобрения
@@ -270,6 +280,11 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py specs/analysi
 
 **На уровне Plan Tests:** статус `WAITING` → `RUNNING`. Операций нет.
 
+```python
+result = mgr.transition(to="RUNNING")
+# Модуль автоматически: все документы цепочки → RUNNING, README dashboard
+```
+
 ---
 
 ## Статус RUNNING — ограничения
@@ -287,6 +302,11 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py specs/analysi
 **Триггер:** обратная связь от кода выявила несовместимость на уровне Plan Tests или выше.
 
 **На уровне Plan Tests:** статус `RUNNING` → `CONFLICT`.
+
+```python
+result = mgr.transition(to="CONFLICT")
+# Модуль автоматически: все документы цепочки → CONFLICT, README dashboard
+```
 
 ---
 
@@ -329,8 +349,12 @@ Plan Tests попадает в CONFLICT через tree-level каскад. LLM 
 
 1. LLM исправляет документ (или верифицирует без изменений)
 2. Пользователь ревьюит → одобряет
-3. Статус: `CONFLICT` → `WAITING`
-4. Обновить README
+3. Обновить статус:
+
+```python
+result = mgr.transition(to="WAITING", document="plan-test")
+# Модуль автоматически: обновляет frontmatter + README dashboard
+```
 
 **Если пользователь отклоняет:**
 
@@ -351,7 +375,10 @@ Plan Tests попадает в CONFLICT через tree-level каскад. LLM 
 
 **На уровне Plan Tests:** статус `RUNNING` → `REVIEW`.
 
-Обновить README: `RUNNING` → `REVIEW`.
+```python
+result = mgr.transition(to="REVIEW")
+# Модуль автоматически: все документы цепочки → REVIEW, README dashboard
+```
 
 ---
 
@@ -369,7 +396,10 @@ Plan Tests попадает в CONFLICT через tree-level каскад. LLM 
 |---|----------|------|
 | 1 | `docs/.system/testing.md` — обновить стратегию тестирования (если изменилась) | [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md) |
 
-Обновить README: `REVIEW` → `DONE`.
+```python
+result = mgr.transition(to="DONE")
+# Модуль автоматически: bottom-up каскад, обновляет frontmatter + README dashboard
+```
 
 ---
 
@@ -396,7 +426,10 @@ Plan Tests попадает в CONFLICT через tree-level каскад. LLM 
 
 **Откат артефактов Plan Tests:** нет артефактов в docs/ для отката (Plan Tests не создаёт Planned Changes).
 
-Обновить frontmatter: `status: ROLLING_BACK`. Обновить README.
+```python
+result = mgr.transition(to="ROLLING_BACK")
+# Модуль автоматически: все 4 документа → ROLLING_BACK (кроме DONE/REJECTED), README dashboard
+```
 
 ---
 
@@ -408,7 +441,10 @@ Plan Tests попадает в CONFLICT через tree-level каскад. LLM 
 
 **Условие:** LLM проверяет, что все документы цепочки в ROLLING_BACK и артефакты откачены.
 
-Обновить frontmatter: `status: REJECTED`. Обновить README.
+```python
+result = mgr.transition(to="REJECTED")
+# Модуль автоматически: все документы → REJECTED, README dashboard
+```
 
 ---
 
@@ -455,28 +491,26 @@ Plan Tests содержит ссылки в frontmatter (`parent`, `children`).
 - [ ] Нет Dependency Barrier
 - [ ] Валидация пройдена — 0 ошибок
 - [ ] Пользователь подтвердил перевод
-- [ ] Статус обновлён в frontmatter
-- [ ] Статус обновлён в README
+- [ ] `chain_status.py` → transition(to="WAITING", document="plan-test")
 
 ### Переход CONFLICT → WAITING
 - [ ] Определено: Plan Tests затронут или нет
 - [ ] Если затронут — точечные правки TC-N/fixtures/матрица
 - [ ] Если не затронут — верификация пройдена
 - [ ] Пользователь одобрил
-- [ ] Статус обновлён в frontmatter и README
+- [ ] `chain_status.py` → transition(to="WAITING", document="plan-test")
 
 ### Переход RUNNING → REVIEW
 - [ ] Все TASK-N выполнены
-- [ ] Цепочка переведена в REVIEW (tree-level)
-- [ ] README обновлён
+- [ ] `chain_status.py` → transition(to="REVIEW") (tree-level)
 
 ### Переход REVIEW → DONE
 - [ ] review.md RESOLVED (вердикт READY)
 - [ ] docs/.system/testing.md обновлён (если стратегия изменилась)
-- [ ] Статус обновлён в frontmatter и README
+- [ ] `chain_status.py` → transition(to="DONE")
 
 ### Переход → ROLLING_BACK / REJECTED
-- [ ] Статус обновлён в frontmatter и README
+- [ ] `chain_status.py` → transition(to="ROLLING_BACK") / transition(to="REJECTED")
 
 ---
 
@@ -509,8 +543,7 @@ LLM определил: Plan Tests затронут (TC-1, TC-4 использу
 4. Обновить fixtures: обновить поля
 5. Матрица покрытия — без изменений (те же REQ-N)
 6. Пользователь ревьюит → одобряет
-7. status: CONFLICT → WAITING
-8. README обновлён
+7. chain_status.py → transition(to="WAITING", document="plan-test")
 ```
 
 ### Plan Tests → REVIEW → DONE
@@ -518,11 +551,10 @@ LLM определил: Plan Tests затронут (TC-1, TC-4 использу
 ```
 Ситуация: Все TASK-N выполнены → цепочка → REVIEW → review.md RESOLVED → каскад DONE.
 
-1. Цепочка → REVIEW (tree-level)
+1. chain_status.py → transition(to="REVIEW") (tree-level)
 2. review.md RESOLVED → каскад DONE (bottom-up)
 3. Проверить: стратегия тестирования изменилась? → Нет
-4. status: REVIEW → DONE
-5. README обновлён
+4. chain_status.py → transition(to="DONE")
 ```
 
 ---
@@ -532,6 +564,7 @@ LLM определил: Plan Tests затронут (TC-1, TC-4 использу
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [validate-analysis-plan-test.py](../../.scripts/validate-analysis-plan-test.py) | Валидация документа (все статусы) | [validation-plan-test.md](./validation-plan-test.md) |
+| [chain_status.py](../../.scripts/chain_status.py) | Переходы статусов (frontmatter + README) | [standard-analysis.md § 6](../standard-analysis.md#6-последовательность-статусов) |
 
 ---
 

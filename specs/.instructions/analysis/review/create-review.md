@@ -67,7 +67,12 @@ index: specs/.instructions/README.md
 1. Определить ветку: `git branch --show-current` → `NNNN-{topic}`
 2. Проверить, что папка `specs/analysis/NNNN-{topic}/` существует
 3. Проверить, что `plan-dev.md` существует в папке
-4. Прочитать `plan-dev.md` — убедиться, что `status: WAITING`
+4. Проверить статус `plan-dev.md` — убедиться, что `status: WAITING`. Для проверки можно использовать `chain_status.py` (SSOT статусов):
+   ```python
+   from chain_status import ChainManager
+   mgr = ChainManager("NNNN")
+   statuses = mgr.status()  # → {"plan-dev": "WAITING", ...}
+   ```
 
 **Если `status` ≠ `WAITING`:** остановиться. `/review-create` вызывается только при WAITING.
 

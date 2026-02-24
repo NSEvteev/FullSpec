@@ -22,6 +22,9 @@ dev-next-issue.py — Определение следующего незабло
 Возвращает:
     0 — найден следующий Issue или все закрыты
     1 — ошибка (нет ветки, нет plan-dev.md, gh недоступен)
+
+Рефакторинг: утилиты (parse_frontmatter, find_repo_root) делегированы
+chain_status.ChainManager (SSOT).
 """
 
 import argparse
@@ -30,6 +33,13 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+
+# --- sys.path для импорта chain_status ---
+_SPECS_SCRIPTS = Path(__file__).resolve().parent.parent.parent.parent / "specs" / ".instructions" / ".scripts"
+if str(_SPECS_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_SPECS_SCRIPTS))
+
+from chain_status import ChainManager  # noqa: E402
 
 
 # =============================================================================
@@ -49,32 +59,6 @@ TASK_REF_PATTERN = re.compile(r'TASK-(\d+)')
 # =============================================================================
 # Утилиты
 # =============================================================================
-
-def find_repo_root(start_path: Path) -> Path:
-    """Найти корень репозитория (папка с .git)."""
-    current = start_path.resolve()
-    while current != current.parent:
-        if (current / ".git").exists():
-            return current
-        current = current.parent
-    return start_path.resolve()
-
-
-def parse_frontmatter(file_path: Path) -> dict:
-    """Извлечь frontmatter из markdown-файла."""
-    if not file_path.exists():
-        return {}
-    text = file_path.read_text(encoding="utf-8")
-    match = re.match(r"^---\s*\n(.*?)\n---", text, re.DOTALL)
-    if not match:
-        return {}
-    result = {}
-    for line in match.group(1).splitlines():
-        if ":" in line:
-            key, _, value = line.partition(":")
-            result[key.strip()] = value.strip()
-    return result
-
 
 def get_body(content: str) -> str:
     """Получить тело документа без frontmatter."""
@@ -362,7 +346,7 @@ def main():
     )
 
     args = parser.parse_args()
-    repo_root = find_repo_root(Path(args.repo))
+    repo_root = ChainManager.find_repo_root(Path(args.repo))
 
     # 1. Определить ветку
     branch = get_current_branch()
@@ -399,12 +383,12 @@ def main():
 
     # 4. Получить milestone
     discussion_path = chain_dir / "discussion.md"
-    discussion_fm = parse_frontmatter(discussion_path)
+    discussion_fm = ChainManager.parse_frontmatter_file(discussion_path)
     milestone = discussion_fm.get("milestone", "")
 
     if not milestone:
         # Fallback: из plan-dev.md
-        plan_dev_fm = parse_frontmatter(plan_dev_path)
+        plan_dev_fm = ChainManager.parse_frontmatter_file(plan_dev_path)
         milestone = plan_dev_fm.get("milestone", "")
 
     if not milestone:

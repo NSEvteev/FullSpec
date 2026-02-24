@@ -154,6 +154,8 @@ Plan Dev использует общую модель 8 статусов. Осо
 | CONFLICT → WAITING | LLM сравнивает TASK-N в обновлённом Plan Dev с существующими Issues. Критерий изменения: изменились поля Сложность, Приоритет, Зависимости, TC или подзадачи. Изменённые → `/issue-modify`, удалённые → close `--reason "not planned"`, новые → `/issue-create`. Не изменившиеся Issues не обновляются |
 | → ROLLING_BACK | Tree-level. Issues закрываются `--reason "not planned"` с комментарием "rolled back". Feature-ветка удаляется |
 
+**Управление статусами:** [`chain_status.py`](../../.scripts/chain_status.py) — SSOT-модуль для всех переходов. Вызовы `ChainManager.transition()` — в `create-plan-dev.md` и `modify-plan-dev.md`.
+
 **Следующий шаг после WAITING:** Когда все 4 документа цепочки в WAITING — запустить `/dev-create {NNNN}` ([create-development.md](/.github/.instructions/development/create-development.md)) для создания Issues, Milestone, ветки и перехода в RUNNING.
 
 **Порядок выполнения задач:** Агент-кодер получает ссылку на Plan Dev и идёт **сверху вниз**. Если текущая задача заблокирована зависимостью — пропустить, взять следующую незаблокированную. Расположение в документе и поле `Зависимости` должны быть согласованы: задача с зависимостями размещается **после** задач, от которых зависит.

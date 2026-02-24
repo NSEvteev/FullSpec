@@ -172,6 +172,8 @@ Happy path — нормальный поток жизненного цикла D
 
 Откат и отклонение (ROLLING_BACK, REJECTED): [Стандарт analysis/ § 6.7–6.8](../standard-analysis.md#67-to-rolling_back).
 
+**Управление статусами:** [`chain_status.py`](../../.scripts/chain_status.py) — SSOT-модуль для всех переходов. Вызовы `ChainManager.transition()` — в `create-discussion.md` и `modify-discussion.md`.
+
 ---
 
 ## 5. Разделы документа

@@ -195,14 +195,26 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py specs/analysis
 
 | Ответ | Действие |
 |-------|----------|
-| Да, всё корректно | → /review-create → DRAFT → WAITING → отчёт |
+| Да, всё корректно | → /review-create → DRAFT → WAITING через `chain_status.py` → отчёт |
 | Нет, нужны правки | Внести изменения → продолжить с шага 8 |
 
-### Шаг 10: Создание review.md
+### Шаг 10: Создание review.md и переход DRAFT → WAITING
 
-Вызвать `/review-create` — создаёт `review.md` с секцией "Контекст ревью" на основе цепочки документов.
+1. Вызвать `/review-create` — создаёт `review.md` с секцией "Контекст ревью" на основе цепочки документов.
 
-`/review-create` вызывается **после** одобрения пользователем, **перед** записью `status: WAITING`. Это гарантирует, что review.md создаётся только для одобренных Plan Dev.
+   `/review-create` вызывается **после** одобрения пользователем, **перед** переходом статуса. Это гарантирует, что review.md создаётся только для одобренных Plan Dev.
+
+2. **Переход DRAFT → WAITING** — через модуль `chain_status.py` (SSOT статусов):
+
+```python
+from chain_status import ChainManager
+mgr = ChainManager("NNNN")
+result = mgr.transition(to="WAITING", document="plan-dev")
+# Модуль автоматически: обновляет frontmatter + README dashboard
+```
+
+- `result.side_effects` — включает "Создать review.md" (уже выполнено выше)
+- `result.auto_propose` — предложение следующего шага (`/dev-create NNNN`)
 
 ### Шаг 11: Отчёт о выполнении
 

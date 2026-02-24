@@ -92,6 +92,8 @@ python specs/.instructions/.scripts/validate-analysis-discussion.py {путь}
 | `standard-version` | Присутствует, формат `vX.Y` |
 | `index` | = `specs/analysis/README.md` |
 | `status` | Валидный статус: DRAFT, WAITING, RUNNING, REVIEW, DONE, CONFLICT, ROLLING_BACK, REJECTED |
+
+**Управление статусами:** [`chain_status.py`](../../.scripts/chain_status.py) — SSOT-модуль для переходов статусов analysis chain.
 | `milestone` | Присутствует, формат `vX.Y.Z` |
 | `children` | Список путей или пустой список `[]` |
 

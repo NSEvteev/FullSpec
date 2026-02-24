@@ -60,6 +60,8 @@ index: .github/.instructions/development/README.md
 > Эта секция применяется при работе с analysis chain (specs/analysis/).
 > Если Issues созданы вручную — перейти к [§ 1 Взятие задачи](#1-взятие-задачи).
 
+**Управление статусами:** [`chain_status.py`](/specs/.instructions/.scripts/chain_status.py) — SSOT-модуль для переходов статусов analysis chain. Вызовы `ChainManager.transition()` — в `create-development.md` и `modify-development.md`.
+
 ### Предусловия
 
 - Все 4 документа цепочки (Discussion, Design, Plan Tests, Plan Dev) существуют

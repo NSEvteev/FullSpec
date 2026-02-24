@@ -109,8 +109,16 @@ python .github/.instructions/.scripts/check-chain-readiness.py {NNNN}
 
 ### Шаг 6: Перевести цепочку в RUNNING
 
-1. Обновить `status: WAITING` → `status: RUNNING` во всех 4 документах
-2. Обновить `specs/analysis/README.md`
+**Переход WAITING → RUNNING** — через модуль `chain_status.py` (SSOT статусов):
+
+```python
+from chain_status import ChainManager
+mgr = ChainManager("NNNN")
+result = mgr.transition(to="RUNNING")
+# Модуль автоматически: tree-level, все 4 документа → RUNNING, README dashboard
+```
+
+Выполнить побочные эффекты из `result.side_effects` (Issues, Milestone, Branch — уже созданы на шагах 3-5).
 
 ### Шаг 7: Отчёт
 

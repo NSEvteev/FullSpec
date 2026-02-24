@@ -211,7 +211,12 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py specs/analysis
 
 ### Шаг 2: Обновить статус
 
-В frontmatter документа: `status: DRAFT` → `status: WAITING`. Обновить README.
+```python
+from chain_status import ChainManager
+mgr = ChainManager("NNNN")
+result = mgr.transition(to="WAITING", document="plan-dev")
+# Модуль автоматически: обновляет frontmatter + README dashboard
+```
 
 **Артефакты Plan Dev → WAITING:** нет артефактов в docs/. Plan Dev не создаёт Planned Changes.
 
@@ -229,6 +234,11 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py specs/analysis
 **SSOT:** [Стандарт analysis/ § 6.1](../standard-analysis.md#61-draft-to-waiting)
 
 Plan Dev — терминальный. При возврате из WAITING → DRAFT — каскад вниз невозможен (нет дочерних).
+
+```python
+result = mgr.transition(to="DRAFT", document="plan-dev")
+# plan-dev — leaf, без дочерних
+```
 
 **Когда это происходит:**
 - Пользователь решил внести изменения после одобрения
@@ -324,9 +334,11 @@ Plan Dev попадает в CONFLICT через tree-level каскад. LLM о
 
 1. LLM исправляет документ (или верифицирует без изменений)
 2. Пользователь ревьюит → одобряет
-3. Статус: `CONFLICT` → `WAITING`
-4. Обновить README
-5. **Проверить готовность цепочки.** Если Plan Dev — последний документ, возвращённый в WAITING (все 4 документа цепочки в WAITING):
+3. Обновить статус:
+   ```python
+   result = mgr.transition(to="WAITING", document="plan-dev")
+   ```
+4. **Проверить готовность цепочки.** Если Plan Dev — последний документ, возвращённый в WAITING (все 4 документа цепочки в WAITING):
    AskUserQuestion: "Конфликт разрешён. Все спецификации снова в WAITING. Возобновить разработку через `/dev-create {NNNN}`?"
    При подтверждении → выполнить `/dev-create {NNNN}` (Issues уже существуют — `/dev-create --resume` обнаружит и пропустит создание).
 
@@ -358,9 +370,14 @@ Plan Dev попадает в CONFLICT через tree-level каскад. LLM о
 > **Tree-level переход.** Все документы цепочки переходят в REVIEW одновременно.
 > `/review-create` создаёт review.md (если ещё не создан). `/review` запускает ревью.
 
-**На уровне Plan Dev:** статус `RUNNING` → `REVIEW`.
+**На уровне Plan Dev:**
 
-Обновить README: `RUNNING` → `REVIEW`.
+```python
+from chain_status import ChainManager
+mgr = ChainManager("NNNN")
+result = mgr.transition(to="REVIEW", document="plan-dev")
+# Модуль автоматически: обновляет frontmatter + README dashboard
+```
 
 ---
 
@@ -370,13 +387,18 @@ Plan Dev попадает в CONFLICT через tree-level каскад. LLM о
 
 **Триггер:** review.md RESOLVED (вердикт READY).
 
-**На уровне Plan Dev:** статус `REVIEW` → `DONE`.
+**На уровне Plan Dev:**
+
+```python
+from chain_status import ChainManager
+mgr = ChainManager("NNNN")
+result = mgr.transition(to="DONE", document="plan-dev")
+# Модуль автоматически: обновляет frontmatter + README dashboard
+```
 
 **Побочные эффекты Plan Dev → DONE:**
 
 > **Bottom-up каскад DONE:** Plan Dev → DONE триггерит каскад: Plan Tests → Design → Discussion → DONE ([Стандарт analysis/ § 6.6](../standard-analysis.md#66-review-to-done)). Каждый документ выполняет свои побочные эффекты при переходе в DONE.
-
-Обновить README: `REVIEW` → `DONE`.
 
 ---
 
@@ -405,7 +427,12 @@ Plan Dev попадает в CONFLICT через tree-level каскад. LLM о
 - GitHub Issues закрываются `--reason "not planned"` с комментарием "rolled back"
 - Feature-ветка удаляется
 
-Обновить frontmatter: `status: ROLLING_BACK`. Обновить README.
+```python
+from chain_status import ChainManager
+mgr = ChainManager("NNNN")
+result = mgr.transition(to="ROLLING_BACK")
+# Модуль автоматически: все 4 документа → ROLLING_BACK (кроме DONE/REJECTED), README dashboard
+```
 
 ---
 
@@ -417,7 +444,10 @@ Plan Dev попадает в CONFLICT через tree-level каскад. LLM о
 
 **Условие:** LLM проверяет, что все документы цепочки в ROLLING_BACK и артефакты откачены.
 
-Обновить frontmatter: `status: REJECTED`. Обновить README.
+```python
+result = mgr.transition(to="REJECTED")
+# Модуль автоматически: все документы → REJECTED, README dashboard
+```
 
 ---
 

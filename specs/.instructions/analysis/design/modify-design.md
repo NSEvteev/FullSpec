@@ -236,7 +236,15 @@ python specs/.instructions/.scripts/validate-analysis-design.py specs/analysis/N
 
 ### Шаг 3: Обновить статус
 
-В frontmatter документа: `status: DRAFT` → `status: WAITING`. Обновить README.
+```python
+from chain_status import ChainManager
+mgr = ChainManager("NNNN")
+result = mgr.transition(to="WAITING", document="design")
+# Модуль автоматически: обновляет frontmatter + README dashboard
+```
+
+**Side effects:** `result.side_effects` — список созданных артефактов (Planned Changes).
+**Auto-propose:** `result.auto_propose` — предложения для следующих шагов.
 
 ### Каскад DRAFT (возврат из WAITING)
 
@@ -248,6 +256,11 @@ python specs/.instructions/.scripts/validate-analysis-design.py specs/analysis/N
 - Пользователь решил внести изменения после одобрения
 - Design вернулся из CONFLICT → при разрешении пользователь решил переработать
 - Parent Discussion вернулась в DRAFT (каскад сверху)
+
+```python
+result = mgr.transition(to="DRAFT", document="design")
+# T2: автокаскад — дочерние WAITING-документы тоже → DRAFT
+```
 
 **Артефакты при возврате в DRAFT:** Planned Changes в `docs/` **остаются** (не откатываются). Они будут обновлены при следующем DRAFT → WAITING.
 
@@ -291,6 +304,11 @@ python specs/.instructions/.scripts/validate-analysis-design.py specs/analysis/N
 
 **На уровне Design:** статус `WAITING` → `RUNNING`. Операций нет.
 
+```python
+result = mgr.transition(to="RUNNING")
+# Tree-level: все документы цепочки WAITING → RUNNING, README dashboard
+```
+
 ---
 
 ## Статус RUNNING — ограничения
@@ -308,6 +326,11 @@ python specs/.instructions/.scripts/validate-analysis-design.py specs/analysis/N
 **Триггер:** обратная связь от кода выявила несовместимость на уровне Design или выше.
 
 **На уровне Design:** статус `RUNNING` → `CONFLICT`.
+
+```python
+result = mgr.transition(to="CONFLICT")
+# Tree-level каскад: все документы цепочки → CONFLICT, README dashboard
+```
 
 ---
 
@@ -350,8 +373,12 @@ Design попадает в CONFLICT через tree-level каскад. LLM оп
 1. LLM исправляет документ (или верифицирует без изменений)
 2. Пользователь ревьюит → одобряет
 3. **Обновить артефакты:** Planned Changes в `docs/{svc}.md` § 9 — пересчитать по обновлённым SVC-N
-4. Статус: `CONFLICT` → `WAITING`
-5. Обновить README
+4. Обновить статус:
+
+```python
+result = mgr.transition(to="WAITING", document="design")
+# Модуль автоматически: обновляет frontmatter CONFLICT → WAITING + README dashboard
+```
 
 **Если пользователь отклоняет:**
 
@@ -372,7 +399,10 @@ Design попадает в CONFLICT через tree-level каскад. LLM оп
 
 **На уровне Design:** статус `RUNNING` → `REVIEW`.
 
-Обновить README: `RUNNING` → `REVIEW`.
+```python
+result = mgr.transition(to="REVIEW")
+# Tree-level: все документы цепочки → REVIEW, README dashboard
+```
 
 ---
 
@@ -398,7 +428,10 @@ Design попадает в CONFLICT через tree-level каскад. LLM оп
 
 **INT-N при DONE:** не записываются отдельно — уже включены в SVC-N § 2.
 
-Обновить README: `REVIEW` → `DONE`.
+```python
+result = mgr.transition(to="DONE")
+# Bottom-up каскад: Design → DONE когда child → DONE, README dashboard
+```
 
 ---
 
@@ -433,7 +466,10 @@ Design попадает в CONFLICT через tree-level каскад. LLM оп
 | 5 | Заглушка `docs/{svc}.md` (новый сервис) | Удалить файл через `/service-modify --deactivate` |
 | 6 | Per-tech стандарты (новые) | Удалить через `/technology-modify --deactivate` |
 
-Обновить frontmatter: `status: ROLLING_BACK`. Обновить README.
+```python
+result = mgr.transition(to="ROLLING_BACK")
+# Модуль автоматически: все 4 документа → ROLLING_BACK (кроме DONE/REJECTED), README dashboard
+```
 
 ---
 
@@ -445,7 +481,10 @@ Design попадает в CONFLICT через tree-level каскад. LLM оп
 
 **Условие:** LLM проверяет, что все документы цепочки в ROLLING_BACK и артефакты откачены.
 
-Обновить frontmatter: `status: REJECTED`. Обновить README.
+```python
+result = mgr.transition(to="REJECTED")
+# Модуль автоматически: все документы → REJECTED, README dashboard
+```
 
 ---
 
@@ -492,8 +531,7 @@ Design содержит ссылки в frontmatter (`parent`, `children`) и п
 - [ ] Валидация пройдена — 0 ошибок
 - [ ] Пользователь подтвердил перевод
 - [ ] Артефакты WAITING созданы
-- [ ] Статус обновлён в frontmatter
-- [ ] Статус обновлён в README
+- [ ] `mgr.transition(to="WAITING", document="design")` — frontmatter + README
 
 ### Переход CONFLICT → WAITING
 - [ ] Определено: Design затронут или нет
@@ -501,12 +539,11 @@ Design содержит ссылки в frontmatter (`parent`, `children`) и п
 - [ ] Если не затронут — верификация пройдена
 - [ ] Артефакты Planned Changes пересчитаны
 - [ ] Пользователь одобрил
-- [ ] Статус обновлён в frontmatter и README
+- [ ] `mgr.transition(to="WAITING", document="design")` — frontmatter + README
 
 ### Переход RUNNING → REVIEW
 - [ ] Все TASK-N выполнены
-- [ ] Цепочка переведена в REVIEW (tree-level)
-- [ ] README обновлён
+- [ ] `mgr.transition(to="REVIEW")` — tree-level, frontmatter + README
 
 ### Переход REVIEW → DONE
 - [ ] review.md RESOLVED (вердикт READY)
@@ -514,13 +551,13 @@ Design содержит ссылки в frontmatter (`parent`, `children`) и п
 - [ ] docs/{svc}.md § 10: Changelog обновлён
 - [ ] overview.md: Planned Changes → AS IS + Changelog
 - [ ] § 8: таблица конвертирована в bullet list
-- [ ] Статус обновлён в frontmatter и README
+- [ ] `mgr.transition(to="DONE")` — bottom-up каскад, frontmatter + README
 
 ### Переход → ROLLING_BACK / REJECTED
 - [ ] Все артефакты Planned Changes удалены (chain-маркер)
 - [ ] Заглушки новых сервисов удалены (если были)
 - [ ] Per-tech стандарты удалены (если были)
-- [ ] Статус обновлён в frontmatter и README
+- [ ] `mgr.transition(to="ROLLING_BACK")` / `mgr.transition(to="REJECTED")` — frontmatter + README
 
 ---
 
@@ -554,8 +591,7 @@ LLM определил: Design затронут (SVC-1 § 2 API контракт
 4. Обновить INT-1: обновить контракт и sequence
 5. Пользователь ревьюит → одобряет
 6. Пересчитать Planned Changes в auth.md § 9
-7. status: CONFLICT → WAITING
-8. README обновлён
+7. mgr.transition(to="WAITING", document="design")  # frontmatter + README
 ```
 
 ### Design → REVIEW → DONE
@@ -563,7 +599,7 @@ LLM определил: Design затронут (SVC-1 § 2 API контракт
 ```
 Ситуация: Все TASK-N выполнены → цепочка → REVIEW → review.md RESOLVED → каскад DONE.
 
-1. Цепочка → REVIEW (tree-level)
+1. mgr.transition(to="REVIEW")  # tree-level, все документы → REVIEW
 2. review.md RESOLVED → каскад DONE (bottom-up)
 3. Для каждого SVC-N с контентом:
    - auth.md §§ 1-8: Planned Changes → AS IS (убрать маркеры)
@@ -571,8 +607,7 @@ LLM определил: Design затронут (SVC-1 § 2 API контракт
    - gateway.md аналогично
    - users.md аналогично
 4. overview.md: Planned Changes → AS IS + Changelog
-5. status: REVIEW → DONE
-6. README обновлён
+5. mgr.transition(to="DONE")  # bottom-up каскад, frontmatter + README
 ```
 
 ---
@@ -582,6 +617,7 @@ LLM определил: Design затронут (SVC-1 § 2 API контракт
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [validate-analysis-design.py](../../.scripts/validate-analysis-design.py) | Валидация документа (все статусы) | [validation-design.md](./validation-design.md) |
+| [chain_status.py](../../.scripts/chain_status.py) | Переходы статусов (ChainManager) | Этот документ |
 
 ---
 

@@ -210,6 +210,8 @@ Happy path — нормальный поток жизненного цикла D
 
 **MODIFIED элемент не существует в {svc}.md:** Если при Design → DONE LLM находит маркер MODIFIED для элемента, отсутствующего в текущем AS IS `{svc}.md` (например, элемент создан другой цепочкой, ещё не DONE) — LLM трактует его как ADDED и создаёт элемент заново.
 
+**Управление статусами:** [`chain_status.py`](../../.scripts/chain_status.py) — SSOT-модуль для всех переходов. Вызовы `ChainManager.transition()` — в `create-design.md` и `modify-design.md`.
+
 ---
 
 ## 5. Разделы документа

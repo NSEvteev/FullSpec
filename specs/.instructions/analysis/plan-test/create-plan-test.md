@@ -191,8 +191,19 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py specs/analysi
 
 | Ответ | Действие |
 |-------|----------|
-| Да, всё корректно | Перевести DRAFT → WAITING → отчёт |
+| Да, всё корректно | Перевести DRAFT → WAITING через `chain_status.py` (см. ниже) → отчёт |
 | Нет, нужны правки | Внести изменения → продолжить с шага 8 |
+
+**Переход DRAFT → WAITING** — через модуль `chain_status.py` (SSOT статусов):
+
+```python
+from chain_status import ChainManager
+mgr = ChainManager("NNNN")
+result = mgr.transition(to="WAITING", document="plan-test")
+# Модуль автоматически: обновляет frontmatter + README dashboard
+```
+
+- `result.auto_propose` — предложение следующего шага (`/plan-dev-create NNNN`)
 
 ### Шаг 10: Отчёт о выполнении
 

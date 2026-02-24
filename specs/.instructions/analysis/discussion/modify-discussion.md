@@ -245,19 +245,28 @@ python specs/.instructions/.scripts/validate-analysis-discussion.py specs/analys
 | Да | Перевести в WAITING |
 | Нет | Оставить в DRAFT |
 
-### Шаг 2: Обновить статус
+### Шаг 2: Обновить статус через `chain_status.py`
 
-В frontmatter документа: `status: DRAFT` → `status: WAITING`.
+```python
+from chain_status import ChainManager
+mgr = ChainManager("NNNN")
+result = mgr.transition(to="WAITING", document="discussion")
+# Модуль автоматически: обновляет frontmatter + README dashboard
+```
 
-### Шаг 3: Обновить README
-
-Обновить статус в `specs/analysis/README.md`: `DRAFT` → `WAITING`.
+- `result.auto_propose` — предложение следующего шага (`/design-create NNNN`)
 
 ### Каскад DRAFT (возврат из WAITING)
 
 **SSOT:** [Стандарт analysis/ § 6.1](../standard-analysis.md#61-draft-to-waiting)
 
 При возврате документа из WAITING → DRAFT (контекст родителя изменился) все его WAITING-дочерние тоже → DRAFT.
+
+**Через `chain_status.py`:**
+```python
+result = mgr.transition(to="DRAFT", document="discussion")
+# T2: автокаскад — дочерние WAITING-документы тоже → DRAFT
+```
 
 **На уровне Discussion:** если Discussion возвращается в DRAFT — её Design (если в WAITING) тоже → DRAFT. Дискуссия снова открыта для операций из секции [Статус DRAFT — операции](#статус-draft-операции).
 
@@ -363,9 +372,12 @@ LLM определяет самый высокий затронутый доку
 
 1. LLM исправляет документ (или верифицирует без изменений)
 2. Пользователь ревьюит → одобряет
-3. Статус: `CONFLICT` → `WAITING`
-4. Обновить README: `CONFLICT` → `WAITING`
-5. Когда **все** документы цепочки в WAITING → каскад RUNNING ([Стандарт analysis/ § 6.2](../standard-analysis.md#62-waiting-to-running))
+3. Через `chain_status.py`:
+   ```python
+   result = mgr.transition(to="WAITING", document="discussion")
+   # Модуль автоматически: обновляет frontmatter + README dashboard
+   ```
+4. Когда **все** документы цепочки в WAITING → каскад RUNNING ([Стандарт analysis/ § 6.2](../standard-analysis.md#62-waiting-to-running))
 
 **Если пользователь отклоняет разрешение:**
 
@@ -433,8 +445,11 @@ LLM определяет самый высокий затронутый доку
 
 **На уровне Discussion:** Discussion не имеет артефактов — откат = **no-op**, только смена статуса → ROLLING_BACK.
 
-- Обновить frontmatter: `status: ROLLING_BACK`
-- Обновить README: статус → `ROLLING_BACK`
+Через `chain_status.py` (tree-level):
+```python
+result = mgr.transition(to="ROLLING_BACK")
+# Модуль автоматически: все 4 документа → ROLLING_BACK (кроме DONE/REJECTED), README dashboard
+```
 
 ---
 
@@ -448,8 +463,11 @@ LLM определяет самый высокий затронутый доку
 
 **На уровне Discussion:** статус меняется `ROLLING_BACK` → `REJECTED`.
 
-- Обновить frontmatter: `status: REJECTED`
-- Обновить README: статус → `REJECTED`
+Через `chain_status.py` (tree-level):
+```python
+result = mgr.transition(to="REJECTED")
+# Модуль автоматически: все документы → REJECTED, README dashboard
+```
 
 **Перезапуск:** если бизнес-потребность остаётся актуальной, создать **новую** Discussion со ссылкой на отклонённую в секции "Проблема / Контекст".
 

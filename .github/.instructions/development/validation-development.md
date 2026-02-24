@@ -16,6 +16,8 @@ index: .github/.instructions/development/README.md
 
 **SSOT-зависимости:**
 - [standard-development.md](./standard-development.md) — стандарт процесса разработки (SSOT правил)
+
+**Управление статусами:** [`chain_status.py`](/specs/.instructions/.scripts/chain_status.py) — SSOT-модуль для переходов статусов analysis chain.
 - [CLAUDE.md](/CLAUDE.md) — make-команды проекта
 - [standard-branching.md](../branches/standard-branching.md) — имя ветки = имя папки analysis chain, § 6 валидация имени
 - [standard-principles.md](/.instructions/standard-principles.md) — принципы программирования

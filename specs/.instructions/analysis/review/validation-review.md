@@ -92,6 +92,8 @@ python specs/.instructions/.scripts/validate-analysis-review.py {путь}
 | `milestone` | Присутствует, формат `vX.Y` |
 | `status` | `OPEN` или `RESOLVED` — других значений нет |
 
+**Управление статусами:** [`chain_status.py`](../../.scripts/chain_status.py) — SSOT-модуль для переходов статусов analysis chain.
+
 **Проверить запрещённые поля:**
 
 | Поле | Проверка |

@@ -98,6 +98,8 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py {путь}
 | `status` | Валидный статус: DRAFT, WAITING, RUNNING, REVIEW, DONE, CONFLICT, ROLLING_BACK, REJECTED |
 | `milestone` | Присутствует, формат `vX.Y.Z`, совпадает с parent Discussion |
 
+**Управление статусами:** [`chain_status.py`](../../.scripts/chain_status.py) — SSOT-модуль для переходов статусов analysis chain.
+
 **Проверить parent:**
 - Файл `design.md` существует по указанному пути
 - Design в статусе WAITING (или выше)
