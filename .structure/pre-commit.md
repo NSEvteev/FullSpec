@@ -152,6 +152,7 @@ pre-commit install -f
 ## Связанные документы
 
 - [Инициализация проекта](./initialization.md) — установка pre-commit (`make setup`)
+- [Процесс поставки ценности](/specs/.instructions/standard-process.md) — pre-commit хуки в контексте процесса (шаги 3.2–3.3)
 - [CI workflow](/.github/workflows/ci.yml) — те же хуки запускаются на GitHub при push/PR
 - [Makefile](/Makefile) — команда `make setup`
 - [.pre-commit-config.yaml](/.pre-commit-config.yaml) — конфигурация хуков

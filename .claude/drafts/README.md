@@ -31,6 +31,9 @@ index: .claude/README.md
 |------|----------|
 | [2026-02-20-post-push-review.md](./2026-02-20-post-push-review.md) | Чек-лист ревью после пушей f26c67e, 4b48e15: 6 блоков проверки |
 | [2026-02-22-process-map.md](./2026-02-22-process-map.md) | Карта процесса от идеи до деплоя — 18 шагов, покрытие скиллами/агентами |
+| [2026-02-24-init-project.md](./2026-02-24-init-project.md) | G1: воркфлоу /init-project — оркестратор Фазы 0 (инструкция + скилл) |
+| [2026-02-24-chain-done.md](./2026-02-24-chain-done.md) | G11: воркфлоу /chain-done — bottom-up REVIEW→DONE (инструкция + скилл) |
+| [2026-02-24-pr-create.md](./2026-02-24-pr-create.md) | G2: воркфлоу /pr-create — автосбор Issues для PR (инструкция + скилл + скрипт) |
 
 
 ---
@@ -57,5 +60,8 @@ index: .claude/README.md
 │   └── README.md                                #   Индекс примеров
 ├── 2026-02-20-post-push-review.md      # Чек-лист ревью после пушей
 ├── 2026-02-22-process-map.md           # Карта процесса (18 шагов)
+├── 2026-02-24-init-project.md          # G1: воркфлоу /init-project
+├── 2026-02-24-chain-done.md            # G11: воркфлоу /chain-done
+├── 2026-02-24-pr-create.md             # G2: воркфлоу /pr-create
 └── README.md                           # Этот файл (индекс)
 ```

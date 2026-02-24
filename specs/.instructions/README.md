@@ -20,7 +20,7 @@ index: specs/.instructions/README.md
 
 | Секция | Инструкция | Описание |
 |--------|------------|----------|
-| [1. Стандарты](#1-стандарты) | standard-docs.md, standard-analysis.md | Форматы и правила |
+| [1. Стандарты](#1-стандарты) | standard-process.md, standard-docs.md, standard-analysis.md | Форматы и правила |
 | [2. Воркфлоу](#2-воркфлоу) | — | Создание и изменение |
 | [3. Валидация](#3-валидация) | validation-docs.md | Проверка согласованности |
 | [4. Per-document стандарты (docs/)](#4-per-document-стандарты-docs) | docs/*/ | Стандарт каждого типа документа docs/ |
@@ -48,6 +48,7 @@ index: specs/.instructions/README.md
 │   ├── chain_status.py                # SSOT-модуль управления статусами analysis chain (ChainManager)
 │   ├── create-review-file.py         # Создание файла review.md по шаблону
 │   └── extract-svc-context.py        # Извлечение SVC-N контекста из design.md для review.md
+├── standard-process.md              # Мета-стандарт процесса поставки ценности (оркестратор)
 ├── docs/
 │   ├── standard-docs.md               # Мета-стандарт документации для поставки (docs/)
 │   ├── validation-docs.md             # Валидация наличия обязательных документов docs/
@@ -115,6 +116,7 @@ index: specs/.instructions/README.md
 
 | Инструкция | Описание |
 |------------|----------|
+| [standard-process.md](./standard-process.md) | Мета-стандарт процесса поставки ценности — полный цикл от идеи до релиза, три пути, маппинг шагов на инструменты |
 | [standard-docs.md](./docs/standard-docs.md) | Стандарт документации для поставки (контур docs/) — структура, типы документов, принципы |
 | [standard-analysis.md](./analysis/standard-analysis.md) | Стандарт аналитического контура (analysis/) — 4 уровня, воркфлоу, статусы, каскады, обновление docs/ |
 

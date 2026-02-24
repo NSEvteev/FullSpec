@@ -48,8 +48,15 @@ standard-version: v1.2
 
 При изменении стандарта — **ОБЯЗАТЕЛЬНА** миграция через `/migration-create` (9 шагов).
 
+## Процесс поставки ценности
+
+Полный цикл от идеи до релиза: [standard-process.md](/specs/.instructions/standard-process.md)
+
+Описывает три пути: Happy Path (21 шаг), CONFLICT (обратная связь код → спецификации), альтернативные маршруты (Rollback, Hotfix, Doc-only).
+
 ## Навигация
 
+- **Процесс:** [/specs/.instructions/standard-process.md](/specs/.instructions/standard-process.md)
 - **Структура проекта:** [/.structure/README.md](/.structure/README.md)
 - **Скиллы:** [/.claude/skills/README.md](/.claude/skills/README.md)
 - **Rules:** [/.claude/rules/](/.claude/rules/)

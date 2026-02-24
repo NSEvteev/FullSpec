@@ -300,5 +300,6 @@ python .github/.instructions/.scripts/setup-labels.py
 ## Связанные документы
 
 - [Pre-commit хуки](./pre-commit.md) — детали работы pre-commit
+- [Процесс поставки ценности](/specs/.instructions/standard-process.md) — полный цикл от идеи до релиза (после инициализации — Фаза 1)
 - [Makefile](/Makefile) — все команды проекта
 - [CLAUDE.md](/CLAUDE.md) — инструкции для Claude Code
