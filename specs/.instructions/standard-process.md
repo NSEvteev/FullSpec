@@ -31,6 +31,7 @@ index: specs/.instructions/README.md
 | Documentation | [standard-docs.md](./docs/standard-docs.md) | Контур docs/, типы документов |
 | GitHub workflow | [standard-github-workflow.md](/.github/.instructions/standard-github-workflow.md) | Issue → Branch → PR → Merge → Release |
 | Development | [standard-development.md](/.github/.instructions/development/standard-development.md) | Процесс разработки в feature-ветке |
+| Release | [standard-release.md](/.github/.instructions/releases/standard-release.md) | Версионирование, changelog, теги, hotfix, rollback |
 
 **Зоны ответственности:**
 
@@ -113,7 +114,9 @@ graph TD
     DEV -. "обратная связь" .-> CONFLICT
     PRREVIEW -. "P1 замечание" .-> CONFLICT
     REVITER -. "P1 замечание" .-> CONFLICT
-    CONFLICT -. "разрешение - WAITING - RUNNING" .-> DEV
+    CONFLICT -. "разрешение" .-> WAITING2["Per-doc → WAITING"]
+    WAITING2 -. "все 4 WAITING" .-> RUNNING2["→ RUNNING"]
+    RUNNING2 -. "продолжение" .-> DEV
 ```
 
 ---
@@ -170,7 +173,7 @@ graph LR
 | Что меняется | Путь | Обоснование |
 |---|---|---|
 | Поведение системы (API, data model, логика, UI) | **A — полная цепочка** | Любое изменение поведения требует проектирования, тестов и ревью |
-| Баг в production (критический, блокирует пользователей) | **A — полная цепочка** (ускоренная) | Discussion может быть краткой, но цепочка обязательна — даже hotfix может сломать другие контракты |
+| Баг в production (критический, блокирует пользователей) | **A — полная цепочка** | Discussion может быть краткой, но цепочка обязательна — даже hotfix может сломать контракты. См. [C.2 Hotfix](#c2-hotfix) |
 | Несколько мелких багов без затрагивания API | **A через C.3 (bug-fix bundle)** | Одна Discussion группирует фиксы, далее полная цепочка |
 | Опечатки, форматирование, комментарии | **C.4 (doc-only)** | Единственное исключение — изменение **не меняет поведение** системы |
 
@@ -325,7 +328,7 @@ graph TD
 | B.4 | Обнаружение уровня | Проверка снизу вверх: Plan Dev → … → Discussion | LLM (не автоматизировано) |
 | B.5 | Разрешение сверху вниз | От самого высокого затронутого до Plan Dev | `/discussion-modify`, `/design-modify`, `/plan-test-modify`, `/plan-dev-modify` |
 | B.6 | Per-doc → WAITING | Пользователь ревьюит каждый изменённый документ | chain_status.py (T5) |
-| B.7 | Повторный запуск | Все 4 в WAITING → каскад RUNNING | chain_status.py (T3), `/issue-modify` (обновление Issues) |
+| B.7 | Повторный запуск | Все 4 в WAITING → каскад RUNNING | chain_status.py (T3), `/dev-create {NNNN} --resume` (обнаруживает существующие Issues/Branch, создаёт новые Issues для задач, появившихся после разрешения CONFLICT) |
 
 **Кросс-цепочечная обратная связь:** При обновлении docs/ автоматически вызывается `check_cross_chain()` — может затронуть другие цепочки. → [standard-analysis.md § 7.2](./analysis/standard-analysis.md#72-конфликт-исполнения-conflict)
 
@@ -349,9 +352,15 @@ graph TD
 
 Критический баг в production, требующий немедленного исправления.
 
-**SSOT:** [standard-release.md](/.github/.instructions/releases/standard-release.md) (упоминание)
+**SSOT:** [standard-release.md § 12](/.github/.instructions/releases/standard-release.md#12-hotfix-релиз)
 
-> **GAP:** Нет отдельного workflow для hotfix. Сейчас: стандартная цепочка в сокращённом формате или прямой фикс через Issue → Branch → PR → Merge.
+**Hotfix идёт через обычную analysis chain.** Отдельного hotfix-workflow нет — даже критический баг проходит Discussion → Design → Plan Tests → Plan Dev → Development → PR → Merge → Release. Discussion может быть краткой, но цепочка обязательна: hotfix может сломать контракты, data model или cross-service интеграции.
+
+**Особенности hotfix-цепочки:**
+- Issue создаётся с метками `bug` + `critical`
+- Ветка: `{NNNN}-hotfix-{topic}`
+- Hotfix-релиз: PATCH-версия (v1.0.0 → v1.0.1)
+- Если hotfix невозможен за ~30 минут → rollback (C.1), затем исправление без спешки
 
 ### C.3 Bug-fix bundle
 
@@ -363,11 +372,13 @@ graph TD
 
 ### C.4 Documentation-only changes
 
-Опечатки, форматирование — без analysis chain.
+Опечатки, форматирование, мелкие неточности — без analysis chain.
 
 **SSOT:** [standard-analysis.md § 10](./analysis/standard-analysis.md#10-запреты) (исключение)
 
-**Критерий:** Изменение **не меняет поведение системы** — не затрагивает API контракты, data model, схему интеграций.
+**Критерий:** Изменение **не меняет поведение системы** — не затрагивает API контракты, data model, схему интеграций, описание архитектурных решений.
+
+**Процесс:** Issue (опционально) → Branch → PR → Merge. Без Discussion, Design, Plan Tests, Plan Dev. Commit type: `docs:` или `fix:` (для опечаток в коде).
 
 ### C.5 Кросс-цепочечная координация
 
@@ -412,7 +423,7 @@ graph TD
 | 5.2 Review iter. | standard-review (analysis), create-review | /review | code-reviewer | extract-svc-context.py |
 | 5.3 → DONE | standard-analysis § 6.6, § 7.3 | /analysis-status, /service-modify | — | chain_status.py |
 | **Фаза 6: Поставка** | | | | |
-| 6.1 Release | standard-release, create-release | /milestone-validate | — | — |
+| 6.1 Release | standard-release, create-release, validation-release | /milestone-validate | — | validate-pre-release.py, validate-post-release.py |
 | **Путь B: CONFLICT** | | | | |
 | B.1-B.3 Обнаружение → Каскад | standard-analysis §§ 6.3 | /analysis-status | — | chain_status.py (classify_feedback, T4/T8) |
 | B.5-B.7 Разрешение → RUNNING | modify-discussion/design/plan-test/plan-dev | -modify скиллы | — | chain_status.py (T5, T3) |
@@ -488,7 +499,7 @@ CONFLICT:
   /analysis-status      → RUNNING → CONFLICT
   /{level}-modify       → разрешение сверху вниз
   /analysis-status      → CONFLICT → WAITING (per-doc)
-  /dev-create {NNNN}    → WAITING → RUNNING (повторный запуск)
+  /dev-create {NNNN} --resume → WAITING → RUNNING (повторный запуск, новые Issues если нужно)
 ```
 
 ---
@@ -497,19 +508,19 @@ CONFLICT:
 
 | # | Пробел | Приоритет | Описание | План |
 |---|--------|-----------|---------|------|
-| G1 | Нет единого `/project-init` | Средний | Фаза 0 разрозненна — 3 процесса без оркестратора | Создать скилл, объединяющий GitHub setup + docs/ init + make setup |
+| G1 | Нет единого `/init-project` | Средний | Фаза 0 разрозненна — 3 процесса без оркестратора | Драфт: `.claude/drafts/2026-02-24-init-project.md` |
 | G2 | Нет `/pr-create` скилла | Средний | PR создаётся `gh pr create`, но сбор Issues chain'а, формирование body и labels — рутина. Скрипт `collect-pr-issues.py` + скилл автоматизируют | Драфт: `.claude/drafts/2026-02-24-pr-create.md` |
-| G3 | Нет `/release-create` скилла | Средний | Инструкция create-release.md есть, скилла нет | Создать скилл по create-release.md |
-| G4 | Нет hotfix workflow | Средний | Упоминается в release, нет отдельного маршрута | Определить: сокращённая цепочка или Issue → Branch → PR → Merge |
-| G5 | Нет `/commit` скилла | Низкий | Процесс покрыт standard-commit + pre-commit hooks | Скилл удобен но не критичен |
-| G6 | Нет `/merge` скилла | Низкий | Одна команда gh pr merge --squash | Покрыт стандартом |
-| G7 | Нет `/sync` скилла | Низкий | Две команды git | Покрыт стандартом |
-| G8 | Нет post-release workflow | Низкий | Мониторинг зависит от инфраструктуры | Отложить до первого реального деплоя |
-| G9 | Нет `/rollback` скилла | Низкий | chain_status.py покрывает статусы, откат — по modify-* | Скилл для удобства |
-| G10 | Определение уровня CONFLICT не автоматизировано | Низкий | Полностью на LLM, формализовано в стандарте | Оставить как есть — LLM справляется |
-| G11 | Нет `/chain-done` скилла | Средний | Переход REVIEW → DONE: последовательно снизу вверх (plan-dev → plan-test → design → discussion) вызывает -modify с обновлением docs/ | Создать скилл-оркестратор bottom-up DONE перехода |
+| G3 | Нет `/release-create` скилла | Средний | Инструкция create-release.md есть (полная, 7 шагов), скилла нет | Драфт: `.claude/drafts/2026-02-24-release-create.md` |
+| G4 | ~~Нет hotfix workflow~~ | ~~Средний~~ | Hotfix идёт через обычную analysis chain (standard-release.md § 12). Отдельный workflow не нужен | **Закрыт** — обновлён C.2 |
+| G5 | Нет `/commit` скилла | Низкий | Процесс покрыт standard-commit + pre-commit hooks | Драфт: `.claude/drafts/2026-02-24-commit-skill.md` |
+| G6 | Нет `/merge` скилла | Низкий | Одна команда gh pr merge --squash | Драфт: `.claude/drafts/2026-02-24-merge-skill.md` |
+| G7 | Нет `/sync` скилла | Низкий | Две команды git | Драфт: `.claude/drafts/2026-02-24-sync-skill.md` |
+| G8 | Нет post-release workflow | Низкий | Мониторинг зависит от инфраструктуры | Драфт: `.claude/drafts/2026-02-24-post-release.md` |
+| G9 | Нет `/rollback` скилла | Низкий | chain_status.py покрывает статусы, откат — по modify-* | Драфт: `.claude/drafts/2026-02-24-rollback-skill.md` |
+| G10 | Определение уровня CONFLICT не автоматизировано | Низкий | Полностью на LLM, формализовано в стандарте | Драфт: `.claude/drafts/2026-02-24-conflict-detect.md` |
+| G11 | Нет `/chain-done` скилла | Средний | Переход REVIEW → DONE: последовательно снизу вверх (plan-dev → plan-test → design → discussion) вызывает -modify с обновлением docs/ | Драфт: `.claude/drafts/2026-02-24-chain-done.md` |
 
-**Покрытие:** 19 из 21 шага happy path имеют хотя бы один инструмент (~90%). Все 7 шагов CONFLICT покрыты инструкциями. 3 из 5 альтернативных маршрутов полностью покрыты.
+**Покрытие:** Все шаги happy path имеют SSOT-инструкцию. Шаги без выделенного скилла (4.2 PR Create, 4.4 Merge, 4.5 Sync) покрыты стандартами и выполняются CLI-командами. Все шаги CONFLICT покрыты инструкциями. Альтернативные маршруты C.1–C.5 описаны и имеют SSOT-ссылки.
 
 ---
 
