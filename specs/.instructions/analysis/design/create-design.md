@@ -1,12 +1,13 @@
 ---
 description: Воркфлоу создания документа проектирования SDD — Unified Scan, Clarify, генерация SVC-N/INT-N/STS-N, валидация, перевод DRAFT → WAITING.
 standard: .instructions/standard-instruction.md
+standard-version: v1.2
 index: specs/.instructions/README.md
 ---
 
 # Воркфлоу создания проектирования
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 2.1
 
 Пошаговый процесс создания нового документа проектирования (`specs/analysis/NNNN-{topic}/design.md`).
 
@@ -94,7 +95,7 @@ index: specs/.instructions/README.md
 |------|----------|
 | `description` | Краткое описание (до 1024 символов) |
 | `standard` | `specs/.instructions/analysis/design/standard-design.md` |
-| `standard-version` | `v2.0` |
+| `standard-version` | `v2.1` |
 | `index` | `specs/analysis/README.md` |
 | `parent` | `discussion.md` |
 | `children` | `[]` (Plan Tests ещё не создан) |

@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу изменения документа плана тестов SDD — операции по статусам и переходы жизненного цикла (DRAFT, WAITING, RUNNING, CONFLICT, DONE).
+description: Воркфлоу изменения документа плана тестов SDD — операции по статусам и переходы жизненного цикла (DRAFT, WAITING, RUNNING, REVIEW, CONFLICT, DONE).
 standard: .instructions/standard-instruction.md
 standard-version: v1.3
 index: specs/.instructions/README.md
@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Воркфлоу изменения плана тестов
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Процессы изменения существующего документа плана тестов (`specs/analysis/NNNN-{topic}/plan-test.md`).
 
@@ -45,7 +45,8 @@ index: specs/.instructions/README.md
   - [Как Plan Tests попадает в CONFLICT](#как-plan-tests-попадает-в-conflict)
   - [Операции при CONFLICT](#операции-при-conflict)
 - [Переход: CONFLICT → WAITING](#переход-conflict-waiting)
-- [Переход: RUNNING → DONE](#переход-running-done)
+- [Переход: RUNNING → REVIEW](#переход-running-review)
+- [Переход: REVIEW → DONE](#переход-review-done)
 - [Статус DONE — ограничения](#статус-done-ограничения)
 - [Переход: → ROLLING_BACK](#переход-rolling_back)
 - [Переход: ROLLING_BACK → REJECTED](#переход-rolling_back-rejected)
@@ -79,7 +80,8 @@ index: specs/.instructions/README.md
 |----------------|--------------------|--------------------|
 | **DRAFT** | [Обновление контента](#обновление-контента), [Разрешение маркеров](#разрешение-маркеров) | [DRAFT → WAITING](#переход-draft-waiting) |
 | **WAITING** | [Upward feedback](#upward-feedback-при-waiting) | [WAITING → RUNNING](#переход-waiting-running) |
-| **RUNNING** | — (прямые правки запрещены) | [RUNNING → CONFLICT](#переход-running-conflict), [RUNNING → DONE](#переход-running-done) |
+| **RUNNING** | — (прямые правки запрещены) | [RUNNING → CONFLICT](#переход-running-conflict), [RUNNING → REVIEW](#переход-running-review) |
+| **REVIEW** | — (прямые правки запрещены) | [REVIEW → DONE](#переход-review-done), [REVIEW → CONFLICT](#переход-running-conflict) |
 | **CONFLICT** | [Операции при CONFLICT](#операции-при-conflict) | [CONFLICT → WAITING](#переход-conflict-waiting), [→ ROLLING_BACK](#переход-rolling_back) |
 | **DONE** | [Только орфография](#статус-done-ограничения) | — |
 | **ROLLING_BACK** | — | [ROLLING_BACK → REJECTED](#переход-rolling_back-rejected) |
@@ -340,13 +342,26 @@ Plan Tests попадает в CONFLICT через tree-level каскад. LLM 
 
 ---
 
-## Переход: RUNNING → DONE
+## Переход: RUNNING → REVIEW
 
-**SSOT:** [Стандарт analysis/ § 6.5](../standard-analysis.md#65-running-to-done)
+**SSOT:** [Стандарт analysis/ § 6.5](../standard-analysis.md#65-running-to-review)
+
+> **Tree-level переход.** Все документы цепочки переходят в REVIEW одновременно.
+> `/review-create` создаёт review.md. `/review` запускает ревью.
+
+**На уровне Plan Tests:** статус `RUNNING` → `REVIEW`.
+
+Обновить README: `RUNNING` → `REVIEW`.
+
+---
+
+## Переход: REVIEW → DONE
+
+**SSOT:** [Стандарт analysis/ § 6.6](../standard-analysis.md#66-review-to-done)
 
 > **Bottom-up каскад.** Plan Tests → DONE когда Plan Dev (child, 1:1) → DONE.
 
-**На уровне Plan Tests:** статус `RUNNING` → `DONE` автоматически.
+**На уровне Plan Tests:** статус `REVIEW` → `DONE` автоматически.
 
 **Побочные эффекты Plan Tests → DONE** ([standard-plan-test.md § 4](./standard-plan-test.md#4-переходы-статусов)):
 
@@ -354,7 +369,7 @@ Plan Tests попадает в CONFLICT через tree-level каскад. LLM 
 |---|----------|------|
 | 1 | `docs/.system/testing.md` — обновить стратегию тестирования (если изменилась) | [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md) |
 
-Обновить README: `RUNNING` → `DONE`.
+Обновить README: `REVIEW` → `DONE`.
 
 ---
 
@@ -375,7 +390,7 @@ Plan Tests попадает в CONFLICT через tree-level каскад. LLM 
 
 ## Переход: → ROLLING_BACK
 
-**SSOT:** [Стандарт analysis/ § 6.6](../standard-analysis.md#66-to-rolling_back)
+**SSOT:** [Стандарт analysis/ § 6.7](../standard-analysis.md#67-to-rolling_back)
 
 > **Tree-level.** Все документы цепочки → ROLLING_BACK.
 
@@ -387,7 +402,7 @@ Plan Tests попадает в CONFLICT через tree-level каскад. LLM 
 
 ## Переход: ROLLING_BACK → REJECTED
 
-**SSOT:** [Стандарт analysis/ § 6.7](../standard-analysis.md#67-rolling_back-to-rejected)
+**SSOT:** [Стандарт analysis/ § 6.8](../standard-analysis.md#68-rolling_back-to-rejected)
 
 > **REJECTED — финальный статус.** Изменения запрещены.
 
@@ -450,8 +465,13 @@ Plan Tests содержит ссылки в frontmatter (`parent`, `children`).
 - [ ] Пользователь одобрил
 - [ ] Статус обновлён в frontmatter и README
 
-### Переход RUNNING → DONE
-- [ ] Plan Dev → DONE (bottom-up каскад)
+### Переход RUNNING → REVIEW
+- [ ] Все TASK-N выполнены
+- [ ] Цепочка переведена в REVIEW (tree-level)
+- [ ] README обновлён
+
+### Переход REVIEW → DONE
+- [ ] review.md RESOLVED (вердикт READY)
 - [ ] docs/.system/testing.md обновлён (если стратегия изменилась)
 - [ ] Статус обновлён в frontmatter и README
 
@@ -493,14 +513,16 @@ LLM определил: Plan Tests затронут (TC-1, TC-4 использу
 8. README обновлён
 ```
 
-### Plan Tests → DONE
+### Plan Tests → REVIEW → DONE
 
 ```
-Ситуация: Plan Dev → DONE → bottom-up каскад → Plan Tests → DONE.
+Ситуация: Все TASK-N выполнены → цепочка → REVIEW → review.md RESOLVED → каскад DONE.
 
-1. Проверить: стратегия тестирования изменилась? → Нет
-2. status: RUNNING → DONE
-3. README обновлён
+1. Цепочка → REVIEW (tree-level)
+2. review.md RESOLVED → каскад DONE (bottom-up)
+3. Проверить: стратегия тестирования изменилась? → Нет
+4. status: REVIEW → DONE
+5. README обновлён
 ```
 
 ---

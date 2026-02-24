@@ -30,6 +30,7 @@ index: .github/.instructions/development/README.md
 ```
 /.github/.instructions/development/
 ├── README.md                      # Этот файл (индекс)
+├── create-dev.md                  # Воркфлоу запуска разработки по analysis chain
 ├── standard-development.md        # Стандарт локальной разработки
 └── validation-development.md      # Валидация процесса разработки
 ```
@@ -43,6 +44,7 @@ index: .github/.instructions/development/README.md
 Процесс работы в feature-ветке, make-команды, тестирование, локальные проверки качества.
 
 **Оглавление:**
+- [Запуск разработки](./standard-development.md#0-запуск-разработки)
 - [Взятие задачи](./standard-development.md#1-взятие-задачи)
 - [Процесс разработки](./standard-development.md#2-процесс-разработки)
 - [Make-команды](./standard-development.md#3-make-команды)
@@ -59,7 +61,11 @@ index: .github/.instructions/development/README.md
 
 # 2. Воркфлоу
 
-*Нет воркфлоу.*
+## 2.1. Запуск разработки по analysis chain
+
+Воркфлоу перехода analysis chain из WAITING в RUNNING: создание Issues, Milestone, ветки.
+
+**Инструкция:** [create-dev.md](./create-dev.md)
 
 ---
 

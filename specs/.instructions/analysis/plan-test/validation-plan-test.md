@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Валидация плана тестов
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Проверка документов плана тестов (`specs/analysis/*/plan-test.md`) на соответствие [standard-plan-test.md](./standard-plan-test.md).
 
@@ -95,7 +95,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py {путь}
 | `index` | = `specs/analysis/README.md` |
 | `parent` | Присутствует, путь к `design.md` в той же папке |
 | `children` | Присутствует, список путей или `[]` |
-| `status` | Валидный статус: DRAFT, WAITING, RUNNING, DONE, CONFLICT, ROLLING_BACK, REJECTED |
+| `status` | Валидный статус: DRAFT, WAITING, RUNNING, REVIEW, DONE, CONFLICT, ROLLING_BACK, REJECTED |
 | `milestone` | Присутствует, формат `vX.Y.Z`, совпадает с parent Discussion |
 
 **Проверить parent:**
@@ -198,7 +198,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py {путь}
 
 **SSOT:** [standard-plan-test.md § 6](./standard-plan-test.md#6-clarify), [standard-analysis.md § 8](../standard-analysis.md#8-clarify-и-блокирующие-правила)
 
-Если `status` > DRAFT (WAITING, RUNNING, DONE, CONFLICT, ROLLING_BACK, REJECTED):
+Если `status` > DRAFT (WAITING, RUNNING, REVIEW, DONE, CONFLICT, ROLLING_BACK, REJECTED):
 - Нет неразрешённых `[ТРЕБУЕТ УТОЧНЕНИЯ]` маркеров
 - Нет `⛔ DEPENDENCY BARRIER`
 

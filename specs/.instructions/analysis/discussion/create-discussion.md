@@ -1,12 +1,13 @@
 ---
 description: Воркфлоу создания документа дискуссии SDD — Clarify, генерация, валидация, перевод DRAFT → WAITING.
 standard: .instructions/standard-instruction.md
+standard-version: v1.3
 index: specs/.instructions/README.md
 ---
 
 # Воркфлоу создания дискуссии
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Пошаговый процесс создания нового документа дискуссии (`specs/analysis/NNNN-{topic}/discussion.md`).
 
@@ -98,7 +99,7 @@ index: specs/.instructions/README.md
 |------|----------|
 | `description` | Краткое описание из запроса пользователя (до 1024 символов) |
 | `standard` | `specs/.instructions/analysis/discussion/standard-discussion.md` |
-| `standard-version` | `v1.0` |
+| `standard-version` | `v1.1` |
 | `index` | `specs/analysis/README.md` |
 | `children` | `[]` (Design ещё не создан) |
 | `status` | `DRAFT` |

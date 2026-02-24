@@ -1,7 +1,7 @@
 ---
 description: Примеры черновиков Claude — образцы для обучения формату и структуре drafts. Справочник шаблонов.
 standard: .structure/.instructions/standard-readme.md
-standard-version: v1.2
+standard-version: v1.1
 index: .claude/drafts/examples/README.md
 ---
 

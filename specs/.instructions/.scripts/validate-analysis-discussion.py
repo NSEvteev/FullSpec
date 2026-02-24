@@ -32,7 +32,7 @@ FOLDER_REGEX = re.compile(r'^(\d{4})-.+$')
 HEADING_REGEX = re.compile(r'^# (\d{4}):\s+(.+)$', re.MULTILINE)
 
 VALID_STATUSES = {
-    "DRAFT", "WAITING", "RUNNING", "DONE",
+    "DRAFT", "WAITING", "RUNNING", "REVIEW", "DONE",
     "CONFLICT", "ROLLING_BACK", "REJECTED",
 }
 

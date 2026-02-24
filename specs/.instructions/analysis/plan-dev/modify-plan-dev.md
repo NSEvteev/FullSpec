@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Воркфлоу изменения плана разработки
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Процессы изменения существующего документа плана разработки (`specs/analysis/NNNN-{topic}/plan-dev.md`).
 
@@ -44,7 +44,8 @@ index: specs/.instructions/README.md
   - [Как Plan Dev попадает в CONFLICT](#как-plan-dev-попадает-в-conflict)
   - [Операции при CONFLICT](#операции-при-conflict)
 - [Переход: CONFLICT → WAITING](#переход-conflict-waiting)
-- [Переход: RUNNING → DONE](#переход-running-done)
+- [Переход: RUNNING → REVIEW](#переход-running-review)
+- [Переход: REVIEW → DONE](#переход-review-done)
 - [Статус DONE — ограничения](#статус-done-ограничения)
 - [Переход: → ROLLING_BACK](#переход-rolling_back)
 - [Переход: ROLLING_BACK → REJECTED](#переход-rolling_back-rejected)
@@ -66,7 +67,7 @@ index: specs/.instructions/README.md
 
 > **SSOT — Стандарт аналитического контура.** Каскады, условия переходов — [Стандарт analysis/ § 6](../standard-analysis.md#6-последовательность-статусов). Этот документ описывает операции на уровне Plan Dev.
 
-> **Plan Dev — терминальный.** Plan Dev управляет DRAFT → WAITING. RUNNING → DONE триггерится выполнением всех TASK-N.
+> **Plan Dev — терминальный.** Plan Dev управляет DRAFT → WAITING. RUNNING → REVIEW триггерится выполнением всех TASK-N. REVIEW → DONE — после ревью кода.
 
 ---
 
@@ -78,7 +79,8 @@ index: specs/.instructions/README.md
 |----------------|--------------------|--------------------|
 | **DRAFT** | [Обновление контента](#обновление-контента), [Разрешение маркеров](#разрешение-маркеров) | [DRAFT → WAITING](#переход-draft-waiting) |
 | **WAITING** | — | [WAITING → RUNNING](#переход-waiting-running) |
-| **RUNNING** | [Рабочие правки](#статус-running-рабочие-правки) | [RUNNING → CONFLICT](#переход-running-conflict), [RUNNING → DONE](#переход-running-done) |
+| **RUNNING** | [Рабочие правки](#статус-running-рабочие-правки) | [RUNNING → CONFLICT](#переход-running-conflict), [RUNNING → REVIEW](#переход-running-review) |
+| **REVIEW** | — (прямые правки запрещены) | [REVIEW → DONE](#переход-review-done), [REVIEW → CONFLICT](#переход-running-conflict) |
 | **CONFLICT** | [Операции при CONFLICT](#операции-при-conflict) | [CONFLICT → WAITING](#переход-conflict-waiting), [→ ROLLING_BACK](#переход-rolling_back) |
 | **DONE** | [Только орфография](#статус-done-ограничения) | — |
 | **ROLLING_BACK** | — | [ROLLING_BACK → REJECTED](#переход-rolling_back-rejected) |
@@ -213,6 +215,15 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py specs/analysis
 
 **Артефакты Plan Dev → WAITING:** нет артефактов в docs/. Plan Dev не создаёт Planned Changes.
 
+### Шаг 3: Проверить готовность цепочки
+
+Проверить: все ли 4 документа цепочки в WAITING.
+
+| Все в WAITING? | Действие |
+|----------------|----------|
+| Да | AskUserQuestion: "Все спецификации готовы. Начать разработку через `/dev {NNNN}`?" |
+| Нет | Вывести: "Plan Dev → WAITING. Ожидают: {список документов не в WAITING}" |
+
 ### Каскад DRAFT (возврат из WAITING)
 
 **SSOT:** [Стандарт analysis/ § 6.1](../standard-analysis.md#61-draft-to-waiting)
@@ -315,6 +326,9 @@ Plan Dev попадает в CONFLICT через tree-level каскад. LLM о
 2. Пользователь ревьюит → одобряет
 3. Статус: `CONFLICT` → `WAITING`
 4. Обновить README
+5. **Проверить готовность цепочки.** Если Plan Dev — последний документ, возвращённый в WAITING (все 4 документа цепочки в WAITING):
+   AskUserQuestion: "Конфликт разрешён. Все спецификации снова в WAITING. Возобновить разработку через `/dev {NNNN}`?"
+   При подтверждении → выполнить `/dev {NNNN}` (Issues уже существуют — `/dev --resume` обнаружит и пропустит создание).
 
 **Синхронизация Issues** ([standard-issue.md](/.github/.instructions/issues/standard-issue.md))**:** LLM сравнивает TASK-N в обновлённом Plan Dev с существующими Issues. Критерий изменения: изменились поля Сложность, Приоритет, Зависимости, TC или подзадачи.
 
@@ -335,19 +349,34 @@ Plan Dev попадает в CONFLICT через tree-level каскад. LLM о
 
 ---
 
-## Переход: RUNNING → DONE
+## Переход: RUNNING → REVIEW
 
-**SSOT:** [Стандарт analysis/ § 6.5](../standard-analysis.md#65-running-to-done)
+**SSOT:** [Стандарт analysis/ § 6.5](../standard-analysis.md#65-running-to-review)
 
 **Триггер:** все задачи TASK-N выполнены. Критерий выполненности: все подзадачи отмечены `[x]` и соответствующий GitHub Issue закрыт.
 
-**На уровне Plan Dev:** статус `RUNNING` → `DONE`.
+> **Tree-level переход.** Все документы цепочки переходят в REVIEW одновременно.
+> `/review-create` создаёт review.md (если ещё не создан). `/review` запускает ревью.
+
+**На уровне Plan Dev:** статус `RUNNING` → `REVIEW`.
+
+Обновить README: `RUNNING` → `REVIEW`.
+
+---
+
+## Переход: REVIEW → DONE
+
+**SSOT:** [Стандарт analysis/ § 6.6](../standard-analysis.md#66-review-to-done)
+
+**Триггер:** review.md RESOLVED (вердикт READY).
+
+**На уровне Plan Dev:** статус `REVIEW` → `DONE`.
 
 **Побочные эффекты Plan Dev → DONE:**
 
-> **Bottom-up каскад DONE:** Plan Dev → DONE триггерит каскад: Plan Tests → Design → Discussion → DONE ([Стандарт analysis/ § 6.5](../standard-analysis.md#65-running-to-done)). Каждый документ выполняет свои побочные эффекты при переходе в DONE.
+> **Bottom-up каскад DONE:** Plan Dev → DONE триггерит каскад: Plan Tests → Design → Discussion → DONE ([Стандарт analysis/ § 6.6](../standard-analysis.md#66-review-to-done)). Каждый документ выполняет свои побочные эффекты при переходе в DONE.
 
-Обновить README: `RUNNING` → `DONE`.
+Обновить README: `REVIEW` → `DONE`.
 
 ---
 
@@ -368,7 +397,7 @@ Plan Dev попадает в CONFLICT через tree-level каскад. LLM о
 
 ## Переход: → ROLLING_BACK
 
-**SSOT:** [Стандарт analysis/ § 6.6](../standard-analysis.md#66-to-rolling_back)
+**SSOT:** [Стандарт analysis/ § 6.7](../standard-analysis.md#67-to-rolling_back)
 
 > **Tree-level.** Все документы цепочки → ROLLING_BACK.
 
@@ -382,7 +411,7 @@ Plan Dev попадает в CONFLICT через tree-level каскад. LLM о
 
 ## Переход: ROLLING_BACK → REJECTED
 
-**SSOT:** [Стандарт analysis/ § 6.7](../standard-analysis.md#67-rolling_back-to-rejected)
+**SSOT:** [Стандарт analysis/ § 6.8](../standard-analysis.md#68-rolling_back-to-rejected)
 
 > **REJECTED — финальный статус.** Изменения запрещены.
 
@@ -428,6 +457,7 @@ Plan Dev содержит ссылку в frontmatter (`parent`).
 - [ ] Пользователь подтвердил перевод
 - [ ] Статус обновлён в frontmatter
 - [ ] Статус обновлён в README
+- [ ] Предложен запуск разработки (если все 4 в WAITING)
 
 ### Рабочие правки (RUNNING)
 - [ ] Только допустимые правки (подзадачи, описания, новые TASK-N в конец)
@@ -443,9 +473,15 @@ Plan Dev содержит ссылку в frontmatter (`parent`).
 - [ ] Пользователь одобрил
 - [ ] Issues синхронизированы (изменённые, удалённые, новые)
 - [ ] Статус обновлён в frontmatter и README
+- [ ] Предложено возобновление разработки (если все 4 в WAITING)
 
-### Переход RUNNING → DONE
+### Переход RUNNING → REVIEW
 - [ ] Все TASK-N выполнены (подзадачи `[x]`, Issues закрыты)
+- [ ] Цепочка переведена в REVIEW (tree-level)
+- [ ] README обновлён
+
+### Переход REVIEW → DONE
+- [ ] review.md RESOLVED (вердикт READY)
 - [ ] Статус обновлён в frontmatter и README
 - [ ] Bottom-up каскад DONE запущен (Plan Tests → Design → Discussion)
 
@@ -499,13 +535,15 @@ LLM определил: Plan Dev затронут (TASK-1, TASK-2 ссылают
 9. README обновлён
 ```
 
-### Plan Dev → DONE
+### Plan Dev → REVIEW → DONE
 
 ```
 Ситуация: последний TASK-9 выполнен (все подзадачи [x], Issue закрыт).
 
 1. Проверить: все TASK-N выполнены? → Да
-2. status: RUNNING → DONE
+2. Цепочка → REVIEW (tree-level). README: RUNNING → REVIEW
+3. /review → review.md RESOLVED (вердикт READY)
+4. status: REVIEW → DONE
 3. README обновлён
 4. Bottom-up каскад: Plan Tests → DONE → Design → DONE → Discussion → DONE
 ```

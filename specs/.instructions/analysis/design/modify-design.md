@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу изменения документа проектирования SDD — операции по статусам и переходы жизненного цикла (DRAFT, WAITING, RUNNING, CONFLICT, DONE).
+description: Воркфлоу изменения документа проектирования SDD — операции по статусам и переходы жизненного цикла (DRAFT, WAITING, RUNNING, REVIEW, CONFLICT, DONE).
 standard: .instructions/standard-instruction.md
 standard-version: v1.2
 index: specs/.instructions/README.md
@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Воркфлоу изменения проектирования
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 2.1
 
 Процессы изменения существующего документа проектирования (`specs/analysis/NNNN-{topic}/design.md`).
 
@@ -46,7 +46,8 @@ index: specs/.instructions/README.md
   - [Как Design попадает в CONFLICT](#как-design-попадает-в-conflict)
   - [Операции при CONFLICT](#операции-при-conflict)
 - [Переход: CONFLICT → WAITING](#переход-conflict-waiting)
-- [Переход: RUNNING → DONE](#переход-running-done)
+- [Переход: RUNNING → REVIEW](#переход-running-review)
+- [Переход: REVIEW → DONE](#переход-review-done)
 - [Статус DONE — ограничения](#статус-done-ограничения)
 - [Переход: → ROLLING_BACK](#переход-rolling_back)
 - [Переход: ROLLING_BACK → REJECTED](#переход-rolling_back-rejected)
@@ -80,7 +81,8 @@ index: specs/.instructions/README.md
 |----------------|--------------------|--------------------|
 | **DRAFT** | [Обновление контента](#обновление-контента), [Разрешение маркеров](#разрешение-маркеров) | [DRAFT → WAITING](#переход-draft-waiting) |
 | **WAITING** | [Upward feedback](#upward-feedback-при-waiting) | [WAITING → RUNNING](#переход-waiting-running) |
-| **RUNNING** | — (прямые правки запрещены) | [RUNNING → CONFLICT](#переход-running-conflict), [RUNNING → DONE](#переход-running-done) |
+| **RUNNING** | — (прямые правки запрещены) | [RUNNING → CONFLICT](#переход-running-conflict), [RUNNING → REVIEW](#переход-running-review) |
+| **REVIEW** | — (прямые правки запрещены) | [REVIEW → DONE](#переход-review-done), [REVIEW → CONFLICT](#переход-running-conflict) |
 | **CONFLICT** | [Операции при CONFLICT](#операции-при-conflict) | [CONFLICT → WAITING](#переход-conflict-waiting), [→ ROLLING_BACK](#переход-rolling_back) |
 | **DONE** | [Только typo](#статус-done-ограничения) | — |
 | **ROLLING_BACK** | — (откат артефактов) | [ROLLING_BACK → REJECTED](#переход-rolling_back-rejected) |
@@ -361,13 +363,26 @@ Design попадает в CONFLICT через tree-level каскад. LLM оп
 
 ---
 
-## Переход: RUNNING → DONE
+## Переход: RUNNING → REVIEW
 
-**SSOT:** [Стандарт analysis/ § 6.5](../standard-analysis.md#65-running-to-done)
+**SSOT:** [Стандарт analysis/ § 6.5](../standard-analysis.md#65-running-to-review)
+
+> **Tree-level переход.** Все документы цепочки переходят в REVIEW одновременно.
+> `/review-create` создаёт review.md. `/review` запускает ревью.
+
+**На уровне Design:** статус `RUNNING` → `REVIEW`.
+
+Обновить README: `RUNNING` → `REVIEW`.
+
+---
+
+## Переход: REVIEW → DONE
+
+**SSOT:** [Стандарт analysis/ § 6.6](../standard-analysis.md#66-review-to-done)
 
 > **Bottom-up каскад.** Design → DONE когда Plan Tests (child, 1:1) → DONE.
 
-**На уровне Design:** статус `RUNNING` → `DONE` автоматически.
+**На уровне Design:** статус `REVIEW` → `DONE` автоматически.
 
 **Побочные эффекты Design → DONE** ([standard-design.md § 4](./standard-design.md#4-переходы-статусов)):
 
@@ -383,7 +398,7 @@ Design попадает в CONFLICT через tree-level каскад. LLM оп
 
 **INT-N при DONE:** не записываются отдельно — уже включены в SVC-N § 2.
 
-Обновить README: `RUNNING` → `DONE`.
+Обновить README: `REVIEW` → `DONE`.
 
 ---
 
@@ -403,7 +418,7 @@ Design попадает в CONFLICT через tree-level каскад. LLM оп
 
 ## Переход: → ROLLING_BACK
 
-**SSOT:** [Стандарт analysis/ § 6.6](../standard-analysis.md#66-to-rolling_back)
+**SSOT:** [Стандарт analysis/ § 6.7](../standard-analysis.md#67-to-rolling_back)
 
 > **Tree-level.** Все документы цепочки → ROLLING_BACK.
 
@@ -424,7 +439,7 @@ Design попадает в CONFLICT через tree-level каскад. LLM оп
 
 ## Переход: ROLLING_BACK → REJECTED
 
-**SSOT:** [Стандарт analysis/ § 6.7](../standard-analysis.md#67-rolling_back-to-rejected)
+**SSOT:** [Стандарт analysis/ § 6.8](../standard-analysis.md#68-rolling_back-to-rejected)
 
 > **REJECTED — финальный статус.** Изменения запрещены.
 
@@ -488,8 +503,13 @@ Design содержит ссылки в frontmatter (`parent`, `children`) и п
 - [ ] Пользователь одобрил
 - [ ] Статус обновлён в frontmatter и README
 
-### Переход RUNNING → DONE
-- [ ] Plan Tests → DONE (bottom-up каскад)
+### Переход RUNNING → REVIEW
+- [ ] Все TASK-N выполнены
+- [ ] Цепочка переведена в REVIEW (tree-level)
+- [ ] README обновлён
+
+### Переход REVIEW → DONE
+- [ ] review.md RESOLVED (вердикт READY)
 - [ ] docs/{svc}.md §§ 1-8: Planned Changes → AS IS
 - [ ] docs/{svc}.md § 10: Changelog обновлён
 - [ ] overview.md: Planned Changes → AS IS + Changelog
@@ -538,19 +558,21 @@ LLM определил: Design затронут (SVC-1 § 2 API контракт
 8. README обновлён
 ```
 
-### Design → DONE
+### Design → REVIEW → DONE
 
 ```
-Ситуация: Plan Tests → DONE → bottom-up каскад → Design → DONE.
+Ситуация: Все TASK-N выполнены → цепочка → REVIEW → review.md RESOLVED → каскад DONE.
 
-1. Для каждого SVC-N с контентом:
+1. Цепочка → REVIEW (tree-level)
+2. review.md RESOLVED → каскад DONE (bottom-up)
+3. Для каждого SVC-N с контентом:
    - auth.md §§ 1-8: Planned Changes → AS IS (убрать маркеры)
    - auth.md § 10: Changelog += "0001: OAuth2 авторизация"
    - gateway.md аналогично
    - users.md аналогично
-2. overview.md: Planned Changes → AS IS + Changelog
-3. status: RUNNING → DONE
-4. README обновлён
+4. overview.md: Planned Changes → AS IS + Changelog
+5. status: REVIEW → DONE
+6. README обновлён
 ```
 
 ---

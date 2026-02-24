@@ -93,6 +93,10 @@ index: .github/.instructions/README.md
 │                    ЦИКЛ РАЗРАБОТКИ (ПОВТОРЯЕТСЯ)               │
 └───────────────────────────────────────────────────────────────┘
 
+0. ЗАПУСК РАЗРАБОТКИ (из analysis chain)
+   └─ /dev {NNNN} → Issues + Milestone + Branch → RUNNING
+   └─ → standard-development.md § 0
+
 1. ПЛАНИРОВАНИЕ
    └─ Создать Issues для фичи/области (#42, #43, #44)
    └─ → standard-issue.md
@@ -206,6 +210,8 @@ index: .github/.instructions/README.md
 **SSOT:** [standard-issue.md](./issues/standard-issue.md)
 
 ### Процесс
+
+> **Из analysis chain:** Issues создаются автоматически через `/dev` — см. [standard-development.md § 0](./development/standard-development.md#0-запуск-разработки).
 
 Декомпозиция фичи/области на отдельные Issues:
 - #42: Добавить форму логина

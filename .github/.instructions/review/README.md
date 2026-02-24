@@ -78,6 +78,7 @@ Code Review процесс, merge стратегии и Branch Protection Rules.
 | Скилл | Назначение | Инструкция |
 |-------|------------|------------|
 | [/review](/.claude/skills/review/SKILL.md) | Ревью кода (Этап 1 — ветка, Этап 2 — PR) | [validation-review.md](./validation-review.md) |
+| [/review-create](/.claude/skills/review-create/SKILL.md) | Создание review.md с Контекст ревью | [create-review.md](/.specs/.instructions/analysis/review/create-review.md) |
 
 **Агент:**
 

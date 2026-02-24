@@ -1,6 +1,7 @@
 ---
 description: Индекс инструкций для specs/
 standard: .structure/.instructions/standard-readme.md
+standard-version: v1.1
 index: specs/.instructions/README.md
 ---
 
@@ -42,7 +43,10 @@ index: specs/.instructions/README.md
 │   ├── validate-analysis-discussion.py # Валидация документа дискуссии analysis/
 │   ├── validate-analysis-design.py    # Валидация документа проектирования analysis/
 │   ├── validate-analysis-plan-test.py # Валидация документа плана тестов analysis/
-│   └── validate-analysis-plan-dev.py  # Валидация документа плана разработки analysis/
+│   ├── validate-analysis-plan-dev.py  # Валидация документа плана разработки analysis/
+│   ├── validate-analysis-review.py   # Валидация документа ревью кода analysis/
+│   ├── create-review-file.py         # Создание файла review.md по шаблону
+│   └── extract-svc-context.py        # Извлечение SVC-N контекста из design.md для review.md
 ├── docs/
 │   ├── standard-docs.md               # Мета-стандарт документации для поставки (docs/)
 │   ├── validation-docs.md             # Валидация наличия обязательных документов docs/
@@ -96,6 +100,10 @@ index: specs/.instructions/README.md
 │   │   ├── validation-plan-dev.md    # Валидация плана разработки
 │   │   ├── create-plan-dev.md        # Воркфлоу создания плана разработки
 │   │   └── modify-plan-dev.md        # Воркфлоу изменения плана разработки
+│   ├── review/
+│   │   ├── standard-review.md        # Стандарт ревью кода (review.md)
+│   │   ├── validation-review.md      # Валидация review.md
+│   │   └── create-review.md          # Воркфлоу создания review.md (/review-create)
 │   └── standard-analysis.md          # Стандарт аналитического контура (4 уровня, статусы, каскады)
 └── README.md                         # Этот файл (индекс)
 ```
@@ -151,6 +159,7 @@ index: specs/.instructions/README.md
 | Design | [standard-design.md](./analysis/design/standard-design.md) | done |
 | Plan Tests | [standard-plan-test.md](./analysis/plan-test/standard-plan-test.md) | done |
 | Plan Dev | [standard-plan-dev.md](./analysis/plan-dev/standard-plan-dev.md) | done |
+| Review (артефакт) | [standard-review.md](./analysis/review/standard-review.md) | done |
 
 ---
 
@@ -171,6 +180,10 @@ index: specs/.instructions/README.md
 | [validate-analysis-design.py](./.scripts/validate-analysis-design.py) | Валидация документа проектирования specs/analysis/NNNN-{topic}/design.md | [validation-design.md](./analysis/design/validation-design.md) |
 | [validate-analysis-plan-test.py](./.scripts/validate-analysis-plan-test.py) | Валидация документа плана тестов specs/analysis/NNNN-{topic}/plan-test.md | [validation-plan-test.md](./analysis/plan-test/validation-plan-test.md) |
 | [validate-analysis-plan-dev.py](./.scripts/validate-analysis-plan-dev.py) | Валидация документа плана разработки specs/analysis/NNNN-{topic}/plan-dev.md | [validation-plan-dev.md](./analysis/plan-dev/validation-plan-dev.md) |
+| [validate-analysis-review.py](./.scripts/validate-analysis-review.py) | Валидация документа ревью specs/analysis/NNNN-{topic}/review.md | [validation-review.md](./analysis/review/validation-review.md) |
+| [create-review-file.py](./.scripts/create-review-file.py) | Создание файла review.md по шаблону (frontmatter + секции Контекст ревью) | [create-review.md](./analysis/review/create-review.md) |
+| [extract-svc-context.py](./.scripts/extract-svc-context.py) | Извлечение SVC-N контекста из design.md — список сервисов с затронутыми §§ и технологиями | [create-review.md](./analysis/review/create-review.md) |
+| [analysis-status.py](./.scripts/analysis-status.py) | Отображение статусов analysis chain цепочек (одна/все/dashboard) | [standard-analysis.md](./analysis/standard-analysis.md) |
 
 ---
 

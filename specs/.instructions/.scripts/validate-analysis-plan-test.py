@@ -33,7 +33,7 @@ HEADING_REGEX = re.compile(r'^# (\d{4}):\s+(.+?)(?:\s*—\s*Plan Tests)?\s*$', r
 HEADING_SUFFIX_REGEX = re.compile(r'—\s*Plan Tests\s*$')
 
 VALID_STATUSES = {
-    "DRAFT", "WAITING", "RUNNING", "DONE",
+    "DRAFT", "WAITING", "RUNNING", "REVIEW", "DONE",
     "CONFLICT", "ROLLING_BACK", "REJECTED",
 }
 

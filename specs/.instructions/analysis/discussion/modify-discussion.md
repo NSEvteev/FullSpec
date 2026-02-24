@@ -1,13 +1,13 @@
 ---
-description: Воркфлоу изменения документа дискуссии SDD — операции по статусам и переходы жизненного цикла (DRAFT, WAITING, RUNNING, CONFLICT, DONE).
+description: Воркфлоу изменения документа дискуссии SDD — операции по статусам и переходы жизненного цикла (DRAFT, WAITING, RUNNING, REVIEW, CONFLICT, DONE).
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: specs/.instructions/README.md
 ---
 
 # Воркфлоу изменения дискуссии
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Процессы изменения существующего документа дискуссии (`specs/analysis/NNNN-{topic}/discussion.md`).
 
@@ -47,7 +47,8 @@ index: specs/.instructions/README.md
   - [Как Discussion попадает в CONFLICT](#как-discussion-попадает-в-conflict)
   - [Операции при CONFLICT](#операции-при-conflict)
 - [Переход: CONFLICT → WAITING](#переход-conflict-waiting)
-- [Переход: RUNNING → DONE](#переход-running-done)
+- [Переход: RUNNING → REVIEW](#переход-running-review)
+- [Переход: REVIEW → DONE](#переход-review-done)
 - [Статус DONE — ограничения](#статус-done-ограничения)
 - [Переход: → ROLLING_BACK](#переход-rolling_back)
 - [Переход: ROLLING_BACK → REJECTED](#переход-rolling_back-rejected)
@@ -79,7 +80,8 @@ index: specs/.instructions/README.md
 |----------------|--------------------|--------------------|
 | **DRAFT** | [Обновление контента](#обновление-контента), [Разрешение маркеров](#разрешение-маркеров), [Принятие предложений](#принятие-предложений-prop-n) | [DRAFT → WAITING](#переход-draft-waiting) |
 | **WAITING** | [Upward feedback](#upward-feedback-при-waiting) | [WAITING → RUNNING](#переход-waiting-running) |
-| **RUNNING** | — (прямые правки запрещены) | [RUNNING → CONFLICT](#переход-running-conflict), [RUNNING → DONE](#переход-running-done) |
+| **RUNNING** | — (прямые правки запрещены) | [RUNNING → CONFLICT](#переход-running-conflict), [RUNNING → REVIEW](#переход-running-review) |
+| **REVIEW** | — (прямые правки запрещены) | [REVIEW → DONE](#переход-review-done), [REVIEW → CONFLICT](#переход-running-conflict) |
 | **CONFLICT** | [Операции при CONFLICT](#операции-при-conflict) | [CONFLICT → WAITING](#переход-conflict-waiting), [→ ROLLING_BACK](#переход-rolling_back) |
 | **DONE** | [Только typo](#статус-done-ограничения) | — |
 | **ROLLING_BACK** | — (no-op) | [ROLLING_BACK → REJECTED](#переход-rolling_back-rejected) |
@@ -370,21 +372,34 @@ LLM определяет самый высокий затронутый доку
 | Исход | Переход |
 |-------|---------|
 | Конфликт разрешён | CONFLICT → WAITING |
-| Конфликт неразрешим | → ROLLING_BACK ([Стандарт analysis/ § 6.6](../standard-analysis.md#66-to-rolling_back)) |
-| Пользователь отклоняет | → ROLLING_BACK ([Стандарт analysis/ § 6.6](../standard-analysis.md#66-to-rolling_back)) |
+| Конфликт неразрешим | → ROLLING_BACK ([Стандарт analysis/ § 6.7](../standard-analysis.md#67-to-rolling_back)) |
+| Пользователь отклоняет | → ROLLING_BACK ([Стандарт analysis/ § 6.7](../standard-analysis.md#67-to-rolling_back)) |
 
 ---
 
-## Переход: RUNNING → DONE
+## Переход: RUNNING → REVIEW
 
-**SSOT:** [Стандарт analysis/ § 6.5](../standard-analysis.md#65-running-to-done)
+**SSOT:** [Стандарт analysis/ § 6.5](../standard-analysis.md#65-running-to-review)
+
+> **Tree-level переход.** Все документы цепочки переходят в REVIEW одновременно.
+> `/review-create` создаёт review.md. `/review` запускает ревью.
+
+**На уровне Discussion:** статус меняется `RUNNING` → `REVIEW`.
+
+Обновить README: `RUNNING` → `REVIEW`.
+
+---
+
+## Переход: REVIEW → DONE
+
+**SSOT:** [Стандарт analysis/ § 6.6](../standard-analysis.md#66-review-to-done)
 
 > **Bottom-up каскад.** Discussion → DONE когда Design (единственный child, 1:1) → DONE.
 
-**На уровне Discussion:** статус меняется `RUNNING` → `DONE` автоматически. Операций нет — переход инициируется снизу вверх.
+**На уровне Discussion:** статус меняется `REVIEW` → `DONE` автоматически. Операций нет — переход инициируется снизу вверх.
 
 После перехода в DONE:
-- Обновить README: `RUNNING` → `DONE`
+- Обновить README: `REVIEW` → `DONE`
 - Discussion становится архивной записью реализованного решения
 
 ---
@@ -407,7 +422,7 @@ LLM определяет самый высокий затронутый доку
 
 ## Переход: → ROLLING_BACK
 
-**SSOT:** [Стандарт analysis/ § 6.6](../standard-analysis.md#66-to-rolling_back)
+**SSOT:** [Стандарт analysis/ § 6.7](../standard-analysis.md#67-to-rolling_back)
 
 > **Tree-level.** Все документы цепочки → ROLLING_BACK.
 
@@ -425,7 +440,7 @@ LLM определяет самый высокий затронутый доку
 
 ## Переход: ROLLING_BACK → REJECTED
 
-**SSOT:** [Стандарт analysis/ § 6.7](../standard-analysis.md#67-rolling_back-to-rejected)
+**SSOT:** [Стандарт analysis/ § 6.8](../standard-analysis.md#68-rolling_back-to-rejected)
 
 > **REJECTED — финальный статус.** Изменения запрещены.
 
@@ -562,14 +577,17 @@ Discussion НЕ затронута.
 5. README обновлён
 ```
 
-### Discussion → DONE (RUNNING → DONE)
+### Discussion → REVIEW → DONE
 
 ```
-Ситуация: Design (единственный child) → DONE → bottom-up каскад.
+Ситуация: Все TASK-N выполнены → цепочка → REVIEW → review.md RESOLVED → каскад DONE.
 
-1. Discussion автоматически → DONE
-2. README обновлён: RUNNING → DONE
-3. Discussion — архивная запись. Новые требования → новая Discussion
+1. Discussion автоматически → REVIEW (tree-level)
+2. README обновлён: RUNNING → REVIEW
+3. review.md RESOLVED → каскад DONE (bottom-up)
+4. Discussion автоматически → DONE
+5. README обновлён: REVIEW → DONE
+6. Discussion — архивная запись. Новые требования → новая Discussion
 ```
 
 ---

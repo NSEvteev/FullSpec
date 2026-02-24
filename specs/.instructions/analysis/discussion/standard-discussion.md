@@ -1,10 +1,13 @@
 ---
 description: Стандарт дискуссий SDD — точка входа в цепочку analysis/, разделы документа, frontmatter, именование, шаблон, чек-лист качества.
 standard: .instructions/standard-instruction.md
+standard-version: v1.3
 index: specs/.instructions/README.md
 ---
 
 # Стандарт дискуссий
+
+Версия стандарта: 1.1
 
 Формат и правила оформления документов дискуссий (`specs/analysis/NNNN-{topic}/discussion.md`). Дискуссия — точка входа в SDD-воркфлоу: структурированный документ для описания проблемы, требований и критериев успеха.
 
@@ -135,7 +138,7 @@ index: specs/.instructions/README.md
 ---
 description: OAuth2 авторизация — переход с session-based на OAuth2 для масштабирования до 10k RPS.
 standard: specs/.instructions/analysis/discussion/standard-discussion.md
-standard-version: v1.0
+standard-version: v1.1
 index: specs/analysis/README.md
 children:
   - design.md
@@ -162,11 +165,12 @@ Happy path — нормальный поток жизненного цикла D
 | **WAITING** | Все документы цепочки (Discussion → ... → Plan Dev) в WAITING. Пользователь подтвердил запуск | **RUNNING** | Цепочка ([§ 6.2](../standard-analysis.md#62-waiting-to-running)) |
 | **RUNNING** | Обратная связь от кода затронула уровень Discussion ([§ 6.3](../standard-analysis.md#63-running-to-conflict)) | **CONFLICT** | Цепочка (tree-level) |
 | **CONFLICT** | LLM исправил документ, пользователь одобрил исправление ([§ 6.4](../standard-analysis.md#64-conflict-to-waiting)) | **WAITING** | Цепочка (top-down) |
-| **RUNNING** | Design (дочерний, 1:1) → DONE. Каскад снизу вверх ([§ 6.5](../standard-analysis.md#65-running-to-done)) | **DONE** | Цепочка (bottom-up) |
+| **RUNNING** | Все TASK-N выполнены → REVIEW. Каскад от review.md ([§ 6.5](../standard-analysis.md#65-running-to-review)) | **REVIEW** | Tree-level |
+| **REVIEW** | review.md RESOLVED (вердикт READY). Каскад снизу вверх ([§ 6.6](../standard-analysis.md#66-review-to-done)) | **DONE** | Цепочка (bottom-up) |
 
 **Механизм перехода DRAFT → WAITING:** определён в `create-discussion.md` и `modify-discussion.md`. Условие "пользователь одобрил" означает явное подтверждение через AskUserQuestion ("Перевести Discussion в WAITING?"). LLM **не переводит** статус без явного ответа пользователя, даже если все условия выполнены.
 
-Откат и отклонение (ROLLING_BACK, REJECTED): [Стандарт analysis/ § 6.6–6.7](../standard-analysis.md#66-to-rolling_back).
+Откат и отклонение (ROLLING_BACK, REJECTED): [Стандарт analysis/ § 6.7–6.8](../standard-analysis.md#67-to-rolling_back).
 
 ---
 
@@ -344,7 +348,7 @@ Happy path — нормальный поток жизненного цикла D
 ---
 description: {Описание дискуссии — до 1024 символов}
 standard: specs/.instructions/analysis/discussion/standard-discussion.md
-standard-version: v1.0
+standard-version: v1.1
 index: specs/analysis/README.md
 children: []
 status: DRAFT

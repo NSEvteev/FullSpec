@@ -1,12 +1,13 @@
 ---
 description: Валидация документов дискуссий SDD — frontmatter, именование, секции, нумерация, маркеры, зона ответственности.
 standard: .instructions/standard-instruction.md
+standard-version: v1.3
 index: specs/.instructions/README.md
 ---
 
 # Валидация дискуссий
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Проверка документов дискуссий (`specs/analysis/*/discussion.md`) на соответствие [standard-discussion.md](./standard-discussion.md).
 
@@ -90,7 +91,7 @@ python specs/.instructions/.scripts/validate-analysis-discussion.py {путь}
 | `standard` | = `specs/.instructions/analysis/discussion/standard-discussion.md` |
 | `standard-version` | Присутствует, формат `vX.Y` |
 | `index` | = `specs/analysis/README.md` |
-| `status` | Валидный статус: DRAFT, WAITING, RUNNING, DONE, CONFLICT, ROLLING_BACK, REJECTED |
+| `status` | Валидный статус: DRAFT, WAITING, RUNNING, REVIEW, DONE, CONFLICT, ROLLING_BACK, REJECTED |
 | `milestone` | Присутствует, формат `vX.Y.Z` |
 | `children` | Список путей или пустой список `[]` |
 
@@ -162,7 +163,7 @@ python specs/.instructions/.scripts/validate-analysis-discussion.py {путь}
 
 **SSOT:** [standard-discussion.md § 4](./standard-discussion.md#4-переходы-статусов), [standard-discussion.md § 6](./standard-discussion.md#6-clarify)
 
-Если `status` > DRAFT (WAITING, RUNNING, DONE, CONFLICT, ROLLING_BACK, REJECTED):
+Если `status` > DRAFT (WAITING, RUNNING, REVIEW, DONE, CONFLICT, ROLLING_BACK, REJECTED):
 - Нет неразрешённых `[ТРЕБУЕТ УТОЧНЕНИЯ]` маркеров
 - Нет `⛔ DEPENDENCY BARRIER`
 

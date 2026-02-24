@@ -1,6 +1,7 @@
 ---
 description: Индекс сервисов и навигация по docs/
 standard: specs/.instructions/docs/readme/standard-readme.md
+standard-version: v1.0
 ---
 
 # Документация для поставки

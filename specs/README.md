@@ -47,6 +47,7 @@ index: .structure/README.md
 | 2 | `design.md` | AFFECTED + HOW + DETAILS — распределение ответственностей, контракты, решения |
 | 3 | `plan-test.md` | HOW TO VERIFY — per-service acceptance-сценарии (TC-N), тестовые данные |
 | 4 | `plan-dev.md` | WHAT TASKS — per-service задачи (TASK-N), подзадачи, маппинг GitHub Issues |
+| Артефакт | `review.md` | Ревью кода: Контекст ревью (при WAITING) + итерации (при RUNNING), OPEN → RESOLVED |
 
 Стандарт контура: [standard-analysis.md](./.instructions/analysis/standard-analysis.md)
 
@@ -81,7 +82,8 @@ index: .structure/README.md
 
 ```
 /specs/
-├── analysis/                   # Контур 1: аналитика (4-уровневая цепочка)
+├── analysis/                   # Контур 1: аналитика (4-уровневая цепочка + review.md)
+│   └── README.md               #   Индекс цепочек NNNN-{topic}
 ├── docs/                       # Контур 2: документация для поставки
 │   ├── .system/                # Системные документы
 │   │   ├── conventions.md
@@ -98,6 +100,7 @@ index: .structure/README.md
 │   │   ├── discussion/
 │   │   ├── plan-dev/
 │   │   ├── plan-test/
+│   │   ├── review/             #   Стандарты review.md
 │   │   └── standard-analysis.md
 │   ├── docs/                   # Стандарты контура docs/
 │   │   ├── conventions/

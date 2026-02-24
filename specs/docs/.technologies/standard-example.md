@@ -1,6 +1,7 @@
 ---
 description: Стандарт кодирования Example Framework — конвенции именования, паттерны, антипаттерны.
 standard: specs/.instructions/docs/technology/standard-technology.md
+standard-version: v1.0
 technology: example
 ---
 

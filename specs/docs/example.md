@@ -1,6 +1,7 @@
 ---
 description: example — демонстрационный сервис для иллюстрации формата документации {svc}.md.
 standard: specs/.instructions/docs/service/standard-service.md
+standard-version: v1.1
 criticality: critical-low
 ---
 

@@ -4,13 +4,15 @@ description: Ревью кода — локальное ревью ветки и
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
 index: .claude/skills/README.md
-allowed-tools: Read, Bash, Glob, Grep
+allowed-tools: Read, Write, Bash, Glob, Grep
 argument-hint: "[<pr-number>] [--base <branch>]"
 ---
 
 # Ревью кода
 
 **SSOT:** [validation-review.md](/.github/.instructions/review/validation-review.md)
+
+**SSOT (process):** [standard-review.md](/specs/.instructions/analysis/review/standard-review.md)
 
 **Агент:** [code-reviewer](/.claude/agents/code-reviewer/AGENT.md)
 
@@ -25,19 +27,42 @@ argument-hint: "[<pr-number>] [--base <branch>]"
 | `pr-number` | Номер PR на GitHub (включает Этап 2) | Нет |
 | `--base` | Базовая ветка для сравнения (по умолчанию `main`) | Нет |
 
-**Режимы:**
-- Без аргументов или с `--base` → локальное ревью ветки (Этап 1)
-- С `<pr-number>` → ревью PR на GitHub (Этап 2)
-
 ## Воркфлоу
 
 > Прочитать [validation-review.md](/.github/.instructions/review/validation-review.md)
 
-> Запустить агента `code-reviewer` через Task tool с параметрами вызова.
+> Прочитать [standard-review.md](/specs/.instructions/analysis/review/standard-review.md) — стандарт review.md, формат RV-N, P1/P2/P3.
 
-**Этап 1 (ветка):** Выполнить Шаги 1-3 из SSOT-инструкции.
+**Основной LLM — оркестратор параллельного ревью:**
 
-**Этап 2 (PR):** Выполнить Шаги 4-8 из SSOT-инструкции.
+1. Определить ветку: аргумент или `git branch --show-current`
+2. **Prerequisite check** — прочитать `specs/analysis/{branch}/plan-dev.md`, проверить поле `status:`:
+   - `RUNNING` → OK, продолжить
+   - `WAITING` → СТОП: "Plan Dev в WAITING — разработка не начата, переведите в RUNNING"
+   - `CONFLICT` → СТОП: "Plan Dev в CONFLICT — сначала разрешите конфликт цепочки"
+   - `DONE` → AskUserQuestion: продолжить повторное ревью после DONE?
+   - Не найден → СТОП: "analysis chain не найдена для ветки {branch}"
+3. Прочитать `specs/analysis/{branch}/review.md` → секция `## Контекст ревью`
+   - Если review.md не существует → СТОП: "review.md не найден. Запустите `/review-create`."
+   - Извлечь список сервисов из блоков `### {svc}`
+4. Подготовить общий пакет документов для агентов:
+   - Документы цепочки: discussion.md, design.md, plan-test.md, plan-dev.md
+   - Системная документация: docs/.system/overview.md, conventions.md, testing.md
+   - Принципы: .instructions/standard-principles.md
+   - Tech-стандарты: из секции `### Tech-стандарты` в review.md
+   - Полный git diff (или `gh pr diff {N}` для PR-режима)
+5. Запустить параллельно одним Task tool call (N+1 агентов):
+   - `code-reviewer --svc {svc1}` (+ docs/{svc1}.md из Контекст ревью)
+   - `code-reviewer --svc {svc2}` (+ docs/{svc2}.md)
+   - `code-reviewer --svc integration` (INT-N, shared/)
+6. Собрать все выводы агентов
+7. Собрать `## Итерация N` (N = следующий номер):
+   - Для каждого сервиса — блок `### {svc}` с выводом агента
+   - Блок `### Итого` (агрегат по P1/P2/P3 всех сервисов)
+   - Определить вердикт: CONFLICT (есть P1 open) / NOT READY (есть P2 open) / READY (нет open P1/P2)
+8. Дописать `## Итерация N` в review.md (Write)
+9. Обновить `status` в review.md: CONFLICT/NOT READY → `OPEN`; READY → `RESOLVED`
+10. Если PR-режим (`/review {N}`): написать `gh pr comment` с кратким резюме (P1/P2/P3, вердикт)
 
 ## Чек-лист
 

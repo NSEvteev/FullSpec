@@ -29,9 +29,11 @@ index: .claude/README.md
 
 | Файл | Описание |
 |------|----------|
-| [2026-02-20-post-push-review.md](./2026-02-20-post-push-review.md) | Чек-лист ревью после пушей f26c67e, 4b48e15: 5 блоков проверки |
-| [process-map.md](./process-map.md) | Карта процесса от идеи до деплоя — 17 шагов, покрытие скиллами/агентами |
-| [review-document-design.md](./review-document-design.md) | Дизайн документа review.md — ревью кода в analysis chain |
+| [2026-02-20-post-push-review.md](./2026-02-20-post-push-review.md) | Чек-лист ревью после пушей f26c67e, 4b48e15: 6 блоков проверки |
+| [2026-02-22-process-map.md](./2026-02-22-process-map.md) | Карта процесса от идеи до деплоя — 18 шагов, покрытие скиллами/агентами |
+| [2026-02-24-dev-skill.md](./2026-02-24-dev-skill.md) | Скилл /dev — запуск разработки по analysis chain (WAITING → RUNNING) |
+| [2026-02-24-create-dev-rework.md](./2026-02-24-create-dev-rework.md) | Переработка create-dev.md — ошибки I022, I027, план исправления |
+| [2026-02-24-migration-standard-instruction.md](./2026-02-24-migration-standard-instruction.md) | Миграция standard-instruction.md v1.2→v1.3 (37 файлов) |
 
 ---
 
@@ -56,7 +58,9 @@ index: .claude/README.md
 │   ├── 2026-02-08-specs-architecture.md          #   Архитектура specs/ (SDD)
 │   └── README.md                                #   Индекс примеров
 ├── 2026-02-20-post-push-review.md      # Чек-лист ревью после пушей
-├── process-map.md                      # Карта процесса (17 шагов)
-├── review-document-design.md           # Дизайн review.md
+├── 2026-02-22-process-map.md           # Карта процесса (18 шагов)
+├── 2026-02-24-dev-skill.md            # Скилл /dev (WAITING → RUNNING)
+├── 2026-02-24-create-dev-rework.md    # Переработка create-dev.md (I022, I027)
+├── 2026-02-24-migration-standard-instruction.md # Миграция standard-instruction.md v1.2→v1.3
 └── README.md                           # Этот файл (индекс)
 ```

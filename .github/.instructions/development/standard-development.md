@@ -26,6 +26,7 @@ index: .github/.instructions/development/README.md
 - [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md) — стратегия тестирования (КАК писать тесты)
 - [standard-sync.md](../sync/standard-sync.md) — синхронизация main при длительной разработке
 - [standard-github-workflow.md](../standard-github-workflow.md) — полный цикл (стадия 4: Development)
+- [create-dev.md](./create-dev.md) — воркфлоу запуска разработки по analysis chain
 
 **Связанные документы:**
 
@@ -33,11 +34,12 @@ index: .github/.instructions/development/README.md
 |-----|----------|
 | Стандарт | Этот документ |
 | Валидация | [validation-development.md](./validation-development.md) |
-| Создание | *Не требуется (процесс)* |
+| Создание | [create-dev.md](./create-dev.md) |
 | Модификация | *Не требуется (процесс)* |
 
 ## Оглавление
 
+- [0. Запуск разработки](#0-запуск-разработки)
 - [1. Взятие задачи](#1-взятие-задачи)
 - [2. Процесс разработки](#2-процесс-разработки)
 - [3. Make-команды](#3-make-команды)
@@ -47,6 +49,55 @@ index: .github/.instructions/development/README.md
 - [7. Завершение работы над Issue](#7-завершение-работы-над-issue)
 - [8. Запреты и ограничения](#8-запреты-и-ограничения)
 - [9. Требования по уровням критичности сервисов](#9-требования-по-уровням-критичности-сервисов)
+
+---
+
+## 0. Запуск разработки
+
+> Эта секция применяется при работе с analysis chain (specs/analysis/).
+> Если Issues созданы вручную — перейти к [§ 1 Взятие задачи](#1-взятие-задачи).
+
+### Предусловия
+
+- Все 4 документа цепочки (Discussion, Design, Plan Tests, Plan Dev) существуют
+- Все 4 документа в статусе `WAITING`
+- Маркеров `[ТРЕБУЕТ УТОЧНЕНИЯ]` = 0 во всех документах
+
+### Воркфлоу запуска
+
+1. **Проверить готовность цепочки**
+   - Прочитать frontmatter всех 4 документов → `status: WAITING`
+   - Если не все в WAITING → СТОП: "Цепочка не готова. {документ} в статусе {status}"
+
+2. **Подтверждение пользователя**
+   - AskUserQuestion: "Цепочка NNNN-{topic} готова к разработке.
+     {N} TASK-N, Milestone {vX.Y.Z}. Начать?"
+   - Если "Нет" → СТОП
+
+3. **Создать GitHub Issues**
+   - Для каждого TASK-N из Plan Dev → `/issue-create`
+   - Sub-issues для подзадач (N.M)
+   - Обновить таблицу маппинга в plan-dev.md
+
+4. **Создать/привязать Milestone**
+   - Проверить: Milestone {vX.Y.Z} существует?
+   - Если нет → `/milestone-create`
+   - Привязать все Issues к Milestone
+
+5. **Создать ветку**
+   - `/branch-create {NNNN}`
+
+6. **Перевести цепочку в RUNNING**
+   - Обновить `status: WAITING` → `status: RUNNING` во всех 4 документах
+   - Обновить `specs/analysis/README.md`
+
+7. **Отчёт**
+   - Вывести: Issues (#N), Milestone, Branch, статус цепочки → RUNNING
+
+### Выход из секции
+
+Issues созданы → Milestone назначен → ветка создана → цепочка в RUNNING →
+переход к [§ 1 Взятие задачи](#1-взятие-задачи).
 
 ---
 
@@ -99,6 +150,7 @@ gh issue edit {number} --add-assignee @me
 
 ### Предусловия
 
+- Разработка запущена: `/dev {NNNN}` выполнен (→ [§ 0](#0-запуск-разработки))
 - Задача взята: Issue прочитан, зависимости проверены (→ [§1](#1-взятие-задачи))
 - Feature-ветка создана от актуальной main (→ [standard-branching.md § 3](../branches/standard-branching.md#3-жизненный-цикл-ветки))
 - Окружение инициализировано: `make setup` выполнен после клонирования (→ [initialization.md](/.structure/initialization.md))

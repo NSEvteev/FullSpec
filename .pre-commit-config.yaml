@@ -240,3 +240,12 @@ repos:
         pass_filenames: true
         require_serial: true
         stages: [pre-commit]
+
+      # 26. Валидация analysis/*/review.md
+      - id: review-validate
+        name: Validate review documents
+        entry: python .github/.instructions/.scripts/validate-review.py
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]

@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Воркфлоу создания плана тестов
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Пошаговый процесс создания нового документа плана тестов (`specs/analysis/NNNN-{topic}/plan-test.md`).
 
@@ -88,7 +88,7 @@ index: specs/.instructions/README.md
 |------|----------|
 | `description` | Краткое описание (до 1024 символов) |
 | `standard` | `specs/.instructions/analysis/plan-test/standard-plan-test.md` |
-| `standard-version` | `v1.0` |
+| `standard-version` | `v1.1` |
 | `index` | `specs/analysis/README.md` |
 | `parent` | `design.md` |
 | `children` | `[]` (Plan Dev ещё не создан) |

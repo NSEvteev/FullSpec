@@ -1,6 +1,7 @@
 ---
 description: Конвенции API и shared-интерфейсы — кросс-сервисные соглашения
 standard: specs/.instructions/docs/conventions/standard-conventions.md
+standard-version: v1.1
 ---
 
 > **Это визуализация.** Содержание ниже (MyApp, FastAPI/Python, 4 сервиса) — пример из стандарта, демонстрирующий как будет выглядеть conventions.md в реальном проекте. При старте реального проекта заменить на актуальные данные.

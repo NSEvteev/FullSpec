@@ -1,6 +1,7 @@
 ---
 description: Инфраструктура MyApp — платформа, окружения, хранилища, сервисы.
 standard: specs/.instructions/docs/infrastructure/standard-infrastructure.md
+standard-version: v1.1
 ---
 
 > **Это визуализация.** Содержание заполнено примером из стандарта (MyApp, 4 сервиса). При реальном использовании — заменить на данные проекта по [Сценарию 6](../../../specs/.instructions/docs/infrastructure/modify-infrastructure.md) (когда будет создан).

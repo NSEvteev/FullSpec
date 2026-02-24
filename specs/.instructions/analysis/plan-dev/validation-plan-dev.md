@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Валидация плана разработки
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 1.1
 
 Проверка документов плана разработки (`specs/analysis/*/plan-dev.md`) на соответствие [standard-plan-dev.md](./standard-plan-dev.md).
 
@@ -95,7 +95,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
 | `standard-version` | Присутствует, формат `vX.Y` |
 | `index` | = `specs/analysis/README.md` |
 | `parent` | Присутствует, путь к `plan-test.md` в той же папке |
-| `status` | Валидный статус: DRAFT, WAITING, RUNNING, DONE, CONFLICT, ROLLING_BACK, REJECTED |
+| `status` | Валидный статус: DRAFT, WAITING, RUNNING, REVIEW, DONE, CONFLICT, ROLLING_BACK, REJECTED |
 | `milestone` | Присутствует, формат `vX.Y.Z`, совпадает с parent Discussion |
 
 **Проверить запрещённые поля:**
@@ -215,7 +215,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
 
 **SSOT:** [standard-plan-dev.md § 6](./standard-plan-dev.md#6-clarify), [standard-analysis.md § 8](../standard-analysis.md#8-clarify-и-блокирующие-правила)
 
-Если `status` > DRAFT (WAITING, RUNNING, DONE, CONFLICT, ROLLING_BACK, REJECTED):
+Если `status` > DRAFT (WAITING, RUNNING, REVIEW, DONE, CONFLICT, ROLLING_BACK, REJECTED):
 - Нет неразрешённых `[ТРЕБУЕТ УТОЧНЕНИЯ]` маркеров
 
 ### Шаг 12: Регистрация в README

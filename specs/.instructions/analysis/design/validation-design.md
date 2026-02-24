@@ -1,12 +1,13 @@
 ---
 description: Валидация документов проектирования SDD — frontmatter, именование, секции SVC-N (9 подсекций, 8:8 маппинг), INT-N, STS-N, нумерация, маркеры, зона ответственности.
 standard: .instructions/standard-instruction.md
+standard-version: v1.2
 index: specs/.instructions/README.md
 ---
 
 # Валидация проектирования
 
-Рабочая версия стандарта: 1.0
+Рабочая версия стандарта: 2.1
 
 Проверка документов проектирования (`specs/analysis/*/design.md`) на соответствие [standard-design.md](./standard-design.md).
 
@@ -95,7 +96,7 @@ python specs/.instructions/.scripts/validate-analysis-design.py {путь}
 | `index` | = `specs/analysis/README.md` |
 | `parent` | Присутствует, путь к `discussion.md` в той же папке |
 | `children` | Присутствует, список путей или `[]` |
-| `status` | Валидный статус: DRAFT, WAITING, RUNNING, DONE, CONFLICT, ROLLING_BACK, REJECTED |
+| `status` | Валидный статус: DRAFT, WAITING, RUNNING, REVIEW, DONE, CONFLICT, ROLLING_BACK, REJECTED |
 | `milestone` | Присутствует, формат `vX.Y.Z`, совпадает с parent Discussion |
 
 **Проверить parent:**
@@ -204,7 +205,7 @@ python specs/.instructions/.scripts/validate-analysis-design.py {путь}
 
 **SSOT:** [standard-design.md § 6](./standard-design.md#6-clarify), [standard-analysis.md § 8](../standard-analysis.md#8-clarify-и-блокирующие-правила)
 
-Если `status` > DRAFT (WAITING, RUNNING, DONE, CONFLICT, ROLLING_BACK, REJECTED):
+Если `status` > DRAFT (WAITING, RUNNING, REVIEW, DONE, CONFLICT, ROLLING_BACK, REJECTED):
 - Нет неразрешённых `[ТРЕБУЕТ УТОЧНЕНИЯ]` маркеров
 - Нет `⛔ DEPENDENCY BARRIER`
 

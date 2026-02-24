@@ -55,8 +55,23 @@ make clean     # Очистка (docker down -v)
 
 Все фазы 0-10 выполнены. Очистка завершена.
 
-### Следующая сессия 2026-02-22
+### Сессия 2026-02-22 — выполнено
 
-1. `.claude/drafts/review-document-design.md` — проработать открытые вопросы и полностью завершить
-2. `.claude/drafts/process-map.md` — проработать и полностью завершить
-3. .claude\drafts\2026-02-20-post-push-review.md — аналогично проработать 
+1. ✅ `.claude/drafts/2026-02-22-review-document-design.md` — все задачи #3-#16 выполнены: standard-review.md v1.1, validation-review.md, create-review.md, /review-create, /review (N+1 агентов), code-reviewer v2.0, validate-review.py, create-review-file.py, extract-svc-context.py, prerequisite check
+2. ✅ `.claude/drafts/2026-02-22-process-map.md` — приведён к стандарту черновика (переименован, добавлены секции, обновлены пробелы)
+3. `.claude/drafts/2026-02-20-post-push-review.md` — добавлена секция 6 (review-инфраструктура)
+
+### Сессия 2026-02-24 — выполнено
+
+1. ✅ `.claude/drafts/2026-02-22-holt-analysis-standard-review.md` — верифицировано: все 15 из 15 рекомендаций уже включены в standard-review.md v1.1
+2. ✅ `specs/.instructions/analysis/review/` — рекомендации holt-анализа применены (P2 нумерация RV-N, пояснение § 5.2 и все остальные)
+3. ✅ `.claude/drafts/2026-02-24-review-status-integration.md` — REVIEW как 8-й статус: 17 задач (standard/modify/validation/create/review), миграция 6 стандартов
+4. ✅ `.claude/drafts/2026-02-24-dev-skill.md` — /dev + /analysis-status: 12 задач, миграция standard-development.md
+5. ✅ Миграции всех 7 standard-*.md завершены (агенты параллельно), 0 расхождений
+6. ✅ Группы B/C version drift исправлены (12 файлов: добавлен standard-version в frontmatter)
+
+### Следующая сессия
+
+1. `.claude/drafts/2026-02-20-post-push-review.md` — провести полный code review блоков 1-7 (приоритет: блок 1 ветвление → блок 5 code-reviewer → блок 7 сессия 2026-02-24)
+2. `.claude/drafts/2026-02-24-create-dev-rework.md` — переработать create-dev.md (ошибки I022, I027)
+3. `.claude/drafts/2026-02-24-migration-standard-instruction.md` — миграция standard-instruction.md v1.2→v1.3 (37 файлов)

@@ -136,6 +136,10 @@ standard-version: v1.1
 | [plan-dev-create](./plan-dev-create/SKILL.md) | Создание документа плана разработки |
 | [plan-dev-modify](./plan-dev-modify/SKILL.md) | Изменение документа плана разработки |
 | [plan-dev-validate](./plan-dev-validate/SKILL.md) | Валидация документа плана разработки |
+| [dev](./dev/SKILL.md) | Запуск разработки по analysis chain |
+| [analysis-status](./analysis-status/SKILL.md) | Статус analysis chain (одна/все цепочки, dashboard) |
+| [review-create](./review-create/SKILL.md) | Создание review.md при Plan Dev → WAITING |
+| [review-validate](./review-validate/SKILL.md) | Валидация документа ревью кода |
 | [service-create](./service-create/SKILL.md) | Создание docs/{svc}.md — per-service документ |
 | [service-modify](./service-modify/SKILL.md) | Изменение docs/{svc}.md (обновление, деактивация, миграция) |
 | [service-validate](./service-validate/SKILL.md) | Валидация docs/{svc}.md по стандарту |
