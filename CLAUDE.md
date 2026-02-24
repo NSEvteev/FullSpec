@@ -76,4 +76,4 @@ make clean     # Очистка (docker down -v)
 ### Следующая сессия
 
 1. `.claude/drafts/2026-02-20-post-push-review.md` — провести полный code review блоков 1-8 (приоритет: блок 1 ветвление → блок 5 code-reviewer → блок 8 dev-scripts)
-2. `.claude/drafts/2026-02-22-process-map.md` — закрыть пробелы: шаг 5 (WAITING→RUNNING — теперь /dev-create), шаг 15 (DONE — теперь chain_status.py T7), обновить карту
+2. ✅ `.claude/drafts/2026-02-22-process-map.md` — обновлена: 16 шагов, колонка chain_status.py, покрытие ~94%, закрытые пробелы (WAITING→RUNNING, DONE, /dev, модуль статусов)
