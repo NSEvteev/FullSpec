@@ -26,7 +26,8 @@ index: .github/.instructions/development/README.md
 - [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md) — стратегия тестирования (КАК писать тесты)
 - [standard-sync.md](../sync/standard-sync.md) — синхронизация main при длительной разработке
 - [standard-github-workflow.md](../standard-github-workflow.md) — полный цикл (стадия 4: Development)
-- [create-dev.md](./create-dev.md) — воркфлоу запуска разработки по analysis chain
+- [create-development.md](./create-development.md) — воркфлоу запуска разработки по analysis chain
+- [modify-development.md](./modify-development.md) — воркфлоу процесса разработки в feature-ветке
 
 **Связанные документы:**
 
@@ -34,8 +35,8 @@ index: .github/.instructions/development/README.md
 |-----|----------|
 | Стандарт | Этот документ |
 | Валидация | [validation-development.md](./validation-development.md) |
-| Создание | [create-dev.md](./create-dev.md) |
-| Модификация | *Не требуется (процесс)* |
+| Создание | [create-development.md](./create-development.md) |
+| Модификация | [modify-development.md](./modify-development.md) |
 
 ## Оглавление
 
@@ -53,6 +54,8 @@ index: .github/.instructions/development/README.md
 ---
 
 ## 0. Запуск разработки
+
+> **Скилл:** `/dev-create`
 
 > Эта секция применяется при работе с analysis chain (specs/analysis/).
 > Если Issues созданы вручную — перейти к [§ 1 Взятие задачи](#1-взятие-задачи).
@@ -148,9 +151,11 @@ gh issue edit {number} --add-assignee @me
 
 ## 2. Процесс разработки
 
+> **Скилл:** `/dev`
+
 ### Предусловия
 
-- Разработка запущена: `/dev {NNNN}` выполнен (→ [§ 0](#0-запуск-разработки))
+- Разработка запущена: `/dev-create {NNNN}` выполнен (→ [§ 0](#0-запуск-разработки))
 - Задача взята: Issue прочитан, зависимости проверены (→ [§1](#1-взятие-задачи))
 - Feature-ветка создана от актуальной main (→ [standard-branching.md § 3](../branches/standard-branching.md#3-жизненный-цикл-ветки))
 - Окружение инициализировано: `make setup` выполнен после клонирования (→ [initialization.md](/.structure/initialization.md))

@@ -31,8 +31,7 @@ index: .claude/README.md
 |------|----------|
 | [2026-02-20-post-push-review.md](./2026-02-20-post-push-review.md) | Чек-лист ревью после пушей f26c67e, 4b48e15: 6 блоков проверки |
 | [2026-02-22-process-map.md](./2026-02-22-process-map.md) | Карта процесса от идеи до деплоя — 18 шагов, покрытие скиллами/агентами |
-| [2026-02-24-dev-skill.md](./2026-02-24-dev-skill.md) | Скилл /dev — запуск разработки по analysis chain (WAITING → RUNNING) |
-| [2026-02-24-create-dev-rework.md](./2026-02-24-create-dev-rework.md) | Переработка create-dev.md — ошибки I022, I027, план исправления |
+
 
 ---
 
@@ -58,7 +57,5 @@ index: .claude/README.md
 │   └── README.md                                #   Индекс примеров
 ├── 2026-02-20-post-push-review.md      # Чек-лист ревью после пушей
 ├── 2026-02-22-process-map.md           # Карта процесса (18 шагов)
-├── 2026-02-24-dev-skill.md            # Скилл /dev (WAITING → RUNNING)
-├── 2026-02-24-create-dev-rework.md    # Переработка create-dev.md (I022, I027)
 └── README.md                           # Этот файл (индекс)
 ```

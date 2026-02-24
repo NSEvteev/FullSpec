@@ -30,7 +30,8 @@ index: .github/.instructions/development/README.md
 ```
 /.github/.instructions/development/
 ├── README.md                      # Этот файл (индекс)
-├── create-dev.md                  # Воркфлоу запуска разработки по analysis chain
+├── create-development.md           # Воркфлоу запуска разработки по analysis chain
+├── modify-development.md           # Воркфлоу процесса разработки в feature-ветке
 ├── standard-development.md        # Стандарт локальной разработки
 └── validation-development.md      # Валидация процесса разработки
 ```
@@ -65,7 +66,13 @@ index: .github/.instructions/development/README.md
 
 Воркфлоу перехода analysis chain из WAITING в RUNNING: создание Issues, Milestone, ветки.
 
-**Инструкция:** [create-dev.md](./create-dev.md)
+**Инструкция:** [create-development.md](./create-development.md)
+
+## 2.2. Процесс разработки в feature-ветке
+
+Воркфлоу работы в feature-ветке: взятие задачи, написание кода, тестирование, коммит. Используется когда ветка уже в RUNNING.
+
+**Инструкция:** [modify-development.md](./modify-development.md)
 
 ---
 
@@ -81,10 +88,16 @@ index: .github/.instructions/development/README.md
 
 # 4. Скрипты
 
-*Нет скриптов.*
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [check-chain-readiness.py](../.scripts/check-chain-readiness.py) | Проверка готовности цепочки (4/4 WAITING, 0 маркеров) | [create-development.md](./create-development.md) |
+| [dev-next-issue.py](../.scripts/dev-next-issue.py) | Определение следующего незаблокированного Issue | [modify-development.md](./modify-development.md) |
 
 ---
 
 # 5. Скиллы
 
-*Нет скиллов.*
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/dev-create](/.claude/skills/dev-create/SKILL.md) | Запуск разработки по analysis chain (WAITING → RUNNING) | [create-development.md](./create-development.md) |
+| [/dev](/.claude/skills/dev/SKILL.md) | Процесс разработки в feature-ветке (RUNNING) | [modify-development.md](./modify-development.md) |

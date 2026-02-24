@@ -69,9 +69,9 @@ make clean     # Очистка (docker down -v)
 4. ✅ `.claude/drafts/2026-02-24-dev-skill.md` — /dev + /analysis-status: 12 задач, миграция standard-development.md
 5. ✅ Миграции всех 7 standard-*.md завершены (агенты параллельно), 0 расхождений
 6. ✅ Группы B/C version drift исправлены (12 файлов: добавлен standard-version в frontmatter)
+7. ✅ `.claude/drafts/2026-02-24-dev-restructure.md` — реструктуризация /dev → /dev-create + /dev, создание modify-development.md, интеграция validation-development.md в review
+8. ✅ `.claude/drafts/2026-02-24-dev-scripts.md` — check-chain-readiness.py и dev-next-issue.py, интеграция в create/modify-development.md, регистрация в README
 
 ### Следующая сессия
 
-1. `.claude/drafts/2026-02-20-post-push-review.md` — провести полный code review блоков 1-7 (приоритет: блок 1 ветвление → блок 5 code-reviewer → блок 7 сессия 2026-02-24)
-2. `.claude/drafts/2026-02-24-create-dev-rework.md` — переработать create-dev.md (ошибки I022, I027)
-3. `.claude/drafts/2026-02-24-migration-standard-instruction.md` — миграция standard-instruction.md v1.2→v1.3 (37 файлов)
+1. `.claude/drafts/2026-02-20-post-push-review.md` — провести полный code review блоков 1-8 (приоритет: блок 1 ветвление → блок 5 code-reviewer → блок 8 dev-scripts)

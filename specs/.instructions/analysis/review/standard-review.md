@@ -186,6 +186,7 @@ status: OPEN
 | `### Постановка` | Таблица со ссылками на 4 документа цепочки | `/review-create` |
 | `### {svc} (critical-{level})` | Таблица §§ (только присутствующие в SVC-N design.md). Колонка "Что проверяем" заполняется `/review-create` на основе SVC-N из design.md — конкретные изменения (ADDED/MODIFIED/REMOVED из § 9 Planned Changes) | `/review-create` через `extract-svc-context.py` |
 | `### Системная документация` | `docs/.system/overview.md`, `conventions.md`, `testing.md`, `infrastructure.md` | `/review-create` |
+| `### Процесс разработки` | `validation-development.md` — чек-лист процесса разработки (тесты, линт, сборка, зависимости, полнота) | `/review-create` |
 | `### Tech-стандарты` | Таблица `{технология} → standard-{tech}.md` | `/review-create` |
 
 **`critical-{level}` в заголовке блока** — criticality level сервиса из `docs/{svc}.md § 1`. Определяет пороги покрытия тестами (см. ниже). Агент code-reviewer использует его для определения минимального coverage.
@@ -293,6 +294,10 @@ status: OPEN
 - `docs/.system/conventions.md`
 - `docs/.system/testing.md`
 - `docs/.system/infrastructure.md` *(при изменениях в platform/)*
+
+### Процесс разработки
+
+- [validation-development.md](/.github/.instructions/development/validation-development.md)
 
 ### Tech-стандарты
 
@@ -419,6 +424,10 @@ status: RESOLVED
 - `docs/.system/overview.md`
 - `docs/.system/conventions.md`
 - `docs/.system/testing.md`
+
+### Процесс разработки
+
+- [validation-development.md](/.github/.instructions/development/validation-development.md)
 
 ### Tech-стандарты
 

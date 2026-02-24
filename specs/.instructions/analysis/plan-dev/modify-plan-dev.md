@@ -221,7 +221,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py specs/analysis
 
 | Все в WAITING? | Действие |
 |----------------|----------|
-| Да | AskUserQuestion: "Все спецификации готовы. Начать разработку через `/dev {NNNN}`?" |
+| Да | AskUserQuestion: "Все спецификации готовы. Начать разработку через `/dev-create {NNNN}`?" |
 | Нет | Вывести: "Plan Dev → WAITING. Ожидают: {список документов не в WAITING}" |
 
 ### Каскад DRAFT (возврат из WAITING)
@@ -327,8 +327,8 @@ Plan Dev попадает в CONFLICT через tree-level каскад. LLM о
 3. Статус: `CONFLICT` → `WAITING`
 4. Обновить README
 5. **Проверить готовность цепочки.** Если Plan Dev — последний документ, возвращённый в WAITING (все 4 документа цепочки в WAITING):
-   AskUserQuestion: "Конфликт разрешён. Все спецификации снова в WAITING. Возобновить разработку через `/dev {NNNN}`?"
-   При подтверждении → выполнить `/dev {NNNN}` (Issues уже существуют — `/dev --resume` обнаружит и пропустит создание).
+   AskUserQuestion: "Конфликт разрешён. Все спецификации снова в WAITING. Возобновить разработку через `/dev-create {NNNN}`?"
+   При подтверждении → выполнить `/dev-create {NNNN}` (Issues уже существуют — `/dev-create --resume` обнаружит и пропустит создание).
 
 **Синхронизация Issues** ([standard-issue.md](/.github/.instructions/issues/standard-issue.md))**:** LLM сравнивает TASK-N в обновлённом Plan Dev с существующими Issues. Критерий изменения: изменились поля Сложность, Приоритет, Зависимости, TC или подзадачи.
 

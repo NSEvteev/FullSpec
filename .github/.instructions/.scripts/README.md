@@ -37,6 +37,8 @@ index: .github/.instructions/.scripts/README.md
 | [validate-post-release.py](./validate-post-release.py) | Валидация пост-релизных артефактов | [validation-release.md](../releases/validation-release.md) |
 | [validate-review.py](./validate-review.py) | Pre-commit хук: проверка завершённости ревью кода (review.md, RESOLVED, READY) | [standard-review.md](../review/standard-review.md) |
 | [check-github-required.py](./check-github-required.py) | Проверка наличия обязательных файлов GitHub | — |
+| [check-chain-readiness.py](./check-chain-readiness.py) | Проверка готовности analysis chain (4/4 WAITING, 0 маркеров) | [create-development.md](../development/create-development.md) |
+| [dev-next-issue.py](./dev-next-issue.py) | Определение следующего незаблокированного Issue | [modify-development.md](../development/modify-development.md) |
 
 ---
 
@@ -62,5 +64,7 @@ index: .github/.instructions/.scripts/README.md
 ├── validate-post-release.py            # Валидация пост-релизных артефактов
 ├── rotate-secret.py                    # Ротация секретов GitHub
 ├── validate-review.py                  # Pre-commit: проверка завершённости ревью
-└── check-github-required.py            # Проверка наличия обязательных файлов
+├── check-github-required.py            # Проверка наличия обязательных файлов
+├── check-chain-readiness.py            # Проверка готовности analysis chain
+└── dev-next-issue.py                   # Определение следующего Issue
 ```

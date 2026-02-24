@@ -94,7 +94,7 @@ index: .github/.instructions/README.md
 └───────────────────────────────────────────────────────────────┘
 
 0. ЗАПУСК РАЗРАБОТКИ (из analysis chain)
-   └─ /dev {NNNN} → Issues + Milestone + Branch → RUNNING
+   └─ /dev-create {NNNN} → Issues + Milestone + Branch → RUNNING
    └─ → standard-development.md § 0
 
 1. ПЛАНИРОВАНИЕ
@@ -211,7 +211,7 @@ index: .github/.instructions/README.md
 
 ### Процесс
 
-> **Из analysis chain:** Issues создаются автоматически через `/dev` — см. [standard-development.md § 0](./development/standard-development.md#0-запуск-разработки).
+> **Из analysis chain:** Issues создаются автоматически через `/dev-create` — см. [standard-development.md § 0](./development/standard-development.md#0-запуск-разработки).
 
 Декомпозиция фичи/области на отдельные Issues:
 - #42: Добавить форму логина

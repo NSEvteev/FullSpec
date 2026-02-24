@@ -29,8 +29,8 @@ index: .github/.instructions/development/README.md
 |-----|----------|
 | Стандарт | [standard-development.md](./standard-development.md) |
 | Валидация | Этот документ |
-| Создание | [create-dev.md](./create-dev.md) |
-| Модификация | *Не требуется (процесс)* |
+| Создание | [create-development.md](./create-development.md) |
+| Модификация | [modify-development.md](./modify-development.md) |
 
 ## Оглавление
 

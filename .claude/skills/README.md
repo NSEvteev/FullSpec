@@ -136,7 +136,8 @@ standard-version: v1.1
 | [plan-dev-create](./plan-dev-create/SKILL.md) | Создание документа плана разработки |
 | [plan-dev-modify](./plan-dev-modify/SKILL.md) | Изменение документа плана разработки |
 | [plan-dev-validate](./plan-dev-validate/SKILL.md) | Валидация документа плана разработки |
-| [dev](./dev/SKILL.md) | Запуск разработки по analysis chain |
+| [dev-create](./dev-create/SKILL.md) | Запуск разработки по analysis chain (WAITING → RUNNING) |
+| [dev](./dev/SKILL.md) | Процесс разработки в feature-ветке (RUNNING) |
 | [analysis-status](./analysis-status/SKILL.md) | Статус analysis chain (одна/все цепочки, dashboard) |
 | [review-create](./review-create/SKILL.md) | Создание review.md при Plan Dev → WAITING |
 | [review-validate](./review-validate/SKILL.md) | Валидация документа ревью кода |

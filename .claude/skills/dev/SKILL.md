@@ -1,39 +1,40 @@
 ---
 name: dev
-description: Запуск разработки по analysis chain — prerequisite check, создание Issues/Milestone/Branch, переход WAITING → RUNNING. Используй при переходе Plan Dev в WAITING для запуска кодирования.
+description: Процесс разработки в feature-ветке — взятие задачи, написание кода, тестирование, коммит. Используй когда ветка уже в RUNNING.
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 ssot-version: v1.0
-argument-hint: <NNNN> [--resume]
+argument-hint: "[--issue <N>] [--continue]"
 ---
 
-# Запуск разработки
+# Процесс разработки
 
-**SSOT:** [create-dev.md](/.github/.instructions/development/create-dev.md)
+**SSOT:** [modify-development.md](/.github/.instructions/development/modify-development.md)
 
 ## Формат вызова
 
 ```
-/dev <NNNN> [--resume]
+/dev [--issue <N>] [--continue]
 ```
 
 | Параметр | Описание | Обязательный |
 |----------|----------|--------------|
-| `<NNNN>` | Номер analysis chain | Да |
-| `--resume` | Продолжить прерванный запуск | Нет |
+| `--issue <N>` | Номер конкретного Issue для работы | Нет |
+| `--continue` | Продолжить с текущего Issue | Нет |
 
 ## Воркфлоу
 
-> ⚠️ **Перед выполнением** прочитать [create-dev.md](/.github/.instructions/development/create-dev.md)
+> ⚠️ **Перед выполнением** прочитать [modify-development.md](/.github/.instructions/development/modify-development.md)
 
 → Выполнить шаги из SSOT-инструкции.
 
 ## Чек-лист
 
-→ См. [create-dev.md#чек-лист](/.github/.instructions/development/create-dev.md#чек-лист)
+→ См. [modify-development.md#чек-лист](/.github/.instructions/development/modify-development.md#чек-лист)
 
 ## Примеры
 
 ```
-/dev 0001
-/dev 0003 --resume
+/dev
+/dev --issue 42
+/dev --continue
 ```

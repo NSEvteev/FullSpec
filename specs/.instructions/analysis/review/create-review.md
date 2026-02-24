@@ -203,6 +203,16 @@ python specs/.instructions/.scripts/extract-svc-context.py specs/analysis/NNNN-{
 
 Только технологии, для которых существует `docs/.technologies/standard-{tech}.md`.
 
+#### 6.5 Процесс разработки
+
+```markdown
+### Процесс разработки
+
+- [validation-development.md](/.github/.instructions/development/validation-development.md)
+```
+
+Включается всегда — чек-лист процесса разработки (тесты, линт, сборка, зависимости, полнота реализации).
+
 ### Шаг 7: Валидация
 
 ```bash
@@ -248,6 +258,7 @@ python specs/.instructions/.scripts/validate-analysis-review.py specs/analysis/N
 - [ ] Блоки `### {svc} (critical-{level})` созданы для всех сервисов
 - [ ] Только §§ с изменениями (+ § 9 всегда)
 - [ ] `### Системная документация` заполнена
+- [ ] `### Процесс разработки` заполнена
 - [ ] `### Tech-стандарты` заполнена (только существующие стандарты)
 
 ### Проверка
