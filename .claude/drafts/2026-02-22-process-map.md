@@ -6,7 +6,8 @@
 
 - [Контекст](#контекст)
 - [Содержание](#содержание)
-- [Пробелы](#пробелы)
+- [Закрытые пробелы](#закрытые-пробелы-сессия-2026-02-24)
+- [Оставшиеся пробелы](#оставшиеся-пробелы)
 
 ---
 
@@ -14,7 +15,7 @@
 
 **Задача:** Зафиксировать, какие шаги процесса разработки покрыты скиллами, агентами, хуками и правилами.
 
-**Покрытие:** ~85% шагов имеют хотя бы один инструмент.
+**Покрытие:** ~94% шагов имеют хотя бы один инструмент (15 из 16).
 
 **Связанные файлы:** `.claude/skills/README.md`, `.claude/agents/`, `.pre-commit-config.yaml`, `.claude/rules/`
 
@@ -22,38 +23,43 @@
 
 ## Содержание
 
-### Карта процесса (18 шагов)
+### Карта процесса (16 шагов)
 
-| Шаг | Этап | Скилл | Агент | Pre-commit | Rule |
-|-----|------|-------|-------|-----------|------|
-| 1 | Discussion | /discussion-create | discussion-reviewer (опц) | discussion-validate | core, specs-analysis |
-| 2 | Design | /design-create | design-agent (обяз), design-reviewer (опц) | design-validate | core, specs-analysis |
-| 3 | Plan Tests | /plan-test-create | ❌ нет | plan-test-validate | core, specs-analysis |
-| 4 | Plan Dev | /plan-dev-create | ❌ нет | plan-dev-validate | core, specs-analysis |
-| 5 | WAITING→RUNNING | ❌ нет скилла | ❌ нет | ❌ нет | specs-analysis |
-| 6 | Issues+Milestone | /issue-create, /milestone-create | ❌ нет | type-templates-validate | development, core |
-| 7 | Branch | /branch-create | ❌ нет | branch-validate | development, core |
-| 8 | Development | /principles-validate | ❌ нет | (make test/lint) | development, code |
-| 9 | Review Create (Plan Dev → WAITING) | /review-create | ❌ нет | ❌ нет | development |
-| 10 | Branch Review | /review (N+1 агентов → ## Итерация 1 в review.md) | code-reviewer (per-svc) | review-validate | development |
-| 11 | Commits | ❌ нет скилла | ❌ нет | 24 хука | development, core |
-| 12 | PR Create | ❌ нет скилла | ❌ нет | pr-template-validate | development, core |
-| 13 | PR Review | /review {N} (N+1 агентов → ## Итерация 2 + gh pr comment) | code-reviewer (per-svc) | ❌ нет | development |
-| 14 | Merge | ❌ нет скилла | ❌ нет | ❌ нет | development |
-| 15 | DONE + docs/ update | ❌ нет скилла | ❌ нет | service-validate, docs-validate | specs-analysis |
-| 16 | Sync main | ❌ нет скилла | ❌ нет | ❌ нет | development |
-| 17 | Release+Deploy | /milestone-validate | ❌ нет | actions-validate | development, core |
-| 18 | Hotfix/Rollback | ❌ нет скилла | ❌ нет | ❌ нет | development |
+| Шаг | Этап | Скилл | Агент | Pre-commit | Rule | chain_status.py |
+|-----|------|-------|-------|-----------|------|-----------------|
+| 1 | Discussion | /discussion-create, /discussion-modify | discussion-reviewer (опц) | discussion-validate | core, analysis-status-transition | T1 (DRAFT→WAITING) |
+| 2 | Design | /design-create, /design-modify | design-agent (обяз), design-reviewer (опц) | design-validate | core, analysis-status-transition | T1 |
+| 3 | Plan Tests | /plan-test-create, /plan-test-modify | ❌ нет | plan-test-validate | core, analysis-status-transition | T1 |
+| 4 | Plan Dev + Review Create | /plan-dev-create, /review-create | ❌ нет | plan-dev-validate, review-validate | core, analysis-status-transition | T1 |
+| 5 | WAITING→RUNNING (Issues+Milestone+Branch) | /dev-create | ❌ нет | branch-validate, type-templates-validate | development, analysis-status-transition | T3 |
+| 6 | Development | /dev, /principles-validate | ❌ нет | (make test/lint) | development, code | classify_feedback() |
+| 7 | Branch Review | /review | code-reviewer (per-svc) | review-validate | development | — |
+| 8 | Commits | ❌ нет скилла | ❌ нет | 24 хука | development, core | — |
+| 9 | PR Create | ❌ нет скилла | ❌ нет | pr-template-validate | development, core | — |
+| 10 | PR Review | /review {N} | code-reviewer (per-svc) | ❌ нет | development | — |
+| 11 | Merge | ❌ нет скилла | ❌ нет | ❌ нет | development | — |
+| 12 | RUNNING→REVIEW→DONE + docs/ update | /analysis-status | ❌ нет | service-validate, docs-validate | analysis-status-transition | T6, T7, check_cross_chain() |
+| 13 | Sync main | ❌ нет скилла | ❌ нет | ❌ нет | development | — |
+| 14 | Release+Deploy | /milestone-validate | ❌ нет | actions-validate | development, core | — |
+| 15 | CONFLICT resolution | /discussion-modify → /plan-dev-modify | ❌ нет | *-validate | analysis-status-transition | T4/T8, T5 |
+| 16 | Rollback/Reject | ❌ нет скилла | ❌ нет | ❌ нет | analysis-status-transition | T9, T10 |
 
 ---
 
-## Пробелы
+## Закрытые пробелы (сессия 2026-02-24)
 
-Скиллы с наибольшим приоритетом для создания:
+| Пробел | Решение |
+|--------|---------|
+| ~~WAITING→RUNNING~~ | `/dev-create` — Issues, Milestone, Branch, `ChainManager.transition(to="RUNNING")` |
+| ~~DONE + docs/ update~~ | `ChainManager.transition(to="DONE")` — T7 bottom-up каскад, `side_effects` для обновления docs/ |
+| ~~Нет модуля статусов~~ | `chain_status.py` — SSOT для T1-T10, prerequisites, каскады, cross-chain |
+| ~~Нет /dev скилла~~ | `/dev-create` + `/dev` — запуск и процесс разработки |
+
+## Оставшиеся пробелы
 
 | Пробел | Приоритет | Что нужно |
 |--------|-----------|-----------|
-| Шаг 5: WAITING→RUNNING | Высокий | /analysis-run — переводит plan-dev.md в RUNNING, фиксирует дату старта |
-| Шаг 15: DONE + docs/ update | Высокий | /analysis-complete — каскад DONE, обновление docs/ по Planned Changes |
-| Шаг 17: Release | Средний | /release-create — по standard-release.md |
-| Агенты: разработка | Низкий | developer-agent — реализация TASK-N (автономная разработка) |
+| Шаг 11: Merge | Низкий | Нет скилла — ручной процесс, покрыт стандартом |
+| Шаг 14: Release | Средний | /release-create — по standard-release.md |
+| Шаг 16: Rollback | Низкий | Нет скилла — chain_status.py T9/T10 управляет статусами, но откат артефактов ручной по modify-* инструкциям |
+| Агенты: разработка | Низкий (Q11) | developer-agent — реализация TASK-N. Отложено до первого реального прогона цепочки |
