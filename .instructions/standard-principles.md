@@ -1,7 +1,7 @@
 ---
 description: Стандарт принципов программирования (ориентирован на Python) — SSOT, DRY, именование, структура, обработка ошибок.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .instructions/README.md
 ---
 

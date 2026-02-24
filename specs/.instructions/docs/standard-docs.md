@@ -1,7 +1,7 @@
 ---
 description: Стандарт документации для поставки (контур docs/) — структура, типы документов, принципы организации рабочего контекста LLM-разработчика.
 standard: .instructions/standard-instruction.md
-standard-version: v1.0
+standard-version: v1.3
 index: specs/.instructions/README.md
 ---
 

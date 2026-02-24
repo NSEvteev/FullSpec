@@ -1,7 +1,7 @@
 ---
 description: Стандарт единой системы поиска по документации проекта — API скриптов, типы сущностей, формат вывода, интеграция с Claude Code.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .structure/.instructions/README.md
 ---
 

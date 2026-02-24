@@ -1,7 +1,7 @@
 ---
 description: Воркфлоу создания нового скилла (SKILL.md) — SSOT-привязка, frontmatter, секции, регистрация в README и settings.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .claude/.instructions/skills/README.md
 ---
 

@@ -1,7 +1,7 @@
 ---
 description: Воркфлоу изменения структуры папок — переименование, перемещение, удаление с обновлением ссылок и SSOT.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .structure/.instructions/README.md
 ---
 

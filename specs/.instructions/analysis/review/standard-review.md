@@ -1,7 +1,7 @@
 ---
 description: Стандарт документа ревью кода — артефакт Plan Dev, создаётся при WAITING, итерации заполняются при REVIEW.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: specs/.instructions/README.md
 ---
 

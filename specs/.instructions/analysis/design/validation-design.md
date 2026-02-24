@@ -1,7 +1,7 @@
 ---
 description: Валидация документов проектирования SDD — frontmatter, именование, секции SVC-N (9 подсекций, 8:8 маппинг), INT-N, STS-N, нумерация, маркеры, зона ответственности.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: specs/.instructions/README.md
 ---
 

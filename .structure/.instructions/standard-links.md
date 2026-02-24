@@ -1,7 +1,7 @@
 ---
 description: Стандарт оформления ссылок в .md файлах — типы путей, якоря, frontmatter-поля. Покрывает правила и форматы.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .structure/.instructions/README.md
 ---
 

@@ -1,7 +1,7 @@
 ---
 description: Валидация завершённости миграции — version drift, соответствие Workflows стандарту, актуальность скриптов.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .instructions/migration/README.md
 ---
 

@@ -1,7 +1,7 @@
 ---
 description: Воркфлоу выполнения миграции зависимых файлов после обновления стандарта — Workflows, экземпляры, скрипты.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .instructions/migration/README.md
 ---
 
@@ -392,7 +392,7 @@ grep -r "\.py" .instructions/validation-instruction.md
 
 # 8. Обновить Уровень 2 (все инструкции)
 /instruction-modify <файл>
-# → Обновить standard-version: v1.2
+# → Обновить standard-version: v1.3
 # → Добавить секцию если требуется
 
 # 9. Валидация

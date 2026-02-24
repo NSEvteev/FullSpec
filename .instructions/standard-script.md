@@ -1,7 +1,7 @@
 ---
 description: Стандарт формата скриптов автоматизации — docstring, argparse, кодировка, структура файла, коды ошибок.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .instructions/README.md
 ---
 

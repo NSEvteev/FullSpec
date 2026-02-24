@@ -1,7 +1,7 @@
 ---
 description: Валидация документов ревью кода — frontmatter, именование, секции, итерации, вердикт, статус.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: specs/.instructions/README.md
 ---
 

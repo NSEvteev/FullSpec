@@ -1,7 +1,7 @@
 ---
 description: Стандарт формата черновиков — frontmatter, структура, статусы, именование файлов. Покрывает хранение, архивацию и связь с задачами.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .claude/.instructions/drafts/README.md
 ---
 

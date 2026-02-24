@@ -1,7 +1,7 @@
 ---
 description: Воркфлоу создания новой папки в структуре проекта — README, .instructions/, синхронизация SSOT и дерева.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .structure/.instructions/README.md
 ---
 

@@ -1,7 +1,7 @@
 ---
 description: Воркфлоу создания review.md с секцией Контекст ревью — вызывается при Plan Dev → WAITING.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: specs/.instructions/README.md
 ---
 

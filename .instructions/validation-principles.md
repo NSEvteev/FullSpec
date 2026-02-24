@@ -1,7 +1,7 @@
 ---
 description: Валидация соблюдения принципов программирования — SSOT, DRY, именование, обработка ошибок. Чек-лист для code review.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .instructions/README.md
 ---
 

@@ -1,7 +1,7 @@
 ---
 description: Стандарт формата SKILL.md — frontmatter, SSOT-ссылка, секции, allowed-tools и argument-hint. Покрывает связь скилла с инструкцией.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .claude/.instructions/skills/README.md
 ---
 

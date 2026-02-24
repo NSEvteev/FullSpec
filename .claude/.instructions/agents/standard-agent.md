@@ -1,7 +1,7 @@
 ---
 description: Стандарт формата AGENT.md — frontmatter, промпт, конфигурация, тип и модель. Покрывает обязательные секции и поля для агентов Claude.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .claude/.instructions/agents/README.md
 ---
 
@@ -128,7 +128,7 @@ general-purpose — универсальный агент
 name: agent-name
 description: Краткое описание — когда Claude должен использовать агента
 standard: .claude/.instructions/agents/standard-agent.md
-standard-version: v1.2
+standard-version: v1.3
 index: .claude/.instructions/agents/README.md
 model: sonnet
 tools: Read, Grep, Glob, Bash, Edit, Write, AskUserQuestion
@@ -664,7 +664,7 @@ skills:
 name: todo-finder
 description: Поиск TODO/FIXME комментариев в кодовой базе. Используй для анализа технического долга.
 standard: .claude/.instructions/agents/standard-agent.md
-standard-version: v1.2
+standard-version: v1.3
 index: .claude/.instructions/agents/README.md
 type: explore
 model: haiku
@@ -707,7 +707,7 @@ Markdown таблица с группировкой по приоритету:
 name: architecture-analyzer
 description: Анализ архитектуры и зависимостей модулей. Используй для понимания структуры проекта.
 standard: .claude/.instructions/agents/standard-agent.md
-standard-version: v1.2
+standard-version: v1.3
 index: .claude/.instructions/agents/README.md
 type: plan
 model: sonnet
@@ -756,7 +756,7 @@ Markdown отчёт с секциями:
 name: code-reviewer
 description: Автоматический код-ревью с проверкой принципов. Используй после написания кода.
 standard: .claude/.instructions/agents/standard-agent.md
-standard-version: v1.2
+standard-version: v1.3
 index: .claude/.instructions/agents/README.md
 type: general-purpose
 model: sonnet

@@ -1,7 +1,7 @@
 ---
 description: Стандарт оформления frontmatter для всех .md файлов проекта — обязательные поля, description по типам документов, поля скиллов, агентов, спецификаций и живых документов архитектуры. Покрывает валидацию, версионирование и интеграцию с Claude Code.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .structure/.instructions/README.md
 ---
 

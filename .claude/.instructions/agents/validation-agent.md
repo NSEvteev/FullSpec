@@ -1,7 +1,7 @@
 ---
 description: Валидация AGENT.md на соответствие стандарту — frontmatter, промпт, обязательные секции, конфигурация и ссылки.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .claude/.instructions/agents/README.md
 ---
 
@@ -27,6 +27,7 @@ index: .claude/.instructions/agents/README.md
 
 - [Когда валидировать](#когда-валидировать)
 - [Шаги](#шаги)
+  - [Шаг 0: Автоматическая валидация](#шаг-0-автоматическая-валидация)
   - [Шаг 1: Проверить структуру файла](#шаг-1-проверить-структуру-файла)
   - [Шаг 2: Проверить обязательные поля](#шаг-2-проверить-обязательные-поля)
   - [Шаг 3: Проверить именование](#шаг-3-проверить-именование)
@@ -61,6 +62,21 @@ index: .claude/.instructions/agents/README.md
 ---
 
 ## Шаги
+
+### Шаг 0: Автоматическая валидация
+
+```bash
+python .claude/.instructions/agents/.scripts/validate-agent.py {path-to-agent}
+```
+
+Скрипт проверяет структуру, frontmatter, именование, тип, промпт, безопасность и версионирование. Если валидация пройдена — **готово**, шаги 1-8 не нужны.
+
+**Все агенты:**
+```bash
+python .claude/.instructions/agents/.scripts/validate-agent.py --all
+```
+
+**Если скрипт недоступен** — выполнить шаги 1-8 вручную.
 
 ### Шаг 1: Проверить структуру файла
 
@@ -128,7 +144,7 @@ else:
 name: todo-finder
 description: Поиск TODO/FIXME комментариев. Используй для анализа технического долга.
 standard: .claude/.instructions/agents/standard-agent.md
-standard-version: v1.2
+standard-version: v1.3
 index: .claude/.instructions/agents/README.md
 type: explore
 model: haiku
