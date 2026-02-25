@@ -130,10 +130,10 @@ index: .instructions/README.md
 
 > **ОБЯЗАТЕЛЬНО** — после внесения изменений запустить семантический анализ.
 
-Запустить агента captain-holt:
+Запустить агента meta-reviewer:
 ```
 Task tool:
-  subagent_type: captain-holt
+  subagent_type: meta-reviewer
   prompt: "Проанализируй файл: {путь к инструкции}"
 ```
 

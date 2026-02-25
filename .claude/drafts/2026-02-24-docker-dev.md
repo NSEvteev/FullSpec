@@ -1,6 +1,13 @@
-# Docker dev-среда — план и обучение
+---
+description: Docker dev-среда — standard-docker.md + docker-compose конфиги + обновление Makefile и initialization.md
+type: feature
+status: ready
+created: 2026-02-24
+---
 
-Настройка Docker-окружения для локальной разработки и тестирования. Включает план обучения пользователя (первый опыт с Docker).
+# Docker dev-среда — стандарт + инфраструктура
+
+Стандарт Docker конфигураций для platform/, docker-compose для dev и тестов, обучение пользователя.
 
 ## Оглавление
 
@@ -8,588 +15,132 @@
 - [Содержание](#содержание)
 - [Решения](#решения)
 - [Открытые вопросы](#открытые-вопросы)
+- [Tasklist](#tasklist)
 
 ---
 
 ## Контекст
 
-**Задача:** Создать Docker-окружение для разработки и тестирования, написать стандарт для platform/docker/
-**Почему создан:** `platform/docker/` пуст, `make dev` ссылается на docker-compose, но конфигурации нет. Пользователь не использовал Docker ранее — нужно обучение
+**Задача:** `platform/docker/` пуст, `make dev` ссылается на docker-compose, но конфигурации нет. Пользователь не использовал Docker — нужно обучение.
+**Почему создан:** Микросервисная архитектура требует Docker для локальной разработки и тестирования. Без docker-compose невозможно запустить ни один `make` таргет (dev, test, build, clean).
 **Связанные файлы:**
 - `platform/docker/` — пусто (.gitkeep + README)
-- `platform/.instructions/` — нет стандартов
-- `Makefile` — `make dev`, `make stop`, `make clean` ссылаются на docker-compose
-- `.structure/README.md` — описание platform/docker/
-- `.claude/drafts/2026-02-24-tests-and-platform.md` — аудит тестов (связанная тема)
+- `platform/.instructions/` — пусто (нет стандартов)
+- `Makefile` — `make dev/stop/build/clean` ссылаются на docker-compose (файл не существует)
+- `specs/docs/.system/infrastructure.md` — спецификация сервисов, портов, зависимостей
+- `specs/docs/.system/testing.md` — упоминает docker-compose.test.yml
+- `.structure/initialization.md` — Docker Desktop не в списке зависимостей
+- `.github/dependabot.yml` — уже мониторит `/platform/docker/` для Docker-зависимостей
+
+**Из tests-and-platform (Часть B):** Стандарты platform/ перенесены сюда. `standard-docker.md` — первый и единственный высокоприоритетный стандарт platform/. Остальные (k8s, monitoring, gateway, runbooks, scripts) — отложены до реального использования.
 
 ## Содержание
 
-### Часть A: Что нужно создать
+### Артефакт 1: Стандарт `standard-docker.md`
 
-| # | Артефакт | Путь | Назначение |
-|---|---------|------|-----------|
-| 1 | **docker-compose.yml** | `platform/docker/docker-compose.yml` | Основная dev-конфигурация (БД, Redis, сервисы) |
-| 2 | **docker-compose.test.yml** | `platform/docker/docker-compose.test.yml` | Тестовая конфигурация (изолированные зависимости) |
-| 3 | **Dockerfile.{service}** | `platform/docker/Dockerfile.{service}` | Образ каждого сервиса |
-| 4 | **.env.example** | `platform/docker/.env.example` | Переменные окружения (без секретов) |
-| 5 | **standard-docker.md** | `platform/.instructions/standard-docker.md` | Стандарт Docker конфигураций |
+**Путь:** `platform/.instructions/standard-docker.md`
+**Действие:** Создать через `/instruction-create`.
 
-### Часть B: Обучение пользователя
+Стандарт Docker конфигураций для проекта. Секции:
 
-Пользователь не работал с Docker ранее. Нужно:
+| # | Секция | Содержание |
+|---|--------|-----------|
+| 1 | Dockerfile формат | Multi-stage builds (dev/prod targets), non-root user, .dockerignore, layer caching (зависимости перед кодом) |
+| 2 | Compose конвенции | Именование сервисов (kebab-case), depends_on + condition: service_healthy, profiles |
+| 3 | Сети | Одна bridge-сеть per environment (`myapp-dev`, `myapp-test`), явное имя (не зависит от имени папки) |
+| 4 | Volumes | Named volumes для данных (pgdata), bind mounts для кода (hot reload), anonymous для зависимостей (/app/node_modules) |
+| 5 | Порты | Фиксированные (из infrastructure.md): PG=5432, Redis=6379, RabbitMQ=5672/15672, сервисы=8001-8004, gateway=8000 |
+| 6 | Health checks | Обязательны для инфраструктуры (pg_isready, redis-cli ping, rabbitmq-diagnostics), рекомендованы для сервисов (/health) |
+| 7 | Environment | .env.example (коммитится, шаблон), .env (не коммитится, локальные значения), .env.test (коммитится, без секретов) |
+| 8 | Тестовое окружение | docker-compose.test.yml — изолированная сеть, tmpfs для БД (RAM-диск), ephemeral данные |
+| 9 | Hot reload | Bind mount + `--reload` (uvicorn/nodemon/air). Anonymous volume для зависимостей. Windows+WSL2: файлы в файловой системе WSL для inotify |
 
-1. **Что такое Docker** — контейнер vs виртуальная машина, образ vs контейнер, docker-compose
-2. **Установка** — Docker Desktop для Windows, WSL2 (если не настроен)
-3. **Основные команды** — `docker compose up`, `docker compose down`, `docker compose logs`
-4. **Как это работает в проекте** — `make dev` → поднимает все сервисы, `make stop` → останавливает
-5. **Troubleshooting** — порты заняты, не хватает памяти, пересборка образа
+### Артефакт 2: `docker-compose.yml` (dev)
 
-Где размещать обучение:
-- Короткий раздел в `platform/docker/README.md` (quick start)
-- Ссылка на Docker Desktop docs для установки
-- Примеры команд в контексте проекта
+**Путь:** `platform/docker/docker-compose.yml`
 
-### Часть C: Стандарт Docker
+Основная dev-конфигурация. Инфраструктурные сервисы (из infrastructure.md):
 
-`platform/.instructions/standard-docker.md` должен покрывать:
+| Сервис | Образ | Порт | Health check |
+|--------|-------|------|-------------|
+| postgres | postgres:16-alpine | 5432 | pg_isready |
+| redis | redis:7-alpine | 6379 | redis-cli ping |
+| rabbitmq | rabbitmq:3-management-alpine | 5672, 15672 | rabbitmq-diagnostics |
 
-| Секция | Содержание |
-|--------|-----------|
-| Именование | Сервисы: kebab-case, образы: `{project}-{service}` |
-| Compose структура | Profiles (dev/test/prod), depends_on, healthcheck |
-| Сети | Одна сеть per environment, именование |
-| Volumes | Named volumes для данных, bind mounts для кода |
-| Переменные | .env файлы, секреты через Docker secrets или .env.local |
-| Тестовое окружение | docker-compose.test.yml — изолированные БД, ephemeral данные |
-| Multi-stage builds | Уменьшение размера образа, отделение dev/prod |
-
-### Часть D: Интеграция в standard-process.md
-
-- **Фаза 0 (шаг 0.3):** Установка Docker Desktop, `make setup` включает проверку Docker
-- **Фаза 3 (шаг 3.1):** `make dev` поднимает зависимости перед разработкой
-- **Фаза 3 (шаг 3.2):** `make test` может использовать docker-compose.test.yml для интеграционных тестов
-- **§8:** Добавить `standard-docker.md` в строку Фаза 0
-
-## Решения
-
-- Docker необходим для проекта — микросервисная архитектура без него не работает локально
-- Нужен и dev-compose и test-compose
-- Обучение пользователя — обязательная часть (README + примеры)
-- `standard-docker.md` — первый стандарт для platform/
-
-## Открытые вопросы
-
-- WSL2: нужен ли для Windows, или Docker Desktop справляется без него?
-- Hot reload: bind mount + file watcher или пересборка?
-- Порты: фиксированные (5432 для PG) или динамические?
-- Нужен ли Makefile target `make docker-build` отдельно от `make dev`?
-- Тестовая БД: отдельный контейнер с ephemeral данными или schema-only?
-
----
-
-## Что уже описано в проекте
-
-### Makefile (`/Makefile`)
-
-Уже содержит Docker-зависимые команды, но без реальных конфигурационных файлов:
-
-- `make dev` — `docker-compose -f docker-compose.dev.yml up` (файл `docker-compose.dev.yml` не существует)
-- `make stop` — `docker-compose down`
-- `make build` — `docker-compose build`
-- `make clean` — `docker-compose down -v --remove-orphans`
-
-**Проблема:** Makefile ссылается на `docker-compose.dev.yml` в корне, но драфт планирует `platform/docker/docker-compose.yml`. Нужно согласовать путь: либо обновить Makefile на `docker-compose -f platform/docker/docker-compose.yml up`, либо разместить compose-файл в корне.
-
-### infrastructure.md (`/specs/docs/.system/infrastructure.md`)
-
-Визуализация (пример MyApp) уже описывает полную Docker-инфраструктуру:
-
-- **Сервисы и порты:** 5 сервисов (auth:8001, task:8002, notification:8003, admin:8004, gateway:8000) с Docker-хостами по имени контейнера
-- **Хранилища:** PostgreSQL (postgres:5432), Redis (redis:6379) — все как Docker containers в dev
-- **Message Broker:** RabbitMQ (rabbitmq:5672, Management UI на 15672)
-- **Service Discovery:** env-переменные с URL (`AUTH_SERVICE_URL=http://auth:8001` и т.д.)
-- **Окружения:** dev = Docker containers, staging = AWS managed, prod = AWS HA
-- **Мониторинг:** dev = `docker-compose logs -f {svc}`
-- **Секреты:** dev = `.env` файл, prod = AWS Secrets Manager
-
-**Значение для docker-compose.yml:** infrastructure.md фактически является спецификацией для docker-compose — оттуда берутся имена контейнеров, порты, env-переменные, healthcheck-эндпоинты.
-
-### standard-infrastructure.md (`/specs/.instructions/docs/infrastructure/standard-infrastructure.md`)
-
-Стандарт формата infrastructure.md содержит принцип:
-
-> **SSOT конфигурации.** `.env.example` и `docker-compose.yml` — источник правды значений. `infrastructure.md` синхронизируется с ними, не является источником конфигурации.
-
-Это значит: после создания `docker-compose.yml` и `.env.example` — infrastructure.md должен ссылаться на них, а не наоборот.
-
-### testing.md (`/specs/docs/.system/testing.md`)
-
-Уже описывает Docker для тестирования:
-
-- **Integration-тесты:** "поднимает реальные хранилища (PostgreSQL, Redis в Docker), но мокает другие сервисы"
-- **E2E-тесты:** "Всё реальное (docker-compose)" — `docker-compose -f docker-compose.test.yml up`
-- **Межсервисные тесты:** "запускает все сервисы + хранилища в изолированной сети"
-- **conftest.py (e2e):** комментарий `# docker-compose up, HTTP-клиенты, WS-клиент`
-
-**Значение для docker-compose.test.yml:** testing.md подтверждает необходимость отдельного compose-файла для тестов с изолированной сетью.
-
-### standard-development.md (`/.github/.instructions/development/standard-development.md`)
-
-Цикл разработки уже предполагает Docker:
-
-- Шаг 1: `make dev` — запуск окружения
-- `make clean` — "Полная очистка (docker down -v). Использовать, если: сервисы не запускаются после `make dev`, зависшие контейнеры после `make stop`, ошибки port already in use или volume not found"
-- Troubleshooting: `connection refused / timeout` → "Сервисы не запущены" → `make dev`
-
-### standard-docs.md (`/specs/.instructions/docs/standard-docs.md`)
-
-Секция "Платформа и окружения" (тип документа `infrastructure.md`) описывает 8 секций:
-1. Локальная разработка — docker-compose, make-команды
-2. Сервисы и порты — таблица с Docker-хостами
-3. Хранилища данных
-4. Брокер сообщений
-5. Service Discovery
-6. Окружения
-7. Мониторинг
-8. Секреты
-
-### tests-and-platform.md (`/.claude/drafts/2026-02-24-tests-and-platform.md`)
-
-Связанный драфт подтверждает:
-
-- `standard-docker.md` — приоритет "Высокий — нужен при первом сервисе"
-- Docker для тестов: `docker-compose.test.yml` — пересечение platform/ и tests/
-- `platform/.instructions/` пуст — ни одного стандарта
-- Все подпапки platform/ содержат только `.gitkeep`
-
-### Dependabot (`/.github/dependabot.yml`)
-
-Уже настроен мониторинг Docker-зависимостей:
+Сервисы приложения — stub-секции с комментариями (реальные Dockerfiles появятся при создании сервисов через analysis chain):
 
 ```yaml
-- package-ecosystem: "docker"
-  directory: "/platform/docker/"
-  schedule:
-    interval: "weekly"
+# Раскомментировать при создании сервиса:
+# auth:
+#   build:
+#     context: ../../src/auth
+#     dockerfile: ../../platform/docker/Dockerfile.auth
+#     target: development
+#   ports: ["8001:8001"]
+#   depends_on:
+#     postgres: { condition: service_healthy }
+#     redis: { condition: service_healthy }
+#   volumes: ["../../src/auth:/app"]
+#   env_file: [.env]
+#   networks: [app-network]
 ```
 
-Dependabot ожидает Dockerfile в `/platform/docker/` — это подтверждает, что Docker-файлы должны быть именно там.
+Named volumes: `pgdata`, `redis-data`, `rabbitmq-data`.
+Сеть: `app-network` (bridge, name: `myapp-dev`).
 
-### standard-release.md (`/.github/.instructions/releases/standard-release.md`)
+### Артефакт 3: `docker-compose.test.yml`
 
-Релизный процесс предполагает Docker:
+**Путь:** `platform/docker/docker-compose.test.yml`
 
-- Release workflow: "Build Docker образов" → "Push образов в Registry"
-- Деплой: `docker pull {image}:{version} && docker restart`
-- Rollback: `docker pull {image}:{prev_version} && docker restart`
-- Release assets включают "Docker images (ссылка в body, сам образ в Docker Registry)"
+Тестовая конфигурация — изолированные зависимости для integration/e2e тестов:
 
-### CODEOWNERS (`/.github/.instructions/codeowners/standard-codeowners.md`)
+| Отличие от dev | Зачем |
+|----------------|-------|
+| `tmpfs` для PostgreSQL | RAM-диск — мгновенная очистка, быстрая запись |
+| Отдельная сеть (`myapp-test`) | Не конфликтует с dev |
+| Нет bind mounts | Тестам не нужен hot reload |
+| Нет сервисов приложения | Поднимаются тестовым фреймворком или docker-compose отдельно |
 
-Стандарт предусматривает:
+### Артефакт 4: `.env.example` + `.env.test`
 
-- `/platform/docker/ @devops` — отдельный owner для Docker-файлов
-- `/Dockerfile @devops` — owner для корневого Dockerfile (если будет)
+**Путь:** `platform/docker/.env.example`, `platform/docker/.env.test`
 
-### .gitignore
+`.env.example` — шаблон с описанием всех переменных (из infrastructure.md):
+- PostgreSQL: host, port, user, password, per-service DB names
+- Redis: host, port, per-service DB numbers
+- RabbitMQ: URL
+- Service URLs: http://{service}:{port}
+- JWT: secret key
 
-Уже содержит правила для .env-файлов:
+`.env.test` — значения для тестов (без секретов, коммитится).
 
-```
-.env
-.env.local
-.env.*.local
-```
+### Артефакт 5: `.dockerignore`
 
-Нет правил для Docker-артефактов (volumes, build cache). Возможно, стоит добавить.
+**Путь:** `platform/docker/.dockerignore`
 
-### initialization.md (`/.structure/initialization.md`)
+Исключения: `.git/`, `__pycache__/`, `node_modules/`, `.venv/`, `*.pyc`, `tests/` (если не нужны в образе), `.env`.
 
-Текущая инициализация (`make setup`) НЕ включает Docker:
-- Только Python, pre-commit, GitHub CLI
-- Нет проверки `docker --version` или `docker compose version`
-- Нет шага "запустить Docker Desktop"
+### Артефакт 6: `init-db.sql`
 
-**Необходимо:** добавить Docker Desktop в таблицу зависимостей и проверку в `make setup`.
+**Путь:** `platform/docker/init-db.sql`
 
-### platform/.instructions/README.md
-
-Индекс инструкций для platform/ — полностью пустой:
-- Нет стандартов
-- Нет воркфлоу
-- Нет валидаций
-- Нет скриптов
-- Нет скиллов
-
-`standard-docker.md` станет первым документом в этом индексе.
-
-### config/README.md
-
-Конфигурации окружений:
-
-- `config/development.yaml`, `staging.yaml`, `production.yaml` (файлы описаны, но не созданы)
-- `config/feature-flags/flags.yaml`
-- Граница: `.env файлы сервиса → /src/{service}/`
-- Секреты: `vault / env vars`
-
-**Связь с Docker:** config/ содержит YAML-конфигурации окружений, Docker использует `.env` файлы. Нужно определить, как они связаны (config/*.yaml генерирует .env? или это разные механизмы?).
-
----
-
-## Best practices
-
-### 1. Docker Compose для микросервисной разработки
-
-**Один compose-файл для dev, отдельный для тестов:**
-
-```yaml
-# docker-compose.yml (dev)
-services:
-  auth:
-    build:
-      context: ../../src/auth
-      dockerfile: ../../platform/docker/Dockerfile.auth
-    ports:
-      - "8001:8001"
-    environment:
-      - POSTGRES_HOST=postgres
-      - AUTH_SERVICE_URL=http://auth:8001
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    volumes:
-      - ../../src/auth:/app  # bind mount для hot reload
-    networks:
-      - dev-network
-
-  postgres:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_USER: myapp
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myapp"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - dev-network
-
-volumes:
-  pgdata:
-
-networks:
-  dev-network:
-    driver: bridge
+Скрипт инициализации PostgreSQL — создание per-service баз данных (из infrastructure.md):
+```sql
+CREATE DATABASE myapp_auth;
+CREATE DATABASE myapp_task;
+CREATE DATABASE myapp_notification;
+CREATE DATABASE myapp_admin;
 ```
 
-**Рекомендация для проекта:** Согласно infrastructure.md, нужны сервисы (auth, task, notification, admin, gateway), хранилища (PostgreSQL, Redis), брокер (RabbitMQ). Compose-файл должен описывать все 8 контейнеров с правильными depends_on и healthcheck.
+Монтируется в `docker-entrypoint-initdb.d/` PostgreSQL-контейнера.
 
-### 2. Docker Desktop на Windows + WSL2
+### Обновления существующих файлов
 
-**Ответ на открытый вопрос:** WSL2 backend ОБЯЗАТЕЛЕН для Docker Desktop на Windows 10/11. Без WSL2 Docker Desktop использует Hyper-V backend, который значительно медленнее и хуже поддерживает bind mounts.
+#### Makefile
 
-Шаги установки:
+Текущая проблема: `make dev` ссылается на `docker-compose.dev.yml` (не существует) и использует устаревший `docker-compose` (V1).
 
-1. Включить WSL2: `wsl --install` (PowerShell от администратора)
-2. Установить Docker Desktop: https://docs.docker.com/desktop/install/windows-install/
-3. В Docker Desktop Settings: General → "Use the WSL 2 based engine" (включено по умолчанию)
-4. Resources → WSL Integration → включить для нужных дистрибутивов
-5. Проверка: `docker run hello-world`
-
-**Для проекта:** Добавить в `initialization.md` секцию "Docker Desktop" с этими шагами. Добавить проверку `docker compose version` в `make setup`.
-
-### 3. Hot reload с bind mounts
-
-**Ответ на открытый вопрос:** Bind mount + file watcher — правильный подход. Пересборка образа при каждом изменении слишком медленная.
-
-```yaml
-services:
-  auth:
-    volumes:
-      - ../../src/auth:/app          # исходный код
-      - /app/node_modules            # исключить node_modules из bind mount
-      - /app/.venv                   # исключить virtualenv из bind mount
-    command: ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8001"]
-```
-
-**Ключевые принципы:**
-- Bind mount для исходного кода (`/src/{service}` → `/app`)
-- Anonymous volume для зависимостей (`/app/node_modules`, `/app/.venv`) — предотвращает перезапись контейнерных зависимостей хостовыми
-- Команда запуска с `--reload` (uvicorn, nodemon, air для Go)
-- На Windows+WSL2: файлы должны быть в файловой системе WSL для нормальной производительности inotify; если файлы на NTFS — polling fallback (медленнее)
-
-### 4. Multi-stage Dockerfile builds
-
-```dockerfile
-# === Stage 1: Builder ===
-FROM python:3.12-slim AS builder
-
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
-
-COPY . .
-
-# === Stage 2: Development ===
-FROM python:3.12-slim AS development
-
-WORKDIR /app
-COPY --from=builder /install /usr/local
-COPY . .
-
-# Hot reload для dev
-CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
-
-# === Stage 3: Production ===
-FROM python:3.12-slim AS production
-
-WORKDIR /app
-COPY --from=builder /install /usr/local
-COPY . .
-
-# Без reload, с gunicorn
-CMD ["gunicorn", "main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
-```
-
-**Для проекта:** Каждый сервис (`Dockerfile.auth`, `Dockerfile.task` и т.д.) должен иметь multi-stage build с targets `development` и `production`. В compose dev-файле: `target: development`. В CI/release: `target: production`.
-
-```yaml
-# docker-compose.yml
-services:
-  auth:
-    build:
-      context: ../../src/auth
-      dockerfile: ../../platform/docker/Dockerfile.auth
-      target: development  # <-- dev target с hot reload
-```
-
-### 5. Docker networking для микросервисов
-
-```yaml
-networks:
-  app-network:
-    driver: bridge
-    name: myapp-dev  # явное имя, чтобы не зависеть от имени папки
-
-services:
-  auth:
-    networks:
-      - app-network
-  postgres:
-    networks:
-      - app-network
-```
-
-**Принципы:**
-- Одна bridge-сеть для dev-окружения — все сервисы видят друг друга по имени контейнера
-- Для тестов — отдельная сеть (`myapp-test`), чтобы не конфликтовать с dev
-- Не использовать `network_mode: host` — ломает кроссплатформенность
-- Service discovery через DNS (Docker внутренний): `http://auth:8001`, `postgres:5432`
-- Это совпадает с тем, что уже описано в infrastructure.md (Service Discovery через env vars с Docker-хостами)
-
-### 6. Health checks в docker-compose
-
-```yaml
-services:
-  postgres:
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myapp"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-
-  redis:
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-
-  rabbitmq:
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_running"]
-      interval: 10s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
-
-  auth:
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-```
-
-**Для проекта:** infrastructure.md указывает `GET /health` для каждого сервиса. Порядок запуска: "PostgreSQL и Redis стартуют первыми (healthcheck), затем сервисы. RabbitMQ стартует параллельно — сервисы с retry до подключения." Это нужно отразить в `depends_on` + `condition: service_healthy`.
-
-### 7. .env файлы и secrets management
-
-**Структура .env файлов для проекта:**
-
-```
-platform/docker/.env.example    # Шаблон с описанием переменных (коммитится)
-platform/docker/.env            # Локальные значения (НЕ коммитится, в .gitignore)
-platform/docker/.env.test       # Значения для тестов (коммитится, без секретов)
-```
-
-**Формат .env.example:**
-
-```bash
-# === PostgreSQL ===
-POSTGRES_HOST=postgres
-POSTGRES_PORT=5432
-POSTGRES_USER=myapp
-POSTGRES_PASSWORD=changeme           # <-- заменить на свой пароль
-AUTH_DB_NAME=myapp_auth
-TASK_DB_NAME=myapp_task
-NOTIFICATION_DB_NAME=myapp_notification
-ADMIN_DB_NAME=myapp_admin
-
-# === Redis ===
-REDIS_HOST=redis
-REDIS_PORT=6379
-NOTIFICATION_REDIS_DB=0
-AUTH_REDIS_DB=1
-
-# === RabbitMQ ===
-RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
-
-# === Service URLs ===
-AUTH_SERVICE_URL=http://auth:8001
-TASK_SERVICE_URL=http://task:8002
-NOTIFICATION_SERVICE_URL=http://notification:8003
-ADMIN_SERVICE_URL=http://admin:8004
-
-# === JWT ===
-JWT_SECRET_KEY=dev-secret-key-change-in-prod  # <-- заменить для prod
-```
-
-**Ответ на открытый вопрос (порты):** Фиксированные порты — правильный подход для dev. Infrastructure.md уже фиксирует: PostgreSQL=5432, Redis=6379, RabbitMQ=5672/15672, сервисы=8001-8004, gateway=8000. Динамические порты усложняют конфигурацию service discovery.
-
-### 8. Docker для тестирования
-
-**Два подхода:**
-
-**A. docker-compose.test.yml (E2E и inter-service integration):**
-
-```yaml
-# docker-compose.test.yml
-services:
-  postgres-test:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_USER: test
-      POSTGRES_PASSWORD: test
-    tmpfs:
-      - /var/lib/postgresql/data  # RAM-диск — быстро и ephemeral
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U test"]
-      interval: 2s
-      timeout: 2s
-      retries: 10
-
-  redis-test:
-    image: redis:7-alpine
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 2s
-      timeout: 2s
-      retries: 10
-
-networks:
-  test-network:
-    driver: bridge
-    name: myapp-test
-```
-
-Ключевое: `tmpfs` для тестовой БД — данные в RAM, мгновенная очистка при остановке, быстрая запись.
-
-**B. Testcontainers (per-service integration tests):**
-
-```python
-# src/auth/tests/conftest.py
-import pytest
-from testcontainers.postgres import PostgresContainer
-
-@pytest.fixture(scope="session")
-def postgres():
-    with PostgresContainer("postgres:16-alpine") as pg:
-        yield pg.get_connection_url()
-```
-
-Testcontainers запускает контейнер программно из теста — не нужен отдельный compose-файл для integration-тестов внутри сервиса. Подходит для `src/{service}/tests/`.
-
-**Ответ на открытый вопрос (тестовая БД):** Оба подхода нужны. `docker-compose.test.yml` — для E2E (`tests/e2e/`), testcontainers — для per-service integration (`src/{service}/tests/`). Ephemeral данные через `tmpfs` — оптимально для обоих.
-
-### 9. Volume management (named vs bind)
-
-| Тип | Когда использовать | Пример |
-|-----|--------------------|--------|
-| **Named volume** | Персистентные данные (БД, файловое хранилище) | `pgdata:/var/lib/postgresql/data` |
-| **Bind mount** | Исходный код для hot reload | `../../src/auth:/app` |
-| **Anonymous volume** | Защита контейнерных зависимостей от перезаписи | `/app/node_modules` |
-| **tmpfs** | Ephemeral тестовые данные | `tmpfs: /var/lib/postgresql/data` |
-
-**Для проекта:**
-- Named volumes: `pgdata` (PostgreSQL), `redis-data` (Redis, если нужна персистентность), `rabbitmq-data` (RabbitMQ)
-- Bind mounts: `../../src/{service}:/app` — для каждого сервиса
-- `make clean` = `docker-compose down -v` — удаляет named volumes (уже реализовано в Makefile)
-
-### 10. Docker layer caching optimization
-
-**Порядок инструкций в Dockerfile критичен:**
-
-```dockerfile
-# ПРАВИЛЬНО: зависимости отдельно от кода
-FROM python:3.12-slim
-
-WORKDIR /app
-
-# 1. Сначала файл зависимостей (меняется редко)
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# 2. Потом исходный код (меняется часто)
-COPY . .
-
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]
-```
-
-```dockerfile
-# НЕПРАВИЛЬНО: каждое изменение кода инвалидирует кэш зависимостей
-FROM python:3.12-slim
-WORKDIR /app
-COPY . .                    # <-- изменение любого файла
-RUN pip install -r requirements.txt  # <-- пересобирается каждый раз
-```
-
-**Дополнительные оптимизации:**
-- `.dockerignore` — исключить `.git/`, `__pycache__/`, `node_modules/`, `.venv/`, `*.pyc`, тесты (если не нужны в образе)
-- `--no-cache-dir` для pip — не хранить кэш внутри образа
-- Alpine-образы (`python:3.12-slim` или `python:3.12-alpine`) — меньший размер
-- BuildKit: `DOCKER_BUILDKIT=1` — параллельная сборка стейджей, кэширование mount
-
-### 11. Согласование Makefile и docker-compose
-
-**Текущая проблема:** Makefile использует `docker-compose -f docker-compose.dev.yml up`, но файл не существует и планируется в `platform/docker/`.
-
-**Рекомендация:** Обновить Makefile для указания правильного пути:
-
+Обновить:
 ```makefile
 COMPOSE_FILE = platform/docker/docker-compose.yml
 COMPOSE_TEST_FILE = platform/docker/docker-compose.test.yml
@@ -606,64 +157,152 @@ build:
 clean:
 	docker compose -f $(COMPOSE_FILE) down -v --remove-orphans
 
-test-integration:
-	docker compose -f $(COMPOSE_TEST_FILE) up -d
-	pytest tests/integration/
+test:
+	docker compose -f $(COMPOSE_TEST_FILE) up -d --wait
+	pytest src/ tests/integration/
 	docker compose -f $(COMPOSE_TEST_FILE) down -v
 
 test-e2e:
-	docker compose -f $(COMPOSE_TEST_FILE) up -d
+	docker compose -f $(COMPOSE_TEST_FILE) up -d --wait
 	pytest tests/e2e/
 	docker compose -f $(COMPOSE_TEST_FILE) down -v
 ```
 
-**Примечание:** Современный Docker использует `docker compose` (с пробелом), а не `docker-compose` (с дефисом). `docker-compose` — устаревшая отдельная утилита (Compose V1). `docker compose` — встроенная в Docker CLI (Compose V2). Рекомендуется обновить Makefile на `docker compose`.
+#### `.structure/initialization.md`
 
-### 12. Добавление Docker в initialization.md
+Добавить Docker Desktop в таблицу зависимостей + шаги установки WSL2. Добавить проверку `docker compose version` в `make setup`.
 
-Текущая инициализация не включает Docker. Нужно добавить:
+#### `platform/docker/README.md`
 
-**В таблицу зависимостей:**
+Заменить .gitkeep-заглушку на quick start + обучение Docker:
+- Что такое Docker (контейнер vs VM, образ vs контейнер)
+- Установка Docker Desktop + WSL2
+- Основные команды (docker compose up/down/logs)
+- Как это работает в проекте (make dev/stop/clean)
+- Troubleshooting (порты, память, пересборка)
 
-| Инструмент | Назначение | Установка |
-|------------|------------|-----------|
-| **Docker Desktop** | Контейнеризация сервисов | [docker.com/desktop](https://docs.docker.com/desktop/install/windows-install/) |
+#### `platform/.instructions/README.md`
 
-**В `make setup`:**
+Зарегистрировать `standard-docker.md` (первый стандарт platform/).
 
-```makefile
-setup:
-	@echo "4/4 Docker..."
-	@docker --version 2>/dev/null || (echo "Docker не найден. Установите Docker Desktop" && exit 1)
-	@docker compose version 2>/dev/null || (echo "Docker Compose не найден" && exit 1)
+#### `standard-process.md`
+
+**Фаза 0 (шаг 0.3):** Добавить Docker Desktop в `make setup`. Ссылка на `standard-docker.md`.
+**§ 8:** Добавить `standard-docker.md` в строку Фаза 0.
+
+### Порядок создания
+
+| # | Артефакт | Инструмент | Зависимости |
+|---|---------|------------|-------------|
+| 1 | `standard-docker.md` | `/instruction-create` | — |
+| 2 | `docker-compose.yml` | Write | ← 1 (следует стандарту) |
+| 3 | `docker-compose.test.yml` | Write | ← 1 |
+| 4 | `.env.example` + `.env.test` | Write | ← 2 |
+| 5 | `.dockerignore` + `init-db.sql` | Write | ← 2 |
+| 6 | `platform/docker/README.md` | Write | ← 2 |
+| 7 | Makefile | Edit | ← 2, 3 |
+| 8 | `initialization.md` | Edit | ← 7 |
+| 9 | `platform/.instructions/README.md` | Автоматически (шаг 1) | ← 1 |
+| 10 | `standard-process.md` §0/§8 | Edit | ← 1 |
+
+## Решения
+
+- **Docker обязателен** — микросервисная архитектура без него не работает локально
+- **WSL2 обязателен** на Windows — значительно быстрее Hyper-V, лучше bind mounts
+- **Фиксированные порты** — из infrastructure.md, динамические усложняют service discovery
+- **`docker compose` (V2)** — не `docker-compose` (V1, устаревший)
+- **Multi-stage builds** — dev target с hot reload, prod target с gunicorn. В compose: `target: development`
+- **Hot reload через bind mount** — `--reload` (uvicorn/nodemon/air), не пересборка образа
+- **tmpfs для тестовой БД** — RAM-диск, мгновенная очистка, быстрая запись
+- **Два compose-файла** — dev (docker-compose.yml) и test (docker-compose.test.yml), не override
+- **Stub-секции для сервисов** — Dockerfiles появятся при создании реальных сервисов через analysis chain
+- **`standard-docker.md` — первый стандарт platform/** — остальные (k8s, monitoring, gateway) отложены до реального использования
+- **Обучение пользователя** — в platform/docker/README.md (quick start + Docker basics)
+- **Testcontainers для per-service integration** — описать в standard-docker.md как рекомендуемый подход для `src/{svc}/tests/`
+- **`make docker-build` отдельно не нужен** — `make build` = `docker compose build` достаточно
+
+## Открытые вопросы
+
+*Нет открытых вопросов.*
+
+## Tasklist
+
+Задачи для исполнения через TaskCreate. Порядок строгий — зависимости указаны в blockedBy.
+
 ```
+TASK 1: Создать standard-docker.md
+  description: >
+    Драфт: .claude/drafts/2026-02-24-docker-dev.md (секция "Артефакт 1")
+    /instruction-create для platform/.instructions/standard-docker.md.
+    9 секций: Dockerfile формат, Compose конвенции, Сети, Volumes, Порты,
+    Health checks, Environment, Тестовое окружение, Hot reload.
+    Включить: multi-stage builds, layer caching, tmpfs, testcontainers, WSL2.
+  activeForm: Создаю standard-docker.md
 
-### 13. Структура файлов в platform/docker/
+TASK 2: Создать docker-compose.yml (dev)
+  blockedBy: [1]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-docker-dev.md (секция "Артефакт 2")
+    Создать platform/docker/docker-compose.yml.
+    Инфраструктура: postgres:16-alpine, redis:7-alpine, rabbitmq:3-management-alpine.
+    Health checks, named volumes, bridge network (myapp-dev).
+    Stub-секции для сервисов (закомментированы).
+    Порты из infrastructure.md.
+  activeForm: Создаю docker-compose.yml
 
-Рекомендуемая итоговая структура:
+TASK 3: Создать docker-compose.test.yml + .env файлы + .dockerignore + init-db.sql
+  blockedBy: [1]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-docker-dev.md (секции "Артефакт 3-6")
+    Создать 5 файлов в platform/docker/:
+    - docker-compose.test.yml (tmpfs, изолированная сеть myapp-test)
+    - .env.example (шаблон переменных из infrastructure.md)
+    - .env.test (тестовые значения, без секретов)
+    - .dockerignore (исключения для Docker build)
+    - init-db.sql (CREATE DATABASE per service)
+  activeForm: Создаю тестовую конфигурацию Docker
 
+TASK 4: Обновить platform/docker/README.md
+  blockedBy: [2]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-docker-dev.md (секция "Обновления", README)
+    Заменить .gitkeep-заглушку на quick start + обучение Docker.
+    Что такое Docker, установка Docker Desktop + WSL2, основные команды,
+    как работает в проекте (make dev/stop/clean), troubleshooting.
+  activeForm: Обновляю Docker README
+
+TASK 5: Обновить Makefile
+  blockedBy: [2, 3]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-docker-dev.md (секция "Обновления", Makefile)
+    Заменить пути docker-compose.dev.yml → platform/docker/docker-compose.yml.
+    docker-compose → docker compose (V2).
+    Добавить COMPOSE_FILE и COMPOSE_TEST_FILE переменные.
+    Обновить test/test-e2e таргеты для использования docker-compose.test.yml.
+  activeForm: Обновляю Makefile
+
+TASK 6: Обновить initialization.md + make setup
+  blockedBy: [5]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-docker-dev.md (секция "Обновления", initialization)
+    Добавить Docker Desktop в таблицу зависимостей initialization.md.
+    Шаги: WSL2, Docker Desktop, проверка docker compose version.
+    Добавить проверку Docker в make setup.
+  activeForm: Обновляю initialization.md
+
+TASK 7: Обновить platform/.instructions/README.md
+  blockedBy: [1]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-docker-dev.md (секция "Порядок создания", шаг 9)
+    Зарегистрировать standard-docker.md в platform/.instructions/README.md.
+    Первый стандарт platform/ — обновить секцию "Стандарты".
+  activeForm: Обновляю platform README
+
+TASK 8: Обновить standard-process.md
+  blockedBy: [1]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-docker-dev.md (секция "Обновления", standard-process)
+    Фаза 0 (шаг 0.3): добавить Docker Desktop в make setup, ссылка на standard-docker.md.
+    §8: добавить standard-docker.md в строку Фаза 0.
+  activeForm: Обновляю standard-process.md
 ```
-platform/docker/
-├── docker-compose.yml          # Dev-конфигурация (основная)
-├── docker-compose.test.yml     # Тестовая конфигурация
-├── Dockerfile.auth             # Образ auth-сервиса
-├── Dockerfile.task             # Образ task-сервиса
-├── Dockerfile.notification     # Образ notification-сервиса
-├── Dockerfile.admin            # Образ admin-сервиса
-├── Dockerfile.gateway          # Образ gateway
-├── .env.example                # Шаблон переменных окружения
-├── .env.test                   # Переменные для тестов (без секретов)
-├── .dockerignore               # Исключения для Docker build
-├── init-db.sql                 # Скрипт инициализации БД (создание баз)
-└── README.md                   # Quick start + обучение Docker
-```
-
-### 14. Ответы на открытые вопросы (сводка)
-
-| Вопрос | Ответ | Обоснование |
-|--------|-------|-------------|
-| WSL2 нужен? | Да, обязателен | WSL2 backend значительно быстрее Hyper-V, лучше поддержка bind mounts |
-| Hot reload | Bind mount + `--reload` | Пересборка образа при каждом изменении слишком медленная |
-| Порты | Фиксированные | infrastructure.md уже фиксирует порты, динамические усложняют service discovery |
-| `make docker-build` | Не нужен отдельно | `make build` = `docker compose build` уже достаточно |
-| Тестовая БД | tmpfs + testcontainers | tmpfs для compose-test, testcontainers для per-service integration |

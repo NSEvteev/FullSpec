@@ -1,6 +1,6 @@
-# CHANGELOG — Captain Holt
+# CHANGELOG — meta-reviewer
 
-История изменений стандартов анализа агента captain-holt.
+История изменений стандартов анализа агента meta-reviewer.
 
 ## v1.4 (2026-02-12)
 

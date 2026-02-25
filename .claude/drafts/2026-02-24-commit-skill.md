@@ -1,6 +1,13 @@
-# Скилл /commit — оценка и план
+---
+description: Обогащение standard-commit.md + инструкция create-commit.md + commit-agent + validate-commit-msg.py
+type: feature
+status: done
+created: 2026-02-24
+---
 
-Удобный скилл для коммитов по Conventional Commits с автоматической генерацией сообщения.
+# Коммиты — обогащение стандарта + инструкция + агент
+
+Вместо скилла `/commit`: обогатить стандарт, создать инструкцию процесса и commit-agent для экономии контекста основного LLM.
 
 ## Оглавление
 
@@ -14,155 +21,45 @@
 ## Контекст
 
 **Задача:** G5 из standard-process.md — нет `/commit` скилла
-**Почему создан:** Определить нужен ли скилл или достаточно standard-commit + pre-commit hooks
+**Почему создан:** Анализ показал, что скилл даёт минимальную пользу (Claude уже знает стандарт через rule `development.md`). Вместо этого: обогатить стандарт полезной информацией, вынести операционные детали в инструкцию, создать агента для экономии контекста.
 **Связанные файлы:**
-- `/.github/.instructions/commits/standard-commit.md` — стандарт коммитов (Conventional Commits)
+- `/.github/.instructions/commits/standard-commit.md` — стандарт коммитов (SSOT формата)
+- `/.github/.instructions/commits/README.md` — индекс секции commits
 - `/.structure/pre-commit.md` — pre-commit хуки
-- `specs/.instructions/standard-process.md` — §5 Фаза 3, шаг 3.3
+- `/.claude/rules/development.md` — rule, загружающий стандарт при git-операциях
+- `/specs/.instructions/standard-process.md` — §5 Фаза 3, шаг 3.3; §10 G5
 
 ## Содержание
 
-### Что уже покрыто
+### Почему не скилл
 
-- `standard-commit.md` — полный стандарт: формат, типы, scope, body, footer, breaking changes
-- Pre-commit hooks — автоматическая валидация формата при `git commit`
-- Claude Code — уже умеет формировать commit messages по стандарту (через rule `development.md`)
+| Критерий | Скилл `/commit` | Агент `commit-agent` |
+|----------|-----------------|----------------------|
+| Контекст основного LLM | Тратит (скилл = промпт в основном контексте) | Не тратит (subprocess) |
+| Чтение стандарта | Каждый раз в основном контексте | Один раз в subprocess |
+| Вызов | Явный `/commit` | Автоматический через Task tool |
+| Поддержка | Скилл + инструкция | Агент + инструкция |
 
-### Что даёт скилл
+Агент решает главную проблему — **экономия контекста** — лучше, чем скилл.
 
-| Функция | Сейчас | С `/commit` |
-|---------|--------|-------------|
-| Формат сообщения | Claude знает из rule | Формальный вызов с гарантией |
-| Выбор типа | Ручной | Автоопределение из `git diff` |
-| Scope | Ручной | Автоопределение из изменённых файлов |
-| Staging | `git add` вручную | Предложение файлов для staging |
-| Breaking changes | Ручной footer | Автоопределение при изменении API |
-
-### Артефакты
-
-По архитектуре: **инструкция (SSOT) → скилл (обёртка)**.
-
-| # | Артефакт | Путь | Статус |
-|---|---------|------|--------|
-| 1 | **Инструкция** (SSOT) | `/.github/.instructions/commits/create-commit.md` | **Нужно создать** |
-| 2 | **Скилл** (обёртка) | `/.claude/skills/commit/SKILL.md` | **Нужно создать** |
-
-### Формат вызова
+### Архитектура
 
 ```
-/commit [--amend] [--no-verify]
+standard-commit.md          (правила формата — что)
+       ↓ ссылается
+create-commit.md            (инструкция процесса — как)
+       ↓ SSOT для
+commit-agent (AGENT.md)     (исполнитель — делает)
 ```
 
-### Порядок создания
+### Артефакт 1: Обогащение `standard-commit.md`
 
-1. `/instruction-create create-commit --path .github/.instructions/commits/`
-2. `/skill-create commit`
+**Путь:** `/.github/.instructions/commits/standard-commit.md`
+**Действие:** Добавить 3 блока в существующие секции.
 
-## Решения
+#### 1.1. Таблица type → SemVer → CHANGELOG (→ новая § 9)
 
-- Приоритет низкий — процесс работает без скилла
-- Скилл добавляет удобство, не новую функциональность
-
-## Открытые вопросы
-
-- Достаточно ли rule + standard-commit.md или скилл реально нужен?
-- Нужен ли скрипт для автоопределения type/scope из diff?
-
----
-
-## Что уже описано в проекте
-
-### standard-commit.md (`/.github/.instructions/commits/standard-commit.md`)
-
-Полный стандарт Conventional Commits, покрывающий весь формат:
-
-- **§ 1 Формат:** `{type}({scope}): {description}` + body + footer. Subject до 70 символов (жёсткое ограничение, отклоняется pre-commit hook)
-- **§ 2 Типы:** 8 типов — `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `ci`, `perf`
-- **§ 3 Scope:** допустимые значения (имя модуля/сервиса/компонента/подсистемы), когда опустить scope (зависимости уровня проекта, инфраструктура, глобальные настройки)
-- **§ 4 Body и Footer:** body 1-3 абзаца, строки до 72 символов; footer: `Closes`, `Fixes`, `Refs`, `BREAKING CHANGE`, `Reviewed-by`
-- **§ 5 Правила:** нижний регистр, без точки, imperative mood, пробел после двоеточия, один логический блок = один коммит
-- **§ 6 Процесс:** `git add` → `git commit` → pre-commit hooks (линтинг → форматирование → commitlint). При провале: коммит НЕ создан, запрещено `--no-verify` и `--amend`
-- **§ 7 Исправление:** `--amend` допустим если коммит не запушен или запушен в feature-ветку (только ваша). Запушен в main или shared → новый коммит
-- **§ 8 Язык:** type/scope — английский, description/body — русский, footer — английский
-
-### commits/README.md (`/.github/.instructions/commits/README.md`)
-
-Индекс секции commits. Секции "Воркфлоу", "Валидация", "Скрипты", "Скиллы" пусты — помечены `*Нет*`. Это подтверждает, что `create-commit.md` (инструкция-воркфлоу) и скилл `/commit` ещё не существуют.
-
-### Pre-commit hooks (`/.structure/pre-commit.md`, `/.pre-commit-config.yaml`)
-
-- 26 pre-commit хуков, ни один из них не валидирует формат commit message напрямую (нет commitlint/commit-msg hook)
-- Все хуки привязаны к `stages: [pre-commit]` — проверяют файлы, не сообщение коммита
-- Хуки: structure-sync, rules-validate, scripts-validate, skills-validate, pr-template-validate, codeowners-validate, type-templates-validate, actions-validate, security-validate, branch-validate, github-required, docs-validate и 14 других валидаторов specs/analysis
-- **Важное открытие:** В `standard-commit.md § 6` упоминается commitlint как шаг 3 в pipeline hooks (линтинг → форматирование → **валидация сообщения коммита (commitlint)**), но в `.pre-commit-config.yaml` хук commitlint отсутствует. Это пробел — валидация формата сообщения коммита описана в стандарте, но не реализована
-
-### Rule development.md (`/.claude/rules/development.md`)
-
-Rule активируется при работе с git и GitHub. Содержит ссылки на все стандарты процесса разработки, включая `standard-commit.md`. Это механизм, через который Claude Code узнаёт стандарт при выполнении коммита.
-
-### standard-process.md (`/specs/.instructions/standard-process.md`)
-
-- **§ 5 Фаза 3, шаг 3.3 (строка 247):** `Commits | Conventional Commits, 25 pre-commit хуков | — | standard-commit.md`. Колонка скиллов — прочерк (`—`), подтверждает пробел G5
-- **§ 8.1 Сводная таблица (строка 414):** Шаг 3.3 — инструкция `standard-commit`, скилл отсутствует, агент отсутствует, скрипт отсутствует
-- **§ 8.2 Pre-commit хуки (строка 443):** Шаг 3.3 — "25 pre-commit хуков (все)"
-- **§ 10 Пробелы (строка 515):** G5 — `Нет /commit скилла | Низкий | Процесс покрыт standard-commit + pre-commit hooks`
-
-### standard-development.md (`/.github/.instructions/development/standard-development.md`)
-
-- **§ 2 Процесс, шаг 5 (строка 194):** `КОММИТ → standard-commit.md` — коммит как финальный шаг цикла разработки
-- **§ 5 (строка 280-284):** Pre-commit hooks запускаются автоматически при `git commit`, если не установлены — `make setup`
-
-### validation-development.md (`/.github/.instructions/development/validation-development.md`)
-
-Не содержит явных проверок формата коммита. Валидация: тесты → линтер → сборка → E2E → зависимости → полнота реализации. Формат коммита делегирован standard-commit.md и pre-commit hooks.
-
-### standard-release.md (`/.github/.instructions/releases/standard-release.md`)
-
-- **§ 3 (строка 155-166):** Автоопределение SemVer по типу коммита: `fix:` → PATCH, `feat:` → MINOR, `feat:` + `BREAKING CHANGE:` → MAJOR, `refactor:/docs:/chore:` → нет инкремента
-- **§ 5 (строка 216-279):** CHANGELOG.md в формате Keep a Changelog 1.1.0, секции Added/Changed/Fixed/Removed, ссылки сравнения между тегами
-- Прямая связь: правильные Conventional Commits → автоматическое определение версии → корректный changelog
-
-### create-release.md (`/.github/.instructions/releases/create-release.md`)
-
-- **Шаг 4:** Сборка Release Notes из PR (через `--generate-notes`). Conventional Commits в PR body → release notes
-- Косвенная зависимость: качество commit messages → качество Release Notes
-
-### Существующие скиллы — формат SKILL.md (`/.claude/skills/dev/SKILL.md`)
-
-Формат скилла-обёртки: frontmatter (name, description, allowed-tools, ssot-version, argument-hint) → SSOT-ссылка → формат вызова → таблица параметров → воркфлоу → чек-лист → примеры. Скилл `/commit` должен следовать этому формату.
-
----
-
-## Best practices
-
-### Conventional Commits specification (v1.0.0)
-
-- **Формат:** `<type>[optional scope]: <description>` с опциональным body и footer(s)
-- **Связь с SemVer:** `fix` → PATCH, `feat` → MINOR, `BREAKING CHANGE` → MAJOR. Это ключевая причина стандартизации — автоматическое определение версии
-- **`!` нотация:** `feat!: breaking API change` — альтернатива `BREAKING CHANGE:` в footer. Проект использует footer-вариант (standard-commit.md § 4), `!` нотация не описана — при создании скилла стоит решить, поддерживать ли оба варианта
-- **Спецификация допускает кастомные типы** помимо `feat` и `fix`. Проект использует 8 типов (§ 2 стандарта) — расширенный набор, соответствующий Angular convention
-
-### Автогенерация commit message из git diff
-
-**Алгоритм для скилла `/commit`:**
-1. `git diff --cached --stat` — определить какие файлы изменены, вычислить scope из путей
-2. `git diff --cached` — получить полный diff для определения type (новые файлы → `feat`, исправления → `fix`, только .md → `docs`, только тесты → `test`)
-3. Определить type по эвристике: наличие новых exports/endpoints → `feat`, удаление/изменение без новых → `fix`/`refactor`, package.json/go.mod → `chore`, CI файлы → `ci`
-4. Проверить на BREAKING CHANGE: удаление публичных API, изменение сигнатур, изменение data model
-5. Сформировать subject: `{type}({scope}): {description}` до 70 символов
-6. При необходимости добавить body (если diff затрагивает >3 файлов или логика сложная)
-7. Добавить footer: `Closes #N` из имени ветки (парсинг `git branch --show-current`)
-
-**Определение scope из путей файлов:**
-- `src/{service}/**` → scope = имя сервиса
-- `shared/**` → scope = имя пакета или `shared`
-- `platform/**` → scope = `infra` или имя компонента
-- `.github/**` → scope = `ci` или `github`
-- `.claude/**` → scope по типу артефакта (skill, rule, agent)
-- `specs/**` → scope = `analysis` или `docs`
-- Если файлы из разных областей → scope опустить
-
-### Связь commit types с Semantic Versioning
+Мотивирует правильный выбор type — показывает влияние на версию и changelog.
 
 | Commit type | SemVer bump | CHANGELOG секция | Влияние на Release |
 |-------------|-------------|-----------------|-------------------|
@@ -174,75 +71,293 @@ Rule активируется при работе с git и GitHub. Содерж
 | `test` | — | — | Не влияет |
 | `chore` | — | — | Не влияет |
 | `ci` | — | — | Не влияет |
-| `BREAKING CHANGE` (любой type) | MAJOR | Breaking (отдельная секция) | Мажорная версия |
+| любой type + `BREAKING CHANGE` | MAJOR | Breaking | Мажорная версия |
 
-Эта таблица должна быть частью инструкции `create-commit.md` — чтобы при создании коммита Claude оценивал влияние на версию.
+Ссылка на источник: `standard-release.md` §3.
 
-### Changelog generation из коммитов (Keep a Changelog)
+#### 1.2. Маппинг scope из структуры проекта (→ расширение § 3)
 
-- Проект уже использует Keep a Changelog 1.1.0 (standard-release.md § 5, `/CHANGELOG.md`)
-- Секции: Added, Changed, Deprecated, Removed, Fixed, Security
-- Маппинг commit type → секция: `feat` → Added, `fix` → Fixed, `perf`/`refactor` → Changed
-- `--generate-notes` в `gh release create` генерирует Release Notes из PR titles — а PR titles формируются из commit messages (при squash merge)
-- Качественные commit messages → качественные PR titles → качественные Release Notes → качественный CHANGELOG
+Конкретизирует абстрактное "имя модуля" привязкой к реальным путям:
 
-### Инструменты экосистемы Conventional Commits
+| Путь файла | scope |
+|------------|-------|
+| `src/{service}/**` | имя сервиса |
+| `shared/**` | имя пакета или `shared` |
+| `platform/**` | `infra` или имя компонента |
+| `.github/**` | `ci` или `github` |
+| `.claude/**` | по типу артефакта (`skill`, `rule`, `agent`) |
+| `specs/**` | `analysis` или `docs` |
+| `.instructions/**` | `docs` или имя секции |
+| Файлы из разных областей | scope опустить |
 
-| Инструмент | Назначение | Релевантность для проекта |
-|-----------|-----------|--------------------------|
-| **commitlint** | Линтер commit messages (pre-commit/commit-msg hook) | Упомянут в standard-commit.md § 6, но НЕ установлен в .pre-commit-config.yaml — пробел |
-| **commitizen** | Интерактивный wizard для формирования commit message | Не нужен — Claude Code заменяет wizard |
-| **conventional-changelog** | Генерация CHANGELOG из git log | Может быть полезен для автоматизации create-release.md шаг 4 |
-| **semantic-release** | Автоматический bump версии + release | Не подходит — проект использует ручные решения о версии (standard-release.md § 3: "Финальное решение о версии принимает человек") |
-| **standard-version** | Автоматический CHANGELOG + tag + bump | Deprecated, заменён release-please |
-| **release-please** | Автоматический release workflow от Google | Не подходит по той же причине, что semantic-release |
+#### 1.3. Решение по `!` нотации (→ дополнение § 4)
 
-### Валидация commit message как pre-commit/commit-msg hook
+Conventional Commits допускает `feat!: breaking change` как альтернативу `BREAKING CHANGE:` в footer. Текущий стандарт описывает только footer-вариант.
 
-**Текущий пробел:** standard-commit.md § 6 описывает commitlint как шаг 3 pipeline, но хук не реализован.
+**Решение:** Не поддерживать `!` нотацию. Причины:
+- Footer-вариант (`BREAKING CHANGE: описание`) явнее — содержит описание того, что сломано
+- `!` легко пропустить при чтении git log
+- Один способ делать одно и то же — проще валидировать
 
-**Варианты реализации:**
-1. **commitlint (Node.js)** — `@commitlint/config-conventional` + `commit-msg` hook через husky/pre-commit. Полная поддержка Conventional Commits, кастомные правила (допустимые scopes, русский язык description)
-2. **Python-скрипт** — как остальные хуки проекта (все 26 хуков — Python). Плюс: единообразие с проектом (все `.scripts/*.py`). Минус: нужно самому реализовать парсер
-3. **Через скилл `/commit`** — Claude формирует сообщение → гарантирует формат → хук не нужен. Минус: работает только при использовании скилла, ручные коммиты не валидируются
+Добавить в §4: явный запрет `!` нотации с объяснением.
 
-**Рекомендация:** Python-скрипт `.github/.instructions/commits/.scripts/validate-commit-msg.py` как `commit-msg` hook (stage: `commit-msg`, не `pre-commit`). Это закроет пробел в standard-commit.md § 6 И будет работать независимо от скилла.
+### Артефакт 2: Инструкция `create-commit.md`
 
-### Атомарность коммитов — правила staging
+**Путь:** `/.github/.instructions/commits/create-commit.md`
+**Действие:** Создать через `/instruction-create`.
+**Тип:** воркфлоу (create-*)
 
-**Best practice для скилла:**
+Содержание инструкции — операционные детали процесса создания коммита:
+
+#### 2.1. Алгоритм автогенерации commit message из diff
+
+1. `git diff --cached --stat` — определить изменённые файлы, вычислить scope из путей (по маппингу из §3 стандарта)
+2. `git diff --cached` — получить полный diff для определения type:
+   - Новые файлы, exports, endpoints → `feat`
+   - Исправления без новой функциональности → `fix`
+   - Только `.md` файлы → `docs`
+   - Только тесты → `test`
+   - `package.json`, `go.mod`, зависимости → `chore`
+   - CI файлы → `ci`
+   - Удаление/переименование без изменения поведения → `refactor`
+3. Проверить на BREAKING CHANGE: удаление публичных API, изменение сигнатур, изменение data model
+4. Сформировать subject: `{type}({scope}): {description}` до 70 символов
+5. При необходимости добавить body (diff затрагивает >3 файлов или логика сложная)
+6. Добавить footer: `Closes #N` из имени ветки (парсинг `git branch --show-current` — формат `NNNN-*`)
+
+#### 2.2. Правила staging и атомарность
+
 1. Показать `git status` — unstaged/staged файлы
-2. Предложить группировку файлов по логическому блоку (один коммит = одна цель)
+2. Предложить группировку по логическому блоку (один коммит = одна цель)
 3. Если unstaged файлы не относятся к текущему коммиту — предупредить
-4. Если staged файлы относятся к разным целям — предложить разделить на несколько коммитов
-5. Файлы `.env`, credentials — никогда не добавлять в staging (standard-development.md § 8)
+4. Если staged файлы из разных целей — предложить разделить на несколько коммитов
+5. `.env`, credentials, секреты — НИКОГДА не добавлять в staging
 
-### Обработка ошибок pre-commit hooks при коммите
+#### 2.3. Обработка ошибок pre-commit hooks
 
-Из standard-commit.md § 6:
-- При провале hooks — коммит НЕ создан
-- Запрещено `--no-verify` (пропуск hooks)
-- Запрещено `--amend` (нечего amend'ить — коммит не создан)
-- Нужно исправить причину и повторить `git commit`
-
-Скилл `/commit` должен:
 1. Выполнить `git commit`
 2. При провале — прочитать вывод ошибки
 3. Определить какой hook провалился и причину
-4. Исправить (если возможно автоматически — форматирование, мелкие lint ошибки)
-5. Повторить `git add` + `git commit` (НЕ `--amend`)
+4. Исправить автоматически если возможно (форматирование, мелкие lint ошибки)
+5. Повторить `git add` + `git commit` (НЕ `--amend` — коммит не был создан)
 6. Если автоматическое исправление невозможно — сообщить пользователю причину и рекомендацию
 
-### Commit signing и verification
+**Запреты:** `--no-verify`, `--amend` после провала hooks.
 
-- Git поддерживает GPG/SSH подпись коммитов (`git commit -S`)
-- GitHub показывает "Verified" badge для подписанных коммитов
-- В проекте не описан — ни в standard-commit.md, ни в standard-development.md
-- Низкий приоритет для текущего проекта, но стоит учитывать при проектировании скилла: параметр `--sign` / `--no-sign` (по умолчанию — из git config)
+#### 2.4. Логика `--amend`
 
-### Связь с флагом `--amend` в скилле
+- Проверить: `git log --oneline -1 origin/{branch}..HEAD` — если пусто, коммит уже запушен
+- Запушен в main/shared ветку → запрет amend, предложить новый коммит
+- Запушен в feature-ветку (только ваша) → допустимо, предупредить о `--force-with-lease`
+- Не запушен → amend безопасен
 
-Из standard-commit.md § 7:
-- `--amend` допустим только для НЕ запушенных коммитов или feature-ветка только ваша
-- При `--amend` на запушенном коммите — потребуется `git push --force-with-lease` (standard-sync.md)
-- Скилл должен проверить: `git log --oneline -1 origin/{branch}..HEAD` — если пусто, коммит уже запушен → предупредить перед amend
+#### 2.5. Commit signing
+
+- Если в git config настроена подпись (`commit.gpgsign = true`) → коммит подписывается автоматически
+- Не форсировать подпись, если не настроена
+- Не передавать `--no-gpg-sign` без явного запроса пользователя
+
+### Артефакт 3: Агент `commit-agent`
+
+**Путь:** `/.claude/agents/commit-agent/AGENT.md`
+**Действие:** Создать через `/agent-create`.
+
+**Конфигурация:**
+
+| Поле | Значение |
+|------|---------|
+| name | commit-agent |
+| description | Создание коммитов по Conventional Commits |
+| model | haiku (экономия, задача шаблонная) |
+| allowed-tools | Bash, Read, Glob, Grep |
+| ssot | `/.github/.instructions/commits/create-commit.md` |
+
+**Промпт агента (суть):**
+- Прочитать SSOT-инструкцию `create-commit.md`
+- Выполнить алгоритм: анализ diff → определение type/scope → формирование message → git commit
+- При провале hooks — исправить и повторить
+- Вернуть результат: коммит создан / ошибка + причина
+
+**Вызов из основного LLM:**
+```
+Task tool → subagent_type: "general-purpose"
+prompt: "Выполни коммит изменений. Прочитай инструкцию create-commit.md и следуй ей."
+```
+
+Rule `development.md` будет обновлён — добавить указание делегировать коммиты агенту `commit-agent`.
+
+**Изменение в rule:**
+```
+- Коммиты: [standard-commit.md](/.github/.instructions/commits/standard-commit.md)
++ Коммиты: делегировать агенту `commit-agent` через Task tool (SSOT: [create-commit.md](/.github/.instructions/commits/create-commit.md))
+```
+
+### Порядок создания
+
+| # | Артефакт | Инструмент | Зависимости |
+|---|---------|------------|-------------|
+| 1 | Обогащение `standard-commit.md` | Ручное редактирование | — |
+| 2 | Миграция после обновления стандарта | `/migration-create` | ← 1 |
+| 3 | Инструкция `create-commit.md` | `/instruction-create` | ← 1 |
+| 4 | Агент `commit-agent` | `/agent-create` | ← 3 |
+| 5 | Скрипт `validate-commit-msg.py` | `/script-create` | ← 1 |
+| 6 | Хук в `.pre-commit-config.yaml` | Ручное | ← 5 |
+| 7 | Документация хука в `pre-commit.md` | Ручное | ← 5 |
+| 8 | Обновление `commits/README.md` | Автоматически (шаги 3, 4, 5) | ← 3, 4, 5 |
+| 9 | Обновление rule `development.md` | Ручное | ← 4 |
+| 10 | Обновление `standard-process.md` §8/§10 | Ручное | ← 4, 5 |
+
+### Артефакт 4: Скрипт `validate-commit-msg.py` + commit-msg hook
+
+**Проблема:** `standard-commit.md` §6 описывает commitlint как шаг 3 pipeline, но хук не реализован в `.pre-commit-config.yaml`.
+
+**Скрипт:**
+- **Путь:** `/.github/.instructions/commits/.scripts/validate-commit-msg.py`
+- **Действие:** Создать через `/script-create`
+- **Stage:** `commit-msg` (не `pre-commit` — проверяет сообщение, не файлы)
+
+**Что валидирует:**
+- Формат `{type}({scope}): {description}` (§1)
+- Допустимые типы: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `ci`, `perf` (§2)
+- Subject ≤ 70 символов (§1)
+- Нижний регистр в description (§5)
+- Без точки в конце (§5)
+- Пробел после двоеточия (§5)
+- Запрет `!` нотации (§4, новое решение)
+- Footer: допустимые ключевые слова `Closes`, `Fixes`, `Refs`, `BREAKING CHANGE`, `Reviewed-by` (§4)
+
+**Обновление 2 файлов:**
+
+1. `/.pre-commit-config.yaml` — добавить хук:
+```yaml
+- repo: local
+  hooks:
+    - id: validate-commit-msg
+      name: validate-commit-msg
+      entry: python .github/.instructions/commits/.scripts/validate-commit-msg.py
+      language: python
+      stages: [commit-msg]
+      always_run: true
+```
+
+2. `/.structure/pre-commit.md` — добавить хук в документацию (таблица хуков)
+
+## Решения
+
+- **Скилл `/commit` не создаём** — агент решает задачу экономии контекста лучше
+- **Стандарт обогащаем** тремя блоками: SemVer-таблица, scope-маппинг, запрет `!` нотации
+- **Инструкция `create-commit.md`** — SSOT для операционных деталей (алгоритм, staging, ошибки, amend, signing)
+- **Агент `commit-agent`** — subprocess, читает инструкцию, выполняет коммит, экономит контекст основного LLM
+- **Модель агента: haiku** — задача шаблонная, не требует мощной модели
+- **`!` нотацию не поддерживаем** — один способ для breaking changes (footer)
+- **Rule `development.md` обновить** — заменить ссылку на `standard-commit.md` на делегирование агенту `commit-agent`
+- **commitlint hook включён в scope** — скрипт `validate-commit-msg.py` + обновление `.pre-commit-config.yaml` и `pre-commit.md`
+
+## Открытые вопросы
+
+*Нет открытых вопросов.*
+
+## Tasklist
+
+Задачи для исполнения через TaskCreate. Порядок строгий — зависимости указаны в blockedBy.
+
+```
+TASK 1: Обогатить standard-commit.md
+  description: >
+    Драфт: .claude/drafts/2026-02-24-commit-skill.md (секция "Артефакт 1")
+    Добавить 3 блока в .github/.instructions/commits/standard-commit.md:
+    1.1. Новая §9 — таблица type → SemVer → CHANGELOG (влияние коммита на релиз)
+    1.2. Расширение §3 — маппинг scope из структуры проекта (путь файла → scope)
+    1.3. Дополнение §4 — явный запрет ! нотации с объяснением (только footer BREAKING CHANGE)
+  activeForm: Обогащаю standard-commit.md
+
+TASK 2: Миграция после обновления стандарта
+  blockedBy: [1]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-commit-skill.md (секция "Порядок создания", шаг 2)
+    /migration-create для standard-commit.md.
+    Синхронизировать все зависимые файлы после обновления стандарта.
+  activeForm: Мигрирую зависимости standard-commit
+
+TASK 3: Создать инструкцию create-commit.md
+  blockedBy: [1]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-commit-skill.md (секция "Артефакт 2")
+    /instruction-create для .github/.instructions/commits/create-commit.md.
+    Содержание:
+    - 2.1. Алгоритм автогенерации commit message из diff (6 шагов)
+    - 2.2. Правила staging и атомарность (5 пунктов)
+    - 2.3. Обработка ошибок pre-commit hooks (6 шагов, запрет --no-verify/--amend)
+    - 2.4. Логика --amend (проверка push-статуса)
+    - 2.5. Commit signing (уважать git config, не форсировать)
+  activeForm: Создаю create-commit.md
+
+TASK 4: Создать агент commit-agent
+  blockedBy: [3]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-commit-skill.md (секция "Артефакт 3")
+    /agent-create для .claude/agents/commit-agent/AGENT.md.
+    Конфигурация: model=haiku, tools=Bash/Read/Glob/Grep,
+    ssot=create-commit.md.
+    Промпт: прочитать SSOT → анализ diff → type/scope → message → git commit.
+    При провале hooks — исправить и повторить.
+  activeForm: Создаю commit-agent
+
+TASK 5: Создать скрипт validate-commit-msg.py
+  blockedBy: [1]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-commit-skill.md (секция "Артефакт 4")
+    /script-create для .github/.instructions/commits/.scripts/validate-commit-msg.py.
+    Валидация: формат type(scope): desc, допустимые типы, subject ≤70,
+    нижний регистр, без точки, пробел после двоеточия, запрет ! нотации,
+    допустимые footer keywords.
+  activeForm: Создаю validate-commit-msg.py
+
+TASK 6: Добавить commit-msg hook в .pre-commit-config.yaml
+  blockedBy: [5]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-commit-skill.md (секция "Артефакт 4", блок yaml)
+    Добавить в .pre-commit-config.yaml хук:
+    repo=local, id=validate-commit-msg, stage=commit-msg,
+    entry=python .github/.instructions/commits/.scripts/validate-commit-msg.py,
+    always_run=true.
+  activeForm: Добавляю commit-msg hook
+
+TASK 7: Документировать хук в pre-commit.md
+  blockedBy: [5]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-commit-skill.md (секция "Артефакт 4", пункт 2)
+    Добавить validate-commit-msg в таблицу хуков в .structure/pre-commit.md.
+    Stage: commit-msg, назначение: валидация формата commit message.
+  activeForm: Документирую хук в pre-commit.md
+
+TASK 8: Обновить commits/README.md
+  blockedBy: [3, 4, 5]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-commit-skill.md (секция "Порядок создания", шаг 8)
+    Обновить .github/.instructions/commits/README.md:
+    - Добавить ссылку на create-commit.md (инструкция)
+    - Добавить ссылку на commit-agent (агент)
+    - Добавить ссылку на validate-commit-msg.py (скрипт)
+    README обновляется автоматически при создании артефактов, но проверить полноту.
+  activeForm: Обновляю commits/README.md
+
+TASK 9: Обновить rule development.md
+  blockedBy: [4]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-commit-skill.md (секция "Артефакт 3", блок "Изменение в rule")
+    В .claude/rules/development.md заменить строку:
+    - Было: Коммиты: [standard-commit.md](путь)
+    - Стало: Коммиты: делегировать агенту commit-agent через Task tool
+      (SSOT: [create-commit.md](путь))
+  activeForm: Обновляю rule development.md
+
+TASK 10: Обновить standard-process.md §8/§10
+  blockedBy: [4, 5]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-commit-skill.md (секция "Порядок создания", шаг 10)
+    Обновить /specs/.instructions/standard-process.md:
+    - §8: добавить ссылки на create-commit.md и commit-agent
+    - §10 G5: отметить как закрытый gap
+  activeForm: Обновляю standard-process.md
+```

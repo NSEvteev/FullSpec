@@ -1,6 +1,6 @@
-# CHANGELOG — Amy Santiago
+# CHANGELOG — meta-agent
 
-История изменений агента amy-santiago.
+История изменений агента meta-agent.
 
 ## v1.2 (2026-02-12)
 
@@ -11,7 +11,7 @@
 
 ## v1.1 (2026-02-01)
 
-**Исправления по анализу Captain Holt**
+**Исправления по анализу meta-reviewer**
 
 ### Добавлено
 - Секция "Зависимости между инструкциями" (standard → validation → create → modify)

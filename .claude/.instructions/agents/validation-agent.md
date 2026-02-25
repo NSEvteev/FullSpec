@@ -287,7 +287,7 @@ Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch, AskUserQuestion
 | Без ограничений | "Исправь баги" | "Найди баги, НЕ исправляй автоматически" |
 | Без формата вывода | "Проанализируй" | "Выведи список в формате markdown" |
 
-**Дополнительные проверки для review-агентов** (discussion-reviewer, captain-holt и др.):
+**Дополнительные проверки для review-агентов** (discussion-reviewer, meta-reviewer и др.):
 
 | Проверка | Ожидание |
 |----------|----------|

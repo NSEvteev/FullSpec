@@ -1,281 +1,693 @@
-# Shared contracts — исследование покрытия
+---
+description: Per-tech стандарты контрактных технологий (OpenAPI, Protobuf, AsyncAPI) + обновление shared/ README. Фаза 0 шаблона.
+type: feature
+status: draft
+created: 2026-02-24
+---
 
-Исследование: как управление контрактами (shared/contracts/, shared/events/) покрыто в текущих инструкциях и что нужно дополнить.
+# Shared contracts — per-tech стандарты контрактных технологий
+
+Per-tech стандарты кодирования для OpenAPI, Protobuf и AsyncAPI в `docs/.technologies/`. Часть шаблона проекта (Фаза 0), создаются при инициализации. Обновление README в `shared/` папках.
 
 ## Оглавление
 
 - [Контекст](#контекст)
 - [Содержание](#содержание)
+  - [1. Проблема](#1-проблема)
+  - [2. Решение — per-tech стандарты](#2-решение--per-tech-стандарты)
+  - [3. standard-openapi.md](#3-standard-openapimd)
+  - [4. standard-protobuf.md](#4-standard-protobufmd)
+  - [5. standard-asyncapi.md](#5-standard-asyncapimd)
+  - [6. Обновление shared/ README](#6-обновление-shared-readme)
+  - [7. Интеграция в процесс](#7-интеграция-в-процесс)
+  - [8. Изменения в стандартах](#8-изменения-в-стандартах)
 - [Решения](#решения)
-- [Открытые вопросы](#открытые-вопросы)
+- [Закрытые вопросы](#закрытые-вопросы)
+- [Задачи](#задачи)
 
 ---
 
 ## Контекст
 
-**Задача:** Проверить, описано ли управление shared contracts и events в текущих инструкциях, найти пробелы
-**Почему создан:** `shared/contracts/` (OpenAPI, Protobuf) и `shared/events/` существуют в структуре, но неясно, какие инструкции покрывают их создание, обновление и валидацию
+**Задача:** Закрыть пробел "кодовый уровень" для shared/contracts/ и shared/events/
+**Почему создан:** Исследование покрытия показало: аналитический (Design INT-N) и документационный (docs/) контуры покрывают контракты полностью. Но dev-agent, получив TASK-N "создать OpenAPI-контракт", не имеет стандарта: как назвать файл, какая структура спецификации, какие правила. Это тот же пробел, что "PostgreSQL без standard-postgresql.md" — технология используется, но конвенции не описаны.
 **Связанные файлы:**
-- `shared/contracts/openapi/` — REST контракты (OpenAPI)
-- `shared/contracts/protobuf/` — gRPC контракты (Protobuf)
+- `specs/.instructions/analysis/standard-analysis.md` § 3.4 — правила shared/
+- `specs/.instructions/docs/standard-docs.md` § 4 — типы документов (per-tech стандарт)
+- `specs/.instructions/docs/technology/standard-technology.md` — стандарт per-tech документа (8 секций)
+- `specs/docs/.technologies/` — расположение per-tech стандартов
+- `shared/contracts/openapi/` — REST контракты
+- `shared/contracts/protobuf/` — gRPC контракты
 - `shared/events/` — схемы событий
-- `shared/.instructions/` — стандарты общего кода
-- `specs/.instructions/analysis/design/standard-design.md` — Design определяет контракты (INT-N)
-- `specs/.instructions/analysis/standard-analysis.md` — общий паттерн, обновление docs/
-- `.github/.instructions/development/standard-development.md` — процесс разработки
+- `.claude/drafts/2026-02-24-conflict-detect.md` — dev-agent, INFRA-блок (wave 0)
 
-## Содержание
-
-### Где контракты упоминаются сейчас
-
-| Документ | Что ожидается | Статус | Что найдено |
-|----------|--------------|--------|-------------|
-| `standard-design.md` § 5 INT-N | INT-N блоки определяют контракты между сервисами | **Покрыто** | INT-N содержит подсекции "Контракт" и "Sequence". Полная спецификация: endpoint, method, request/response, errors. Паттерны: sync (REST), sync (gRPC), async (events), async (queue). Breaking changes помечаются. Версионирование: новый INT-N при v2, старый с `[deprecated]` |
-| `standard-design.md` § 5 SVC-N § 2 | API контракты per-service | **Покрыто** | SVC-N § 2 "API контракты" — delta (ADDED/MODIFIED/REMOVED) endpoints. ADDED требует полный контракт. Разграничение: SVC-N § 2 = все API-изменения, INT-N = межсервисный контракт с sequence. Endpoint из INT-N ДОЛЖЕН быть в SVC-N § 2 провайдера |
-| `standard-design.md` § 5 SVC-N § 6 | Зависимости от shared/ | **Покрыто** | SVC-N § 6 "Зависимости" — bullet list по направлениям: Предоставляет / Потребляет / Публикует / Подписан / Shared. Ссылки на INT-N |
-| `standard-analysis.md` § 3.4 | Shared код (/shared/) — правила | **Покрыто** | 5 правил: (1) владение = SVC-N провайдера включает дельту для shared/, потребители указывают внешнюю зависимость; (2) зависимости в docs/{svc}.md § 6; (3) задачи в Plan Dev с `**Зависит от:** #N`; (4) изменение контракта в shared/ = CONFLICT уровня Design; (5) код одного сервиса — внутри сервиса, выносить в shared/ при 2+ потребителях |
-| `standard-analysis.md` § 7.1 | Обновление docs/ при Design → WAITING | **Покрыто (для docs/)** | Planned Changes записываются в `{svc}.md` § 9, `overview.md` § 8, `conventions.md`, `infrastructure.md`. Заглушки для новых сервисов. Но **НЕТ** упоминания обновления файлов в `shared/contracts/` или `shared/events/` |
-| `standard-analysis.md` § 7.3 | Обновление docs/ при Design → DONE | **Покрыто (для docs/)** | INT-N контракты **не записываются** отдельно при DONE — они уже включены в SVC-N § 2 провайдеров. INT-N остаётся в design.md как архив. Но **НЕТ** упоминания генерации файлов в `shared/contracts/` |
-| `standard-development.md` § 9 | Уровни критичности — документация API | **Частично** | Таблица: `critical-high` и `critical-medium` = "Документация API обязательна (OpenAPI/AsyncAPI)". Но **НЕТ** деталей: как именно генерировать OpenAPI, куда класть, в какой момент цикла |
-| `standard-docs.md` § 4 conventions | Конвенции и shared-интерфейсы | **Покрыто** | conventions.md содержит секцию "Shared-пакеты" с полными интерфейсами. Пример: shared/auth (JWT middleware), shared/events (схемы AMQP). Сигнатуры, параметры, примеры вызова |
-| `standard-docs.md` § 4 overview | Архитектура — shared-код | **Покрыто** | overview.md § 6 "Shared-код" — таблица пакетов (пакет, назначение, владелец, потребители). Ссылка на conventions.md для полных интерфейсов |
-| `standard-docs.md` § 5 | Межсервисная информация | **Покрыто** | Провайдер владеет контрактом (описывает в `{svc}.md` § 2). Потребитель ссылается, не дублирует. Дублирование запрещено |
-| `standard-service.md` § 3 API контракты | Формат endpoint-ов | **Покрыто** | Имплементационный уровень. REST (H3 per endpoint), WebSocket, Event channel. Формат: path, method, Auth, Request, Response, Errors. Паттерн и протокол |
-| `standard-service.md` § 3 Зависимости | shared-зависимости | **Покрыто** | Формат: `### shared/{package}/ — {зачем}`. Роль, владелец, ссылка на conventions.md |
-| `standard-conventions.md` § 2 Shared-пакеты | Интерфейсы shared-пакетов | **Покрыто** | Каждый пакет = H3. 4 элемента: владелец, интерфейс (code), параметры (таблица), пример (code). Ссылка на overview.md для списка |
-| `standard-conventions.md` § 2 Версионирование | Версионирование API | **Покрыто** | Правила обратной совместимости: добавление поля = ОК, удаление/переименование = несовместимо. Схема `/api/v1/...` |
-| `standard-overview.md` § 2 Shared-код | Таблица shared-пакетов | **Покрыто** | Вводный абзац + таблица: Пакет, Назначение, Владелец, Потребители |
-| `standard-overview.md` § 2 Сквозные потоки | Ключевые контракты | **Покрыто** | Каждый поток содержит "Ключевые контракты" — ссылки на endpoints из шагов. Минимум 1 ссылка на поток |
-| `standard-codeowners.md` | CODEOWNERS для shared/ | **Покрыто** | `/shared/contracts/` → `@backend-team @frontend-team`; `/shared/events/` → `@backend-team @platform-team` |
-| `shared/.instructions/README.md` | Стандарт для shared/ кода | **ПУСТО** | Индекс существует, но все секции пустые: "Нет стандартов", "Нет воркфлоу", "Нет валидаций", "Нет скриптов", "Нет скиллов" |
-| `shared/contracts/README.md` | Описание папки контрактов | **Минимально** | Одна строка: `openapi/*.yaml, protobuf/*.proto → Код handlers (→ /src/)`. Нет деталей формата, именования, процесса |
-| `shared/contracts/openapi/README.md` | Описание OpenAPI папки | **Минимально** | Одна строка: `auth.yaml, users.yaml → gRPC (→ protobuf/)`. Нет актуальных файлов |
-| `shared/contracts/protobuf/README.md` | Описание Protobuf папки | **Минимально** | Одна строка: `auth.proto, users.proto → REST (→ openapi/)`. Нет актуальных файлов |
-| `shared/events/README.md` | Описание папки событий | **Минимально** | Одна строка: `user.created.json, order.placed.json → Код publishers (→ /src/)`. Нет актуальных файлов |
-| `standard-process.md` § 3 | Выбор пути, hotfix | **Контекст** | Даже hotfix = полная цепочка, потому что "может сломать контракты". Исключение: изменение не затрагивает API контракты, data model, схему интеграций |
-| `standard-process.md` § 5 Фаза 1.2 | Design определяет контракты | **Контекст** | Вопрос Design: "Как распределить ответственности?" → `/design-create`. Контракты — фаза "Contract" внутри Design |
-| `standard-testing.md` § 2 | Типы тестов — расширяемость | **Упоминание** | "Если проект использует дополнительные типы (Contract, Visual Regression, Property-based) — добавить строки". Contract-тесты упомянуты как опция, но не описаны |
-| `design-reviewer AGENT.md` | Ревью контрактов INT-N | **Покрыто** | Проверяет: INT-N полнота, endpoint из INT-N в SVC-N § 2 провайдера, breaking changes, mermaid sequence |
-| `create-issue.md` | Зависимости задач shared/ | **Покрыто** | Пример: "B использует результат A" = `shared/ контракты → src/ сервисы` |
-| `PR Template` | Breaking changes секция | **Покрыто** | Секция "Breaking changes" в PR template — ломающие изменения API/контрактов |
-
-### Что нужно понять — ответы по результатам исследования
-
-1. **Кто генерирует контракты?**
-   - **Аналитический уровень (specs):** Design (INT-N) определяет полный контракт в markdown — endpoint, method, request/response, errors. Контракт описывается в `design.md` и остаётся там как архив.
-   - **Документационный уровень (docs):** При Design → WAITING контракты попадают в `{svc}.md` § 2 (через SVC-N § 2) как Planned Changes. При Design → DONE — переносятся в AS IS. Shared-пакеты описываются в `conventions.md` (интерфейсы) и `overview.md` (таблица пакетов).
-   - **Кодовый уровень (shared/contracts, shared/events):** **ПРОБЕЛ.** Нет явной инструкции, описывающей: (a) когда создавать файлы `*.yaml` / `*.proto` / `*.json` в `shared/contracts/` и `shared/events/`; (b) кто это делает — Design-агент автоматически или разработчик при реализации; (c) в каком формате. README-файлы в этих папках содержат только по одной строке.
-
-2. **Когда обновляются?**
-   - **docs/ уровень:** При Design → WAITING (Planned Changes) и Design → DONE (AS IS). Чётко описано в `standard-analysis.md` § 7.
-   - **shared/ файлы:** **ПРОБЕЛ.** Нет описания момента создания/обновления файлов в `shared/contracts/` и `shared/events/`. По логике проекта, SVC-N провайдера включает дельту для файлов в shared/ (standard-analysis.md § 3.4 правило 1), но это правило описывает дельту в *Design-документе*, а не процесс создания физических файлов.
-
-3. **Валидация: есть ли проверка согласованности?**
-   - **Аналитический уровень:** design-reviewer агент проверяет: INT-N полноту, пересечение INT-N с SVC-N § 2, breaking changes. Скрипт `validate-analysis-design.py` проверяет структуру.
-   - **Документационный уровень:** `validate-docs-conventions.py` проверяет conventions.md. Валидация `{svc}.md` — через `validate-service.py`.
-   - **Кодовый уровень:** **ПРОБЕЛ.** Нет скрипта валидации согласованности `shared/contracts/` с `design.md` или `{svc}.md`. Нет pre-commit хука для OpenAPI/Protobuf. Нет contract testing (Pact и пр.).
-
-4. **Events: кто определяет схему и когда обновляются?**
-   - **Аналитический уровень:** INT-N с паттерном `async (events)` определяет схему (пример: INT-4 Auth Events в standard-design.md). Формат события — JSON с полями event_type, user_id и т.д.
-   - **Документационный уровень:** `conventions.md` → секция "shared/events" описывает: базовый класс `DomainEvent`, таблицу доступных событий, publish/subscribe интерфейсы.
-   - **Технология:** AMQP/JSON (RabbitMQ, судя по примерам). Канал: `system.events`. TypedDict-определения в Python.
-   - **Кодовый уровень:** `shared/events/README.md` упоминает `user.created.json, order.placed.json`, но это скорее шаблоны — реальных файлов нет. Фактические схемы событий описаны в `conventions.md` как Python TypedDict, а не как JSON Schema.
-
-5. **Версионирование: shared/contracts/ — как?**
-   - **API версионирование:** `conventions.md` § 5 "Версионирование API" — `/api/v1/...`, правила обратной совместимости (добавление поля = ОК, удаление = breaking).
-   - **INT-N версионирование:** `standard-design.md` § 5 INT-N — при v2 создаётся новый INT-N, старый с `[deprecated: vX.Y.Z]`.
-   - **Файловое версионирование shared/contracts/:** **ПРОБЕЛ.** Нет описания: как версионируются файлы `*.yaml` и `*.proto` внутри `shared/contracts/`. Нет соглашения о именовании (v1/, v2/ или internal).
-
-### Интеграция в standard-process.md
-
-Обнаруженные пробелы и рекомендации:
-
-- **Фаза 1 (шаг 1.2):** Design уже определяет контракты через INT-N. Ссылка на shared/ есть в standard-analysis.md § 3.4. **Достаточно** на уровне Design — пробела нет.
-- **Фаза 3 (шаг 3.1):** При реализации разработчик создаёт файлы в shared/contracts/ и shared/events/. **ПРОБЕЛ:** Нет инструкции, определяющей: (a) формат файлов (OpenAPI YAML, Protobuf, JSON Schema); (b) именование; (c) момент создания (до кода = spec-first, после кода = code-first); (d) валидацию.
-- **§8:** Нужен `shared/.instructions/standard-shared.md` или как минимум расширение README-файлов в shared/ папках.
-
-### Карта покрытия по жизненному циклу контракта
-
-```
-Жизненный цикл контракта     | Где описано                              | Статус
-─────────────────────────────────────────────────────────────────────────────────────
-1. Определение (WHAT)         | Design INT-N (markdown)                  | ПОКРЫТО
-2. Согласование (REVIEW)      | design-reviewer + USER REVIEW            | ПОКРЫТО
-3. Планирование (PLAN)        | SVC-N § 2, § 6 → Plan Dev TASK-N        | ПОКРЫТО
-4. Документирование (DOCS)    | {svc}.md § 2, conventions.md, overview.md| ПОКРЫТО
-5. Создание файлов (CODE)     | shared/contracts/, shared/events/        | ПРОБЕЛ
-6. Валидация файлов (CI)      | pre-commit, CI pipeline                  | ПРОБЕЛ
-7. Тестирование (TEST)        | contract tests                           | ПРОБЕЛ
-8. Версионирование (VERSION)  | INT-N deprecated, conventions.md § 5     | ЧАСТИЧНО
-9. Breaking change detection  | design-reviewer (аналитика)              | ЧАСТИЧНО
-10. Deprecation/Sunset        | INT-N [deprecated]                       | ЧАСТИЧНО
-```
-
-## Решения
-
-По результатам исследования:
-
-1. **Аналитический и документационный уровни покрыты хорошо.** Design (INT-N), docs/ ({svc}.md, conventions.md, overview.md), design-reviewer — контракты определяются, описываются, ревьюятся. Пробелов на этих уровнях нет.
-
-2. **Кодовый уровень (shared/contracts/, shared/events/) — основной пробел.** Нет инструкций по:
-   - Созданию физических файлов (OpenAPI YAML, Protobuf, JSON Schema)
-   - Именованию и структуре
-   - Процессу (spec-first vs code-first)
-   - Валидации и CI-проверкам
-   - Contract testing
-
-3. **Рекомендация — минимальный набор:**
-   - Расширить README-файлы в shared/contracts/ и shared/events/ — добавить формат, именование, примеры
-   - Определить подход: code-first (FastAPI генерирует OpenAPI) или spec-first
-   - Добавить в standard-development.md § 2 или modify-development.md: шаг "обновить shared/contracts/ при изменении API"
-   - Опционально: pre-commit хук для linting OpenAPI (`spectral`) и Protobuf (`buf lint`)
-
-4. **Рекомендация — продвинутый набор (при масштабировании):**
-   - `shared/.instructions/standard-shared.md` — стандарт для shared/ кода
-   - Скиллы `/contract-create`, `/contract-validate`
-   - Contract testing (Pact) в CI
-   - Breaking change detection (`openapi-diff`, `buf breaking`)
-   - JSON Schema для events вместо TypedDict (машинно-валидируемые)
-
-## Открытые вопросы
-
-- Покрывает ли Design (INT-N) → shared/contracts/ трансфер, или это неявная связь?
-  - **Ответ:** Неявная связь. Design (INT-N) описывает контракт в markdown. SVC-N провайдера включает дельту для shared/. Но нет инструкции "при реализации создай файл X.yaml в shared/contracts/". Трансфер подразумевается, но не формализован.
-- Нужен ли скилл `/contract-create` или `/contract-validate`?
-  - **Ответ:** Зависит от подхода. Если code-first (код генерирует OpenAPI) — нужен скрипт генерации + валидации. Если spec-first (OpenAPI первичен) — нужен скилл создания. Текущий проект не определил подход.
-- OpenAPI first или code first — какой подход в проекте?
-  - **Ответ:** Не определён явно. Контракты описываются в Design (markdown), реализуются в коде. OpenAPI/Protobuf файлы в shared/contracts/ предполагаются структурой, но нет инструкции по их генерации. FastAPI может генерировать OpenAPI автоматически — это code-first.
-- Events (shared/events/) — какая технология (Kafka, RabbitMQ, просто схемы)?
-  - **Ответ:** AMQP/JSON (RabbitMQ). Канал: `system.events`. Схемы как Python TypedDict (не JSON Schema, не Avro, не Protobuf). Описано в conventions.md секция "shared/events". infrastructure.md § 4 — "Брокер сообщений".
+**Предшественник:** Этот черновик заменяет исследование "shared-contracts — исследование покрытия". Исследование выполнено, выводы зафиксированы в секции "Закрытые вопросы".
 
 ---
 
-## Что уже описано в проекте
+## Содержание
 
-### Сильные стороны (хорошо покрытые области)
+### 1. Проблема
 
-1. **Аналитический контур (Design INT-N) полностью покрывает определение контрактов.** INT-N блоки содержат: участников, паттерн (sync/async), полный контракт (endpoint, request/response, errors), sequence-диаграмму. Breaking changes помечаются. Версионирование через новый INT-N с deprecated.
+Путь dev-agent при задаче "Создать OpenAPI-контракт для auth":
 
-2. **Документационный контур (docs/) хорошо структурирован для контрактов.** Три уровня описания:
-   - `{svc}.md` § 2 "API контракты" — per-service, имплементационный уровень, все endpoints
-   - `conventions.md` § 6 "Shared-пакеты" — интерфейсы shared-кода с сигнатурами и примерами
-   - `overview.md` § 6 "Shared-код" — таблица пакетов (назначение, владелец, потребители)
+| Шаг | Источник | Что узнаёт | Статус |
+|-----|----------|-----------|--------|
+| 1 | plan-dev.md TASK-N | **Что** сделать (создать файл в shared/contracts/) | Есть |
+| 2 | design.md INT-N | **Содержание** контракта (endpoints, request/response) | Есть |
+| 3 | design.md SVC-N § 2 | Дельта ADDED для shared/ | Есть |
+| 4 | conventions.md § 5 | Версионирование API | Есть |
+| 5 | conventions.md § 6 | Shared-интерфейсы (runtime) | Есть |
+| 6 | ??? | **Формат файла** (структура OpenAPI yaml, naming, layout) | **НЕТ** |
 
-3. **Принцип "провайдер владеет контрактом" чётко закреплён** в standard-docs.md § 5 и standard-service.md § 3 Зависимости. Потребитель ссылается, не дублирует.
+Агент знает *что* положить в контракт, но не знает *как оформить файл*. Аналогичная ситуация для Protobuf и AsyncAPI (события).
 
-4. **Правила shared/ в standard-analysis.md § 3.4** — 5 правил: владение, зависимости, задачи, обратная связь Code → Specs, порог выноса (2+ потребителя).
+**Текущее состояние shared/:**
 
-5. **Обратная связь Code → Specs** при изменении контракта в shared/ = CONFLICT уровня Design (standard-analysis.md § 3.4 правило 4, § 6.3).
+| Файл | Содержание |
+|------|-----------|
+| `shared/.instructions/README.md` | Индекс — все секции пустые |
+| `shared/contracts/README.md` | Одна строка: `openapi/*.yaml, protobuf/*.proto → Код handlers` |
+| `shared/contracts/openapi/README.md` | Одна строка: `auth.yaml, users.yaml → gRPC` |
+| `shared/contracts/protobuf/README.md` | Одна строка: `auth.proto, users.proto → REST` |
+| `shared/events/README.md` | Одна строка: `user.created.json, order.placed.json → Код publishers` |
 
-6. **CODEOWNERS настроен** — `/shared/contracts/` требует ревью от `@backend-team @frontend-team`, `/shared/events/` — от `@backend-team @platform-team`.
+### 2. Решение — per-tech стандарты
 
-7. **design-reviewer** проверяет качество INT-N: полноту контрактов, пересечение с SVC-N § 2, breaking changes.
+Создать 3 per-tech стандарта в `docs/.technologies/`, по аналогии с `standard-postgresql.md` и `standard-redis.md`. Каждый следует формату из `standard-technology.md` (8 секций). Стандарты — часть шаблона проекта, создаются при init (Фаза 0), не при analysis chain.
 
-8. **Версионирование API** описано в conventions.md § 5 — правила обратной совместимости, URL-схема `/api/v1/...`.
+**Что входит в шаблон (универсальное):**
 
-9. **Events (shared/events/)** хорошо описаны в conventions.md: базовый класс DomainEvent, таблица событий, publish/subscribe интерфейсы с рабочими примерами Python-кода.
+| Стандарт | Файл | Что покрывает |
+|----------|------|--------------|
+| OpenAPI | `standard-openapi.md` | REST контракты: структура yaml, именование, версионирование файлов, валидация (spectral) |
+| Protobuf | `standard-protobuf.md` | gRPC контракты: структура .proto, именование, package convention, валидация (buf) |
+| AsyncAPI | `standard-asyncapi.md` | Event schemas: структура yaml, именование каналов, payload schema, валидация |
 
-10. **Требования к документации API по критичности** — standard-development.md § 9: `critical-high` и `critical-medium` = "Документация API обязательна (OpenAPI/AsyncAPI)".
+**Что НЕ входит (project-specific, определяется при Design):**
 
-### Пробелы (области без покрытия)
+- Конкретные endpoints (→ INT-N)
+- Конкретные events (→ INT-N async)
+- Конкретные сервисы (→ SVC-N)
+- Runtime-интерфейсы shared-пакетов (→ conventions.md § 6)
 
-1. **Нет инструкции по созданию/обновлению физических файлов в shared/contracts/ и shared/events/.** Design (INT-N) определяет контракт в markdown, docs/ описывает контракты в текстовом формате, но нигде не сказано: "на шаге X создай файл shared/contracts/openapi/auth.yaml". Цепочка Design → docs/ описана, цепочка Design → shared/ файлы — нет.
+**Почему шаблон, а не analysis chain:**
 
-2. **shared/.instructions/ полностью пустой.** Индекс существует, но все секции ("Стандарты", "Воркфлоу", "Валидация", "Скрипты", "Скиллы") = пусто. Нет `standard-shared.md`, нет воркфлоу создания shared-пакета.
+Naming conventions для OpenAPI/Protobuf/AsyncAPI универсальны — они не зависят от конкретного проекта. Имя файла `{svc}.yaml`, layout `info → paths → components`, правила Protobuf `package {domain}.{svc}.v1` — одинаковы для любого микросервисного проекта. Создавать их через `/technology-create` при каждой первой цепочке — избыточно.
 
-3. **README-файлы в shared/ папках минимальны.** Содержат только одну строку (IN/OUT). Нет:
-   - Формата именования файлов
-   - Правил структуры OpenAPI-спецификаций
-   - Правил структуры Protobuf-определений
-   - Правил структуры JSON-схем событий
-   - Примеров
+### 3. standard-openapi.md
 
-4. **Нет процесса генерации OpenAPI/Protobuf.** Не определён подход: spec-first (OpenAPI первичен, код генерируется) или code-first (код первичен, OpenAPI генерируется из декораторов FastAPI). standard-development.md § 9 требует OpenAPI/AsyncAPI для critical-high и critical-medium, но не описывает как.
+Расположение: `docs/.technologies/standard-openapi.md`
 
-5. **Нет валидации согласованности shared/ с Design/docs/.** Нет скрипта, который проверяет: "контракт в shared/contracts/openapi/auth.yaml соответствует описанию в docs/auth.md § 2". Нет pre-commit хука для linting OpenAPI/Protobuf.
+**§ 1 Версия и настройка:**
+- OpenAPI Specification 3.1.0
+- YAML формат (не JSON — лучше diff, комментарии)
+- Линтер: Spectral (Stoplight)
+- Конфигурация: `.spectral.yaml` в корне проекта
 
-6. **Нет contract testing.** standard-testing.md упоминает "Contract" как расширяемый тип тестов, но не описывает: что тестировать, как настроить (Pact, Schemathesis, dredd и пр.), когда запускать.
+**§ 2 Именование:**
 
-7. **Нет описания процесса при breaking change контракта в shared/.** standard-design.md INT-N имеет пометку "Breaking change" и `[deprecated]`, но нет формализованного процесса: (a) уведомление потребителей; (b) migration period; (c) удаление deprecated версии.
+| Элемент | Правило | Пример |
+|---------|---------|--------|
+| Файл | `{svc}.yaml` — совпадает с `docs/{svc}.md` | `auth.yaml`, `gateway.yaml` |
+| Расположение | `shared/contracts/openapi/` | `shared/contracts/openapi/auth.yaml` |
+| Версионирование | Поле `info.version` в файле. Единый файл, без v1/ v2/ поддиректорий. Версия API — в `servers[].url` (`/api/v1/`) | `info.version: 1.2.0` |
+| operationId | `{verb}{Resource}` (camelCase) | `createUser`, `getTokenInfo` |
+| Схемы (components) | PascalCase | `UserProfile`, `TokenRequest` |
+| Теги | kebab-case, по доменным группам | `auth`, `user-management` |
 
-8. **Нет стратегии файлового версионирования в shared/contracts/.** Нет соглашения: v1/ и v2/ поддиректории? Или единый файл с version field? Или git-теги?
+**§ 3 Паттерны кода (структура файла):**
 
-9. **Нет связи между conventions.md "shared/events" и shared/events/ файлами.** Интерфейсы описаны в conventions.md как Python TypedDict. В shared/events/ ожидаются JSON-файлы (user.created.json). Формат не сходится — TypedDict в коде vs JSON Schema в файлах.
+```yaml
+openapi: "3.1.0"
+info:
+  title: "{Service} API"
+  description: "REST API контракты для {service}-сервиса"
+  version: "1.0.0"
+  contact:
+    name: "{service} team"
 
-10. **Нет скилла для создания shared-пакетов.** Скиллы `/service-create`, `/technology-create` существуют, но нет `/shared-create` или `/contract-create`.
+servers:
+  - url: /api/v1
+    description: Current version
 
-## Best practices
+paths:
+  /auth/token:
+    post:
+      operationId: createToken
+      tags: [auth]
+      summary: "Получение JWT-токена"
+      # ... request/response из Design INT-N
 
-### 1. Contract-First API Design (OpenAPI, AsyncAPI)
+components:
+  schemas:
+    TokenRequest:
+      type: object
+      required: [grant_type]
+      properties:
+        grant_type:
+          type: string
+          enum: [password, refresh_token, device_code]
+    # ... schemas из Design SVC-N § 3 Data Model
 
-**Что это:** API-спецификация (OpenAPI для REST, AsyncAPI для events) создаётся до написания кода. Код генерируется из спецификации или валидируется против неё.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+```
 
-**Как применить:**
-- OpenAPI-спецификация для REST: `shared/contracts/openapi/{svc}.yaml` — SSOT для endpoint-ов
-- AsyncAPI-спецификация для events: `shared/contracts/asyncapi/{channel}.yaml` — SSOT для событий
-- Генерация серверных стабов и клиентов из спецификации
-- Валидация в CI: код соответствует спецификации
+Правила:
+- Один файл на сервис (совпадает с `docs/{svc}.md`)
+- Секция `paths` — endpoints из `docs/{svc}.md` § 2
+- Секция `components/schemas` — Data Model из `docs/{svc}.md` § 3
+- `$ref` для переиспользования schemas внутри файла
+- Кросс-сервисные ссылки: **не использовать** `$ref` между файлами — каждый файл самодостаточный (провайдер владеет контрактом)
 
-**Релевантность для проекта:** Текущий подход скорее code-first (контракт описывается в markdown в Design, затем реализуется). Переход к spec-first потребует: (1) генерации OpenAPI/AsyncAPI из INT-N при Design → WAITING; (2) валидации кода против спецификации.
+**§ 4 Анти-паттерны:**
 
-**Альтернатива (code-first):** FastAPI автоматически генерирует OpenAPI из декораторов. Можно экспортировать спецификацию в shared/contracts/ после реализации. Менее строгий контроль, но проще в рамках текущего процесса.
+| Анти-паттерн | Почему | Правильно |
+|-------------|--------|-----------|
+| `$ref` на файл другого сервиса | Дублирование ownership, нарушает "провайдер владеет" | Каждый файл самодостаточный |
+| Версии в имени файла (`auth-v1.yaml`, `auth-v2.yaml`) | Дублирование — версия уже в `info.version` и `servers[].url` | Единый `auth.yaml` |
+| JSON формат | Плохой diff, нет комментариев | YAML |
+| `additionalProperties: true` по умолчанию | Слабая валидация | Явно `additionalProperties: false` |
+| Inline schemas вместо $ref | Дублирование schemas внутри файла | `$ref: '#/components/schemas/...'` |
 
-### 2. Consumer-Driven Contract Testing (Pact)
+**§ 5 Структура файлов:**
 
-**Что это:** Потребитель API определяет ожидаемый контракт (pact). Провайдер проверяет, что его API соответствует всем pact-ам потребителей. Ломающие изменения обнаруживаются до деплоя.
+```
+shared/contracts/openapi/
+├── auth.yaml          # OpenAPI spec для auth-сервиса
+├── gateway.yaml       # OpenAPI spec для gateway-сервиса
+├── users.yaml         # OpenAPI spec для users-сервиса
+└── README.md          # Конвенции и навигация
+```
 
-**Как применить:**
-- Pact-файлы генерируются потребителями в unit-тестах
-- Провайдер запускает pact-верификацию в CI
-- Pact Broker хранит контракты и отслеживает совместимость
+**§ 6 Валидация:**
+- Линтер: `spectral lint shared/contracts/openapi/{svc}.yaml`
+- Pre-commit hook: `openapi-lint` — запускает spectral для изменённых .yaml в `shared/contracts/openapi/`
+- Конфигурация: `.spectral.yaml` — набор правил (oas3-valid-schema, operation-operationId, info-contact и т.д.)
 
-**Релевантность для проекта:** standard-testing.md уже упоминает Contract-тесты как расширяемый тип. В текущей архитектуре (4 backend-сервиса + AMQP) — покрытие REST-контрактов через Pact + message pacts для AMQP-событий.
+**§ 7 Тестирование:**
+- Contract testing (опционально): Schemathesis — автоматическая генерация тестов из OpenAPI spec
+- Команда: `make test-contracts-openapi` (если включён)
+- Валидация response schemas: middleware FastAPI проверяет, что response соответствует OpenAPI spec
 
-### 3. Schema Registry для Events (Avro, Protobuf, JSON Schema)
+**§ 8 Связь с SDD процессом:**
 
-**Что это:** Централизованное хранилище схем событий. Producer регистрирует схему перед публикацией. Consumer читает схему из реестра. Эволюция схем контролируется (backward/forward compatibility).
+| Момент SDD | Действие с OpenAPI |
+|------------|-------------------|
+| Design (INT-N sync REST) | Определяет содержание контракта в markdown |
+| INFRA-блок (wave 0) | Dev-agent создаёт/обновляет `{svc}.yaml` по INT-N |
+| Per-service блок | Dev-agent реализует handlers, валидирует против spec |
+| Design → DONE | `{svc}.yaml` — финальная версия, `info.version` обновлён |
+| CONFLICT (shared/) | Изменение `{svc}.yaml` = CONFLICT уровня Design |
 
-**Как применить:**
-- Confluent Schema Registry или AWS Glue Schema Registry
-- JSON Schema для AMQP-событий (вместо TypedDict)
-- Compatibility checks: BACKWARD, FORWARD, FULL
-- Валидация при publish: событие соответствует зарегистрированной схеме
+### 4. standard-protobuf.md
 
-**Релевантность для проекта:** Текущие схемы — Python TypedDict в shared/events/. Для MVP достаточно JSON Schema файлов в shared/events/ с валидацией в pre-commit. Schema Registry — при масштабировании до 10+ типов событий.
+Расположение: `docs/.technologies/standard-protobuf.md`
 
-### 4. API Versioning Strategies
+**§ 1 Версия и настройка:**
+- Protocol Buffers v3 (proto3)
+- Линтер и валидация: buf (buf.build)
+- Конфигурация: `buf.yaml` в `shared/contracts/protobuf/`
 
-**Что это:** Стратегия управления несколькими версиями API.
+**§ 2 Именование:**
 
-**Текущее состояние:** conventions.md описывает `/api/v1/...` и правила совместимости. INT-N поддерживает `[deprecated: vX.Y.Z]`. Базовое покрытие есть.
+| Элемент | Правило | Пример |
+|---------|---------|--------|
+| Файл | `{svc}.proto` — совпадает с `docs/{svc}.md` | `auth.proto`, `users.proto` |
+| Расположение | `shared/contracts/protobuf/` | `shared/contracts/protobuf/auth.proto` |
+| Package | `{project}.{svc}.v{N}` | `myapp.auth.v1` |
+| Service | PascalCase + `Service` суффикс | `AuthService` |
+| RPC | PascalCase, verb + noun | `CreateToken`, `ValidateToken` |
+| Message | PascalCase | `TokenRequest`, `TokenResponse` |
+| Field | snake_case | `user_id`, `grant_type` |
+| Enum | PascalCase, значения UPPER_SNAKE_CASE с префиксом | `GrantType`, `GRANT_TYPE_PASSWORD` |
 
-**Что можно добавить:**
-- Sunset headers (`Sunset: Sat, 01 Jan 2028 00:00:00 GMT`) в deprecated endpoints
-- Deprecation policy: минимум N месяцев warning перед удалением
-- API changelog (автоматический из INT-N или commits)
+**§ 3 Паттерны кода (структура файла):**
 
-### 5. Breaking Change Detection
+```protobuf
+syntax = "proto3";
 
-**Что это:** Автоматическое обнаружение ломающих изменений в контрактах.
+package myapp.auth.v1;
 
-**Как применить:**
-- `openapi-diff` — сравнение двух OpenAPI-спецификаций, отчёт о breaking/non-breaking changes
-- `buf breaking` — для Protobuf: обнаружение обратно-несовместимых изменений
-- CI pipeline: PR с изменением shared/contracts/ → автоматическая проверка на breaking changes
-- Интеграция с design-reviewer: проверка INT-N пометки "Breaking change"
+option go_package = "myapp/gen/auth/v1;authv1";
+option java_package = "com.myapp.auth.v1";
 
-**Релевантность для проекта:** CODEOWNERS уже требует ревью от frontend-team при изменении shared/contracts/. Автоматическая проверка breaking changes — следующий шаг.
+// Сервис аутентификации — управление JWT-токенами.
+service AuthService {
+  // Создание JWT-токена по credentials.
+  rpc CreateToken(CreateTokenRequest) returns (CreateTokenResponse);
 
-### 6. Backward/Forward Compatibility
+  // Валидация существующего JWT-токена.
+  rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+}
 
-**Что это:** Гарантия, что новая версия API/события не ломает существующих потребителей.
+message CreateTokenRequest {
+  string grant_type = 1;  // password | refresh_token | device_code
+  string username = 2;
+  string password = 3;
+}
 
-**Ключевые правила (уже частично в conventions.md § 5):**
-- **Backward compatible:** добавление нового поля, добавление опционального параметра, добавление нового endpoint
-- **Breaking:** удаление поля, переименование поля, изменение типа, изменение семантики существующего поля
-- **Для events:** добавление нового поля в data = OK, удаление обязательного поля = breaking, изменение имени события = breaking
+message CreateTokenResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+  int32 expires_in = 3;
+}
+```
 
-**Что можно добавить:**
-- Формализовать правила для events (сейчас только для REST в conventions.md § 5)
-- Тестовая проверка: пример "старого" consumer-а обрабатывает "новое" событие — должен работать
-- Явная политика deprecation для событий (аналогично INT-N `[deprecated]`)
+Правила:
+- Один файл на сервис (совпадает с OpenAPI подходом)
+- Package = версионированный namespace (`v1`)
+- Каждый RPC — пара Request/Response messages (не reuse)
+- Field numbers: не переиспользовать удалённые (reserved)
+- Комментарии: doc-comments (`//`) перед service, rpc, message
+
+**§ 4 Анти-паттерны:**
+
+| Анти-паттерн | Почему | Правильно |
+|-------------|--------|-----------|
+| `import` из другого сервиса | Нарушает "провайдер владеет" | Каждый .proto самодостаточный |
+| Reuse Request/Response между RPC | Coupling, breaking changes | Отдельная пара на каждый RPC |
+| Field number reuse после удаления | Wire format incompatibility | `reserved 4, 5;` |
+| `google.protobuf.Any` | Потеря type safety | Явные типы или `oneof` |
+
+**§ 5 Структура файлов:**
+
+```
+shared/contracts/protobuf/
+├── buf.yaml           # Конфигурация buf
+├── buf.gen.yaml       # Генерация кода (если применимо)
+├── auth.proto         # gRPC контракт для auth-сервиса
+├── users.proto        # gRPC контракт для users-сервиса
+└── README.md          # Конвенции и навигация
+```
+
+**§ 6 Валидация:**
+- Линтер: `buf lint shared/contracts/protobuf/`
+- Breaking change detection: `buf breaking shared/contracts/protobuf/ --against .git#branch=main`
+- Pre-commit hook: `protobuf-lint` — запускает buf lint для изменённых .proto
+
+**§ 7 Тестирование:**
+- buf breaking — автоматическая проверка обратной совместимости
+- Генерация кода: `buf generate` (если настроена кодогенерация)
+
+**§ 8 Связь с SDD процессом:**
+
+| Момент SDD | Действие с Protobuf |
+|------------|-------------------|
+| Design (INT-N sync gRPC) | Определяет RPC, messages в markdown |
+| INFRA-блок (wave 0) | Dev-agent создаёт/обновляет `{svc}.proto` по INT-N |
+| Per-service блок | Dev-agent реализует gRPC server/client |
+| Design → DONE | `{svc}.proto` — финальная версия |
+| CONFLICT (shared/) | Изменение `{svc}.proto` = CONFLICT уровня Design |
+
+### 5. standard-asyncapi.md
+
+Расположение: `docs/.technologies/standard-asyncapi.md`
+
+**§ 1 Версия и настройка:**
+- AsyncAPI Specification 3.0
+- YAML формат
+- Линтер: AsyncAPI CLI (`asyncapi validate`)
+- Конфигурация: `.asyncapi-cli` (если нужна)
+
+**§ 2 Именование:**
+
+| Элемент | Правило | Пример |
+|---------|---------|--------|
+| Файл | `{domain-event-group}.yaml` — по доменной группе | `auth-events.yaml`, `order-events.yaml` |
+| Расположение | `shared/events/` | `shared/events/auth-events.yaml` |
+| Channel | `{domain}.{event}` (dot-separated) | `auth.token.created`, `order.placed` |
+| Message | PascalCase + `Event` суффикс | `TokenCreatedEvent`, `OrderPlacedEvent` |
+| Schema | PascalCase | `TokenCreatedPayload` |
+
+**§ 3 Паттерны кода (структура файла):**
+
+```yaml
+asyncapi: "3.0.0"
+info:
+  title: "Auth Events"
+  description: "Асинхронные события сервиса аутентификации"
+  version: "1.0.0"
+
+servers:
+  rabbitmq:
+    host: "rabbitmq:5672"
+    protocol: amqp
+
+channels:
+  auth.token.created:
+    address: auth.token.created
+    messages:
+      TokenCreatedEvent:
+        $ref: '#/components/messages/TokenCreatedEvent'
+
+  auth.user.logged_in:
+    address: auth.user.logged_in
+    messages:
+      UserLoggedInEvent:
+        $ref: '#/components/messages/UserLoggedInEvent'
+
+operations:
+  publishTokenCreated:
+    action: send
+    channel:
+      $ref: '#/channels/auth.token.created'
+
+components:
+  messages:
+    TokenCreatedEvent:
+      payload:
+        $ref: '#/components/schemas/TokenCreatedPayload'
+
+  schemas:
+    TokenCreatedPayload:
+      type: object
+      required: [event_type, user_id, timestamp]
+      properties:
+        event_type:
+          type: string
+          const: "auth.token.created"
+        user_id:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        metadata:
+          type: object
+          properties:
+            ip_address:
+              type: string
+            user_agent:
+              type: string
+```
+
+Правила:
+- Один файл на доменную группу (не на event — группировка по домену)
+- Каждый message — `$ref` на schema в `components/`
+- Payload schemas — JSON Schema (машинно-валидируемые, не TypedDict)
+- Обязательные поля payload: `event_type`, `timestamp` (+ domain-specific)
+- `event_type` = channel address (SSOT)
+
+**§ 4 Анти-паттерны:**
+
+| Анти-паттерн | Почему | Правильно |
+|-------------|--------|-----------|
+| TypedDict вместо JSON Schema | Не машинно-валидируемые | JSON Schema в AsyncAPI |
+| Один файл на event | Избыточная гранулярность | Группировка по домену |
+| Inline schemas | Дублирование | `$ref: '#/components/schemas/...'` |
+| Отсутствие `event_type` в payload | Consumer не может маршрутизировать | Обязательное поле |
+
+**§ 5 Структура файлов:**
+
+```
+shared/events/
+├── auth-events.yaml       # AsyncAPI spec для auth-событий
+├── order-events.yaml      # AsyncAPI spec для order-событий
+├── notification-events.yaml # AsyncAPI spec для notification-событий
+└── README.md              # Конвенции и навигация
+```
+
+**§ 6 Валидация:**
+- Линтер: `asyncapi validate shared/events/{group}.yaml`
+- Pre-commit hook: `asyncapi-lint` — запускает валидацию для изменённых .yaml в `shared/events/`
+
+**§ 7 Тестирование:**
+- Schema validation при publish: runtime проверка payload против AsyncAPI schema
+- Consumer compatibility: "старый" consumer обрабатывает "новое" событие (backward compatible)
+
+**§ 8 Связь с SDD процессом:**
+
+| Момент SDD | Действие с AsyncAPI |
+|------------|-------------------|
+| Design (INT-N async events) | Определяет events, payload в markdown |
+| INFRA-блок (wave 0) | Dev-agent создаёт/обновляет `{group}.yaml` по INT-N |
+| Per-service блок | Dev-agent реализует publisher/subscriber |
+| Design → DONE | `{group}.yaml` — финальная версия |
+| CONFLICT (shared/) | Изменение schema = CONFLICT уровня Design |
+
+### 6. Обновление shared/ README
+
+README в shared/ папках обновляются для ссылки на per-tech стандарты. README остаются краткими (навигация), детали — в стандартах.
+
+**shared/contracts/README.md:**
+
+```markdown
+# shared/contracts/
+
+Контракты API между сервисами. Файлы создаются dev-agent в INFRA-блоке (wave 0) по Design INT-N.
+
+| Папка | Технология | Стандарт |
+|-------|-----------|----------|
+| `openapi/` | OpenAPI 3.1 (REST) | [standard-openapi.md](/specs/docs/.technologies/standard-openapi.md) |
+| `protobuf/` | Protobuf v3 (gRPC) | [standard-protobuf.md](/specs/docs/.technologies/standard-protobuf.md) |
+
+**Владение:** Провайдер сервиса владеет контрактом (standard-analysis.md § 3.4).
+**Именование:** `{svc}.yaml` / `{svc}.proto` — совпадает с `docs/{svc}.md`.
+```
+
+**shared/contracts/openapi/README.md:**
+
+```markdown
+# shared/contracts/openapi/
+
+REST контракты в формате OpenAPI 3.1. Один файл на сервис.
+
+**Стандарт:** [standard-openapi.md](/specs/docs/.technologies/standard-openapi.md)
+**Валидация:** `spectral lint {file}.yaml`
+```
+
+**shared/contracts/protobuf/README.md:**
+
+```markdown
+# shared/contracts/protobuf/
+
+gRPC контракты в формате Protobuf v3. Один файл на сервис.
+
+**Стандарт:** [standard-protobuf.md](/specs/docs/.technologies/standard-protobuf.md)
+**Валидация:** `buf lint`
+```
+
+**shared/events/README.md:**
+
+```markdown
+# shared/events/
+
+Схемы событий в формате AsyncAPI 3.0. Один файл на доменную группу.
+
+**Стандарт:** [standard-asyncapi.md](/specs/docs/.technologies/standard-asyncapi.md)
+**Валидация:** `asyncapi validate {file}.yaml`
+```
+
+### 7. Интеграция в процесс
+
+**Где в SDD процессе dev-agent создаёт контрактные файлы:**
+
+```
+Design INT-N (markdown)
+    ↓ содержание контракта
+Plan Dev TASK-N (INFRA-блок, wave 0)
+    ↓ задача "создать/обновить контракт"
+Dev-agent читает:
+    - INT-N → endpoints, messages, schemas
+    - standard-openapi.md → формат файла, naming
+    - standard-protobuf.md → формат файла, naming
+    - standard-asyncapi.md → формат файла, naming
+    ↓
+Создаёт файлы в shared/contracts/ и shared/events/
+    ↓
+Per-service блоки (wave 1+)
+    - Dev-agent реализует handlers/publishers
+    - Валидирует код против spec (опционально)
+```
+
+**Что это меняет в процессе:** Ничего. Цепочка Design → TASK-N → код уже существует (standard-analysis.md § 3.4). Per-tech стандарты только отвечают на вопрос "в каком формате", который раньше был неявным.
+
+**Как dev-agent узнаёт про per-tech стандарт:**
+
+Через `docs/{svc}.md` § 5 Code Map → Tech Stack → ссылка на `standard-openapi.md`. Аналогично тому, как сейчас ссылается на `standard-postgresql.md`. Dev-agent при старте блока читает service doc → видит технологии → читает стандарты.
+
+Дополнительно: INFRA-блок не привязан к конкретному сервису, но main LLM при запуске передаёт в контексте `conventions.md` (обязательный, добавлен в conflict-detect § 5.1) — оттуда агент берёт кросс-сервисные конвенции.
+
+### 8. Изменения в стандартах
+
+#### 8.1 standard-docs.md § 7 — стартовый набор
+
+| Секция | Изменение |
+|--------|-----------|
+| § 7 "Минимальный стартовый набор" → "Примеры" | Добавить в таблицу примеров 3 строки: `standard-openapi.md`, `standard-protobuf.md`, `standard-asyncapi.md` — часть шаблона при init |
+
+#### 8.2 docs/.technologies/README.md — реестр
+
+| Секция | Изменение |
+|--------|-----------|
+| Таблица реестра | Добавить 3 строки: openapi, protobuf, asyncapi с пометкой "Шаблон (Фаза 0)" в колонке "Сервисы" |
+
+#### 8.3 shared/ README файлы
+
+| Файл | Изменение |
+|------|-----------|
+| `shared/contracts/README.md` | Заменить одну строку на навигационный README (§ 6) |
+| `shared/contracts/openapi/README.md` | Заменить одну строку на ссылку на стандарт (§ 6) |
+| `shared/contracts/protobuf/README.md` | Заменить одну строку на ссылку на стандарт (§ 6) |
+| `shared/events/README.md` | Заменить одну строку на ссылку на стандарт (§ 6) |
+
+#### 8.4 standard-process.md § 10 — закрытие
+
+| Секция | Изменение |
+|--------|-----------|
+| § 10 | Нет отдельного пробела для shared-contracts (это не G-пробел). Если нужно — добавить запись "shared-contracts: Закрыт — per-tech стандарты standard-openapi/protobuf/asyncapi.md" |
+
+---
+
+## Решения
+
+| # | Решение | Обоснование |
+|---|---------|-------------|
+| R1 | Per-tech стандарты, не standard-shared.md | shared/ — не технология, это папка. OpenAPI, Protobuf, AsyncAPI — технологии. Стандарт описывает технологию, не папку |
+| R2 | Часть шаблона (Фаза 0), не analysis chain | Naming conventions OpenAPI/Protobuf/AsyncAPI универсальны, не project-specific. Создавать через `/technology-create` при каждом первом Design — избыточно |
+| R3 | Один файл на сервис (OpenAPI, Protobuf) | Совпадает с принципом "один сервис — один файл" (`docs/{svc}.md`). Провайдер владеет файлом |
+| R4 | Один файл на доменную группу (AsyncAPI) | Events группируются по домену, не по сервису. `auth-events.yaml` содержит все события auth-домена |
+| R5 | YAML, не JSON | Лучший diff, поддержка комментариев, единый формат для всех трёх технологий |
+| R6 | Версия в `info.version`, не в имени файла | Одна точка правды. Нет дублирования `auth-v1.yaml` / `auth-v2.yaml`. Версия API — в URL path (`/api/v1/`), не в файле |
+| R7 | Каждый файл самодостаточный (нет cross-file $ref) | Принцип "провайдер владеет контрактом". Потребитель ссылается, не импортирует |
+| R8 | JSON Schema для events (не TypedDict) | Машинно-валидируемые, language-agnostic, совместимы с AsyncAPI. TypedDict — Python-specific runtime |
+| R9 | Pre-commit hooks для линтинга | spectral (OpenAPI), buf lint (Protobuf), asyncapi validate (AsyncAPI). Валидация при каждом коммите |
+| R10 | Не создаём скилл `/contract-create` | Dev-agent создаёт файлы по стандарту как часть TASK-N. Отдельный скилл — лишняя абстракция |
+
+---
+
+## Закрытые вопросы
+
+### Q1. Нужен ли standard-shared.md?
+
+**Ответ: нет.** `shared/` — папка в структуре проекта, не технология и не сервис. Конвенции файлов определяются per-tech стандартами (OpenAPI, Protobuf, AsyncAPI). Правила владения и зависимостей — в `standard-analysis.md` § 3.4. Описание shared-пакетов — в `conventions.md` § 6. Отдельный стандарт создал бы дублирование.
+
+→ R1
+
+### Q2. Code-first или spec-first?
+
+**Ответ: spec-first внутри SDD.** В SDD подходе спецификация (Design INT-N) определяет контракт до кода. Dev-agent **сначала** создаёт файл в `shared/contracts/` (INFRA-блок, wave 0), **затем** реализует код в `src/{svc}/` (per-service блок, wave 1+). Это spec-first в рамках процесса, даже если FastAPI потом генерирует OpenAPI из декораторов — файл в shared/ первичен как контракт.
+
+### Q3. Аналитический и документационный уровни — есть ли пробелы?
+
+**Ответ: нет.** Исследование покрытия показало: Design INT-N полностью покрывает определение контрактов. docs/ ({svc}.md § 2, conventions.md § 6, overview.md § 6) покрывают документирование. design-reviewer проверяет качество. Пробел — только кодовый уровень (формат файлов).
+
+### Q4. Events: JSON Schema или TypedDict?
+
+**Ответ: JSON Schema в AsyncAPI-файлах.** TypedDict — Python-specific runtime-определение, описанное в conventions.md. JSON Schema в `shared/events/` — машинно-валидируемое, language-agnostic определение. Оба сосуществуют: AsyncAPI (schema) — контракт, TypedDict (Python) — реализация. Связь: TypedDict в коде ДОЛЖЕН соответствовать schema из AsyncAPI.
+
+### Q5. Нужен ли скилл `/contract-create`?
+
+**Ответ: нет.** Создание контрактных файлов — часть TASK-N в INFRA-блоке. Dev-agent читает INT-N (содержание) + standard-{tech}.md (формат) и создаёт файл. Отдельный скилл создал бы параллельный path мимо analysis chain.
+
+→ R10
+
+---
+
+## Задачи
+
+Задачи для исполнения через TaskCreate. Порядок строгий — зависимости указаны в blockedBy.
+
+```
+TASK 1: Создать standard-openapi.md
+  description: >
+    Драфт: .claude/drafts/2026-02-24-shared-contracts.md (секция "§ 3")
+    /technology-create для docs/.technologies/standard-openapi.md.
+    8 секций по standard-technology.md: версия (OpenAPI 3.1, YAML, spectral),
+    именование ({svc}.yaml, operationId camelCase, schemas PascalCase),
+    паттерны (структура файла — info → paths → components),
+    анти-паттерны (cross-file $ref, JSON формат, additionalProperties: true),
+    структура файлов (shared/contracts/openapi/),
+    валидация (spectral lint, pre-commit hook openapi-lint),
+    тестирование (Schemathesis опционально),
+    связь с SDD (Design INT-N → INFRA-блок → per-service).
+  activeForm: Создаю standard-openapi.md
+
+TASK 2: Создать standard-protobuf.md
+  description: >
+    Драфт: .claude/drafts/2026-02-24-shared-contracts.md (секция "§ 4")
+    /technology-create для docs/.technologies/standard-protobuf.md.
+    8 секций: версия (proto3, buf), именование ({svc}.proto, package {project}.{svc}.v{N},
+    PascalCase services/messages, snake_case fields),
+    паттерны (структура файла — syntax → package → service → messages),
+    анти-паттерны (cross-file import, field number reuse, google.protobuf.Any),
+    структура файлов (shared/contracts/protobuf/ + buf.yaml),
+    валидация (buf lint, buf breaking, pre-commit hook protobuf-lint),
+    тестирование (buf breaking against main),
+    связь с SDD.
+  activeForm: Создаю standard-protobuf.md
+
+TASK 3: Создать standard-asyncapi.md
+  description: >
+    Драфт: .claude/drafts/2026-02-24-shared-contracts.md (секция "§ 5")
+    /technology-create для docs/.technologies/standard-asyncapi.md.
+    8 секций: версия (AsyncAPI 3.0, YAML, asyncapi CLI),
+    именование ({domain-event-group}.yaml, channels dot-separated, messages PascalCase+Event),
+    паттерны (структура файла — info → servers → channels → operations → components,
+    payload JSON Schema, обязательные поля event_type/timestamp),
+    анти-паттерны (TypedDict вместо JSON Schema, один файл на event, inline schemas),
+    структура файлов (shared/events/),
+    валидация (asyncapi validate, pre-commit hook asyncapi-lint),
+    тестирование (schema validation при publish),
+    связь с SDD.
+  activeForm: Создаю standard-asyncapi.md
+
+TASK 4: Обновить shared/ README файлы
+  blockedBy: [1, 2, 3]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-shared-contracts.md (секция "§ 6")
+    Обновить 4 README файла:
+    - shared/contracts/README.md — навигационный с таблицей (папка, технология, стандарт)
+    - shared/contracts/openapi/README.md — ссылка на standard-openapi.md, валидация
+    - shared/contracts/protobuf/README.md — ссылка на standard-protobuf.md, валидация
+    - shared/events/README.md — ссылка на standard-asyncapi.md, валидация
+    Использовать /structure-modify для каждого README (правило из core.md).
+  activeForm: Обновляю shared/ README файлы
+
+TASK 5: Обновить docs/.technologies/README.md — реестр
+  blockedBy: [1, 2, 3]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-shared-contracts.md (секция "§ 8.2")
+    Добавить 3 строки в таблицу реестра docs/.technologies/README.md:
+    - openapi | standard-openapi.md | Шаблон (Фаза 0)
+    - protobuf | standard-protobuf.md | Шаблон (Фаза 0)
+    - asyncapi | standard-asyncapi.md | Шаблон (Фаза 0)
+  activeForm: Обновляю реестр технологий
+
+TASK 6: Обновить standard-docs.md § 7 — стартовый набор
+  blockedBy: [1, 2, 3]
+  description: >
+    Драфт: .claude/drafts/2026-02-24-shared-contracts.md (секция "§ 8.1")
+    Обновить specs/.instructions/docs/standard-docs.md:
+    - § 7 "Минимальный стартовый набор" → таблица "Примеры": добавить 3 строки
+      standard-openapi.md, standard-protobuf.md, standard-asyncapi.md
+      с пометкой "Часть шаблона, создаётся при init"
+  activeForm: Обновляю standard-docs.md
+
+TASK 7: Миграция standard-docs.md
+  blockedBy: [6]
+  description: >
+    /migration-create для standard-docs.md.
+    Синхронизировать зависимые файлы (validation-docs.md и др.).
+  activeForm: Мигрирую зависимости standard-docs.md
+
+TASK 8: Валидация миграции
+  blockedBy: [7]
+  description: >
+    /migration-validate для standard-docs.md.
+    Убедиться что все зависимые файлы синхронизированы.
+  activeForm: Валидирую миграцию
+
+TASK 9: Обновить CLAUDE.md
+  blockedBy: [5]
+  description: >
+    В CLAUDE.md отметить shared-contracts как выполненный:
+    - Изменить строку shared-contracts — статус "ГОТОВ К РЕАЛИЗАЦИИ" с описанием
+      (3 per-tech стандарта + shared/ README, N задач)
+  activeForm: Обновляю CLAUDE.md
+```

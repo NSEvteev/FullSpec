@@ -514,7 +514,7 @@ CONFLICT:
 | G4 | ~~Нет hotfix workflow~~ | ~~Средний~~ | Hotfix идёт через обычную analysis chain (standard-release.md § 12). Отдельный workflow не нужен | **Закрыт** — обновлён C.2 |
 | G5 | Нет `/commit` скилла | Низкий | Процесс покрыт standard-commit + pre-commit hooks | Драфт: `.claude/drafts/2026-02-24-commit-skill.md` |
 | G6 | Нет `/merge` скилла | Низкий | Одна команда gh pr merge --squash | Драфт: `.claude/drafts/2026-02-24-merge-skill.md` |
-| G7 | Нет `/sync` скилла | Низкий | Две команды git | Драфт: `.claude/drafts/2026-02-24-sync-skill.md` |
+| G7 | ~~Нет `/sync` скилла~~ | ~~Низкий~~ | Post-merge sync включён в `/merge` (G6). Standalone sync покрыт standard-sync.md (2 команды git) | **Закрыт** — объединён с G6 |
 | G8 | Нет post-release workflow | Низкий | Мониторинг зависит от инфраструктуры | Драфт: `.claude/drafts/2026-02-24-post-release.md` |
 | G9 | Нет `/rollback` скилла | Низкий | chain_status.py покрывает статусы, откат — по modify-* | Драфт: `.claude/drafts/2026-02-24-rollback-skill.md` |
 | G10 | Определение уровня CONFLICT не автоматизировано | Низкий | Полностью на LLM, формализовано в стандарте | Драфт: `.claude/drafts/2026-02-24-conflict-detect.md` |

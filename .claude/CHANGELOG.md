@@ -23,7 +23,7 @@
 - Onboarding-документы: `ssot.md`, `objects.md`, `quick-start.md`
 - Версионирование всех стандартов (`standard-version` в frontmatter)
 - Скрипты валидации версий: `bump-standard-version.py`, `check-version-drift.py`
-- Агент Captain Holt для семантического анализа документов
+- Агент meta-reviewer для семантического анализа документов
 - Скиллы `review-branch` и `review-pr` для ревью кода
 - Инструкции `validation-release.md`, `create-release.md` (releases)
 - Скрипты `validate-pre-release.py`, `validate-post-release.py`
@@ -69,7 +69,7 @@
 ### Добавлено
 - Система скиллов (`/.claude/skills/`)
 - Система rules (`/.claude/rules/`)
-- Агенты Amy Santiago и Captain Holt
+- Агенты meta-agent и meta-reviewer
 - Черновики (`/.claude/drafts/`)
 
 ### Изменено

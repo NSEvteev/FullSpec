@@ -235,10 +235,10 @@ python .instructions/.scripts/create-instruction-file.py error-handling standard
    - ...
    ```
 
-6. Запустить агента captain-holt с контекстом зон:
+6. Запустить агента meta-reviewer с контекстом зон:
    ```
    Task tool:
-     subagent_type: captain-holt
+     subagent_type: meta-reviewer
      prompt: |
        Проанализируй файл: {путь к инструкции}
 
@@ -252,7 +252,7 @@ python .instructions/.scripts/create-instruction-file.py error-handling standard
    ```
 
 **Результат анализа:**
-- Агент captain-holt создаёт драфт с анализом в `.claude/drafts/`
+- Агент meta-reviewer создаёт драфт с анализом в `.claude/drafts/`
 - Драфт содержит список проблем с приоритетами (P1, P2, P3)
 - Проблемы ограничены зоной ответственности документа — зональные вторжения исключены
 
@@ -260,7 +260,7 @@ python .instructions/.scripts/create-instruction-file.py error-handling standard
 
 ### Шаг 5.2: Согласование изменений с пользователем (для standard-*)
 
-> **ОБЯЗАТЕЛЬНО для типа standard** — после анализа captain-holt согласовать изменения с пользователем.
+> **ОБЯЗАТЕЛЬНО для типа standard** — после анализа meta-reviewer согласовать изменения с пользователем.
 
 **Действие:**
 
@@ -274,7 +274,7 @@ python .instructions/.scripts/create-instruction-file.py error-handling standard
 **Формат запроса:**
 
 ```
-Анализ captain-holt завершён.
+Анализ meta-reviewer завершён.
 Драфт: {путь к драфту}
 
 Пожалуйста, просмотрите анализ и укажите, какие изменения вносить.
@@ -443,7 +443,7 @@ python .instructions/.scripts/validate-instruction.py {path}
 - [x/] Написано содержание
 - [x/] Добавлена таблица "Связанные документы"
 - [x/] Собраны зоны соседних стандартов (для standard)
-- [x/] Семантический анализ captain-holt (для standard)
+- [x/] Семантический анализ meta-reviewer (для standard)
 - [x/] Изменения согласованы с пользователем (для standard)
 
 #### Скрипты (для create/modify/validation)
@@ -483,7 +483,7 @@ python .instructions/.scripts/validate-instruction.py {path}
 - [ ] Написано содержание
 - [ ] Добавлена таблица "Связанные документы"
 - [ ] Собраны зоны ответственности соседних стандартов (для standard)
-- [ ] Семантический анализ captain-holt пройден с контекстом зон (для standard)
+- [ ] Семантический анализ meta-reviewer пройден с контекстом зон (для standard)
 - [ ] Изменения согласованы с пользователем (для standard)
 
 ### Скрипты (для create/modify/validation)
