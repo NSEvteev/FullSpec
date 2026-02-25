@@ -51,49 +51,50 @@ make clean     # Очистка (docker down -v)
 
 ## Задачи
 
-### Текущая сессия — 16 черновиков по зависимостям (было 20, 4 поглощены)
+### Черновики — порядок реализации (15 файлов, 13 активных)
 
-Последовательность по графу зависимостей: ранние фазы расширяют возможности поздних.
-Порядок: пользователь читает и валидирует черновик → подтверждает → берём в работу.
+Порядок определён графом зависимостей: docker-dev блокирует 3 черновика.
 После каждого артефакта — обновить SSOT-ссылки в `standard-process.md` §8/§10.
 
-**Фаза 0 — Рефакторинг (0 зависимостей):**
-0. [x] **rename-agents-meta** — `.claude/drafts/2026-02-25-rename-agents-meta.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (7 задач: миграция 2 агентов + обновление 13 файлов)
+**Выполнено:**
+- [x] **rename-agents-meta** — `.claude/drafts/2026-02-25-rename-agents-meta.md` (7 задач)
 
-**Фаза 1 — Quick wins (SSOT существует, только /skill-create, 0 зависимостей):**
-1. [ ] **commit-skill (G5)** — `.claude/drafts/2026-02-24-commit-skill.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (4 артефакта, 10 задач)
-2. [x] **~~sync-skill (G7)~~** — объединён в merge-skill (post-merge sync включён в `/merge`)
-3. [ ] **merge-skill (G6+G7)** — `.claude/drafts/2026-02-24-merge-skill.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (2 артефакта, 6 задач)
+**Поглощены / отклонены:**
+- ~~sync-skill (G7)~~ → merge-skill
+- ~~feature-freeze~~ → отклонён
+- ~~smoke-tests~~ → deploy-workflow
+- ~~cicd-enhancements~~ → tests-and-platform
+- ~~post-release-validation~~ → deploy-workflow
+- ~~post-release (G8)~~ → deploy-workflow
 
-**Фаза 2 — Процессные скиллы (самодостаточные, средняя сложность):**
-4. [ ] **pr-create (G2)** — `.claude/drafts/2026-02-24-pr-create.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (3 артефакта, 8 задач)
-5. [ ] **conflict-detect (G10)** — `.claude/drafts/2026-02-24-conflict-detect.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (dev-agent + BLOCK-N + service docs, 16 задач) ⚠️ **БЛОКИРОВАН: dev-agent зависит от docker-dev (#10) и tests-and-platform (#8) — per-service make таргеты, docker-compose**
-6. [ ] **rollback-skill (G9)** — `.claude/drafts/2026-02-24-rollback-skill.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (2 артефакта, 5 задач)
-7. [ ] **chain-done (G11)** — `.claude/drafts/2026-02-24-chain-done.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (2 артефакта, 5 задач)
+**Порядок реализации (последовательный):**
 
-**Фаза 3 — Аудиты и определения (выявляют пробелы, определяют инфраструктуру):**
+| # | Черновик | Файл | Задач | Блокирован | Блокирует |
+|---|---------|------|-------|-----------|-----------|
+| 1 | **commit-skill (G5)** | `.claude/drafts/2026-02-24-commit-skill.md` | 10 | — | — |
+| 2 | **merge-skill (G6+G7)** | `.claude/drafts/2026-02-24-merge-skill.md` | 6 | — | — |
+| 3 | **pr-create (G2)** | `.claude/drafts/2026-02-24-pr-create.md` | 8 | — | — |
+| 4 | **rollback-skill (G9)** | `.claude/drafts/2026-02-24-rollback-skill.md` | 5 | — | — |
+| 5 | **chain-done (G11)** | `.claude/drafts/2026-02-24-chain-done.md` | 5 | — | — |
+| 6 | **docker-dev** | `.claude/drafts/2026-02-24-docker-dev.md` | 8 | — | #7, #10, #12 |
+| 7 | **tests-and-platform** | `.claude/drafts/2026-02-24-tests-and-platform.md` | 8 | #6 (частично: задачи 4,8) | #10 |
+| 8 | **shared-contracts** | `.claude/drafts/2026-02-24-shared-contracts.md` | 9 | — | — |
+| 9 | **user-process-guide** | `.claude/drafts/2026-02-24-user-process-guide.md` | 10 | — | — |
+| 10 | **conflict-detect (G10)** | `.claude/drafts/2026-02-24-conflict-detect.md` | 16 | #6, #7 | — |
+| 11 | **security-scan** | `.claude/drafts/2026-02-25-security-scan.md` | 12 | — | — |
+| 12 | **deploy-workflow** | `.claude/drafts/2026-02-25-deploy-workflow.md` | 12 | #6 | — |
+| 13 | **init-project (G1)** | `.claude/drafts/2026-02-24-init-project.md` | 15 | все предыдущие (концептуально) | — |
+| 14 | **release-create (G3)** | `.claude/drafts/2026-02-24-release-create.md` | 6 | — | — |
 
-Порядок реализации docker-dev и tests-and-platform:
-1. docker-dev (8 задач) — сначала: создаёт docker-compose, Makefile переменные, standard-docker.md
-2. tests-and-platform (8 задач, было 5 + 3 из cicd-enhancements) — потом: использует docker-compose.test.yml и Makefile из docker-dev
-   - Задачи 4, 8 (ci.yml, pre-release.yml) блокированы docker-dev
-   - Задачи 6, 7 (concurrency, dependency-review) — без зависимостей, можно сразу
-   - Оба обновляют standard-process.md и Makefile — docker-dev первый (базовые переменные), tests-and-platform второй (per-service таргеты)
+**Итого:** 130 задач в 14 черновиках.
 
-8. [ ] **tests-and-platform** — `.claude/drafts/2026-02-24-tests-and-platform.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (аудит тестов + CI/CD pipeline, **8 задач** — 5 оригинальных + 3 из поглощённого cicd-enhancements; platform/ → docker-dev)
-9. [ ] **shared-contracts** — `.claude/drafts/2026-02-24-shared-contracts.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (3 per-tech стандарта openapi/protobuf/asyncapi + shared/ README, 9 задач)
-10. [ ] **docker-dev** — `.claude/drafts/2026-02-24-docker-dev.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (standard-docker.md + compose + 8 задач)
-11. [ ] **user-process-guide** — `.claude/drafts/2026-02-24-user-process-guide.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (/chain + TaskList оркестратор, create-chain.md + SKILL.md + rule, 10 задач)
-
-**Фаза 4 — Новые стандарты (используют решения из Фазы 3):**
-12. [ ] **security-scan** — `.claude/drafts/2026-02-25-security-scan.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (3-level security model, security-{tech}.md, pre-release gate E009/E010, gitleaks, 12 задач)
-13. [x] ~~**feature-freeze**~~ — **ОТКЛОНЁН** (over-engineering для шаблона, организационный freeze достаточен, нет зависимостей)
-14. [ ] **deploy-workflow** — `.claude/drafts/2026-02-25-deploy-workflow.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (standard-deploy.md + deploy.yml + **post-deploy validation**, **12 задач** — 10 оригинальных + 2 из поглощённых smoke-tests/post-release/post-release-validation) *(← docker-dev)*
-15. [x] ~~**smoke-tests**~~ — **ПОГЛОЩЁН** deploy-workflow § 12.1 (smoke test определение, `make test-smoke`, `tests/smoke/`)
-16. [x] ~~**cicd-enhancements**~~ — **ПОГЛОЩЁН** tests-and-platform пробелы 9-11 (concurrency, dependency-review, pre-release.yml). 5 из 8 пунктов были дублями.
-17. [x] ~~**post-release-validation**~~ — **ПОГЛОЩЁН** deploy-workflow § 12.4 (расширение standard-release.md § 11)
-18. [x] ~~**post-release (G8)**~~ — **ПОГЛОЩЁН** deploy-workflow § 12 (чек-лист, rollback criteria, /post-release skill). Best practices (canary, SLO, feature flags) отрезаны как over-engineering для template.
-
-**Фаза 5 — Оркестраторы (зависят от всего предыдущего):**
-19. [ ] **init-project (G1)** — `.claude/drafts/2026-02-24-init-project.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (create-initialization.md + скилл /init-project + консолидация quick-start/ssot/artifacts + обновления, 15 задач)
-20. [ ] **release-create (G3)** — `.claude/drafts/2026-02-24-release-create.md` — **ГОТОВ К РЕАЛИЗАЦИИ** (обогащение create-release.md Шаг 0 + release.yml + скилл, 6 задач)
+**Граф зависимостей:**
+- #1–#4 — независимые, можно в любом порядке
+- #5 docker-dev — критический путь, блокирует #6 (частично), #9 (полностью), #11 (Dockerfile)
+- #6 tests-and-platform — задачи 6,7 независимы; задачи 4,8 ждут docker-dev
+- #7, #8 — независимые, параллельны с #5–#6
+- #9 conflict-detect — самый сложный (16 задач), ждёт #5 + #6
+- #10 security-scan — независим, но логически после infra (#5–#8)
+- #11 deploy-workflow — ждёт docker-dev (Dockerfile формат)
+- #12 init-project — финальный оркестратор, обновляет initialization.md
+- #13 release-create — независим, но логически последний
