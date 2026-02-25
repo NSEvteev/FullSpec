@@ -25,7 +25,7 @@
 
 ### Оценка полноты create-release.md
 
-**Вердикт: Инструкция достаточно полная.** Можно создавать скилл-обёртку без доработки SSOT.
+**Вердикт: Инструкция достаточно полная.** Можно создавать скилл-обёртку без доработки SSOT. 
 
 #### Что есть в инструкции (7 шагов)
 
@@ -93,14 +93,28 @@
 ## Решения
 
 - **Инструкция достаточна** — create-release.md содержит 7 шагов, чек-лист, примеры, скрипты
-- **Нужен только скилл** — `/skill-create release-create`, SSOT → create-release.md
-- **Доработка SSOT опциональна** — можно создать скилл сейчас и доработать при реализации
+- **Скрипты существуют** — validate-pre-release.py (236 строк) и validate-post-release.py (303 строки) реализованы и работоспособны
+- **Нужен Шаг 0** — добавить проверку analysis chain (все цепочки DONE) в create-release.md перед Шагом 1
+- **release.yml** — создать `.github/release.yml` с метками `task` (не `feature`, метки `feature` нет в labels.yml)
+- **Labels:** используем `task` вместо `feature` в release.yml и standard-release.md § 5
+- **Milestone validate** — покрывается validate-pre-release.py (E004-E006), отдельный вызов не нужен
+- **Нужен скилл** — `/skill-create release-create`, SSOT → create-release.md
 
 ## Открытые вопросы
 
-- Существуют ли скрипты validate-pre-release.py и validate-post-release.py? Если нет — нужно создать или убрать из инструкции
-- Нужно ли добавить шаг проверки analysis chain (все цепочки DONE) перед Release?
-- Нужно ли формально вызывать `/milestone-validate` внутри воркфлоу или достаточно проверки в pre-release скрипте?
+*Все вопросы решены. Черновик готов к реализации.*
+
+## Вынесено в отдельные драфты
+
+Следующие темы выходят за рамки создания скилла /release-create и вынесены:
+
+| Тема | Драфт | Что делать |
+|------|-------|------------|
+| deploy.yml workflow | `2026-02-25-deploy-workflow.md` | Стандарт + шаблон deploy.yml |
+| Smoke tests / pre-release тесты | `2026-02-25-smoke-tests.md` | Формализация smoke tests |
+| Security scan / dependency audit | `2026-02-25-security-scan.md` | Отдельный стандарт |
+| Post-release validation расширение | `2026-02-25-post-release-validation.md` | Расширить standard-release.md § 11 |
+| Feature freeze как технический блок | `2026-02-25-feature-freeze.md` | Branch protection механизм |
 
 ---
 

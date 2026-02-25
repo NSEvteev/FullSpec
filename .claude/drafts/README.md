@@ -46,6 +46,11 @@ index: .claude/README.md
 | [2026-02-24-docker-dev.md](./2026-02-24-docker-dev.md) | Docker dev-среда + обучение пользователя |
 | [2026-02-24-shared-contracts.md](./2026-02-24-shared-contracts.md) | Shared contracts — исследование покрытия |
 | [2026-02-24-user-process-guide.md](./2026-02-24-user-process-guide.md) | User Process Guide — оркестрация разработчика |
+| [2026-02-25-deploy-workflow.md](./2026-02-25-deploy-workflow.md) | Deploy Workflow — стандарт + шаблон deploy.yml |
+| [2026-02-25-smoke-tests.md](./2026-02-25-smoke-tests.md) | Smoke Tests — формализация pre/post-release тестирования |
+| [2026-02-25-security-scan.md](./2026-02-25-security-scan.md) | Security Scan / Dependency Audit — отдельный стандарт |
+| [2026-02-25-post-release-validation.md](./2026-02-25-post-release-validation.md) | Post-release Validation — расширение standard-release.md § 11 |
+| [2026-02-25-feature-freeze.md](./2026-02-25-feature-freeze.md) | Feature Freeze — технический блок через Branch Protection |
 
 
 ---
@@ -87,5 +92,10 @@ index: .claude/README.md
 ├── 2026-02-24-docker-dev.md           # Docker dev-среда + обучение
 ├── 2026-02-24-shared-contracts.md     # Shared contracts — исследование
 ├── 2026-02-24-user-process-guide.md   # User Process Guide
+├── 2026-02-25-deploy-workflow.md      # Deploy Workflow
+├── 2026-02-25-smoke-tests.md          # Smoke Tests
+├── 2026-02-25-security-scan.md        # Security Scan
+├── 2026-02-25-post-release-validation.md # Post-release Validation
+├── 2026-02-25-feature-freeze.md       # Feature Freeze
 └── README.md                           # Этот файл (индекс)
 ```
