@@ -37,7 +37,9 @@ index: specs/.instructions/README.md
   - [Шаг 6: Создать rule](#шаг-6-создать-rule)
   - [Шаг 7: Зарегистрировать в README](#шаг-7-зарегистрировать-в-readme)
   - [Шаг 8: Валидация](#шаг-8-валидация)
+  - [Шаг 8.5: Ревью содержания](#шаг-85-ревью-содержания-если-вне-контекста-design)
   - [Шаг 9: Отчёт](#шаг-9-отчёт)
+  - [Шаг 10: Создать security-{tech}.md (если применимо)](#шаг-10-создать-security-techmd-если-применимо)
 - [Чек-лист](#чек-лист)
 - [Примеры](#примеры)
 - [Скрипты](#скрипты)
@@ -167,6 +169,18 @@ python specs/.instructions/.scripts/validate-docs-technology.py specs/docs/.tech
 
 Скрипт должен пройти без ошибок. Если есть ошибки — исправить по кодам из [validation-technology.md](./validation-technology.md).
 
+### Шаг 8.5: Ревью содержания (если вне контекста Design)
+
+> **Условие:** `/technology-create` вызван **вне** create-design.md (например, ручной вызов, `/technology-modify`).
+
+Если вызван из create-design.md (Шаг 10) — ревью выполняется на уровне оркестратора (create-design.md Шаг 10.5), а не здесь.
+
+1. Запустить **одного** technology-reviewer на все созданные стандарты
+2. Если вердикт **REVISE** — исправить стандарты по замечаниям → повторить Шаг 8 + 8.5
+3. Если вердикт **ACCEPT** — продолжить к Шагу 9
+
+**Агент:** [technology-reviewer](/.claude/agents/technology-reviewer/AGENT.md) (Task tool, subagent_type=`technology-reviewer`)
+
 ### Шаг 9: Отчёт
 
 ```
@@ -184,7 +198,41 @@ python specs/.instructions/.scripts/validate-docs-technology.py specs/docs/.tech
 ### Артефакты
 - `.claude/rules/{tech}.md` — rule для автозагрузки
 - `specs/docs/README.md` — таблица + дерево
+
+### Security
+- 📎 `security-{tech}.md`: {создан / не создан — причина}
+- Инструменты: {список}
 ```
+
+### Шаг 10: Создать security-{tech}.md (если применимо)
+
+Определить, нужен ли security-файл для технологии:
+
+| Условие | Пример | Создавать |
+|---------|--------|-----------|
+| Язык/runtime с package manager | Python, JavaScript, Go, Java | Да |
+| Контейнерная технология | Docker | Да |
+| СУБД, кэш, очередь | PostgreSQL, Redis, RabbitMQ | Нет |
+| CSS/UI framework | Tailwind CSS, Bootstrap | Нет |
+| Инфраструктурная утилита | Nginx | Нет |
+| IaC с provider registry | Terraform | Да |
+
+**Если Да:**
+1. Скопировать шаблон security-{tech}.md (см. standard-technology.md § 11)
+2. Заполнить frontmatter (`type: security`)
+3. Заполнить 5 секций:
+
+| Секция | Источник данных |
+|--------|----------------|
+| Инструменты | Официальные security-инструменты технологии |
+| Dependency Audit | Package manager audit command |
+| SAST | Официальный или de-facto SAST для языка |
+| CI Integration | GitHub Actions steps для инструментов выше |
+| Known Exceptions | Пусто при создании |
+
+4. Зарегистрировать в `specs/docs/README.md` (таблица + дерево)
+
+**Если Нет:** Шаг пропускается. В отчёте указать: `📎 security-{tech}.md: не создан — {причина}`.
 
 ---
 
@@ -202,6 +250,11 @@ python specs/.instructions/.scripts/validate-docs-technology.py specs/docs/.tech
 - [ ] Rule `.claude/rules/{tech}.md` создан с правильными globs
 - [ ] docs/README.md обновлён (таблица + дерево)
 - [ ] Валидация: `validate-docs-technology.py` пройдена
+- [ ] Ревью содержания: technology-reviewer вердикт ACCEPT (если вне create-design.md)
+- [ ] security-{tech}.md создан (если технология имеет package manager / SAST)
+- [ ] security-{tech}.md: frontmatter содержит `type: security`
+- [ ] security-{tech}.md: 5 секций заполнены / stub
+- [ ] security-{tech}.md зарегистрирован в docs/README.md
 
 ---
 

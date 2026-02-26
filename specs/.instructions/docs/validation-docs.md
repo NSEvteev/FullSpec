@@ -30,6 +30,7 @@ index: specs/.instructions/README.md
   - [Шаг 2: Проверить системные документы](#шаг-2-проверить-системные-документы)
   - [Шаг 3: Проверить индекс](#шаг-3-проверить-индекс)
   - [Шаг 4: Проверить файлы-примеры](#шаг-4-проверить-файлы-примеры)
+  - [Шаг 5: Проверить шаблонные per-tech стандарты](#шаг-5-проверить-шаблонные-per-tech-стандарты)
 - [Чек-лист](#чек-лист)
 - [Типичные ошибки](#типичные-ошибки)
 - [Скрипты](#скрипты)
@@ -57,9 +58,9 @@ index: specs/.instructions/README.md
 python specs/.instructions/.scripts/validate-docs.py
 ```
 
-Скрипт проверяет все правила DOC001-DOC005. Если валидация пройдена — **готово**, шаги 1-4 не нужны.
+Скрипт проверяет все правила DOC001-DOC006. Если валидация пройдена — **готово**, шаги 1-5 не нужны.
 
-**Если скрипт недоступен** — выполнить шаги 1-4 вручную.
+**Если скрипт недоступен** — выполнить шаги 1-5 вручную.
 
 ### Шаг 1: Проверить директории
 
@@ -95,6 +96,16 @@ python specs/.instructions/.scripts/validate-docs.py
 | `specs/docs/example.md` | Пример сервисного документа |
 | `specs/docs/.technologies/standard-example.md` | Пример per-tech стандарта |
 
+### Шаг 5: Проверить шаблонные per-tech стандарты
+
+Проверить наличие обязательных шаблонных per-tech стандартов (создаются при init):
+
+| Файл | Назначение |
+|------|-----------|
+| `specs/docs/.technologies/standard-openapi.md` | Конвенции OpenAPI 3.1 — REST-контракты |
+| `specs/docs/.technologies/standard-protobuf.md` | Конвенции Protobuf v3 — gRPC-контракты |
+| `specs/docs/.technologies/standard-asyncapi.md` | Конвенции AsyncAPI 3.0 — event-схемы |
+
 ---
 
 ## Чек-лист
@@ -109,6 +120,9 @@ python specs/.instructions/.scripts/validate-docs.py
 - [ ] `specs/docs/.system/testing.md` существует
 - [ ] `specs/docs/example.md` существует
 - [ ] `specs/docs/.technologies/standard-example.md` существует
+- [ ] `specs/docs/.technologies/standard-openapi.md` существует
+- [ ] `specs/docs/.technologies/standard-protobuf.md` существует
+- [ ] `specs/docs/.technologies/standard-asyncapi.md` существует
 
 ---
 
@@ -122,6 +136,7 @@ python specs/.instructions/.scripts/validate-docs.py
 | Отсутствует обязательный системный документ | DOC003 | Файл не создан или удалён | Создать недостающий файл по per-document стандарту |
 | Отсутствует README.md | DOC004 | Индекс не создан | Создать `specs/docs/README.md` по стандарту |
 | Отсутствует файл-пример | DOC005 | Пример не создан | Создать `example.md` или `standard-example.md` |
+| Отсутствует шаблонный per-tech стандарт | DOC006 | Шаблон не создан при init | Создать недостающий `standard-{tech}.md` по стандарту |
 
 ---
 

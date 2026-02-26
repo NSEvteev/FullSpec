@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Стандарт analysis/
 
-Версия стандарта: 1.1
+Версия стандарта: 1.3
 
 Полное описание аналитического контура Specification-Driven Development v2: философия двух контуров (analysis/ + docs/), четыре уровня (Discussion → Design → Plan Tests → Plan Dev), 7-шаговый воркфлоу объекта, 8 статусов, каскады, правила обновления docs/ при переходах, Clarify-паттерн, именование, запреты. Все per-object стандарты ссылаются на этот документ как SSOT.
 
@@ -524,6 +524,26 @@ LLM определяет **самый высокий затронутый док
 
 LLM проверяет вверх до первого незатронутого уровня → **СТОП**. Самый высокий затронутый документ — точка начала разрешения (§ 6.4).
 
+**Обнаружение — обязанность dev-agent:** Dev-agent ([AGENT.md](/.claude/agents/dev-agent/AGENT.md)) обязан после каждого коммита выполнить CONFLICT-CHECK: сопоставить внесённые изменения с `docs/{svc}.md` → секция "Границы автономии LLM", классифицировать по таблице выше (Свободно / Флаг / CONFLICT). При обнаружении CONFLICT агент определяет **самый высокий затронутый документ** (снизу вверх) и возвращает в отчёте: `level` (design/plan-test/plan-dev), `affected_doc` (SVC-N/INT-N/TC-N), `description` (что стало неверным). Формат отчёта — в [modify-development.md](/.github/.instructions/development/modify-development.md).
+
+**CONFLICT при параллельных агентах**
+
+При блочной параллельной модели выполнения (несколько dev-agent на одной волне, [standard-plan-dev.md](plan-dev/standard-plan-dev.md#блоки-выполнения)) CONFLICT обнаруживается одним из агентов. Политика: **остановить всех.**
+
+| Шаг | Действие | Кто |
+|-----|----------|-----|
+| 1 | Агент возвращает результат с `STATUS: CONFLICT` | Dev-agent |
+| 2 | Main LLM получает результат | Main LLM |
+| 3 | Main LLM вызывает `TaskStop` для всех запущенных агентов волны | Main LLM |
+| 4 | Main LLM собирает частичные результаты остановленных агентов | Main LLM |
+| 5 | Main LLM запускает CONFLICT-разрешение (§ 6.4): chain_status.py T4 → top-down → WAITING → RUNNING | Main LLM |
+| 6 | После разрешения: main LLM перезапускает незавершённые блоки (REMAINING_ISSUES — уже закрытые Issues пропускаются) | Main LLM |
+
+**Обоснование "остановить всех":**
+- CONFLICT меняет спецификации → другие агенты работают по устаревшим specs
+- Дешевле перезапустить, чем разбирать конфликты в коде
+- Код завершённых Issues сохраняется (коммиты уже сделаны)
+
 **Новый сервис при RUNNING:** Если для реализации требуется создать новый сервис, не предусмотренный в Design (SVC-N нового сервиса отсутствует) — это CONFLICT уровня Design. Разрешение по § 6.4.
 
 ### 6.4 CONFLICT to WAITING
@@ -742,6 +762,7 @@ graph LR
 | Новые конвенции | `.system/conventions.md` | Добавить записи | [standard-conventions.md](../docs/conventions/standard-conventions.md) |
 | Инфраструктурные изменения | `.system/infrastructure.md` | Добавить записи | [standard-infrastructure.md](../docs/infrastructure/standard-infrastructure.md) |
 | Новая технология | `.technologies/standard-{tech}.md` | Создать per-tech стандарт | `/technology-create` |
+| Новая технология (ревью) | `.technologies/standard-{tech}.md` | Ревью содержания per-tech стандартов | technology-reviewer |
 | Новая технология | `.technologies/README.md` | Добавить строку в реестр | [standard-technology.md](../docs/technology/standard-technology.md) |
 | Существующая технология | `.technologies/README.md` | Обновить колонку "Сервисы" | [standard-technology.md](../docs/technology/standard-technology.md) |
 | Новый сервис | `labels.yml` + GitHub | Создать метку `svc:{svc}` | через `/labels-modify` |

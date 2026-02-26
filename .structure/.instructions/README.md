@@ -41,6 +41,7 @@ index: .structure/.instructions/README.md
 │   ├── validate-links.py         # Валидация ссылок
 │   └── validate-structure.py     # Валидация структуры
 ├── README.md                     # Этот файл (индекс)
+├── create-initialization.md      # Инициализация проекта (Фаза 0)
 ├── create-structure.md           # Создание папки
 ├── modify-structure.md           # Изменение папки (rename/move/delete)
 ├── standard-frontmatter.md       # Стандарт frontmatter
@@ -127,6 +128,18 @@ index: .structure/.instructions/README.md
 - [Чек-лист](./modify-structure.md#чек-лист)
 
 **Инструкция:** [modify-structure.md](./modify-structure.md)
+
+## 2.3. Инициализация проекта
+
+Оркестрация Фазы 0: GitHub Labels, Security, docs/, pre-commit, customization, отчёт. 10 шагов Check → Act → Status.
+
+**Оглавление:**
+- [Принципы](./create-initialization.md#принципы)
+- [Шаги 1–10](./create-initialization.md#шаги)
+- [Режимы запуска](./create-initialization.md#режимы-запуска)
+- [Чек-лист](./create-initialization.md#чек-лист)
+
+**Инструкция:** [create-initialization.md](./create-initialization.md)
 
 ---
 

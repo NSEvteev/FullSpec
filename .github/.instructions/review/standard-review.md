@@ -34,7 +34,7 @@ Code Review процесс, merge стратегии, Branch Protection Rules.
 |-----|----------|
 | Стандарт | Этот документ |
 | Валидация | [validation-review.md](./validation-review.md) |
-| Создание | *Не требуется (процесс)* |
+| Создание | [create-merge.md](./create-merge.md) |
 | Модификация | *Не требуется (процесс)* |
 
 ## Оглавление

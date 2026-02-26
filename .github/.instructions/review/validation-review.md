@@ -20,7 +20,7 @@ index: .github/.instructions/review/README.md
 |-----|----------|
 | Стандарт | [standard-review.md](./standard-review.md) |
 | Валидация | Этот документ |
-| Создание | *Не требуется (процесс)* |
+| Создание | [create-merge.md](./create-merge.md) |
 | Модификация | *Не требуется (процесс)* |
 
 ## Оглавление

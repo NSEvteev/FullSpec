@@ -1,0 +1,182 @@
+name: Deploy
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  packages: write
+  deployments: write
+
+env:
+  REGISTRY: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
+  TAG: ${{ github.event.release.tag_name }}
+
+jobs:
+  # ──────────────────────────────────────────
+  # 1. Discover services with Dockerfiles
+  # ──────────────────────────────────────────
+  discover:
+    if: "!github.event.release.prerelease"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      services: ${{ steps.find.outputs.services }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: find
+        name: Find services with Dockerfile
+        run: |
+          services=$(find src -maxdepth 2 -name Dockerfile \
+            | xargs -I{} dirname {} \
+            | xargs -I{} basename {} \
+            | jq -R -s -c 'split("\n") | map(select(. != ""))')
+          echo "services=$services" >> "$GITHUB_OUTPUT"
+          echo "Discovered services: $services"
+
+  # ──────────────────────────────────────────
+  # 2. Build & push images (parallel per service)
+  # ──────────────────────────────────────────
+  build:
+    needs: [discover]
+    runs-on: ubuntu-latest
+    if: needs.discover.outputs.services != '[]'
+    timeout-minutes: 30
+    strategy:
+      fail-fast: true
+      matrix:
+        service: ${{ fromJson(needs.discover.outputs.services) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & push
+        uses: docker/build-push-action@v6
+        with:
+          context: src/${{ matrix.service }}
+          file: src/${{ matrix.service }}/Dockerfile
+          target: production
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ matrix.service }}:${{ env.TAG }}
+            ${{ env.REGISTRY }}/${{ matrix.service }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ──────────────────────────────────────────
+  # 3. Deploy to staging
+  # ──────────────────────────────────────────
+  deploy-staging:
+    needs: [build, discover]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to staging
+        env:
+          SERVICES: ${{ needs.discover.outputs.services }}
+        run: |
+          # PLACEHOLDER: заменить при /init-project
+          # Варианты:
+          #   Docker Compose + SSH: ssh $HOST "cd /app && docker compose pull && docker compose up -d"
+          #   Kubernetes: kubectl set image deployment/$svc $svc=$REGISTRY/$svc:$TAG
+          #   Cloud: aws ecs update-service / gcloud run deploy
+          echo "Deploy to staging: $SERVICES (tag: $TAG)"
+          echo "TODO: implement deploy command"
+
+      - name: Health check staging
+        env:
+          SERVICES: ${{ needs.discover.outputs.services }}
+        run: |
+          # PLACEHOLDER: health check для каждого сервиса
+          # for svc in $(echo $SERVICES | jq -r '.[]'); do
+          #   curl --fail --retry 5 --retry-delay 10 --max-time 60 \
+          #     "https://staging.example.com/$svc/health"
+          # done
+          echo "TODO: implement health checks"
+
+  # ──────────────────────────────────────────
+  # 4. Smoke tests
+  # ──────────────────────────────────────────
+  smoke-tests:
+    needs: [deploy-staging]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run smoke tests
+        run: |
+          # PLACEHOLDER: make test-smoke
+          # Smoke tests проверяют critical paths, а не только /health
+          echo "TODO: implement smoke tests (make test-smoke)"
+
+  # ──────────────────────────────────────────
+  # 5. Deploy to production
+  # ──────────────────────────────────────────
+  deploy-production:
+    needs: [smoke-tests, discover]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: production  # requires manual approval (GitHub Environment protection)
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to production
+        env:
+          SERVICES: ${{ needs.discover.outputs.services }}
+        run: |
+          # PLACEHOLDER: аналогично staging
+          echo "Deploy to production: $SERVICES (tag: $TAG)"
+          echo "TODO: implement deploy command"
+
+      - name: Health check production
+        env:
+          SERVICES: ${{ needs.discover.outputs.services }}
+        run: |
+          # PLACEHOLDER: health check
+          # for svc in $(echo $SERVICES | jq -r '.[]'); do
+          #   curl --fail --retry 5 --retry-delay 10 --max-time 60 \
+          #     "https://production.example.com/$svc/health"
+          # done
+          echo "TODO: implement health checks"
+
+  # ──────────────────────────────────────────
+  # 6. Rollback on failure
+  # ──────────────────────────────────────────
+  rollback:
+    needs: [deploy-production]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: failure()
+    steps:
+      - name: Get previous release tag
+        id: prev
+        run: |
+          prev_tag=$(gh api repos/${{ github.repository }}/releases \
+            --jq '.[1].tag_name // "none"')
+          echo "tag=$prev_tag" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Rollback to previous version
+        if: steps.prev.outputs.tag != 'none'
+        run: |
+          # PLACEHOLDER: redeploy предыдущий тег
+          echo "Rolling back to ${{ steps.prev.outputs.tag }}"
+          echo "TODO: implement rollback"
+
+      - name: No rollback available
+        if: steps.prev.outputs.tag == 'none'
+        run: |
+          echo "::warning::No previous release — rollback skipped (first deploy)"

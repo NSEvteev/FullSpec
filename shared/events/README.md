@@ -1,5 +1,6 @@
 # /shared/events/ — Схемы событий
 
-| IN | OUT |
-|----|-----|
-| user.created.json, order.placed.json | Код publishers (→ `/src/`) |
+Схемы событий в формате AsyncAPI 3.0. Один файл на доменную группу.
+
+**Стандарт:** [standard-asyncapi.md](/specs/docs/.technologies/standard-asyncapi.md)
+**Валидация:** `asyncapi validate {file}.yaml`

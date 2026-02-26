@@ -25,6 +25,8 @@ standard-version: v1.1
 - [6. Настройка GitHub Security](#6-настройка-github-security)
 - [7. Настройка Branch Protection Rules](#7-настройка-branch-protection-rules)
 - [8. Настройка GitHub Labels (опционально)](#8-настройка-github-labels-опционально)
+- [9. Настройка GitHub Environments (деплой)](#9-настройка-github-environments-деплой)
+- [10. Claude-assisted инициализация](#10-claude-assisted-инициализация)
 
 ---
 
@@ -51,6 +53,8 @@ make setup
 | **pre-commit** | Хуки перед коммитом | `pip install pre-commit` |
 | **Git** | Контроль версий | [git-scm.com](https://git-scm.com/) |
 | **GitHub CLI (gh)** | Работа с Issues, PR, Releases | `winget install GitHub.cli` |
+| **Docker Desktop** | Контейнеризация сервисов | [docker.com](https://www.docker.com/products/docker-desktop/) |
+| **WSL2** (Windows) | Linux-ядро для Docker | `wsl --install` |
 
 ---
 
@@ -59,51 +63,66 @@ make setup
 ### Windows
 
 ```powershell
-# 1. Pre-commit
+# 1. WSL2 + Docker Desktop
+wsl --install                     # Перезагрузить после установки
+# Скачать Docker Desktop: https://www.docker.com/products/docker-desktop/
+# При установке: "Use WSL 2 based engine"
+# Settings → Resources → WSL Integration → включить для дистрибутива
+docker compose version            # Проверить
+
+# 2. Pre-commit
 pip install pre-commit
 
-# 2. GitHub CLI
+# 3. GitHub CLI
 winget install GitHub.cli
 
-# 3. Авторизация в GitHub (один раз)
+# 4. Авторизация в GitHub (один раз)
 gh auth login
 
-# 4. Установка хуков
+# 5. Установка хуков
 pre-commit install
 ```
 
 ### macOS
 
 ```bash
-# 1. Pre-commit
+# 1. Docker Desktop
+# Скачать: https://www.docker.com/products/docker-desktop/
+docker compose version            # Проверить
+
+# 2. Pre-commit
 pip install pre-commit
 
-# 2. GitHub CLI
+# 3. GitHub CLI
 brew install gh
 
-# 3. Авторизация в GitHub (один раз)
+# 4. Авторизация в GitHub (один раз)
 gh auth login
 
-# 4. Установка хуков
+# 5. Установка хуков
 pre-commit install
 ```
 
 ### Linux
 
 ```bash
-# 1. Pre-commit
+# 1. Docker Engine
+# https://docs.docker.com/engine/install/
+docker compose version            # Проверить
+
+# 2. Pre-commit
 pip install pre-commit
 
-# 2. GitHub CLI (Ubuntu/Debian)
+# 3. GitHub CLI (Ubuntu/Debian)
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 sudo apt update
 sudo apt install gh
 
-# 3. Авторизация в GitHub (один раз)
+# 4. Авторизация в GitHub (один раз)
 gh auth login
 
-# 4. Установка хуков
+# 5. Установка хуков
 pre-commit install
 ```
 
@@ -113,10 +132,11 @@ pre-commit install
 
 ```bash
 # Проверить версии
-python --version      # Python 3.8+
-pre-commit --version  # pre-commit 3.x
-gh --version          # gh 2.x
-git --version         # git 2.x
+python --version          # Python 3.8+
+pre-commit --version      # pre-commit 3.x
+gh --version              # gh 2.x
+git --version             # git 2.x
+docker compose version    # Docker Compose v2.x
 
 # Проверить авторизацию GitHub
 gh auth status
@@ -285,15 +305,83 @@ gh api repos/{owner}/{repo}/branches/main/protection --method PUT \
 После первоначальной настройки рекомендуется настроить систему меток GitHub:
 
 ```bash
-# Запустить скрипт настройки меток
-python .github/.instructions/.scripts/setup-labels.py
+# Показать diff (dry-run по умолчанию)
+python .github/.instructions/.scripts/sync-labels.py
+
+# Применить изменения (удаление default + создание проектных)
+python .github/.instructions/.scripts/sync-labels.py --apply --force
 ```
 
 Скрипт:
-- Удалит стандартные метки GitHub
+- Удалит стандартные метки GitHub (bug, documentation, enhancement, ...)
 - Создаст систему меток проекта (type:, priority:, area:, status:)
 
-> **Примечание:** Скрипт будет создан при проработке `.github/.instructions/labels/`.
+> **Примечание:** `--force` удаляет default GitHub labels. Используйте `--apply` без `--force` для добавления без удаления.
+
+---
+
+## 9. Настройка GitHub Environments (деплой)
+
+Для работы `deploy.yml` необходимо настроить GitHub Environments. Settings не копируются из template — настроить вручную.
+
+**SSOT:** [standard-deploy.md](/.github/.instructions/actions/deploy/standard-deploy.md)
+
+### Шаг 1: Создать environments
+
+```bash
+# Получить данные репозитория
+OWNER=$(gh repo view --json owner -q .owner.login)
+REPO=$(gh repo view --json name -q .name)
+
+# Создать environment "staging" (auto-deploy)
+gh api repos/$OWNER/$REPO/environments/staging -X PUT
+
+# Создать environment "production" (manual approval)
+# Заменить USER_ID на ID пользователя-ревьюера
+gh api repos/$OWNER/$REPO/environments/production -X PUT \
+  --input '{"reviewers":[{"type":"User","id":USER_ID}]}'
+```
+
+### Шаг 2: Настроить secrets (per-environment)
+
+```bash
+# Environment secrets (настраиваются администратором)
+gh secret set DATABASE_URL --env staging --body "postgres://..."
+gh secret set DATABASE_URL --env production --body "postgres://..."
+gh secret set REDIS_URL --env staging --body "redis://..."
+gh secret set REDIS_URL --env production --body "redis://..."
+```
+
+### Шаг 3: Repository secrets (опционально)
+
+```bash
+# Нужны только для внешних registry (не GHCR)
+gh secret set DEPLOY_HOST --body "deploy.example.com"
+gh secret set DEPLOY_SSH_KEY < ~/.ssh/deploy_key
+```
+
+> **Примечание:** При использовании GHCR — `GITHUB_TOKEN` достаточно (не нужны дополнительные registry credentials).
+
+---
+
+## 10. Claude-assisted инициализация
+
+Для полной интерактивной настройки с Claude Code:
+
+```
+/init-project
+```
+
+Скилл оркестрирует все шаги из этого документа (§ 1–§ 9), проверяет состояние, задаёт вопросы через AskUserQuestion и генерирует итоговый отчёт.
+
+| Режим | Описание |
+|-------|----------|
+| `/init-project` | Полная настройка (интерактивная) |
+| `/init-project --check` | Только проверка, без мутаций (healthcheck) |
+| `/init-project --skip-github` | Пропустить GitHub-шаги (§ 4–§ 7) |
+| `/init-project --skip-docs` | Пропустить проверку docs/ (§ 8) |
+
+**SSOT:** [create-initialization.md](./.instructions/create-initialization.md)
 
 ---
 

@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Стандарт standard-{tech}.md
 
-Версия стандарта: 1.0
+Версия стандарта: 1.1
 
 Формат и правила для `specs/docs/.technologies/standard-{tech}.md` — per-tech стандарта кодирования. Каждый стандарт самодостаточен: прочитал — можешь писать код с этой технологией по конвенциям проекта.
 
@@ -44,6 +44,7 @@ index: specs/.instructions/README.md
 - [8. Версионирование](#8-версионирование)
 - [9. Шаблон](#9-шаблон)
 - [10. Пример](#10-пример)
+- [11. Companion: security-{tech}.md](#11-companion-security-techmd)
 
 ---
 
@@ -769,3 +770,31 @@ logging.getLogger("sqlalchemy.engine").setLevel(
 )
 ```
 `````
+
+---
+
+## 11. Companion: security-{tech}.md
+
+Для технологий с package manager или SAST-инструментами создаётся companion-файл
+`security-{tech}.md` — описание инструментов безопасности.
+
+**Расположение:**
+
+    specs/docs/.technologies/security-{tech}.md
+
+**Формат:** 5 обязательных h2-секций:
+
+| # | Секция | Содержание |
+|---|--------|-----------|
+| 1 | Инструменты | Таблица инструментов |
+| 2 | Dependency Audit | Команда + severity-модель |
+| 3 | SAST | Конфигурация + правила |
+| 4 | CI Integration | GitHub Actions job fragment |
+| 5 | Known Exceptions | Suppressed правила |
+
+**Frontmatter:** Содержит `type: security` (отличает от `standard-{tech}.md`).
+
+**Шаблон:** См. [standard-security.md § 11](/.github/.instructions/actions/security/standard-security.md#11-per-tech-security-scanning).
+
+**Когда создавать:** Вместе с `standard-{tech}.md` при /technology-create.
+Критерий: технология имеет package manager (pip, npm, go mod) или SAST-инструмент.

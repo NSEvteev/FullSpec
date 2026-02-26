@@ -117,6 +117,17 @@ standard-version: v1.1
 | [issue-modify](./issue-modify/SKILL.md) | Изменение GitHub Issue по стандарту |
 | [branch-create](./branch-create/SKILL.md) | Создание ветки по стандарту |
 | [review](./review/SKILL.md) | Ревью кода (ветка или PR) |
+| [post-release](./post-release/SKILL.md) | Post-release валидация (Release, Notes, CHANGELOG, деплой) |
+| [release-create](./release-create/SKILL.md) | Создание GitHub Release (chains, pre-release, Notes, публикация) |
+
+### process
+
+Оркестрация процесса поставки ценности.
+
+| Скилл | Описание |
+|-------|----------|
+| [chain](./chain/SKILL.md) | Оркестратор полного цикла (TaskList от идеи до релиза) |
+| [init-project](./init-project/SKILL.md) | Инициализация проекта (Фаза 0, GitHub, docs/, customization) |
 
 ### specs
 
@@ -137,7 +148,7 @@ standard-version: v1.1
 | [plan-dev-modify](./plan-dev-modify/SKILL.md) | Изменение документа плана разработки |
 | [plan-dev-validate](./plan-dev-validate/SKILL.md) | Валидация документа плана разработки |
 | [dev-create](./dev-create/SKILL.md) | Запуск разработки по analysis chain (WAITING → RUNNING) |
-| [dev](./dev/SKILL.md) | Процесс разработки в feature-ветке (RUNNING) |
+| ~~[dev](./dev_old/SKILL.md)~~ | ~~Деактивирован — заменён на dev-agent~~ |
 | [analysis-status](./analysis-status/SKILL.md) | Статус analysis chain (одна/все цепочки, dashboard) |
 | [review-create](./review-create/SKILL.md) | Создание review.md при Plan Dev → WAITING |
 | [review-validate](./review-validate/SKILL.md) | Валидация документа ревью кода |

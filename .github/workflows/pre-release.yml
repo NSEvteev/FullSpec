@@ -1,0 +1,58 @@
+# Pre-release Validation
+#
+# Полная проверка перед релизом: pre-commit, тесты, линтинг, e2e.
+# Запускается вручную (workflow_dispatch) ПЕРЕД созданием тега.
+# Release = решение человека, не автоматический trigger.
+#
+# SSOT: standard-release.md, standard-testing.md
+
+name: Pre-release Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to validate (e.g., v1.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Pre-release validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Cache pre-commit
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Pre-commit checks
+        run: |
+          pip install pre-commit
+          pre-commit run --all-files
+
+      - name: Unit & Integration tests
+        run: make test
+
+      - name: Lint
+        run: make lint
+
+      - name: E2E tests
+        run: make test-e2e
+
+      - name: Pre-release validation script
+        run: python .github/.instructions/.scripts/validate-pre-release.py --version ${{ inputs.version }} --skip-tests

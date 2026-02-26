@@ -30,6 +30,10 @@ GitHub Actions и автоматизация.
 
 ```
 /.github/.instructions/actions/
+├── deploy/                             # Deploy workflow (environments, rollback)
+│   ├── README.md
+│   ├── standard-deploy.md
+│   └── validation-deploy.md
 ├── security/                           # Безопасность (Dependabot, CodeQL)
 │   ├── README.md
 │   └── standard-security.md
@@ -44,6 +48,7 @@ GitHub Actions и автоматизация.
 
 | Область | Описание | Индекс |
 |---------|----------|--------|
+| [deploy/](./deploy/) | Deploy workflow: триггеры, environments, dynamic discovery, rollback | [README](./deploy/README.md) |
 | [security/](./security/) | Безопасность: Dependabot, CodeQL, Secret Scanning | [README](./security/README.md) |
 
 ---

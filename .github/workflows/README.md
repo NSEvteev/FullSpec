@@ -33,7 +33,9 @@ YAML-файлы GitHub Actions для CI/CD.
 
 | Файл | Описание |
 |------|----------|
-| [ci.yml](./ci.yml) | CI — pre-commit проверки при push/PR |
+| [ci.yml](./ci.yml) | CI — pre-commit, тесты, линтинг, dependency review при push/PR |
+| [pre-release.yml](./pre-release.yml) | Pre-release — полная валидация перед релизом (workflow_dispatch) |
+| [deploy.yml](./deploy.yml) | Deploy — build & deploy сервисов при Release published ([standard-deploy.md](../.instructions/actions/deploy/standard-deploy.md)) |
 
 ---
 
@@ -41,6 +43,8 @@ YAML-файлы GitHub Actions для CI/CD.
 
 ```
 /.github/workflows/
-├── ci.yml                   # CI — pre-commit проверки
+├── ci.yml                   # CI — pre-commit, тесты, линтинг, dependency review
+├── deploy.yml               # Deploy — build & deploy при Release published
+├── pre-release.yml          # Pre-release — полная валидация перед релизом
 └── README.md                # Этот файл
 ```

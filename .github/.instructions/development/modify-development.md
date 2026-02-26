@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу процесса разработки в feature-ветке — взятие задачи, код, тестирование, коммит, переходы статусов RUNNING+ (CONFLICT, REVIEW, DONE, ROLLING_BACK, REJECTED).
+description: Воркфлоу процесса разработки в feature-ветке — блоки (BLOCK-N), волны, параллельные dev-agent, CONFLICT-детекция, переходы статусов RUNNING+ (CONFLICT, REVIEW, DONE, ROLLING_BACK, REJECTED).
 standard: .instructions/standard-instruction.md
 standard-version: v1.3
 index: .github/.instructions/development/README.md
@@ -9,7 +9,7 @@ index: .github/.instructions/development/README.md
 
 Рабочая версия стандарта: 1.3
 
-Процесс разработки в feature-ветке: определение состояния, взятие задачи, написание кода, тестирование, завершение Issue. Используется когда ветка уже в RUNNING.
+Процесс разработки в feature-ветке: определение блоков и волн, запуск dev-agent для каждого блока, сбор результатов, обработка CONFLICT. Используется когда ветка уже в RUNNING.
 
 **Полезные ссылки:**
 - [Инструкции development](./README.md)
@@ -21,6 +21,7 @@ index: .github/.instructions/development/README.md
 - [standard-issue.md](../issues/standard-issue.md) — формат Issue, критерии готовности
 - [standard-commit.md](../commits/standard-commit.md) — формат коммитов
 - [standard-principles.md](/.instructions/standard-principles.md) — принципы программирования
+- [dev-agent](/.claude/agents/dev-agent/AGENT.md) — агент разработки (выполняет BLOCK-N)
 
 **Связанные документы:**
 
@@ -34,12 +35,12 @@ index: .github/.instructions/development/README.md
 ## Оглавление
 
 - [Принципы](#принципы)
+- [Модель выполнения](#модель-выполнения)
 - [Шаги](#шаги)
-  - [Шаг 1: Определить состояние](#шаг-1-определить-состояние)
-  - [Шаг 2: Взять задачу](#шаг-2-взять-задачу)
-  - [Шаг 3: Разработка](#шаг-3-разработка)
-  - [Шаг 4: Тестирование и проверки](#шаг-4-тестирование-и-проверки)
-  - [Шаг 5: Завершение работы над Issue](#шаг-5-завершение-работы-над-issue)
+  - [Шаг 1: Определить блоки и волны](#шаг-1-определить-блоки-и-волны)
+  - [Шаг 2: Запустить волну](#шаг-2-запустить-волну)
+  - [Шаг 3: Собрать результаты](#шаг-3-собрать-результаты)
+  - [Шаг 4: Следующая волна или REVIEW](#шаг-4-следующая-волна-или-review)
 - [Переход: RUNNING → CONFLICT](#переход-running-conflict)
 - [Переход: RUNNING → REVIEW](#переход-running-review)
 - [Переход: REVIEW → DONE](#переход-review-done)
@@ -56,23 +57,48 @@ index: .github/.instructions/development/README.md
 
 > **SSOT — standard-development.md.** Детали каждого шага — в стандарте. Этот документ описывает порядок выполнения, не дублируя правила.
 
-> **Итеративность.** Цикл код → тест → линт → коммит повторяется для каждой задачи. Одна задача = один Issue.
+> **Блочная параллельная модель.** Задачи (TASK-N) группируются в блоки (BLOCK-N), блоки распределяются по волнам. Каждый блок выполняется отдельным dev-agent.
 
-> **Атомарные коммиты.** Каждый коммит — логически завершённое изменение. Формат → [standard-commit.md](../commits/standard-commit.md).
+> **CONFLICT → остановить всех.** При обнаружении CONFLICT любым агентом — остановить все запущенные агенты, собрать частичные результаты, разрешить CONFLICT, перезапустить.
+
+> **Двухуровневое тестирование.** Агент запускает per-service тесты (`make test-{svc}`). Main LLM запускает системные тесты (`make test-e2e`) после волны.
+
+---
+
+## Модель выполнения
+
+```
+plan-dev.md → Блоки выполнения → Волны
+                                    │
+                        ┌───────────┼───────────┐
+                   Wave 0      Wave 1       Wave 2
+                   BLOCK-1     BLOCK-2      BLOCK-4
+                               BLOCK-3
+                                    │
+                            dev-agent × N (параллельно)
+                                    │
+                            Сбор результатов
+                                    │
+                   ┌────────────────┼────────────────┐
+              Все COMPLETED     CONFLICT          PARTIAL
+                   │               │                  │
+           Следующая волна    TaskStop всех    Перезапуск блока
+```
+
+**Участники:**
+
+| Роль | Ответственность |
+|------|----------------|
+| Main LLM | Парсинг блоков и волн, запуск/остановка агентов, системные тесты, переходы статусов |
+| Dev-agent | Выполнение BLOCK-N (код → test → lint → commit → CONFLICT-CHECK → close Issue), отчёт |
 
 ---
 
 ## Шаги
 
-### Шаг 1: Определить состояние
+### Шаг 1: Определить блоки и волны
 
 **SSOT:** [standard-development.md § 0](./standard-development.md#0-запуск-разработки)
-
-```bash
-python .github/.instructions/.scripts/dev-next-issue.py
-```
-
-Скрипт автоматически определяет ветку, читает plan-dev.md, запрашивает Issues и выводит следующий незаблокированный Issue. Если скрипт недоступен — выполнить вручную:
 
 1. Определить текущую ветку:
    ```bash
@@ -80,89 +106,116 @@ python .github/.instructions/.scripts/dev-next-issue.py
    ```
    Имя ветки = `{NNNN}-{topic}` — номер analysis chain.
 
-2. Прочитать plan-dev.md → получить список TASK-N:
+2. Прочитать plan-dev.md → секция "Блоки выполнения":
    ```bash
    # Путь: specs/analysis/{NNNN}-{topic}/plan-dev.md
    ```
 
-3. Получить список открытых Issues:
+3. Парсить таблицу блоков:
+
+   | BLOCK | Задачи | Сервисы | Зависимости | Wave |
+   |-------|--------|---------|-------------|------|
+   | BLOCK-1 | TASK-1, TASK-2 | auth | — | 0 |
+   | BLOCK-2 | TASK-3 | notification | BLOCK-1 | 1 |
+   | BLOCK-3 | TASK-4, TASK-5 | payment | BLOCK-1 | 1 |
+   | BLOCK-4 | TASK-6 | auth, notification | BLOCK-2, BLOCK-3 | 2 |
+
+4. Определить текущую волну: первая волна, все блоки которой ещё не завершены.
+
+5. Получить Issues каждого блока:
    ```bash
-   gh issue list --milestone "{milestone}" --state open
+   gh issue list --milestone "{milestone}" --state open --json number,title
    ```
 
-4. Определить первый незаблокированный Issue по порядку из plan-dev.md.
+---
+
+### Шаг 2: Запустить волну
+
+Для каждого блока текущей волны — запустить dev-agent через Task tool **параллельно** (один вызов с множественными Tool Use).
+
+**Формат запуска:**
+
+```
+Task(
+  subagent_type="dev-agent",
+  description="BLOCK-{N}: {сервисы}",
+  prompt="""
+    BLOCK: BLOCK-{N}
+    ISSUES: [#{issue1}, #{issue2}, ...]
+    SERVICES: [{svc1}, {svc2}]
+
+    Контекст:
+    - plan-dev: specs/analysis/{NNNN}-{topic}/plan-dev.md
+    - plan-test: specs/analysis/{NNNN}-{topic}/plan-test.md
+    - design: specs/analysis/{NNNN}-{topic}/design.md
+    - docs: specs/docs/{svc}.md (для каждого сервиса)
+    - conventions: specs/docs/.system/conventions.md
+  """
+)
+```
+
+**При partial resume** (после CONFLICT или PARTIAL):
+
+```
+Task(
+  subagent_type="dev-agent",
+  prompt="""
+    BLOCK: BLOCK-{N}
+    ISSUES: [#{issue1}, #{issue2}, #{issue3}]
+    REMAINING_ISSUES: [#{issue3}]
+    SERVICES: [{svc1}]
+    ...
+  """
+)
+```
+
+Main LLM определяет REMAINING_ISSUES:
+```bash
+gh issue list --milestone "{milestone}" --state closed --json number --jq '.[].number'
+```
+
+**Правила запуска:**
+- Все блоки одной волны запускаются параллельно (один message с множественными Task tool calls)
+- Блок запускается только если все его зависимости (blockedBy) завершены
+- INFRA-блоки (wave 0) запускаются первыми
 
 ---
 
-### Шаг 2: Взять задачу
+### Шаг 3: Собрать результаты
 
-**SSOT:** [standard-development.md § 1](./standard-development.md#1-взятие-задачи)
+Дождаться завершения всех агентов волны. Для каждого агента прочитать отчёт:
 
-1. Прочитать Issue:
+**Если любой STATUS=CONFLICT:**
+
+1. Остановить все ещё работающие агенты: `TaskStop(agent_id)`
+2. Собрать частичные результаты из всех агентов (COMPLETED_ISSUES, REMAINING_ISSUES)
+3. Перейти к [Переход: RUNNING → CONFLICT](#переход-running-conflict)
+
+**Если любой STATUS=PARTIAL:**
+
+1. Записать REMAINING_ISSUES
+2. Перезапустить блок с REMAINING_ISSUES (Шаг 2)
+
+**Если все STATUS=COMPLETED:**
+
+1. Проверить FLAGS всех агентов — есть ли рабочие правки, влияющие на следующие волны
+2. Запустить системные тесты:
    ```bash
-   gh issue view {number} --json title,body
+   make test-e2e
    ```
-
-2. Проверить зависимости TASK-N — все блокирующие задачи должны быть закрыты.
-
-3. Прочитать описание задачи, критерии готовности, подзадачи.
+3. Если системные тесты прошли → перейти к Шаг 4
+4. Если системные тесты упали → диагностировать, исправить, повторить
 
 ---
 
-### Шаг 3: Разработка
+### Шаг 4: Следующая волна или REVIEW
 
-**SSOT:** [standard-development.md § 2](./standard-development.md#2-процесс-разработки)
+1. Если есть следующая волна → вернуться к [Шаг 2](#шаг-2-запустить-волну)
 
-Цикл разработки:
-
-1. **Написать код** — следовать [standard-principles.md](/.instructions/standard-principles.md)
-2. **Запустить тесты** — `make test` (→ [standard-development.md § 4](./standard-development.md#4-тестирование))
-3. **Запустить линтер** — `make lint` (→ [standard-development.md § 5](./standard-development.md#5-проверки-качества))
-4. **Коммит** — `git commit` по [standard-commit.md](../commits/standard-commit.md)
-
-Повторять цикл до завершения всех подзадач Issue.
-
-**Make-команды** (→ [standard-development.md § 3](./standard-development.md#3-make-команды)):
-
-| Команда | Когда |
-|---------|-------|
-| `make test` | После изменений кода |
-| `make lint` | Перед коммитом |
-| `make build` | Перед завершением Issue |
-| `make dev` | При ошибках "connection refused" |
-
----
-
-### Шаг 4: Тестирование и проверки
-
-**SSOT:** [standard-development.md §§ 4-5](./standard-development.md#4-тестирование)
-
-1. **Unit-тесты** — новый код покрыт тестами, `make test` проходит
-2. **Линтер** — `make lint` без ERRORS, warnings исправлены в изменённых файлах
-3. **Сборка** — `make build` проходит без ошибок
-
-| Проверка | Команда | Критерий |
-|----------|---------|----------|
-| Тесты | `make test` | Exit code 0 |
-| Линтер | `make lint` | Нет ERRORS |
-| Сборка | `make build` | Exit code 0 |
-
----
-
-### Шаг 5: Завершение работы над Issue
-
-**SSOT:** [standard-development.md § 7](./standard-development.md#7-завершение-работы-над-issue)
-
-1. Убедиться, что все подзадачи Issue выполнены
-2. Убедиться, что критерии готовности Issue выполнены
-3. Закрыть Issue:
-   ```bash
-   gh issue close {number} --comment "Реализовано в коммитах {hashes}"
-   ```
-
-4. **Следующая задача:** Вернуться к [Шаг 1](#шаг-1-определить-состояние) для следующего Issue.
-
-5. **Все задачи завершены:** Все Issues закрыты → готово к REVIEW (→ [Переход: RUNNING → REVIEW](#переход-running-review)).
+2. Если все волны завершены:
+   a. Все Issues закрыты
+   b. Системные тесты пройдены
+   c. Перейти к [Переход: RUNNING → REVIEW](#переход-running-review)
 
 ---
 
@@ -172,9 +225,14 @@ python .github/.instructions/.scripts/dev-next-issue.py
 
 > **Tree-level каскад.** При обнаружении CONFLICT-уровня проблемы **все** документы цепочки → CONFLICT.
 
-**Триггер:** обратная связь от кода выявила несовместимость со спецификациями на уровне Design или выше. LLM-агент обнаруживает при написании кода, при падении тестов, или разработчик сообщает вручную.
+**Триггер:** dev-agent вернул STATUS=CONFLICT (CONFLICT-CHECK обнаружил несовместимость с границами автономии LLM).
 
-**Через `chain_status.py`:**
+**Шаги:**
+
+1. Остановить все работающие агенты текущей волны (`TaskStop`)
+2. Собрать частичные результаты из всех агентов
+3. AskUserQuestion: "CONFLICT обнаружен: {description}. Разрешить?"
+4. Через `chain_status.py`:
 
 ```python
 from chain_status import ChainManager
@@ -183,9 +241,9 @@ result = mgr.transition(to="CONFLICT")
 # Модуль автоматически: все 4 документа → CONFLICT (кроме DONE/REJECTED), README dashboard
 ```
 
-Выполнить побочные эффекты из `result.side_effects` (Issues остаются открытыми — работа приостановлена, не отменена).
+5. Выполнить побочные эффекты из `result.side_effects` (Issues остаются открытыми — работа приостановлена, не отменена)
 
-**После перехода:** разрешение CONFLICT — через [Стандарт analysis/ § 6.4](/specs/.instructions/analysis/standard-analysis.md#64-conflict-to-waiting). Каждый документ ревьюится top-down → WAITING. Когда все 4 в WAITING → каскад RUNNING.
+**После перехода:** разрешение CONFLICT — через [Стандарт analysis/ § 6.4](/specs/.instructions/analysis/standard-analysis.md#64-conflict-to-waiting). Каждый документ ревьюится top-down → WAITING. Когда все 4 в WAITING → каскад RUNNING. После перехода в RUNNING — пересобрать блоки (BLOCK-N могли измениться) и перезапустить незавершённые блоки.
 
 ---
 
@@ -195,7 +253,7 @@ result = mgr.transition(to="CONFLICT")
 
 > **Tree-level переход.** Все документы цепочки переходят в REVIEW одновременно.
 
-**Триггер:** все TASK-N из Plan Dev выполнены, все Issues закрыты. LLM предлагает через AskUserQuestion: "Разработка завершена. Перейти в REVIEW?"
+**Триггер:** все волны завершены, все Issues закрыты, системные тесты пройдены. LLM предлагает через AskUserQuestion: "Разработка завершена. Перейти в REVIEW?"
 
 **Шаги:**
 
@@ -298,26 +356,25 @@ result = mgr.transition(to="REJECTED")
 
 ### Подготовка
 - [ ] Ветка определена (`git branch --show-current`)
-- [ ] Plan-dev.md прочитан
-- [ ] Открытые Issues получены
+- [ ] Plan-dev.md прочитан → секция "Блоки выполнения"
+- [ ] Блоки и волны определены
+- [ ] Issues для каждого блока получены
 
-### Разработка (для каждого Issue)
-- [ ] Issue прочитан, зависимости проверены
-- [ ] Код написан по принципам программирования
-- [ ] `make test` — exit code 0
-- [ ] `make lint` — нет ERRORS
-- [ ] `make build` — exit code 0
-- [ ] Коммит создан по standard-commit.md
-- [ ] Критерии готовности Issue выполнены
-- [ ] Issue закрыт
+### Волна (для каждой волны)
+- [ ] Все блоки волны запущены параллельно (dev-agent × N)
+- [ ] Все агенты вернули результат
+- [ ] CONFLICT обработан (если был)
+- [ ] Системные тесты пройдены (`make test-e2e`)
+- [ ] FLAGS проверены (рабочие правки)
 
 ### Завершение
+- [ ] Все волны завершены
 - [ ] Все Issues ветки закрыты
-- [ ] Все тесты проходят (`make test`)
+- [ ] Все тесты проходят (`make test`, `make test-e2e`)
 - [ ] Сборка успешна (`make build`)
 
 ### Переходы статусов (chain_status.py)
-- [ ] RUNNING → CONFLICT: `mgr.transition(to="CONFLICT")`, `result.side_effects` выполнены
+- [ ] RUNNING → CONFLICT: все агенты остановлены, `mgr.transition(to="CONFLICT")`, `result.side_effects` выполнены
 - [ ] RUNNING → REVIEW: все Issues закрыты, проверки пройдены, `mgr.transition(to="REVIEW")`, `/review` запущен
 - [ ] REVIEW → DONE: review.md RESOLVED, `mgr.transition(to="DONE")`, `result.side_effects` выполнены
 - [ ] → ROLLING_BACK: `mgr.transition(to="ROLLING_BACK")`, артефакты откачены
@@ -327,46 +384,61 @@ result = mgr.transition(to="REJECTED")
 
 ## Примеры
 
-### Полный цикл разработки Issue
+### Полный цикл с двумя волнами
 
 ```
 1. git branch → 0001-auth
-2. Читаю plan-dev.md → TASK-1, TASK-2, TASK-3
-3. gh issue list → #42 (TASK-1), #43 (TASK-2), #44 (TASK-3)
-4. gh issue view 42 → "Добавить POST /auth/token"
-5. Пишу код → make test → make lint → git commit
-6. gh issue close 42
-7. Следующий: gh issue view 43
+2. Читаю plan-dev.md → "Блоки выполнения":
+   BLOCK-1 (auth) → Wave 0
+   BLOCK-2 (notification) → Wave 1, blockedBy BLOCK-1
+
+3. Wave 0: запускаю dev-agent для BLOCK-1
+   Task(subagent_type="dev-agent", prompt="BLOCK: BLOCK-1, ISSUES: [#42, #43], SERVICES: [auth]")
+   → STATUS: COMPLETED, COMPLETED_ISSUES: [#42, #43]
+
+4. make test-e2e → pass
+
+5. Wave 1: запускаю dev-agent для BLOCK-2
+   Task(subagent_type="dev-agent", prompt="BLOCK: BLOCK-2, ISSUES: [#44], SERVICES: [notification]")
+   → STATUS: COMPLETED, COMPLETED_ISSUES: [#44]
+
+6. make test-e2e → pass
+
+7. Все волны завершены → AskUserQuestion: "Перейти в REVIEW?" → Да
+8. mgr.transition(to="REVIEW") → /review → READY → mgr.transition(to="DONE")
 ```
 
-### Цикл код-тест-линт-коммит
+### Параллельная волна с CONFLICT
 
 ```
-1. Написать реализацию эндпоинта
-2. make test → 1 failing → исправить
-3. make test → pass
-4. make lint → 2 warnings → исправить
-5. make lint → pass
-6. git commit -m "feat(auth): add POST /auth/token endpoint"
+1. Wave 1: запускаю 2 агента параллельно:
+   Task(subagent_type="dev-agent", prompt="BLOCK-2, ISSUES: [#44], SERVICES: [notification]")
+   Task(subagent_type="dev-agent", prompt="BLOCK-3, ISSUES: [#45, #46], SERVICES: [payment]")
+
+2. BLOCK-2 → STATUS: CONFLICT
+   CONFLICT_INFO: level=design, affected_doc="SVC-1 (auth)",
+   description="API контракт POST /auth/token изменился"
+
+3. TaskStop(BLOCK-3 agent_id) → собираю partial result
+
+4. AskUserQuestion: "CONFLICT обнаружен: API контракт изменился. Разрешить?"
+5. mgr.transition(to="CONFLICT")
+6. Разрешение top-down → WAITING → RUNNING
+7. Пересобрать блоки, перезапустить незавершённые
 ```
 
-### Переход RUNNING → REVIEW → DONE
+### Partial resume после CONFLICT
 
 ```
-1. Все Issues закрыты → make test → make lint → make build
-2. AskUserQuestion: "Все TASK-N выполнены. Перейти в REVIEW?" → Да
-3. mgr.transition(to="REVIEW") → все документы → REVIEW
-4. /review → code-reviewer → review.md → вердикт READY
-5. mgr.transition(to="DONE") → bottom-up каскад → все документы → DONE
-```
+1. BLOCK-2 выполнил #44, CONFLICT на #45
+   COMPLETED_ISSUES: [#44], REMAINING_ISSUES: [#45]
 
-### Обнаружение CONFLICT при разработке
+2. После разрешения CONFLICT:
+   gh issue list --state closed → [#42, #43, #44] (уже закрыты)
 
-```
-1. Пишу код → обнаруживаю несовместимость с Design (API контракт изменился)
-2. mgr.transition(to="CONFLICT") → все документы → CONFLICT
-3. Разрешение top-down: Discussion → Design → Plan Tests → Plan Dev → WAITING
-4. Все в WAITING → каскад RUNNING → продолжить разработку
+3. Перезапуск BLOCK-2:
+   Task(subagent_type="dev-agent", prompt="BLOCK: BLOCK-2, ISSUES: [#44, #45],
+     REMAINING_ISSUES: [#45], SERVICES: [notification]")
 ```
 
 ---
@@ -375,7 +447,7 @@ result = mgr.transition(to="REJECTED")
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
-| [dev-next-issue.py](../.scripts/dev-next-issue.py) | Определение следующего незаблокированного Issue | Этот документ |
+| [dev-next-issue.py](../.scripts/dev-next-issue.py) | Определение следующего незаблокированного Issue (используется dev-agent внутри блока) | Этот документ |
 
 ---
 
@@ -383,4 +455,4 @@ result = mgr.transition(to="REJECTED")
 
 | Скилл | Назначение | Инструкция |
 |-------|------------|------------|
-| [/dev](/.claude/skills/dev/SKILL.md) | Процесс разработки в feature-ветке | Этот документ |
+| [dev-agent](/.claude/agents/dev-agent/AGENT.md) | Агент разработки (выполняет BLOCK-N) | Этот документ |

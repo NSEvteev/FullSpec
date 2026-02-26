@@ -7,7 +7,7 @@ index: .github/.instructions/actions/security/README.md
 
 # Стандарт безопасности GitHub
 
-Версия стандарта: 1.1
+Версия стандарта: 1.2
 
 Настройка инструментов безопасности GitHub: Dependabot, Code Scanning (CodeQL), Secret Scanning и политика SECURITY.md.
 
@@ -36,6 +36,9 @@ index: .github/.instructions/actions/security/README.md
 - [8. CLI команды](#8-cli-команды)
 - [9. Типичные ошибки](#9-типичные-ошибки)
 - [10. Не включено в стандарт](#10-не-включено-в-стандарт)
+- [11. Per-tech Security Scanning](#11-per-tech-security-scanning)
+- [12. Pre-release Security Gate](#12-pre-release-security-gate)
+- [13. AI-assisted Security Scanning](#13-ai-assisted-security-scanning)
 
 ---
 
@@ -493,3 +496,101 @@ gh api repos/:owner/:repo --jq '{
 | **Third-party security tools** | Вне зоны ответственности (Snyk, SonarQube и др.) | Документация инструмента |
 | **YAML-синтаксис workflow файлов** | Синтаксис `.yml` описан в отдельном стандарте. Содержимое codeql.yml (конфигурация CodeQL) описано в этом документе (§ 4) | [standard-action.md](../standard-action.md) |
 | **Управление секретами** | Именование, уровни хранения, ротация | [standard-secrets.md](./standard-secrets.md) |
+
+---
+
+## 11. Per-tech Security Scanning
+
+Для каждой технологии из Tech Stack, у которой есть package manager или SAST-инструменты,
+создаётся файл `security-{tech}.md` с описанием инструментов безопасности.
+
+**Расположение:**
+
+    specs/docs/.technologies/security-{tech}.md
+
+**Формат:** 5 обязательных секций (см. standard-technology.md).
+
+**Создание:** Файл создаётся вместе с `standard-{tech}.md` при выполнении
+create-technology.md (шаг 10).
+
+**Когда создавать:**
+
+| Условие | Пример | security-{tech}.md |
+|---------|--------|-------------------|
+| Язык/runtime с package manager | Python, JavaScript, Go | Да |
+| Контейнерная технология | Docker | Да |
+| СУБД, кэш, очередь | PostgreSQL, Redis, RabbitMQ | Нет |
+| CSS/UI framework | Tailwind CSS | Нет |
+| Инфраструктурная утилита | Nginx, Terraform | По ситуации |
+
+**Связь с GitHub Security (§§ 3-5):**
+
+| GitHub Security (платформа) | Per-tech Security (локально + CI) |
+|-----------------------------|-----------------------------------|
+| CodeQL — SAST на уровне GitHub | Per-tech SAST дополняет (глубже, специфичнее) |
+| Dependabot — автообновление зависимостей | dependency audit проверяет уязвимости локально |
+| Secret Scanning — серверное обнаружение | gitleaks — локальное обнаружение до push |
+
+Per-tech НЕ заменяет GitHub Security — они дополняют друг друга.
+GitHub Security = базовый слой (всегда включён).
+Per-tech = глубокий слой (специфичный для стека).
+
+---
+
+## 12. Pre-release Security Gate
+
+Перед созданием Release обязательна проверка безопасности в validate-pre-release.py:
+
+| Код | Проверка | Severity | Блокирует |
+|-----|----------|----------|-----------|
+| E009 | Нет open Dependabot alerts с severity critical/high | critical, high | Да |
+| E010 | Нет open Issues с меткой `security` | any | Да |
+
+**Допустимые исключения:**
+
+| Ситуация | Как пропустить |
+|----------|---------------|
+| Alert помечен `dismissed` с причиной `tolerable_risk` | Не считается open |
+| Issue помечен `security` + `wont-fix` | Не считается open |
+| Medium/low severity alerts | НЕ блокируют (только warning) |
+
+**Команды проверки:**
+
+```bash
+# E009: Critical/High Dependabot alerts
+gh api repos/{owner}/{repo}/dependabot/alerts \
+  --jq '[.[] | select(.state=="open")
+    | select(.security_advisory.severity=="critical"
+      or .security_advisory.severity=="high")] | length'
+
+# E010: Open security issues
+gh issue list --label security --state open --json number --jq 'length'
+```
+
+---
+
+## 13. AI-assisted Security Scanning
+
+Claude Code Security — встроенная функция Claude Code для семантического
+анализа кода на уязвимости (research preview, Enterprise/Team).
+
+**Когда использовать (рекомендация):**
+- Перед релизом (особенно major)
+- При security аудите
+- После добавления auth / payment / PII модулей
+- При изменении модели авторизации
+
+**Что даёт сверх CodeQL (§ 4):**
+- Анализ бизнес-логики (authorization bypass, IDOR)
+- Контекстный анализ потоков данных между сервисами
+- Мульти-этапная верификация (снижает false positives)
+- Предложение конкретных патчей для ревью
+
+**Ограничения:**
+- Research preview — API и возможности могут измениться
+- Только Enterprise/Team клиенты
+- Не автоматизируется в CI — запуск вручную через Claude Code
+- Ничего не применяет без одобрения человека
+
+**Альтернатива без Enterprise/Team:**
+Ручной security review по OWASP Top 10 чек-листу перед релизом.

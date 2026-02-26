@@ -19,6 +19,7 @@ index: .github/.instructions/.scripts/README.md
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
+| [collect-pr-issues.py](./collect-pr-issues.py) | Сбор Issues из plan-dev.md для создания PR | [create-pull-request.md](../pull-requests/create-pull-request.md) |
 | [validate-labels.py](./validate-labels.py) | Валидация labels.yml и меток на Issues/PR | [validation-labels.md](../labels/validation-labels.md) |
 | [sync-labels.py](./sync-labels.py) | Синхронизация labels.yml с GitHub | [modify-labels.md](../labels/modify-labels.md) |
 | [migrate-label.py](./migrate-label.py) | Миграция меток на Issues/PR | [modify-labels.md](../labels/modify-labels.md) |
@@ -29,6 +30,7 @@ index: .github/.instructions/.scripts/README.md
 | [create-milestone.py](./create-milestone.py) | Создание Milestone: версия, уникальность, API | [create-milestone.md](../milestones/create-milestone.md) |
 | [close-milestone.py](./close-milestone.py) | Закрытие Milestone: проверки, перенос Issues | [modify-milestone.md](../milestones/modify-milestone.md) |
 | [validate-action.py](./validate-action.py) | Валидация GitHub Actions workflow файлов (A001-A007) | [validation-action.md](../actions/validation-action.md) |
+| [validate-deploy.py](./validate-deploy.py) | Валидация deploy.yml (D001-D008) | [validation-deploy.md](../actions/deploy/validation-deploy.md) |
 | [validate-security.py](./validate-security.py) | Валидация файлов безопасности (SEC001-SEC010) | [validation-security.md](../actions/security/validation-security.md) |
 | [validate-issue.py](./validate-issue.py) | Валидация Issue: title, body, labels, assignees, milestone, закрытие | [validation-issue.md](../issues/validation-issue.md) |
 | [rotate-secret.py](./rotate-secret.py) | Ротация секретов GitHub | [standard-secrets.md](../actions/security/standard-secrets.md) |
@@ -47,6 +49,7 @@ index: .github/.instructions/.scripts/README.md
 ```
 /.github/.instructions/.scripts/
 ├── README.md                           # Этот файл
+├── collect-pr-issues.py               # Сбор Issues для PR
 ├── validate-labels.py                  # Валидация labels.yml и меток
 ├── sync-labels.py                      # Синхронизация с GitHub
 ├── migrate-label.py                    # Миграция меток на Issues/PR
@@ -57,6 +60,7 @@ index: .github/.instructions/.scripts/README.md
 ├── create-milestone.py                # Создание Milestone по стандарту
 ├── close-milestone.py                 # Закрытие Milestone с проверками
 ├── validate-action.py                  # Валидация GitHub Actions workflows
+├── validate-deploy.py                  # Валидация deploy.yml (D001-D008)
 ├── validate-security.py                # Валидация файлов безопасности
 ├── validate-issue.py                   # Валидация Issue по стандарту
 ├── validate-branch-name.py             # Валидация имени ветки

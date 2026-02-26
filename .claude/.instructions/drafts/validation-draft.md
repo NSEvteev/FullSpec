@@ -74,6 +74,7 @@ python .claude/.instructions/drafts/.scripts/validate-draft.py <путь к че
 - Наличие оглавления
 - Наличие секции "Контекст"
 - Наличие секции "Содержание"
+- Для типа "План": наличие секции "Tasklist" с TASK N записями
 
 ### Шаг 3: Проверка расположения
 
@@ -90,6 +91,7 @@ python .claude/.instructions/drafts/.scripts/validate-draft.py <путь к че
 - [ ] Есть оглавление
 - [ ] Есть секция "Контекст"
 - [ ] Есть секция "Содержание"
+- [ ] Для типа "План": есть секция "Tasklist" с TASK N записями (description + activeForm)
 - [ ] README.md обновлён (если черновик добавлен/удалён)
 
 ---

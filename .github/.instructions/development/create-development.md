@@ -126,11 +126,11 @@ result = mgr.transition(to="RUNNING")
 
 ### Шаг 8: Предложить начать разработку
 
-**БЛОКИРУЮЩЕЕ.** AskUserQuestion: "Цепочка NNNN-{topic} в RUNNING. Начать разработку (`/dev`)?"
+**БЛОКИРУЮЩЕЕ.** AskUserQuestion: "Цепочка NNNN-{topic} в RUNNING. Начать разработку?"
 
 | Ответ | Действие |
 |-------|----------|
-| Да | Запустить `/dev` (→ [modify-development.md](./modify-development.md)) |
+| Да | Запустить разработку по [modify-development.md](./modify-development.md) (dev-agent) |
 | Нет | Завершить воркфлоу |
 
 ---
@@ -147,7 +147,7 @@ result = mgr.transition(to="RUNNING")
 - [ ] Цепочка переведена в RUNNING
 - [ ] README обновлён
 - [ ] Отчёт выведен
-- [ ] Пользователю предложено запустить `/dev`
+- [ ] Пользователю предложено начать разработку
 
 ---
 

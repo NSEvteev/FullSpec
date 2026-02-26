@@ -33,6 +33,7 @@ index: .github/.instructions/pull-requests/README.md
 │   ├── standard-pr-template.md
 │   └── validation-pr-template.md
 ├── README.md                      # Этот файл (индекс)
+├── create-pull-request.md         # Воркфлоу создания PR
 └── standard-pull-request.md       # Стандарт Pull Requests
 ```
 
@@ -54,7 +55,15 @@ index: .github/.instructions/pull-requests/README.md
 
 # 2. Воркфлоу
 
-*Будут добавлены create-pull-request.md, modify-pull-request.md*
+- [create-pull-request.md](./create-pull-request.md) — Воркфлоу создания PR (chain → script → title/body/labels → push → preview → gh pr create)
+
+*Будет добавлен modify-pull-request.md*
+
+**Агент:**
+
+| Агент | Назначение |
+|-------|------------|
+| [pr-create-agent](/.claude/agents/pr-create-agent/AGENT.md) | Создание PR с автосбором Issues из chain через Task tool |
 
 ---
 

@@ -638,24 +638,13 @@ gh release view v1.0.0
 
 ## 11. Публикация на production
 
-### Триггер деплоя
+**SSOT:** [standard-deploy.md](../actions/deploy/standard-deploy.md)
 
-**GitHub Actions триггерится событием:**
-```yaml
-# .github/workflows/deploy.yml
-on:
-  release:
-    types: [published]
-```
+Деплой выполняется автоматически при публикации Release через `deploy.yml`. Workflow использует dynamic service discovery — сканирует `src/*/Dockerfile`.
 
-**Workflow выполняет:**
-1. Checkout кода на тег релиза
-2. Build Docker образов
-3. Push образов в Registry
-4. Деплой на production сервер (SSH, Kubernetes, etc.)
-5. Health check (проверка доступности сервисов)
+**Поток:** staging (auto) → smoke tests → production (manual approval) → health check → OK / rollback.
 
-**Важно:** Деплой происходит АВТОМАТИЧЕСКИ после создания релиза (если настроен `deploy.yml`).
+**Post-deploy verification:** health check (`GET /health`), smoke tests (`make test-smoke`), rollback при failure. Детали — в [standard-deploy.md](../actions/deploy/standard-deploy.md).
 
 ### Проверка после деплоя
 
@@ -665,33 +654,9 @@ gh run list --workflow=deploy.yml
 
 # Детали конкретного запуска
 gh run view {run-id}
-
-# Логи запуска
-gh run view {run-id} --log
 ```
 
-### Post-deploy verification
-
-После завершения деплоя выполнить проверки:
-
-| # | Проверка | Команда / действие | Критерий успеха |
-|---|----------|--------------------|-----------------|
-| 1 | **Health check** | `curl https://example.com/health` | `{"status": "ok"}` |
-| 2 | **Smoke tests** | Основные сценарии (ручные или авто) | Критичные пути работают |
-| 3 | **Мониторинг** | Проверить error rate (15 мин после деплоя) | Error rate не вырос |
-
-**Если health check провалился:**
-- Проверить логи сервиса
-- Если критично → rollback ([§ 13](#13-rollback-процесс))
-- Если не критично → создать hotfix ([§ 12](#12-hotfix-релиз))
-
-### Если деплой провалился
-
-| Тип ошибки | Признаки в логах | Действие |
-|------------|------------------|----------|
-| **Ошибка в коде** | `Error:`, `Exception:`, test failure | Создать hotfix (§ 12) |
-| **Ошибка инфраструктуры** | `Connection refused`, `403 Forbidden`, `No space left` | Исправить инфру → retry: `gh workflow run deploy.yml --ref v1.0.0` |
-| **Таймаут** | `timeout`, `deadline exceeded` | Проверить доступность сервера → retry |
+**Если деплой провалился** — rollback автоматический (redeploy предыдущего тега). Для ручного вмешательства см. [§ 13](#13-rollback-процесс) и [standard-deploy.md § 10](../actions/deploy/standard-deploy.md#10-rollback).
 
 ---
 

@@ -1,0 +1,10 @@
+[allowlist]
+description = "Project-level allowlist"
+regexTarget = "match"
+paths = [
+  '''\.env\.example''',
+  '''.*test.*\.py''',
+]
+regexes = [
+  '''EXAMPLE_KEY_[A-Z]+''',
+]

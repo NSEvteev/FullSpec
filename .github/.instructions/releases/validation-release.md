@@ -321,4 +321,6 @@ BODY=$(gh release view $VERSION --json body -q '.body')
 
 ## Скиллы
 
-*Нет скиллов.*
+| Скилл | Назначение |
+|-------|------------|
+| [/post-release](/.claude/skills/post-release/SKILL.md) | Post-release валидация |

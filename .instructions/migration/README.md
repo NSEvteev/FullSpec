@@ -91,6 +91,7 @@ index: .instructions/migration/README.md
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [check-version-drift.py](../.scripts/check-version-drift.py) | Проверка расхождений версий | [validation-migration.md](./validation-migration.md) |
+| [check-content-drift.py](../.scripts/check-content-drift.py) | Проверка контентного покрытия секций стандарта | [create-migration.md](./create-migration.md), [validation-migration.md](./validation-migration.md) |
 | [bump-standard-version.py](../.scripts/bump-standard-version.py) | Увеличение версии стандарта | [create-migration.md](./create-migration.md) |
 
 ---

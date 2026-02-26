@@ -33,6 +33,7 @@ ERROR_CODES = {
     "D006": "Отсутствует оглавление",
     "D007": "Отсутствует секция 'Контекст'",
     "D008": "Отсутствует секция 'Содержание'",
+    "D009": "Тип 'План' — отсутствует секция 'Tasklist' с TASK N записями",
 }
 
 # =============================================================================
@@ -129,6 +130,20 @@ def validate_structure(file_path: Path, result: dict) -> None:
     has_content = any("## Содержание" in line or "## содержание" in line.lower() for line in lines)
     if not has_content:
         add_error(result, "D008")
+
+    # Проверка секции "Tasklist" для типа "План"
+    # Определяем тип из frontmatter (type: feature/plan) или по наличию blockedBy/TASK N
+    is_plan = False
+    for line in lines:
+        if re.match(r'^type:\s*(feature|plan)', line):
+            is_plan = True
+            break
+
+    if is_plan:
+        has_tasklist = any("## Tasklist" in line for line in lines)
+        has_tasks = any(re.match(r'\s*TASK\s+\d+:', line) for line in lines)
+        if not has_tasklist or not has_tasks:
+            add_error(result, "D009")
 
 
 def validate_draft(file_path: Path, repo_root: Path) -> dict:

@@ -38,6 +38,8 @@ ERROR_CODES = {
     "E006": "В Milestone есть открытые Issues",
     "E007": "Есть незакоммиченные изменения",
     "E008": "Текущая ветка не main",
+    "E009": "Есть open Dependabot alerts (critical/high)",
+    "E010": "Есть open Issues с меткой security",
 }
 
 
@@ -166,6 +168,35 @@ def check_clean_working_tree() -> list[str]:
     return []
 
 
+def check_dependabot_alerts(repo: str) -> list[str]:
+    """E009: Проверить Dependabot alerts (critical/high)."""
+    result = run_cmd([
+        "gh", "api", f"repos/{repo}/dependabot/alerts",
+        "--jq", '[.[] | select(.state=="open") | select(.security_advisory.severity=="critical" or .security_advisory.severity=="high")] | length',
+    ])
+    if result.returncode != 0:
+        # API недоступен (нет прав, не настроен) — warning, не ошибка
+        return []
+    count = int(result.stdout.strip() or "0")
+    if count > 0:
+        return [f"[E009] {count} open Dependabot alert(s) с severity critical/high"]
+    return []
+
+
+def check_security_issues() -> list[str]:
+    """E010: Проверить open Issues с меткой security."""
+    result = run_cmd([
+        "gh", "issue", "list", "--label", "security",
+        "--state", "open", "--json", "number", "--jq", "length",
+    ])
+    if result.returncode != 0:
+        return []
+    count = int(result.stdout.strip() or "0")
+    if count > 0:
+        return [f"[E010] {count} open Issue(s) с меткой security"]
+    return []
+
+
 # =============================================================================
 # Main
 # =============================================================================
@@ -196,6 +227,8 @@ def main():
         ("Тесты", lambda: check_tests(args.skip_tests)),
         ("Milestone", lambda: check_milestone(repo, args.version)),
         ("Чистый working tree", lambda: check_clean_working_tree()),
+        ("Dependabot alerts", lambda: check_dependabot_alerts(repo)),
+        ("Security issues", lambda: check_security_issues()),
     ]
 
     results = []

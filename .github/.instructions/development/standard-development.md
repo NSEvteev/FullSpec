@@ -153,7 +153,7 @@ gh issue edit {number} --add-assignee @me
 
 ## 2. Процесс разработки
 
-> **Скилл:** `/dev`
+> **Агент:** [dev-agent](/.claude/agents/dev-agent/AGENT.md) — выполняет BLOCK-N из Plan Dev. Оркестрация волн — [modify-development.md](./modify-development.md).
 
 ### Предусловия
 

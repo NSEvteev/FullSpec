@@ -1,72 +1,108 @@
 # Makefile — интерфейс команд проекта
 # Подробнее: README.md
+# Docker: platform/.instructions/standard-docker.md
 
-.PHONY: dev stop build test test-e2e test-load lint clean setup init help sync-structure check-structure
+COMPOSE_FILE = platform/docker/docker-compose.yml
+COMPOSE_TEST_FILE = platform/docker/docker-compose.test.yml
+
+.PHONY: dev stop build test test-e2e test-load test-smoke lint clean setup init help sync-structure check-structure
 
 # === Запуск ===
 
 dev:  ## Запустить для разработки
-	docker-compose -f docker-compose.dev.yml up
+	docker compose -f $(COMPOSE_FILE) up
 
 stop:  ## Остановить сервисы
-	docker-compose down
+	docker compose -f $(COMPOSE_FILE) down
 
 # === Сборка ===
 
 build:  ## Собрать для production
-	docker-compose build
+	docker compose -f $(COMPOSE_FILE) build
 
 # === Тесты ===
 
 test:  ## Запустить unit/integration тесты
-	@echo "TODO: настроить запуск тестов"
+	docker compose -f $(COMPOSE_TEST_FILE) up -d --wait
+	pytest src/ tests/integration/ || true
+	docker compose -f $(COMPOSE_TEST_FILE) down -v
 
 test-e2e:  ## Запустить e2e тесты
-	@echo "TODO: настроить e2e тесты"
+	docker compose -f $(COMPOSE_TEST_FILE) up -d --wait
+	pytest tests/e2e/ || true
+	docker compose -f $(COMPOSE_TEST_FILE) down -v
 
 test-load:  ## Запустить нагрузочные тесты
 	@echo "TODO: настроить нагрузочные тесты (k6)"
 
+test-smoke:  ## Запустить smoke тесты (post-deploy)
+	@echo "TODO: настроить smoke тесты (tests/smoke/)"
+
+# === Per-service тесты ===
+# Использование: make test-auth, make test-task, make lint-notification
+
+test-%:  ## Тесты одного сервиса (make test-{svc})
+	docker compose -f $(COMPOSE_TEST_FILE) up -d --wait
+	pytest src/$*/tests/ || true
+	docker compose -f $(COMPOSE_TEST_FILE) down -v
+
+lint-%:  ## Линтинг одного сервиса (make lint-{svc})
+	@echo "TODO: настроить линтер для src/$*/"
+
 # === Качество кода ===
 
-lint:  ## Линтинг
+lint:  ## Линтинг (все сервисы)
 	@echo "TODO: настроить линтеры"
 
 # === Утилиты ===
 
 clean:  ## Очистка
-	docker-compose down -v --remove-orphans
+	docker compose -f $(COMPOSE_FILE) down -v --remove-orphans
 
 # === Настройка ===
 
-setup:  ## Первоначальная настройка (pre-commit + gh CLI)
+setup:  ## Первоначальная настройка (pre-commit + gh CLI + Docker)
 	@echo "📦 Проверка зависимостей..."
 	@echo ""
-	@echo "1/3 Python..."
+	@echo "1/4 Python..."
 	@python --version || (echo "❌ Python не найден. Установите: https://python.org" && exit 1)
 	@echo ""
-	@echo "2/3 Pre-commit..."
+	@echo "2/4 Pre-commit..."
 	@pip install pre-commit
 	@pre-commit install
+	@pre-commit install --hook-type commit-msg
 	@echo "✅ Pre-commit хуки установлены"
 	@echo ""
-	@echo "3/3 GitHub CLI..."
+	@echo "3/4 GitHub CLI..."
 	@gh --version 2>/dev/null || (echo "❌ GitHub CLI не найден. Установите: winget install GitHub.cli" && exit 1)
 	@gh auth status 2>/dev/null || (echo "❌ GitHub CLI не авторизован. Выполните: gh auth login" && exit 1)
+	@echo ""
+	@echo "4/4 Docker..."
+	@docker compose version 2>/dev/null || (echo "❌ Docker не найден. Установите Docker Desktop: https://docker.com/products/docker-desktop/" && exit 1)
 	@echo ""
 	@echo "════════════════════════════════════════"
 	@echo "✅ Настройка завершена!"
 	@echo ""
-	@echo "При каждом коммите проверяются:"
-	@echo "  • Синхронизация README с файловой системой"
-	@echo "  • Формат rules, scripts, skills"
+	@echo "Следующий шаг:"
+	@echo "  cp platform/docker/.env.example platform/docker/.env"
+	@echo "  make dev"
 	@echo ""
 	@echo "Подробнее: .structure/initialization.md"
 	@echo "════════════════════════════════════════"
 
 init:  ## Полная инициализация проекта
 	@$(MAKE) setup
-	@echo "TODO: дополнительная инициализация (копирование .env.example и т.д.)"
+	@echo ""
+	@echo "Синхронизация Labels..."
+	@python .github/.instructions/.scripts/sync-labels.py --apply --force 2>/dev/null || echo "Labels: gh CLI не доступен или не авторизован"
+	@echo ""
+	@echo "Верификация..."
+	@pre-commit run --all-files || true
+	@echo ""
+	@echo "========================================"
+	@echo "  Для полной интерактивной настройки:"
+	@echo "  Claude Code -> /init-project"
+	@echo "========================================"
 
 # === Структура ===
 

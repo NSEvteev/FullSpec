@@ -48,7 +48,12 @@ make setup
 | `design-validate` | Frontmatter, SVC-N (9 подсекций), INT-N, STS-N, маркеры, зона ответственности design.md | `specs/analysis/*/design.md` |
 | `plan-test-validate` | Frontmatter, TC-N формат, покрытие REQ-N/STS-N, маркеры, зона ответственности plan-test.md | `specs/analysis/*/plan-test.md` |
 | `plan-dev-validate` | Frontmatter, TASK-N (5 полей), подзадачи, зависимости, TC трассируемость, маркеры plan-dev.md | `specs/analysis/*/plan-dev.md` |
+| `discussion-validate` | Frontmatter, секции, нумерация, маркеры discussion.md | `specs/analysis/*/discussion.md` |
 | `review-validate` | Наличие review.md, status=RESOLVED, вердикт READY, хотя бы одна итерация | `specs/analysis/*/review.md` (always_run) |
+| `validate-commit-msg` | Формат commit message по Conventional Commits (stage: commit-msg) | Все (always_run) |
+| `security-technology-validate` | Frontmatter `type: security`, 5 h2-секций, именование security-{tech}.md | `specs/docs/.technologies/security-*.md` |
+| `deploy-validate` | Триггер, discover, matrix, environments, rollback, permissions deploy.yml | `.github/workflows/deploy.yml` |
+| `gitleaks` | Обнаружение секретов (API keys, tokens, passwords) в staged diff | Все (pre-commit) |
 
 ---
 

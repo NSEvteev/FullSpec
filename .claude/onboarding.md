@@ -18,10 +18,11 @@
 
 ## 2. Первые шаги
 
+0. Выполни `make setup` (или `/init-project` для полной настройки) — [initialization.md](/.structure/initialization.md)
 1. Прочитай [/CLAUDE.md](/CLAUDE.md) — точка входа
-2. Прочитай [quick-start.md](/.structure/quick-start.md) — минимальный контекст
-3. Изучи [artifacts.md](/.structure/artifacts.md) — типы артефактов
-4. Посмотри [/.structure/README.md](/.structure/README.md) — структура проекта
+2. Прочитай [quick-start.md](/.structure/quick-start.md) — минимальный контекст (SSOT, артефакты, скиллы, процесс)
+3. Посмотри [/.structure/README.md](/.structure/README.md) — структура проекта
+4. **Любое изменение начинай с `/chain`** — оркестратор создаёт TaskList с полным планом. [SSOT: create-chain.md](/specs/.instructions/create-chain.md)
 
 ## 3. Типичные задачи
 
@@ -57,6 +58,4 @@
 
 ## Связанные документы
 
-- [SSOT](/.structure/ssot.md) — паттерн единого источника истины
-- [Артефакты](/.structure/artifacts.md) — типы артефактов системы
-- [Quick Start](/.structure/quick-start.md) — быстрое введение
+- [Quick Start](/.structure/quick-start.md) — SSOT, артефакты, скиллы, процесс

@@ -9,8 +9,8 @@ model: sonnet
 tools: Read, Grep, Glob, Edit, Write, Bash
 disallowedTools: WebSearch, WebFetch
 permissionMode: default
-max_turns: 20
-version: v1.1
+max_turns: 75
+version: v1.2
 ---
 
 ## Роль
@@ -65,7 +65,11 @@ version: v1.1
    - Добавить хук в `.pre-commit-config.yaml`
    - Обновить `.structure/pre-commit.md` (таблица хуков)
 7. **Обновить реестр** `specs/technologies/README.md` — добавить строку
-8. **Валидация:**
+8. **Self-review по R1-R7** (перед валидацией):
+   - Пройти по таблице "Критерии качества" выше
+   - Для каждого code-блока: проверить синтаксис, imports, определения типов
+   - Если найдены проблемы — исправить ДО валидации
+9. **Валидация:**
    ```bash
    python specs/.instructions/.scripts/validate-technology.py specs/technologies/standard-{tech}.md --verbose
    ```
@@ -112,6 +116,26 @@ version: v1.1
 | Реестр `specs/technologies/README.md` не существует | Создать с заголовком таблицы |
 | Валидация не пройдена | Исправить ошибки и перезапустить |
 | Не хватает max_turns | Вернуть текущее состояние с описанием, что осталось |
+
+## Критерии качества (self-review)
+
+После создания стандарта — **перед возвратом результата** — проверь по 7 критериям. Эти же критерии проверит technology-reviewer после тебя.
+
+| # | Критерий | Что проверить перед возвратом |
+|---|---------|------------------------------|
+| R1 | Примеры рабочие | Каждый code-блок: синтаксис корректен, скобки закрыты, все `import`-ы указаны, все типы/schemas определены в том же блоке или явно прокомментированы |
+| R2 | Примеры консистентны | Имена schemas/messages/services в подпримерах совпадают с основным примером. Если подпример использует другой домен — все типы определены |
+| R3 | Паттерны полные | Покрыты ВСЕ типовые операции технологии. OpenAPI: CRUD (GET/POST/PUT/DELETE), errors, pagination. Protobuf: CRUD RPCs, errors, streaming. AsyncAPI: send, receive, versioning, breaking changes |
+| R4 | SDD-контекст | Есть h3 "Связь с SDD процессом" в "Паттерны кода" с таблицей (5 строк: Design, INFRA, Per-service, DONE, CONFLICT) + code-блок |
+| R5 | Кросс-согласованность | `additionalProperties: false` везде где применимо, формат таблицы "Версия и настройка" стандартный (4 строки) |
+| R6 | Антипаттерны обоснованы | "Почему плохо" — конкретные последствия (compile error, runtime crash, security hole), не абстрактное "плохо" |
+| R7 | Самодостаточность | Разработчик может создать файл, прочитав ТОЛЬКО стандарт. Нет "см. документацию X" |
+
+**Правило R1 (critical):** Каждый code-блок должен быть copy-paste ready:
+- Все `$ref` ссылаются на реально определённые schemas/messages
+- Все типы (`google.protobuf.Timestamp`, etc.) имеют соответствующий `import`
+- YAML/proto/JSON синтаксически валиден — скобки закрыты, отступы корректны
+- Если пример использует schema из другого блока — добавить комментарий `// Требует: import "..." или `# Определено в components/schemas основного файла`
 
 ## Антигаллюцинации
 

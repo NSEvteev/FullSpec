@@ -40,6 +40,7 @@ index: specs/.instructions/README.md
   - [Шаг 8.5: Ревью агентом (обязательно)](#шаг-85-ревью-агентом-обязательно)
   - [Шаг 9: Ревью пользователем](#шаг-9-ревью-пользователем)
   - [Шаг 10: Артефакты WAITING](#шаг-10-артефакты-waiting)
+  - [Шаг 10.5: Ревью per-tech стандартов](#шаг-105-ревью-per-tech-стандартов)
   - [Шаг 11: Отчёт о выполнении](#шаг-11-отчёт-о-выполнении)
   - [Шаг 12: Авто-предложение следующего этапа](#шаг-12-авто-предложение-следующего-этапа)
 - [Чек-лист](#чек-лист)
@@ -243,6 +244,17 @@ result = mgr.transition(to="WAITING", document="design")
 
 Выполнить побочные эффекты из `result.side_effects` (Planned Changes, заглушки, per-tech).
 
+### Шаг 10.5: Ревью per-tech стандартов
+
+**Условие:** Шаг 10 создал per-tech стандарты (строка 6 таблицы артефактов). Если per-tech не создавались — пропустить.
+
+**Агент:** [technology-reviewer](/.claude/agents/technology-reviewer/AGENT.md)
+
+1. Запустить **одного** technology-reviewer на **все** созданные стандарты
+2. Агент проверяет 7 критериев (R1-R7) + кросс-стандартную согласованность
+3. Если вердикт REVISE — исправить стандарты → перевалидация → повторный ревью
+4. Если вердикт ACCEPT — продолжить к шагу 11
+
 ### Шаг 11: Отчёт о выполнении
 
 Вывести отчёт:
@@ -321,6 +333,7 @@ AskUserQuestion: «Перейти к созданию Plan Tests?»
 - [ ] Запись обновлена в README
 - [ ] Ревью пользователем пройдено
 - [ ] Артефакты WAITING созданы
+- [ ] Ревью per-tech пройдено (technology-reviewer, если создавались)
 - [ ] Статус переведён в WAITING
 - [ ] README обновлён (статус WAITING)
 - [ ] Отчёт выведен
@@ -347,6 +360,7 @@ AskUserQuestion: «Перейти к созданию Plan Tests?»
 8.5. design-reviewer → 2 рекомендации → приняты → перевалидация → OK
 9. Ревью: "Да" → DRAFT → WAITING
 10. Артефакты: Planned Changes в auth.md, gateway.md, users.md, overview.md
+10.5. technology-reviewer → per-tech не создавались → skip
 11. Отчёт
 12. "Создать Plan Tests?" → Да
 ```
@@ -393,3 +407,4 @@ AskUserQuestion: «Перейти к созданию Plan Tests?»
 |-------|------------|-----|
 | [design-agent](/.claude/agents/design-agent/AGENT.md) | Unified Scan + генерация Design (DRAFT) | Шаг 4-6 (агентный режим) |
 | [design-reviewer](/.claude/agents/design-reviewer/AGENT.md) | Ревью на полноту SVC-N, маппинг, delta-формат | Шаг 8.5 |
+| [technology-reviewer](/.claude/agents/technology-reviewer/AGENT.md) | Ревью содержания per-tech стандартов (7 критериев + кросс-согласованность) | Шаг 10.5 |

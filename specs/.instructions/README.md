@@ -107,6 +107,9 @@ index: specs/.instructions/README.md
 │   │   ├── validation-review.md      # Валидация review.md
 │   │   └── create-review.md          # Воркфлоу создания review.md (/review-create)
 │   └── standard-analysis.md          # Стандарт аналитического контура (4 уровня, статусы, каскады)
+├── create-chain.md                    # Воркфлоу запуска analysis chain (TaskList от идеи до релиза)
+├── create-chain-done.md               # Воркфлоу завершения analysis chain (REVIEW → DONE)
+├── create-rollback.md                 # Воркфлоу отката analysis chain (ROLLING_BACK → REJECTED)
 └── README.md                         # Этот файл (индекс)
 ```
 
@@ -124,7 +127,11 @@ index: specs/.instructions/README.md
 
 # 2. Воркфлоу
 
-*Нет воркфлоу.*
+| Инструкция | Описание |
+|------------|----------|
+| [create-chain.md](./create-chain.md) | Воркфлоу запуска analysis chain — TaskList от идеи до релиза, 4 пути (Happy Path, Hotfix, Bug-bundle, Doc-only) |
+| [create-chain-done.md](./create-chain-done.md) | Воркфлоу завершения analysis chain — pre-flight, T7 DONE каскад, Planned Changes → AS IS, cross-chain |
+| [create-rollback.md](./create-rollback.md) | Воркфлоу отката analysis chain — T9 ROLLING_BACK, откат артефактов top-down, верификация, T10 REJECTED |
 
 ---
 

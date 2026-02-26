@@ -46,6 +46,7 @@ index: .github/README.md
 | [dependabot.yml](./dependabot.yml) | Конфигурация Dependabot (обновления зависимостей) |
 | [labels.yml](./labels.yml) | Справочник меток проекта (SSOT) |
 | [PULL_REQUEST_TEMPLATE.md](./PULL_REQUEST_TEMPLATE.md) | Шаблон Pull Request |
+| [release.yml](./release.yml) | Конфигурация Release Notes (группировка PR по категориям) |
 | [SECURITY.md](./SECURITY.md) | Политика безопасности (confidential disclosure) |
 
 ---
@@ -62,5 +63,6 @@ index: .github/README.md
 ├── labels.yml                          # Справочник меток проекта
 ├── PULL_REQUEST_TEMPLATE.md            # Шаблон Pull Request
 ├── README.md                           # Этот файл
+├── release.yml                         # Конфигурация Release Notes
 └── SECURITY.md                         # Политика безопасности
 ```

@@ -1,0 +1,12 @@
+changelog:
+  categories:
+    - title: "🔧 Tasks"
+      labels: [task]
+    - title: "🐛 Bug Fixes"
+      labels: [bug]
+    - title: "📚 Documentation"
+      labels: [docs]
+    - title: "♻️ Refactoring"
+      labels: [refactor]
+    - title: "Other Changes"
+      labels: ["*"]

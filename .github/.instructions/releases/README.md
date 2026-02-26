@@ -86,4 +86,7 @@ index: .github/.instructions/releases/README.md
 
 # 5. Скиллы
 
-*Нет скиллов.*
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/post-release](/.claude/skills/post-release/SKILL.md) | Post-release валидация | [validation-release.md](./validation-release.md) |
+| [/release-create](/.claude/skills/release-create/SKILL.md) | Создание GitHub Release | [create-release.md](./create-release.md) |

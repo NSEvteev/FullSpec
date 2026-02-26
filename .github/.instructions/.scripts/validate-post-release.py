@@ -210,6 +210,12 @@ def check_deploy(skip: bool = False) -> list[str]:
         return []
 
     errors = []
+
+    # Проверить что deploy.yml существует
+    if not os.path.isfile(".github/workflows/deploy.yml"):
+        errors.append("[E015] deploy.yml не существует (.github/workflows/deploy.yml)")
+        return errors
+
     result = run_cmd(["gh", "run", "list", "--workflow=deploy.yml", "--limit", "1", "--json", "status,conclusion"])
 
     if result.returncode != 0:

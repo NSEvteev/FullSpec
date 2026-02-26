@@ -180,7 +180,7 @@
 
 ## 6. Сессия 2026-02-22 — review.md инфраструктура
 
-Создание review.md как артефакта SDD analysis chain. Черновик: `.claude/drafts/2026-02-22-review-document-design.md`
+Создание review.md как артефакта SDD analysis chain. Черновик: `.claude/drafts/ 2026-02-22-review-document-design.md`
 
 ### Новые инструкции (specs/.instructions/analysis/review/)
 

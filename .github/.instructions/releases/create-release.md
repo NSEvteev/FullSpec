@@ -27,6 +27,7 @@ index: .github/.instructions/releases/README.md
 
 - [Принципы](#принципы)
 - [Шаги](#шаги)
+  - [Шаг 0: Проверить готовность](#шаг-0-проверить-готовность)
   - [Шаг 1: Определить версию](#шаг-1-определить-версию)
   - [Шаг 2: Release Freeze](#шаг-2-release-freeze)
   - [Шаг 3: Pre-release валидация](#шаг-3-pre-release-валидация)
@@ -56,6 +57,29 @@ index: .github/.instructions/releases/README.md
 ---
 
 ## Шаги
+
+### Шаг 0: Проверить готовность
+
+**SSOT:** [standard-process.md § 5](../../specs/.instructions/standard-process.md#5-путь-a-happy-path) Фаза 5
+
+Убедиться что все analysis chains для этого Milestone завершены:
+
+1. Получить dashboard:
+
+```bash
+python specs/.instructions/.scripts/chain_status.py dashboard
+```
+
+2. **Все цепочки** привязанные к Milestone должны быть в статусе **DONE**.
+3. Если есть цепочки НЕ в DONE → **СТОП**.
+   - RUNNING → завершить разработку
+   - REVIEW → завершить ревью (`/chain-done`)
+   - CONFLICT → разрешить конфликт
+   - DRAFT/WAITING → цепочка не запущена
+
+> **Исключение:** Hotfix (`--skip-chains`). При hotfix цепочка может быть в RUNNING — релиз критического фикса не ждёт завершения цепочки.
+
+---
 
 ### Шаг 1: Определить версию
 
@@ -305,6 +329,7 @@ python .github/.instructions/.scripts/validate-post-release.py --version $VERSIO
 
 ## Чек-лист
 
+- [ ] Analysis chains проверены (все DONE или --skip-chains)
 - [ ] Версия определена из Milestone
 - [ ] Release Freeze объявлен
 - [ ] Pre-release валидация пройдена (скрипт)
@@ -392,4 +417,7 @@ python .github/.instructions/.scripts/validate-post-release.py --version $VERSIO
 
 ## Скиллы
 
-*Нет скиллов.*
+| Скилл | Назначение |
+|-------|------------|
+| [/release-create](/.claude/skills/release-create/SKILL.md) | Обёртка этой инструкции |
+| [/post-release](/.claude/skills/post-release/SKILL.md) | Post-release валидация (Шаг 7) |

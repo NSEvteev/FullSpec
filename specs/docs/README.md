@@ -27,10 +27,11 @@ standard-version: v1.0
 
 ## Стандарты технологий
 
-| Технология | Стандарт |
-|-----------|---------|
-
-*Per-tech стандарты добавляются при подключении технологии.*
+| Технология | Стандарт | Security |
+|-----------|---------|----------|
+| AsyncAPI | [standard-asyncapi.md](.technologies/standard-asyncapi.md) | — |
+| OpenAPI | [standard-openapi.md](.technologies/standard-openapi.md) | — |
+| Protobuf | [standard-protobuf.md](.technologies/standard-protobuf.md) | — |
 
 ## Дерево
 
@@ -42,6 +43,9 @@ specs/docs/
 │   ├── overview.md                    # Архитектура, связи, потоки
 │   └── testing.md                     # Тестирование: типы, структура, команды
 ├── .technologies/
-│   └── standard-example.md            # Пример per-tech стандарта
+│   ├── standard-asyncapi.md           # Конвенции AsyncAPI (events)
+│   ├── standard-example.md            # Пример per-tech стандарта
+│   ├── standard-openapi.md            # Конвенции OpenAPI (REST)
+│   └── standard-protobuf.md           # Конвенции Protobuf (gRPC)
 └── example.md                         # Пример сервисного документа
 ```

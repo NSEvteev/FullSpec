@@ -201,11 +201,9 @@ standard-version: v1.1
 │
 ├── .structure/                          # SSOT структуры проекта
 │   ├── .instructions/                   #   Как работать со структурой
-│   ├── artifacts.md                     #   Типы артефактов системы
 │   ├── initialization.md                #   Инициализация проекта
 │   ├── pre-commit.md                    #   Pre-commit хуки
-│   ├── quick-start.md                   #   Быстрый старт для LLM
-│   ├── ssot.md                          #   Паттерн SSOT
+│   ├── quick-start.md                   #   Быстрый старт для LLM (SSOT, артефакты, скиллы)
 │   └── README.md                        #   Этот файл (SSOT структуры)
 │
 ├── config/                              # Конфигурации окружений
@@ -318,8 +316,6 @@ graph TD
 
 ## Концептуальные документы
 
+- [Quick Start](./quick-start.md) — SSOT, артефакты, скиллы, процесс (для LLM)
 - [Инициализация](./initialization.md) — установка зависимостей после клонирования
-- [SSOT](./ssot.md) — паттерн единого источника истины
-- [Артефакты системы](./artifacts.md) — типы артефактов и их стандарты
-- [Quick Start](./quick-start.md) — быстрое введение для LLM
 - [Pre-commit](./pre-commit.md) — автоматическая валидация перед коммитом

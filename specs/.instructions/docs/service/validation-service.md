@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Валидация {svc}.md
 
-Рабочая версия стандарта: 1.1
+Рабочая версия стандарта: 1.2
 
 Процедура проверки `specs/docs/{svc}.md` на соответствие [standard-service.md](./standard-service.md). Основные проверки — frontmatter, наличие 10 обязательных секций в правильном порядке, таблицы, подсекции, границы автономии.
 
@@ -73,6 +73,7 @@ index: specs/.instructions/README.md
 | SVC008 | Changelog не содержит ни одной записи | Предупреждение |
 | SVC009 | Пустая обязательная секция без stub-текста | Предупреждение |
 | SVC010 | Поле `criticality` отсутствует или имеет недопустимое значение | Блокирующая |
+| SVC011 | Per-service Makefile таргеты отсутствуют в Code Map → Makefile таргеты | Предупреждение |
 
 ---
 
@@ -121,6 +122,7 @@ python specs/.instructions/.scripts/validate-docs-service.py
 | Code Map → Пакеты | Пакет, Назначение, Ключевые модули |
 | Доменная модель → Агрегаты | Агрегат, Описание |
 | Доменная модель → Доменные события | Событие, Описание |
+| Code Map → Makefile таргеты | Таргет, Команда, Описание |
 
 Таблицы в API контрактах и Data Model проверяются в шагах 4 и 5 (зависят от типа endpoint-а / хранилища).
 
@@ -168,6 +170,7 @@ python specs/.instructions/.scripts/validate-docs-service.py
 - [ ] SVC007: границы автономии содержат все три уровня
 - [ ] SVC008: Changelog содержит минимум одну запись
 - [ ] SVC009: пустые секции содержат stub-текст
+- [ ] SVC011: Code Map содержит подсекцию Makefile таргеты с обязательными колонками
 - [ ] Валидация пройдена: `python specs/.instructions/.scripts/validate-docs-service.py` (SVC001-SVC010)
 
 ---

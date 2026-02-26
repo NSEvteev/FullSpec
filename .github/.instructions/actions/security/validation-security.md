@@ -56,7 +56,7 @@ index: .github/.instructions/actions/security/README.md
 python .github/.instructions/.scripts/validate-security.py
 ```
 
-Скрипт проверяет все правила SEC001-SEC010. Если валидация пройдена — **готово**, шаги 1-2 не нужны.
+Скрипт проверяет правила SEC001-SEC010. Правила SEC011-SEC013 проверяются скриптом `validate-docs-technology.py` (TECH-SEC001-003). Если валидация пройдена — **готово**, шаги 1-2 не нужны.
 
 **Если скрипт недоступен** — выполнить шаги 1-2 вручную.
 
@@ -76,6 +76,9 @@ python .github/.instructions/.scripts/validate-security.py
 | SEC008 | `codeql.yml` существует | [§ 4](./standard-security.md#4-code-scanning-codeql) |
 | SEC009 | `codeql.yml` использует Advanced Setup (matrix.language) | [§ 4](./standard-security.md#4-code-scanning-codeql) |
 | SEC010 | `codeql.yml` имеет `permissions` | [§ 4](./standard-security.md#4-code-scanning-codeql) |
+| SEC011 | `security-{tech}.md` существует для каждой технологии с package manager | [§ 11](./standard-security.md#11-per-tech-security-scanning) |
+| SEC012 | `security-{tech}.md` содержит 5 обязательных h2-секций | [§ 11](./standard-security.md#11-per-tech-security-scanning) |
+| SEC013 | `security-{tech}.md` frontmatter содержит `type: security` | [§ 11](./standard-security.md#11-per-tech-security-scanning) |
 
 ### Шаг 2: Ручная проверка (при review)
 
@@ -98,6 +101,11 @@ python .github/.instructions/.scripts/validate-security.py
 - [ ] SEC001-SEC004: dependabot.yml корректен
 - [ ] SEC005-SEC007: SECURITY.md корректен
 - [ ] SEC008-SEC010: codeql.yml корректен (Advanced Setup)
+
+### Per-tech security (validate-docs-technology.py)
+- [ ] SEC011/TECH-SEC001: security-{tech}.md существует для технологий с package manager
+- [ ] SEC012/TECH-SEC002: security-{tech}.md содержит 5 h2-секций
+- [ ] SEC013/TECH-SEC003: frontmatter содержит `type: security`
 
 ### Ручные проверки (review)
 - [ ] Dependabot Alerts включены в Settings
@@ -124,6 +132,7 @@ python .github/.instructions/.scripts/validate-security.py
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [validate-security.py](../../.scripts/validate-security.py) | Валидация файлов безопасности (SEC001-SEC010) | Этот документ |
+| [validate-docs-technology.py](/specs/.instructions/.scripts/validate-docs-technology.py) | Валидация security-{tech}.md (TECH-SEC001-003 = SEC011-SEC013) | [validation-technology.md](/specs/.instructions/docs/technology/validation-technology.md) |
 
 ---
 

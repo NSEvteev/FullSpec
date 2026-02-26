@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Воркфлоу создания
 
-Рабочая версия стандарта: 1.1
+Рабочая версия стандарта: 1.2
 
 Пошаговый процесс создания нового `specs/docs/{svc}.md` — per-service документа. Описывает подготовку, создание файла по шаблону, заполнение 10 секций и регистрацию в `docs/README.md`.
 
@@ -124,6 +124,7 @@ criticality: critical-high | critical-medium | critical-low
 | Data Model | Миграции БД, models, analysis/ |
 | Потоки | Исходный код, analysis/ |
 | Code Map | `src/{svc}/`, package.json / pyproject.toml |
+| Code Map → Makefile таргеты | Makefile (корневой), src/{svc}/Makefile (если есть) |
 | Зависимости | imports, docker-compose, conventions.md |
 | Доменная модель | Бизнес-требования, analysis/ |
 | Границы автономии LLM | Архитектурные ограничения проекта |
@@ -140,6 +141,20 @@ criticality: critical-high | critical-medium | critical-low
 5. Доменная модель — архитектурная секция
 6. Границы автономии LLM — по итогам заполнения предыдущих секций
 7. Planned Changes + Changelog — заключительные
+
+### Шаг 5.1: Создать per-service Makefile таргеты
+
+Добавить в корневой `Makefile` per-service таргеты для тестирования и линтинга:
+
+```makefile
+test-{svc}:  ## Unit + integration тесты {svc}
+	cd src/{svc} && make test
+
+lint-{svc}:  ## Линтинг {svc}
+	cd src/{svc} && make lint
+```
+
+Если таргеты уже существуют — проверить соответствие формату `{action}-{svc}` (kebab-case). Если сервис имеет Docker-образ — добавить `build-{svc}`.
 
 ### Шаг 6: Зарегистрировать в README
 
@@ -206,6 +221,8 @@ python specs/.instructions/.scripts/validate-docs-readme-services.py
 - [ ] Stub-секции содержат текст в курсиве с причиной
 - [ ] docs/README.md обновлён (таблица + дерево)
 - [ ] overview.md содержит сервис
+- [ ] Per-service Makefile таргеты созданы (`make test-{svc}`, `make lint-{svc}`)
+- [ ] Code Map содержит подсекцию Makefile таргеты
 - [ ] Валидация: `validate-docs-service.py` пройдена
 - [ ] Валидация: `validate-docs-readme-services.py` пройдена
 

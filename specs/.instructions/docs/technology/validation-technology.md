@@ -71,6 +71,9 @@ index: specs/.instructions/README.md
 | TECH007 | Отсутствует обязательная подсекция Тестирование | Предупреждение |
 | TECH008 | Пустая секция без stub-текста | Предупреждение |
 | TECH009 | Code-блок отсутствует в секции, где обязателен | Предупреждение |
+| TECH-SEC001 | `security-{tech}.md` frontmatter не содержит `type: security` | Блокирующая |
+| TECH-SEC002 | `security-{tech}.md` не содержит 5 обязательных h2-секций | Блокирующая |
+| TECH-SEC003 | Файл именуется не `security-{tech}.md` | Блокирующая |
 
 ---
 
@@ -82,7 +85,7 @@ index: specs/.instructions/README.md
 python specs/.instructions/.scripts/validate-docs-technology.py
 ```
 
-Скрипт проверяет правила TECH001-TECH009. Если скрипт пройден — валидация завершена. Если есть ошибки — исправить по кодам ниже.
+Скрипт проверяет правила TECH001-TECH009 для `standard-{tech}.md` и TECH-SEC001-003 для `security-{tech}.md`. Если скрипт пройден — валидация завершена. Если есть ошибки — исправить по кодам ниже.
 
 **Если скрипт недоступен** — выполнить шаги 1-8 вручную.
 
@@ -188,6 +191,11 @@ python specs/.instructions/.scripts/validate-docs-technology.py
 - [ ] TECH009: code-блоки присутствуют в обязательных секциях
 - [ ] Валидация пройдена: `python specs/.instructions/.scripts/validate-docs-technology.py`
 
+### security-{tech}.md
+- [ ] TECH-SEC001: frontmatter содержит `type: security`
+- [ ] TECH-SEC002: 5 обязательных h2-секций (Инструменты, Dependency Audit, SAST, CI Integration, Known Exceptions)
+- [ ] TECH-SEC003: файл именуется `security-{tech}.md`
+
 ---
 
 ## Типичные ошибки
@@ -204,6 +212,9 @@ python specs/.instructions/.scripts/validate-docs-technology.py
 | Паттерны кода без code-блока | TECH006 | Только текстовое описание | Добавить рабочий code-блок к каждому паттерну |
 | Нет подсекции «Мокирование» | TECH007 | Пропущена при заполнении | Добавить все 4 подсекции Тестирования |
 | Пустая секция без stub | TECH008 | Секция есть, но пустая | Добавить stub: `*{Секция} не применимо — {причина}.*` |
+| Нет `type: security` | TECH-SEC001 | Frontmatter security-файла без type | Добавить `type: security` во frontmatter |
+| Нет 5 h2-секций в security | TECH-SEC002 | Пропущена секция | Добавить по шаблону из [standard-security.md § 11](/.github/.instructions/actions/security/standard-security.md#11-per-tech-security-scanning) |
+| Неправильное имя файла | TECH-SEC003 | Файл не `security-{tech}.md` | Переименовать в `security-{tech}.md` |
 
 ---
 

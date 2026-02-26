@@ -30,7 +30,7 @@ index: .github/.instructions/pull-requests/README.md
 |-----|----------|
 | Стандарт | Этот документ |
 | Валидация | *Будет создан* |
-| Создание | *Будет создан* |
+| Создание | [create-pull-request.md](./create-pull-request.md) |
 | Модификация | *Будет создан* |
 
 ## Оглавление

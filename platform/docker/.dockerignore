@@ -1,0 +1,21 @@
+# Общие
+.git/
+.env
+tests/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Node.js
+node_modules/
+dist/
+.next/
+
+# Go
+bin/
+*.exe

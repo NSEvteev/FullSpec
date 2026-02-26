@@ -50,12 +50,19 @@ REQUIRED_EXAMPLES = [
     "specs/docs/.technologies/standard-example.md",
 ]
 
+REQUIRED_TEMPLATES = [
+    "specs/docs/.technologies/standard-openapi.md",
+    "specs/docs/.technologies/standard-protobuf.md",
+    "specs/docs/.technologies/standard-asyncapi.md",
+]
+
 ERROR_CODES = {
     "DOC001": "Отсутствует обязательная директория docs/",
     "DOC002": "Отсутствует обязательная поддиректория",
     "DOC003": "Отсутствует обязательный системный документ",
     "DOC004": "Отсутствует README.md (индекс)",
     "DOC005": "Отсутствует файл-пример",
+    "DOC006": "Отсутствует шаблонный per-tech стандарт",
 }
 
 
@@ -117,6 +124,16 @@ def validate_examples(repo_root: Path) -> list[tuple[str, str]]:
     return errors
 
 
+def validate_templates(repo_root: Path) -> list[tuple[str, str]]:
+    """Проверка шаблонных per-tech стандартов."""
+    errors = []
+    for file_path in REQUIRED_TEMPLATES:
+        full_path = repo_root / file_path
+        if not full_path.is_file():
+            errors.append(("DOC006", f"Файл не найден: {file_path}"))
+    return errors
+
+
 # =============================================================================
 # Main
 # =============================================================================
@@ -128,7 +145,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация структуры docs/ (DOC001-DOC005)"
+        description="Валидация структуры docs/ (DOC001-DOC006)"
     )
     parser.add_argument(
         "path",
@@ -155,6 +172,7 @@ def main():
     all_errors.extend(validate_index(repo_root))
     all_errors.extend(validate_system_files(repo_root))
     all_errors.extend(validate_examples(repo_root))
+    all_errors.extend(validate_templates(repo_root))
 
     has_errors = len(all_errors) > 0
 
@@ -170,7 +188,8 @@ def main():
         if not has_errors:
             print(f"✅ docs/ — валидация пройдена ({len(REQUIRED_DIRS)} директорий, "
                   f"{len(REQUIRED_SYSTEM_FILES)} системных файлов, "
-                  f"{len(REQUIRED_EXAMPLES)} примеров)")
+                  f"{len(REQUIRED_EXAMPLES)} примеров, "
+                  f"{len(REQUIRED_TEMPLATES)} шаблонов)")
         else:
             print(f"❌ docs/ — {len(all_errors)} ошибок:")
             for code, msg in all_errors:

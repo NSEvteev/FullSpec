@@ -39,6 +39,7 @@ index: .instructions/README.md
 │   ├── pre-commit-migration-check.py # Pre-commit проверка миграций
 │   ├── search-docs.py               # Единый поиск по документации
 │   ├── sync-standard-version.py      # Синхронизация версий стандартов
+│   ├── check-content-drift.py        # Проверка контентного покрытия секций стандарта
 │   ├── update-references.py          # Замена ссылок
 │   ├── validate-instruction.py       # Валидация инструкций
 │   ├── validate-principles.py        # Валидация принципов
@@ -193,6 +194,7 @@ index: .instructions/README.md
 | [parse-docstrings.py](./.scripts/parse-docstrings.py) | Поиск скриптов по описанию | [create-script.md](./create-script.md) |
 | [search-docs.py](./.scripts/search-docs.py) | Единый поиск по документации | [standard-search.md](/.structure/.instructions/standard-search.md) |
 | [find-references.py](./.scripts/find-references.py) | Поиск всех ссылок на файл | [modify-instruction.md](./modify-instruction.md) |
+| [check-content-drift.py](./.scripts/check-content-drift.py) | Проверка контентного покрытия секций стандарта | [validation-migration.md](./migration/validation-migration.md) |
 | [update-references.py](./.scripts/update-references.py) | Замена ссылок (старый → новый путь) | [modify-instruction.md](./modify-instruction.md) |
 
 ---

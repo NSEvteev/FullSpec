@@ -69,6 +69,14 @@ python .instructions/.scripts/check-version-drift.py <стандарт>
 
 **Критерий успеха:** `summary.outdated = 0`
 
+### Шаг 1.1: Проверка контентного покрытия
+
+```bash
+python .instructions/.scripts/check-content-drift.py <стандарт>
+```
+
+**Критерий успеха:** 0 непокрытых секций.
+
 ### Шаг 2: Проверка Workflows (⚠️ КРИТИЧНО — сравнить содержание)
 
 > **Версии разные = содержание не соответствует. Нужно найти ЧТО именно.**
@@ -152,7 +160,8 @@ grep -A5 "^## Скиллы" create-{object}.md | grep "SKILL.md"
 ## Чек-лист
 
 ### Version drift
-- [ ] `check-version-drift.py`: 0 расхождений
+- [ ] `check-version-drift.py`: 0 расхождений (версии)
+- [ ] `check-content-drift.py`: 0 непокрытых секций (контент)
 
 ### Workflows (⚠️ сравнить ТЕКУЩЕЕ содержание)
 - [ ] Прочитан ТЕКУЩИЙ стандарт
@@ -200,6 +209,7 @@ grep -A5 "^## Скиллы" create-{object}.md | grep "SKILL.md"
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [check-version-drift.py](/.instructions/.scripts/check-version-drift.py) | Проверка расхождений версий | Этот документ |
+| [check-content-drift.py](/.instructions/.scripts/check-content-drift.py) | Проверка контентного покрытия секций стандарта | Этот документ |
 | [validate-instruction.py](/.instructions/.scripts/validate-instruction.py) | Валидация формата инструкции | [validation-instruction.md](/.instructions/validation-instruction.md) |
 
 ---

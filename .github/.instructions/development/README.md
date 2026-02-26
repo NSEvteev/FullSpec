@@ -25,7 +25,7 @@ index: .github/.instructions/development/README.md
 | [2. Воркфлоу](#2-воркфлоу) | — | Создание и изменение |
 | [3. Валидация](#3-валидация) | — | Проверка согласованности |
 | [4. Скрипты](#4-скрипты) | — | Автоматизация |
-| [5. Скиллы](#5-скиллы) | — | Скиллы для этой области |
+| [5. Скиллы и агенты](#5-скиллы-и-агенты) | — | Скиллы и агенты для этой области |
 
 ```
 /.github/.instructions/development/
@@ -95,9 +95,9 @@ index: .github/.instructions/development/README.md
 
 ---
 
-# 5. Скиллы
+# 5. Скиллы и агенты
 
-| Скилл | Назначение | Инструкция |
-|-------|------------|------------|
+| Артефакт | Назначение | Инструкция |
+|----------|------------|------------|
 | [/dev-create](/.claude/skills/dev-create/SKILL.md) | Запуск разработки по analysis chain (WAITING → RUNNING) | [create-development.md](./create-development.md) |
-| [/dev](/.claude/skills/dev/SKILL.md) | Процесс разработки в feature-ветке (RUNNING) | [modify-development.md](./modify-development.md) |
+| [dev-agent](/.claude/agents/dev-agent/AGENT.md) | Агент разработки — выполняет BLOCK-N (RUNNING) | [modify-development.md](./modify-development.md) |

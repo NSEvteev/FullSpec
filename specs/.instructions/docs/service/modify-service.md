@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Воркфлоу изменения
 
-Рабочая версия стандарта: 1.1
+Рабочая версия стандарта: 1.2
 
 Процессы изменения `specs/docs/{svc}.md`: обновление содержимого при изменении сервиса, деактивация при выводе сервиса из эксплуатации, миграция при переименовании.
 
@@ -36,6 +36,7 @@ index: specs/.instructions/README.md
   - [Сценарий 5: Завершён analysis/](#сценарий-5-завершён-analysis)
   - [Сценарий 6: Добавлен новый analysis/](#сценарий-6-добавлен-новый-analysis)
   - [Сценарий 7: Изменена критичность](#сценарий-7-изменена-критичность)
+  - [Сценарий 8: Изменены Makefile таргеты](#сценарий-8-изменены-makefile-таргеты)
 - [Деактивация](#деактивация)
 - [Миграция](#миграция)
 - [Обновление ссылок](#обновление-ссылок)
@@ -67,6 +68,7 @@ index: specs/.instructions/README.md
 | analysis/ переведён в DONE | Planned Changes → Changelog | [Сценарий 5](#сценарий-5-завершён-analysis) |
 | Создан новый analysis/ | Planned Changes | [Сценарий 6](#сценарий-6-добавлен-новый-analysis) |
 | Изменена критичность сервиса | Frontmatter (criticality), Назначение, overview.md | [Сценарий 7](#сценарий-7-изменена-критичность) |
+| Добавлен/удалён Makefile таргет | Code Map → Makefile таргеты | [Сценарий 8](#сценарий-8-изменены-makefile-таргеты) |
 
 ---
 
@@ -161,17 +163,32 @@ index: specs/.instructions/README.md
    python specs/.instructions/.scripts/validate-docs-service.py specs/docs/{svc}.md
    ```
 
+### Сценарий 8: Изменены Makefile таргеты
+
+**Когда:** Добавлен, удалён или изменён per-service Makefile таргет.
+
+**Шаги:**
+
+1. **Code Map → Makefile таргеты** — обновить таблицу таргетов (Таргет, Команда, Описание).
+2. **Корневой Makefile** — синхронизировать: добавить/удалить/переименовать таргет `{action}-{svc}`.
+3. **Валидация:**
+   ```bash
+   python specs/.instructions/.scripts/validate-docs-service.py specs/docs/{svc}.md
+   ```
+
 ---
 
 ## Деактивация
 
 **Когда:** Сервис выведен из эксплуатации (удалён из `/src/`).
 
-### Шаг 1: Удалить файл
+### Шаг 1: Удалить файл и Makefile таргеты
 
 ```bash
 rm specs/docs/{svc}.md
 ```
+
+Удалить per-service таргеты из корневого Makefile (`test-{svc}`, `lint-{svc}`, `build-{svc}`).
 
 ### Шаг 2: Обновить docs/README.md
 
@@ -216,6 +233,15 @@ mv specs/docs/{old-svc}.md specs/docs/{new-svc}.md
 ### Шаг 3: Обновить h1
 
 Заменить `# {old-svc}` на `# {new-svc}`.
+
+### Шаг 3.1: Переименовать Makefile таргеты
+
+В корневом Makefile переименовать per-service таргеты:
+- `test-{old-svc}` → `test-{new-svc}`
+- `lint-{old-svc}` → `lint-{new-svc}`
+- `build-{old-svc}` → `build-{new-svc}` (если есть)
+
+Обновить подсекцию "Makefile таргеты" в Code Map документа `{new-svc}.md`.
 
 ### Шаг 4: Обновить docs/README.md
 
@@ -266,6 +292,7 @@ grep -r "{old-svc}.md" specs/.instructions/ --include="*.md"
 ### Деактивация
 
 - [ ] Файл `{svc}.md` удалён
+- [ ] Per-service Makefile таргеты удалены
 - [ ] docs/README.md обновлён (таблица + дерево)
 - [ ] overview.md обновлён
 - [ ] Ссылки в зависимых документах обновлены
@@ -277,6 +304,7 @@ grep -r "{old-svc}.md" specs/.instructions/ --include="*.md"
 - [ ] Frontmatter обновлён
 - [ ] h1 обновлён
 - [ ] docs/README.md обновлён (таблица + дерево)
+- [ ] Makefile таргеты переименованы ({old-svc} → {new-svc})
 - [ ] Все ссылки обновлены
 - [ ] Валидация: оба скрипта пройдены
 

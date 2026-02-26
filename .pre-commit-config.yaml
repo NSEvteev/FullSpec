@@ -249,3 +249,38 @@ repos:
         pass_filenames: false
         always_run: true
         stages: [pre-commit]
+
+      # 27. Валидация формата commit message
+      - id: validate-commit-msg
+        name: Validate commit message format
+        entry: python .github/.instructions/commits/.scripts/validate-commit-msg.py
+        language: system
+        always_run: true
+        stages: [commit-msg]
+
+      # 28. Валидация docs/.technologies/security-{tech}.md
+      - id: security-technology-validate
+        name: Validate security technology standards
+        entry: python specs/.instructions/.scripts/validate-docs-technology.py
+        language: system
+        files: ^specs/docs/\.technologies/security-.*\.md$
+        pass_filenames: true
+        require_serial: true
+        stages: [pre-commit]
+
+      # 29. Валидация deploy.yml
+      - id: deploy-validate
+        name: Validate deploy workflow
+        entry: python .github/.instructions/.scripts/validate-deploy.py
+        language: system
+        files: ^\.github/workflows/deploy\.yml$
+        pass_filenames: false
+        stages: [pre-commit]
+
+  # 30. Обнаружение секретов (gitleaks)
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+        name: Detect secrets (gitleaks)
+        stages: [pre-commit]

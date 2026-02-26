@@ -52,6 +52,7 @@ REQUIRED_SECTIONS = [
 TABLE_COLUMNS_CODE_MAP = {
     "Tech Stack": ["Технология", "Версия", "Назначение", "Стандарт"],
     "Пакеты": ["Пакет", "Назначение", "Ключевые модули"],
+    "Makefile таргеты": ["Таргет", "Команда", "Описание"],
 }
 
 TABLE_COLUMNS_DOMAIN = {
@@ -79,6 +80,7 @@ ERROR_CODES = {
     "SVC008": "Changelog не содержит ни одной записи",
     "SVC009": "Пустая обязательная секция без stub-текста",
     "SVC010": "Поле criticality отсутствует или имеет недопустимое значение",
+    "SVC011": "Per-service Makefile таргеты отсутствуют в Code Map",
 }
 
 
@@ -232,18 +234,22 @@ def validate_tables(content: str) -> list[tuple[str, str]]:
     code_map_text = get_section_content(content, "Code Map")
     if code_map_text and not is_stub(code_map_text):
         for subsection_name, expected_cols in TABLE_COLUMNS_CODE_MAP.items():
+            # SVC011: Makefile таргеты — подсекция обязательна (предупреждение)
+            error_code = "SVC011" if subsection_name == "Makefile таргеты" else "SVC004"
             sub_text = get_h3_section_content(code_map_text, subsection_name)
             if not sub_text:
+                if subsection_name == "Makefile таргеты":
+                    errors.append(("SVC011", "Code Map: отсутствует подсекция «Makefile таргеты»"))
                 continue
             if is_stub(sub_text):
                 continue
             header = extract_table_header(sub_text)
             if not header:
-                errors.append(("SVC004", f"Code Map → {subsection_name}: таблица не найдена"))
+                errors.append((error_code, f"Code Map → {subsection_name}: таблица не найдена"))
                 continue
             for col in expected_cols:
                 if col not in header:
-                    errors.append(("SVC004", f"Code Map → {subsection_name}: отсутствует колонка «{col}»"))
+                    errors.append((error_code, f"Code Map → {subsection_name}: отсутствует колонка «{col}»"))
 
     # Доменная модель subsections
     domain_text = get_section_content(content, "Доменная модель")
@@ -461,7 +467,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация docs/{svc}.md (SVC001-SVC010)"
+        description="Валидация docs/{svc}.md (SVC001-SVC011)"
     )
     parser.add_argument(
         "path",

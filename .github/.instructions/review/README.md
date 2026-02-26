@@ -31,7 +31,8 @@ index: .github/.instructions/review/README.md
 /.github/.instructions/review/
 ├── README.md              # Этот файл (индекс)
 ├── standard-review.md     # Стандарт ревью и merge
-└── validation-review.md   # Валидация (скилл /review)
+├── validation-review.md   # Валидация (скилл /review)
+└── create-merge.md        # Воркфлоу merge PR
 ```
 
 ---
@@ -53,7 +54,11 @@ Code Review процесс, merge стратегии и Branch Protection Rules.
 
 # 2. Воркфлоу
 
-*Нет воркфлоу.*
+## 2.1. Merge PR
+
+Процесс merge PR: pre-checks, squash merge, post-merge sync, cleanup, verification.
+
+**Инструкция:** [create-merge.md](./create-merge.md)
 
 ---
 
@@ -85,3 +90,4 @@ Code Review процесс, merge стратегии и Branch Protection Rules.
 | Агент | Назначение |
 |-------|------------|
 | [code-reviewer](/.claude/agents/code-reviewer/AGENT.md) | Глубокий анализ diff, сверка с постановкой из specs/analysis/ |
+| [merge-agent](/.claude/agents/merge-agent/AGENT.md) | Merge PR с pre/post проверками и sync через Task tool |

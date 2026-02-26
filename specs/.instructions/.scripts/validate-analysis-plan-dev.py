@@ -83,6 +83,12 @@ ERROR_CODES = {
     "PD028": "INFRA превышает 20%",
     "PD029": "Маркер при статусе > DRAFT",
     "PD030": "Кросс-зависимость не в таблице",
+    "PD031": "Нет Блоки выполнения",
+    "PD032": "TASK-N без BLOCK-N",
+    "PD033": "Циклическая зависимость BLOCK-N",
+    "PD034": "File overlap в волне",
+    "PD035": "INFRA-блок не в первой волне",
+    "PD036": "BLOCK-N не совпадает с plan-test",
 }
 
 
@@ -296,8 +302,12 @@ def check_required_sections(content: str) -> list[tuple[str, str]]:
     if not any("Маппинг GitHub Issues" in h for h in headings):
         errors.append(("PD023", "Отсутствует раздел '## Маппинг GitHub Issues'"))
 
+    # PD031: Блоки выполнения
+    if not any("Блоки выполнения" in h for h in headings):
+        errors.append(("PD031", "Отсутствует раздел '## Блоки выполнения'"))
+
     # PD010: per-service разделы
-    special = {"Резюме", "Кросс-сервисные зависимости", "Маппинг GitHub Issues"}
+    special = {"Резюме", "Кросс-сервисные зависимости", "Маппинг GitHub Issues", "Блоки выполнения"}
     per_service = [h for h in headings if not any(s in h for s in special)]
     if not per_service:
         errors.append(("PD010", "Нет ни одного per-service раздела"))
@@ -530,6 +540,100 @@ def check_dependencies(tasks: list[dict]) -> list[tuple[str, str]]:
     return errors
 
 
+BLOCK_ROW_PATTERN = re.compile(
+    r'\|\s*BLOCK-(\d+)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|\s*(\d+)\s*\|'
+)
+
+
+def check_blocks(content: str, tasks: list[dict]) -> list[tuple[str, str]]:
+    """PD031-PD035: Проверить секцию Блоки выполнения."""
+    errors = []
+
+    body = get_body(content)
+    body_no_code = remove_code_blocks(body)
+    sections = split_sections(body_no_code)
+
+    block_section = None
+    for heading, sec_content in sections:
+        if "Блоки выполнения" in heading:
+            block_section = sec_content
+            break
+
+    if block_section is None:
+        return errors  # PD031 уже проверено в check_required_sections
+
+    # Если заглушка — пропустить
+    if "заглушка" in block_section.lower() or "нет блоков" in block_section.lower():
+        return errors
+
+    # Извлечь строки таблицы
+    block_rows = list(BLOCK_ROW_PATTERN.finditer(block_section))
+    if not block_rows:
+        return errors
+
+    all_task_nums = {t["num"] for t in tasks}
+    tasks_in_blocks: set[int] = set()
+    block_deps: dict[int, list[int]] = {}
+    block_waves: dict[int, int] = {}
+
+    for match in block_rows:
+        block_num = int(match.group(1))
+        tasks_str = match.group(2).strip()
+        deps_str = match.group(4).strip()
+        wave = int(match.group(5))
+
+        block_waves[block_num] = wave
+
+        # Извлечь TASK-N из блока
+        task_nums_in_block = [int(m) for m in re.findall(r'TASK-(\d+)', tasks_str)]
+        tasks_in_blocks.update(task_nums_in_block)
+
+        # Зависимости между блоками
+        if deps_str == "—" or deps_str == "-":
+            block_deps[block_num] = []
+        else:
+            dep_blocks = [int(m) for m in re.findall(r'BLOCK-(\d+)', deps_str)]
+            block_deps[block_num] = dep_blocks
+
+    # PD032: каждый TASK-N принадлежит блоку
+    for task_num in all_task_nums:
+        if task_num not in tasks_in_blocks:
+            errors.append(("PD032", f"TASK-{task_num} не принадлежит ни одному BLOCK-N"))
+
+    # PD033: циклические зависимости между блоками
+    def has_block_cycle(node: int, visited: set, rec_stack: set) -> bool:
+        visited.add(node)
+        rec_stack.add(node)
+        for dep in block_deps.get(node, []):
+            if dep not in visited:
+                if has_block_cycle(dep, visited, rec_stack):
+                    return True
+            elif dep in rec_stack:
+                return True
+        rec_stack.discard(node)
+        return False
+
+    visited_blocks: set[int] = set()
+    for bn in block_deps:
+        if bn not in visited_blocks:
+            if has_block_cycle(bn, visited_blocks, set()):
+                errors.append(("PD033", f"Циклическая зависимость между BLOCK-N (включает BLOCK-{bn})"))
+                break
+
+    # PD035: INFRA-блоки в wave 0 или 1
+    infra_task_nums = {t["num"] for t in tasks if t["tc"] and t["tc"].strip().upper() == "INFRA"}
+    for match in block_rows:
+        block_num = int(match.group(1))
+        tasks_str = match.group(2).strip()
+        wave = int(match.group(5))
+        task_nums_in_block = {int(m) for m in re.findall(r'TASK-(\d+)', tasks_str)}
+
+        if task_nums_in_block & infra_task_nums and wave > 1:
+            errors.append(("PD035", f"BLOCK-{block_num} содержит INFRA задачи, но wave={wave} (ожидается 0 или 1)"))
+
+    return errors
+
+
 def check_markers_and_status(content: str) -> list[tuple[str, str]]:
     """PD029: Проверить маркеры при статусе > DRAFT."""
     errors = []
@@ -621,6 +725,9 @@ def validate_plan_dev(path: Path, repo_root: Path) -> list[tuple[str, str]]:
 
     # PD026-PD027: зависимости
     errors.extend(check_dependencies(tasks))
+
+    # PD031-PD035: блоки выполнения
+    errors.extend(check_blocks(content, tasks))
 
     # PD029: маркеры и статус
     errors.extend(check_markers_and_status(content))

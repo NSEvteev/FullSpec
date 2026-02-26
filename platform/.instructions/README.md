@@ -12,7 +12,7 @@ index: platform/.instructions/README.md
 **Полезные ссылки:**
 - [platform/](../README.md)
 
-**Содержание:** *добавить темы через запятую.*
+**Содержание:** Docker конфигурации, compose конвенции.
 
 ---
 
@@ -20,7 +20,7 @@ index: platform/.instructions/README.md
 
 | Секция | Инструкция | Описание |
 |--------|------------|----------|
-| [1. Стандарты](#1-стандарты) | — | Форматы и правила |
+| [1. Стандарты](#1-стандарты) | standard-docker.md | Форматы и правила |
 | [2. Воркфлоу](#2-воркфлоу) | — | Создание и изменение |
 | [3. Валидация](#3-валидация) | — | Проверка согласованности |
 | [4. Скрипты](#4-скрипты) | — | Автоматизация |
@@ -28,6 +28,7 @@ index: platform/.instructions/README.md
 
 ```
 /platform/.instructions/
+├── standard-docker.md       # Стандарт Docker конфигураций
 └── README.md                # Этот файл (индекс)
 ```
 
@@ -35,7 +36,9 @@ index: platform/.instructions/README.md
 
 # 1. Стандарты
 
-*Нет стандартов.*
+| Инструкция | Описание |
+|------------|----------|
+| [standard-docker.md](./standard-docker.md) | Стандарт Docker конфигураций — Dockerfile формат, compose конвенции, сети, volumes, порты, health checks, environment, тестовое окружение, hot reload |
 
 ---
 

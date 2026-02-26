@@ -29,8 +29,11 @@ index: .github/.instructions/commits/README.md
 
 ```
 /.github/.instructions/commits/
-├── README.md             # Этот файл (индекс)
-└── standard-commit.md    # Стандарт коммитов
+├── .scripts/
+│   └── validate-commit-msg.py  # Валидация формата commit message
+├── README.md                   # Этот файл (индекс)
+├── standard-commit.md          # Стандарт коммитов
+└── create-commit.md            # Воркфлоу создания коммита
 ```
 
 ---
@@ -50,6 +53,7 @@ index: .github/.instructions/commits/README.md
 - [Процесс коммита](./standard-commit.md#6-процесс-коммита)
 - [Исправление коммитов](./standard-commit.md#7-исправление-коммитов)
 - [Язык сообщений](./standard-commit.md#8-язык-сообщений)
+- [Влияние коммита на релиз](./standard-commit.md#9-влияние-коммита-на-релиз)
 
 **Инструкция:** [standard-commit.md](./standard-commit.md)
 
@@ -57,7 +61,11 @@ index: .github/.instructions/commits/README.md
 
 # 2. Воркфлоу
 
-*Нет воркфлоу.*
+## 2.1. Создание коммита
+
+Процесс создания коммита: анализ diff, определение type/scope, формирование message, staging, hooks, amend, signing.
+
+**Инструкция:** [create-commit.md](./create-commit.md)
 
 ---
 
@@ -69,10 +77,20 @@ index: .github/.instructions/commits/README.md
 
 # 4. Скрипты
 
-*Нет скриптов.*
+| Скрипт | Назначение | Инструкция |
+|--------|------------|------------|
+| [validate-commit-msg.py](./.scripts/validate-commit-msg.py) | Валидация формата commit message (commit-msg hook) | [standard-commit.md](./standard-commit.md) |
 
 ---
 
 # 5. Скиллы
 
 *Нет скиллов.*
+
+---
+
+# 6. Агенты
+
+| Агент | Назначение |
+|-------|------------|
+| [commit-agent](/.claude/agents/commit-agent/AGENT.md) | Создание коммитов через Task tool — экономит контекст основного LLM |

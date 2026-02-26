@@ -88,9 +88,15 @@ python .instructions/.scripts/bump-standard-version.py <стандарт>
 python .instructions/.scripts/check-version-drift.py <стандарт>
 ```
 
+```bash
+# Контентное покрытие
+python .instructions/.scripts/check-content-drift.py <стандарт>
+```
+
 **Вывод покажет:**
 - Workflows: связанные документы (validation, create, modify)
 - Экземпляры
+- Контентное покрытие: таблица «секция стандарта → шаг workflow → ERROR_CODE скрипта»
 
 ### Шаг 4: Обновить Workflows
 
@@ -138,12 +144,14 @@ Read tool: modify-{object}.md (весь документ, без limit)
 - Есть ли соответствующий шаг в `create-{object}.md`?
 - Есть ли соответствующий шаг в `modify-{object}.md`?
 
-**Таблица соответствия (заполнить):**
+**Таблица соответствия:**
 
-| Секция стандарта | validation | create | modify | Расхождение |
-|------------------|------------|--------|--------|-------------|
-| §1 ... | Шаг N | Шаг N | — | ✅ / ❌ описать |
-| §2 ... | Шаг N | Шаг N | Шаг N | ✅ / ❌ описать |
+> Скопировать таблицу из вывода `check-content-drift.py` (Шаг 3). Проверить маппинг, дополнить колонку «Расхождение» описанием конкретных пробелов.
+
+| Секция стандарта | validation | create | modify | script | Расхождение |
+|------------------|------------|--------|--------|--------|-------------|
+| §1 ... | Шаг N | Шаг N | — | E001 | ✅ / ❌ описать |
+| §2 ... | Шаг N | Шаг N | Шаг N | E002 | ✅ / ❌ описать |
 
 #### 4.4. Добавить недостающие шаги
 
@@ -287,7 +295,12 @@ grep -r "SSOT:" .claude/skills/ | grep "{object}"
 python .instructions/.scripts/check-version-drift.py <стандарт>
 ```
 
-**Критерий успеха:** 0 расхождений.
+```bash
+# Контентное покрытие
+python .instructions/.scripts/check-content-drift.py <стандарт> --check
+```
+
+**Критерий успеха:** 0 расхождений (версии) + 0 непокрытых секций (контент).
 
 Дополнительно: `/migration-validate <стандарт>`
 
@@ -336,6 +349,7 @@ python .instructions/.scripts/check-version-drift.py <стандарт>
 ### Завершение
 - [ ] README обновлён (если нужно)
 - [ ] `check-version-drift.py`: 0 расхождений (версии)
+- [ ] `check-content-drift.py`: 0 непокрытых секций (контент)
 - [ ] Содержание проверено вручную (секции ↔ шаги ↔ скрипты)
 - [ ] Отчёт сформирован
 
@@ -427,6 +441,7 @@ python .instructions/.scripts/check-version-drift.py .instructions/standard-inst
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
 | [check-version-drift.py](/.instructions/.scripts/check-version-drift.py) | Проверка расхождений версий | Этот документ, [validation-migration.md](./validation-migration.md) |
+| [check-content-drift.py](/.instructions/.scripts/check-content-drift.py) | Проверка контентного покрытия секций стандарта | Этот документ, [validation-migration.md](./validation-migration.md) |
 | [bump-standard-version.py](/.instructions/.scripts/bump-standard-version.py) | Увеличение версии стандарта | Этот документ |
 | [pre-commit-migration-check.py](/.instructions/.scripts/pre-commit-migration-check.py) | Проверка миграции в pre-commit hook | Этот документ |
 

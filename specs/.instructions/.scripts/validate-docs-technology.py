@@ -76,7 +76,16 @@ CODE_BLOCK_REQUIRED = {
 EXPECTED_STANDARD = "specs/.instructions/docs/technology/standard-technology.md"
 KEBAB_PATTERN = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
 FILENAME_PATTERN = re.compile(r"^standard-([a-z][a-z0-9]*(?:-[a-z0-9]+)*)\.md$")
+SECURITY_FILENAME_PATTERN = re.compile(r"^security-([a-z][a-z0-9]*(?:-[a-z0-9]+)*)\.md$")
 H1_VERSION_PATTERN = re.compile(r"^#\s+Стандарт\s+.+\s+v(\d+\.\d+)\s*$")
+
+SECURITY_REQUIRED_SECTIONS = [
+    "Инструменты",
+    "Dependency Audit",
+    "SAST",
+    "CI Integration",
+    "Known Exceptions",
+]
 
 ERROR_CODES = {
     "TECH001": "Отсутствует или некорректный frontmatter",
@@ -88,6 +97,9 @@ ERROR_CODES = {
     "TECH007": "Отсутствует обязательная подсекция Тестирование",
     "TECH008": "Пустая секция без stub-текста",
     "TECH009": "Code-блок отсутствует в секции, где обязателен",
+    "TECH-SEC001": "security-{tech}.md: frontmatter не содержит type: security",
+    "TECH-SEC002": "security-{tech}.md: не содержит 5 обязательных h2-секций",
+    "TECH-SEC003": "security-{tech}.md: неправильное именование файла",
 }
 
 
@@ -427,6 +439,48 @@ def validate_code_blocks(content: str) -> list[tuple[str, str]]:
 
 
 # =============================================================================
+# Валидация security-{tech}.md
+# =============================================================================
+
+def validate_security_file(file_path: Path) -> list[tuple[str, str]]:
+    """Валидировать один security-{tech}.md файл. Возвращает список ошибок."""
+    errors = []
+    content = file_path.read_text(encoding="utf-8")
+
+    # TECH-SEC003: Проверка именования файла
+    if not SECURITY_FILENAME_PATTERN.match(file_path.name):
+        errors.append(("TECH-SEC003", f"Файл '{file_path.name}' не соответствует паттерну security-{{tech}}.md"))
+
+    # TECH-SEC001: Frontmatter с type: security
+    fm = parse_frontmatter(content)
+    if fm is None:
+        errors.append(("TECH-SEC001", "Frontmatter отсутствует"))
+    else:
+        file_type = fm.get("type", "")
+        if file_type != "security":
+            errors.append(("TECH-SEC001", f"Frontmatter: type = '{file_type}', ожидается 'security'"))
+
+        # Проверить technology поле
+        tech = fm.get("technology", "")
+        if not tech:
+            errors.append(("TECH-SEC001", "Frontmatter: отсутствует поле technology"))
+        elif not KEBAB_PATTERN.match(tech):
+            errors.append(("TECH-SEC001", f"Frontmatter: technology '{tech}' не в kebab-case"))
+        else:
+            name_match = SECURITY_FILENAME_PATTERN.match(file_path.name)
+            if name_match and name_match.group(1) != tech:
+                errors.append(("TECH-SEC001", f"Frontmatter: technology '{tech}' не совпадает с именем файла '{name_match.group(1)}'"))
+
+    # TECH-SEC002: 5 обязательных h2-секций
+    sections = get_h2_sections(content)
+    for required in SECURITY_REQUIRED_SECTIONS:
+        if required not in sections:
+            errors.append(("TECH-SEC002", f"Отсутствует секция: ## {required}"))
+
+    return errors
+
+
+# =============================================================================
 # Поиск файлов
 # =============================================================================
 
@@ -443,6 +497,23 @@ def find_tech_files(repo_root: Path) -> list[Path]:
             and item.suffix == ".md"
             and item.name.startswith("standard-")
             and item.name != "standard-example.md"
+        ):
+            files.append(item)
+    return files
+
+
+def find_security_files(repo_root: Path) -> list[Path]:
+    """Найти все security-{tech}.md файлы в specs/docs/.technologies/."""
+    tech_dir = repo_root / TECH_DIR
+    if not tech_dir.is_dir():
+        return []
+
+    files = []
+    for item in sorted(tech_dir.iterdir()):
+        if (
+            item.is_file()
+            and item.suffix == ".md"
+            and item.name.startswith("security-")
         ):
             files.append(item)
     return files
@@ -476,7 +547,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация docs/.technologies/standard-{tech}.md (TECH001-TECH009)"
+        description="Валидация docs/.technologies/standard-{tech}.md (TECH001-TECH009) и security-{tech}.md (TECH-SEC001-003)"
     )
     parser.add_argument(
         "path",
@@ -498,46 +569,57 @@ def main():
     repo_root = find_repo_root(Path(args.repo))
 
     # Determine files to validate
+    standard_files = []
+    security_files = []
+
     if args.path:
-        files = []
         for p in args.path:
             fp = Path(p)
             if not fp.is_absolute():
                 fp = repo_root / fp
             if fp.is_file() and fp.suffix == ".md":
-                # Check it's in specs/docs/.technologies/ and is standard-*.md
                 try:
                     rel = fp.relative_to(repo_root / TECH_DIR)
-                    if (
-                        "/" not in str(rel).replace("\\", "/")
-                        and rel.name.startswith("standard-")
-                        and rel.name != "standard-example.md"
-                    ):
-                        files.append(fp)
+                    if "/" not in str(rel).replace("\\", "/"):
+                        if rel.name.startswith("standard-") and rel.name != "standard-example.md":
+                            standard_files.append(fp)
+                        elif rel.name.startswith("security-"):
+                            security_files.append(fp)
                 except ValueError:
                     pass
-        if not files:
+        if not standard_files and not security_files:
             if args.json:
                 print(json.dumps({"files": [], "errors": [], "valid": True}, ensure_ascii=False, indent=2))
             else:
                 print("✅ technology — нет файлов для проверки")
             sys.exit(0)
     else:
-        files = find_tech_files(repo_root)
-        if not files:
+        standard_files = find_tech_files(repo_root)
+        security_files = find_security_files(repo_root)
+        if not standard_files and not security_files:
             if args.json:
                 print(json.dumps({"files": [], "errors": [], "valid": True}, ensure_ascii=False, indent=2))
             else:
-                print("✅ technology — нет файлов specs/docs/.technologies/standard-*.md для проверки")
+                print("✅ technology — нет файлов для проверки")
             sys.exit(0)
 
     # Validate all files
     all_results = []
     total_errors = 0
 
-    for file_path in files:
+    for file_path in standard_files:
         rel_path = file_path.relative_to(repo_root)
         errors = validate_file(file_path)
+        total_errors += len(errors)
+        all_results.append({
+            "file": str(rel_path).replace("\\", "/"),
+            "errors": [{"code": code, "message": msg} for code, msg in errors],
+            "valid": len(errors) == 0,
+        })
+
+    for file_path in security_files:
+        rel_path = file_path.relative_to(repo_root)
+        errors = validate_security_file(file_path)
         total_errors += len(errors)
         all_results.append({
             "file": str(rel_path).replace("\\", "/"),

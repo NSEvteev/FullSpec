@@ -386,7 +386,15 @@ Notification использует auth-сервис для валидации JW
 | `example.md` | Пример сервисного документа — демонстрирует все 10 секций |
 | `.technologies/standard-example.md` | Пример per-tech стандарта — демонстрирует все 8 секций |
 
-Примеры (`example.md`, `standard-example.md`) содержат заполненные секции с реалистичными данными. Служат шаблоном при создании новых сервисных и per-tech документов. Per-service и per-tech файлы для реальных сервисов/технологий добавляются по мере их появления.
+**Шаблонные per-tech стандарты (создаются при init):**
+
+| Документ | Назначение |
+|----------|-----------|
+| `.technologies/standard-openapi.md` | Конвенции OpenAPI 3.1 — формат REST-контрактов в `shared/contracts/openapi/` |
+| `.technologies/standard-protobuf.md` | Конвенции Protobuf v3 — формат gRPC-контрактов в `shared/contracts/protobuf/` |
+| `.technologies/standard-asyncapi.md` | Конвенции AsyncAPI 3.0 — формат event-схем в `shared/events/` |
+
+Примеры (`example.md`, `standard-example.md`) содержат заполненные секции с реалистичными данными. Служат шаблоном при создании новых сервисных и per-tech документов. Шаблонные per-tech стандарты (OpenAPI, Protobuf, AsyncAPI) описывают универсальные конвенции контрактных технологий — создаются при init, не при analysis chain. Per-service и per-tech файлы для реальных сервисов/технологий добавляются по мере их появления.
 
 ### Удаление сервиса
 

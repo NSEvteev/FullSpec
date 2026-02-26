@@ -120,7 +120,8 @@ grep -r "standard-{tech}.md" specs/docs/ --include="*.md"
 ### Шаг 2: Удалить файлы
 
 1. Удалить `specs/docs/.technologies/standard-{tech}.md`
-2. Удалить `.claude/rules/{tech}.md`
+2. Удалить `specs/docs/.technologies/security-{tech}.md` (если существует)
+3. Удалить `.claude/rules/{tech}.md`
 
 ### Шаг 3: Обновить docs/README.md
 
@@ -139,15 +140,18 @@ python specs/.instructions/.scripts/validate-docs-technology.py
 
 **Когда:** Технология переименована (например, фреймворк поменял имя).
 
-### Шаг 1: Переименовать файл
+### Шаг 1: Переименовать файлы
 
 ```bash
 mv specs/docs/.technologies/standard-{old-tech}.md specs/docs/.technologies/standard-{new-tech}.md
+# Если существует security companion:
+mv specs/docs/.technologies/security-{old-tech}.md specs/docs/.technologies/security-{new-tech}.md
 ```
 
 ### Шаг 2: Обновить frontmatter
 
-Обновить поле `technology: {new-tech}` в frontmatter.
+Обновить поле `technology: {new-tech}` в frontmatter `standard-{new-tech}.md`.
+Если существует `security-{new-tech}.md` — обновить `technology: {new-tech}` и в нём.
 
 ### Шаг 3: Обновить h1
 
@@ -214,14 +218,15 @@ grep -r "standard-{tech}.md" specs/ --include="*.md"
 
 - [ ] Технология не используется ни одним сервисом
 - [ ] Файл `standard-{tech}.md` удалён
+- [ ] Файл `security-{tech}.md` удалён (если существовал)
 - [ ] Rule `{tech}.md` удалён
 - [ ] docs/README.md обновлён (таблица + дерево)
 - [ ] Ссылки в `{svc}.md` обновлены
 
 ### Миграция
 
-- [ ] Файл переименован
-- [ ] Frontmatter обновлён (technology)
+- [ ] Файлы переименованы (standard + security если есть)
+- [ ] Frontmatter обновлён (technology) в обоих файлах
 - [ ] h1 обновлён
 - [ ] Rule переименован и обновлён
 - [ ] docs/README.md обновлён (таблица + дерево)

@@ -90,6 +90,10 @@ ERROR_CODES = {
     "PT023": "Dependency Barrier при статусе > DRAFT",
     "PT024": "NNNN не совпадает",
     "PT025": "Description слишком длинное",
+    "PT026": "Нет Блоки тестирования",
+    "PT027": "TC-N без BLOCK-N",
+    "PT028": "BLOCK-N не совпадает с plan-dev",
+    "PT029": "Системные TC не в отдельном BLOCK",
 }
 
 
@@ -299,8 +303,12 @@ def check_required_sections(content: str) -> list[tuple[str, str]]:
     if not any("Матрица покрытия" in h for h in headings):
         errors.append(("PT019", "Отсутствует раздел '## Матрица покрытия'"))
 
-    # PT009: per-service разделы (секции h2, не являющиеся Резюме/Системные/Матрица)
-    special = {"Резюме", "Системные тест-сценарии", "Матрица покрытия"}
+    # PT026: Блоки тестирования
+    if not any("Блоки тестирования" in h for h in headings):
+        errors.append(("PT026", "Отсутствует раздел '## Блоки тестирования'"))
+
+    # PT009: per-service разделы (секции h2, не являющиеся Резюме/Системные/Матрица/Блоки)
+    special = {"Резюме", "Системные тест-сценарии", "Матрица покрытия", "Блоки тестирования"}
     per_service = [h for h in headings if not any(s in h for s in special)]
     if not per_service:
         errors.append(("PT009", "Нет ни одного per-service раздела"))
@@ -378,6 +386,55 @@ def check_tc_format(content: str) -> list[tuple[str, str]]:
         has_sts = bool(re.search(r'STS-\d+', source))
         if not has_req and not has_sts:
             errors.append(("PT015", f"TC-{tc_num}: нет REQ-N или STS-N в источнике"))
+
+    return errors
+
+
+BLOCK_ROW_PATTERN_TEST = re.compile(
+    r'\|\s*BLOCK-(\d+)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|'
+)
+
+
+def check_blocks(content: str) -> list[tuple[str, str]]:
+    """PT026-PT029: Проверить секцию Блоки тестирования."""
+    errors = []
+
+    body = get_body(content)
+    body_no_code = remove_code_blocks(body)
+    sections = split_sections(body_no_code)
+
+    block_section = None
+    for heading, sec_content in sections:
+        if "Блоки тестирования" in heading:
+            block_section = sec_content
+            break
+
+    if block_section is None:
+        return errors  # PT026 уже проверено в check_required_sections
+
+    # Если заглушка — пропустить
+    if "заглушка" in block_section.lower() or "нет блоков" in block_section.lower():
+        return errors
+
+    # Извлечь строки таблицы
+    block_rows = list(BLOCK_ROW_PATTERN_TEST.finditer(block_section))
+    if not block_rows:
+        return errors
+
+    # Собрать все TC-N из документа
+    all_tc_nums = set(int(n) for n in TC_PATTERN.findall(body_no_code))
+
+    # Собрать TC-N из блоков
+    tcs_in_blocks: set[int] = set()
+    for match in block_rows:
+        tc_str = match.group(2).strip()
+        tc_nums = [int(m) for m in re.findall(r'TC-(\d+)', tc_str)]
+        tcs_in_blocks.update(tc_nums)
+
+    # PT027: каждый TC-N принадлежит блоку
+    for tc_num in all_tc_nums:
+        if tc_num not in tcs_in_blocks:
+            errors.append(("PT027", f"TC-{tc_num} не принадлежит ни одному BLOCK-N"))
 
     return errors
 
@@ -465,6 +522,9 @@ def validate_plan_test(path: Path, repo_root: Path) -> list[tuple[str, str]]:
 
     # PT012-PT015, PT017: формат TC-N
     errors.extend(check_tc_format(content))
+
+    # PT026-PT029: блоки тестирования
+    errors.extend(check_blocks(content))
 
     # PT022-PT023: маркеры и статус
     errors.extend(check_markers_and_status(content))

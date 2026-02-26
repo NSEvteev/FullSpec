@@ -7,9 +7,11 @@ index: specs/.instructions/README.md
 
 # Стандарт процесса поставки ценности
 
-Версия стандарта: 1.0
+Версия стандарта: 1.3
 
-Полный цикл поставки изменения: Идея → Analysis Chain → Development → Merge → Release. Описывает три пути прохождения, маппинг каждого шага на инструменты проекта и пробелы покрытия.
+Полный цикл поставки изменения: Идея → Analysis Chain → Development → Merge → Release. Описывает три пути прохождения и маппинг каждого шага на инструменты проекта.
+
+**Точка входа:** `/chain` создаёт TaskList с полной последовательностью шагов. См. [create-chain.md](./create-chain.md).
 
 **Полезные ссылки:**
 - [Инструкции specs/](./README.md)
@@ -55,7 +57,6 @@ index: specs/.instructions/README.md
 - [7. Путь C: Альтернативные маршруты](#7-путь-c-альтернативные-маршруты)
 - [8. Сводная таблица инструментов](#8-сводная-таблица-инструментов)
 - [9. Quick Reference](#9-quick-reference)
-- [10. Пробелы и планы](#10-пробелы-и-планы)
 
 ---
 
@@ -97,6 +98,7 @@ graph TD
     end
 
     subgraph phase6["Фаза 6: Поставка"]
+        PRERELEASE["6.0 Pre-release<br/>test-load"]
         RELEASE["6.1 Release"]
     end
 
@@ -109,7 +111,7 @@ graph TD
     COMMIT -- "все TASK-N done" --> BREVIEW
     BREVIEW --> PR --> PRREVIEW --> MERGE --> SYNC
     SYNC --> REVIEW --> REVITER --> DONE
-    DONE --> RELEASE
+    DONE --> PRERELEASE --> RELEASE
 
     DEV -. "обратная связь" .-> CONFLICT
     PRREVIEW -. "P1 замечание" .-> CONFLICT
@@ -191,9 +193,9 @@ graph LR
 |---|------|---------|------|
 | 0.1 | Настройка GitHub | Labels, Issue Templates, PR Template, CODEOWNERS, Actions, Security | [standard-github-workflow.md § 2](/.github/.instructions/standard-github-workflow.md#2-фаза-0-подготовка-инфраструктуры) |
 | 0.2 | Настройка docs/ | Стартовый набор: README, .system/, .technologies/, примеры | [standard-docs.md § 7](./docs/standard-docs.md#7-жизненный-цикл) |
-| 0.3 | Настройка среды | `make setup` — pre-commit hooks, зависимости | [initialization.md](/.structure/initialization.md) |
+| 0.3 | Настройка среды | `make setup` — pre-commit hooks, зависимости, Docker Desktop | [initialization.md](/.structure/initialization.md), [standard-docker.md](/platform/.instructions/standard-docker.md) |
 
-**Скиллы:** `/labels-modify`, `/milestone-create`
+**Скиллы:** `/init-project`, `/labels-modify`, `/milestone-create`
 
 ### Три пути
 
@@ -220,11 +222,11 @@ graph LR
 
 **Общий паттерн объекта (7 шагов):** PREPARE → CLARIFY → GENERATE → VALIDATE → AGENT REVIEW → USER REVIEW → REPORT. → [standard-analysis.md § 2.4](./analysis/standard-analysis.md#24-общий-паттерн-объекта)
 
-**Агенты:** design-agent (обяз. при Design), discussion-reviewer (опц.), design-reviewer (опц.)
+**Агенты:** design-agent (обяз. при Design), discussion-reviewer (опц.), design-reviewer (опц.), technology-reviewer (опц., при per-tech)
 
 **`/review-create` — автоматически:** Вызывается внутри `/plan-dev-create` (Шаг 10) после одобрения пользователем. Отдельный вызов не требуется.
 
-**При Design → WAITING:** Planned Changes добавляются в docs/, заглушки {svc}.md для новых сервисов, per-tech стандарты. → [standard-analysis.md § 7.1](./analysis/standard-analysis.md#71-обновление-при-планировании-to-waiting)
+**При Design → WAITING:** Planned Changes добавляются в docs/, заглушки {svc}.md для новых сервисов, per-tech стандарты (с ревью technology-reviewer). → [standard-analysis.md § 7.1](./analysis/standard-analysis.md#71-обновление-при-планировании-to-waiting)
 
 ### Фаза 2: Запуск реализации
 
@@ -242,9 +244,9 @@ graph LR
 
 | # | Шаг | Описание | Скилл | SSOT |
 |---|------|---------|-------|------|
-| 3.1 | Development | Код + unit-тесты по TASK-N | `/dev` | [standard-development.md](/.github/.instructions/development/standard-development.md) |
-| 3.2 | Локальная валидация | `make test`, `make lint` | `/principles-validate` | [validation-development.md](/.github/.instructions/development/validation-development.md) |
-| 3.3 | Commits | Conventional Commits, [25 pre-commit хуков](/.structure/pre-commit.md) | — | [standard-commit.md](/.github/.instructions/commits/standard-commit.md) |
+| 3.1 | Development | Блоки (BLOCK-N) по волнам, dev-agent параллельно, CONFLICT-детекция | dev-agent | [modify-development.md](/.github/.instructions/development/modify-development.md) |
+| 3.2 | Локальная валидация | `make test`, `make lint` + `make test-e2e` (при изменениях API/DB/inter-service) | `/principles-validate` | [validation-development.md](/.github/.instructions/development/validation-development.md) |
+| 3.3 | Commits | Conventional Commits, [29 pre-commit хуков](/.structure/pre-commit.md) | — | [standard-commit.md](/.github/.instructions/commits/standard-commit.md) |
 
 **Обратная связь:** При обнаружении несовместимости → [Путь B: CONFLICT](#6-путь-b-conflict).
 
@@ -272,7 +274,8 @@ graph LR
 
 | # | Шаг | Описание | Скилл | SSOT |
 |---|------|---------|-------|------|
-| 6.1 | Release | Milestone complete → changelog → tag → GitHub Release | `/milestone-validate` | [standard-release.md](/.github/.instructions/releases/standard-release.md), [create-release.md](/.github/.instructions/releases/create-release.md) |
+| 6.0 | Pre-release | `make test-load` (для критичности high/medium), pre-release.yml pipeline | — | [standard-testing.md](./docs/testing/standard-testing.md) |
+| 6.1 | Release | Milestone complete → changelog → tag → GitHub Release | `/release-create`, `/milestone-validate` | [standard-release.md](/.github/.instructions/releases/standard-release.md), [create-release.md](/.github/.instructions/releases/create-release.md) |
 
 ---
 
@@ -346,7 +349,7 @@ graph TD
 | Откат артефактов | Issues закрыты, ветка удалена, Planned Changes убраны, per-tech откачены | chain_status.py (T9) |
 | ROLLING_BACK → REJECTED | Финальный статус | chain_status.py (T10) |
 
-**Инструменты:** `/discussion-modify`, `/design-modify`, `/plan-test-modify`, `/plan-dev-modify`, `/issue-modify`
+**Инструменты:** rollback-agent (Task tool), create-rollback.md, chain_status.py
 
 ### C.2 Hotfix
 
@@ -401,32 +404,41 @@ graph TD
 
 | Шаг | Инструкция | Скилл | Агент | Script |
 |-----|-----------|-------|-------|--------|
+| **Фаза 0: Инициализация** | | | | |
+| 0.1-0.2 GitHub + docs | standard-github-workflow, standard-docs | /init-project, /labels-modify, /milestone-create | — | sync-labels.py |
+| 0.3 Настройка среды | [initialization.md](/.structure/initialization.md), [create-initialization.md](/.structure/.instructions/create-initialization.md), [standard-docker.md](/platform/.instructions/standard-docker.md) | /init-project | — | — |
 | **Фаза 1: Аналитическая цепочка** | | | | |
 | 1.1 Discussion | standard/create/modify/validation-discussion | /discussion-create, -modify, -validate | discussion-reviewer | validate-analysis-discussion.py, chain_status.py |
-| 1.2 Design | standard/create/modify/validation-design | /design-create, -modify, -validate, /technology-create, /service-create | design-agent, design-reviewer, technology-agent | validate-analysis-design.py, chain_status.py |
+| 1.2 Design | standard/create/modify/validation-design | /design-create, -modify, -validate, /technology-create, /technology-validate, /service-create | design-agent, design-reviewer, technology-agent, technology-reviewer | validate-analysis-design.py, chain_status.py |
 | 1.3 Plan Tests | standard/create/modify/validation-plan-test | /plan-test-create, -modify, -validate | — | validate-analysis-plan-test.py, chain_status.py |
 | 1.4 Plan Dev | standard/create/modify/validation-plan-dev, create-review | /plan-dev-create (включает /review-create), -modify, -validate | — | validate-analysis-plan-dev.py, create-review-file.py, chain_status.py |
 | **Фаза 2: Запуск** | | | | |
 | 2.1 dev-create | create-development, standard-issue, standard-milestone, standard-branching | /dev-create, /issue-create, /milestone-create, /branch-create | — | chain_status.py |
 | **Фаза 3: Реализация** | | | | |
-| 3.1 Development | standard-development, modify-development | /dev | — | — |
-| 3.2 Validation | validation-development | /principles-validate | — | validate-principles.py |
-| 3.3 Commits | standard-commit | — | — | — |
+| 3.1 Development | standard-development, modify-development, standard-testing | — | dev-agent | — |
+| 3.2 Validation | validation-development, standard-testing | /principles-validate | — | validate-principles.py |
+| 3.3 Commits | standard-commit, create-commit | — | commit-agent | validate-commit-msg.py |
 | **Фаза 4: Доставка** | | | | |
 | 4.1 Branch Review | validation-review (github) | /review | code-reviewer | — |
-| 4.2 PR Create | standard-pull-request, standard-pr-template | — | — | — |
+| 4.2 PR Create | standard-pull-request, standard-pr-template, create-pull-request | — | pr-create-agent | collect-pr-issues.py |
 | 4.3 PR Review | standard-review (github) | /review {N} | code-reviewer | — |
-| 4.4 Merge | standard-review § 3 | — | — | — |
+| 4.4 Merge | standard-review § 3, create-merge | — | merge-agent | — |
 | 4.5 Sync | standard-sync | — | — | — |
 | **Фаза 5: Завершение** | | | | |
 | 5.1 → REVIEW | standard-analysis § 6.5 | /analysis-status | — | chain_status.py |
 | 5.2 Review iter. | standard-review (analysis), create-review | /review | code-reviewer | extract-svc-context.py |
-| 5.3 → DONE | standard-analysis § 6.6, § 7.3 | /analysis-status, /service-modify | — | chain_status.py |
+| 5.3 → DONE | standard-analysis § 6.6, § 7.3, create-chain-done | /analysis-status | chain-done-agent | chain_status.py |
 | **Фаза 6: Поставка** | | | | |
-| 6.1 Release | standard-release, create-release, validation-release | /milestone-validate | — | validate-pre-release.py, validate-post-release.py |
+| 6.0 Pre-release | standard-testing | — | — | pre-release.yml (CI) |
+| 6.1 Release | standard-release, create-release, validation-release | /release-create, /milestone-validate, /post-release | — | validate-pre-release.py, validate-post-release.py |
+| 6.2 Deploy | [standard-deploy.md](/.github/.instructions/actions/deploy/standard-deploy.md), [validation-deploy.md](/.github/.instructions/actions/deploy/validation-deploy.md) | — | — | deploy.yml, validate-deploy.py |
+| **Security** | | | | |
+| Level 1-3 | standard-security.md + security-{tech}.md | /technology-create (шаг 10) | — | validate-pre-release.py (E009, E010), gitleaks |
 | **Путь B: CONFLICT** | | | | |
 | B.1-B.3 Обнаружение → Каскад | standard-analysis §§ 6.3 | /analysis-status | — | chain_status.py (classify_feedback, T4/T8) |
 | B.5-B.7 Разрешение → RUNNING | modify-discussion/design/plan-test/plan-dev | -modify скиллы | — | chain_status.py (T5, T3) |
+| **Путь C: Rollback** | | | | |
+| C.1 Rollback | standard-analysis §§ 6.7-6.8, create-rollback | — | rollback-agent | chain_status.py (T9, T10) |
 
 ### 8.2 Pre-commit хуки по шагам
 
@@ -439,8 +451,8 @@ graph TD
 | 1.3 Plan Tests | plan-test-validate |
 | 1.4 Plan Dev | plan-dev-validate, review-validate |
 | 2.1 dev-create | branch-validate, type-templates-validate |
-| 3.2 Validation | [25 pre-commit хуков](/.structure/pre-commit.md) (все) |
-| 3.3 Commits | [25 pre-commit хуков](/.structure/pre-commit.md) (все) |
+| 3.2 Validation | [29 pre-commit хуков](/.structure/pre-commit.md) (все) |
+| 3.3 Commits | [29 pre-commit хуков](/.structure/pre-commit.md) (все) |
 | 4.1 Branch Review | review-validate |
 | 4.2 PR Create | pr-template-validate |
 | 5.2 Review iter. | review-validate |
@@ -465,18 +477,31 @@ graph TD
 Компактный список команд для каждой фазы.
 
 ```
+Точка входа:
+  /chain              → TaskList (Happy Path, 12 задач)
+  /chain --hotfix     → TaskList (Hotfix, метки bug/critical)
+  /chain --doc-only   → TaskList (1 задача, без chain)
+  /chain --resume     → Продолжить существующий TaskList
+
+Фаза 0 — Инициализация (однократно):
+  /init-project         → полная интерактивная настройка (10 шагов)
+  /init-project --check → только проверка (healthcheck)
+  make setup            → минимум (pre-commit)
+  make init             → setup + labels + verify
+
 Фаза 1 — Аналитическая цепочка:
   /discussion-create    → discussion.md (DRAFT → WAITING)
   /design-create        → design.md (DRAFT → WAITING)
+    /technology-create  → standard-{tech}.md + rule (при новых технологиях, авто в Шаг 10)
   /plan-test-create     → plan-test.md (DRAFT → WAITING)
   /plan-dev-create      → plan-dev.md (DRAFT → WAITING) + review.md (авто)
 
 Фаза 2 — Запуск реализации:
   /dev-create {NNNN}    → Issues + Milestone + Branch → RUNNING
 
-Фаза 3 — Реализация (per TASK-N):
-  /dev                  → код + тесты
-  make test && make lint
+Фаза 3 — Реализация (BLOCK-N по волнам):
+  dev-agent × N         → код + тесты + CONFLICT-CHECK
+  make test && make lint && make test-e2e  (e2e — при изменениях API/DB/inter-service)
   git commit            → pre-commit hooks автоматически
 
 Фаза 4 — Доставка в main:
@@ -493,6 +518,7 @@ graph TD
   /analysis-status      → REVIEW → DONE (bottom-up каскад + docs/ update)
 
 Фаза 6 — Поставка:
+  make test-load                             (pre-release, для high/medium критичности)
   gh release create vX.Y.Z --generate-notes
 
 CONFLICT:
@@ -501,26 +527,6 @@ CONFLICT:
   /analysis-status      → CONFLICT → WAITING (per-doc)
   /dev-create {NNNN} --resume → WAITING → RUNNING (повторный запуск, новые Issues если нужно)
 ```
-
----
-
-## 10. Пробелы и планы
-
-| # | Пробел | Приоритет | Описание | План |
-|---|--------|-----------|---------|------|
-| G1 | Нет единого `/init-project` | Средний | Фаза 0 разрозненна — 3 процесса без оркестратора | Драфт: `.claude/drafts/2026-02-24-init-project.md` |
-| G2 | Нет `/pr-create` скилла | Средний | PR создаётся `gh pr create`, но сбор Issues chain'а, формирование body и labels — рутина. Скрипт `collect-pr-issues.py` + скилл автоматизируют | Драфт: `.claude/drafts/2026-02-24-pr-create.md` |
-| G3 | Нет `/release-create` скилла | Средний | Инструкция create-release.md есть (полная, 7 шагов), скилла нет | Драфт: `.claude/drafts/2026-02-24-release-create.md` |
-| G4 | ~~Нет hotfix workflow~~ | ~~Средний~~ | Hotfix идёт через обычную analysis chain (standard-release.md § 12). Отдельный workflow не нужен | **Закрыт** — обновлён C.2 |
-| G5 | Нет `/commit` скилла | Низкий | Процесс покрыт standard-commit + pre-commit hooks | Драфт: `.claude/drafts/2026-02-24-commit-skill.md` |
-| G6 | Нет `/merge` скилла | Низкий | Одна команда gh pr merge --squash | Драфт: `.claude/drafts/2026-02-24-merge-skill.md` |
-| G7 | ~~Нет `/sync` скилла~~ | ~~Низкий~~ | Post-merge sync включён в `/merge` (G6). Standalone sync покрыт standard-sync.md (2 команды git) | **Закрыт** — объединён с G6 |
-| G8 | Нет post-release workflow | Низкий | Мониторинг зависит от инфраструктуры | Драфт: `.claude/drafts/2026-02-24-post-release.md` |
-| G9 | Нет `/rollback` скилла | Низкий | chain_status.py покрывает статусы, откат — по modify-* | Драфт: `.claude/drafts/2026-02-24-rollback-skill.md` |
-| G10 | Определение уровня CONFLICT не автоматизировано | Низкий | Полностью на LLM, формализовано в стандарте | Драфт: `.claude/drafts/2026-02-24-conflict-detect.md` |
-| G11 | Нет `/chain-done` скилла | Средний | Переход REVIEW → DONE: последовательно снизу вверх (plan-dev → plan-test → design → discussion) вызывает -modify с обновлением docs/ | Драфт: `.claude/drafts/2026-02-24-chain-done.md` |
-
-**Покрытие:** Все шаги happy path имеют SSOT-инструкцию. Шаги без выделенного скилла (4.2 PR Create, 4.4 Merge, 4.5 Sync) покрыты стандартами и выполняются CLI-командами. Все шаги CONFLICT покрыты инструкциями. Альтернативные маршруты C.1–C.5 описаны и имеют SSOT-ссылки.
 
 ---
 

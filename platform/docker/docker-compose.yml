@@ -1,0 +1,172 @@
+# Docker Compose — Dev environment
+# SSOT портов и сервисов: specs/docs/.system/infrastructure.md
+# Стандарт: platform/.instructions/standard-docker.md
+
+services:
+  # === Infrastructure ===
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-myapp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-myapp}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmq-diagnostics -q ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - app-network
+
+  # === Application services ===
+  # Раскомментировать при создании сервиса через analysis chain.
+  # Каждый сервис требует Dockerfile: platform/docker/Dockerfile.{svc}
+
+  # auth:
+  #   build:
+  #     context: ../../src/auth
+  #     dockerfile: ../../platform/docker/Dockerfile.auth
+  #     target: development
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8001:8001"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ../../src/auth:/app
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - app-network
+
+  # task:
+  #   build:
+  #     context: ../../src/task
+  #     dockerfile: ../../platform/docker/Dockerfile.task
+  #     target: development
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8002:8002"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     rabbitmq:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ../../src/task:/app
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - app-network
+
+  # notification:
+  #   build:
+  #     context: ../../src/notification
+  #     dockerfile: ../../platform/docker/Dockerfile.notification
+  #     target: development
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8003:8003"
+  #   depends_on:
+  #     redis:
+  #       condition: service_healthy
+  #     rabbitmq:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ../../src/notification:/app
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - app-network
+
+  # admin:
+  #   build:
+  #     context: ../../src/admin
+  #     dockerfile: ../../platform/docker/Dockerfile.admin
+  #     target: development
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8004:8004"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ../../src/admin:/app
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - app-network
+
+  # gateway:
+  #   build:
+  #     context: ../../platform/gateway
+  #     dockerfile: ../../platform/docker/Dockerfile.gateway
+  #     target: development
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     auth:
+  #       condition: service_healthy
+  #     task:
+  #       condition: service_healthy
+  #     notification:
+  #       condition: service_healthy
+  #     admin:
+  #       condition: service_healthy
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - app-network
+
+volumes:
+  pgdata:
+  redis-data:
+  rabbitmq-data:
+
+networks:
+  app-network:
+    driver: bridge
+    name: myapp-dev

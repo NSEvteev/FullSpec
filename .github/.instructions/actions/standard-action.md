@@ -161,7 +161,8 @@ jobs:
 | Имя | Назначение |
 |-----|------------|
 | `ci.yml` | Общие CI проверки (тесты, линтинг) |
-| `deploy.yml` | Деплой на production |
+| `pre-release.yml` | Валидация перед релизом (pre-commit + security) |
+| `deploy.yml` | Деплой на production ([standard-deploy.md](./deploy/standard-deploy.md)) |
 | `test-{service}.yml` | Тесты для конкретного сервиса |
 | `release.yml` | Автоматизация релизов |
 | `scheduled-{task}.yml` | Запланированные задачи |
