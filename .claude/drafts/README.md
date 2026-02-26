@@ -29,7 +29,7 @@ index: .claude/README.md
 
 | Файл | Описание |
 |------|----------|
-| [2026-02-20-post-push-review.md](./2026-02-20-post-push-review.md) | Чек-лист ревью после пушей f26c67e, 4b48e15: 6 блоков проверки |
+| *Нет активных черновиков.* | |
 
 
 ---
@@ -54,6 +54,5 @@ index: .claude/README.md
 │   ├── example-standards-validation-plan.md     #   План валидации стандартов
 │   ├── 2026-02-08-specs-architecture.md          #   Архитектура specs/ (SDD)
 │   └── README.md                                #   Индекс примеров
-├── 2026-02-20-post-push-review.md      # Чек-лист ревью после пушей
 └── README.md                           # Этот файл (индекс)
 ```
