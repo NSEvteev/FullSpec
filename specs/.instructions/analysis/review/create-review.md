@@ -142,9 +142,9 @@ python specs/.instructions/.scripts/extract-svc-context.py specs/analysis/NNNN-{
 
 **Если скрипт недоступен:** прочитать `design.md` вручную — найти все секции `## SVC-N` и извлечь:
 - Имя сервиса из заголовка SVC-N
-- Criticality level из `docs/{svc}.md § 1` (или из SVC-N если указан)
+- Criticality level из `specs/docs/{svc}.md § 1` (или из SVC-N если указан)
 - Список §§ с изменениями (только те, где есть Planned Changes)
-- Список технологий из `docs/{svc}.md § Tech Stack`
+- Список технологий из `specs/docs/{svc}.md § Tech Stack`
 
 ### Шаг 6: Заполнить Контекст ревью
 
@@ -172,8 +172,8 @@ python specs/.instructions/.scripts/extract-svc-context.py specs/analysis/NNNN-{
 
 | Секция | Путь | Что проверяем |
 |--------|------|----------------|
-| § 2 API контракты | `docs/{svc}.md#api-контракты` | {changes из § 2} |
-| § 9 Planned Changes | `docs/{svc}.md#planned-changes` | **Эталон для P1-сверки** |
+| § 2 API контракты | `specs/docs/{svc}.md#api-контракты` | {changes из § 2} |
+| § 9 Planned Changes | `specs/docs/{svc}.md#planned-changes` | **Эталон для P1-сверки** |
 ```
 
 - Включать только §§ с реальными изменениями (есть в SVC-N design.md)
@@ -186,10 +186,10 @@ python specs/.instructions/.scripts/extract-svc-context.py specs/analysis/NNNN-{
 ```markdown
 ### Системная документация
 
-- `docs/.system/overview.md`
-- `docs/.system/conventions.md`
-- `docs/.system/testing.md`
-- `docs/.system/infrastructure.md` *(при изменениях в platform/)*
+- `specs/docs/.system/overview.md`
+- `specs/docs/.system/conventions.md`
+- `specs/docs/.system/testing.md`
+- `specs/docs/.system/infrastructure.md` *(при изменениях в platform/)*
 ```
 
 `infrastructure.md` включается только если затронуты `platform/` изменения (есть INFRA TASK-N в plan-dev.md).
@@ -203,10 +203,10 @@ python specs/.instructions/.scripts/extract-svc-context.py specs/analysis/NNNN-{
 
 | Технология | Стандарт |
 |------------|----------|
-| {tech} | `docs/.technologies/standard-{tech}.md` |
+| {tech} | `specs/docs/.technologies/standard-{tech}.md` |
 ```
 
-Только технологии, для которых существует `docs/.technologies/standard-{tech}.md`.
+Только технологии, для которых существует `specs/docs/.technologies/standard-{tech}.md`.
 
 #### 6.5 Процесс разработки
 

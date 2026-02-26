@@ -98,7 +98,7 @@ git diff {base}...HEAD
    - Тесты — есть ли тесты для изменённого кода? Покрыты ли новые ветки логики?
    - Конфигурации — если изменились настройки, проверить все точки использования
    - Типы и интерфейсы — если изменились типы, обновлены ли все использующие модули?
-   - `docs/{svc}.md` §§ 1-9 — документация сервиса (из Контекст ревью)
+   - `specs/docs/{svc}.md` §§ 1-9 — документация сервиса (из Контекст ревью)
 
 #### Шаг 3. Глубокий анализ (multi-pass)
 
@@ -106,7 +106,7 @@ git diff {base}...HEAD
 
 **Проход 1 — Сверка с постановкой → P1 или P2:**
 
-Эталон для P1: сравнить Planned Changes из `docs/{svc}.md` § 9 с фактическим diff:
+Эталон для P1: сравнить Planned Changes из `specs/docs/{svc}.md` § 9 с фактическим diff:
 
 ```
 Planned Changes (§ 9)       vs    Фактический код (diff)
@@ -116,7 +116,7 @@ MODIFIED: таблица users  →        Миграция есть? Колон
 REMOVED: GET /api/legacy →        Удалён из кода?
 ```
 
-Границы автономии из `docs/{svc}.md` § 8 определяют P1 vs рабочая правка:
+Границы автономии из `specs/docs/{svc}.md` § 8 определяют P1 vs рабочая правка:
 
 | Граница в § 8 | Изменение в коде | Приоритет |
 |---------------|-----------------|-----------|
@@ -172,7 +172,7 @@ REMOVED: GET /api/legacy →        Удалён из кода?
 | critical-medium | >= 60% | Обязательны | Обязательны |
 | critical-low | >= 40% | Рекомендуются | Опционально |
 
-Criticality level сервиса — из `docs/{svc}.md` § 1. Если coverage ниже порога — P2 (дефект — недостаточное покрытие).
+Criticality level сервиса — из `specs/docs/{svc}.md` § 1. Если coverage ниже порога — P2 (дефект — недостаточное покрытие).
 
 #### Шаг 5. Вывести замечания
 
@@ -227,9 +227,9 @@ gh pr comment {number} --body "{комментарий}"
 - Все файлы, затронутые diff (в режиме `--svc {svc}`: только `src/{svc}/`)
 - `specs/analysis/{branch-name}/` — постановка задачи (discussion, design, plan-dev, plan-test)
 - `specs/analysis/{branch-name}/review.md` — контекст ревью (если есть)
-- `docs/{svc}.md` §§ 1-9 — документация затронутых сервисов
-- `docs/.system/` — системная документация (overview, conventions, testing, infrastructure)
-- `docs/.technologies/standard-{tech}.md` — per-tech стандарты
+- `specs/docs/{svc}.md` §§ 1-9 — документация затронутых сервисов
+- `specs/docs/.system/` — системная документация (overview, conventions, testing, infrastructure)
+- `specs/docs/.technologies/standard-{tech}.md` — per-tech стандарты
 - Чтение любых файлов проекта для понимания контекста (импорты, вызывающий код, тесты, конфигурации, типы)
 
 ## Инструкции и SSOT

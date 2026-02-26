@@ -83,23 +83,23 @@ status: OPEN
 
 | Секция | Путь | Что проверяем |
 |--------|------|----------------|
-| § 8 Автономия | `docs/{svc_placeholder}.md#границы-автономии-llm` | Что можно без флага, что требует CONFLICT |
-| § 9 Planned Changes | `docs/{svc_placeholder}.md#planned-changes` | **Эталон для P1-сверки** |
+| § 8 Автономия | `specs/docs/{svc_placeholder}.md#границы-автономии-llm` | Что можно без флага, что требует CONFLICT |
+| § 9 Planned Changes | `specs/docs/{svc_placeholder}.md#planned-changes` | **Эталон для P1-сверки** |
 
 *Незатронутые секции не включаются.*
 
 ### Системная документация
 
-- `docs/.system/overview.md`
-- `docs/.system/conventions.md`
-- `docs/.system/testing.md`
-- `docs/.system/infrastructure.md` *(при изменениях в platform/)*
+- `specs/docs/.system/overview.md`
+- `specs/docs/.system/conventions.md`
+- `specs/docs/.system/testing.md`
+- `specs/docs/.system/infrastructure.md` *(при изменениях в platform/)*
 
 ### Tech-стандарты
 
 | Технология | Стандарт |
 |------------|----------|
-| {tech_placeholder} | `docs/.technologies/standard-{tech_placeholder}.md` |
+| {tech_placeholder} | `specs/docs/.technologies/standard-{tech_placeholder}.md` |
 """
 
 

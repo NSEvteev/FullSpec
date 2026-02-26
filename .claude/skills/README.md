@@ -152,9 +152,9 @@ standard-version: v1.1
 | [analysis-status](./analysis-status/SKILL.md) | Статус analysis chain (одна/все цепочки, dashboard) |
 | [review-create](./review-create/SKILL.md) | Создание review.md при Plan Dev → WAITING |
 | [review-validate](./review-validate/SKILL.md) | Валидация документа ревью кода |
-| [service-create](./service-create/SKILL.md) | Создание docs/{svc}.md — per-service документ |
-| [service-modify](./service-modify/SKILL.md) | Изменение docs/{svc}.md (обновление, деактивация, миграция) |
-| [service-validate](./service-validate/SKILL.md) | Валидация docs/{svc}.md по стандарту |
+| [service-create](./service-create/SKILL.md) | Создание specs/docs/{svc}.md — per-service документ |
+| [service-modify](./service-modify/SKILL.md) | Изменение specs/docs/{svc}.md (обновление, деактивация, миграция) |
+| [service-validate](./service-validate/SKILL.md) | Валидация specs/docs/{svc}.md по стандарту |
 | [technology-create](./technology-create/SKILL.md) | Создание per-tech стандарта (N агентов параллельно) |
 | [technology-modify](./technology-modify/SKILL.md) | Изменение per-tech стандарта |
 | [technology-validate](./technology-validate/SKILL.md) | Валидация per-tech стандарта |

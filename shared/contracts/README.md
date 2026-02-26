@@ -8,4 +8,4 @@
 | `protobuf/` | Protobuf v3 (gRPC) | [standard-protobuf.md](/specs/docs/.technologies/standard-protobuf.md) |
 
 **Владение:** Провайдер сервиса владеет контрактом (standard-analysis.md § 3.4).
-**Именование:** `{svc}.yaml` / `{svc}.proto` — совпадает с `docs/{svc}.md`.
+**Именование:** `{svc}.yaml` / `{svc}.proto` — совпадает с `specs/docs/{svc}.md`.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate-docs-readme.py — Валидация формата docs/README.md.
+validate-docs-readme.py — Валидация формата specs/docs/README.md.
 
 Проверяет frontmatter, обязательные секции, соответствие дерева
 файловой системе, синхронизацию таблиц сервисов и технологий.
@@ -276,7 +276,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация docs/README.md (RDM001-RDM006)"
+        description="Валидация specs/docs/README.md (RDM001-RDM006)"
     )
     parser.add_argument(
         "path",
@@ -306,7 +306,7 @@ def main():
             result = {"file": README_PATH, "errors": [{"code": "RDM001", "message": "Файл не найден"}], "valid": False}
             print(json.dumps(result, ensure_ascii=False, indent=2))
         else:
-            print(f"❌ docs/README.md — файл не найден: {README_PATH}")
+            print(f"❌ specs/docs/README.md — файл не найден: {README_PATH}")
         sys.exit(1)
 
     content = readme_path.read_text(encoding="utf-8")
@@ -331,9 +331,9 @@ def main():
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
         if not has_errors:
-            print(f"✅ docs/README.md — валидация пройдена")
+            print(f"✅ specs/docs/README.md — валидация пройдена")
         else:
-            print(f"❌ docs/README.md — {len(all_errors)} ошибок:")
+            print(f"❌ specs/docs/README.md — {len(all_errors)} ошибок:")
             for code, msg in all_errors:
                 print(f"   {code}: {msg}")
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate-docs.py — Валидация структуры docs/.
+validate-docs.py — Валидация структуры specs/docs/.
 
 Проверяет наличие обязательных директорий, системных документов,
 индекса и файлов-примеров в specs/docs/.
@@ -145,7 +145,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация структуры docs/ (DOC001-DOC006)"
+        description="Валидация структуры specs/docs/ (DOC001-DOC006)"
     )
     parser.add_argument(
         "path",

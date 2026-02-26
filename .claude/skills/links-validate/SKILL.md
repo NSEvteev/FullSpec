@@ -41,6 +41,6 @@ argument-hint: "[--path <файл/папка>] [--json]"
 
 ```
 /links-validate
-/links-validate --path docs/README.md
+/links-validate --path specs/docs/README.md
 /links-validate --path .structure/ --json
 ```

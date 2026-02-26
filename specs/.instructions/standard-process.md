@@ -29,8 +29,8 @@ index: specs/.instructions/README.md
 
 | Зона | Документ | Зона ответственности |
 |------|----------|---------------------|
-| Analysis chain | [standard-analysis.md](./analysis/standard-analysis.md) | 4 уровня, статусы, каскады, обновление docs/ |
-| Documentation | [standard-docs.md](./docs/standard-docs.md) | Контур docs/, типы документов |
+| Analysis chain | [standard-analysis.md](./analysis/standard-analysis.md) | 4 уровня, статусы, каскады, обновление specs/docs/ |
+| Documentation | [standard-docs.md](./docs/standard-docs.md) | Контур specs/docs/, типы документов |
 | GitHub workflow | [standard-github-workflow.md](/.github/.instructions/standard-github-workflow.md) | Issue → Branch → PR → Merge → Release |
 | Development | [standard-development.md](/.github/.instructions/development/standard-development.md) | Процесс разработки в feature-ветке |
 | Release | [standard-release.md](/.github/.instructions/releases/standard-release.md) | Версионирование, changelog, теги, hotfix, rollback |
@@ -94,7 +94,7 @@ graph TD
     subgraph phase5["Фаза 5: Завершение"]
         REVIEW["5.1 RUNNING - REVIEW"]
         REVITER["5.2 Review iterations"]
-        DONE["5.3 REVIEW - DONE<br/>docs/ update"]
+        DONE["5.3 REVIEW - DONE<br/>specs/docs/ update"]
     end
 
     subgraph phase6["Фаза 6: Поставка"]
@@ -159,7 +159,7 @@ graph LR
 | WAITING | per-document | Пользователь одобрил документ (между Фазой 1 и 2) |
 | RUNNING | tree-level | Все 4 документа согласованы, идёт разработка (Фазы 3-4) |
 | REVIEW | tree-level | Реализация завершена, ожидает ревью (Фаза 5) |
-| DONE | per-document (финальный) | Всё готово, docs/ обновлён (конец Фазы 5) |
+| DONE | per-document (финальный) | Всё готово, specs/docs/ обновлён (конец Фазы 5) |
 | CONFLICT | tree-level | Обратная связь код → спеки (Путь B) |
 | ROLLING_BACK | tree-level | Откат артефактов (Путь C.1) |
 | REJECTED | tree-level (финальный) | Отклонён (Путь C.1) |
@@ -192,7 +192,7 @@ graph LR
 | # | Шаг | Описание | SSOT |
 |---|------|---------|------|
 | 0.1 | Настройка GitHub | Labels, Issue Templates, PR Template, CODEOWNERS, Actions, Security | [standard-github-workflow.md § 2](/.github/.instructions/standard-github-workflow.md#2-фаза-0-подготовка-инфраструктуры) |
-| 0.2 | Настройка docs/ | Стартовый набор: README, .system/, .technologies/, примеры | [standard-docs.md § 7](./docs/standard-docs.md#7-жизненный-цикл) |
+| 0.2 | Настройка specs/docs/ | Стартовый набор: README, .system/, .technologies/, примеры | [standard-docs.md § 7](./docs/standard-docs.md#7-жизненный-цикл) |
 | 0.3 | Настройка среды | `make setup` — pre-commit hooks, зависимости, Docker Desktop | [initialization.md](/.structure/initialization.md), [standard-docker.md](/platform/.instructions/standard-docker.md) |
 
 **Скиллы:** `/init-project`, `/labels-modify`, `/milestone-create`
@@ -226,7 +226,7 @@ graph LR
 
 **`/review-create` — автоматически:** Вызывается внутри `/plan-dev-create` (Шаг 10) после одобрения пользователем. Отдельный вызов не требуется.
 
-**При Design → WAITING:** Planned Changes добавляются в docs/, заглушки {svc}.md для новых сервисов, per-tech стандарты (с ревью technology-reviewer). → [standard-analysis.md § 7.1](./analysis/standard-analysis.md#71-обновление-при-планировании-to-waiting)
+**При Design → WAITING:** Planned Changes добавляются в specs/docs/, заглушки {svc}.md для новых сервисов, per-tech стандарты (с ревью technology-reviewer). → [standard-analysis.md § 7.1](./analysis/standard-analysis.md#71-обновление-при-планировании-to-waiting)
 
 ### Фаза 2: Запуск реализации
 
@@ -266,9 +266,9 @@ graph LR
 |---|------|---------|-------|------|
 | 5.1 | RUNNING → REVIEW | Все TASK-N выполнены → вся цепочка → REVIEW | `/analysis-status` | [standard-analysis.md § 6.5](./analysis/standard-analysis.md#65-running-to-review) |
 | 5.2 | Review iterations | code-reviewer → итерации в review.md → вердикт | `/review` | [standard-review.md (analysis)](./analysis/review/standard-review.md) |
-| 5.3 | REVIEW → DONE | Bottom-up каскад + обновление docs/ (Planned Changes → AS IS) | `/analysis-status` | [standard-analysis.md § 6.6](./analysis/standard-analysis.md#66-review-to-done) |
+| 5.3 | REVIEW → DONE | Bottom-up каскад + обновление specs/docs/ (Planned Changes → AS IS) | `/analysis-status` | [standard-analysis.md § 6.6](./analysis/standard-analysis.md#66-review-to-done) |
 
-**При Design → DONE:** docs/ обновляются — Planned Changes переносятся в AS IS, Changelog обновляется. → [standard-analysis.md § 7.3](./analysis/standard-analysis.md#73-обновление-при-реализации-to-done)
+**При Design → DONE:** specs/docs/ обновляются — Planned Changes переносятся в AS IS, Changelog обновляется. → [standard-analysis.md § 7.3](./analysis/standard-analysis.md#73-обновление-при-реализации-to-done)
 
 ### Фаза 6: Поставка
 
@@ -297,7 +297,7 @@ graph LR
 
 ### Классификация уровня
 
-| Граница (из Code Map docs/{svc}.md) | Уровень | Действие |
+| Граница (из Code Map specs/docs/{svc}.md) | Уровень | Действие |
 |--------------------------------------|---------|---------|
 | **Свободно** (внутри пакета) | Спецификации не затронуты | Нет реакции |
 | **Флаг** (между пакетами) | Plan Dev / Plan Tests | Рабочие правки — LLM автономно, статус не меняется |
@@ -333,7 +333,7 @@ graph TD
 | B.6 | Per-doc → WAITING | Пользователь ревьюит каждый изменённый документ | chain_status.py (T5) |
 | B.7 | Повторный запуск | Все 4 в WAITING → каскад RUNNING | chain_status.py (T3), `/dev-create {NNNN} --resume` (обнаруживает существующие Issues/Branch, создаёт новые Issues для задач, появившихся после разрешения CONFLICT) |
 
-**Кросс-цепочечная обратная связь:** При обновлении docs/ автоматически вызывается `check_cross_chain()` — может затронуть другие цепочки. → [standard-analysis.md § 7.2](./analysis/standard-analysis.md#72-конфликт-исполнения-conflict)
+**Кросс-цепочечная обратная связь:** При обновлении specs/docs/ автоматически вызывается `check_cross_chain()` — может затронуть другие цепочки. → [standard-analysis.md § 7.2](./analysis/standard-analysis.md#72-конфликт-исполнения-conflict)
 
 ---
 
@@ -385,7 +385,7 @@ graph TD
 
 ### C.5 Кросс-цепочечная координация
 
-Параллельные цепочки: Planned Changes видны в docs/, `check_cross_chain()` при каждом обновлении.
+Параллельные цепочки: Planned Changes видны в specs/docs/, `check_cross_chain()` при каждом обновлении.
 
 **SSOT:** [standard-analysis.md §§ 7.2, 7.4](./analysis/standard-analysis.md#74-параллельные-цепочки)
 
@@ -515,7 +515,7 @@ graph TD
 Фаза 5 — Завершение цепочки:
   /analysis-status      → RUNNING → REVIEW (когда все TASK-N done)
   /review               → итерации review.md → вердикт READY
-  /analysis-status      → REVIEW → DONE (bottom-up каскад + docs/ update)
+  /analysis-status      → REVIEW → DONE (bottom-up каскад + specs/docs/ update)
 
 Фаза 6 — Поставка:
   make test-load                             (pre-release, для high/medium критичности)

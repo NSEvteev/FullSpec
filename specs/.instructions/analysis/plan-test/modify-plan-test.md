@@ -229,7 +229,7 @@ result = mgr.transition(to="WAITING", document="plan-test")
 # Модуль автоматически: обновляет frontmatter + README dashboard
 ```
 
-**Артефакты Plan Tests → WAITING:** нет артефактов в docs/. Plan Tests не создаёт Planned Changes.
+**Артефакты Plan Tests → WAITING:** нет артефактов в specs/docs/. Plan Tests не создаёт Planned Changes.
 
 ### Каскад DRAFT (возврат из WAITING)
 
@@ -401,7 +401,7 @@ result = mgr.transition(to="REVIEW")
 
 | # | Действие | SSOT |
 |---|----------|------|
-| 1 | `docs/.system/testing.md` — обновить стратегию тестирования (если изменилась) | [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md) |
+| 1 | `specs/docs/.system/testing.md` — обновить стратегию тестирования (если изменилась) | [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md) |
 
 ```python
 result = mgr.transition(to="DONE")
@@ -431,7 +431,7 @@ result = mgr.transition(to="DONE")
 
 > **Tree-level.** Все документы цепочки → ROLLING_BACK.
 
-**Откат артефактов Plan Tests:** нет артефактов в docs/ для отката (Plan Tests не создаёт Planned Changes).
+**Откат артефактов Plan Tests:** нет артефактов в specs/docs/ для отката (Plan Tests не создаёт Planned Changes).
 
 ```python
 result = mgr.transition(to="ROLLING_BACK")
@@ -515,7 +515,7 @@ Plan Tests содержит ссылки в frontmatter (`parent`, `children`).
 
 ### Переход REVIEW → DONE
 - [ ] review.md RESOLVED (вердикт READY)
-- [ ] docs/.system/testing.md обновлён (если стратегия изменилась)
+- [ ] specs/docs/.system/testing.md обновлён (если стратегия изменилась)
 - [ ] `chain_status.py` → transition(to="DONE")
 
 ### Переход → ROLLING_BACK / REJECTED

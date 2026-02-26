@@ -47,13 +47,13 @@ argument-hint: "[<pr-number>] [--base <branch>]"
    - Извлечь список сервисов из блоков `### {svc}`
 4. Подготовить общий пакет документов для агентов:
    - Документы цепочки: discussion.md, design.md, plan-test.md, plan-dev.md
-   - Системная документация: docs/.system/overview.md, conventions.md, testing.md
+   - Системная документация: specs/docs/.system/overview.md, conventions.md, testing.md
    - Принципы: .instructions/standard-principles.md
    - Tech-стандарты: из секции `### Tech-стандарты` в review.md
    - Полный git diff (или `gh pr diff {N}` для PR-режима)
 5. Запустить параллельно одним Task tool call (N+1 агентов):
-   - `code-reviewer --svc {svc1}` (+ docs/{svc1}.md из Контекст ревью)
-   - `code-reviewer --svc {svc2}` (+ docs/{svc2}.md)
+   - `code-reviewer --svc {svc1}` (+ specs/docs/{svc1}.md из Контекст ревью)
+   - `code-reviewer --svc {svc2}` (+ specs/docs/{svc2}.md)
    - `code-reviewer --svc integration` (INT-N, shared/)
 6. Собрать все выводы агентов
 7. Собрать `## Итерация N` (N = следующий номер):

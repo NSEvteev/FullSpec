@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate-docs-testing.py — Валидация формата docs/.system/testing.md.
+validate-docs-testing.py — Валидация формата specs/docs/.system/testing.md.
 
 Проверяет frontmatter, обязательные секции, таблицы, дерево файлов,
 принципы тестовых данных и пустые секции.
@@ -276,7 +276,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация docs/.system/testing.md (TST001-TST007)"
+        description="Валидация specs/docs/.system/testing.md (TST001-TST007)"
     )
     parser.add_argument(
         "path",

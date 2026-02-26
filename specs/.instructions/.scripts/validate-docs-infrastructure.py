@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate-docs-infrastructure.py — Валидация формата docs/.system/infrastructure.md.
+validate-docs-infrastructure.py — Валидация формата specs/docs/.system/infrastructure.md.
 
 Проверяет frontmatter, обязательные секции, таблицы, хранилища,
 окружения и пустые секции.
@@ -309,7 +309,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация docs/.system/infrastructure.md (INF001-INF007)"
+        description="Валидация specs/docs/.system/infrastructure.md (INF001-INF007)"
     )
     parser.add_argument(
         "path",

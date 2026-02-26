@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate-docs-technology.py — Валидация формата docs/.technologies/standard-{tech}.md.
+validate-docs-technology.py — Валидация формата specs/docs/.technologies/standard-{tech}.md.
 
 Проверяет каждый standard-*.md файл (кроме standard-example.md) в
 specs/docs/.technologies/ на соответствие standard-technology.md:
@@ -547,7 +547,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация docs/.technologies/standard-{tech}.md (TECH001-TECH009) и security-{tech}.md (TECH-SEC001-003)"
+        description="Валидация specs/docs/.technologies/standard-{tech}.md (TECH001-TECH009) и security-{tech}.md (TECH-SEC001-003)"
     )
     parser.add_argument(
         "path",

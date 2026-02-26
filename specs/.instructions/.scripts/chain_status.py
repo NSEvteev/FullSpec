@@ -99,8 +99,8 @@ DOC_CHILDREN: dict[str, list[str]] = {
 SIDE_EFFECTS: dict[tuple[str, str], list[str]] = {
     # Design → WAITING
     ("design", "WAITING"): [
-        "Создать Planned Changes в docs/{svc}.md §9 (с chain-маркером)",
-        "Создать Planned Changes в docs/.system/overview.md §8 (если архитектурные)",
+        "Создать Planned Changes в specs/docs/{svc}.md §9 (с chain-маркером)",
+        "Создать Planned Changes в specs/docs/.system/overview.md §8 (если архитектурные)",
         "Создать заглушки {svc}.md для новых сервисов → /service-create",
         "Создать per-tech стандарты для новых технологий → /technology-create",
         "Создать метки svc:{svc} для новых сервисов → /labels-modify",
@@ -117,18 +117,18 @@ SIDE_EFFECTS: dict[tuple[str, str], list[str]] = {
     ],
     # Design → DONE (через T7 bottom-up каскад)
     ("design", "DONE"): [
-        "Planned Changes → AS IS: docs/{svc}.md §§1-8 (дельты → основной контент)",
-        "Обновить docs/{svc}.md §10 → Changelog",
-        "Обновить docs/.system/overview.md → AS IS + Changelog",
+        "Planned Changes → AS IS: specs/docs/{svc}.md §§1-8 (дельты → основной контент)",
+        "Обновить specs/docs/{svc}.md §10 → Changelog",
+        "Обновить specs/docs/.system/overview.md → AS IS + Changelog",
         "Кросс-цепочечная проверка: все другие цепочки с Planned Changes",
     ],
     # Plan Tests → DONE
     ("plan-test", "DONE"): [
-        "Обновить docs/.system/testing.md (если стратегия изменилась)",
+        "Обновить specs/docs/.system/testing.md (если стратегия изменилась)",
     ],
     # Design CONFLICT → WAITING
     ("design", "WAITING_FROM_CONFLICT"): [
-        "Пересчитать Planned Changes в docs/",
+        "Пересчитать Planned Changes в specs/docs/",
     ],
     # Plan Dev CONFLICT → WAITING
     ("plan-dev", "WAITING_FROM_CONFLICT"): [
@@ -733,7 +733,7 @@ class ChainManager:
         """
         Проверить влияние текущей цепочки на параллельные (Q5: сигнализация).
 
-        Сканирует docs/ (specs/docs/) для <!-- chain: NNNN-{topic} --> маркеров.
+        Сканирует specs/docs/ для <!-- chain: NNNN-{topic} --> маркеров.
         Находит пересечения: какие другие цепочки затрагивают те же файлы.
         НЕ выполняет переходы автоматически — только возвращает alerts.
 

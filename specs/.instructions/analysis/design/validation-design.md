@@ -146,7 +146,7 @@ python specs/.instructions/.scripts/validate-analysis-design.py {путь}
 | 8 | `### 8. Границы автономии LLM` | Контент или заглушка |
 | 9 | `### 9. Решения по реализации` | Контент обязателен (не заглушка) |
 
-3. **8:8 маппинг** — названия §§ 1-8 совпадают с §§ 1-8 `docs/{svc}.md` (идентичные строки заголовков)
+3. **8:8 маппинг** — названия §§ 1-8 совпадают с §§ 1-8 `specs/docs/{svc}.md` (идентичные строки заголовков)
 
 ### Шаг 6: INT-N — блоки взаимодействия
 
@@ -264,7 +264,7 @@ python specs/.instructions/.scripts/validate-analysis-design.py {путь}
 - [ ] Нет дублирующихся номеров
 
 ### Источники
-- [ ] Unified Scan: Discussion + docs/ (5 источников)
+- [ ] Unified Scan: Discussion + specs/docs/ (5 источников)
 - [ ] Parent Discussion прочитан целиком
 
 ### Зона ответственности

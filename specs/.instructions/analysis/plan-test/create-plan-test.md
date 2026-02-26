@@ -107,8 +107,8 @@ index: specs/.instructions/README.md
 | 2 | **INT-N блоки** из Design | Контракты — интеграционные тесты |
 | 3 | **STS-N** из Design | Системные тест-сценарии — e2e тесты |
 | 4 | **REQ-N** из Discussion | Требования — acceptance criteria |
-| 5 | **`docs/{svc}.md`** | Текущее AS IS — регрессионные тесты |
-| 6 | **`docs/.system/testing.md`** | Стратегия тестирования — дефолтная стратегия |
+| 5 | **`specs/docs/{svc}.md`** | Текущее AS IS — регрессионные тесты |
+| 6 | **`specs/docs/.system/testing.md`** | Стратегия тестирования — дефолтная стратегия |
 
 **Discussion без REQ-N:** Если Discussion не содержит пронумерованных REQ-N — поставить маркер `[ТРЕБУЕТ УТОЧНЕНИЯ: Discussion не содержит REQ-N — невозможно построить матрицу покрытия]`.
 
@@ -262,8 +262,8 @@ AskUserQuestion: «Перейти к созданию Plan Dev?»
 ### Источники
 - [ ] Design прочитан целиком (SVC-N, INT-N, STS-N)
 - [ ] Discussion прочитана (REQ-N)
-- [ ] docs/{svc}.md прочитаны (AS IS)
-- [ ] docs/.system/testing.md прочитан (стратегия)
+- [ ] specs/docs/{svc}.md прочитаны (AS IS)
+- [ ] specs/docs/.system/testing.md прочитан (стратегия)
 
 ### Clarify
 - [ ] Clarify проведён (или `--auto-clarify`)
@@ -301,7 +301,7 @@ AskUserQuestion: «Перейти к созданию Plan Dev?»
 1. Parent: specs/analysis/0001-oauth2-authorization/design.md → WAITING ✓
 2. Файл создан из шаблона → plan-test.md
 3. Frontmatter: status=DRAFT, parent=design.md, milestone=v1.2.0
-4. Источники: Design (SVC-1..3, INT-1..4, STS-1..3) + Discussion (REQ-1..5) + docs/ + testing.md
+4. Источники: Design (SVC-1..3, INT-1..4, STS-1..3) + Discussion (REQ-1..5) + specs/docs/ + testing.md
 5. Clarify: load-тесты — да, edge cases refresh — 3 варианта
 6. Разделы: auth (TC-1..7), gateway (TC-8..9), users (TC-10..11), системные (TC-12..14)
    → Матрица: REQ-1..5 покрыты, STS-1..3 покрыты → OK
@@ -320,7 +320,7 @@ AskUserQuestion: «Перейти к созданию Plan Dev?»
 
 1. Parent: design.md → WAITING ✓
 2-3. Файл + frontmatter
-4. Источники: Design (SVC-1) + Discussion (REQ-1..2) + docs/ + testing.md
+4. Источники: Design (SVC-1) + Discussion (REQ-1..2) + specs/docs/ + testing.md
 5. Clarify пропущен — маркеры на неясности
 6. Разделы: catalog (TC-1..4) + заглушка системных
    → Разрешение маркеров: AskUserQuestion → замена → 0 маркеров

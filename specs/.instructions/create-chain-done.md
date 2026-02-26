@@ -9,11 +9,11 @@ index: specs/.instructions/README.md
 
 Рабочая версия стандарта: 1.3
 
-Процесс завершения analysis chain: pre-flight проверки, T7 → DONE (bottom-up каскад), перенос Planned Changes → AS IS в docs/, обновление Changelog, cross-chain проверка, отчёт.
+Процесс завершения analysis chain: pre-flight проверки, T7 → DONE (bottom-up каскад), перенос Planned Changes → AS IS в specs/docs/, обновление Changelog, cross-chain проверка, отчёт.
 
 **Полезные ссылки:**
 - [standard-analysis.md § 6.6](./analysis/standard-analysis.md#66-review-to-done) — SSOT правил каскада DONE
-- [standard-analysis.md § 7.3](./analysis/standard-analysis.md#73-обновление-при-реализации-to-done) — обновление docs/ при DONE
+- [standard-analysis.md § 7.3](./analysis/standard-analysis.md#73-обновление-при-реализации-to-done) — обновление specs/docs/ при DONE
 
 **SSOT-зависимости:**
 - [standard-analysis.md](./analysis/standard-analysis.md) — правила перехода T7, DONE_CASCADE_ORDER, обновление docs/

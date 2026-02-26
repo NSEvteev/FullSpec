@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate-docs-readme-services.py — Валидация синхронизации docs/README.md с реальным деревом.
+validate-docs-readme-services.py — Валидация синхронизации specs/docs/README.md с реальным деревом.
 
 Проверяет, что таблица «Сервисы» в specs/docs/README.md перечисляет все {svc}.md файлы
 из specs/docs/ и не содержит лишних ссылок. Также проверяет, что дерево в секции «Дерево»
@@ -186,7 +186,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация синхронизации docs/README.md с реальным деревом (RMS001-RMS004)"
+        description="Валидация синхронизации specs/docs/README.md с реальным деревом (RMS001-RMS004)"
     )
     parser.add_argument(
         "path",
@@ -220,9 +220,9 @@ def main():
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
         if not has_errors:
-            print("✅ docs/README.md — синхронизация с деревом пройдена")
+            print("✅ specs/docs/README.md — синхронизация с деревом пройдена")
         else:
-            print(f"❌ docs/README.md — {len(all_errors)} ошибок:")
+            print(f"❌ specs/docs/README.md — {len(all_errors)} ошибок:")
             for code, msg in all_errors:
                 print(f"   {code}: {msg}")
 

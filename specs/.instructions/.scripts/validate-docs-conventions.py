@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate-docs-conventions.py — Валидация формата docs/.system/conventions.md.
+validate-docs-conventions.py — Валидация формата specs/docs/.system/conventions.md.
 
 Проверяет frontmatter, обязательные секции, таблицы, code-блоки
 и структуру shared-пакетов.
@@ -321,7 +321,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация docs/.system/conventions.md (CNV001-CNV008)"
+        description="Валидация specs/docs/.system/conventions.md (CNV001-CNV008)"
     )
     parser.add_argument(
         "path",

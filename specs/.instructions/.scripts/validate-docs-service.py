@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate-docs-service.py — Валидация формата docs/{svc}.md.
+validate-docs-service.py — Валидация формата specs/docs/{svc}.md.
 
 Проверяет каждый .md файл (кроме README.md) в specs/docs/ на соответствие
 standard-service.md: frontmatter, 10 обязательных секций в правильном порядке,
@@ -467,7 +467,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация docs/{svc}.md (SVC001-SVC011)"
+        description="Валидация specs/docs/{svc}.md (SVC001-SVC011)"
     )
     parser.add_argument(
         "path",

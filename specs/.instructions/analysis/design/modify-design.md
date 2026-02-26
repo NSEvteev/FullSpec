@@ -227,11 +227,11 @@ python specs/.instructions/.scripts/validate-analysis-design.py specs/analysis/N
 
 | # | Артефакт | Действие |
 |---|----------|----------|
-| 1 | Planned Changes в `docs/{svc}.md` § 9 | Для каждого SVC-N: записать дельту с chain-маркером |
-| 2 | Planned Changes в `docs/.system/overview.md` § 8 | Если архитектурные изменения |
-| 3 | Planned Changes в `docs/.system/conventions.md` | Если новые конвенции |
-| 4 | Planned Changes в `docs/.system/infrastructure.md` | Если инфраструктурные изменения |
-| 5 | Заглушка `docs/{svc}.md` | Через `/service-create` (только для новых) |
+| 1 | Planned Changes в `specs/docs/{svc}.md` § 9 | Для каждого SVC-N: записать дельту с chain-маркером |
+| 2 | Planned Changes в `specs/docs/.system/overview.md` § 8 | Если архитектурные изменения |
+| 3 | Planned Changes в `specs/docs/.system/conventions.md` | Если новые конвенции |
+| 4 | Planned Changes в `specs/docs/.system/infrastructure.md` | Если инфраструктурные изменения |
+| 5 | Заглушка `specs/docs/{svc}.md` | Через `/service-create` (только для новых) |
 | 6 | Per-tech стандарты | Через `/technology-create` (только для новых) |
 
 ### Шаг 3: Обновить статус
@@ -262,7 +262,7 @@ result = mgr.transition(to="DRAFT", document="design")
 # T2: автокаскад — дочерние WAITING-документы тоже → DRAFT
 ```
 
-**Артефакты при возврате в DRAFT:** Planned Changes в `docs/` **остаются** (не откатываются). Они будут обновлены при следующем DRAFT → WAITING.
+**Артефакты при возврате в DRAFT:** Planned Changes в `specs/docs/` **остаются** (не откатываются). Они будут обновлены при следующем DRAFT → WAITING.
 
 ---
 
@@ -345,7 +345,7 @@ Design попадает в CONFLICT через tree-level каскад. LLM оп
 **Если Design затронут** (проектные решения стали неверными):
 
 1. LLM читает **весь документ** целиком
-2. Re-scan: прочитать актуальное состояние `docs/{svc}.md` для затронутых сервисов (структура секций — [standard-service.md § 3](/specs/.instructions/docs/service/standard-service.md))
+2. Re-scan: прочитать актуальное состояние `specs/docs/{svc}.md` для затронутых сервисов (структура секций — [standard-service.md § 3](/specs/.instructions/docs/service/standard-service.md))
 3. Вносит **точечные правки** в затронутые секции:
    - Обновление SVC-N подсекций (delta пересчитывается)
    - Обновление INT-N контрактов
@@ -372,7 +372,7 @@ Design попадает в CONFLICT через tree-level каскад. LLM оп
 
 1. LLM исправляет документ (или верифицирует без изменений)
 2. Пользователь ревьюит → одобряет
-3. **Обновить артефакты:** Planned Changes в `docs/{svc}.md` § 9 — пересчитать по обновлённым SVC-N
+3. **Обновить артефакты:** Planned Changes в `specs/docs/{svc}.md` § 9 — пересчитать по обновлённым SVC-N
 4. Обновить статус:
 
 ```python
@@ -418,11 +418,11 @@ result = mgr.transition(to="REVIEW")
 
 | # | Действие |
 |---|----------|
-| 1 | `docs/{svc}.md` §§ 1-8: Planned Changes → AS IS (по маппингу SVC-N) |
-| 2 | `docs/{svc}.md` § 10: добавить запись в Changelog |
-| 3 | `docs/.system/overview.md`: Planned Changes → AS IS + Changelog |
-| 4 | `docs/.system/conventions.md`: Planned Changes → AS IS + Changelog (если были) |
-| 5 | `docs/.system/infrastructure.md`: Planned Changes → AS IS + Changelog (если были) |
+| 1 | `specs/docs/{svc}.md` §§ 1-8: Planned Changes → AS IS (по маппингу SVC-N) |
+| 2 | `specs/docs/{svc}.md` § 10: добавить запись в Changelog |
+| 3 | `specs/docs/.system/overview.md`: Planned Changes → AS IS + Changelog |
+| 4 | `specs/docs/.system/conventions.md`: Planned Changes → AS IS + Changelog (если были) |
+| 5 | `specs/docs/.system/infrastructure.md`: Planned Changes → AS IS + Changelog (если были) |
 
 **Механика записи §§ 1-8:** Для каждой подсекции K с контентом — **заменить** содержимое секции K в {svc}.md, убрав маркеры ADDED/MODIFIED/REMOVED. Заглушки — секция не изменяется. § 8 (таблица) конвертируется в bullet list.
 
@@ -459,11 +459,11 @@ result = mgr.transition(to="DONE")
 
 | # | Артефакт | Действие при откате |
 |---|----------|---------------------|
-| 1 | Planned Changes в `docs/{svc}.md` § 9 | Удалить блоки с chain-маркером этой цепочки |
-| 2 | Planned Changes в `docs/.system/overview.md` | Удалить блоки этой цепочки |
-| 3 | Planned Changes в `docs/.system/conventions.md` | Удалить блоки этой цепочки (если были) |
-| 4 | Planned Changes в `docs/.system/infrastructure.md` | Удалить блоки этой цепочки (если были) |
-| 5 | Заглушка `docs/{svc}.md` (новый сервис) | Удалить файл через `/service-modify --deactivate` |
+| 1 | Planned Changes в `specs/docs/{svc}.md` § 9 | Удалить блоки с chain-маркером этой цепочки |
+| 2 | Planned Changes в `specs/docs/.system/overview.md` | Удалить блоки этой цепочки |
+| 3 | Planned Changes в `specs/docs/.system/conventions.md` | Удалить блоки этой цепочки (если были) |
+| 4 | Planned Changes в `specs/docs/.system/infrastructure.md` | Удалить блоки этой цепочки (если были) |
+| 5 | Заглушка `specs/docs/{svc}.md` (новый сервис) | Удалить файл через `/service-modify --deactivate` |
 | 6 | Per-tech стандарты (новые) | Удалить через `/technology-modify --deactivate` |
 
 ```python
@@ -547,8 +547,8 @@ Design содержит ссылки в frontmatter (`parent`, `children`) и п
 
 ### Переход REVIEW → DONE
 - [ ] review.md RESOLVED (вердикт READY)
-- [ ] docs/{svc}.md §§ 1-8: Planned Changes → AS IS
-- [ ] docs/{svc}.md § 10: Changelog обновлён
+- [ ] specs/docs/{svc}.md §§ 1-8: Planned Changes → AS IS
+- [ ] specs/docs/{svc}.md § 10: Changelog обновлён
 - [ ] overview.md: Planned Changes → AS IS + Changelog
 - [ ] § 8: таблица конвертирована в bullet list
 - [ ] `mgr.transition(to="DONE")` — bottom-up каскад, frontmatter + README

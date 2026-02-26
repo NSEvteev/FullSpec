@@ -187,11 +187,11 @@ status: OPEN
 |-----------|------------|---------------|
 | `### Постановка` | Таблица со ссылками на 4 документа цепочки | `/review-create` |
 | `### {svc} (critical-{level})` | Таблица §§ (только присутствующие в SVC-N design.md). Колонка "Что проверяем" заполняется `/review-create` на основе SVC-N из design.md — конкретные изменения (ADDED/MODIFIED/REMOVED из § 9 Planned Changes) | `/review-create` через `extract-svc-context.py` |
-| `### Системная документация` | `docs/.system/overview.md`, `conventions.md`, `testing.md`, `infrastructure.md` | `/review-create` |
+| `### Системная документация` | `specs/docs/.system/overview.md`, `conventions.md`, `testing.md`, `infrastructure.md` | `/review-create` |
 | `### Процесс разработки` | `validation-development.md` — чек-лист процесса разработки (тесты, линт, сборка, зависимости, полнота) | `/review-create` |
 | `### Tech-стандарты` | Таблица `{технология} → standard-{tech}.md` | `/review-create` |
 
-**`critical-{level}` в заголовке блока** — criticality level сервиса из `docs/{svc}.md § 1`. Определяет пороги покрытия тестами (см. ниже). Агент code-reviewer использует его для определения минимального coverage.
+**`critical-{level}` в заголовке блока** — criticality level сервиса из `specs/docs/{svc}.md § 1`. Определяет пороги покрытия тестами (см. ниже). Агент code-reviewer использует его для определения минимального coverage.
 
 | Criticality | Unit-test coverage | Integration tests | E2E tests |
 |-------------|-------------------|-------------------|-----------|
@@ -199,7 +199,7 @@ status: OPEN
 | critical-medium | >= 60% | Обязательны | Обязательны |
 | critical-low | >= 40% | Рекомендуются | Опционально |
 
-**Scope документов** определяется при `/review-create` через `extract-svc-context.py` (парсит SVC-N из design.md) + всегда `docs/.system/*`.
+**Scope документов** определяется при `/review-create` через `extract-svc-context.py` (парсит SVC-N из design.md) + всегда `specs/docs/.system/*`.
 
 ### 5.2 Итерация N (заполняется при /review)
 
@@ -279,10 +279,10 @@ status: OPEN
 
 | Секция | Путь | Что проверяем |
 |--------|------|----------------|
-| § 2 API контракты | `docs/{svc1}.md#api-контракты` | Planned Changes: {кратко что ADDED/MODIFIED/REMOVED} |
-| § 3 Data Model | `docs/{svc1}.md#data-model` | Planned Changes: {кратко} |
-| § 8 Автономия | `docs/{svc1}.md#границы-автономии-llm` | Что можно без флага, что требует CONFLICT |
-| § 9 Planned Changes | `docs/{svc1}.md#planned-changes` | **Эталон для P1-сверки** |
+| § 2 API контракты | `specs/docs/{svc1}.md#api-контракты` | Planned Changes: {кратко что ADDED/MODIFIED/REMOVED} |
+| § 3 Data Model | `specs/docs/{svc1}.md#data-model` | Planned Changes: {кратко} |
+| § 8 Автономия | `specs/docs/{svc1}.md#границы-автономии-llm` | Что можно без флага, что требует CONFLICT |
+| § 9 Planned Changes | `specs/docs/{svc1}.md#planned-changes` | **Эталон для P1-сверки** |
 
 *Незатронутые секции не включаются.*
 
@@ -292,10 +292,10 @@ status: OPEN
 
 ### Системная документация
 
-- `docs/.system/overview.md`
-- `docs/.system/conventions.md`
-- `docs/.system/testing.md`
-- `docs/.system/infrastructure.md` *(при изменениях в platform/)*
+- `specs/docs/.system/overview.md`
+- `specs/docs/.system/conventions.md`
+- `specs/docs/.system/testing.md`
+- `specs/docs/.system/infrastructure.md` *(при изменениях в platform/)*
 
 ### Процесс разработки
 
@@ -305,7 +305,7 @@ status: OPEN
 
 | Технология | Стандарт |
 |------------|----------|
-| {tech} | `docs/.technologies/standard-{tech}.md` |
+| {tech} | `specs/docs/.technologies/standard-{tech}.md` |
 
 ---
 
@@ -416,16 +416,16 @@ status: RESOLVED
 
 | Секция | Путь | Что проверяем |
 |--------|------|----------------|
-| § 2 API контракты | `docs/auth.md#api-контракты` | ADDED: POST /auth/token, POST /auth/refresh |
-| § 3 Data Model | `docs/auth.md#data-model` | ADDED: таблица refresh_tokens |
-| § 8 Автономия | `docs/auth.md#границы-автономии-llm` | — |
-| § 9 Planned Changes | `docs/auth.md#planned-changes` | Эталон для P1-сверки |
+| § 2 API контракты | `specs/docs/auth.md#api-контракты` | ADDED: POST /auth/token, POST /auth/refresh |
+| § 3 Data Model | `specs/docs/auth.md#data-model` | ADDED: таблица refresh_tokens |
+| § 8 Автономия | `specs/docs/auth.md#границы-автономии-llm` | — |
+| § 9 Planned Changes | `specs/docs/auth.md#planned-changes` | Эталон для P1-сверки |
 
 ### Системная документация
 
-- `docs/.system/overview.md`
-- `docs/.system/conventions.md`
-- `docs/.system/testing.md`
+- `specs/docs/.system/overview.md`
+- `specs/docs/.system/conventions.md`
+- `specs/docs/.system/testing.md`
 
 ### Процесс разработки
 
@@ -435,7 +435,7 @@ status: RESOLVED
 
 | Технология | Стандарт |
 |------------|----------|
-| Python | `docs/.technologies/standard-python.md` |
+| Python | `specs/docs/.technologies/standard-python.md` |
 
 ---
 

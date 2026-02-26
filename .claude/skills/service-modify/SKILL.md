@@ -1,6 +1,6 @@
 ---
 name: service-modify
-description: Изменение docs/{svc}.md — обновление секций, деактивация при удалении сервиса, миграция при переименовании. Используй при изменении API, Data Model, зависимостей или Tech Stack сервиса.
+description: Изменение specs/docs/{svc}.md — обновление секций, деактивация при удалении сервиса, миграция при переименовании. Используй при изменении API, Data Model, зависимостей или Tech Stack сервиса.
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
 index: .claude/skills/README.md

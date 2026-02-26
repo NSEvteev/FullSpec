@@ -110,8 +110,8 @@ index: specs/.instructions/README.md
 | 1 | **Plan Tests** | TC-N сценарии — определить задачи по реализации тестов и кода |
 | 2 | **Design SVC-N** | Подсекции §§ 1-8 (delta) + § 9 решения — определить что менять в коде |
 | 3 | **Discussion REQ-N** | Приоритеты требований — расставить приоритеты задач |
-| 4 | **`docs/{svc}.md`** | Текущий AS IS (Code Map, зависимости) — контекст объёма работ |
-| 5 | **`docs/.system/testing.md`** | Стратегия тестирования — контекст для задач по тестированию |
+| 4 | **`specs/docs/{svc}.md`** | Текущий AS IS (Code Map, зависимости) — контекст объёма работ |
+| 5 | **`specs/docs/.system/testing.md`** | Стратегия тестирования — контекст для задач по тестированию |
 
 ### Шаг 5: Clarify
 
@@ -277,8 +277,8 @@ Milestone: {vX.Y.Z}
 - [ ] Plan Tests прочитан целиком (TC-N)
 - [ ] Design прочитан (SVC-N, INT-N, STS-N)
 - [ ] Discussion прочитана (REQ-N, приоритеты)
-- [ ] docs/{svc}.md прочитаны (AS IS)
-- [ ] docs/.system/testing.md прочитан (стратегия)
+- [ ] specs/docs/{svc}.md прочитаны (AS IS)
+- [ ] specs/docs/.system/testing.md прочитан (стратегия)
 
 ### Clarify
 - [ ] Clarify проведён (или `--auto-clarify`)
@@ -317,7 +317,7 @@ Milestone: {vX.Y.Z}
 1. Parent: specs/analysis/0001-oauth2-authorization/plan-test.md → WAITING ✓
 2. Файл создан из шаблона → plan-dev.md
 3. Frontmatter: status=DRAFT, parent=plan-test.md, milestone=v1.2.0
-4. Источники: Plan Tests (TC-1..14) + Design (SVC-1..3) + Discussion (REQ-1..5) + docs/ + testing.md
+4. Источники: Plan Tests (TC-1..14) + Design (SVC-1..3) + Discussion (REQ-1..5) + specs/docs/ + testing.md
 5. Clarify: порядок — сначала auth, затем gateway, приоритет — high для core auth
 6. Разделы:
    - auth: TASK-1..4 (tokens, middleware, refresh, rate-limit)
@@ -341,7 +341,7 @@ Milestone: {vX.Y.Z}
 
 1. Parent: plan-test.md → WAITING ✓
 2-3. Файл + frontmatter
-4. Источники: Plan Tests (TC-1..4) + Design (SVC-1) + Discussion (REQ-1..2) + docs/ + testing.md
+4. Источники: Plan Tests (TC-1..4) + Design (SVC-1) + Discussion (REQ-1..2) + specs/docs/ + testing.md
 5. Clarify пропущен — маркеры на неясности
 6. Разделы: catalog (TASK-1..3) + заглушка кросс-зависимостей
    → Разрешение маркеров: AskUserQuestion → замена → 0 маркеров

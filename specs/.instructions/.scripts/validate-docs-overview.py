@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate-docs-overview.py — Валидация формата docs/.system/overview.md.
+validate-docs-overview.py — Валидация формата specs/docs/.system/overview.md.
 
 Проверяет frontmatter, обязательные секции, таблицы, mermaid-схему,
 сквозные потоки, консистентность сервисов, DDD-паттерны и вводные абзацы.
@@ -477,7 +477,7 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Валидация docs/.system/overview.md (OVW001-OVW011)"
+        description="Валидация specs/docs/.system/overview.md (OVW001-OVW011)"
     )
     parser.add_argument(
         "path",

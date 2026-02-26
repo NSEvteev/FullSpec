@@ -153,7 +153,7 @@ def format_text_output(blocks: list[dict], global_techs: list[str], branch: str)
             marker = " (**эталон P1**)" if section_num == "9" else ""
             lines.append(
                 f"| § {section_num} {section_name} "
-                f"| `docs/{svc}.md#{anchor}` "
+                f"| `specs/docs/{svc}.md#{anchor}` "
                 f"| Planned Changes{marker if section_num == '9' else ''} |"
             )
 
@@ -173,7 +173,7 @@ def format_text_output(blocks: list[dict], global_techs: list[str], branch: str)
         lines.append("| Технология | Стандарт |")
         lines.append("|------------|----------|")
         for tech in sorted(all_techs):
-            lines.append(f"| {tech} | `docs/.technologies/standard-{tech}.md` |")
+            lines.append(f"| {tech} | `specs/docs/.technologies/standard-{tech}.md` |")
         lines.append("")
 
     return "\n".join(lines)

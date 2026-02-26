@@ -282,8 +282,8 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py {путь}
 ### Источники
 - [ ] Parent Design прочитан целиком (SVC-N, INT-N, STS-N)
 - [ ] Discussion прочитана (REQ-N)
-- [ ] `docs/{svc}.md` прочитаны (AS IS)
-- [ ] `docs/.system/testing.md` прочитан (стратегия)
+- [ ] `specs/docs/{svc}.md` прочитаны (AS IS)
+- [ ] `specs/docs/.system/testing.md` прочитан (стратегия)
 
 ### Блоки тестирования (BLOCK-N)
 - [ ] Каждый TC-N принадлежит ровно одному BLOCK-N
