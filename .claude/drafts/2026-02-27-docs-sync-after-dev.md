@@ -137,6 +137,7 @@ mode: create | update
 **SSOT-зависимости:**
 - [standard-service.md](/specs/.instructions/docs/service/standard-service.md) — формат 10 секций
 - [create-service.md](/specs/.instructions/docs/service/create-service.md) — воркфлоу создания
+- [modify-service.md](/specs/.instructions/docs/service/modify-service.md) — воркфлоу обновления (mode=update)
 - [validation-service.md](/specs/.instructions/docs/service/validation-service.md) — валидация
 
 **Алгоритм (mode=create):**
@@ -389,7 +390,6 @@ REVISE — .system/ (mode={sync|done})
 
 1. **Вход:** Все 4 документа в WAITING (Discussion, Design, Plan Tests, Plan Dev), путь к design.md
 2. **Анализ:** Определить затронутые сервисы (SVC-N), технологии (Выбор технологий)
-3. **Параллельный запуск агентов:**
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
@@ -436,16 +436,16 @@ REVISE — .system/ (mode={sync|done})
   └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
 ```
 
-5. **Волна 1 (параллельно):**
+3. **Волна 1 (параллельно):**
    - N × service-agent (один на сервис, параллельно)
    - M × technology-agent (один на технологию, параллельно) — уже существует
    - 1 × system-agent **mode=sync** (ТОЛЬКО overview.md из Design)
-6. **Волна 2 (после Волны 1, параллельно):**
+4. **Волна 2 (после Волны 1, параллельно):**
    - N × service-reviewer (один на сервис — сверка {svc}.md с Design SVC-N)
    - 1 × technology-reviewer (сверка per-tech стандартов — уже существует)
    - 1 × system-reviewer **mode=sync** (сверка ТОЛЬКО overview.md с Design)
-7. **Волна 3 (если REVISE):** перезапуск только тех агентов, чьи ревьюеры вернули REVISE → повторный ревью
-8. **Выход:** Per-service docs, per-tech стандарты, overview.md обновлены и отревьюены
+5. **Волна 3 (если REVISE):** перезапуск только тех агентов, чьи ревьюеры вернули REVISE → повторный ревью
+6. **Выход:** Per-service docs, per-tech стандарты, overview.md обновлены и отревьюены
 
 **При DONE (create-chain-done.md):** Отдельный запуск system-agent mode=done + system-reviewer mode=done. См. секцию 4 → create-chain-done.md.
 
@@ -572,7 +572,7 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 | D-4 | ~~Без reviewer для service/system~~ → **С reviewer для всех трёх сущностей** | Агенты могут исказить факты при копировании: пропустить, добавить лишнее, переформулировать. Ревьюер сверяет результат с Design и ЖЁСТКО пресекает расхождения |
 | D-5 | /docs-sync вызывается из /chain, а не из /design-create | Чистое разделение: Design отвечает за проектирование, /docs-sync — за синхронизацию документации |
 | D-6 | SSOT в корне specs/.instructions/ | create-docs-sync.md рядом с create-chain.md (оба — оркестрационные воркфлоу верхнего уровня) |
-| D-7 | /docs-sync — шаг БЕЗ state-документа | Не участвует в DONE-каскаде и rollback. Артефакты specs/docs/ откатываются через git. chain-done обновляется (Шаг 3.5: system-agent mode=done), rollback без изменений |
+| D-7 | /docs-sync — шаг БЕЗ state-документа | Не участвует в DONE-каскаде и rollback. Артефакты specs/docs/ откатываются через git. chain-done обновляется (Шаг 3.5: system-agent mode=done), rollback обновляется (П-3.7: артефакты #1, #2, #7) |
 | D-8 | Антигаллюцинации в промптах всех агентов | ЖЁСТКИЙ запрет на придумывание. Каждый факт — источник в Design. Нет данных = пустая секция |
 | D-9 | **Позиция /docs-sync: после Plan Dev, перед Dev** | Снимает блокировку Plan Tests (OQ-6). Сохраняет все преимущества: per-tech до кодирования, Code Map для dev, Planned Changes для review. Аналитическая цепочка (4 документа) не меняется |
 | D-10 | **Двухфазный system-agent: sync (overview) при /docs-sync, done (все 4) при DONE** | overview.md нужен рано для cross-chain ("общий знаменатель" архитектуры). conventions/infrastructure/testing нуждаются в реальных данных из кода — доступны только при DONE. Решает OQ-1 и OQ-2 |
@@ -592,7 +592,7 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 | Q-4 | Название? | **/docs-sync** | Универсальное: и create, и update. Sync = Design → specs/docs/ |
 | Q-5 | standard-docs-sync.md? | **Нет, только воркфлоу** | create-docs-sync.md в `specs/.instructions/` (рядом с другими create-*.md). Стандарты у сущностей уже есть |
 | Q-6 | system-reviewer нужен? | **Да** | Аналогичная логика Q-1: system-agent тоже может исказить факты |
-| Q-7 | chain-done/rollback менять? | **chain-done: ДА (system-agent mode=done). rollback: нет** | chain-done получает Шаг 3.5 (system-agent mode=done для .system/). rollback без изменений — артефакты откатываются через git |
+| Q-7 | chain-done/rollback менять? | **chain-done: ДА (system-agent mode=done). rollback: ДА (П-3.7)** | chain-done получает Шаг 3.5 (system-agent mode=done для .system/). rollback: артефакт #1 (закрывающий тег), #2 (inline rollback overview.md), #7 (docs-synced) |
 | Q-8 | ~~Plan Tests blockedBy /docs-sync?~~ | **Нет — позиция решает** | /docs-sync после Plan Dev. Plan Tests идёт сразу после Design как раньше. Блокировки нет |
 | Q-9 | ~~testing.md при Design WAITING?~~ | **Нет — при DONE** | testing.md заполняется system-agent mode=done при DONE из Plan Tests + реальных тестов (~100%) |
 | Q-10 | ~~"Копировать + расширить"?~~ | **Уточнено** | "Дополнить § 1" = ТОЛЬКО из Discussion REQ-N (явный источник). Записано в маппинге и антигаллюцинациях |
@@ -702,7 +702,6 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 | Файл | Почему не меняется |
 |------|-------------------|
 | **Все plan-test/ файлы** | **Plan Tests после Design — позиция не изменилась** |
-| `validation-design.md` | Зональные границы, не chain sequence |
 | `validation-discussion.md` | Чисто валидационные правила |
 | Все `validate-docs-*.py` | Валидация контента, не chain workflow |
 | Все `validate-analysis-*.py` | Проверяют parent-child, не chain sequence |
