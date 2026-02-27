@@ -36,9 +36,9 @@ index: specs/.instructions/README.md
   - [Шаг 1: Pre-flight проверки](#шаг-1-pre-flight-проверки)
   - [Шаг 2: Переход T7 (DONE каскад)](#шаг-2-переход-t7-done-каскад)
   - [Шаг 3: Обновление docs/ (Design DONE)](#шаг-3-обновление-docs-design-done)
-  - [Шаг 4: Обновление testing.md (Plan Tests DONE)](#шаг-4-обновление-testingmd-plan-tests-done)
-  - [Шаг 5: Cross-chain проверка](#шаг-5-cross-chain-проверка)
-  - [Шаг 6: Отчёт](#шаг-6-отчёт)
+  - [Шаг 3.5: Обновление .system/ (system-agent mode=done)](#шаг-35-обновление-system-system-agent-modedone)
+  - [Шаг 4: Cross-chain проверка](#шаг-4-cross-chain-проверка)
+  - [Шаг 5: Отчёт](#шаг-5-отчёт)
 - [Маппинг SVC-N на docs/](#маппинг-svc-n-на-docs)
 - [Чек-лист](#чек-лист)
 - [Примеры](#примеры)
@@ -103,11 +103,10 @@ python specs/.instructions/.scripts/chain_status.py transition {NNNN} DONE --dry
 | Файл docs/ | Действие |
 |-----------|----------|
 | `{svc}.md` §§ 1-8 | Контент из Planned Changes → основные секции (ADDED — добавить, MODIFIED — заменить, REMOVED — удалить) |
-| `{svc}.md` § 9 Planned Changes | Удалить блок `<!-- chain: {NNNN}-{topic} -->` |
+| `{svc}.md` § 9 Planned Changes | Удалить всё между `<!-- chain: {NNNN}-{topic} -->` и `<!-- /chain: {NNNN}-{topic} -->` (включая оба тега) |
 | `{svc}.md` § 10 Changelog | Новая запись: номер цепочки, дата, описание изменений |
-| `.system/overview.md` | Planned Changes → AS IS + Changelog (если затронута архитектура) |
-| `.system/conventions.md` | Planned Changes → AS IS + Changelog (если затронуты конвенции) |
-| `.system/infrastructure.md` | Planned Changes → AS IS + Changelog (если затронута инфраструктура) |
+
+> **Обновление .system/ файлов** (overview, conventions, infrastructure, testing) — см. Шаг 3.5 (system-agent mode=done).
 
 **Как определить что менять:**
 
@@ -120,13 +119,37 @@ python specs/.instructions/.scripts/chain_status.py transition {NNNN} DONE --dry
 
 **При ошибке в одном сервисе:** записать ошибку, продолжить с остальными сервисами. Отразить в отчёте.
 
-### Шаг 4: Обновление testing.md (Plan Tests DONE)
+### Шаг 3.5: Обновление .system/ (system-agent mode=done)
 
-| Файл docs/ | Действие |
-|-----------|----------|
-| `.system/testing.md` | Обновить стратегию тестирования (если Plan Tests вносил изменения). Обычно no-op |
+Полноценное обновление всех 4 файлов specs/docs/.system/ из Design + Plan Tests + реального кода.
 
-### Шаг 5: Cross-chain проверка
+**Запуск system-agent mode=done:**
+
+```bash
+# Task tool с subagent_type=system-agent
+# Входные данные:
+#   design-path: specs/analysis/{NNNN}-{topic}/design.md
+#   plan-test-path: specs/analysis/{NNNN}-{topic}/plan-test.md
+#   src-path: src/
+#   mode: done
+```
+
+| Файл .system/ | Источники данных | Действие |
+|------|--------|----------|
+| `overview.md` | Design SVC-N, INT-N + реальный код | Финализация: подтвердить/уточнить данные из /docs-sync (mode=sync) |
+| `conventions.md` | Design + реальные паттерны из кода | Обновить API конвенции, форматы ответов/ошибок |
+| `infrastructure.md` | Реальный код: docker-compose.yml, .env.example | Обновить Docker Compose, переменные окружения, порты |
+| `testing.md` | Plan Tests TC-N + реальные тест-файлы | Обновить стратегию, системные сценарии, покрытие |
+
+**Запуск system-reviewer mode=done:**
+
+После system-agent — сверка всех 4 файлов с источниками. Вердикт: ACCEPT / REVISE.
+
+При REVISE: перезапуск system-agent mode=done с REVISE-таблицей в prompt. Макс. 3 итерации, потом — в отчёт как warning.
+
+**При ошибке:** записать ошибку, продолжить с Шагом 4. Отразить в отчёте.
+
+### Шаг 4: Cross-chain проверка
 
 ```bash
 python specs/.instructions/.scripts/chain_status.py check_cross_chain {NNNN}
@@ -145,7 +168,7 @@ python specs/.instructions/.scripts/chain_status.py check_cross_chain {NNNN}
 
 При critical alert — **предупредить в отчёте**, но НЕ прерывать (DONE — финальный, откат невозможен).
 
-### Шаг 6: Отчёт
+### Шаг 5: Отчёт
 
 Вернуть структурированный отчёт:
 
@@ -213,10 +236,8 @@ Design SVC-N §§ 1-8 маппятся 1:1 на docs/{svc}.md §§ 1-8:
 - [ ] docs/{svc}.md §§ 1-8 обновлены (Planned Changes → AS IS)
 - [ ] docs/{svc}.md § 9 Planned Changes: chain-блок удалён
 - [ ] docs/{svc}.md § 10 Changelog: запись добавлена
-- [ ] overview.md обновлён (если затронут)
-- [ ] conventions.md обновлён (если затронут)
-- [ ] infrastructure.md обновлён (если затронут)
-- [ ] testing.md обновлён (если затронут)
+- [ ] system-agent mode=done запущен (все 4 .system/ файла)
+- [ ] system-reviewer mode=done: ACCEPT (или warnings в отчёте)
 - [ ] Cross-chain проверка выполнена
 
 ### Отчёт
@@ -247,7 +268,9 @@ python specs/.instructions/.scripts/chain_status.py transition 0042 DONE
 # Удалить Planned Changes блоки <!-- chain: 0042-user-auth -->
 # Добавить Changelog записи
 
-# 5. Cross-chain
+# 3.5. Обновить .system/ через system-agent mode=done + system-reviewer mode=done
+
+# 4. Cross-chain
 python specs/.instructions/.scripts/chain_status.py check_cross_chain 0042
 ```
 
@@ -263,4 +286,6 @@ python specs/.instructions/.scripts/chain_status.py check_cross_chain 0042
 
 ## Скиллы
 
-*Нет скиллов — завершение делегируется chain-done-agent через Task tool.*
+| Скилл | Назначение | SSOT |
+|-------|------------|------|
+| `/chain-done` | Завершение analysis chain (RUNNING → REVIEW → DONE) | Этот документ |

@@ -310,7 +310,7 @@ python specs/.instructions/.scripts/validate-analysis-discussion.py specs/analys
 
 > **Tree-level.** Переход управляется на уровне цепочки, не Discussion.
 
-**Триггер:** все документы цепочки (Discussion → Design → Plan Tests → Plan Dev) в WAITING. LLM предлагает через AskUserQuestion: "Все спецификации готовы. Перейти в RUNNING?" Пользователь подтверждает.
+**Триггер:** все документы цепочки (Discussion → Design → Plan Tests → Plan Dev) в WAITING. После `/docs-sync` (синхронизация specs/docs/) — LLM предлагает через AskUserQuestion: "Все спецификации готовы. Перейти в RUNNING?" Пользователь подтверждает.
 
 **На уровне Discussion:** статус меняется `WAITING` → `RUNNING`. Операций нет — документ просто переходит в режим реализации.
 

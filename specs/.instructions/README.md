@@ -111,6 +111,7 @@ index: specs/.instructions/README.md
 ├── create-chain.md                    # Воркфлоу запуска analysis chain (TaskList от идеи до релиза)
 ├── create-chain-done.md               # Воркфлоу завершения analysis chain (REVIEW → DONE)
 ├── create-rollback.md                 # Воркфлоу отката analysis chain (ROLLING_BACK → REJECTED)
+├── create-docs-sync.md                # Воркфлоу синхронизации specs/docs/ (агенты + ревью)
 └── README.md                         # Этот файл (индекс)
 ```
 
@@ -133,6 +134,7 @@ index: specs/.instructions/README.md
 | [create-chain.md](./create-chain.md) | Воркфлоу запуска analysis chain — TaskList от идеи до релиза, 4 пути (Happy Path, Hotfix, Bug-bundle, Doc-only) |
 | [create-chain-done.md](./create-chain-done.md) | Воркфлоу завершения analysis chain — pre-flight, T7 DONE каскад, Planned Changes → AS IS, cross-chain |
 | [create-rollback.md](./create-rollback.md) | Воркфлоу отката analysis chain — T9 ROLLING_BACK, откат артефактов top-down, верификация, T10 REJECTED |
+| [create-docs-sync.md](./create-docs-sync.md) | Воркфлоу синхронизации specs/docs/ — оркестрация service/technology/system агентов с ревью (после Plan Dev, перед Dev) |
 
 ---
 

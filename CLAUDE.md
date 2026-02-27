@@ -88,18 +88,9 @@ make clean     # Очистка (docker down -v)
 
 ## Задачи на 2026-02-27
 
-Два драфта улучшения Design-процесса (реализованы, черновики удалены):
-- **Draft 1:** PROP + Tech Stack — обработка предложений, секция "Выбор технологий" (7 критериев, scope per-service, feasibility check)
-- **Draft 2:** Фазовая архитектура — design-agent-first + design-agent-second (технологии → контент)
+**Точка отката:** `623b8f7` (до реализации docs-sync-after-dev)
 
-### Порядок действий
-
-1. ~~**Ревью драфтов**~~ ✅ — выполнено, 13 правок применены к обоим драфтам (R1–R14, R13 отклонено)
-2. ~~**Реализация Draft 1**~~ ✅ — 9 задач выполнено (standard-design, create-design, agents, валидатор, тестовый design.md)
-3. ~~**Реализация Draft 2**~~ ✅ — 7 задач выполнено (grep ссылок, design-agent-first/second, create-design workflow, косметические)
-4. ~~**Коммит + push**~~ ✅ — закоммитить все изменения, запушить
-5. ~~**Перезапуск Claude**~~ ✅ — новый контекст с обновлёнными инструкциями
-6. **Тест: `/chain --resume`** на цепочке 0001-task-dashboard — продолжить с принятой Discussion, но **полностью пересоздать Design с нуля** (удалить текущий design.md → `/design-create`), чтобы проверить новый workflow с "Выбор технологий" и двухфазным агентом
+**Текущий драфт:** [docs-sync-after-dev](/.claude/drafts/2026-02-27-docs-sync-after-dev.md) — 13 задач, агенты для specs/docs/ и /docs-sync шаг в /chain
 
 ## Паттерны
 

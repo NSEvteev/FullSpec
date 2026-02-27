@@ -101,6 +101,10 @@ def get_chain_info(chain_dir: Path, repo_root: Path) -> dict | None:
     disc_fm = ChainManager.parse_frontmatter_file(chain_dir / "discussion.md")
     info["milestone"] = disc_fm.get("milestone", "—")
 
+    # docs-synced из design.md
+    design_fm = ChainManager.parse_frontmatter_file(chain_dir / "design.md")
+    info["docs_synced"] = design_fm.get("docs-synced", "—")
+
     # TASK-N count (специфично для этого скрипта)
     info["task_count"] = count_tasks(chain_dir / "plan-dev.md")
 
@@ -136,6 +140,13 @@ def print_single(info: dict) -> None:
         if label == "Review" and info["iteration_count"] > 0:
             extra = f"  (итерация {info['iteration_count']})"
         print(f"| {label:<12} {status:<10} {doc_name}.md{extra}")
+
+    # docs-synced маркер (из design.md frontmatter)
+    docs_synced = info.get("docs_synced", "—")
+    if docs_synced == "true":
+        print(f"| {'Docs Sync':<12} {'done':<10} docs-synced: true")
+    elif docs_synced == "—":
+        print(f"| {'Docs Sync':<12} {'pending':<10} docs-synced: —")
 
     print(f"|")
     print(f"| Milestone:  {info['milestone']}")

@@ -173,7 +173,7 @@ python specs/.instructions/.scripts/validate-docs-technology.py specs/docs/.tech
 
 > **Условие:** `/technology-create` вызван **вне** create-design.md (например, ручной вызов, `/technology-modify`).
 
-Если вызван из create-design.md (Шаг 10) — ревью выполняется на уровне оркестратора (create-design.md Шаг 10.5), а не здесь.
+Если вызван из `/docs-sync` — ревью выполняется на уровне оркестратора ([create-docs-sync.md](/specs/.instructions/create-docs-sync.md)), а не здесь.
 
 1. Запустить **одного** technology-reviewer на все созданные стандарты
 2. Если вердикт **REVISE** — исправить стандарты по замечаниям → повторить Шаг 8 + 8.5

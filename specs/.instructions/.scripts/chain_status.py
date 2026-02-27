@@ -97,12 +97,8 @@ DOC_CHILDREN: dict[str, list[str]] = {
 
 # Side effects по переходам (§1.3)
 SIDE_EFFECTS: dict[tuple[str, str], list[str]] = {
-    # Design → WAITING
+    # Design → WAITING (артефакты specs/docs/ перенесены на /docs-sync)
     ("design", "WAITING"): [
-        "Создать Planned Changes в specs/docs/{svc}.md §9 (с chain-маркером)",
-        "Создать Planned Changes в specs/docs/.system/overview.md §8 (если архитектурные)",
-        "Создать заглушки {svc}.md для новых сервисов → /service-create",
-        "Создать per-tech стандарты для новых технологий → /technology-create",
         "Создать метки svc:{svc} для новых сервисов → /labels-modify",
     ],
     # Plan Dev → WAITING
@@ -144,12 +140,16 @@ SIDE_EFFECTS: dict[tuple[str, str], list[str]] = {
 }
 
 # Auto-propose после DRAFT → WAITING (§1.5)
+# plan-dev — двухступенчатый: сначала /docs-sync, потом /dev-create
 AUTO_PROPOSE: dict[str, str] = {
     "discussion": "/design-create {chain_id}",
     "design": "/plan-test-create {chain_id}",
     "plan-test": "/plan-dev-create {chain_id}",
-    "plan-dev": "/dev-create {chain_id}",
+    "plan-dev": "/docs-sync {chain_id}",  # после docs-sync → /dev-create
 }
+
+# Auto-propose после /docs-sync (docs-synced: true)
+AUTO_PROPOSE_AFTER_DOCS_SYNC: str = "/dev-create {chain_id}"
 
 # Regex patterns
 MARKER_PATTERN = re.compile(r'\[ТРЕБУЕТ УТОЧНЕНИЯ')
@@ -405,7 +405,7 @@ class ChainManager:
         return errors
 
     def _check_t1(self, document: str) -> list[PrerequisiteError]:
-        """T1 prerequisites: DRAFT, 0 маркеров, 0 barriers."""
+        """T1 prerequisites: DRAFT, 0 маркеров, 0 barriers, cross-chain docs-sync."""
         errors: list[PrerequisiteError] = []
         doc_path = self._doc_path(document)
         fm = self.parse_frontmatter(document)
@@ -426,6 +426,16 @@ class ChainManager:
             errors.append(PrerequisiteError(
                 "PRE003", f"{document}.md содержит {barriers} ⛔ DEPENDENCY BARRIER"
             ))
+
+        # Cross-chain guard: при Design → WAITING проверяем pending /docs-sync
+        if document == "design":
+            pending = self.check_pending_docs_sync()
+            if pending:
+                errors.append(PrerequisiteError(
+                    "PRE011",
+                    f"Завершите /docs-sync для цепочки {pending}. "
+                    f"Design+ WAITING без docs-synced блокирует новые Design → WAITING"
+                ))
 
         return errors
 
@@ -583,8 +593,17 @@ class ChainManager:
         return effects
 
     def _collect_auto_propose(self, tid: str, document: str | None) -> str | None:
-        """Определить auto_propose после T1 (DRAFT → WAITING)."""
+        """Определить auto_propose после T1 (DRAFT → WAITING).
+
+        Для plan-dev — двухступенчатый:
+        - docs-synced отсутствует/false → /docs-sync
+        - docs-synced: true → /dev-create
+        """
         if tid == "T1" and document and document in AUTO_PROPOSE:
+            if document == "plan-dev":
+                fm = self.parse_frontmatter("design")
+                if fm.get("docs-synced") == "true":
+                    return AUTO_PROPOSE_AFTER_DOCS_SYNC.format(chain_id=self._chain_id)
             return AUTO_PROPOSE[document].format(chain_id=self._chain_id)
         return None
 
@@ -820,6 +839,42 @@ class ChainManager:
                 ))
 
         return alerts
+
+    # ─── Docs-sync guard ─────────────────────────────────────────
+
+    def check_pending_docs_sync(self) -> str | None:
+        """
+        Cross-chain guard (D-12): при Design → WAITING проверить,
+        есть ли цепочка M < N с Design+ в WAITING без docs-synced: true.
+
+        Discussion создаётся свободно (не читает specs/docs/).
+        Блокировка только при Design → WAITING.
+
+        Returns:
+            None — блокировки нет
+            str — имя цепочки M, для которой не завершён /docs-sync
+        """
+        my_id = int(self._chain_id)
+        all_chains = self.find_all_chains(self._repo_root)
+
+        for chain_name in all_chains:
+            other_id = int(chain_name[:4])
+            if other_id >= my_id:
+                continue  # проверяем только M < N
+
+            other_dir = self._analysis_dir / chain_name
+            # Проверяем: design+ (Design или дочерние) в WAITING
+            design_fm = self.parse_frontmatter_file(other_dir / "design.md")
+            design_status = design_fm.get("status", "—")
+
+            if design_status not in ("WAITING", "RUNNING", "REVIEW"):
+                continue  # Design не в активном статусе
+
+            # Проверяем docs-synced
+            if design_fm.get("docs-synced") != "true":
+                return chain_name  # блокируем — /docs-sync не завершён
+
+        return None
 
     # ─── Feedback guard ───────────────────────────────────────────
 

@@ -29,7 +29,7 @@ index: .claude/README.md
 
 | Файл | Описание |
 |------|----------|
-| [2026-02-27-docs-sync-after-dev.md](./2026-02-27-docs-sync-after-dev.md) | Docs Sync — агенты для specs/docs/ и новый шаг в /chain |
+| *Нет активных черновиков* | — |
 
 
 
@@ -49,12 +49,12 @@ index: .claude/README.md
 
 ```
 /.claude/drafts/
-├── 2026-02-27-docs-sync-after-dev.md       # /docs-sync после Plan Dev
 ├── examples/                                # Эталонные примеры
+│   ├── 2026-02-08-specs-architecture.md          #   Архитектура specs/ (SDD)
+│   ├── 2026-02-27-docs-sync-after-dev.md         #   /docs-sync после Plan Dev
 │   ├── example-cross-standards-ssot-analysis.md #   Анализ SSOT между стандартами
 │   ├── example-github-platform-research.md      #   Исследование GitHub платформы
 │   ├── example-standards-validation-plan.md     #   План валидации стандартов
-│   ├── 2026-02-08-specs-architecture.md          #   Архитектура specs/ (SDD)
 │   └── README.md                                #   Индекс примеров
 └── README.md                                # Этот файл (индекс)
 ```

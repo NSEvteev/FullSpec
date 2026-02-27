@@ -122,11 +122,11 @@ index: specs/.instructions/README.md
 
 ### Сценарий 5: Завершён analysis/
 
-**Когда:** analysis/ документ переведён в статус DONE.
+**Когда:** analysis/ документ переведён в статус DONE. Выполняется `/chain-done`.
 
 **Шаги:**
 
-1. **Planned Changes** — удалить запись о завершённом analysis/.
+1. **Planned Changes** — удалить весь chain-блок: от `<!-- chain: NNNN-{topic} -->` до `<!-- /chain: NNNN-{topic} -->` (включая оба тега).
 2. **Changelog** — добавить запись в начало списка:
    ```markdown
    - **[analysis/{NNNN}-{slug}](../analysis/{NNNN}-{slug}/)** | DONE {дата}
@@ -137,14 +137,16 @@ index: specs/.instructions/README.md
 
 ### Сценарий 6: Добавлен новый analysis/
 
-**Когда:** Создан новый analysis/ документ, затрагивающий сервис.
+**Когда:** Создан новый analysis/ документ, затрагивающий сервис. Выполняется `/docs-sync` (service-agent).
 
 **Шаги:**
 
-1. **Planned Changes** — добавить запись:
+1. **Planned Changes** — добавить запись, обёрнутую в chain-маркер:
    ```markdown
+   <!-- chain: NNNN-{topic} -->
    - **[analysis/{NNNN}-{slug}](../analysis/{NNNN}-{slug}/)**
      {Краткое описание. Затрагивает: {что}.}
+   <!-- /chain: NNNN-{topic} -->
    ```
 2. **Валидация.**
 

@@ -104,12 +104,12 @@ Tree-level: все не-DONE документы → ROLLING_BACK. Возвращ
 
 | # | Артефакт | Действие | Идемпотентность |
 |---|---------|----------|-----------------|
-| 1 | Planned Changes в `{svc}.md` § 9 | Удалить блок `<!-- chain: {NNNN}-{topic} -->` | Нет маркера → skip |
-| 2 | Planned Changes в `overview.md` | Удалить блок `<!-- chain: {NNNN}-{topic} -->` | Нет маркера → skip |
-| 3 | Planned Changes в `conventions.md`, `infrastructure.md` | Удалить блоки (если были) | Нет маркера → skip |
-| 4 | Заглушка `{svc}.md` | Удалить файл если `created-by: {NNNN}` и нет других цепочек | Файл не существует → skip |
-| 5 | Per-tech: `standard-{tech}.md`, `validation-{tech}.md`, `.claude/rules/{tech}.md`, строка в `.technologies/README.md` | Удалить файлы и строку реестра | Файл не существует → skip |
-| 6 | Метка `svc:{svc}` | `gh label delete "svc:{svc}" --yes` | Метка не существует → skip |
+| 1 | Planned Changes в `{svc}.md` § 9 | Удалить всё между `<!-- chain: {NNNN}-{topic} -->` и `<!-- /chain: {NNNN}-{topic} -->` (включая оба тега) | Нет маркера → skip |
+| 2 | Inline-правки в `overview.md` | Если `docs-synced: true` в design.md: прочитать Design SVC-N, определить добавленные/изменённые записи (карта сервисов, связи, потоки, домены), удалить их из overview.md | docs-synced отсутствует → skip (overview.md не обновлялся) |
+| 3 | Заглушка `{svc}.md` | Удалить файл если `created-by: {NNNN}` и нет других цепочек | Файл не существует → skip |
+| 4 | Per-tech: `standard-{tech}.md`, `validation-{tech}.md`, `.claude/rules/{tech}.md`, строка в `.technologies/README.md` | Удалить файлы и строку реестра | Файл не существует → skip |
+| 5 | Метка `svc:{svc}` | `gh label delete "svc:{svc}" --yes` | Метка не существует → skip |
+| 6 | `docs-synced` в design.md | Удалить поле `docs-synced` из frontmatter design.md | Поле отсутствует → skip |
 
 **Особый случай — Design (DONE) → REJECTED:**
 
@@ -259,7 +259,7 @@ git push origin --delete 0042-user-auth
 git branch -D 0042-user-auth
 
 # 4. Design: удалить Planned Changes
-# (Edit: удалить блоки <!-- chain: 0042-user-auth --> из {svc}.md, overview.md)
+# (Edit: удалить chain-блоки из {svc}.md, откатить inline-правки в overview.md, удалить docs-synced из design.md)
 
 # 7. Cross-chain
 python specs/.instructions/.scripts/chain_status.py check_cross_chain 0042

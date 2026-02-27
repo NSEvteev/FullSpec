@@ -56,6 +56,10 @@ index: specs/.instructions/README.md
 
 > **Регистрация в README обязательна.** После создания файла — обновить `docs/README.md`: таблицу Сервисы и дерево.
 
+> **Автоматическое создание.** При работе через analysis chain — `{svc}.md` создаётся автоматически `/docs-sync` (service-agent). Ручной вызов `/service-create` — для сервисов вне analysis chain.
+
+> **Chain-маркер в Planned Changes.** Блок Planned Changes (§ 9) обязательно обёрнут в chain-маркер: `<!-- chain: NNNN-{topic} -->` ... `<!-- /chain: NNNN-{topic} -->`. Маркер обеспечивает идемпотентность и откат.
+
 ---
 
 ## Когда создавать

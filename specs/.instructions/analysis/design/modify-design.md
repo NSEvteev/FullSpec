@@ -35,8 +35,7 @@ index: specs/.instructions/README.md
 - [Переход: DRAFT → WAITING](#переход-draft-waiting)
   - [Условия (блокирующие)](#условия-блокирующие)
   - [Шаг 1: Подтверждение пользователя](#шаг-1-подтверждение-пользователя)
-  - [Шаг 2: Артефакты WAITING](#шаг-2-артефакты-waiting)
-  - [Шаг 3: Обновить статус](#шаг-3-обновить-статус)
+  - [Шаг 2: Обновить статус](#шаг-2-обновить-статус)
   - [Каскад DRAFT (возврат из WAITING)](#каскад-draft-возврат-из-waiting)
 - [Upward feedback при WAITING](#upward-feedback-при-waiting)
 - [Переход: WAITING → RUNNING](#переход-waiting-running)
@@ -221,22 +220,7 @@ python specs/.instructions/.scripts/validate-analysis-design.py specs/analysis/N
 | Да | Создать артефакты → перевести в WAITING |
 | Нет | Оставить в DRAFT |
 
-### Шаг 2: Артефакты WAITING
-
-**SSOT:** [standard-design.md § 4](./standard-design.md#4-переходы-статусов)
-
-Артефакты создаются **автоматически**:
-
-| # | Артефакт | Действие |
-|---|----------|----------|
-| 1 | Planned Changes в `specs/docs/{svc}.md` § 9 | Для каждого SVC-N: записать дельту с chain-маркером |
-| 2 | Planned Changes в `specs/docs/.system/overview.md` § 8 | Если архитектурные изменения |
-| 3 | Planned Changes в `specs/docs/.system/conventions.md` | Если новые конвенции |
-| 4 | Planned Changes в `specs/docs/.system/infrastructure.md` | Если инфраструктурные изменения |
-| 5 | Заглушка `specs/docs/{svc}.md` | Через `/service-create` (только для новых) |
-| 6 | Per-tech стандарты | Через `/technology-create` (только для новых) |
-
-### Шаг 3: Обновить статус
+### Шаг 2: Обновить статус
 
 ```python
 from chain_status import ChainManager
@@ -245,8 +229,9 @@ result = mgr.transition(to="WAITING", document="design")
 # Модуль автоматически: обновляет frontmatter + README dashboard
 ```
 
-**Side effects:** `result.side_effects` — список созданных артефактов (Planned Changes).
 **Auto-propose:** `result.auto_propose` — предложения для следующих шагов.
+
+> **Артефакты specs/docs/ НЕ создаются при Design → WAITING.** Они создаются на отдельном шаге `/docs-sync` после завершения аналитической цепочки. См. [create-docs-sync.md](../../create-docs-sync.md).
 
 ### Каскад DRAFT (возврат из WAITING)
 
@@ -264,7 +249,7 @@ result = mgr.transition(to="DRAFT", document="design")
 # T2: автокаскад — дочерние WAITING-документы тоже → DRAFT
 ```
 
-**Артефакты при возврате в DRAFT:** Planned Changes в `specs/docs/` **остаются** (не откатываются). Они будут обновлены при следующем DRAFT → WAITING.
+**Артефакты при возврате в DRAFT:** Если `/docs-sync` уже выполнялся (`docs-synced: true`), артефакты specs/docs/ **остаются** (не откатываются). Маркер `docs-synced` сбрасывается — потребуется повторный `/docs-sync`.
 
 ---
 
@@ -457,16 +442,7 @@ result = mgr.transition(to="DONE")
 
 > **Tree-level.** Все документы цепочки → ROLLING_BACK.
 
-**Откат артефактов Design:**
-
-| # | Артефакт | Действие при откате |
-|---|----------|---------------------|
-| 1 | Planned Changes в `specs/docs/{svc}.md` § 9 | Удалить блоки с chain-маркером этой цепочки |
-| 2 | Planned Changes в `specs/docs/.system/overview.md` | Удалить блоки этой цепочки |
-| 3 | Planned Changes в `specs/docs/.system/conventions.md` | Удалить блоки этой цепочки (если были) |
-| 4 | Planned Changes в `specs/docs/.system/infrastructure.md` | Удалить блоки этой цепочки (если были) |
-| 5 | Заглушка `specs/docs/{svc}.md` (новый сервис) | Удалить файл через `/service-modify --deactivate` |
-| 6 | Per-tech стандарты (новые) | Удалить через `/technology-modify --deactivate` |
+**Откат артефактов:** Артефакты specs/docs/ (per-service, per-tech, overview.md) создаются `/docs-sync`, а не Design → WAITING. Откат этих артефактов выполняется в [create-rollback.md](../../create-rollback.md). При откате также сбрасывается поле `docs-synced` из frontmatter design.md.
 
 ```python
 result = mgr.transition(to="ROLLING_BACK")
@@ -532,14 +508,12 @@ Design содержит ссылки в frontmatter (`parent`, `children`) и п
 - [ ] Нет Dependency Barrier
 - [ ] Валидация пройдена — 0 ошибок
 - [ ] Пользователь подтвердил перевод
-- [ ] Артефакты WAITING созданы
 - [ ] `mgr.transition(to="WAITING", document="design")` — frontmatter + README
 
 ### Переход CONFLICT → WAITING
 - [ ] Определено: Design затронут или нет
 - [ ] Если затронут — re-scan + точечные правки
 - [ ] Если не затронут — верификация пройдена
-- [ ] Артефакты Planned Changes пересчитаны
 - [ ] Пользователь одобрил
 - [ ] `mgr.transition(to="WAITING", document="design")` — frontmatter + README
 
@@ -556,9 +530,8 @@ Design содержит ссылки в frontmatter (`parent`, `children`) и п
 - [ ] `mgr.transition(to="DONE")` — bottom-up каскад, frontmatter + README
 
 ### Переход → ROLLING_BACK / REJECTED
-- [ ] Все артефакты Planned Changes удалены (chain-маркер)
-- [ ] Заглушки новых сервисов удалены (если были)
-- [ ] Per-tech стандарты удалены (если были)
+- [ ] Артефакты specs/docs/ откачены (см. [create-rollback.md](../../create-rollback.md))
+- [ ] `docs-synced` сброшен из frontmatter design.md
 - [ ] `mgr.transition(to="ROLLING_BACK")` / `mgr.transition(to="REJECTED")` — frontmatter + README
 
 ---

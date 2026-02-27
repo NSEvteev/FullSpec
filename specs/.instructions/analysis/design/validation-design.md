@@ -98,6 +98,7 @@ python specs/.instructions/.scripts/validate-analysis-design.py {путь}
 | `children` | Присутствует, список путей или `[]` |
 | `status` | Валидный статус: DRAFT, WAITING, RUNNING, REVIEW, DONE, CONFLICT, ROLLING_BACK, REJECTED |
 | `milestone` | Присутствует, формат `vX.Y.Z`, совпадает с parent Discussion |
+| `docs-synced` | Опционально. Если присутствует — значение `true` (boolean) |
 
 **Управление статусами:** [`chain_status.py`](../../.scripts/chain_status.py) — SSOT-модуль для переходов статусов analysis chain.
 

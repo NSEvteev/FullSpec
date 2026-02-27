@@ -24,10 +24,11 @@ result = mgr.transition(to="TARGET_STATUS", document="doc_name")
 Перед запуском агента — подтвердить с пользователем (деструктивная операция).
 
 **Завершение цепочки (REVIEW → DONE):**
-Делегировать агенту `chain-done-agent` через Task tool (SSOT: [create-chain-done.md](/specs/.instructions/create-chain-done.md)).
-Перед запуском агента — проверить review.md RESOLVED + вердикт READY, подтвердить с пользователем.
+Использовать скилл `/chain-done` (SSOT: [create-chain-done.md](/specs/.instructions/create-chain-done.md)).
+Перед запуском — проверить review.md RESOLVED + вердикт READY, подтвердить с пользователем.
 
 **Связанные скиллы:**
   - `/analysis-status` — просмотр статусов chain
   - `/discussion-create`, `/design-create`, `/plan-test-create`, `/plan-dev-create` — создание документов
   - `/discussion-modify`, `/design-modify`, `/plan-test-modify`, `/plan-dev-modify` — изменение документов
+  - `/chain-done` — завершение цепочки (REVIEW → DONE)

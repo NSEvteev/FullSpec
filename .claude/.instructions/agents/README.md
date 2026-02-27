@@ -146,5 +146,8 @@ index: .claude/.instructions/agents/README.md
 | [technology-reviewer](/.claude/agents/technology-reviewer/AGENT.md) | explore | Ревью содержания per-tech стандартов — 7 критериев качества, кросс-стандартная согласованность |
 | [code-reviewer](/.claude/agents/code-reviewer/AGENT.md) | general-purpose | Ревью кода — анализ diff, сверка с постановкой из specs/analysis/, 7 критериев качества |
 | [rollback-agent](/.claude/agents/rollback-agent/AGENT.md) | general-purpose | Откат analysis chain (ROLLING_BACK → REJECTED) — экономит контекст основного LLM |
-| [chain-done-agent](/.claude/agents/chain-done-agent/AGENT.md) | general-purpose | Завершение analysis chain (REVIEW → DONE) с обновлением docs/ — экономит контекст основного LLM |
 | [dev-agent](/.claude/agents/dev-agent/AGENT.md) | general-purpose | Агент разработки — выполнение блока задач (BLOCK-N) из Plan Dev, CONFLICT-детекция |
+| [service-agent](/.claude/agents/service-agent/AGENT.md) | general-purpose | Создание и обновление specs/docs/{svc}.md на основе Design SVC-N — один агент на сервис |
+| [service-reviewer](/.claude/agents/service-reviewer/AGENT.md) | explore | Ревью specs/docs/{svc}.md на соответствие Design SVC-N — MISSING/INVENTED/DISTORTED |
+| [system-agent](/.claude/agents/system-agent/AGENT.md) | general-purpose | Обновление specs/docs/.system/ — двухфазный (sync: overview.md, done: все 4 файла) |
+| [system-reviewer](/.claude/agents/system-reviewer/AGENT.md) | explore | Ревью specs/docs/.system/ на соответствие Design/Plan Tests/коду — двухфазный |

@@ -269,6 +269,12 @@ def check_frontmatter(content: str, path: Path, repo_root: Path) -> list[tuple[s
     if not fm.get("milestone"):
         errors.append(("DES007", "Отсутствует поле milestone"))
 
+    # docs-synced (опционально, если присутствует — boolean true)
+    if "docs-synced" in fm:
+        val = fm["docs-synced"]
+        if not isinstance(val, bool):
+            errors.append(("DES030", f"docs-synced должен быть boolean, получено: {type(val).__name__}"))
+
     return errors
 
 
