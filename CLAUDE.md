@@ -71,16 +71,17 @@ make clean     # Очистка (docker down -v)
 | `/chain --doc-only` | Опечатки, форматирование (без chain) |
 | `/chain --resume` | Продолжить после прерывания |
 
-### 6 фаз процесса
+### 7 фаз процесса
 
 | Фаза | Что происходит | Ключевые скиллы/агенты |
 |------|---------------|----------------------|
 | 1. Analysis chain | Discussion → Design → Plan Tests → Plan Dev (каждый: DRAFT → WAITING) | `/discussion-create`, `/design-create`, `/plan-test-create`, `/plan-dev-create` |
-| 2. Запуск | Issues + Milestone + Branch → вся цепочка RUNNING | `/dev-create` |
-| 3. Реализация | Код по TASK-N (блоки, волны, CONFLICT-детекция) + коммиты | dev-agent, `/commit` |
-| 4. Доставка в main | Branch Review → PR → PR Review → Merge → Sync | `/review`, `/pr-create`, `/merge` |
-| 5. Завершение | RUNNING → REVIEW → итерации → DONE (docs/ обновлён) | code-reviewer, chain-done-agent |
-| 6. Поставка | Pre-release → Release → Deploy | `/release-create`, `/post-release` |
+| 2. Docs Sync | Параллельные агенты: per-service docs, per-tech стандарты, overview.md | `/docs-sync` (service/technology/system-agent + reviewers) |
+| 3. Запуск | Issues + Milestone + Branch → вся цепочка RUNNING | `/dev-create` |
+| 4. Реализация | Код по TASK-N (блоки, волны, CONFLICT-детекция) + коммиты | dev-agent, `/commit` |
+| 5. Доставка в main | Branch Review → PR → PR Review → Merge → Sync | `/review`, `/pr-create`, `/merge` |
+| 6. Завершение | RUNNING → REVIEW → DONE (docs/ AS IS, system-agent mode=done) | code-reviewer, `/chain-done` |
+| 7. Поставка | Pre-release → Release → Deploy | `/release-create`, `/post-release` |
 
 **Путь B (CONFLICT):** обратная связь код → спеки. Каскад → разрешение → повторный запуск.
 **Путь C:** Rollback (rollback-agent), Hotfix, Bug-fix bundle, Doc-only.

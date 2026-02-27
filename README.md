@@ -6,6 +6,7 @@
 
 - [Быстрый старт](#быстрый-старт)
 - [Структура проекта](#структура-проекта)
+- [Процесс разработки](#процесс-разработки)
 - [Документация](#документация)
 
 ---
@@ -77,6 +78,44 @@ make build     # Собрать для production
 ├── {service}/              # Сервисы
 └── README.md               # Описание папки
 ```
+
+---
+
+## Процесс разработки
+
+Любое изменение системы проходит полный цикл от идеи до релиза. Точка входа — `/chain`.
+
+```
+Фаза 1 — Аналитика (DRAFT → WAITING):
+  1. Discussion        — зачем? требования, критерии успеха
+  2. Design            — как? сервисы, API, data model, технологии
+  3. Plan Tests        — как проверяем? acceptance-сценарии
+  4. Plan Dev          — какие задачи? TASK-N, блоки, зависимости
+
+Фаза 2 — Docs Sync:
+  5. /docs-sync        — параллельные агенты обновляют specs/docs/
+                         (per-service docs + per-tech стандарты + overview.md)
+
+Фаза 3 — Запуск:
+  6. /dev-create       — Issues + Milestone + Branch → RUNNING
+
+Фаза 4 — Реализация:
+  7. dev-agent         — код + тесты + коммиты (по TASK-N)
+
+Фаза 5 — Доставка:
+  8. /review           — ревью ветки
+  9. /pr-create        — Push + Pull Request
+ 10. /review {PR}      — ревью PR
+ 11. /merge            — Squash merge + sync main
+
+Фаза 6 — Завершение:
+ 12. /chain-done       — DONE + обновление docs/ (Planned Changes → AS IS)
+
+Фаза 7 — Поставка:
+ 13. /release-create   — GitHub Release (опционально)
+```
+
+Подробнее: [standard-process.md](/specs/.instructions/standard-process.md)
 
 ---
 

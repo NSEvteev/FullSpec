@@ -1135,7 +1135,7 @@ TASK 1: Создать service-agent
 
 TASK 2: Создать service-reviewer
   description: >
-    Драфт: секции "2.2" и "5.2".
+    Драфт: секции "2.2" и "5" (Волна 2).
     Создать `.claude/agents/service-reviewer/AGENT.md` через `/agent-create`.
     Промпт: сверка {svc}.md с Design SVC-N — обнаружение MISSING/INVENTED/DISTORTED.
     Один ревьюер на один сервис (параллельный запуск).
@@ -1190,6 +1190,7 @@ TASK 5: Создать SSOT-инструкцию create-docs-sync.md
 
 TASK 6: Создать скилл /docs-sync
   description: >
+    Драфт: секция "5" (оркестрация → скилл /docs-sync).
     Создать `.claude/skills/docs-sync/SKILL.md` через `/skill-create`.
     SSOT: specs/.instructions/create-docs-sync.md.
     Формат: `/docs-sync <design-path>`.
@@ -1197,6 +1198,7 @@ TASK 6: Создать скилл /docs-sync
 
 TASK 7: Обновить create-design.md — вынести артефакты
   description: >
+    Драфт: секция "4" (Файлы design/).
     Изменить `specs/.instructions/analysis/design/create-design.md`:
     - Шаг 7: оставить ТОЛЬКО DRAFT → WAITING через chain_status.py
     - Удалить: таблицу артефактов (все строки), Planned Changes, заглушки, per-tech
@@ -1213,6 +1215,7 @@ TASK 7: Обновить create-design.md — вынести артефакты
 
 TASK 8: Обновить create-chain.md — добавить /docs-sync в TaskList
   description: >
+    Драфт: секция "4" (Оркестрационные файлы) + "П-1" (Точные правки).
     Изменить `specs/.instructions/create-chain.md`:
     - Добавить задачу /docs-sync между Plan Dev и Dev
     - Было: Task 4 Plan Dev → Task 5 Dev
@@ -1225,6 +1228,7 @@ TASK 8: Обновить create-chain.md — добавить /docs-sync в Task
 
 TASK 9: Обновить standard-process.md
   description: >
+    Драфт: "П-2" (Точные правки standard-process.md).
     Изменить `specs/.instructions/standard-process.md`:
     - Добавить шаг "Docs Sync" между Фазой 1 (аналитика) и Фазой 2 (Dev)
     - Таблица инструментов (§ 8.1): добавить строку /docs-sync с агентами
@@ -1233,8 +1237,9 @@ TASK 9: Обновить standard-process.md
     Запустить `/migration-create` после изменения стандарта.
   activeForm: Обновление standard-process.md
 
-TASK 10: Обновить chain_status.py и standard-analysis.md
+TASK 10: Обновить chain_status.py, analysis-status.py и standard-analysis.md
   description: >
+    Драфт: "Доп. файлы" (Скрипты + Стандарты analysis/) + "П-3" (Точные правки).
     chain_status.py:
     - AUTO_PROPOSE двухступенчатый (читает docs-synced из design.md frontmatter):
       (a) plan-dev WAITING + !docs-synced → "/docs-sync {chain_id}"
@@ -1249,10 +1254,13 @@ TASK 10: Обновить chain_status.py и standard-analysis.md
     - § 7.1: убрать артефакты из Design WAITING → описать /docs-sync
     - Полная цепочка: добавить /docs-sync
     - Аналитическая цепочка (4 документа): БЕЗ ИЗМЕНЕНИЙ
-  activeForm: Обновление chain_status.py и standard-analysis.md
+    analysis-status.py:
+    - DOCS_DISPLAY: добавить строку для /docs-sync (если требуется)
+  activeForm: Обновление chain_status.py, analysis-status.py и standard-analysis.md
 
 TASK 11: Обновить create-chain-done.md + создать скилл /chain-done + деактивировать chain-done-agent
   description: >
+    Драфт: секция "4" (chain-done и rollback) + "П-4" (Точные правки).
     1. Изменить `specs/.instructions/create-chain-done.md`:
        - Шаг 3: оставить {svc}.md (Planned Changes → AS IS) как есть
        - Шаг 3 таблица "Файл docs/": убрать строки .system/ (overview, conventions, infrastructure)
@@ -1266,9 +1274,10 @@ TASK 11: Обновить create-chain-done.md + создать скилл /chai
     3. Деактивировать chain-done-agent через `/agent-modify chain-done-agent --deactivate` (D-13)
   activeForm: Обновление chain-done + скилл + деактивация
 
-TASK 12: Обновить остальные файлы (CLAUDE.md, docs/, minor)
+TASK 12: Обновить остальные файлы (docs/, minor)
   description: >
-    - CLAUDE.md: "6 фаз" → добавить /docs-sync
+    Драфт: секция "4" (Доп. файлы) + "П-3.7" (Точные правки create-rollback.md).
+    CLAUDE.md и README.md уже обновлены (до реализации драфта).
     - specs/.instructions/README.md: добавить create-docs-sync.md
     - create-technology.md: секция "Вызов из Design" → /docs-sync
     - standard-docs.md: "LLM обновляет" → агенты
@@ -1281,6 +1290,7 @@ TASK 12: Обновить остальные файлы (CLAUDE.md, docs/, minor
 
 TASK 13: Валидация и тест
   description: >
+    Драфт: весь документ (валидация полноты реализации).
     1. `/draft-validate` на черновик
     2. Валидация всех изменённых файлов (агенты, инструкции, стандарты)
     3. Тест: запустить `/docs-sync` на цепочке 0001-task-dashboard (все 4 документа в WAITING)
