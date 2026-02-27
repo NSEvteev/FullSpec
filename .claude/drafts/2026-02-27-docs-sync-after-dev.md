@@ -80,9 +80,11 @@
 
 **Роль:** Создание и обновление specs/docs/{svc}.md (10 секций по standard-service.md).
 
-**Режимы:**
-- `create` — создаёт новый {svc}.md из шаблона, заполняет 10 секций на основе Design SVC-N
-- `update` — обновляет существующий {svc}.md: пишет Planned Changes в § 9, обновляет § 5 Tech Stack
+**Режимы** (оба вызываются при `/docs-sync`, mode определяет оркестратор по наличию файла):
+- `create` — `specs/docs/{svc}.md` **не существует** → создаёт из шаблона, заполняет 10 секций на основе Design SVC-N (workflow: create-service.md)
+- `update` — `specs/docs/{svc}.md` **уже существует** → обновляет Planned Changes в § 9, обновляет §§ 1-8 при MODIFIED (workflow: modify-service.md)
+
+> **При DONE** service-agent **не вызывается** — скилл /chain-done переносит Planned Changes → AS IS.
 
 **Входные данные:**
 ```
@@ -109,12 +111,18 @@ mode: create | update
 | § 6 Зависимости | § 6 Зависимости | Копировать + INT-N ссылки |
 | § 7 Доменная модель | § 7 Доменная модель | Копировать |
 | § 8 Границы автономии | § 8 Границы автономии LLM | Копировать |
-| — | § 9 Planned Changes | Генерировать из delta-маркеров (ADDED/MODIFIED) |
+| — | § 9 Planned Changes | Генерировать из delta-маркеров (ADDED/MODIFIED), обернуть в chain-маркер `<!-- chain: NNNN-{topic} -->` |
 | — | § 10 Changelog | Пустой (заполняется при DONE) |
 
 **При update (Planned Changes):**
 - Читает Design SVC-N, находит все ADDED/MODIFIED маркеры
-- Записывает в § 9 Planned Changes формат: `Из Design NNNN: {список изменений}`
+- Записывает в § 9 Planned Changes, оборачивая блок в chain-маркер:
+  ```
+  <!-- chain: NNNN-{topic} -->
+  Из Design NNNN: {список изменений}
+  <!-- /chain: NNNN-{topic} -->
+  ```
+- Chain-маркер обязателен — pre-flight DONE (#6) и rollback проверяют его наличие
 
 **Параллельный запуск:** Один агент на один сервис. При 3 сервисах — 3 параллельных агента.
 
@@ -134,7 +142,7 @@ mode: create | update
 1. Прочитать Design SVC-N (целевая секция)
 2. Прочитать шаблон из standard-service.md § 5
 3. Создать {svc}.md, заполнить §§ 1-8 из Design SVC-N (маппинг 8:8)
-4. Заполнить § 9 Planned Changes из delta-маркеров
+4. Заполнить § 9 Planned Changes из delta-маркеров, обернуть в chain-маркер `<!-- chain: NNNN-{topic} -->`
 5. Оставить § 10 Changelog пустым
 6. Запустить валидацию: validate-docs-service.py
 7. Self-review перед возвратом
@@ -340,7 +348,7 @@ REVISE — .system/ (mode={sync|done})
 **Характеристики шага:**
 - Task в TaskList `/chain` (**после Plan Dev, перед Dev**)
 - **БЕЗ собственного state-документа** (нет docs-sync.md со статусами DRAFT/WAITING/RUNNING/DONE)
-- НЕ участвует в DONE-каскаде и rollback (chain_status.py, create-chain-done.md, create-rollback.md — без изменений)
+- НЕ участвует в DONE-каскаде и rollback (chain_status.py DONE_CASCADE_ORDER — без изменений). create-rollback.md получает новый артефакт #7 (сброс docs-synced)
 - Артефакты specs/docs/ откатываются через git при rollback ветки
 
 **Место в цепочке:**
@@ -446,9 +454,10 @@ REVISE — .system/ (mode={sync|done})
 
 | Файл | Что изменить |
 |------|-------------|
-| `create-design.md` | Шаг 7: оставить ТОЛЬКО DRAFT → WAITING через chain_status.py. Удалить: таблицу артефактов (строки 1-6), Planned Changes, заглушки, per-tech, шаг 7.5 (ревью per-tech). Шаг 8 (отчёт): убрать артефакты. **Шаг 9 (авто-предложение): НЕ менять** — Design по-прежнему предлагает Plan Tests. Чек-лист: убрать пункты артефактов |
-| `standard-design.md` | § 4 Переходы: убрать побочные эффекты артефактов при WAITING. § Связи: добавить "После аналитической цепочки → /docs-sync → Dev" |
-| `modify-design.md` | Строка 305 (аналитическая цепочка): оставить `Discussion → Design → Plan Tests → Plan Dev` (это анализ, /docs-sync — отдельный шаг) |
+| `create-design.md` | Шаг 7: оставить ТОЛЬКО DRAFT → WAITING через chain_status.py. Удалить: таблицу артефактов (все строки), Planned Changes, заглушки, per-tech, шаг 7.5 (ревью per-tech). Шаг 8 (отчёт): убрать артефакты. **Шаг 9 (авто-предложение): НЕ менять** — Design по-прежнему предлагает Plan Tests. Чек-лист: убрать пункты артефактов |
+| `standard-design.md` | § 4 Переходы: убрать побочные эффекты артефактов при WAITING. § Связи: добавить "После аналитической цепочки → /docs-sync → Dev". **§ Frontmatter: добавить опциональное поле `docs-synced: true/false`** (проставляется /docs-sync, проверяется check_pending_docs_sync) |
+| `validation-design.md` | **Добавить проверку:** если `docs-synced` присутствует — значение boolean. Поле опционально (отсутствие = не синхронизировано) |
+| `modify-design.md` | Где упоминается аналитическая цепочка: оставить `Discussion → Design → Plan Tests → Plan Dev` (это анализ, /docs-sync — отдельный шаг) |
 
 **Файлы plan-test/: НЕТ ИЗМЕНЕНИЙ**
 
@@ -458,13 +467,13 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 
 | Файл | Что изменить |
 |------|-------------|
-| `modify-plan-dev.md` | Строки 255, 420: полная цепочка (включая /docs-sync и Dev) — добавить /docs-sync после Plan Dev |
+| `modify-plan-dev.md` | Где упоминается полная цепочка (включая Dev) — добавить /docs-sync после Plan Dev |
 
 **Файлы discussion/:**
 
 | Файл | Что изменить |
 |------|-------------|
-| `modify-discussion.md` | Строка 313: если упоминает полную цепочку с Dev — добавить /docs-sync. Если только аналитическую (Discussion → Design → Plan Tests → Plan Dev) — оставить |
+| `modify-discussion.md` | Если упоминает полную цепочку с Dev — добавить /docs-sync. Если только аналитическую (Discussion → Design → Plan Tests → Plan Dev) — оставить |
 
 **Оркестрационные файлы:**
 
@@ -473,17 +482,17 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 | `create-chain.md` | Добавить Task /docs-sync между Plan Dev и Dev (Task 5). Сдвинуть нумерацию 5-12 → 6-13. Обновить blockedBy. Обновить таблицу Happy Path: 12 → 13 задач |
 | `standard-process.md` | Добавить шаг "Docs Sync" между Фазой 1 (аналитика) и Фазой 2 (Dev). Таблица инструментов: добавить строку /docs-sync. Диаграмма: добавить шаг |
 
-**Файлы chain-done (НОВОЕ — двухфазный system-agent):**
+**Файлы chain-done и rollback (НОВОЕ — двухфазный system-agent, docs-synced):**
 
 | Файл | Что изменить |
 |------|-------------|
 | `create-chain-done.md` | **Шаг 3:** Заменить нечёткие "Planned Changes → AS IS" для .system/ на запуск system-agent mode=done + system-reviewer mode=done. Шаг 3 остаётся для {svc}.md (Planned Changes → AS IS). **Новый Шаг 3.5:** system-agent mode=done (все 4 файла из Design + Plan Tests + реальный код) → system-reviewer mode=done → Волна 3 при REVISE. **Шаг 4:** Убрать отдельное обновление testing.md — покрывается system-agent mode=done |
+| `create-rollback.md` | **Шаг 4:** Добавить артефакт #7 — сброс `docs-synced` из design.md frontmatter (гигиена: маркер не должен оставаться в откаченной цепочке) |
 
 **Файлы БЕЗ изменений (обоснование):**
 
 | Файл | Почему не меняется |
 |------|-------------------|
-| `create-rollback.md` | Откат по state-документам. Артефакты specs/docs/ откатываются через git |
 | `chain_status.py` DONE_CASCADE_ORDER | Не затронут — /docs-sync не участвует в каскаде |
 | **Все plan-test/ файлы** | **Plan Tests идёт сразу после Design — позиция не изменилась** |
 | `standard-discussion.md` | Ссылается только на Discussion → Design (не на полную цепочку) |
@@ -499,7 +508,14 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 | `.claude/agents/system-agent/AGENT.md` | Агент |
 | `.claude/agents/system-reviewer/AGENT.md` | Ревьюер |
 | `.claude/skills/docs-sync/SKILL.md` | Скилл |
-| `specs/.instructions/create-docs-sync.md` | Воркфлоу (SSOT для скилла) |
+| `.claude/skills/chain-done/SKILL.md` | Скилл (замена chain-done-agent, D-13) |
+| `specs/.instructions/create-docs-sync.md` | Воркфлоу (SSOT для скилла /docs-sync) |
+
+**Деактивация агентов:**
+
+| Файл | Действие |
+|------|----------|
+| `.claude/agents/chain-done-agent/AGENT.md` | Деактивировать через `/agent-modify --deactivate` (D-13). SSOT create-chain-done.md остаётся |
 
 ---
 
@@ -556,7 +572,8 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 | D-9 | **Позиция /docs-sync: после Plan Dev, перед Dev** | Снимает блокировку Plan Tests (OQ-6). Сохраняет все преимущества: per-tech до кодирования, Code Map для dev, Planned Changes для review. Аналитическая цепочка (4 документа) не меняется |
 | D-10 | **Двухфазный system-agent: sync (overview) при /docs-sync, done (все 4) при DONE** | overview.md нужен рано для cross-chain ("общий знаменатель" архитектуры). conventions/infrastructure/testing нуждаются в реальных данных из кода — доступны только при DONE. Решает OQ-1 и OQ-2 |
 | D-11 | **service-agent выполняет create-service.md / modify-service.md workflow напрямую** | Агент (Task tool) не может вызывать Skill tool. Агент читает Design SVC-N → выполняет SSOT-инструкцию. Скиллы /service-create и /service-modify остаются для ручного вызова вне chain |
-| D-12 | **Cross-chain: мягкая блокировка при Discussion → WAITING + маркер `docs-synced: true`** | Дискуссии создаются свободно (не зависят от specs/docs/). При переходе Discussion → WAITING скрипт `chain_status.py check_pending_docs_sync()` проверяет: есть ли цепочки с Plan Dev WAITING, но без `docs-synced: true`? Если да → отказ с сообщением. /docs-sync пишет `docs-synced: true` в frontmatter design.md |
+| D-12 | **Cross-chain: мягкая блокировка при Design → WAITING + маркер `docs-synced: true`** | Дискуссии создаются и принимаются свободно (Discussion не читает specs/docs/). При переходе **Design → WAITING** скрипт `chain_status.py check_pending_docs_sync()` проверяет: есть ли цепочка M < N с Design+ в WAITING, но без `docs-synced: true`? Если да → отказ: "Завершите /docs-sync для цепочки {M}". /docs-sync пишет `docs-synced: true` в frontmatter design.md |
+| D-13 | **Заменить chain-done-agent на скилл /chain-done** | chain-done-agent (Task tool) не имеет Task tool → не может запустить system-agent mode=done. Скилл выполняется main LLM, который имеет все инструменты (Task, Skill, Edit). Прецедент: commit-agent → /commit, pr-create-agent → /pr-create, merge-agent → /merge. На этапе DONE экономия контекста не критична |
 
 ---
 
@@ -575,7 +592,7 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 | Q-9 | ~~testing.md при Design WAITING?~~ | **Нет — при DONE** | testing.md заполняется system-agent mode=done при DONE из Plan Tests + реальных тестов (~100%) |
 | Q-10 | ~~"Копировать + расширить"?~~ | **Уточнено** | "Дополнить § 1" = ТОЛЬКО из Discussion REQ-N (явный источник). Записано в маппинге и антигаллюцинациях |
 | Q-11 | service-agent vs /service-create? | **Агент выполняет workflow напрямую (D-11)** | Агент (Task tool) не может вызывать Skill. Выполняет create-service.md / modify-service.md. Скиллы для ручного вызова |
-| Q-12 | Cross-chain guard? | **Мягкая блокировка при Discussion → WAITING (D-12)** | Дискуссии свободно, при WAITING — check_pending_docs_sync(). Маркер `docs-synced: true` |
+| Q-12 | Cross-chain guard? | **Мягкая блокировка при Design → WAITING (D-12)** | Discussion свободно. При Design → WAITING — check_pending_docs_sync() проверяет цепочки M < N с Design+ WAITING без docs-synced. Маркер `docs-synced: true` |
 | Q-13 | Agent metadata? | **model=sonnet, max_turns=75** | По аналогии с technology-agent. Детали при /agent-create |
 
 **Следствия Q-1 + Q-6 (пересмотр):**
@@ -592,10 +609,10 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 - Скиллы /service-create и /service-modify сохраняются для ручного вызова (вне chain)
 
 **Следствия Q-12 (OQ-19):**
-- chain_status.py получает функцию `check_pending_docs_sync()` — сканирует цепочки с Plan Dev WAITING без `docs-synced: true`
-- Проверка вызывается при T1 (Discussion → WAITING)
+- chain_status.py получает функцию `check_pending_docs_sync()` — сканирует цепочки M < N с Design+ в WAITING без `docs-synced: true`
+- Проверка вызывается при T1 (**Design → WAITING**, не Discussion)
 - /docs-sync пишет `docs-synced: true` в frontmatter design.md после завершения
-- Дискуссии создаются параллельно без ограничений — блокировка только при WAITING
+- Discussion создаётся и принимается свободно (не читает specs/docs/) — блокировка только при Design → WAITING
 
 ---
 
@@ -610,7 +627,7 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 | ~~OQ-1~~ | **РЕШЁН (D-10)** | Двухфазный system-agent: inline-правки | .system/ не имеют Planned Changes — и не будут |
 | ~~OQ-2~~ | **РЕШЁН (D-10)** | overview при /docs-sync (~70%), остальные при DONE (~100% из кода) | infrastructure.md ~0% из Design → при DONE из реального кода |
 | ~~OQ-4~~ | **РЕШЁН (D-11)** | service-agent выполняет create-service.md / modify-service.md workflow напрямую | Агент (Task tool) не может вызывать Skill tool. Скиллы остаются для ручного вызова |
-| ~~OQ-8~~ | **РЕШЁН** | chain_status.py: AUTO_PROPOSE `"plan-dev"` → "/docs-sync". SIDE_EFFECTS: убрать артефакты из Design WAITING. Новая функция `check_pending_docs_sync()` | Описано в Tasklist TASK 10, TASK 8 |
+| ~~OQ-8~~ | **РЕШЁН** | chain_status.py: AUTO_PROPOSE двухступенчатый — plan-dev WAITING + !docs-synced → "/docs-sync", plan-dev WAITING + docs-synced:true → "/dev-create". SIDE_EFFECTS: убрать артефакты из Design WAITING. Новая функция `check_pending_docs_sync()` | Описано в Tasklist TASK 10, TASK 8 |
 | ~~OQ-9~~ | **РЕШЁН** | standard-analysis.md: § 7.1 артефакты → /docs-sync. Полная цепочка → добавить /docs-sync. Аналитическая (4 документа) — без изменений | Описано в Tasklist TASK 10 |
 | ~~OQ-10~~ | **РЕШЁН** | CLAUDE.md: "6 фаз" → добавить /docs-sync | Описано в Tasklist TASK 12 |
 | ~~OQ-11~~ | **РЕШЁН** | specs/docs/README.md обновляет оркестратор ПОСЛЕ Волны 1 (не агенты) | Избежать конфликтов записи |
@@ -621,7 +638,7 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 | ~~OQ-16~~ | **РЕШЁН** | Агенты вызывают validate-docs-*.py. mode=sync → validate-docs-overview.py. mode=done → все четыре | Существующие скрипты |
 | ~~OQ-17~~ | **РЕШЁН** | SVC-N §§ 1-8 → 8 секций {svc}.md. § 9 (Решения) — Design-only, не переносится | Исправлено в маппинге |
 | ~~OQ-18~~ | **РЕШЁН** | technology-agent вызывается через `/technology-create` (Skill tool из оркестратора). service-agent/system-agent вызываются через Task tool (не Skill) | Разные механизмы для разных агентов |
-| ~~OQ-19~~ | **РЕШЁН (D-12)** | Мягкая блокировка: Discussion создаётся свободно, но при Discussion → WAITING скрипт `check_pending_docs_sync()` проверяет pending /docs-sync. Маркер `docs-synced: true` в design.md | Дискуссии не зависят от specs/docs/. Design — зависит. Блокировка на WAITING не даёт дойти до Design с устаревшими данными |
+| ~~OQ-19~~ | **РЕШЁН (D-12)** | Мягкая блокировка: Discussion создаётся и принимается свободно. При **Design → WAITING** скрипт `check_pending_docs_sync()` проверяет: есть ли цепочка M < N с Design+ WAITING без `docs-synced: true`. Маркер `docs-synced: true` в design.md | Discussion не читает specs/docs/. Design читает (Unified Scan). Блокировка на Design → WAITING не даёт проектировать с устаревшими данными |
 
 ---
 
@@ -633,7 +650,7 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 
 | Файл | Что менять | Приоритет |
 |------|-----------|-----------|
-| `chain_status.py` | AUTO_PROPOSE: `"plan-dev"` → "/docs-sync". SIDE_EFFECTS: убрать артефакты из Design WAITING. **Новая функция `check_pending_docs_sync()`** — вызывается при T1 (Discussion → WAITING), проверяет `docs-synced: true` в design.md цепочек с Plan Dev WAITING | CRITICAL |
+| `chain_status.py` | AUTO_PROPOSE двухступенчатый: plan-dev WAITING + !docs-synced → "/docs-sync", plan-dev WAITING + docs-synced:true → "/dev-create". SIDE_EFFECTS: убрать артефакты из Design WAITING. **Новая функция `check_pending_docs_sync()`** — вызывается при T1 (**Design → WAITING**), проверяет: есть ли цепочка M < N с Design+ WAITING без `docs-synced: true` в design.md | CRITICAL |
 | `analysis-status.py` | DOCS_DISPLAY — может потребовать новую строку для /docs-sync | MEDIUM |
 
 ### Стандарты analysis/
@@ -647,17 +664,17 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 | Файл | Что менять | Приоритет |
 |------|-----------|-----------|
 | **plan-test/*** | **НЕТ ИЗМЕНЕНИЙ** (Plan Tests сразу после Design) | — |
-| `modify-plan-dev.md` | Строки 255, 420: полная цепочка → добавить /docs-sync после Plan Dev | LOW |
+| `modify-plan-dev.md` | Где упоминается полная цепочка (включая Dev) → добавить /docs-sync после Plan Dev | LOW |
 | `modify-discussion.md` | Если полная цепочка → добавить /docs-sync. Если аналитическая — оставить | LOW |
 
 ### Инструкции docs/
 
 | Файл | Что менять | Приоритет |
 |------|-----------|-----------|
-| `create-technology.md` | Строки 174-176: ссылка на create-design.md Шаг 10 → заменить на /docs-sync оркестрацию | HIGH |
-| `standard-docs.md` | Строка 126: "LLM обновляет" → уточнить: service-agent, system-agent, technology-agent | MEDIUM |
-| `create-service.md` | Добавить: автоматическое создание через /docs-sync (service-agent) | MEDIUM |
-| `modify-service.md` | Сценарии 5-6: Planned Changes генерируются service-agent | LOW |
+| `create-technology.md` | Ссылка на create-design.md Шаг 10 (секция "Вызов из Design") → заменить на /docs-sync оркестрацию | HIGH |
+| `standard-docs.md` | "LLM обновляет" (§ Жизненный цикл) → уточнить: service-agent, system-agent, technology-agent | MEDIUM |
+| `create-service.md` | Добавить: автоматическое создание через /docs-sync (service-agent). § 9 Planned Changes: обязательный chain-маркер `<!-- chain: NNNN-{topic} -->` | MEDIUM |
+| `modify-service.md` | Сценарий 6: шаблон Planned Changes → обернуть в chain-маркер `<!-- chain: NNNN-{topic} -->`. Сценарии 5-6: Planned Changes генерируются service-agent | MEDIUM |
 
 ### Корневые файлы
 
@@ -665,20 +682,20 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 |------|-----------|-----------|
 | `CLAUDE.md` | "6 фаз процесса" → добавить /docs-sync между аналитикой и Dev | HIGH |
 | `specs/.instructions/README.md` | Добавить create-docs-sync.md в дерево и таблицу | MEDIUM |
-| `create-chain.md` строка 156 | TASK 2 Design описание: "При WAITING: Planned Changes, заглушки, per-tech" → удалить | HIGH |
-| `standard-process.md` строки 227-229 | "При Design → WAITING: Planned Changes..." → перенести на /docs-sync | HIGH |
+| `create-chain.md` TASK 2 | TASK 2 Design описание: "При WAITING: Planned Changes, заглушки, per-tech" → удалить | HIGH |
+| `standard-process.md` § 5 "При Design → WAITING" | "При Design → WAITING: Planned Changes..." → перенести на /docs-sync | HIGH |
 
-### Файлы chain-done (НОВОЕ)
+### Файлы chain-done и rollback (НОВОЕ)
 
 | Файл | Что менять | Приоритет |
 |------|-----------|-----------|
 | `create-chain-done.md` | Шаг 3: .system/ обновление → system-agent mode=done + system-reviewer mode=done. Новый Шаг 3.5. Шаг 4 (testing.md): убрать — покрыт mode=done | HIGH |
+| `create-rollback.md` | Шаг 4: артефакт #7 — сброс `docs-synced` из design.md frontmatter | LOW |
 
 ### Файлы БЕЗ изменений (подтверждено)
 
 | Файл | Почему не меняется |
 |------|-------------------|
-| `create-rollback.md` | Откат по state-документам, артефакты через git |
 | **Все plan-test/ файлы** | **Plan Tests после Design — позиция не изменилась** |
 | `validation-design.md` | Зональные границы, не chain sequence |
 | `validation-discussion.md` | Чисто валидационные правила |
@@ -730,6 +747,18 @@ TASK 5: Синхронизация docs/
 
 **Quick Reference / Примеры:** `12 задач` → `13 задач`
 
+**TASK 12 (бывший 11, Завершить цепочку) description:** Заменить:
+```
+    Агент: chain-done-agent (RUNNING → REVIEW → DONE, обновление docs/).
+```
+На:
+```
+    Скилл: /chain-done — RUNNING → REVIEW → DONE, обновление docs/.
+    Main LLM выполняет create-chain-done.md: T7 каскад, {svc}.md → AS IS,
+    system-agent mode=done (Task tool), cross-chain, отчёт.
+    SSOT: create-chain-done.md
+```
+
 ---
 
 ### П-2: standard-process.md — новый шаг /docs-sync
@@ -749,9 +778,9 @@ TASK 5: Синхронизация docs/
     PDEV --> DOCSYNC --> DEVSTART
 ```
 
-#### П-2.2: Строка 229 (§ 5 Фаза 1)
+#### П-2.2: § 5 Фаза 1 — "При Design → WAITING"
 
-**Было (строка 229):**
+**Было:**
 ```
 **При Design → WAITING:** Planned Changes добавляются в specs/docs/, заглушки {svc}.md для новых сервисов, per-tech стандарты (с ревью technology-reviewer). → [standard-analysis.md § 7.1](./analysis/standard-analysis.md#71-обновление-при-планировании-to-waiting)
 ```
@@ -790,7 +819,7 @@ TASK 5: Синхронизация docs/
 
 Строку "5.3 → DONE" обновить — добавить system-agent (done):
 ```markdown
-| 5.3 → DONE | standard-analysis § 6.6, § 7.3, create-chain-done | /analysis-status | chain-done-agent, **system-agent (done), system-reviewer (done)** | chain_status.py |
+| 5.3 → DONE | standard-analysis § 6.6, § 7.3, create-chain-done | /analysis-status, **/chain-done** | **system-agent (done), system-reviewer (done)** | chain_status.py |
 ```
 
 #### П-2.5: Quick Reference (§ 9)
@@ -818,7 +847,7 @@ TASK 5: Синхронизация docs/
 
 **Счётчик:** `/chain → TaskList (Happy Path, 12 задач)` → `13 задач`
 
-#### П-2.6: Строка 225 (Агенты)
+#### П-2.6: § 5 Фаза 1 — "Агенты"
 
 **Было:**
 ```
@@ -836,7 +865,7 @@ TASK 5: Синхронизация docs/
 
 **Файл:** `specs/.instructions/analysis/standard-analysis.md`
 
-#### П-3.1: § 4.1 Прямой поток (строка 325)
+#### П-3.1: § 4.1 Прямой поток
 
 **Было:**
 ```
@@ -853,7 +882,7 @@ TASK 5: Синхронизация docs/
 5. **Docs Sync:** `/docs-sync` — агенты синхронизируют specs/docs/ с Design ([§ 7.1](#71-обновление-при-планировании-to-waiting)): per-service docs (service-agent), per-tech стандарты (technology-agent), overview.md (system-agent mode=sync). Маркер `docs-synced: true` в design.md
 ```
 
-#### П-3.2: Матрица обновлений (строка 740-751)
+#### П-3.2: Матрица обновлений (§ 7)
 
 **Было:**
 ```
@@ -873,9 +902,9 @@ TASK 5: Синхронизация docs/
 
 Колонка "При WAITING" переименовать → "При /docs-sync".
 
-#### П-3.3: § 7.1 (строки 753-774)
+#### П-3.3: § 7.1 Обновление при планировании
 
-**Было (строки 753-757):**
+**Было (заголовок + вводная):**
 ```
 ### 7.1 Обновление при планировании (to WAITING)
 
@@ -895,7 +924,7 @@ TASK 5: Синхронизация docs/
 При запуске `/docs-sync` создаются **Planned Changes** — ...
 ```
 
-**Таблица Design → WAITING (строки 761-773):** Переименовать заголовок → "Design → /docs-sync". Строки overview.md, conventions.md, infrastructure.md:
+**Таблица "Design → WAITING":** Переименовать заголовок → "Design → /docs-sync". Строки overview.md, conventions.md, infrastructure.md:
 
 **Было:**
 ```
@@ -911,7 +940,7 @@ TASK 5: Синхронизация docs/
 
 Строки conventions.md и infrastructure.md — **удалить** (обновляются при DONE, не при /docs-sync).
 
-#### П-3.4: § 7.3 Design → DONE (строки 799-807)
+#### П-3.4: § 7.3 Design → DONE
 
 **Было:**
 ```
@@ -927,15 +956,15 @@ TASK 5: Синхронизация docs/
 | `.system/infrastructure.md` | Обновить из реального кода (system-agent mode=done) |
 ```
 
-#### П-3.5: § 7.4 Параллельные цепочки (строка 817-821)
+#### П-3.5: § 7.4 Параллельные цепочки
 
 Добавить после текущего текста:
 
 ```
-**Cross-chain guard (D-12):** При переходе Discussion → WAITING скрипт `check_pending_docs_sync()` проверяет: есть ли цепочки с Plan Dev WAITING, но без `docs-synced: true` в design.md? Если да — отказ в переходе с сообщением "Завершите /docs-sync для цепочки {NNNN}". Дискуссии создаются свободно (не зависят от specs/docs/), блокировка только при WAITING.
+**Cross-chain guard (D-12):** При переходе **Design → WAITING** скрипт `check_pending_docs_sync()` проверяет: есть ли цепочка M < N с Design+ в WAITING, но без `docs-synced: true` в design.md? Если да — отказ в переходе с сообщением "Завершите /docs-sync для цепочки {M}". Discussion создаётся и принимается свободно (не читает specs/docs/), блокировка только при Design → WAITING.
 ```
 
-#### П-3.6: § 6.8 Откат артефактов (строка 718)
+#### П-3.6: § 6.8 Откат артефактов
 
 **Было:**
 ```
@@ -949,11 +978,24 @@ TASK 5: Синхронизация docs/
 
 ---
 
+### П-3.7: create-rollback.md — артефакт docs-synced
+
+**Файл:** `specs/.instructions/create-rollback.md`
+
+Шаг 4 (Откат Design), таблица артефактов — добавить строку #7:
+
+**Добавить после строки #6 (метка `svc:{svc}`):**
+```
+| 7 | `docs-synced` в design.md | Удалить поле `docs-synced` из frontmatter design.md | Поле отсутствует → skip |
+```
+
+---
+
 ### П-4: create-chain-done.md — новый Шаг 3.5
 
 **Файл:** `specs/.instructions/create-chain-done.md`
 
-#### П-4.1: Шаг 3 (строки 108-110) — убрать .system/ из таблицы
+#### П-4.1: Шаг 3 — убрать .system/ из таблицы
 
 **Было:**
 ```
@@ -1055,6 +1097,7 @@ TASK 1: Создать service-agent
     Маппинг Design SVC-N §§ 1-8 → {svc}.md §§ 1-8 (строго из Design, ничего не придумывать).
     "Дополнить § 1" = ТОЛЬКО из Discussion REQ-N.
     Delta-формат: ADDED/MODIFIED/DELETED в Planned Changes.
+    ОБЯЗАТЕЛЬНО: § 9 Planned Changes оборачивать в chain-маркер `<!-- chain: NNNN-{topic} -->`.
     SSOT-зависимости: standard-service.md, create-service.md, modify-service.md, validation-service.md.
     Валидация: validate-docs-service.py.
     Tools: Read, Grep, Glob, Edit, Write, Bash.
@@ -1127,13 +1170,14 @@ TASK 7: Обновить create-design.md — вынести артефакты
   description: >
     Изменить `specs/.instructions/analysis/design/create-design.md`:
     - Шаг 7: оставить ТОЛЬКО DRAFT → WAITING через chain_status.py
-    - Удалить: таблицу артефактов (строки 1-6), Planned Changes, заглушки, per-tech
+    - Удалить: таблицу артефактов (все строки), Planned Changes, заглушки, per-tech
     - Удалить: шаг 7.5 (ревью per-tech — перенесён в /docs-sync)
     - Обновить отчёт (шаг 8): убрать артефакты
     - Шаг 9 (авто-предложение): НЕ МЕНЯТЬ — Design → Plan Tests (корректно)
     - Обновить чек-лист: убрать пункты артефактов
     Также изменить:
-    - `standard-design.md`: § 4 побочные эффекты WAITING, § Связи
+    - `standard-design.md`: § 4 побочные эффекты WAITING, § Связи, § Frontmatter: добавить `docs-synced` (опц., boolean)
+    - `validation-design.md`: добавить проверку `docs-synced` (если присутствует — boolean)
     - `modify-design.md`: полная цепочка → добавить /docs-sync (если упоминается)
 
   activeForm: Обновление design/ инструкций
@@ -1156,44 +1200,52 @@ TASK 9: Обновить standard-process.md
     - Добавить шаг "Docs Sync" между Фазой 1 (аналитика) и Фазой 2 (Dev)
     - Таблица инструментов (§ 8.1): добавить строку /docs-sync с агентами
     - Диаграмма обзора: добавить шаг после Plan Dev, перед Dev
-    - Строки 227-229: "При Design → WAITING: Planned Changes..." → перенести на /docs-sync
+    - § 5 "При Design → WAITING: Planned Changes..." → перенести на /docs-sync
     Запустить `/migration-create` после изменения стандарта.
   activeForm: Обновление standard-process.md
 
 TASK 10: Обновить chain_status.py и standard-analysis.md
   description: >
     chain_status.py:
-    - AUTO_PROPOSE: "plan-dev" → "/docs-sync {chain_id}" (вместо "/dev-create")
+    - AUTO_PROPOSE двухступенчатый (читает docs-synced из design.md frontmatter):
+      (a) plan-dev WAITING + !docs-synced → "/docs-sync {chain_id}"
+      (b) plan-dev WAITING + docs-synced:true → "/dev-create {chain_id}"
     - SIDE_EFFECTS[("design", "WAITING")]: убрать артефакты
-    - Новая функция check_pending_docs_sync(): сканирует цепочки с Plan Dev WAITING
-      без `docs-synced: true` в design.md. Вызывается при T1 (Discussion → WAITING).
-      Если найдены → отказ с сообщением "Завершите /docs-sync для цепочки {NNNN}"
+    - Новая функция check_pending_docs_sync(): сканирует цепочки M < N с Design+
+      в WAITING без `docs-synced: true` в design.md. Вызывается при T1 (Design → WAITING).
+      Если найдены → отказ с сообщением "Завершите /docs-sync для цепочки {M}"
     standard-analysis.md:
     - § 7.1: убрать артефакты из Design WAITING → описать /docs-sync
     - Полная цепочка: добавить /docs-sync
     - Аналитическая цепочка (4 документа): БЕЗ ИЗМЕНЕНИЙ
   activeForm: Обновление chain_status.py и standard-analysis.md
 
-TASK 11: Обновить create-chain-done.md — двухфазный system-agent при DONE
+TASK 11: Обновить create-chain-done.md + создать скилл /chain-done + деактивировать chain-done-agent
   description: >
-    Изменить `specs/.instructions/create-chain-done.md`:
-    - Шаг 3: оставить {svc}.md (Planned Changes → AS IS) как есть
-    - Шаг 3 строки 108-110: убрать нечёткие "Planned Changes → AS IS" для .system/ файлов
-    - Новый Шаг 3.5: запуск system-agent mode=done (все 4 .system/ файла из Design + Plan Tests + реальный код)
-      → system-reviewer mode=done → Волна 3 при REVISE (макс. 3 итерации)
-    - Шаг 4 (testing.md): убрать — покрывается system-agent mode=done
-    - Обновить чек-лист: .system/ обновлён через system-agent mode=done
-  activeForm: Обновление create-chain-done.md
+    1. Изменить `specs/.instructions/create-chain-done.md`:
+       - Шаг 3: оставить {svc}.md (Planned Changes → AS IS) как есть
+       - Шаг 3 таблица "Файл docs/": убрать строки .system/ (overview, conventions, infrastructure)
+       - Новый Шаг 3.5: запуск system-agent mode=done (все 4 .system/ файла из Design + Plan Tests + реальный код)
+         → system-reviewer mode=done → Волна 3 при REVISE (макс. 3 итерации)
+       - Шаг 4 (testing.md): убрать — покрывается system-agent mode=done
+       - Обновить чек-лист: .system/ обновлён через system-agent mode=done
+    2. Создать скилл `/chain-done` через `/skill-create`:
+       - SSOT: create-chain-done.md
+       - Формат: `/chain-done {NNNN}`
+    3. Деактивировать chain-done-agent через `/agent-modify chain-done-agent --deactivate` (D-13)
+  activeForm: Обновление chain-done + скилл + деактивация
 
 TASK 12: Обновить остальные файлы (CLAUDE.md, docs/, minor)
   description: >
     - CLAUDE.md: "6 фаз" → добавить /docs-sync
     - specs/.instructions/README.md: добавить create-docs-sync.md
-    - create-technology.md: строки 174-176 → /docs-sync
+    - create-technology.md: секция "Вызов из Design" → /docs-sync
     - standard-docs.md: "LLM обновляет" → агенты
-    - create-service.md: автоматическое создание через /docs-sync
+    - create-service.md: автоматическое создание через /docs-sync + chain-маркер в § 9 Planned Changes
+    - modify-service.md: Сценарий 6 — chain-маркер `<!-- chain: NNNN-{topic} -->` в шаблоне Planned Changes
     - modify-plan-dev.md: полная цепочка → добавить /docs-sync
     - modify-discussion.md: полная цепочка → добавить /docs-sync (если есть)
+    - create-rollback.md: Шаг 4 артефакт #7 — сброс `docs-synced` из design.md frontmatter (П-3.7)
   activeForm: Обновление остальных файлов
 
 TASK 13: Валидация и тест
@@ -1204,5 +1256,5 @@ TASK 13: Валидация и тест
     4. Проверить: 3 сервиса (task.md, auth.md, frontend.md) + per-tech стандарты + overview.md обновлены
     5. Проверить: conventions.md, infrastructure.md, testing.md НЕ затронуты (ждут DONE)
     6. Проверить: ревью service + technology + overview пройдено
-    7. Тест DONE: запустить chain-done → проверить все 4 .system/ файла обновлены через system-agent mode=done
+    7. Тест DONE: запустить `/chain-done` → проверить все 4 .system/ файла обновлены через system-agent mode=done
   activeForm: Валидация и тестирование
