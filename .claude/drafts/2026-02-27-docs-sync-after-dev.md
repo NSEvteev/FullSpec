@@ -1,9 +1,6 @@
-# Docs Sync — агенты для specs/docs/ и новый шаг в /chain (вариант: после Plan Dev)
+# Docs Sync — агенты для specs/docs/ и новый шаг в /chain
 
 Выделение артефактов Design (шаг 7) в отдельный шаг цепочки с тремя парами агентов. Позиция: **после Plan Dev, перед Dev** — все 4 документа готовы, system-agent получает данные из Plan Tests.
-
-> **Альтернативный вариант** основного драфта [2026-02-27-docs-sync-agents.md](./2026-02-27-docs-sync-agents.md).
-> Отличие: позиция /docs-sync — после Plan Dev (а не после Design).
 
 ## Оглавление
 
@@ -13,13 +10,11 @@
   - [2. Решение: три пары агентов](#2-решение-три-пары-агентов)
   - [3. Новый шаг: /docs-sync](#3-новый-шаг-docs-sync)
   - [4. Изменения в существующих файлах](#4-изменения-в-существующих-файлах)
-  - [5. Детали агентов](#5-детали-агентов)
-  - [6. Оркестрация](#6-оркестрация)
+  - [5. Оркестрация](#5-оркестрация)
 - [Решения](#решения)
 - [Решённые вопросы](#решённые-вопросы)
 - [Открытые вопросы](#открытые-вопросы)
 - [Дополнительные файлы для обновления](#дополнительные-файлы-для-обновления)
-- [Сравнение позиций](#сравнение-позиций)
 - [Tasklist](#tasklist)
 
 ---
@@ -30,10 +25,7 @@
 
 **Почему:** Технологии уже обслуживаются парой агентов (technology-agent + technology-reviewer). Сервисные документы и системная архитектура — нет. Нужно закрыть все три сущности specs/docs/ агентами и вынести артефакты в отдельный шаг цепочки.
 
-**Ключевое отличие от основного драфта:** /docs-sync запускается **после Plan Dev** (а не после Design). Это даёт system-agent доступ к данным Plan Tests (TC-N, стратегия тестирования) и снимает блокировку Plan Tests.
-
 **Связанные файлы:**
-- [2026-02-27-docs-sync-agents.md](./2026-02-27-docs-sync-agents.md) — основной драфт (позиция: после Design)
 - [create-design.md](/specs/.instructions/analysis/design/create-design.md) — текущий шаг 7 (артефакты WAITING)
 - [create-chain.md](/specs/.instructions/create-chain.md) — TaskList `/chain`
 - [standard-process.md](/specs/.instructions/standard-process.md) — фазы процесса
@@ -133,6 +125,29 @@ mode: create | update
 - Если в Design SVC-N нет данных для секции — оставить секцию пустой с маркером `_Нет данных в Design SVC-N._`
 - ЗАПРЕЩЕНО: добавлять "очевидные" поля, дефолтные значения, примеры из "общих знаний"
 
+**SSOT-зависимости:**
+- [standard-service.md](/specs/.instructions/docs/service/standard-service.md) — формат 10 секций
+- [create-service.md](/specs/.instructions/docs/service/create-service.md) — воркфлоу создания
+- [validation-service.md](/specs/.instructions/docs/service/validation-service.md) — валидация
+
+**Алгоритм (mode=create):**
+1. Прочитать Design SVC-N (целевая секция)
+2. Прочитать шаблон из standard-service.md § 5
+3. Создать {svc}.md, заполнить §§ 1-8 из Design SVC-N (маппинг 8:8)
+4. Заполнить § 9 Planned Changes из delta-маркеров
+5. Оставить § 10 Changelog пустым
+6. Запустить валидацию: validate-docs-service.py
+7. Self-review перед возвратом
+
+**Алгоритм (mode=update):**
+1. Прочитать существующий {svc}.md
+2. Прочитать Design SVC-N
+3. Обновить § 9 Planned Changes
+4. Обновить §§ 1-8 если есть MODIFIED маркеры
+5. Запустить валидацию
+
+**Важно:** specs/docs/README.md обновляет оркестратор ПОСЛЕ Волны 1 (не каждый агент — избежать конфликтов записи).
+
 **Tools:** Read, Grep, Glob, Edit, Write, Bash (для валидации)
 
 #### 2.2 service-reviewer (NEW)
@@ -146,11 +161,25 @@ mode: create | update
 4. **Формат:** 10 секций соответствуют standard-service.md
 
 **Алгоритм:**
-1. Прочитать Design SVC-N (источник правды)
-2. Прочитать {svc}.md (результат агента)
-3. Для каждой секции §§ 1-8 построить diff: что в Design vs что в {svc}.md
-4. Выявить: пропущенное (в Design есть, в {svc}.md нет), придуманное (в {svc}.md есть, в Design нет), искажённое (факт есть, но изменён)
-5. Вердикт: ACCEPT (нет расхождений) / REVISE (список расхождений с цитатами из Design)
+1. Прочитать Design SVC-N §§ 1-8 (источник правды)
+2. Прочитать {svc}.md §§ 1-8 (результат service-agent)
+3. Для каждой секции построить diff: Design vs {svc}.md
+4. Выявить расхождения:
+   - **MISSING:** факт есть в Design, отсутствует в {svc}.md
+   - **INVENTED:** факт есть в {svc}.md, отсутствует в Design
+   - **DISTORTED:** факт есть в обоих, но изменён/переформулирован
+5. Проверить § 9 Planned Changes: каждый ADDED/MODIFIED маркер соответствует Design
+6. Вердикт: ACCEPT (нет расхождений) / REVISE (список расхождений с цитатами из Design)
+
+**Формат вывода при REVISE:**
+```
+REVISE — {svc}.md
+
+| # | Тип | Секция | В Design SVC-N | В {svc}.md | Рекомендация |
+|---|-----|--------|----------------|-----------|--------------|
+| 1 | INVENTED | § 3 Data Model | — | "поле updatedAt" | Удалить — отсутствует в Design |
+| 2 | MISSING | § 2 API | "PATCH /tasks/:id" | — | Добавить из Design SVC-N § 2 |
+```
 
 **Параллельный запуск:** Один ревьюер на один сервис (по аналогии с агентом).
 
@@ -188,7 +217,22 @@ mode: update (default)
 | testing.md | § Межсервисные сценарии | **Plan Tests: TC-N (cross-service) + Design INT-N** |
 | testing.md | § Покрытие | **Plan Tests: матрица покрытия** |
 
-**Ключевое улучшение:** Позиция после Plan Dev даёт system-agent доступ к Plan Tests (TC-N, стратегия, покрытие) — testing.md заполняется на ~60% вместо 0%.
+**SSOT-зависимости:**
+- [standard-overview.md](/specs/.instructions/docs/overview/standard-overview.md)
+- [standard-conventions.md](/specs/.instructions/docs/conventions/standard-conventions.md)
+- [standard-infrastructure.md](/specs/.instructions/docs/infrastructure/standard-infrastructure.md)
+- [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md)
+
+**Алгоритм (mode=update):**
+1. Прочитать Design полностью (Резюме, SVC-N, INT-N, STS-N)
+2. Прочитать Plan Tests (TC-N, стратегия тестирования, матрица покрытия)
+3. Прочитать текущие 4 файла .system/
+4. Для каждого файла определить delta (что добавить/изменить):
+   - overview.md, conventions.md, infrastructure.md ← из Design
+   - testing.md ← из Design STS-N + Plan Tests TC-N
+5. Применить inline-правки (НЕ Planned Changes — .system/ файлы не имеют этой секции)
+6. Порядок: overview → conventions → infrastructure → testing
+7. Запустить валидацию каждого файла (validate-docs-*.py)
 
 **Запуск:** Один агент на все системные файлы (они связаны между собой).
 
@@ -392,114 +436,7 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 
 ---
 
-### 5. Детали агентов
-
-#### 5.1 service-agent
-
-**Паттерн:** Аналог technology-agent. Один агент на один сервис. Параллельный запуск.
-
-**SSOT-зависимости:**
-- [standard-service.md](/specs/.instructions/docs/service/standard-service.md) — формат 10 секций
-- [create-service.md](/specs/.instructions/docs/service/create-service.md) — воркфлоу создания
-- [validation-service.md](/specs/.instructions/docs/service/validation-service.md) — валидация
-
-**Алгоритм (mode=create):**
-1. Прочитать Design SVC-N (целевая секция)
-2. Прочитать шаблон из standard-service.md § 5
-3. Создать {svc}.md, заполнить §§ 1-8 из Design SVC-N (маппинг 8:8)
-4. Заполнить § 9 Planned Changes из delta-маркеров
-5. Оставить § 10 Changelog пустым
-6. Запустить валидацию: validate-docs-service.py
-7. Self-review перед возвратом
-
-**Алгоритм (mode=update):**
-1. Прочитать существующий {svc}.md
-2. Прочитать Design SVC-N
-3. Обновить § 9 Planned Changes
-4. Обновить §§ 1-8 если есть MODIFIED маркеры
-5. Запустить валидацию
-
-**Важно:** specs/docs/README.md обновляет оркестратор ПОСЛЕ Волны 1 (не каждый агент — избежать конфликтов записи).
-
-**Tools:** Read, Grep, Glob, Edit, Write, Bash (для валидации)
-
-**Антигаллюцинации:** См. секцию 2.1.
-
-#### 5.2 service-reviewer
-
-**Паттерн:** Аналог technology-reviewer. Один ревьюер на один сервис. Параллельный запуск.
-
-**Алгоритм:**
-1. Прочитать Design SVC-N §§ 1-8 (источник правды)
-2. Прочитать {svc}.md §§ 1-8 (результат service-agent)
-3. Построить diff по каждой секции: Design vs {svc}.md
-4. Выявить расхождения:
-   - **MISSING:** факт есть в Design, отсутствует в {svc}.md
-   - **INVENTED:** факт есть в {svc}.md, отсутствует в Design
-   - **DISTORTED:** факт есть в обоих, но изменён/переформулирован
-5. Проверить § 9 Planned Changes: каждый ADDED/MODIFIED маркер соответствует Design
-6. Вердикт:
-   - **ACCEPT:** нет расхождений
-   - **REVISE:** список расхождений с цитатами из Design SVC-N
-
-**Формат вывода при REVISE:**
-```
-REVISE — {svc}.md
-
-| # | Тип | Секция | В Design SVC-N | В {svc}.md | Рекомендация |
-|---|-----|--------|----------------|-----------|--------------|
-| 1 | INVENTED | § 3 Data Model | — | "поле updatedAt" | Удалить — отсутствует в Design |
-| 2 | MISSING | § 2 API | "PATCH /tasks/:id" | — | Добавить из Design SVC-N § 2 |
-```
-
-**Tools:** Read, Grep, Glob (только чтение)
-
-#### 5.3 system-agent
-
-**Паттерн:** Отличается от technology-agent — один агент на все 4 файла (они связаны между собой).
-
-**SSOT-зависимости:**
-- [standard-overview.md](/specs/.instructions/docs/overview/standard-overview.md)
-- [standard-conventions.md](/specs/.instructions/docs/conventions/standard-conventions.md)
-- [standard-infrastructure.md](/specs/.instructions/docs/infrastructure/standard-infrastructure.md)
-- [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md)
-
-**Алгоритм (mode=update):**
-1. Прочитать Design полностью (Резюме, SVC-N, INT-N, STS-N)
-2. Прочитать Plan Tests (TC-N, стратегия тестирования, матрица покрытия)
-3. Прочитать текущие 4 файла .system/
-4. Для каждого файла определить delta (что добавить/изменить):
-   - overview.md, conventions.md, infrastructure.md ← из Design
-   - testing.md ← из Design STS-N + **Plan Tests TC-N**
-5. Применить изменения: overview → conventions → infrastructure → testing (порядок важен)
-6. Применить inline-правки (НЕ Planned Changes — .system/ файлы не имеют этой секции)
-7. Запустить валидацию каждого файла (validate-docs-*.py)
-
-**Tools:** Read, Grep, Glob, Edit, Write, Bash
-
-**Антигаллюцинации:** См. секцию 2.3.
-
-#### 5.4 system-reviewer
-
-**Паттерн:** Один ревьюер на все 4 файла (по аналогии с system-agent).
-
-**Алгоритм:**
-1. Прочитать Design полностью (источник правды)
-2. Прочитать Plan Tests (источник правды для testing.md)
-3. Прочитать все 4 файла .system/ (результат system-agent)
-4. Определить: что изменил system-agent (diff с предыдущей версией через git — per-file diff для .system/ файлов)
-5. Для каждого изменения проверить: есть ли источник в Design или Plan Tests? (SVC-N §X, INT-N, STS-N, TC-N)
-6. Проверить обратное: есть ли в Design/Plan Tests данные, не отражённые в .system/?
-7. Проверить согласованность: данные между 4 файлами не противоречат друг другу
-8. Вердикт:
-   - **ACCEPT:** нет расхождений
-   - **REVISE:** список расхождений с цитатами из Design/Plan Tests
-
-**Tools:** Read, Grep, Glob (только чтение)
-
----
-
-### 6. Оркестрация
+### 5. Оркестрация
 
 **Скилл /docs-sync:**
 
@@ -729,27 +666,6 @@ technology-agent вызывается через `/technology-create` (Skill too
 | Все `validate-analysis-*.py` | Проверяют parent-child, не chain sequence |
 | `create-review.md`, `standard-review.md`, `validation-review.md` | Ревью 4 финальных документов |
 | Все plan-dev/ (кроме modify) | Plan Dev перед /docs-sync, не затронут |
-
----
-
-## Сравнение позиций
-
-| Критерий | После Design (основной драфт) | После Plan Dev (этот драфт) |
-|----------|------------------------------|----------------------------|
-| Plan Tests заблокирован | Да (blockedBy) | **Нет** |
-| testing.md данные | 0% из Design | **~60% из Plan Tests** |
-| Конфликт timing testing.md | Да (OQ-3) | **Решён** |
-| Per-tech до кодирования | Да | **Да** |
-| Code Map для dev-agent | Да | **Да** |
-| Planned Changes для review | Да | **Да** |
-| CONFLICT-детекция | Ранняя | **Ранняя** |
-| Симметрия откатов | Да | **Да** |
-| Файлы plan-test/ менять | Да (5 строк) | **Нет** |
-| Cross-chain guard нужен | Нет (окно = 0) | **Да (OQ-19)** |
-| Файлов для изменения (всего) | ~11 | **~9** |
-| Аналитическая цепочка меняется | Да (/docs-sync между Design и PT) | **Нет** |
-
-**Итог:** Позиция после Plan Dev — строго лучше по всем критериям кроме одного: **cross-chain guard** (OQ-19). Это единственная новая проблема, которую нужно решить.
 
 ---
 
