@@ -149,10 +149,10 @@ TASK 1: Создать Discussion
 
 TASK 2: Создать Design
   description: >
-    Скилл: /design-create — Unified Scan (5 источников), SVC-N секции (9 подсекций),
-    INT-N контракты, STS-N системные тесты.
-    Агент: design-agent (генерация SDD в изолированном контексте).
-    Claude читает discussion.md + docs/ → проектирует → пользователь ревьюит → WAITING.
+    Скилл: /design-create — два агента последовательно:
+    design-agent-first: Unified Scan (5 источников) → Clarify → Резюме + Выбор технологий → user подтверждает выбор.
+    design-agent-second: детальные SVC-N (9 подсекций) + INT-N контракты + STS-N системные тесты.
+    design-reviewer — один раз после обоих.
     При WAITING: Planned Changes в docs/, заглушки новых сервисов, per-tech стандарты.
     SSOT: standard-design.md
   activeForm: Создаю Design

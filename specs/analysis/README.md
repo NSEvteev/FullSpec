@@ -41,7 +41,7 @@ index: specs/README.md
 
 | ID | Тема | Статус | Design | Milestone | Описание |
 |----|------|--------|--------|-----------|----------|
-| 0001 | task-dashboard | WAITING | — | v0.1.0 | Task Dashboard — дашборд управления задачами |
+| 0001 | task-dashboard | WAITING | design.md | v0.1.0 | Task Dashboard — дашборд управления задачами |
 
 ---
 
@@ -50,7 +50,7 @@ index: specs/README.md
 <!-- BEGIN:analysis-status -->
 | NNNN | Тема | Disc | Design | P.Test | P.Dev | Review | Branch | Milestone |
 |------|------|------|--------|--------|-------|--------|--------|-----------|
-| 0001 | task-dashboard | W | — | — | — | — | 0001-task-dashboard | v0.1.0 |
+| 0001 | task-dashboard | W | D | — | — | — | 0001-task-dashboard | v0.1.0 |
 <!-- END:analysis-status -->
 
 *Обновляется через `/analysis-status --update`*
@@ -62,6 +62,7 @@ index: specs/README.md
 ```
 specs/analysis/
 ├── 0001-task-dashboard/
-│   └── discussion.md           # Task Dashboard
+│   ├── discussion.md           # Task Dashboard
+│   └── design.md               # Task Dashboard — Design
 └── README.md                   # Этот файл (индекс цепочек)
 ```

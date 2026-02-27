@@ -64,7 +64,7 @@ index: specs/.instructions/README.md
 - Общие принципы программирования — [standard-principles.md](/.instructions/standard-principles.md)
 - Деактивацию и миграцию per-tech стандартов — [modify-technology.md](./modify-technology.md)
 
-**Один файл — одна технология.** Для каждой технологии из Tech Stack любого `{svc}.md` ДОЛЖЕН существовать `standard-{tech}.md`. Если стандарт отсутствует — создать через [create-technology.md](./create-technology.md).
+**Один файл — одна технология.** Для каждой технологии из Tech Stack любого `{svc}.md` ДОЛЖЕН существовать `standard-{tech}.md`. Если стандарт отсутствует — создать через [create-technology.md](./create-technology.md). Per-tech стандарты создаются на основе технологий, отмеченных как "Выбрано" в секции "Выбор технологий" Design-документа (артефакт Step 7 create-design.md).
 
 ---
 

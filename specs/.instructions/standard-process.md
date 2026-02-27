@@ -222,7 +222,7 @@ graph LR
 
 **Общий паттерн объекта (7 шагов):** PREPARE → CLARIFY → GENERATE → VALIDATE → AGENT REVIEW → USER REVIEW → REPORT. → [standard-analysis.md § 2.4](./analysis/standard-analysis.md#24-общий-паттерн-объекта)
 
-**Агенты:** design-agent (обяз. при Design), discussion-reviewer (опц.), design-reviewer (опц.), technology-reviewer (опц., при per-tech)
+**Агенты:** design-agent-first + design-agent-second (обяз. при Design, последовательно; WAITING один раз — после обоих + обработки PROP), discussion-reviewer (опц.), design-reviewer (опц.), technology-reviewer (опц., при per-tech)
 
 **`/review-create` — автоматически:** Вызывается внутри `/plan-dev-create` (Шаг 10) после одобрения пользователем. Отдельный вызов не требуется.
 
@@ -409,7 +409,7 @@ graph TD
 | 0.3 Настройка среды | [initialization.md](/.structure/initialization.md), [create-initialization.md](/.structure/.instructions/create-initialization.md), [standard-docker.md](/platform/.instructions/standard-docker.md) | /init-project | — | — |
 | **Фаза 1: Аналитическая цепочка** | | | | |
 | 1.1 Discussion | standard/create/modify/validation-discussion | /discussion-create, -modify, -validate | discussion-reviewer | validate-analysis-discussion.py, chain_status.py |
-| 1.2 Design | standard/create/modify/validation-design | /design-create, -modify, -validate, /technology-create, /technology-validate, /service-create | design-agent, design-reviewer, technology-agent, technology-reviewer | validate-analysis-design.py, chain_status.py |
+| 1.2 Design | standard/create/modify/validation-design | /design-create, -modify, -validate, /technology-create, /technology-validate, /service-create | design-agent-first, design-agent-second, design-reviewer, technology-agent, technology-reviewer | validate-analysis-design.py, chain_status.py |
 | 1.3 Plan Tests | standard/create/modify/validation-plan-test | /plan-test-create, -modify, -validate | — | validate-analysis-plan-test.py, chain_status.py |
 | 1.4 Plan Dev | standard/create/modify/validation-plan-dev, create-review | /plan-dev-create (включает /review-create), -modify, -validate | — | validate-analysis-plan-dev.py, create-review-file.py, chain_status.py |
 | **Фаза 2: Запуск** | | | | |

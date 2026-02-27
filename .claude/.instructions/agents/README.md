@@ -139,7 +139,8 @@ index: .claude/.instructions/agents/README.md
 | [meta-reviewer](/.claude/agents/meta-reviewer/AGENT.md) | plan | Семантический анализ документов на ясность и однозначность |
 | [meta-agent](/.claude/agents/meta-agent/AGENT.md) | general-purpose | Помощник по созданию инструкций, скиллов, правил и структуры проекта |
 | [discussion-reviewer](/.claude/agents/discussion-reviewer/AGENT.md) | general-purpose | Ревью дискуссий SDD на полноту — анализ по объектам, генерация PROP-N рекомендаций |
-| [design-agent](/.claude/agents/design-agent/AGENT.md) | general-purpose | Создание документа проектирования SDD — Deep Scan, CLARIFY → GENERATE → VALIDATE |
+| [design-agent-first](/.claude/agents/design-agent-first/AGENT.md) | general-purpose | Первая фаза создания Design SDD — Unified Scan, Clarify, Резюме + Выбор технологий + заголовки SVC-N |
+| [design-agent-second](/.claude/agents/design-agent-second/AGENT.md) | general-purpose | Вторая фаза создания Design SDD — заполнение SVC-N (9 подсекций), INT-N, STS-N |
 | [design-reviewer](/.claude/agents/design-reviewer/AGENT.md) | general-purpose | Ревью проектирования SDD на полноту — покрытие Impact, SVC/INT/STS, зона ответственности |
 | [technology-agent](/.claude/agents/technology-agent/AGENT.md) | general-purpose | Создание и обновление per-tech стандарта (standard-{tech}.md + validation-{tech}.md + rule + реестр) |
 | [technology-reviewer](/.claude/agents/technology-reviewer/AGENT.md) | explore | Ревью содержания per-tech стандартов — 7 критериев качества, кросс-стандартная согласованность |

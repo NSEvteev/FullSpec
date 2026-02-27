@@ -103,6 +103,9 @@ ERROR_CODES = {
     "DES030": "Description слишком длинное",
     "DES031": "INT-N осиротевший",
     "DES032": "8:8 маппинг: названия не совпадают",
+    "DES033": "Нет секции Выбор технологий",
+    "DES034": "Выбор технологий без Выбрано",
+    "DES035": "Нарушен порядок секций",
 }
 
 
@@ -297,7 +300,7 @@ def check_heading(content: str, path: Path) -> list[tuple[str, str]]:
 
 
 def check_required_sections(content: str) -> list[tuple[str, str]]:
-    """DES008-DES009, DES015, DES019: Проверить обязательные разделы."""
+    """DES008-DES009, DES015, DES019, DES033-DES035: Проверить обязательные разделы."""
     errors = []
 
     body = get_body(content)
@@ -306,6 +309,24 @@ def check_required_sections(content: str) -> list[tuple[str, str]]:
     # DES008: Резюме
     if not re.search(r'^## Резюме', body_no_code, re.MULTILINE):
         errors.append(("DES008", "Отсутствует раздел '## Резюме'"))
+
+    # DES033: Выбор технологий
+    has_tech_choice = bool(re.search(r'^## Выбор технологий', body_no_code, re.MULTILINE))
+    if not has_tech_choice:
+        errors.append(("DES033", "Отсутствует раздел '## Выбор технологий' (обязателен между Резюме и SVC-1)"))
+
+    # DES034: минимум 1 "Выбрано" в секции Выбор технологий
+    if has_tech_choice:
+        tech_section = get_section_text(body_no_code, r'^## Выбор технологий')
+        if tech_section:
+            # Проверяем "Выбрано:" с непустым значением (не плейсхолдер)
+            chosen = re.findall(r'\*\*Выбрано:\*\*\s*(.+)', tech_section)
+            real_chosen = [c for c in chosen if c.strip() and '[ТРЕБУЕТ УТОЧНЕНИЯ]' not in c
+                          and not c.strip().startswith('_') and not c.strip().startswith('{')]
+            # Также проверяем однострочный формат подтверждения
+            confirmed = re.findall(r'Технологический стек подтверждён', tech_section)
+            if not real_chosen and not confirmed:
+                errors.append(("DES034", "Секция 'Выбор технологий' не содержит ни одного заполненного 'Выбрано'"))
 
     # DES009: минимум 1 SVC-N
     svc_matches = SVC_HEADING_REGEX.findall(body_no_code)
@@ -320,6 +341,46 @@ def check_required_sections(content: str) -> list[tuple[str, str]]:
     # DES019: Системные тест-сценарии
     if not re.search(r'^## Системные тест-сценарии', body_no_code, re.MULTILINE):
         errors.append(("DES019", "Отсутствует раздел '## Системные тест-сценарии'"))
+
+    # DES035: проверить порядок секций
+    errors.extend(_check_section_order(body_no_code, has_tech_choice))
+
+    return errors
+
+
+def _check_section_order(body_no_code: str, has_tech_choice: bool) -> list[tuple[str, str]]:
+    """DES035: Проверить порядок секций."""
+    errors = []
+
+    # Собрать позиции ключевых секций
+    sections_order = []
+    for pattern, name in [
+        (r'^## Резюме', 'Резюме'),
+        (r'^## Выбор технологий', 'Выбор технологий'),
+        (r'^## SVC-\d+:', 'SVC-N'),
+        (r'^## INT-\d+:', 'INT-N'),
+        (r'^## Системные тест-сценарии', 'STS'),
+        (r'^## Предложения', 'Предложения'),
+        (r'^## Отвергнутые предложения', 'Отвергнутые предложения'),
+    ]:
+        match = re.search(pattern, body_no_code, re.MULTILINE)
+        if match:
+            sections_order.append((match.start(), name))
+
+    sections_order.sort(key=lambda x: x[0])
+    ordered_names = [name for _, name in sections_order]
+
+    # Ожидаемый порядок (только присутствующие)
+    expected = ['Резюме', 'Выбор технологий', 'SVC-N', 'INT-N', 'STS',
+                'Предложения', 'Отвергнутые предложения']
+    expected_present = [s for s in expected if s in ordered_names]
+
+    # Проверить что фактический порядок совпадает с ожидаемым
+    actual_filtered = [s for s in ordered_names if s in expected_present]
+    if actual_filtered != expected_present:
+        errors.append(("DES035",
+                       f"Порядок секций нарушен: {' → '.join(actual_filtered)}, "
+                       f"ожидается: {' → '.join(expected_present)}"))
 
     return errors
 
@@ -610,6 +671,23 @@ def validate_design(path: Path, repo_root: Path) -> list[tuple[str, str]]:
     errors.extend(check_markers_and_status(content))
     errors.extend(check_zone_responsibility(content))
     errors.extend(check_readme_registration(path, content, repo_root))
+    errors.extend(check_rejected_proposals(content))
+
+    return errors
+
+
+def check_rejected_proposals(content: str) -> list[tuple[str, str]]:
+    """Проверить секцию 'Отвергнутые предложения' — колонка 'Причина отклонения'."""
+    errors = []
+
+    body = get_body(content)
+    body_no_code = remove_code_blocks(body)
+
+    if re.search(r'^## Отвергнутые предложения', body_no_code, re.MULTILINE):
+        section = get_section_text(body_no_code, r'^## Отвергнутые предложения')
+        if section and 'Причина отклонения' not in section:
+            errors.append(("DES035",
+                           "Секция 'Отвергнутые предложения' должна содержать колонку 'Причина отклонения'"))
 
     return errors
 
