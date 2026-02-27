@@ -88,9 +88,7 @@ make clean     # Очистка (docker down -v)
 
 ## Задачи на 2026-02-27
 
-**Точка отката:** `623b8f7` (до реализации docs-sync-after-dev)
-
-**Текущий драфт:** [docs-sync-after-dev](/.claude/drafts/2026-02-27-docs-sync-after-dev.md) — 13 задач, агенты для specs/docs/ и /docs-sync шаг в /chain
+~~**Драфт docs-sync-after-dev**~~ — реализован (`c449939`). 13 задач, 4 агента, 2 скилла, 27 файлов. [Архив](/.claude/drafts/examples/2026-02-27-docs-sync-after-dev.md)
 
 ## Паттерны
 
