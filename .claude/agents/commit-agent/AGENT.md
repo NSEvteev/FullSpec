@@ -10,7 +10,7 @@ tools: Bash, Read, Glob, Grep
 disallowedTools: Write, Edit, WebSearch, WebFetch
 permissionMode: default
 max_turns: 50
-version: v1.0
+version: v1.1
 ---
 
 ## Роль
@@ -27,7 +27,8 @@ version: v1.0
    - Формирование commit message (`{type}({scope}): {description}`)
    - Выполнение `git commit`
 3. При провале pre-commit hooks — прочитать ошибку, исправить причину, повторить
-4. Вернуть результат основному LLM
+4. После успешного коммита — выполнить `git push` (если в промпте не указано иное)
+5. Вернуть результат основному LLM
 
 ## Инструкции и SSOT
 
@@ -41,7 +42,6 @@ version: v1.0
 - НЕ использовать `--no-gpg-sign` без явного запроса
 - НЕ добавлять в staging `.env`, credentials, секреты
 - НЕ модифицировать код (нет доступа к Write/Edit) — только git операции
-- НЕ пушить коммит — только создание
 - `!` нотация для breaking changes запрещена — только footer `BREAKING CHANGE:`
 
 ## Формат вывода
@@ -64,6 +64,9 @@ version: v1.0
 
 ### Issue
 Closes #{N} (если есть связь из имени ветки)
+
+### Push
+✅ Запушено в {remote}/{branch} / ⏭️ Push пропущен (по запросу) / ❌ Ошибка push
 
 ### Детали (при ошибке)
 {описание ошибки и рекомендация}
