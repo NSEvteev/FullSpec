@@ -82,7 +82,7 @@
 
 **Режимы** (оба вызываются при `/docs-sync`, mode определяет оркестратор по наличию файла):
 - `create` — `specs/docs/{svc}.md` **не существует** → создаёт из шаблона, заполняет 10 секций на основе Design SVC-N (workflow: create-service.md)
-- `update` — `specs/docs/{svc}.md` **уже существует** → обновляет Planned Changes в § 9, обновляет §§ 1-8 при MODIFIED (workflow: modify-service.md)
+- `update` — `specs/docs/{svc}.md` **уже существует** → записывает дельты (ADDED/MODIFIED/REMOVED) в § 9 Planned Changes. §§ 1-8 **не трогает** — обновятся при DONE (workflow: modify-service.md)
 
 > **При DONE** service-agent **не вызывается** — скилл /chain-done переносит Planned Changes → AS IS.
 
@@ -90,6 +90,7 @@
 ```
 service: task | auth | frontend (kebab-case)
 design-path: specs/analysis/NNNN-{topic}/design.md
+discussion-path: specs/analysis/NNNN-{topic}/discussion.md
 svc-section: SVC-1 | SVC-2 | SVC-3 (какой SVC-N из design)
 mode: create | update
 ```
@@ -111,7 +112,7 @@ mode: create | update
 | § 6 Зависимости | § 6 Зависимости | Копировать + INT-N ссылки |
 | § 7 Доменная модель | § 7 Доменная модель | Копировать |
 | § 8 Границы автономии | § 8 Границы автономии LLM | Копировать |
-| — | § 9 Planned Changes | Генерировать из delta-маркеров (ADDED/MODIFIED), обернуть в chain-маркер `<!-- chain: NNNN-{topic} -->` |
+| — | § 9 Planned Changes | Генерировать из delta-маркеров (ADDED/MODIFIED), обернуть в chain-маркер `<!-- chain: NNNN-{topic} -->` ... `<!-- /chain: NNNN-{topic} -->` |
 | — | § 10 Changelog | Пустой (заполняется при DONE) |
 
 **При update (Planned Changes):**
@@ -142,7 +143,7 @@ mode: create | update
 1. Прочитать Design SVC-N (целевая секция)
 2. Прочитать шаблон из standard-service.md § 5
 3. Создать {svc}.md, заполнить §§ 1-8 из Design SVC-N (маппинг 8:8)
-4. Заполнить § 9 Planned Changes из delta-маркеров, обернуть в chain-маркер `<!-- chain: NNNN-{topic} -->`
+4. Заполнить § 9 Planned Changes из delta-маркеров, обернуть в chain-маркер `<!-- chain: NNNN-{topic} -->` ... `<!-- /chain: NNNN-{topic} -->`
 5. Оставить § 10 Changelog пустым
 6. Запустить валидацию: validate-docs-service.py
 7. Self-review перед возвратом
@@ -150,8 +151,8 @@ mode: create | update
 **Алгоритм (mode=update):**
 1. Прочитать существующий {svc}.md
 2. Прочитать Design SVC-N
-3. Обновить § 9 Planned Changes
-4. Обновить §§ 1-8 если есть MODIFIED маркеры
+3. Записать дельты (ADDED/MODIFIED/REMOVED) в § 9 Planned Changes с chain-маркером
+4. §§ 1-8 **НЕ ТРОГАТЬ** — обновятся при DONE (/chain-done применяет Planned Changes → AS IS)
 5. Запустить валидацию
 
 **Важно:** specs/docs/README.md обновляет оркестратор ПОСЛЕ Волны 1 (не каждый агент — избежать конфликтов записи).
@@ -250,9 +251,13 @@ mode: done
 
 **SSOT-зависимости:**
 - [standard-overview.md](/specs/.instructions/docs/overview/standard-overview.md)
+- [modify-overview.md](/specs/.instructions/docs/overview/modify-overview.md) — workflow обновления overview.md
 - [standard-conventions.md](/specs/.instructions/docs/conventions/standard-conventions.md) (только mode=done)
+- [modify-conventions.md](/specs/.instructions/docs/conventions/modify-conventions.md) (только mode=done)
 - [standard-infrastructure.md](/specs/.instructions/docs/infrastructure/standard-infrastructure.md) (только mode=done)
+- [modify-infrastructure.md](/specs/.instructions/docs/infrastructure/modify-infrastructure.md) (только mode=done)
 - [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md) (только mode=done)
+- [modify-testing.md](/specs/.instructions/docs/testing/modify-testing.md) (только mode=done)
 
 **Алгоритм (mode=sync):**
 1. Прочитать Design (Резюме, SVC-N, INT-N)
@@ -487,7 +492,7 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 | Файл | Что изменить |
 |------|-------------|
 | `create-chain-done.md` | **Шаг 3:** Заменить нечёткие "Planned Changes → AS IS" для .system/ на запуск system-agent mode=done + system-reviewer mode=done. Шаг 3 остаётся для {svc}.md (Planned Changes → AS IS). **Новый Шаг 3.5:** system-agent mode=done (все 4 файла из Design + Plan Tests + реальный код) → system-reviewer mode=done → Волна 3 при REVISE. **Шаг 4:** Убрать отдельное обновление testing.md — покрывается system-agent mode=done |
-| `create-rollback.md` | **Шаг 4:** Добавить артефакт #7 — сброс `docs-synced` из design.md frontmatter (гигиена: маркер не должен оставаться в откаченной цепочке) |
+| `create-rollback.md` | **Шаг 4:** Артефакт #2 — заменить "удалить chain-маркер из overview.md" → "откатить inline-правки по Design SVC-N (если docs-synced:true)". Артефакт #7 — сброс `docs-synced` из design.md frontmatter |
 
 **Файлы БЕЗ изменений (обоснование):**
 
@@ -673,8 +678,8 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 |------|-----------|-----------|
 | `create-technology.md` | Ссылка на create-design.md Шаг 10 (секция "Вызов из Design") → заменить на /docs-sync оркестрацию | HIGH |
 | `standard-docs.md` | "LLM обновляет" (§ Жизненный цикл) → уточнить: service-agent, system-agent, technology-agent | MEDIUM |
-| `create-service.md` | Добавить: автоматическое создание через /docs-sync (service-agent). § 9 Planned Changes: обязательный chain-маркер `<!-- chain: NNNN-{topic} -->` | MEDIUM |
-| `modify-service.md` | Сценарий 6: шаблон Planned Changes → обернуть в chain-маркер `<!-- chain: NNNN-{topic} -->`. Сценарии 5-6: Planned Changes генерируются service-agent | MEDIUM |
+| `create-service.md` | Добавить: автоматическое создание через /docs-sync (service-agent). § 9 Planned Changes: обязательный chain-маркер `<!-- chain: NNNN-{topic} -->` ... `<!-- /chain: NNNN-{topic} -->` | MEDIUM |
+| `modify-service.md` | Сценарий 6: шаблон Planned Changes → обернуть в chain-маркер `<!-- chain: NNNN-{topic} -->` ... `<!-- /chain: NNNN-{topic} -->`. Сценарии 5-6: Planned Changes генерируются service-agent | MEDIUM |
 
 ### Корневые файлы
 
@@ -690,7 +695,7 @@ Plan Tests идёт сразу после Design (как и раньше). "По
 | Файл | Что менять | Приоритет |
 |------|-----------|-----------|
 | `create-chain-done.md` | Шаг 3: .system/ обновление → system-agent mode=done + system-reviewer mode=done. Новый Шаг 3.5. Шаг 4 (testing.md): убрать — покрыт mode=done | HIGH |
-| `create-rollback.md` | Шаг 4: артефакт #7 — сброс `docs-synced` из design.md frontmatter | LOW |
+| `create-rollback.md` | Шаг 4: артефакт #2 — inline rollback overview.md по Design SVC-N. Артефакт #7 — сброс `docs-synced` | MEDIUM |
 
 ### Файлы БЕЗ изменений (подтверждено)
 
@@ -978,13 +983,35 @@ TASK 5: Синхронизация docs/
 
 ---
 
-### П-3.7: create-rollback.md — артефакт docs-synced
+### П-3.7: create-rollback.md — артефакты overview.md и docs-synced
 
 **Файл:** `specs/.instructions/create-rollback.md`
 
-Шаг 4 (Откат Design), таблица артефактов — добавить строку #7:
+**Артефакт #1 — обновить описание действия:**
 
-**Добавить после строки #6 (метка `svc:{svc}`):**
+**Было:**
+```
+| 1 | Planned Changes в `{svc}.md` § 9 | Удалить блок `<!-- chain: {NNNN}-{topic} -->` | Нет маркера → skip |
+```
+
+**Стало:**
+```
+| 1 | Planned Changes в `{svc}.md` § 9 | Удалить всё между `<!-- chain: {NNNN}-{topic} -->` и `<!-- /chain: {NNNN}-{topic} -->` (включая оба тега) | Нет маркера → skip |
+```
+
+**Артефакт #2 — заменить:**
+
+**Было:**
+```
+| 2 | Planned Changes в `overview.md` | Удалить блок `<!-- chain: {NNNN}-{topic} -->` | Нет маркера → skip |
+```
+
+**Стало:**
+```
+| 2 | Inline-правки в `overview.md` | Если `docs-synced: true` в design.md: прочитать Design SVC-N, определить добавленные/изменённые записи (карта сервисов, связи, потоки, домены), удалить их из overview.md | docs-synced отсутствует → skip (overview.md не обновлялся) |
+```
+
+**Артефакт #7 — добавить после строки #6:**
 ```
 | 7 | `docs-synced` в design.md | Удалить поле `docs-synced` из frontmatter design.md | Поле отсутствует → skip |
 ```
@@ -1008,6 +1035,8 @@ TASK 5: Синхронизация docs/
 ```
 > **Обновление .system/ файлов** (overview, conventions, infrastructure, testing) — см. Шаг 3.5 (system-agent mode=done).
 ```
+
+**Дополнительно:** Строку `{svc}.md` § 9 Planned Changes обновить — удаление chain-блока должно захватывать всё между открывающим `<!-- chain: {NNNN}-{topic} -->` и закрывающим `<!-- /chain: {NNNN}-{topic} -->` тегами (включая оба тега).
 
 #### П-4.2: Новый Шаг 3.5 (вставить между Шагом 3 и Шагом 4)
 
@@ -1090,14 +1119,15 @@ TASK 1: Создать service-agent
     Драфт: секция "2.1".
     Создать `.claude/agents/service-agent/AGENT.md` через `/agent-create`.
     Промпт: create/update specs/docs/{svc}.md на основе Design SVC-N.
-    Входные данные: service, design-path, svc-section, mode.
+    Входные данные: service, design-path, discussion-path, svc-section, mode.
     mode=create → выполняет create-service.md workflow напрямую (D-11).
     mode=update → выполняет modify-service.md workflow напрямую (D-11).
+      ВАЖНО: update пишет ТОЛЬКО § 9 Planned Changes. §§ 1-8 НЕ ТРОГАТЬ — обновятся при DONE.
     Агент НЕ вызывает Skill tool — читает SSOT-инструкцию и выполняет шаги.
     Маппинг Design SVC-N §§ 1-8 → {svc}.md §§ 1-8 (строго из Design, ничего не придумывать).
     "Дополнить § 1" = ТОЛЬКО из Discussion REQ-N.
     Delta-формат: ADDED/MODIFIED/DELETED в Planned Changes.
-    ОБЯЗАТЕЛЬНО: § 9 Planned Changes оборачивать в chain-маркер `<!-- chain: NNNN-{topic} -->`.
+    ОБЯЗАТЕЛЬНО: § 9 Planned Changes оборачивать в chain-маркер `<!-- chain: NNNN-{topic} -->` ... `<!-- /chain: NNNN-{topic} -->`.
     SSOT-зависимости: standard-service.md, create-service.md, modify-service.md, validation-service.md.
     Валидация: validate-docs-service.py.
     Tools: Read, Grep, Glob, Edit, Write, Bash.
@@ -1121,11 +1151,11 @@ TASK 3: Создать system-agent (двухфазный)
     Двухфазный агент:
     - mode=sync: ТОЛЬКО overview.md из Design (карта сервисов, связи, потоки, домены).
       Вызывается при /docs-sync. Валидация: validate-docs-overview.py.
-      SSOT: standard-overview.md.
+      SSOT: standard-overview.md + modify-overview.md.
     - mode=done: ВСЕ 4 файла из Design + Plan Tests + реальный код.
       Вызывается при create-chain-done.md (REVIEW → DONE).
       Валидация: все validate-docs-*.py.
-      SSOT: standard-overview/conventions/infrastructure/testing.md.
+      SSOT: standard-*/modify-* для overview/conventions/infrastructure/testing.
     Tools: Read, Grep, Glob, Edit, Write, Bash.
     АНТИГАЛЛЮЦИНАЦИИ: ЖЁСТКИЙ запрет на придумывание. Каждое изменение — источник.
   activeForm: Создание system-agent
@@ -1214,6 +1244,8 @@ TASK 10: Обновить chain_status.py и standard-analysis.md
     - Новая функция check_pending_docs_sync(): сканирует цепочки M < N с Design+
       в WAITING без `docs-synced: true` в design.md. Вызывается при T1 (Design → WAITING).
       Если найдены → отказ с сообщением "Завершите /docs-sync для цепочки {M}"
+    - _CHAIN_MARKER_PATTERN: обновить regex для поддержки закрывающего тега
+      `<!-- /chain: NNNN-{topic} -->`. Используется при DONE-cleanup и rollback
     standard-analysis.md:
     - § 7.1: убрать артефакты из Design WAITING → описать /docs-sync
     - Полная цепочка: добавить /docs-sync
@@ -1245,7 +1277,7 @@ TASK 12: Обновить остальные файлы (CLAUDE.md, docs/, minor
     - modify-service.md: Сценарий 6 — chain-маркер `<!-- chain: NNNN-{topic} -->` в шаблоне Planned Changes
     - modify-plan-dev.md: полная цепочка → добавить /docs-sync
     - modify-discussion.md: полная цепочка → добавить /docs-sync (если есть)
-    - create-rollback.md: Шаг 4 артефакт #7 — сброс `docs-synced` из design.md frontmatter (П-3.7)
+    - create-rollback.md: Шаг 4 артефакт #1 — обновить cleanup: удалять всё между `<!-- chain: -->` и `<!-- /chain: -->`. Артефакт #2 — inline rollback overview.md по Design SVC-N (если docs-synced:true). Артефакт #7 — сброс `docs-synced` (П-3.7)
   activeForm: Обновление остальных файлов
 
 TASK 13: Валидация и тест
