@@ -29,7 +29,7 @@ index: .claude/README.md
 
 | Файл | Описание |
 |------|----------|
-| *Нет активных черновиков* | |
+| [2026-02-27-docs-sync-agents.md](./2026-02-27-docs-sync-agents.md) | Docs Sync — агенты для specs/docs/ и новый шаг в /chain |
 
 
 
@@ -49,6 +49,7 @@ index: .claude/README.md
 
 ```
 /.claude/drafts/
+├── 2026-02-27-docs-sync-agents.md     # Docs Sync — агенты для specs/docs/
 ├── examples/                           # Эталонные примеры
 │   ├── example-cross-standards-ssot-analysis.md #   Анализ SSOT между стандартами
 │   ├── example-github-platform-research.md      #   Исследование GitHub платформы
