@@ -169,9 +169,10 @@ TASK 3: Создать Plan Tests
 
 TASK 4: Создать Plan Dev
   description: >
-    Скилл: /plan-dev-create — TASK-N задачи, подзадачи, BLOCK-N, зависимости, маппинг Issues.
-    Автоматически вызывает /review-create (review.md).
-    Claude читает design.md + plan-test.md → генерирует план → пользователь ревьюит → WAITING.
+    Скилл: /plan-dev-create — два агента последовательно:
+    plandev-agent: генерация TASK-N, зависимости, BLOCK-N (per-service + INFRA + system).
+    plandev-reviewer — проверка покрытия TC-N, формат TASK-N, PROP-N запись.
+    Файл создаётся скриптом create-analysis-plan-dev-file.py → пользователь ревьюит → WAITING.
     SSOT: standard-plan-dev.md
   activeForm: Создаю Plan Dev
   blockedBy: [3]

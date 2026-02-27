@@ -1,13 +1,13 @@
 ---
 description: Воркфлоу изменения документа плана тестов SDD — операции по статусам и переходы жизненного цикла (DRAFT, WAITING, RUNNING, REVIEW, CONFLICT, DONE).
 standard: .instructions/standard-instruction.md
-standard-version: v1.3
+standard-version: v1.4
 index: specs/.instructions/README.md
 ---
 
 # Воркфлоу изменения плана тестов
 
-Рабочая версия стандарта: 1.3
+Рабочая версия стандарта: 1.4
 
 Процессы изменения существующего документа плана тестов (`specs/analysis/NNNN-{topic}/plan-test.md`).
 

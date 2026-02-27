@@ -1,7 +1,7 @@
 ---
 description: Plan Dev Task Dashboard — задачи реализации для task, auth, frontend.
 standard: specs/.instructions/analysis/plan-dev/standard-plan-dev.md
-standard-version: v1.2
+standard-version: v1.3
 index: specs/analysis/README.md
 parent: plan-test.md
 status: DRAFT
@@ -32,7 +32,7 @@ milestone: v0.1.0
 - [ ] 1.4. Создание docker-compose.test.yml для тестового окружения (deps: 1.3)
 - [ ] 1.5. Создание .env.example с переменными окружения (JWT_SECRET, DATABASE_URL, порты) (deps: 1.3)
 
-## task
+## SVC-1: task
 
 ### Задачи
 
@@ -118,7 +118,7 @@ milestone: v0.1.0
 - [ ] 7.4. Unit-тесты diff-утилиты (deps: 7.1)
 - [ ] 7.5. Integration-тесты: обновление полей → проверка записей task_history (deps: 7.3)
 
-## auth
+## SVC-2: auth
 
 ### Задачи
 
@@ -188,7 +188,7 @@ milestone: v0.1.0
 - [ ] 12.2. Контроллер: JWT guard + Prisma findMany (select: id, email, name — без passwordHash) (deps: 12.1)
 - [ ] 12.3. Unit-тесты: with valid JWT, without JWT (deps: 12.2)
 
-## frontend
+## SVC-3: frontend
 
 ### Задачи
 
@@ -341,3 +341,11 @@ milestone: v0.1.0
 | Зависимости | `**Зависит от:** #N` в body |
 | TC | Ссылка в секции "Связанная документация" |
 | Milestone | Из frontmatter Discussion ([standard-milestone.md § 6](/.github/.instructions/milestones/standard-milestone.md#6)) |
+
+## Предложения
+
+_(Нет предложений)_
+
+## Отвергнутые предложения
+
+_(Нет отвергнутых предложений)_

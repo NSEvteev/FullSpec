@@ -89,6 +89,8 @@ ERROR_CODES = {
     "PD034": "File overlap в волне",
     "PD035": "INFRA-блок не в первой волне",
     "PD036": "BLOCK-N не совпадает с plan-test",
+    "PD037": "Нет Предложения",
+    "PD038": "Нет Отвергнутые предложения",
 }
 
 
@@ -306,8 +308,16 @@ def check_required_sections(content: str) -> list[tuple[str, str]]:
     if not any("Блоки выполнения" in h for h in headings):
         errors.append(("PD031", "Отсутствует раздел '## Блоки выполнения'"))
 
+    # PD037: Предложения
+    if not any(h == "## Предложения" for h in headings):
+        errors.append(("PD037", "Отсутствует раздел '## Предложения'"))
+
+    # PD038: Отвергнутые предложения
+    if not any("Отвергнутые предложения" in h for h in headings):
+        errors.append(("PD038", "Отсутствует раздел '## Отвергнутые предложения'"))
+
     # PD010: per-service разделы
-    special = {"Резюме", "Кросс-сервисные зависимости", "Маппинг GitHub Issues", "Блоки выполнения"}
+    special = {"Резюме", "Кросс-сервисные зависимости", "Маппинг GitHub Issues", "Блоки выполнения", "Предложения", "Отвергнутые предложения"}
     per_service = [h for h in headings if not any(s in h for s in special)]
     if not per_service:
         errors.append(("PD010", "Нет ни одного per-service раздела"))
@@ -323,13 +333,17 @@ def check_per_service_sections(content: str) -> list[tuple[str, str]]:
     body_no_code = remove_code_blocks(body)
     sections = split_sections(body_no_code)
 
-    special = {"Резюме", "Кросс-сервисные зависимости", "Маппинг GitHub Issues", "Блоки выполнения"}
+    special = {"Резюме", "Кросс-сервисные зависимости", "Маппинг GitHub Issues", "Блоки выполнения", "Предложения", "Отвергнутые предложения"}
 
     for heading, section_content in sections:
         if any(s in heading for s in special):
             continue
 
-        service_name = heading.replace("## ", "").strip()
+        svc_match = re.match(r'## (SVC-\d+:\s*.+)', heading)
+        if svc_match:
+            service_name = svc_match.group(1).strip()
+        else:
+            service_name = heading.replace("## ", "").strip()
 
         # PD011: Задачи
         if "### Задачи" not in section_content:

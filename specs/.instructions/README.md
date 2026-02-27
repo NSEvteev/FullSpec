@@ -47,6 +47,8 @@ index: specs/.instructions/README.md
 │   ├── validate-analysis-review.py   # Валидация документа ревью кода analysis/
 │   ├── chain_status.py                # SSOT-модуль управления статусами analysis chain (ChainManager)
 │   ├── create-analysis-design-file.py # Создание файла design.md по шаблону
+│   ├── create-analysis-plan-test-file.py # Создание файла plan-test.md по шаблону
+│   ├── create-analysis-plan-dev-file.py  # Создание файла plan-dev.md по шаблону
 │   ├── create-review-file.py         # Создание файла review.md по шаблону
 │   └── extract-svc-context.py        # Извлечение SVC-N контекста из design.md для review.md
 ├── standard-process.md              # Мета-стандарт процесса поставки ценности (оркестратор)
@@ -195,6 +197,8 @@ index: specs/.instructions/README.md
 | [validate-analysis-plan-dev.py](./.scripts/validate-analysis-plan-dev.py) | Валидация документа плана разработки specs/analysis/NNNN-{topic}/plan-dev.md | [validation-plan-dev.md](./analysis/plan-dev/validation-plan-dev.md) |
 | [validate-analysis-review.py](./.scripts/validate-analysis-review.py) | Валидация документа ревью specs/analysis/NNNN-{topic}/review.md | [validation-review.md](./analysis/review/validation-review.md) |
 | [create-analysis-design-file.py](./.scripts/create-analysis-design-file.py) | Создание файла design.md по шаблону (frontmatter + структура SVC-N/INT-N/STS-N) | [create-design.md](./analysis/design/create-design.md) |
+| [create-analysis-plan-test-file.py](./.scripts/create-analysis-plan-test-file.py) | Создание файла plan-test.md по шаблону (frontmatter + per-service секции из SVC-N) | [create-plan-test.md](./analysis/plan-test/create-plan-test.md) |
+| [create-analysis-plan-dev-file.py](./.scripts/create-analysis-plan-dev-file.py) | Создание файла plan-dev.md по шаблону (frontmatter + per-service секции из SVC-N) | [create-plan-dev.md](./analysis/plan-dev/create-plan-dev.md) |
 | [create-review-file.py](./.scripts/create-review-file.py) | Создание файла review.md по шаблону (frontmatter + секции Контекст ревью) | [create-review.md](./analysis/review/create-review.md) |
 | [extract-svc-context.py](./.scripts/extract-svc-context.py) | Извлечение SVC-N контекста из design.md — список сервисов с затронутыми §§ и технологиями | [create-review.md](./analysis/review/create-review.md) |
 | [chain_status.py](./.scripts/chain_status.py) | SSOT-модуль управления статусами analysis chain — переходы, prerequisites, README dashboard, cross-chain | [standard-analysis.md](./analysis/standard-analysis.md) |

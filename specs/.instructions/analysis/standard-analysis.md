@@ -138,7 +138,7 @@ graph TD
 | **Дискуссия** | `discussion.md` | Что нужно? Какие требования? | Проблему, требования, user stories, варианты, критерии | Технические детали, затронутые сервисы | [standard-discussion.md](discussion/standard-discussion.md) |
 | **Дизайн** | `design.md` | Какие сервисы затронуты? Как распределить ответственности? Какие решения по реализации? | Scan docs/, SVC-N секции (9 подсекций: §§ 1-8 зеркало {svc}.md + решения по реализации), INT-N блоки взаимодействия, STS-N системные тест-сценарии | Тестовые сценарии, задачи на реализацию | [standard-design.md](design/standard-design.md) |
 | **План тестов** | `plan-test.md` | Как проверяем решение? | Per-service разделы: тестовые сценарии (e2e, integration, unit), acceptance criteria → тесты, тестовые данные. Два агента (plantest-agent + plantest-reviewer), один документ | Реализацию тестов, задачи | [standard-plan-test.md](plan-test/standard-plan-test.md) |
-| **План разработки** | `plan-dev.md` | Какие задачи? | Per-service разделы: задачи, сложность, зависимости, ссылки на планы тестов | Бизнес-обоснование, архитектуру | [standard-plan-dev.md](plan-dev/standard-plan-dev.md) |
+| **План разработки** | `plan-dev.md` | Какие задачи? | Per-service разделы: задачи, сложность, зависимости, ссылки на планы тестов. Два агента (plandev-agent + plandev-reviewer), один документ | Бизнес-обоснование, архитектуру | [standard-plan-dev.md](plan-dev/standard-plan-dev.md) |
 | **Ревью** | `review.md` | *артефакт статуса REVIEW* | Формализованный результат ревью кода: замечания RV-N, приоритеты P1/P2/P3, вердикт, история итераций. Шаблон при WAITING, итерации при REVIEW | Нет (не уровень chain) | [standard-review.md](review/standard-review.md) |
 
 ### 2.3 Design v2: объединённый уровень

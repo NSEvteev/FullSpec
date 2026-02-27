@@ -94,6 +94,8 @@ ERROR_CODES = {
     "PT027": "TC-N без BLOCK-N",
     "PT028": "BLOCK-N не совпадает с plan-dev",
     "PT029": "Системные TC не в отдельном BLOCK",
+    "PT030": "Нет Предложения",
+    "PT031": "Нет Отвергнутые предложения",
 }
 
 
@@ -307,8 +309,16 @@ def check_required_sections(content: str) -> list[tuple[str, str]]:
     if not any("Блоки тестирования" in h for h in headings):
         errors.append(("PT026", "Отсутствует раздел '## Блоки тестирования'"))
 
-    # PT009: per-service разделы (секции h2, не являющиеся Резюме/Системные/Матрица/Блоки)
-    special = {"Резюме", "Системные тест-сценарии", "Матрица покрытия", "Блоки тестирования"}
+    # PT030: Предложения
+    if not any("Предложения" == h.replace("## ", "").strip() for h in headings):
+        errors.append(("PT030", "Отсутствует раздел '## Предложения'"))
+
+    # PT031: Отвергнутые предложения
+    if not any("Отвергнутые предложения" in h for h in headings):
+        errors.append(("PT031", "Отсутствует раздел '## Отвергнутые предложения'"))
+
+    # PT009: per-service разделы (секции h2, не являющиеся Резюме/Системные/Матрица/Блоки/Предложения)
+    special = {"Резюме", "Системные тест-сценарии", "Матрица покрытия", "Блоки тестирования", "Предложения", "Отвергнутые предложения"}
     per_service = [h for h in headings if not any(s in h for s in special)]
     if not per_service:
         errors.append(("PT009", "Нет ни одного per-service раздела"))
@@ -324,7 +334,7 @@ def check_per_service_sections(content: str) -> list[tuple[str, str]]:
     body_no_code = remove_code_blocks(body)
     sections = split_sections(body_no_code)
 
-    special = {"Резюме", "Системные тест-сценарии", "Матрица покрытия", "Блоки тестирования"}
+    special = {"Резюме", "Системные тест-сценарии", "Матрица покрытия", "Блоки тестирования", "Предложения", "Отвергнутые предложения"}
 
     for heading, section_content in sections:
         if any(s in heading for s in special):

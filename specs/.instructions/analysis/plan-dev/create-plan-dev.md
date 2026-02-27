@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу создания документа плана разработки SDD — чтение Plan Tests/Design/Discussion, Clarify, генерация TASK-N, подзадачи, кросс-сервисные зависимости, маппинг Issues, валидация.
+description: Воркфлоу создания документа плана разработки SDD — скрипт файла, Clarify, агенты (plandev-agent + plandev-reviewer), валидация, синхронизация plan-test.md.
 standard: .instructions/standard-instruction.md
 standard-version: v1.3
 index: specs/.instructions/README.md
@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Воркфлоу создания плана разработки
 
-Рабочая версия стандарта: 1.2
+Рабочая версия стандарта: 1.3
 
 Пошаговый процесс создания нового документа плана разработки (`specs/analysis/NNNN-{topic}/plan-dev.md`).
 
@@ -30,17 +30,18 @@ index: specs/.instructions/README.md
 - [Принципы](#принципы)
 - [Шаги](#шаги)
   - [Шаг 1: Проверить parent Plan Tests](#шаг-1-проверить-parent-plan-tests)
-  - [Шаг 2: Создать файл из шаблона](#шаг-2-создать-файл-из-шаблона)
-  - [Шаг 3: Заполнить frontmatter](#шаг-3-заполнить-frontmatter)
-  - [Шаг 4: Прочитать источники](#шаг-4-прочитать-источники)
-  - [Шаг 5: Clarify](#шаг-5-clarify)
-  - [Шаг 6: Заполнить разделы](#шаг-6-заполнить-разделы)
-  - [Шаг 7: Регистрация в README](#шаг-7-регистрация-в-readme)
-  - [Шаг 8: Валидация](#шаг-8-валидация)
-  - [Шаг 9: Ревью пользователем](#шаг-9-ревью-пользователем)
-  - [Шаг 10: Создание review.md](#шаг-10-создание-reviewmd)
-  - [Шаг 11: Отчёт о выполнении](#шаг-11-отчёт-о-выполнении)
-  - [Шаг 12: Предложить запуск разработки](#шаг-12-предложить-запуск-разработки)
+  - [Шаг 2: Создать файл скриптом](#шаг-2-создать-файл-скриптом)
+  - [Шаг 3: Определить scope](#шаг-3-определить-scope)
+  - [Шаг 4: Clarify](#шаг-4-clarify)
+  - [Шаг 5: Волна 1 — plandev-agent](#шаг-5-волна-1-plandev-agent)
+  - [Шаг 6: Волна 2 — plandev-reviewer](#шаг-6-волна-2-plandev-reviewer)
+  - [Шаг 7: Волна 3 — исправления](#шаг-7-волна-3-исправления)
+  - [Шаг 8: Синхронизация plan-test.md](#шаг-8-синхронизация-plan-testmd)
+  - [Шаг 9: README + Валидация](#шаг-9-readme-валидация)
+  - [Шаг 10: Ревью пользователем](#шаг-10-ревью-пользователем)
+  - [Шаг 11: Создание review.md и WAITING](#шаг-11-создание-reviewmd-и-waiting)
+  - [Шаг 12: Отчёт о выполнении](#шаг-12-отчёт-о-выполнении)
+  - [Шаг 13: Предложить запуск разработки](#шаг-13-предложить-запуск-разработки)
 - [Чек-лист](#чек-лист)
 - [Примеры](#примеры)
 - [Скрипты](#скрипты)
@@ -54,9 +55,9 @@ index: specs/.instructions/README.md
 
 > **Зона: WHAT TASKS.** Plan Dev определяет задачи реализации. Тестовые сценарии — Plan Tests, архитектура — Design, бизнес-требования — Discussion.
 
-> **Файл до чтения источников.** Сначала создать файл из шаблона и заполнить frontmatter — затем читать источники. Это обеспечивает resumability при прерывании.
+> **Файл создаётся скриптом.** Скрипт `create-analysis-plan-dev-file.py` создаёт файл с заполненным frontmatter и пустыми per-service секциями из SVC-N в Design. Это обеспечивает resumability и единообразие.
 
-> **LLM предлагает, пользователь подтверждает.** LLM сам генерирует задачи на основе Design/Plan Tests. НЕ спрашивает «какие задачи создать?»
+> **Агенты генерируют, оркестратор координирует.** plandev-agent генерирует TASK-N (3 вызова: INFRA + per-service + system), plandev-reviewer проверяет покрытие и записывает PROP-N. Оркестратор управляет: Clarify, review, статусы.
 
 > **Терминальный объект.** Plan Dev — конец цепочки. Поле `children` в frontmatter запрещено.
 
@@ -72,38 +73,23 @@ index: specs/.instructions/README.md
 2. Проверить, что `status: WAITING` в frontmatter Plan Tests
 3. Если Plan Tests не в WAITING — **СТОП**: «Plan Dev может быть создан только после одобрения Plan Tests»
 
-### Шаг 2: Создать файл из шаблона
+### Шаг 2: Создать файл скриптом
 
-**SSOT:** [standard-plan-dev.md § 7](./standard-plan-dev.md#7-шаблон)
+```bash
+python specs/.instructions/.scripts/create-analysis-plan-dev-file.py {branch}
+```
 
-1. Скопировать шаблон из [standard-plan-dev.md § 7](./standard-plan-dev.md#7-шаблон)
-2. Создать файл `specs/analysis/NNNN-{topic}/plan-dev.md`
+Скрипт автоматически:
+- Читает frontmatter plan-test.md (проверяет статус WAITING)
+- Извлекает milestone из discussion.md
+- Извлекает SVC-N заголовки из design.md
+- Создаёт `plan-dev.md` с заполненным frontmatter и пустыми per-service секциями
 
-### Шаг 3: Заполнить frontmatter
+**После создания:** обновить `children` в parent Plan Tests — добавить путь к plan-dev.md.
 
-**SSOT:** [standard-plan-dev.md § 3](./standard-plan-dev.md#3-frontmatter)
+### Шаг 3: Определить scope
 
-Заполнить поля:
-
-| Поле | Значение |
-|------|----------|
-| `description` | Краткое описание (до 1024 символов) |
-| `standard` | `specs/.instructions/analysis/plan-dev/standard-plan-dev.md` |
-| `standard-version` | `v1.2` |
-| `index` | `specs/analysis/README.md` |
-| `parent` | `plan-test.md` |
-| `status` | `DRAFT` |
-| `milestone` | Скопировать из parent Discussion |
-
-**Запрет `children`:** Поле `children` не указывать (Plan Dev — терминальный).
-
-**После создания frontmatter:** обновить `children` в parent Plan Tests — добавить путь к plan-dev.md.
-
-### Шаг 4: Прочитать источники
-
-**SSOT:** [standard-plan-dev.md § 1 → Входные данные](./standard-plan-dev.md#1-назначение)
-
-Последовательно прочитать 5 источников:
+Прочитать 4 источника и определить scope работ:
 
 | # | Источник | Что извлечь |
 |---|---------|-------------|
@@ -111,9 +97,10 @@ index: specs/.instructions/README.md
 | 2 | **Design SVC-N** | Подсекции §§ 1-8 (delta) + § 9 решения — определить что менять в коде |
 | 3 | **Discussion REQ-N** | Приоритеты требований — расставить приоритеты задач |
 | 4 | **`specs/docs/{svc}.md`** | Текущий AS IS (Code Map, зависимости) — контекст объёма работ |
-| 5 | **`specs/docs/.system/testing.md`** | Стратегия тестирования — контекст для задач по тестированию |
 
-### Шаг 5: Clarify
+**Результат:** список SVC-N с описанием scope, список TC-N, список STS-N, список REQ-N — для передачи в промпт агентов.
+
+### Шаг 4: Clarify
 
 **SSOT:** [standard-plan-dev.md § 6](./standard-plan-dev.md#6-clarify), [Стандарт analysis/ § 8](../standard-analysis.md#8-clarify-и-блокирующие-правила)
 
@@ -132,58 +119,106 @@ LLM **сам предлагает** и уточняет через AskUserQuesti
 
 LLM пропускает Clarify, генерирует документ на основе источников и ставит маркеры `[ТРЕБУЕТ УТОЧНЕНИЯ]` на все неясности.
 
-### Шаг 6: Заполнить разделы
+### Шаг 5: Волна 1 — plandev-agent
 
-**SSOT:** [standard-plan-dev.md § 5](./standard-plan-dev.md#5-разделы-документа)
+**Агент:** [plandev-agent](/.claude/agents/plandev-agent/AGENT.md)
 
-На основе источников (шаг 4) и Clarify (шаг 5) заполнить **все разделы**:
+Запустить **последовательно** через Task tool три вызова plandev-agent с разными `mode`:
 
-1. **Резюме** — scope, кол-во сервисов, общее кол-во задач, средняя сложность, ключевые кросс-зависимости
-2. **Per-service разделы** для каждого SVC-N из Design:
-   - `### Задачи` (h3)
-   - `#### TASK-N: {Название}` (h4) — по одной задаче на каждую значимую единицу работы
-   - 5 обязательных полей: Сложность, Приоритет, Зависимости, TC, Источник
-   - Подзадачи (если задача не атомарная): точечная нотация `N.M`, минимум 2
-3. **Кросс-сервисные зависимости** — таблица связей между задачами разных сервисов (или заглушка)
-4. **Блоки выполнения** — таблица BLOCK-N (группировка TASK-N по блокам и волнам):
-   - Per-service группировка: TASK-N одного сервиса → один блок
-   - Shared/INFRA задачи → отдельный INFRA-блок (wave 0 или 1)
-   - Зависимости между блоками → разные волны
-   - Проверить no file overlap для блоков одной волны
-   - Нумерация BLOCK-N сквозная — будет синхронизирована с plan-test
-5. **Маппинг GitHub Issues** — описание процесса и таблица маппинга (скопировать из шаблона)
+**5.1. mode=INFRA** (первый — wave 0):
 
-**Порядок per-service:** как в Design (Основной → Вторичный → Новый).
-
-**Нумерация TASK-N:** сквозная по документу, в порядке выполнения.
-
-**Порядок и зависимости:** задача с зависимостями размещается **после** задач, от которых зависит.
-
-**Маркеры:** Если информации недостаточно — ставить `[ТРЕБУЕТ УТОЧНЕНИЯ: вопрос]`.
-
-**Upward feedback:** Если при генерации обнаружена информация, затрагивающая Plan Tests или Design:
-1. Сохранить plan-dev.md в текущем виде, поставить маркер `[ТРЕБУЕТ УТОЧНЕНИЯ: upward feedback — ожидается обновление Plan Tests]`
-2. Обновить Plan Tests/Design (статус остаётся WAITING)
-3. Дождаться подтверждения пользователя
-4. Продолжить генерацию Plan Dev
-
-**Разрешение маркеров (обязательно перед продолжением):**
-
-После заполнения всех разделов:
-1. Проверить документ на наличие `[ТРЕБУЕТ УТОЧНЕНИЯ]` маркеров
-2. Если маркеры есть — для каждого маркера уточнить через AskUserQuestion
-3. Заменить маркеры на ответы пользователя
-4. Повторять пока маркеров = 0
-
-### Шаг 7: Регистрация в README
-
-Обновить запись в `specs/analysis/README.md` — колонка Plan Dev:
-
-```markdown
-| NNNN | {topic} | WAITING | ... | plan-dev.md | vX.Y.Z | {Описание} |
+```
+Промпт оркестратора → plandev-agent:
+- mode: INFRA
+- plan-dev.md: specs/analysis/NNNN-{topic}/plan-dev.md
+- design.md: specs/analysis/NNNN-{topic}/design.md
+- plan-test.md: specs/analysis/NNNN-{topic}/plan-test.md
+- discussion.md: specs/analysis/NNNN-{topic}/discussion.md
+- Ответы Clarify: {ответы из шага 4}
+- Текущий max TASK-N: 0
 ```
 
-### Шаг 8: Валидация
+**5.2. mode=per-service** (для каждого SVC-N — последовательно):
+
+```
+Промпт оркестратора → plandev-agent:
+- mode: per-service
+- SVC-N: SVC-1: {name}
+- plan-dev.md: ...
+- Текущий max TASK-N: {max из предыдущего вызова}
+```
+
+Повторить для каждого SVC-N.
+
+**5.3. mode=system** (последний — системные тесты, кросс-зависимости, BLOCK-N):
+
+```
+Промпт оркестратора → plandev-agent:
+- mode: system
+- plan-dev.md: ...
+- Текущий max TASK-N: {max из предыдущего вызова}
+```
+
+**После всех вызовов:** оркестратор проверяет сквозную нумерацию TASK-N (без дублей, без пропусков).
+
+### Шаг 6: Волна 2 — plandev-reviewer
+
+**Агент:** [plandev-reviewer](/.claude/agents/plandev-reviewer/AGENT.md)
+
+Запустить через Task tool:
+
+```
+Промпт оркестратора → plandev-reviewer:
+- plan-dev.md: specs/analysis/NNNN-{topic}/plan-dev.md
+- design.md: specs/analysis/NNNN-{topic}/design.md
+- plan-test.md: specs/analysis/NNNN-{topic}/plan-test.md
+- discussion.md: specs/analysis/NNNN-{topic}/discussion.md
+```
+
+**Результат:** вердикт ACCEPT или REVISE + PROP-N записи в секции "Предложения".
+
+| Вердикт | Действие |
+|---------|----------|
+| ACCEPT | → продолжить с шага 8 |
+| REVISE | → перейти к шагу 7 |
+
+### Шаг 7: Волна 3 — исправления
+
+**При REVISE:** перезапустить plandev-agent с mode=system (исправления по PROP-N):
+
+```
+Промпт оркестратора → plandev-agent:
+- mode: system
+- Контекст: PROP-N записи из "Предложения" (P1, P2)
+- Действие: исправить расхождения, перенести принятые PROP-N в "Отвергнутые предложения" или удалить из "Предложения"
+```
+
+После исправлений → перезапустить plandev-reviewer (шаг 6).
+
+**Максимум 3 итерации** (шаги 6-7). При 3+ REVISE — эскалация пользователю:
+
+AskUserQuestion: «plandev-reviewer отклонил 3 раза. Варианты:»
+1. Принять текущую версию (ACCEPT с замечаниями)
+2. Просмотреть PROP-N и решить вручную
+3. Откатить план разработки
+
+### Шаг 8: Синхронизация plan-test.md
+
+Обновить таблицу "Блоки тестирования" в plan-test.md: синхронизировать колонку "Dev BLOCK" с BLOCK-N из plan-dev.md.
+
+1. Прочитать таблицу BLOCK-N из plan-dev.md
+2. Для каждого BLOCK-N определить маппинг TC-N → Dev BLOCK
+3. Обновить колонку "Dev BLOCK" в таблице "Блоки тестирования" plan-test.md через Edit
+
+**Маркеры:** Если сложность соответствия высока — ставить `[ТРЕБУЕТ УТОЧНЕНИЯ]` и уточнять.
+
+### Шаг 9: README + Валидация
+
+**9.1. Регистрация в README:**
+
+Обновить запись в `specs/analysis/README.md` — колонка Plan Dev.
+
+**9.2. Валидация:**
 
 ```bash
 python specs/.instructions/.scripts/validate-analysis-plan-dev.py specs/analysis/NNNN-{topic}/plan-dev.md
@@ -193,18 +228,25 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py specs/analysis
 
 Исправить ошибки до продолжения.
 
-### Шаг 9: Ревью пользователем
+**9.3. Разрешение маркеров:**
 
-**Перед вопросом:** проверить что маркеров = 0 и валидация пройдена. Если нет — вернуться к шагу 6.
+1. Проверить документ на наличие `[ТРЕБУЕТ УТОЧНЕНИЯ]` маркеров
+2. Если маркеры есть — для каждого маркера уточнить через AskUserQuestion
+3. Заменить маркеры на ответы пользователя
+4. Повторять пока маркеров = 0
+
+### Шаг 10: Ревью пользователем
+
+**Перед вопросом:** проверить что маркеров = 0 и валидация пройдена. Если нет — вернуться к шагу 9.
 
 **БЛОКИРУЮЩЕЕ.** AskUserQuestion: «План разработки готов. Всё корректно?»
 
 | Ответ | Действие |
 |-------|----------|
-| Да, всё корректно | → /review-create → DRAFT → WAITING через `chain_status.py` → отчёт |
-| Нет, нужны правки | Внести изменения → продолжить с шага 8 |
+| Да, всё корректно | → продолжить с шага 11 |
+| Нет, нужны правки | Внести изменения → продолжить с шага 9 |
 
-### Шаг 10: Создание review.md и переход DRAFT → WAITING
+### Шаг 11: Создание review.md и WAITING
 
 1. Вызвать `/review-create` — создаёт `review.md` с секцией "Контекст ревью" на основе цепочки документов.
 
@@ -222,7 +264,7 @@ result = mgr.transition(to="WAITING", document="plan-dev")
 - `result.side_effects` — включает "Создать review.md" (уже выполнено выше)
 - `result.auto_propose` — предложение следующего шага (`/dev-create NNNN`)
 
-### Шаг 11: Отчёт о выполнении
+### Шаг 12: Отчёт о выполнении
 
 Вывести отчёт:
 
@@ -247,12 +289,16 @@ Milestone: {vX.Y.Z}
 Покрытие:
 - TC-N: {X}/{Y} покрыты TASK-N
 
+Агенты:
+- plandev-agent: {N} вызовов (INFRA + {N} per-service + system)
+- plandev-reviewer: {вердикт} ({N} итераций)
+
 Статус: DRAFT → WAITING
 
 Валидация: пройдена
 ```
 
-### Шаг 12: Предложить запуск разработки
+### Шаг 13: Предложить запуск разработки
 
 Проверить: все ли 4 документа цепочки в WAITING.
 
@@ -269,33 +315,35 @@ Milestone: {vX.Y.Z}
 
 ### Подготовка
 - [ ] Parent Plan Tests в статусе WAITING
-- [ ] Файл создан из шаблона
-- [ ] Frontmatter заполнен (базовые поля, milestone из Discussion)
+- [ ] Файл создан скриптом (create-analysis-plan-dev-file.py)
 - [ ] `children` в parent Plan Tests обновлён
 
-### Источники
+### Источники и Clarify
 - [ ] Plan Tests прочитан целиком (TC-N)
 - [ ] Design прочитан (SVC-N, INT-N, STS-N)
 - [ ] Discussion прочитана (REQ-N, приоритеты)
 - [ ] specs/docs/{svc}.md прочитаны (AS IS)
-- [ ] specs/docs/.system/testing.md прочитан (стратегия)
-
-### Clarify
 - [ ] Clarify проведён (или `--auto-clarify`)
-- [ ] Приоритеты определены
-- [ ] Порядок реализации определён
 
-### Содержание
-- [ ] Резюме заполнено (scope, задачи, средняя сложность)
-- [ ] Per-service разделы для каждого SVC-N
-- [ ] TASK-N с 5 обязательными полями
-- [ ] Подзадачи (если задача не атомарная): минимум 2, точечная нотация
-- [ ] Кросс-сервисные зависимости — таблица или заглушка
-- [ ] Блоки выполнения — таблица BLOCK-N (покрытие всех TASK-N, no file overlap, волны)
-- [ ] Маппинг GitHub Issues — описание процесса
-- [ ] Все маркеры `[ТРЕБУЕТ УТОЧНЕНИЯ]` разрешены (0 неразрешённых)
+### Волна 1: plandev-agent
+- [ ] mode=INFRA: INFRA-задачи сгенерированы (wave 0)
+- [ ] mode=per-service: для каждого SVC-N TASK-N сгенерированы
+- [ ] mode=system: системные задачи, кросс-зависимости, BLOCK-N сгенерированы
+- [ ] Нумерация TASK-N сквозная (без дублей)
+
+### Волна 2: plandev-reviewer
+- [ ] Вердикт ACCEPT или REVISE
+- [ ] PROP-N записаны в секцию "Предложения"
+
+### Волна 3: исправления (при REVISE)
+- [ ] Исправления внесены (макс 3 итерации)
+- [ ] ACCEPT получен или эскалация пользователю
+
+### Синхронизация
+- [ ] plan-test.md: колонка "Dev BLOCK" обновлена
 
 ### Проверка
+- [ ] Все маркеры `[ТРЕБУЕТ УТОЧНЕНИЯ]` разрешены (0 неразрешённых)
 - [ ] Валидация пройдена (скрипт или чек-лист)
 - [ ] Запись обновлена в README
 - [ ] Ревью пользователем пройдено
@@ -315,41 +363,41 @@ Milestone: {vX.Y.Z}
 Пользователь: "Создать Plan Dev для OAuth2 авторизации"
 
 1. Parent: specs/analysis/0001-oauth2-authorization/plan-test.md → WAITING ✓
-2. Файл создан из шаблона → plan-dev.md
-3. Frontmatter: status=DRAFT, parent=plan-test.md, milestone=v1.2.0
-4. Источники: Plan Tests (TC-1..14) + Design (SVC-1..3) + Discussion (REQ-1..5) + specs/docs/ + testing.md
-5. Clarify: порядок — сначала auth, затем gateway, приоритет — high для core auth
-6. Разделы:
-   - auth: TASK-1..4 (tokens, middleware, refresh, rate-limit)
-   - gateway: TASK-5..6 (JWT-валидация, routing)
-   - users: TASK-7..9 (events, profile, integration)
-   - Кросс-зависимости: TASK-1 → TASK-5, TASK-1 → TASK-8
-   - Маппинг: описание процесса из шаблона
-   → Маркеров: 0 → OK
-7. README обновлён
-8. Валидация → OK
-9. Ревью: "Да"
-10. /review-create → review.md создан
-11. DRAFT → WAITING. Отчёт: 3 сервиса, 9 TASK-N, средняя сложность 5.2/10
-12. "Все спецификации готовы. Начать через /dev-create 0001?" → Да → /dev-create 0001
+2. Скрипт: python create-analysis-plan-dev-file.py 0001-oauth2-authorization → plan-dev.md
+3. Scope: 3 SVC-N (auth, gateway, users), 14 TC-N, 5 REQ-N
+4. Clarify: порядок — сначала auth, затем gateway, приоритет — high для core auth
+5. Волна 1 — plandev-agent:
+   5.1. mode=INFRA: TASK-1 (docker-compose), TASK-2 (shared config)
+   5.2. mode=per-service (auth): TASK-3..6, (gateway): TASK-7..8, (users): TASK-9..11
+   5.3. mode=system: кросс-зависимости, BLOCK-N (3 блока, 2 волны)
+6. Волна 2 — plandev-reviewer: ACCEPT (0 P1, 1 P3)
+7. (пропущен — ACCEPT)
+8. plan-test.md: Dev BLOCK синхронизированы
+9. README + Валидация → OK
+10. Ревью: "Да"
+11. /review-create → review.md → DRAFT → WAITING
+12. Отчёт: 3 сервиса, 11 TASK-N, средняя сложность 5.2/10
+13. "Все спецификации готовы. Начать через /dev-create 0001?" → Да
 ```
 
-### Создание с --auto-clarify
+### Создание с --auto-clarify и REVISE
 
 ```
 Пользователь: "Создать Plan Dev для 0003-cache-optimization, --auto-clarify"
 
 1. Parent: plan-test.md → WAITING ✓
-2-3. Файл + frontmatter
-4. Источники: Plan Tests (TC-1..4) + Design (SVC-1) + Discussion (REQ-1..2) + specs/docs/ + testing.md
-5. Clarify пропущен — маркеры на неясности
-6. Разделы: catalog (TASK-1..3) + заглушка кросс-зависимостей
-   → Разрешение маркеров: AskUserQuestion → замена → 0 маркеров
-7-8. README + Валидация
-9. Ревью
-10. /review-create → review.md
-11. WAITING → Отчёт
-12. Предложен /dev-create → пользователь решает
+2. Скрипт → plan-dev.md
+3. Scope: 1 SVC-N (catalog), 4 TC-N
+4. Clarify пропущен — маркеры на неясности
+5. Волна 1 — plandev-agent: INFRA (1 TASK) + per-service (3 TASK) + system
+6. Волна 2 — plandev-reviewer: REVISE (1 P1: TC-3 не покрыт)
+7. Волна 3: plandev-agent mode=system → исправлен → plandev-reviewer: ACCEPT
+8. plan-test.md: Dev BLOCK синхронизированы
+9. README + Валидация → Разрешение маркеров через AskUserQuestion → OK
+10. Ревью → "Да"
+11. /review-create → WAITING
+12. Отчёт
+13. Предложен /dev-create
 ```
 
 ---
@@ -358,7 +406,8 @@ Milestone: {vX.Y.Z}
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
-| [validate-analysis-plan-dev.py](../../.scripts/validate-analysis-plan-dev.py) | Валидация созданного документа (шаг 8) | [validation-plan-dev.md](./validation-plan-dev.md) |
+| [create-analysis-plan-dev-file.py](../../.scripts/create-analysis-plan-dev-file.py) | Создание файла plan-dev.md по шаблону (шаг 2) | Этот документ |
+| [validate-analysis-plan-dev.py](../../.scripts/validate-analysis-plan-dev.py) | Валидация созданного документа (шаг 9) | [validation-plan-dev.md](./validation-plan-dev.md) |
 
 ---
 

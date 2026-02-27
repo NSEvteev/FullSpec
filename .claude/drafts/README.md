@@ -29,9 +29,7 @@ index: .claude/README.md
 
 | Файл | Описание |
 |------|----------|
-| [2026-02-27-plan-test-agents.md](./2026-02-27-plan-test-agents.md) | Plan Tests: агент, ревьюер, исправления стандарта |
-| [2026-02-27-plantest-reviewer-proposals.md](./2026-02-27-plantest-reviewer-proposals.md) | plantest-reviewer: запись PROP-N в plan-test.md |
-| [2026-02-27-plandev-improvements.md](./2026-02-27-plandev-improvements.md) | Plan Dev: скрипт, SVC-N именование, агенты, ревьюер |
+| *(нет активных черновиков)* | |
 
 
 
@@ -51,9 +49,6 @@ index: .claude/README.md
 
 ```
 /.claude/drafts/
-├── 2026-02-27-plan-test-agents.md           # Plan Tests: агент + ревьюер
-├── 2026-02-27-plantest-reviewer-proposals.md # plantest-reviewer: PROP-N в документ
-├── 2026-02-27-plandev-improvements.md       # Plan Dev: скрипт, агенты, ревьюер
 ├── examples/                                # Эталонные примеры
 │   ├── 2026-02-08-specs-architecture.md          #   Архитектура specs/ (SDD)
 │   ├── 2026-02-27-docs-sync-after-dev.md         #   /docs-sync после Plan Dev
