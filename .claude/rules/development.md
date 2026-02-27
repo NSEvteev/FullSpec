@@ -8,7 +8,7 @@ index: .claude/.instructions/rules/README.md
 При разработке ОБЯЗАТЕЛЬНО прочитать и следовать:
   - Процесс: [standard-development.md](/.github/.instructions/development/standard-development.md)
   - Валидация перед push: [validation-development.md](/.github/.instructions/development/validation-development.md)
-  - Коммиты: делегировать агенту `commit-agent` через Task tool (SSOT: [create-commit.md](/.github/.instructions/commits/create-commit.md))
+  - Коммиты: использовать скилл `/commit` (SSOT: [create-commit.md](/.github/.instructions/commits/create-commit.md))
   - Pull Requests: [standard-pull-request.md](/.github/.instructions/pull-requests/standard-pull-request.md)
   - Создание PR: делегировать агенту `pr-create-agent` через Task tool (SSOT: [create-pull-request.md](/.github/.instructions/pull-requests/create-pull-request.md))
   - Review: [standard-review.md](/.github/.instructions/review/standard-review.md)

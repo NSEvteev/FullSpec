@@ -417,7 +417,7 @@ graph TD
 | **Фаза 3: Реализация** | | | | |
 | 3.1 Development | standard-development, modify-development, standard-testing | — | dev-agent | — |
 | 3.2 Validation | validation-development, standard-testing | /principles-validate | — | validate-principles.py |
-| 3.3 Commits | standard-commit, create-commit | — | commit-agent | validate-commit-msg.py |
+| 3.3 Commits | standard-commit, create-commit | /commit | — | validate-commit-msg.py |
 | **Фаза 4: Доставка** | | | | |
 | 4.1 Branch Review | validation-review (github) | /review | code-reviewer | — |
 | 4.2 PR Create | standard-pull-request, standard-pr-template, create-pull-request | — | pr-create-agent | collect-pr-issues.py |

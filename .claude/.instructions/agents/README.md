@@ -145,7 +145,6 @@ index: .claude/.instructions/agents/README.md
 | [technology-agent](/.claude/agents/technology-agent/AGENT.md) | general-purpose | Создание и обновление per-tech стандарта (standard-{tech}.md + validation-{tech}.md + rule + реестр) |
 | [technology-reviewer](/.claude/agents/technology-reviewer/AGENT.md) | explore | Ревью содержания per-tech стандартов — 7 критериев качества, кросс-стандартная согласованность |
 | [code-reviewer](/.claude/agents/code-reviewer/AGENT.md) | general-purpose | Ревью кода — анализ diff, сверка с постановкой из specs/analysis/, 7 критериев качества |
-| [commit-agent](/.claude/agents/commit-agent/AGENT.md) | general-purpose | Создание коммитов по Conventional Commits — экономит контекст основного LLM |
 | [merge-agent](/.claude/agents/merge-agent/AGENT.md) | general-purpose | Merge PR с pre/post проверками и sync — экономит контекст основного LLM |
 | [pr-create-agent](/.claude/agents/pr-create-agent/AGENT.md) | general-purpose | Создание PR с автосбором Issues из chain — экономит контекст основного LLM |
 | [rollback-agent](/.claude/agents/rollback-agent/AGENT.md) | general-purpose | Откат analysis chain (ROLLING_BACK → REJECTED) — экономит контекст основного LLM |

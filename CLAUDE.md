@@ -77,7 +77,7 @@ make clean     # Очистка (docker down -v)
 |------|---------------|----------------------|
 | 1. Analysis chain | Discussion → Design → Plan Tests → Plan Dev (каждый: DRAFT → WAITING) | `/discussion-create`, `/design-create`, `/plan-test-create`, `/plan-dev-create` |
 | 2. Запуск | Issues + Milestone + Branch → вся цепочка RUNNING | `/dev-create` |
-| 3. Реализация | Код по TASK-N (блоки, волны, CONFLICT-детекция) + коммиты | dev-agent, commit-agent |
+| 3. Реализация | Код по TASK-N (блоки, волны, CONFLICT-детекция) + коммиты | dev-agent, `/commit` |
 | 4. Доставка в main | Branch Review → PR → PR Review → Merge → Sync | `/review`, pr-create-agent, merge-agent |
 | 5. Завершение | RUNNING → REVIEW → итерации → DONE (docs/ обновлён) | code-reviewer, chain-done-agent |
 | 6. Поставка | Pre-release → Release → Deploy | `/release-create`, `/post-release` |

@@ -189,7 +189,7 @@ TASK 6: Разработка
   description: >
     Скилл: /dev — оркестрация разработки.
     Агент: dev-agent (код, тесты по BLOCK-N в изолированном контексте).
-    Агент: commit-agent (коммиты по Conventional Commits).
+    Коммиты: скилл /commit (Conventional Commits).
     Параллельные агенты по волнам. Per-service тесты внутри блока,
     системные тесты после волны.
     При CONFLICT → динамические задачи добавляются в TaskList (см. CONFLICT).

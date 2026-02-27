@@ -89,8 +89,8 @@ index: .github/.instructions/commits/README.md
 
 ---
 
-# 6. Агенты
+# 6. Скиллы
 
-| Агент | Назначение |
+| Скилл | Назначение |
 |-------|------------|
-| [commit-agent](/.claude/agents/commit-agent/AGENT.md) | Создание коммитов через Task tool — экономит контекст основного LLM |
+| [/commit](/.claude/skills/commit/SKILL.md) | Создание коммита по Conventional Commits |
