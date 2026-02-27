@@ -29,7 +29,7 @@ index: .claude/README.md
 
 | Файл | Описание |
 |------|----------|
-| *Нет активных черновиков* | — |
+| [2026-02-27-plan-test-agents.md](./2026-02-27-plan-test-agents.md) | Plan Tests: агент, ревьюер, исправления стандарта |
 
 
 
@@ -49,6 +49,7 @@ index: .claude/README.md
 
 ```
 /.claude/drafts/
+├── 2026-02-27-plan-test-agents.md           # Plan Tests: агент + ревьюер
 ├── examples/                                # Эталонные примеры
 │   ├── 2026-02-08-specs-architecture.md          #   Архитектура specs/ (SDD)
 │   ├── 2026-02-27-docs-sync-after-dev.md         #   /docs-sync после Plan Dev

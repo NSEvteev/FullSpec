@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Воркфлоу создания плана тестов
 
-Рабочая версия стандарта: 1.2
+Рабочая версия стандарта: 1.3
 
 Пошаговый процесс создания нового документа плана тестов (`specs/analysis/NNNN-{topic}/plan-test.md`).
 
@@ -30,16 +30,15 @@ index: specs/.instructions/README.md
 - [Принципы](#принципы)
 - [Шаги](#шаги)
   - [Шаг 1: Проверить parent Design](#шаг-1-проверить-parent-design)
-  - [Шаг 2: Создать файл из шаблона](#шаг-2-создать-файл-из-шаблона)
-  - [Шаг 3: Заполнить frontmatter](#шаг-3-заполнить-frontmatter)
-  - [Шаг 4: Прочитать источники](#шаг-4-прочитать-источники)
-  - [Шаг 5: Clarify](#шаг-5-clarify)
-  - [Шаг 6: Заполнить разделы](#шаг-6-заполнить-разделы)
-  - [Шаг 7: Регистрация в README](#шаг-7-регистрация-в-readme)
-  - [Шаг 8: Валидация](#шаг-8-валидация)
+  - [Шаг 2: Создать файл скриптом](#шаг-2-создать-файл-скриптом)
+  - [Шаг 3: Определить scope](#шаг-3-определить-scope)
+  - [Шаг 4: Clarify](#шаг-4-clarify)
+  - [Шаг 5: plantest-agent](#шаг-5-plantest-agent)
+  - [Шаг 6: plantest-reviewer](#шаг-6-plantest-reviewer)
+  - [Шаг 7: Исправления](#шаг-7-исправления)
+  - [Шаг 8: README и валидация](#шаг-8-readme-и-валидация)
   - [Шаг 9: Ревью пользователем](#шаг-9-ревью-пользователем)
-  - [Шаг 10: Отчёт о выполнении](#шаг-10-отчёт-о-выполнении)
-  - [Шаг 11: Авто-предложение следующего этапа](#шаг-11-авто-предложение-следующего-этапа)
+  - [Шаг 10: Отчёт и авто-предложение](#шаг-10-отчёт-и-авто-предложение)
 - [Чек-лист](#чек-лист)
 - [Примеры](#примеры)
 - [Скрипты](#скрипты)
@@ -71,50 +70,43 @@ index: specs/.instructions/README.md
 2. Проверить, что `status: WAITING` в frontmatter Design
 3. Если Design не в WAITING — **СТОП**: «Plan Tests может быть создан только после одобрения Design»
 
-### Шаг 2: Создать файл из шаблона
+### Шаг 2: Создать файл скриптом
 
 **SSOT:** [standard-plan-test.md § 7](./standard-plan-test.md#7-шаблон)
 
-1. Скопировать шаблон из [standard-plan-test.md § 7](./standard-plan-test.md#7-шаблон)
-2. Создать файл `specs/analysis/NNNN-{topic}/plan-test.md`
+Создать файл с заполненным frontmatter и пустыми per-service секциями:
 
-### Шаг 3: Заполнить frontmatter
+```bash
+python specs/.instructions/.scripts/create-analysis-plan-test-file.py NNNN-{topic}
+```
 
-**SSOT:** [standard-plan-test.md § 3](./standard-plan-test.md#3-frontmatter)
+Скрипт автоматически:
+- Читает milestone из parent Discussion (fallback — из Design)
+- Извлекает SVC-N заголовки из Design (для пустых per-service секций)
+- Создаёт `specs/analysis/NNNN-{topic}/plan-test.md` с frontmatter (status=DRAFT, standard-version=v1.3) и пустыми секциями
 
-Заполнить поля:
+**При ошибке скрипта:** проверить что Design в WAITING, папка цепочки существует, plan-test.md не существует.
 
-| Поле | Значение |
-|------|----------|
-| `description` | Краткое описание (до 1024 символов) |
-| `standard` | `specs/.instructions/analysis/plan-test/standard-plan-test.md` |
-| `standard-version` | `v1.2` |
-| `index` | `specs/analysis/README.md` |
-| `parent` | `design.md` |
-| `children` | `[]` (Plan Dev ещё не создан) |
-| `status` | `DRAFT` |
-| `milestone` | Скопировать из parent Discussion |
+### Шаг 3: Определить scope
 
-### Шаг 4: Прочитать источники
+Оркестратор извлекает минимальный контекст для Clarify и промпта агента:
 
-**SSOT:** [standard-plan-test.md § 1 → Входные данные](./standard-plan-test.md#1-назначение)
-
-Последовательно прочитать 6 источников:
-
-| # | Источник | Что извлечь |
-|---|---------|-------------|
-| 1 | **SVC-N секции** из Design | Ответственность, компоненты, решения — scope для тестов |
-| 2 | **INT-N блоки** из Design | Контракты — интеграционные тесты |
-| 3 | **STS-N** из Design | Системные тест-сценарии — e2e тесты |
-| 4 | **REQ-N** из Discussion | Требования — acceptance criteria |
-| 5 | **`specs/docs/{svc}.md`** | Текущее AS IS — регрессионные тесты |
-| 6 | **`specs/docs/.system/testing.md`** | Стратегия тестирования — дефолтная стратегия |
+| # | Что извлечь | Откуда |
+|---|-------------|--------|
+| 1 | Список SVC-N (имена сервисов) | Заголовки `## SVC-N:` из Design |
+| 2 | Список STS-N | Таблица STS-N из Design |
+| 3 | Список REQ-N | Нумерованные требования из Discussion |
+| 4 | Список INT-N | Заголовки `## INT-N:` из Design |
 
 **Discussion без REQ-N:** Если Discussion не содержит пронумерованных REQ-N — поставить маркер `[ТРЕБУЕТ УТОЧНЕНИЯ: Discussion не содержит REQ-N — невозможно построить матрицу покрытия]`.
 
-### Шаг 5: Clarify
+**Примечание:** Оркестратор НЕ читает документы целиком — только извлекает ID и названия. Полное чтение — задача plantest-agent.
+
+### Шаг 4: Clarify
 
 **SSOT:** [standard-plan-test.md § 6](./standard-plan-test.md#6-clarify), [Стандарт analysis/ § 8](../standard-analysis.md#8-clarify-и-блокирующие-правила)
+
+> **Оркестратор проводит Clarify** до запуска агента — ответы передаются агенту в промпте.
 
 **Если `--auto-clarify` НЕ указан:**
 
@@ -132,53 +124,90 @@ LLM **сам предлагает** и уточняет через AskUserQuesti
 
 LLM пропускает Clarify, генерирует документ на основе источников и ставит маркеры `[ТРЕБУЕТ УТОЧНЕНИЯ]` на все неясности.
 
-### Шаг 6: Заполнить разделы
+### Шаг 5: plantest-agent
 
-**SSOT:** [standard-plan-test.md § 5](./standard-plan-test.md#5-разделы-документа)
+Запустить агента генерации содержимого:
 
-На основе источников (шаг 4) и Clarify (шаг 5) заполнить **все разделы**:
+```
+Task tool:
+  subagent_type: plantest-agent
+  prompt: |
+    Заполни содержимое plan-test.md.
 
-1. **Резюме** — scope, кол-во TC-N, покрытие STS-N и REQ-N, ключевые тестовые решения (отличия от testing.md)
-2. **Per-service разделы** для каждого SVC-N из Design:
-   - Acceptance-сценарии — таблица TC-N
-   - Тестовые данные — таблица fixtures (или заглушка)
-3. **Системные тест-сценарии** — таблица TC-N для STS-N из Design (или заглушка)
-4. **Матрица покрытия** — трассируемость REQ-N/STS-N → TC-N
-5. **Блоки тестирования** — таблица BLOCK-N (зеркалит блоки из plan-dev):
-   - Per-service TC (unit/integration) → в BLOCK-N, соответствующем dev-BLOCK
-   - Системные TC (e2e/load) → отдельный BLOCK в последней волне
-   - Нумерация BLOCK-N сквозная — синхронизируется с plan-dev
-   - Колонка "Dev BLOCK" — ссылка на соответствующий блок в plan-dev
+    Документ: specs/analysis/NNNN-{topic}/plan-test.md
+    Design: specs/analysis/NNNN-{topic}/design.md
+    Discussion: specs/analysis/NNNN-{topic}/discussion.md
 
-**Порядок per-service:** как в Design (Основной → Вторичный → Новый).
+    Сервисы: {список SVC-N из Шага 3}
+    STS-N: {список STS-N из Шага 3}
+    REQ-N: {список REQ-N из Шага 3}
 
-**Нумерация TC-N:** сквозная по документу, сначала per-service, затем системные.
+    Ответы Clarify:
+    {ответы из Шага 4}
+```
 
-**Маркеры:** Если информации недостаточно — ставить `[ТРЕБУЕТ УТОЧНЕНИЯ: вопрос]`.
+**Агент самостоятельно:**
+1. Читает Design, Discussion, specs/docs/{svc}.md, testing.md
+2. Генерирует TC-N, fixtures, матрицу покрытия, блоки тестирования
+3. Записывает в plan-test.md инкрементально через Edit
 
-**Upward feedback:** Если при генерации обнаружена информация, затрагивающая Design или Discussion:
-1. Сохранить plan-test.md в текущем виде, поставить маркер `[ТРЕБУЕТ УТОЧНЕНИЯ: upward feedback — ожидается обновление Design]`
-2. Обновить Design (статус остаётся WAITING), проверить Discussion
-3. Дождаться подтверждения пользователя
-4. Продолжить генерацию Plan Tests
+**По завершении:** агент возвращает резюме (кол-во TC, покрытие, маркеры).
+
+### Шаг 6: plantest-reviewer
+
+Запустить ревьюера для проверки:
+
+```
+Task tool:
+  subagent_type: plantest-reviewer
+  prompt: |
+    Проверь plan-test.md на полноту и корректность.
+
+    Документ: specs/analysis/NNNN-{topic}/plan-test.md
+    Design: specs/analysis/NNNN-{topic}/design.md
+    Discussion: specs/analysis/NNNN-{topic}/discussion.md
+```
+
+**Ревьюер проверяет 7 критериев:**
+1. Покрытие REQ-N (каждый REQ → ≥ 1 TC)
+2. Покрытие STS-N (каждый STS → ≥ 1 TC)
+3. Согласованность SVC-N (каждый SVC имеет per-service раздел)
+4. Формат TC-N (естественные предложения, типы, источники)
+5. Fixtures (каждый упомянутый fixture существует)
+6. BLOCK-N (каждый TC принадлежит блоку)
+7. Антигаллюцинации (нет MISSING/INVENTED/DISTORTED)
+
+**Вердикт:** ACCEPT или REVISE + список расхождений.
+
+### Шаг 7: Исправления
+
+**Если ACCEPT:** перейти к шагу 8.
+
+**Если REVISE:** перезапуск plantest-agent с расхождениями (макс 3 итерации):
+
+1. Передать список расхождений в промпт plantest-agent
+2. Запустить plantest-agent (исправления)
+3. Запустить plantest-reviewer (повторная проверка)
+4. Если снова REVISE и итерации < 3 — повторить
+5. Если итерации ≥ 3 и REVISE — предупредить пользователя, перейти к ручной правке
 
 **Разрешение маркеров (обязательно перед продолжением):**
 
-После заполнения всех разделов:
+После завершения волн:
 1. Проверить документ на наличие `[ТРЕБУЕТ УТОЧНЕНИЯ]` маркеров
 2. Если маркеры есть — для каждого маркера уточнить через AskUserQuestion
 3. Заменить маркеры на ответы пользователя
 4. Повторять пока маркеров = 0
 
-### Шаг 7: Регистрация в README
+### Шаг 8: README и валидация
 
-Обновить запись в `specs/analysis/README.md` — колонка Plan Tests:
+**README:** Обновить запись в `specs/analysis/README.md` — колонка Plan Tests:
 
 ```markdown
 | NNNN | {topic} | WAITING | ... | plan-test.md | vX.Y.Z | {Описание} |
 ```
 
-### Шаг 8: Валидация
+**Валидация:**
 
 ```bash
 python specs/.instructions/.scripts/validate-analysis-plan-test.py specs/analysis/NNNN-{topic}/plan-test.md
@@ -190,7 +219,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py specs/analysi
 
 ### Шаг 9: Ревью пользователем
 
-**Перед вопросом:** проверить что маркеров = 0 и валидация пройдена. Если нет — вернуться к шагу 6.
+**Перед вопросом:** проверить что маркеров = 0 и валидация пройдена. Если нет — вернуться к шагу 7.
 
 **БЛОКИРУЮЩЕЕ.** AskUserQuestion: «План тестов готов. Всё корректно?»
 
@@ -210,7 +239,7 @@ result = mgr.transition(to="WAITING", document="plan-test")
 
 - `result.auto_propose` — предложение следующего шага (`/plan-dev-create NNNN`)
 
-### Шаг 10: Отчёт о выполнении
+### Шаг 10: Отчёт и авто-предложение
 
 Вывести отчёт:
 
@@ -224,7 +253,7 @@ result = mgr.transition(to="WAITING", document="plan-test")
 Milestone: {vX.Y.Z}
 
 Сервисы:
-- {Сервис 1}: {N} TC-N
+- SVC-1: {сервис 1}: {N} TC-N
 - ...
 
 Системные тесты: {N} TC-N
@@ -234,14 +263,14 @@ Milestone: {vX.Y.Z}
 - REQ-N: {X}/{Y} (100%)
 - STS-N: {X}/{Y} (100%)
 
+Волны: {N} итераций (ACCEPT на волне {N})
+
 Статус: DRAFT → WAITING
 
 Следующий шаг: Создать Plan Dev
 
 Валидация: пройдена
 ```
-
-### Шаг 11: Авто-предложение следующего этапа
 
 AskUserQuestion: «Перейти к созданию Plan Dev?»
 
@@ -256,28 +285,18 @@ AskUserQuestion: «Перейти к созданию Plan Dev?»
 
 ### Подготовка
 - [ ] Parent Design в статусе WAITING
-- [ ] Файл создан из шаблона
-- [ ] Frontmatter заполнен (базовые поля, milestone из Discussion)
-
-### Источники
-- [ ] Design прочитан целиком (SVC-N, INT-N, STS-N)
-- [ ] Discussion прочитана (REQ-N)
-- [ ] specs/docs/{svc}.md прочитаны (AS IS)
-- [ ] specs/docs/.system/testing.md прочитан (стратегия)
+- [ ] Файл создан скриптом (`create-analysis-plan-test-file.py`)
+- [ ] Scope определён (SVC-N, STS-N, REQ-N, INT-N)
 
 ### Clarify
 - [ ] Clarify проведён (или `--auto-clarify`)
 - [ ] Типы тестов определены
 - [ ] Edge cases определены
 
-### Содержание
-- [ ] Резюме заполнено (scope, покрытие, ключевые решения)
-- [ ] Per-service разделы для каждого SVC-N
-- [ ] Acceptance-сценарии — таблицы TC-N
-- [ ] Тестовые данные — таблицы fixtures (или заглушки)
-- [ ] Системные тест-сценарии — TC-N для STS-N (или заглушка)
-- [ ] Матрица покрытия — 100% REQ-N и STS-N
-- [ ] Блоки тестирования — таблица BLOCK-N (покрытие всех TC-N, синхронизация с plan-dev)
+### Агенты
+- [ ] Волна 1: plantest-agent завершён (TC-N, fixtures, матрица, блоки)
+- [ ] Волна 2: plantest-reviewer — вердикт ACCEPT
+- [ ] Волна 3: исправления (если REVISE, макс 3 итерации)
 - [ ] Все маркеры `[ТРЕБУЕТ УТОЧНЕНИЯ]` разрешены (0 неразрешённых)
 
 ### Проверка
@@ -299,18 +318,16 @@ AskUserQuestion: «Перейти к созданию Plan Dev?»
 Пользователь: "Создать Plan Tests для OAuth2 авторизации"
 
 1. Parent: specs/analysis/0001-oauth2-authorization/design.md → WAITING ✓
-2. Файл создан из шаблона → plan-test.md
-3. Frontmatter: status=DRAFT, parent=design.md, milestone=v1.2.0
-4. Источники: Design (SVC-1..3, INT-1..4, STS-1..3) + Discussion (REQ-1..5) + specs/docs/ + testing.md
-5. Clarify: load-тесты — да, edge cases refresh — 3 варианта
-6. Разделы: auth (TC-1..7), gateway (TC-8..9), users (TC-10..11), системные (TC-12..14)
-   → Матрица: REQ-1..5 покрыты, STS-1..3 покрыты → OK
-   → Маркеров: 0 → OK
-7. README обновлён
-8. Валидация → OK
+2. Файл создан скриптом → plan-test.md (frontmatter + пустые секции SVC-1..3)
+3. Scope: SVC-1..3, INT-1..4, STS-1..3, REQ-1..5
+4. Clarify: load-тесты — да, edge cases refresh — 3 варианта
+5. Волна 1: plantest-agent → SVC-1: auth (TC-1..7), SVC-2: gateway (TC-8..9),
+   SVC-3: users (TC-10..11), системные (TC-12..14), матрица, блоки
+6. Волна 2: plantest-reviewer → ACCEPT (покрытие 100%, формат OK)
+7. Исправления — не требуются
+8. README + Валидация → OK
 9. Ревью: "Да" → DRAFT → WAITING
-10. Отчёт: 3 сервиса, 14 TC-N, 100% покрытие
-11. "Создать Plan Dev?" → Да
+10. Отчёт: 3 сервиса, 14 TC-N, 100% покрытие → "Создать Plan Dev?" → Да
 ```
 
 ### Создание с --auto-clarify
@@ -319,13 +336,14 @@ AskUserQuestion: «Перейти к созданию Plan Dev?»
 Пользователь: "Создать Plan Tests для 0003-cache-optimization, --auto-clarify"
 
 1. Parent: design.md → WAITING ✓
-2-3. Файл + frontmatter
-4. Источники: Design (SVC-1) + Discussion (REQ-1..2) + specs/docs/ + testing.md
-5. Clarify пропущен — маркеры на неясности
-6. Разделы: catalog (TC-1..4) + заглушка системных
+2. Файл создан скриптом → plan-test.md (пустые секции SVC-1)
+3. Scope: SVC-1, REQ-1..2
+4. Clarify пропущен — маркеры на неясности
+5. Волна 1: plantest-agent → SVC-1: catalog (TC-1..4) + системные (заглушка)
+6. Волна 2: plantest-reviewer → REVISE (REQ-2 не покрыт)
+7. Волна 3: plantest-agent (исправления) → plantest-reviewer → ACCEPT
    → Разрешение маркеров: AskUserQuestion → замена → 0 маркеров
-7-8. README + Валидация
-9. Ревью → WAITING
+8-9. README + Валидация + Ревью → WAITING
 10. Отчёт
 ```
 
@@ -335,6 +353,7 @@ AskUserQuestion: «Перейти к созданию Plan Dev?»
 
 | Скрипт | Назначение | Инструкция |
 |--------|------------|------------|
+| [create-analysis-plan-test-file.py](../../.scripts/create-analysis-plan-test-file.py) | Создание файла с frontmatter и пустыми секциями (шаг 2) | Этот документ |
 | [validate-analysis-plan-test.py](../../.scripts/validate-analysis-plan-test.py) | Валидация созданного документа (шаг 8) | [validation-plan-test.md](./validation-plan-test.md) |
 
 ---

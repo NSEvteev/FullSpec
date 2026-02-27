@@ -151,3 +151,5 @@ index: .claude/.instructions/agents/README.md
 | [service-reviewer](/.claude/agents/service-reviewer/AGENT.md) | explore | Ревью specs/docs/{svc}.md на соответствие Design SVC-N — MISSING/INVENTED/DISTORTED |
 | [system-agent](/.claude/agents/system-agent/AGENT.md) | general-purpose | Обновление specs/docs/.system/ — двухфазный (sync: overview.md, done: все 4 файла) |
 | [system-reviewer](/.claude/agents/system-reviewer/AGENT.md) | explore | Ревью specs/docs/.system/ на соответствие Design/Plan Tests/коду — двухфазный |
+| [plantest-agent](/.claude/agents/plantest-agent/AGENT.md) | general-purpose | Генерация содержимого plan-test.md — TC-N, fixtures, матрица покрытия, блоки тестирования |
+| [plantest-reviewer](/.claude/agents/plantest-reviewer/AGENT.md) | general-purpose | Ревью plan-test.md на полноту покрытия REQ-N/STS-N/SVC-N, формат TC-N, согласованность с Design |

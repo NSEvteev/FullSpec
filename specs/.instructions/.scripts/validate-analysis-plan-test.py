@@ -79,7 +79,7 @@ ERROR_CODES = {
     "PT012": "Формат Given/When/Then",
     "PT013": "Модальный глагол в описании TC-N",
     "PT014": "Невалидный тип TC-N",
-    "PT015": "Нет REQ-N/STS-N в источнике",
+    "PT015": "Нет источника (REQ-N, STS-N, SVC-N или INT-N)",
     "PT016": "Fixture не найден",
     "PT017": "Дублирование TC-N",
     "PT018": "Нет Системные тест-сценарии",
@@ -324,13 +324,16 @@ def check_per_service_sections(content: str) -> list[tuple[str, str]]:
     body_no_code = remove_code_blocks(body)
     sections = split_sections(body_no_code)
 
-    special = {"Резюме", "Системные тест-сценарии", "Матрица покрытия"}
+    special = {"Резюме", "Системные тест-сценарии", "Матрица покрытия", "Блоки тестирования"}
 
     for heading, section_content in sections:
         if any(s in heading for s in special):
             continue
 
-        service_name = heading.replace("## ", "").strip()
+        raw_name = heading.replace("## ", "").strip()
+        # Поддержка формата "SVC-N: {name}" и legacy "{name}"
+        svc_match = re.match(r'SVC-\d+:\s*(.+)', raw_name)
+        service_name = svc_match.group(1).strip() if svc_match else raw_name
 
         # PT010: Acceptance-сценарии
         if "### Acceptance-сценарии" not in section_content:
@@ -381,11 +384,13 @@ def check_tc_format(content: str) -> list[tuple[str, str]]:
         if tc_type.lower() not in VALID_TC_TYPES:
             errors.append(("PT014", f"TC-{tc_num}: тип '{tc_type}' не из допустимых: {', '.join(sorted(VALID_TC_TYPES))}"))
 
-        # PT015: источник
+        # PT015: источник (≥ 1 из REQ-N, STS-N, SVC-N, INT-N)
         has_req = bool(re.search(r'REQ-\d+', source))
         has_sts = bool(re.search(r'STS-\d+', source))
-        if not has_req and not has_sts:
-            errors.append(("PT015", f"TC-{tc_num}: нет REQ-N или STS-N в источнике"))
+        has_svc = bool(re.search(r'SVC-\d+', source))
+        has_int = bool(re.search(r'INT-\d+', source))
+        if not has_req and not has_sts and not has_svc and not has_int:
+            errors.append(("PT015", f"TC-{tc_num}: нет источника (REQ-N, STS-N, SVC-N или INT-N)"))
 
     return errors
 
@@ -393,6 +398,17 @@ def check_tc_format(content: str) -> list[tuple[str, str]]:
 BLOCK_ROW_PATTERN_TEST = re.compile(
     r'\|\s*BLOCK-(\d+)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|'
 )
+
+
+def expand_tc_range(tc_str: str) -> list[int]:
+    """Раскрыть TC-N..TC-M в список TC номеров."""
+    result = []
+    for match in re.finditer(r'TC-(\d+)\.\.TC-(\d+)', tc_str):
+        start, end = int(match.group(1)), int(match.group(2))
+        result.extend(range(start, end + 1))
+    cleaned = re.sub(r'TC-\d+\.\.TC-\d+', '', tc_str)
+    result.extend(int(m) for m in re.findall(r'TC-(\d+)', cleaned))
+    return result
 
 
 def check_blocks(content: str) -> list[tuple[str, str]]:
@@ -428,7 +444,7 @@ def check_blocks(content: str) -> list[tuple[str, str]]:
     tcs_in_blocks: set[int] = set()
     for match in block_rows:
         tc_str = match.group(2).strip()
-        tc_nums = [int(m) for m in re.findall(r'TC-(\d+)', tc_str)]
+        tc_nums = expand_tc_range(tc_str)
         tcs_in_blocks.update(tc_nums)
 
     # PT027: каждый TC-N принадлежит блоку

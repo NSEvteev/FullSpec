@@ -227,7 +227,7 @@ graph LR
 
 **Общий паттерн объекта (7 шагов):** PREPARE → CLARIFY → GENERATE → VALIDATE → AGENT REVIEW → USER REVIEW → REPORT. → [standard-analysis.md § 2.4](./analysis/standard-analysis.md#24-общий-паттерн-объекта)
 
-**Агенты:** design-agent-first + design-agent-second (обяз. при Design, последовательно; WAITING один раз — после обоих + обработки PROP), discussion-reviewer (опц.), design-reviewer (опц.)
+**Агенты:** design-agent-first + design-agent-second (обяз. при Design, последовательно; WAITING один раз — после обоих + обработки PROP), plantest-agent + plantest-reviewer (обяз. при Plan Tests, последовательно), discussion-reviewer (опц.), design-reviewer (опц.)
 
 **`/review-create` — автоматически:** Вызывается внутри `/plan-dev-create` (Шаг 10) после одобрения пользователем. Отдельный вызов не требуется.
 
@@ -425,7 +425,7 @@ graph TD
 | **Фаза 1: Аналитическая цепочка** | | | | |
 | 1.1 Discussion | standard/create/modify/validation-discussion | /discussion-create, -modify, -validate | discussion-reviewer | validate-analysis-discussion.py, chain_status.py |
 | 1.2 Design | standard/create/modify/validation-design | /design-create, -modify, -validate | design-agent-first, design-agent-second, design-reviewer | validate-analysis-design.py, chain_status.py |
-| 1.3 Plan Tests | standard/create/modify/validation-plan-test | /plan-test-create, -modify, -validate | — | validate-analysis-plan-test.py, chain_status.py |
+| 1.3 Plan Tests | standard/create/modify/validation-plan-test | /plan-test-create, -modify, -validate | plantest-agent, plantest-reviewer | create-analysis-plan-test-file.py, validate-analysis-plan-test.py, chain_status.py |
 | 1.4 Plan Dev | standard/create/modify/validation-plan-dev, create-review | /plan-dev-create (включает /review-create), -modify, -validate | — | validate-analysis-plan-dev.py, create-review-file.py, chain_status.py |
 | **Фаза 2: Docs Sync** | | | | |
 | 2.1 /docs-sync | create-docs-sync | /docs-sync | service-agent, service-reviewer, technology-agent, technology-reviewer, system-agent, system-reviewer | chain_status.py |

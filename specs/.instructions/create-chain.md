@@ -159,8 +159,10 @@ TASK 2: Создать Design
 
 TASK 3: Создать Plan Tests
   description: >
-    Скилл: /plan-test-create — TC-N acceptance-сценарии, тестовые данные, матрица покрытия.
-    Claude читает design.md → генерирует тест-сценарии → пользователь ревьюит → WAITING.
+    Скилл: /plan-test-create — два агента последовательно:
+    plantest-agent: генерация TC-N, fixtures, матрица покрытия, блоки тестирования.
+    plantest-reviewer — проверка покрытия REQ-N/STS-N и формата.
+    Файл создаётся скриптом create-analysis-plan-test-file.py → пользователь ревьюит → WAITING.
     SSOT: standard-plan-test.md
   activeForm: Создаю Plan Tests
   blockedBy: [2]
