@@ -47,7 +47,7 @@ standard-version: v1.1
 
 **Инструменты Claude Code.**
 
-Инструкции для написания скиллов, rules и агентов (`.instructions/`), скиллы автоматизации — 35 команд для управления инструкциями, скриптами, скиллами, rules, агентами, ссылками, структурой, issues, milestones, labels, ветками, миграциями и ревью (`skills/`), контекстные правила для автозагрузки (`rules/`), автономные агенты (`agents/`), черновики и SSOT-документы (`drafts/`), настройки Claude (`settings.json`).
+Инструкции для написания скиллов, rules и агентов (`.instructions/`), скиллы автоматизации — 67 команд для управления инструкциями, скриптами, скиллами, rules, агентами, ссылками, структурой, issues, milestones, labels, ветками, миграциями, ревью, analysis chain и документацией (`skills/`), контекстные правила для автозагрузки (`rules/`), автономные агенты — 19 агентов для параллельного выполнения задач (`agents/`), черновики и SSOT-документы (`drafts/`), настройки Claude (`settings.json`).
 
 ### 🔗 [.github/](../.github/README.md)
 
@@ -89,7 +89,7 @@ standard-version: v1.1
 
 **Спецификации проекта.**
 
-Инструкции по написанию specs (`.instructions/`), дискуссии по архитектурным решениям (`discussions/`), глоссарий терминов проекта (`glossary.md`), импакт-анализ изменений (`impact/`), спецификации сервисов — ADR (архитектурные решения) и планы реализации (`services/{service}/adr/`, `services/{service}/plans/`), технологический реестр (`technologies/`).
+Стандарты и воркфлоу (`.instructions/`) — analysis chain (discussion → design → plan-test → plan-dev → review), документация (per-service, system, technology). Analysis chains (`analysis/`) — папки `NNNN-{topic}/` с 4 документами SDD (discussion, design, plan-test, plan-dev). Живая документация (`docs/`) — per-service документы, системные документы (`.system/` — overview, conventions, infrastructure, testing), per-tech стандарты кодирования (`.technologies/` — openapi, protobuf, asyncapi).
 
 ### 🔗 [src/](../src/README.md)
 
@@ -159,7 +159,7 @@ standard-version: v1.1
 │   ├── drafts/                          #   Черновики (в git)
 │   │   └── examples/                    #     Эталонные примеры черновиков
 │   ├── rules/                           #   Rules для автозагрузки контекста
-│   ├── skills/                          #   Скиллы (35)
+│   ├── skills/                          #   Скиллы (67)
 │   ├── CHANGELOG.md                     #   История изменений .claude/
 │   ├── onboarding.md                    #   Руководство для новых участников
 │   ├── README.md                        #   Описание .claude/
@@ -192,6 +192,7 @@ standard-version: v1.1
 │   ├── labels.yml                       #   Справочник меток
 │   ├── PULL_REQUEST_TEMPLATE.md         #   Шаблон Pull Request
 │   ├── README.md                        #   Описание .github/
+│   ├── release.yml                      #   Конфигурация Release
 │   └── SECURITY.md                      #   Политика безопасности
 │
 ├── .instructions/                       # Мета-инструкции
@@ -235,24 +236,21 @@ standard-version: v1.1
 │   └── README.md                        #   Описание shared/
 │
 ├── specs/                               # Спецификации проекта
-│   ├── .instructions/                   #   Как писать specs
-│   │   ├── discussion/                  #     Инструкции для discussion/
-│   │   └── technologies/                #     Инструкции для technologies/
-│   ├── architecture/                    #   Живое состояние архитектуры системы
-│   │   ├── domains/                     #     Доменная архитектура — DDD контексты
-│   │   ├── services/                    #     Per-service архитектура — состояние каждого сервиса
-│   │   └── system/                      #     Системная архитектура — межсервисные документы
-│   ├── design/                          #   Проектирование — декомпозиция Impact на per-service решения
-│   ├── discussion/                      #   Дискуссии — точка входа для новых идей
-│   ├── glossary/                        #   Глоссарий терминов по доменам
-│   ├── impact/                          #   Импакт-анализ: IMPACT-*.md
-│   ├── services/                        #   Спецификации сервисов
-│   ├── glossary.md                      #   Глоссарий терминов
-│   ├── README.md                        #   Описание specs/
-│   ├── technologies/                    #   Технологический реестр
-│   └── tests/                           #   Живое состояние тестовой документации
-│   │   ├── services/                    #     Внутрисервисные тесты — unit, компонентные
-│   │   └── system/                      #     Межсервисные тесты — e2e, интеграционные
+│   ├── .instructions/                   #   Стандарты и воркфлоу
+│   │   ├── analysis/                    #     Analysis chain (5 подпапок)
+│   │   │   ├── design/                  #       Проектирование (SDD)
+│   │   │   ├── discussion/              #       Дискуссии
+│   │   │   ├── plan-dev/                #       План разработки
+│   │   │   ├── plan-test/               #       План тестов
+│   │   │   └── review/                  #       Ревью кода
+│   │   ├── docs/                        #     Документация (per-service, system)
+│   │   └── .scripts/                    #     Скрипты валидации и создания
+│   ├── analysis/                        #   Analysis chains (NNNN-{topic}/)
+│   │   └── 0001-task-dashboard/         #     Пример: discussion, design, plan-test, plan-dev
+│   ├── docs/                            #   Живая документация
+│   │   ├── .system/                     #     Системные документы (overview, conventions, infrastructure, testing)
+│   │   └── .technologies/               #     Per-tech стандарты (openapi, protobuf, asyncapi)
+│   └── README.md                        #   Описание specs/
 │
 ├── src/                                 # Исходный код сервисов
 │   ├── .instructions/                   #   Стандарты разработки
