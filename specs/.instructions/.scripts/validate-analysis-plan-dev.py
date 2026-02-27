@@ -323,7 +323,7 @@ def check_per_service_sections(content: str) -> list[tuple[str, str]]:
     body_no_code = remove_code_blocks(body)
     sections = split_sections(body_no_code)
 
-    special = {"Резюме", "Кросс-сервисные зависимости", "Маппинг GitHub Issues"}
+    special = {"Резюме", "Кросс-сервисные зависимости", "Маппинг GitHub Issues", "Блоки выполнения"}
 
     for heading, section_content in sections:
         if any(s in heading for s in special):
