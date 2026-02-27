@@ -13,7 +13,9 @@
   - [5. Детали агентов](#5-детали-агентов)
   - [6. Оркестрация](#6-оркестрация)
 - [Решения](#решения)
+- [Решённые вопросы](#решённые-вопросы)
 - [Открытые вопросы](#открытые-вопросы)
+- [Дополнительные файлы для обновления](#дополнительные-файлы-для-обновления)
 - [Tasklist](#tasklist)
 
 ---
@@ -59,17 +61,17 @@
 - Основной LLM тратит контекст на генерацию содержимого specs/docs/
 - Сервисные документы создаются последовательно (нельзя параллелизовать через скилл)
 - Системные документы обновляются "вручную" без стандартизированного агента
-- Нет ревью сервисных и системных документов (только per-tech имеет reviewer)
+- Нет ревью — агент может исказить факты при копировании (пропустить, добавить лишнее, переформулировать)
 
 **Целевое состояние (TO BE):**
 
 Три пары агентов покрывают все три сущности specs/docs/:
 
-| Сущность | Путь | Create-агент | Review | Обоснование |
-|----------|------|-------------|--------|-------------|
-| Per-tech стандарты | specs/docs/.technologies/ | technology-agent ✅ | technology-reviewer ✅ | Генерируют контент → ревью нужен |
-| Per-service документы | specs/docs/{svc}.md | **service-agent** (NEW) | validate-service.py | Копируют факты из Design → ревью не нужен |
-| Системная архитектура | specs/docs/.system/ | **system-agent** (NEW) | валидация стандартов | Копируют факты из Design → ревью не нужен |
+| Сущность | Путь | Create-агент | Reviewer | Обоснование ревью |
+|----------|------|-------------|----------|-------------------|
+| Per-tech стандарты | specs/docs/.technologies/ | technology-agent | technology-reviewer | Генерируют контент |
+| Per-service документы | specs/docs/{svc}.md | **service-agent** (NEW) | **service-reviewer** (NEW) | Сверка с Design: ничего не придумано, ничего не потеряно |
+| Системная архитектура | specs/docs/.system/ | **system-agent** (NEW) | **system-reviewer** (NEW) | Сверка с Design: каждое изменение прослеживается до источника |
 
 ---
 
@@ -117,9 +119,36 @@ mode: create | update
 
 **Параллельный запуск:** Один агент на один сервис. При 3 сервисах — 3 параллельных агента.
 
-**Ревью не нужен:** Агент берёт факты из Design SVC-N (не генерирует контент). Достаточно validate-service.py для проверки формата 10 секций.
+**Антигаллюцинации (КРИТИЧЕСКИ ВАЖНО):**
+- ЗАПРЕЩЕНО придумывать, додумывать, интерпретировать, расширять информацию из Design
+- Каждый факт в {svc}.md ОБЯЗАН иметь источник в Design SVC-N (конкретная секция, конкретный абзац)
+- Если в Design SVC-N нет данных для секции — оставить секцию пустой с маркером `_Нет данных в Design SVC-N._`
+- ЗАПРЕЩЕНО: добавлять "очевидные" поля, дефолтные значения, примеры из "общих знаний"
 
-#### 2.2 system-agent (NEW)
+**Tools:** Read, Grep, Glob, Edit, Write, Bash (для валидации)
+
+#### 2.2 service-reviewer (NEW)
+
+**Роль:** Сверка specs/docs/{svc}.md с Design SVC-N — обнаружение расхождений.
+
+**Что проверяет:**
+1. **Полнота:** Каждый факт из Design SVC-N §§ 1-8 присутствует в {svc}.md
+2. **Точность:** Ни один факт в {svc}.md не "придуман" (отсутствует в Design SVC-N)
+3. **Целостность:** Данные не искажены при копировании (переформулировка, потеря деталей)
+4. **Формат:** 10 секций соответствуют standard-service.md
+
+**Алгоритм:**
+1. Прочитать Design SVC-N (источник правды)
+2. Прочитать {svc}.md (результат агента)
+3. Для каждой секции §§ 1-8 построить diff: что в Design vs что в {svc}.md
+4. Выявить: пропущенное (в Design есть, в {svc}.md нет), придуманное (в {svc}.md есть, в Design нет), искажённое (факт есть, но изменён)
+5. Вердикт: ACCEPT (нет расхождений) / REVISE (список расхождений с цитатами из Design)
+
+**Параллельный запуск:** Один ревьюер на один сервис (по аналогии с агентом).
+
+**Tools:** Read, Grep, Glob (только чтение — ревьюер НЕ модифицирует файлы)
+
+#### 2.3 system-agent (NEW)
 
 **Роль:** Обновление specs/docs/.system/ (overview.md, conventions.md, infrastructure.md, testing.md) на основе Design.
 
@@ -150,13 +179,48 @@ mode: update (default)
 
 **Запуск:** Один агент на все системные файлы (они связаны между собой).
 
-**Ревью не нужен:** Агент берёт факты из Design (не генерирует контент). Достаточно валидации по стандартам каждого файла.
+**Антигаллюцинации (КРИТИЧЕСКИ ВАЖНО):**
+- ЗАПРЕЩЕНО придумывать, додумывать, интерпретировать, расширять информацию из Design
+- Каждое изменение в .system/ файлах ОБЯЗАНО прослеживаться до конкретного места в Design (SVC-N §X, INT-N, STS-N)
+- Если Design не содержит данных для секции — НЕ ТРОГАТЬ секцию
+- ЗАПРЕЩЕНО: добавлять "очевидные" порты, "стандартные" переменные, "типичные" конвенции
+- Формат каждого изменения: `<!-- Source: Design SVC-N §X / INT-N / STS-N -->`
+
+**Tools:** Read, Grep, Glob, Edit, Write, Bash
+
+#### 2.4 system-reviewer (NEW)
+
+**Роль:** Сверка изменений в specs/docs/.system/ с Design — обнаружение расхождений.
+
+**Что проверяет:**
+1. **Прослеживаемость:** Каждое изменение в .system/ файлах имеет источник в Design (SVC-N, INT-N, STS-N)
+2. **Полнота:** Все релевантные данные из Design перенесены в .system/ файлы
+3. **Точность:** Ни одно изменение не "придумано" (отсутствует в Design)
+4. **Согласованность:** Данные между 4 файлами .system/ не противоречат друг другу
+
+**Алгоритм:**
+1. Прочитать Design полностью (Резюме, SVC-N, INT-N, STS-N)
+2. Прочитать все 4 файла .system/ (текущее состояние после system-agent)
+3. Определить diff: что изменил system-agent
+4. Для каждого изменения проверить: есть ли источник в Design?
+5. Проверить обратное: есть ли в Design данные, не отражённые в .system/?
+6. Вердикт: ACCEPT / REVISE (список расхождений с цитатами из Design)
+
+**Запуск:** Один ревьюер на все .system/ файлы (по аналогии с system-agent).
+
+**Tools:** Read, Grep, Glob (только чтение — ревьюер НЕ модифицирует файлы)
 
 ---
 
 ### 3. Новый шаг: /docs-sync
 
 **Идея:** Выделить артефакты Design (текущий шаг 7 create-design.md) в отдельный шаг цепочки, который оркестрирует все три пары агентов.
+
+**Характеристики шага:**
+- Task в TaskList `/chain` (между Design и Plan Tests)
+- **БЕЗ собственного state-документа** (нет docs-sync.md со статусами DRAFT/WAITING/RUNNING/DONE)
+- НЕ участвует в DONE-каскаде и rollback (chain_status.py, create-chain-done.md, create-rollback.md — без изменений)
+- Артефакты specs/docs/ откатываются через git при rollback ветки
 
 **Место в цепочке:**
 
@@ -178,63 +242,98 @@ mode: update (default)
 3. **Параллельный запуск агентов:**
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     /docs-sync                               │
-│                                                              │
-│  Волна 1: Создание (параллельно)                            │
-│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐        │
-│  │service-agent │ │service-agent │ │service-agent │        │
-│  │  (task.md)   │ │  (auth.md)   │ │(frontend.md) │        │
-│  └──────────────┘ └──────────────┘ └──────────────┘        │
-│                                                              │
-│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐        │
-│  │tech-agent    │ │tech-agent    │ │tech-agent    │ ...    │
-│  │ (react)      │ │ (express)    │ │ (prisma)     │        │
-│  └──────────────┘ └──────────────┘ └──────────────┘        │
-│                                                              │
-│  ┌──────────────────────────────────────┐                   │
-│  │ system-agent (overview, conventions, │                   │
-│  │   infrastructure, testing)           │                   │
-│  └──────────────────────────────────────┘                   │
-│                                                              │
-│  Волна 2: Ревью per-tech (после завершения Волны 1)          │
-│  ┌──────────────────┐                                       │
-│  │technology-reviewer│  (только per-tech — они генерируются) │
-│  │(все standard-*.md)│                                       │
-│  └──────────────────┘                                       │
-│                                                              │
-│  Волна 3: Исправления per-tech (если REVISE)                │
-│  → Перезапуск technology-agent → Повторный ревью            │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│                        /docs-sync                                │
+│                                                                  │
+│  Волна 1: Создание (параллельно)                                │
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐            │
+│  │service-agent │ │service-agent │ │service-agent │            │
+│  │  (task.md)   │ │  (auth.md)   │ │(frontend.md) │            │
+│  └──────────────┘ └──────────────┘ └──────────────┘            │
+│                                                                  │
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐            │
+│  │tech-agent    │ │tech-agent    │ │tech-agent    │ ...        │
+│  │ (react)      │ │ (express)    │ │ (prisma)     │            │
+│  └──────────────┘ └──────────────┘ └──────────────┘            │
+│                                                                  │
+│  ┌──────────────────────────────────────┐                       │
+│  │ system-agent (overview, conventions, │                       │
+│  │   infrastructure, testing)           │                       │
+│  └──────────────────────────────────────┘                       │
+│                                                                  │
+│  Волна 2: Ревью (после завершения Волны 1, параллельно)         │
+│  ┌──────────────────┐ ┌──────────────────┐ ┌────────────────┐  │
+│  │service-reviewer  │ │technology-reviewer│ │system-reviewer │  │
+│  │(× N, по сервису) │ │(все standard-*.md)│ │(все .system/)  │  │
+│  └──────────────────┘ └──────────────────┘ └────────────────┘  │
+│                                                                  │
+│  Волна 3: Исправления (если REVISE)                             │
+│  → Перезапуск ТОЛЬКО агентов с REVISE → Повторный ревью         │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
 4. **Волна 1 (параллельно):**
    - N × service-agent (один на сервис, параллельно)
    - M × technology-agent (один на технологию, параллельно) — уже существует
    - 1 × system-agent (один на все .system/ файлы)
-5. **Волна 2 (после Волны 1):**
-   - 1 × technology-reviewer (только per-tech — они генерируются, а не копируются)
-   - service-agent и system-agent ревью НЕ нужен (данные = факт из Design)
-6. **Волна 3 (если REVISE per-tech):** исправления technology-agent → повторный technology-reviewer
-7. **Выход:** Все specs/docs/ обновлены, per-tech ревью пройдено
+5. **Волна 2 (после Волны 1, параллельно):**
+   - N × service-reviewer (один на сервис — сверка {svc}.md с Design SVC-N)
+   - 1 × technology-reviewer (сверка per-tech стандартов — уже существует)
+   - 1 × system-reviewer (сверка .system/ файлов с Design)
+6. **Волна 3 (если REVISE):** перезапуск только тех агентов, чьи ревьюеры вернули REVISE → повторный ревью
+7. **Выход:** Все specs/docs/ обновлены, ревью всех трёх сущностей пройдено
 
 ---
 
 ### 4. Изменения в существующих файлах
 
+**Файлы design/:**
+
 | Файл | Что изменить |
 |------|-------------|
-| `specs/.instructions/analysis/design/create-design.md` | Шаг 7: удалить артефакты 1-5 (оставить только DRAFT → WAITING). Артефакт 6 (per-tech) тоже вынести. Шаги 7.5, 8, 9 перенумеровать. Шаг 8 (отчёт) — убрать артефакты из отчёта |
-| `specs/.instructions/create-chain.md` | Добавить задачу `/docs-sync` между Design и Plan Tests (Task 3). Сдвинуть нумерацию задач 3-12 → 4-13. Обновить blockedBy |
-| `specs/.instructions/standard-process.md` | Фаза 1: добавить шаг 1.2.1 "Docs Sync" после Design. Обновить таблицу инструментов (§ 8.1). Обновить диаграмму |
-| `specs/.instructions/analysis/design/standard-design.md` | § 4 Переходы статусов: убрать побочные эффекты артефактов при WAITING. Ссылка на /docs-sync |
+| `create-design.md` | Шаг 7: оставить ТОЛЬКО DRAFT → WAITING через chain_status.py. Удалить: таблицу артефактов (строки 1-6), Planned Changes, заглушки, per-tech, шаг 7.5 (ревью per-tech). Шаг 8 (отчёт): убрать артефакты, добавить "Следующий шаг: /docs-sync". **Шаг 9 (авто-предложение): изменить "Plan Tests" → "/docs-sync"**. Чек-лист: убрать пункты артефактов |
+| `standard-design.md` | § 4 Переходы: убрать побочные эффекты артефактов при WAITING. § Связи: добавить "/docs-sync между Design и Plan Tests" |
+| `modify-design.md` | Строка 305: `Discussion → Design → Plan Tests → Plan Dev` → `Discussion → Design → /docs-sync → Plan Tests → Plan Dev` |
+
+**Файлы plan-test/:**
+
+| Файл | Что изменить |
+|------|-------------|
+| `standard-plan-test.md` | Принцип: "После одобрения Design (WAITING)" → "После выполнения /docs-sync (которая запускается после Design WAITING)". § Когда создавать: аналогично |
+| `create-plan-test.md` | Строка 52: "Plan Tests — после Design" → "Plan Tests — после /docs-sync". Добавить в шаг 1 проверку: "/docs-sync был выполнен" |
+
+**Файлы discussion/:**
+
+| Файл | Что изменить |
+|------|-------------|
+| `modify-discussion.md` | Строка 313: `Discussion → Design → Plan Tests → Plan Dev` → `Discussion → Design → /docs-sync → Plan Tests → Plan Dev` |
+
+**Оркестрационные файлы:**
+
+| Файл | Что изменить |
+|------|-------------|
+| `create-chain.md` | Добавить Task /docs-sync между Design и Plan Tests (Task 3). Сдвинуть нумерацию 3-12 → 4-13. Обновить blockedBy. Обновить таблицу Happy Path: 12 → 13 задач |
+| `standard-process.md` | Фаза 1: добавить шаг 1.2.1 "Docs Sync" после Design. Таблица инструментов (§ 8.1): добавить строку /docs-sync. Диаграмма: добавить шаг |
+
+**Файлы БЕЗ изменений (обоснование):**
+
+| Файл | Почему не меняется |
+|------|-------------------|
+| `create-chain-done.md` | DONE каскад по state-документам (plan-dev → plan-test → design → discussion). У /docs-sync нет state-документа |
+| `create-rollback.md` | Откат по state-документам. Артефакты specs/docs/ откатываются через git при откате ветки |
+| `chain_status.py` | DONE_CASCADE_ORDER не затронут — /docs-sync не участвует в каскаде |
+| `standard-discussion.md` | Ссылается только на Discussion → Design (не на полную цепочку) |
+| `create-discussion.md` | Предлагает только Design как следующий шаг (корректно) |
+| `validation-discussion.md` | Чисто валидационные правила, без ссылок на цепочку |
 
 **Новые файлы:**
 
 | Файл | Тип |
 |------|-----|
 | `.claude/agents/service-agent/AGENT.md` | Агент |
+| `.claude/agents/service-reviewer/AGENT.md` | Ревьюер |
 | `.claude/agents/system-agent/AGENT.md` | Агент |
+| `.claude/agents/system-reviewer/AGENT.md` | Ревьюер |
 | `.claude/skills/docs-sync/SKILL.md` | Скилл |
 | `specs/.instructions/create-docs-sync.md` | Воркфлоу (SSOT для скилла) |
 
@@ -270,7 +369,38 @@ mode: update (default)
 
 **Tools:** Read, Grep, Glob, Edit, Write, Bash (для валидации)
 
-#### 5.2 system-agent
+**Антигаллюцинации:** См. секцию 2.1.
+
+#### 5.2 service-reviewer
+
+**Паттерн:** Аналог technology-reviewer. Один ревьюер на один сервис. Параллельный запуск.
+
+**Алгоритм:**
+1. Прочитать Design SVC-N §§ 1-8 (источник правды)
+2. Прочитать {svc}.md §§ 1-8 (результат service-agent)
+3. Построить diff по каждой секции: Design vs {svc}.md
+4. Выявить расхождения:
+   - **MISSING:** факт есть в Design, отсутствует в {svc}.md
+   - **INVENTED:** факт есть в {svc}.md, отсутствует в Design
+   - **DISTORTED:** факт есть в обоих, но изменён/переформулирован
+5. Проверить § 9 Planned Changes: каждый ADDED/MODIFIED маркер соответствует Design
+6. Вердикт:
+   - **ACCEPT:** нет расхождений
+   - **REVISE:** список расхождений с цитатами из Design SVC-N
+
+**Формат вывода при REVISE:**
+```
+REVISE — {svc}.md
+
+| # | Тип | Секция | В Design SVC-N | В {svc}.md | Рекомендация |
+|---|-----|--------|----------------|-----------|--------------|
+| 1 | INVENTED | § 3 Data Model | — | "поле updatedAt" | Удалить — отсутствует в Design |
+| 2 | MISSING | § 2 API | "PATCH /tasks/:id" | — | Добавить из Design SVC-N § 2 |
+```
+
+**Tools:** Read, Grep, Glob (только чтение)
+
+#### 5.3 system-agent
 
 **Паттерн:** Отличается от technology-agent — один агент на все 4 файла (они связаны между собой).
 
@@ -289,6 +419,35 @@ mode: update (default)
 6. Запустить валидацию каждого файла
 
 **Tools:** Read, Grep, Glob, Edit, Write, Bash
+
+**Антигаллюцинации:** См. секцию 2.3.
+
+#### 5.4 system-reviewer
+
+**Паттерн:** Один ревьюер на все 4 файла (по аналогии с system-agent).
+
+**Алгоритм:**
+1. Прочитать Design полностью (источник правды)
+2. Прочитать все 4 файла .system/ (результат system-agent)
+3. Определить: что изменил system-agent (diff с предыдущей версией через git)
+4. Для каждого изменения проверить: есть ли источник в Design? (SVC-N §X, INT-N, STS-N)
+5. Проверить обратное: есть ли в Design данные, не отражённые в .system/?
+6. Проверить согласованность: данные между 4 файлами не противоречат друг другу
+7. Вердикт:
+   - **ACCEPT:** нет расхождений
+   - **REVISE:** список расхождений с цитатами из Design
+
+**Формат вывода при REVISE:**
+```
+REVISE — .system/
+
+| # | Тип | Файл | Секция | В Design | В .system/ | Рекомендация |
+|---|-----|------|--------|----------|-----------|--------------|
+| 1 | INVENTED | infrastructure.md | § Docker | — | "порт 6379 Redis" | Удалить — отсутствует в Design |
+| 2 | MISSING | overview.md | § Связи | INT-2 REST | — | Добавить из Design INT-2 |
+```
+
+**Tools:** Read, Grep, Glob (только чтение)
 
 ---
 
@@ -316,12 +475,13 @@ mode: update (default)
    - system-agent × 1 (Task tool)
 4. Дождаться завершения Волны 1
 5. Волна 2 — запуск ревьюеров параллельно:
-   - service-reviewer × 1
-   - technology-reviewer × 1 — через существующий шаг 7.5
-   - system-reviewer × 1
+   - service-reviewer × N (Task tool, параллельно — один на сервис)
+   - technology-reviewer × 1 (через существующий шаг)
+   - system-reviewer × 1 (Task tool)
 6. Обработка результатов:
    - Все ACCEPT → завершить
-   - Есть REVISE → исправить → повторить ревью
+   - Есть REVISE → перезапуск ТОЛЬКО агентов с REVISE → повторный ревью (Волна 3)
+   - Максимум 3 итерации Волна 3, потом эскалация пользователю
 
 ---
 
@@ -332,9 +492,11 @@ mode: update (default)
 | D-1 | Выделить артефакты в отдельный шаг /docs-sync | Шаг 7 create-design.md перегружен; отдельный шаг позволяет параллельный запуск и ревью |
 | D-2 | service-agent: один на сервис (параллельно) | По аналогии с technology-agent; каждый сервис независим |
 | D-3 | system-agent: один на все файлы | 4 файла .system/ связаны между собой (overview ссылается на conventions); раздельные агенты создали бы конфликты |
-| D-4 | Без reviewer для service/system | Агенты копируют факты из Design (не генерируют). Ревью факта избыточен — достаточно скриптовой валидации. Reviewer только для per-tech (technology-reviewer) — per-tech генерируют контент |
+| D-4 | ~~Без reviewer для service/system~~ → **С reviewer для всех трёх сущностей** | Агенты могут исказить факты при копировании: пропустить, добавить лишнее, переформулировать. Ревьюер сверяет результат с Design и ЖЁСТКО пресекает расхождения |
 | D-5 | /docs-sync вызывается из /chain, а не из /design-create | Чистое разделение: Design отвечает за проектирование, /docs-sync — за синхронизацию документации |
 | D-6 | SSOT в корне specs/.instructions/ | create-docs-sync.md рядом с create-chain.md (оба — оркестрационные воркфлоу верхнего уровня) |
+| D-7 | /docs-sync — шаг БЕЗ state-документа | Не участвует в DONE-каскаде и rollback. Артефакты specs/docs/ откатываются через git. chain-done и rollback без изменений |
+| D-8 | Антигаллюцинации в промптах всех агентов | ЖЁСТКИЙ запрет на придумывание. Каждый факт — источник в Design. Нет данных = пустая секция |
 
 ---
 
@@ -342,16 +504,18 @@ mode: update (default)
 
 | # | Вопрос | Решение | Обоснование |
 |---|--------|---------|-------------|
-| Q-1 | service-reviewer нужен? | **Нет** | Агент берёт ФАКТ из Design (не генерирует), пишет Planned Changes в delta-формате (ADDED/MODIFIED/DELETED). Ревью факта не нужно — достаточно validate-service.py |
+| Q-1 | ~~service-reviewer нужен?~~ | ~~**Нет**~~ → **Да** | Агент может исказить факты при копировании. Ревьюер сверяет {svc}.md с Design SVC-N и выявляет: MISSING, INVENTED, DISTORTED. Жёстко пресекает расхождения |
 | Q-2 | system-agent: scope? | **Все 4 файла** | Агент сам определяет "нет изменений". Проще оркестрация |
 | Q-3 | service-agent: контент? | **Строго из Design** | Агент НЕ придумывает ничего, берёт информацию ИСКЛЮЧИТЕЛЬНО из Design SVC-N и распределяет по секциям {svc}.md |
 | Q-4 | Название? | **/docs-sync** | Универсальное: и create, и update. Sync = Design → specs/docs/ |
 | Q-5 | standard-docs-sync.md? | **Нет, только воркфлоу** | create-docs-sync.md в `specs/.instructions/` (рядом с другими create-*.md). Стандарты у сущностей уже есть |
+| Q-6 | system-reviewer нужен? | **Да** | Аналогичная логика Q-1: system-agent тоже может исказить факты. Ревьюер сверяет .system/ с Design |
+| Q-7 | chain-done/rollback менять? | **Нет** | /docs-sync без state-документа. Не участвует в DONE-каскаде. Артефакты откатываются через git |
 
-**Следствия Q-1:**
-- Убран service-reviewer из плана (был 2.2)
-- Убран system-reviewer из плана (аналогичная логика: system-agent тоже берёт факты из Design)
-- Волна 2 (ревью) остаётся только для technology-reviewer (per-tech стандарты генерируются, а не копируются)
+**Следствия Q-1 + Q-6 (пересмотр):**
+- Добавлены service-reviewer и system-reviewer
+- Волна 2 теперь включает ВСЕ три ревьюера (не только technology-reviewer)
+- Формат ревью: ACCEPT / REVISE (с классификацией MISSING/INVENTED/DISTORTED)
 
 **Следствия Q-5:**
 - SSOT: `specs/.instructions/create-docs-sync.md` (не в подпапке docs-sync/)
@@ -359,11 +523,183 @@ mode: update (default)
 
 ---
 
+## Открытые вопросы
+
+> Результат проверки 10 параллельными агентами (self-review, external review, 8 agents по specs/.instructions/)
+
+### CRITICAL — нужно решить до реализации
+
+**OQ-1: .system/ файлы НЕ имеют секции "Planned Changes"**
+
+Драфт ссылается на "Planned Changes в overview.md § 8" — но overview.md имеет только 6 секций (Назначение системы, Карта сервисов, Связи, Сквозные потоки, Контекстная карта доменов, Shared-код). НИ ОДИН .system/ файл не имеет секции Planned Changes или Changelog. Эта концепция существует ТОЛЬКО в {svc}.md (§ 9, § 10).
+
+Варианты решения:
+1. Добавить Planned Changes в стандарты .system/ (4 миграции standard-*.md + validation-*.py)
+2. system-agent делает inline-правки (не Planned Changes), ревьюер проверяет diff
+3. Переосмыслить system-agent: он обновляет ТОЛЬКО то, что можно механически перенести
+
+**OQ-2: Данные Design НЕ маппятся на .system/ механически (~50% success rate)**
+
+Детальный анализ показал фундаментальное несоответствие:
+
+| .system/ файл | Что МОЖНО из Design | Что НЕЛЬЗЯ из Design |
+|---------------|---------------------|---------------------|
+| overview.md | Карта сервисов (имена, зоны, API из SVC-N), Связи (из INT-N), Контекстная карта (агрегаты из SVC-N § 7) | Shared-код интерфейсы, Сквозные потоки (нужна переработка формата) |
+| conventions.md | Аутентификация (JWT из SVC-2), Формат ответов (частично из API контрактов) | Логирование, формат ошибок (таблица кодов), критичность, пагинация, версионирование |
+| infrastructure.md | — | Порты, docker-compose, env-переменные, хранилища, Service Discovery (ВСЁ из имплементации, не из Design) |
+| testing.md | — | Стратегия тестирования, мокирование, структура файлов (из Plan Tests, не из Design) |
+
+**infrastructure.md и testing.md фактически НЕ могут быть заполнены из Design.** Infrastructure = данные из docker-compose/Dockerfile. Testing = стратегия из Plan Tests.
+
+**OQ-3: testing.md обновляется при Plan Tests DONE, не при Design WAITING**
+
+Per standard-analysis.md, testing.md обновляется на этапе Plan Tests → DONE. system-agent на этапе /docs-sync (после Design WAITING) НЕ должен трогать testing.md. Нужно убрать testing.md из scope system-agent.
+
+**OQ-4: service-agent vs /service-create — конфликт механизмов**
+
+Скилл `/service-create` уже существует (SKILL.md + create-service.md workflow). service-agent mode=create делает то же самое. Два механизма создания {svc}.md = путаница. Варианты:
+1. service-agent заменяет /service-create для chain-контекста
+2. service-agent вызывает /service-create внутри себя
+3. service-agent использует create-service.md workflow напрямую
+
+**OQ-5: "Копировать + расширить" противоречит антигаллюцинациям**
+
+В маппинге: `§ 1 Назначение | Копировать + расширить`. Антигаллюцинации: "ЗАПРЕЩЕНО расширять". Что значит "расширить"? Если из Discussion REQ-N — указать явно. Иначе это дыра для галлюцинаций.
+
+**OQ-6: Plan Tests blockedBy /docs-sync — нужно ли ждать?**
+
+Plan Tests читает ТОЛЬКО Design (SVC-N, INT-N, STS-N), а НЕ specs/docs/. Если blockedBy [docs-sync], Plan Tests не может начаться пока ВСЕ docs/ обновлены + reviewed. При 3 сервисах + 7 технологий = значительная задержка. Альтернатива: /docs-sync ПАРАЛЛЕЛЬНО с Plan Tests (оба читают Design, не зависят друг от друга).
+
+**OQ-7: /chain --resume state detection**
+
+/docs-sync не имеет state-документа. Если сессия прервалась mid-Wave-2, как `/chain --resume` определяет прогресс? Нужна стратегия: проверить какие файлы созданы, какие reviewed.
+
+### IMPORTANT — нужно решить или учесть
+
+**OQ-8: chain_status.py нуждается в обновлении**
+
+AUTO_PROPOSE dict (строка 149): `"design": "/plan-test-create {chain_id}"` → нужно `/docs-sync {chain_id}`. SIDE_EFFECTS dict: артефакты при Design WAITING → убрать/переместить.
+
+**OQ-9: standard-analysis.md не упомянут в изменениях**
+
+Содержит chain sequence (Discussion → Design → Plan Tests → Plan Dev) в нескольких местах. § 7.1 описывает создание артефактов при Design WAITING. Матрица документов. Всё нужно обновить.
+
+**OQ-10: CLAUDE.md не упомянут**
+
+Фаза 1 таблица: "Discussion → Design → Plan Tests → Plan Dev" — нужно добавить /docs-sync. Таблица "6 фаз процесса" — нужна строка /docs-sync.
+
+**OQ-11: Параллельный доступ к specs/docs/README.md**
+
+Несколько service-agents (параллельно) обновляют один README.md при создании сервисов → конфликт записи. Решение: README.md обновляет оркестратор ПОСЛЕ Волны 1, а не каждый агент.
+
+**OQ-12: system-reviewer git diff в dirty working tree**
+
+system-reviewer хочет определить "что изменил system-agent" через git diff. Но в working tree также изменения service-agents и technology-agents. Нужен per-file diff или другой механизм.
+
+**OQ-13: Agent metadata отсутствует**
+
+Для 4 новых агентов не указаны: model, max_turns, type, permissionMode. technology-agent: model=sonnet, max_turns=75. Нужно определить аналоги.
+
+**OQ-14: Wave 3 feedback mechanism**
+
+Как ревьюер передаёт замечания обратно агенту? Ревьюер возвращает REVISE-таблицу. Агент должен получить её как входные данные при перезапуске. Механизм не описан.
+
+**OQ-15: Modify workflows для .system/ уже существуют**
+
+modify-overview.md (7 сценариев), modify-conventions.md (7), modify-infrastructure.md (6), modify-testing.md (6). system-agent должен ИСПОЛЬЗОВАТЬ эти workflows (читать стандарты, вызывать валидацию), а не изобретать свои. Но может ли агент вызвать modify-workflow?
+
+**OQ-16: Валидационные скрипты для .system/ существуют**
+
+validate-docs-overview.py, validate-docs-conventions.py, validate-docs-infrastructure.py, validate-docs-testing.py. Агенты должны вызывать их после обновления. Это не описано в алгоритмах.
+
+**OQ-17: SVC-N §§ 1-9 vs §§ 1-8**
+
+Строка 95: "Design SVC-N §§ 1-9 → маппятся на 8 из 10 секций". § 9 (Решения по реализации) — Design-only, не переносится. Текст вводит в заблуждение. Нужно: "SVC-N §§ 1-8 → маппятся на 8 секций. § 9 — Design-only."
+
+**OQ-18: technology-agent вызывается через Skill, не через Task**
+
+Строка 472: "technology-agent × M (Task tool)". На самом деле technology-agent вызывается через `/technology-create` (Skill tool). Смешение механизмов запуска.
+
+---
+
+## Дополнительные файлы для обновления
+
+> Результат проверки 8 агентами по specs/.instructions/ — файлы, которых НЕТ в секции 4
+
+### Скрипты
+
+| Файл | Что менять | Приоритет |
+|------|-----------|-----------|
+| `chain_status.py` | AUTO_PROPOSE: "design" → "/docs-sync". SIDE_EFFECTS: убрать артефакты из Design WAITING | CRITICAL |
+| `analysis-status.py` | DOCS_DISPLAY — зависит от chain_status.py, может потребовать новую строку для /docs-sync | MEDIUM |
+
+### Стандарты analysis/
+
+| Файл | Что менять | Приоритет |
+|------|-----------|-----------|
+| `standard-analysis.md` | Chain sequence (строки 12, 325, 446, 1044+). § 7.1 артефакты при Design WAITING. Матрица документов | CRITICAL |
+
+### Инструкции analysis/discussion/
+
+| Файл | Что менять | Приоритет |
+|------|-----------|-----------|
+| `standard-discussion.md` | Строка 107: "(Design, Plan Tests, Plan Dev)" → добавить docs-sync | LOW |
+| `create-discussion.md` | Строка 51: "(Design, Plan Tests, Plan Dev)" → добавить docs-sync | LOW |
+
+### Инструкции analysis/plan-test/ (дополнительные строки)
+
+| Файл | Строки | Что менять | Приоритет |
+|------|--------|-----------|-----------|
+| `standard-plan-test.md` | 75, 93 | "После Design (WAITING)" → "после /docs-sync" (в дополнение к строке 52) | HIGH |
+| `create-plan-test.md` | 66-72 | Шаг 1 целиком: "Проверить parent Design" → добавить проверку /docs-sync | HIGH |
+| `create-plan-test.md` | 72 | Сообщение об ошибке: обновить текст | MEDIUM |
+| `create-plan-test.md` | 258 | Чек-лист: "Parent Design в WAITING" → добавить /docs-sync | MEDIUM |
+| `modify-plan-test.md` | 285 | Chain sequence: добавить /docs-sync | MEDIUM |
+
+### Инструкции analysis/plan-dev/
+
+| Файл | Строки | Что менять | Приоритет |
+|------|--------|-----------|-----------|
+| `modify-plan-dev.md` | 255, 420 | Chain sequence: "Discussion → Design → Plan Tests → Plan Dev" → добавить /docs-sync | LOW |
+
+### Инструкции docs/
+
+| Файл | Что менять | Приоритет |
+|------|-----------|-----------|
+| `create-technology.md` | Строки 174-176: ссылка на create-design.md Шаг 10 → заменить на /docs-sync оркестрацию | HIGH |
+| `standard-docs.md` | Строка 126: "LLM обновляет" → уточнить: service-agent, system-agent, technology-agent | MEDIUM |
+| `create-service.md` | Добавить секцию: автоматическое создание через /docs-sync (service-agent) | MEDIUM |
+| `modify-service.md` | Сценарии 5-6: уточнить что Planned Changes генерируются service-agent | LOW |
+
+### Корневые файлы
+
+| Файл | Что менять | Приоритет |
+|------|-----------|-----------|
+| `CLAUDE.md` | Фаза 1 таблица + "6 фаз процесса" → добавить /docs-sync | HIGH |
+| `specs/.instructions/README.md` | Добавить create-docs-sync.md в дерево и таблицу | MEDIUM |
+| `create-chain.md` строка 156 | TASK 2 Design описание содержит "При WAITING: Planned Changes, заглушки, per-tech" → удалить | HIGH |
+| `standard-process.md` строки 227-229 | "При Design → WAITING: Planned Changes..." → перенести на /docs-sync | HIGH |
+
+### Файлы БЕЗ изменений (подтверждено)
+
+| Файл | Почему не меняется |
+|------|-------------------|
+| `create-chain-done.md` | DONE каскад по state-документам, у /docs-sync нет state-документа |
+| `create-rollback.md` | Откат по state-документам, артефакты через git |
+| `validation-design.md` | Зональные границы, не chain sequence |
+| `validation-discussion.md` | Чисто валидационные правила |
+| Все `validate-docs-*.py` | Валидация контента, не chain workflow |
+| Все `validate-analysis-*.py` | Проверяют parent-child, не chain sequence |
+| `create-review.md`, `standard-review.md`, `validation-review.md` | Ревью 4 финальных документов, /docs-sync не затрагивает |
+| Все plan-dev/ (кроме modify) | Plan Dev после Plan Tests, не затронут |
+
+---
+
 ## Tasklist
 
 TASK 1: Создать service-agent
   description: >
-    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секция "5.1 service-agent")
+    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секции "2.1" и "5.1")
     Создать `.claude/agents/service-agent/AGENT.md` через `/agent-create`.
     Промпт: create/update specs/docs/{svc}.md на основе Design SVC-N.
     Входные данные: service, design-path, svc-section, mode.
@@ -371,66 +707,109 @@ TASK 1: Создать service-agent
     Delta-формат: ADDED/MODIFIED/DELETED в Planned Changes.
     SSOT-зависимости: standard-service.md, create-service.md, validation-service.md.
     Tools: Read, Grep, Glob, Edit, Write, Bash.
-    Ревьюер НЕ нужен — данные из Design = факт, достаточно validate-service.py.
+    АНТИГАЛЛЮЦИНАЦИИ: ЖЁСТКИЙ запрет на придумывание. Каждый факт — источник в Design.
+    Нет данных в Design = пустая секция с маркером.
   activeForm: Создание service-agent
 
-TASK 2: Создать system-agent
+TASK 2: Создать service-reviewer
   description: >
-    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секция "5.3 system-agent")
+    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секция "2.2" и "5.2")
+    Создать `.claude/agents/service-reviewer/AGENT.md` через `/agent-create`.
+    Промпт: сверка {svc}.md с Design SVC-N — обнаружение MISSING/INVENTED/DISTORTED.
+    Один ревьюер на один сервис (параллельный запуск).
+    Вердикт: ACCEPT / REVISE (с таблицей расхождений и цитатами из Design).
+    Tools: Read, Grep, Glob (только чтение — НЕ модифицирует файлы).
+  activeForm: Создание service-reviewer
+
+TASK 3: Создать system-agent
+  description: >
+    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секции "2.3" и "5.3")
     Создать `.claude/agents/system-agent/AGENT.md` через `/agent-create`.
     Промпт: обновление specs/docs/.system/ (overview, conventions, infrastructure, testing) на основе Design.
     Один агент на все 4 файла (связаны между собой). Строго из Design, ничего не придумывать.
     SSOT-зависимости: standard-overview.md, standard-conventions.md, standard-infrastructure.md, standard-testing.md.
     Tools: Read, Grep, Glob, Edit, Write, Bash.
-    Ревьюер НЕ нужен — данные из Design = факт.
+    АНТИГАЛЛЮЦИНАЦИИ: ЖЁСТКИЙ запрет на придумывание. Каждое изменение — источник в Design.
   activeForm: Создание system-agent
 
-TASK 3: Создать SSOT-инструкцию create-docs-sync.md
+TASK 4: Создать system-reviewer
   description: >
-    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секция "3. Новый шаг" и "6. Оркестрация")
+    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секции "2.4" и "5.4")
+    Создать `.claude/agents/system-reviewer/AGENT.md` через `/agent-create`.
+    Промпт: сверка .system/ файлов с Design — обнаружение MISSING/INVENTED/DISTORTED.
+    Один ревьюер на все 4 файла (по аналогии с system-agent).
+    Проверка прослеживаемости: каждое изменение → источник в Design (SVC-N §X, INT-N, STS-N).
+    Проверка согласованности между 4 файлами.
+    Вердикт: ACCEPT / REVISE.
+    Tools: Read, Grep, Glob (только чтение).
+  activeForm: Создание system-reviewer
+
+TASK 5: Создать SSOT-инструкцию create-docs-sync.md
+  description: >
+    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секции "3" и "6")
     Создать `specs/.instructions/create-docs-sync.md` — SSOT воркфлоу.
     Шаги: проверка Design WAITING → определение сервисов/технологий →
     Волна 1 (service-agent × N + technology-agent × M + system-agent × 1, параллельно) →
-    Волна 2 (technology-reviewer × 1, только для per-tech) →
-    Волна 3 (если REVISE — только per-tech).
+    Волна 2 (service-reviewer × N + technology-reviewer × 1 + system-reviewer × 1, параллельно) →
+    Волна 3 (если REVISE — перезапуск только агентов с REVISE, макс. 3 итерации).
     Файл в корне specs/.instructions/ (рядом с create-chain.md).
   activeForm: Создание create-docs-sync.md
 
-TASK 4: Создать скилл /docs-sync
+TASK 6: Создать скилл /docs-sync
   description: >
     Создать `.claude/skills/docs-sync/SKILL.md` через `/skill-create`.
     SSOT: specs/.instructions/create-docs-sync.md.
     Формат: `/docs-sync <design-path>`.
   activeForm: Создание скилла /docs-sync
 
-TASK 5: Обновить create-design.md — вынести артефакты
+TASK 7: Обновить create-design.md — вынести артефакты
   description: >
-    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секция "4. Изменения")
+    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секция "4")
     Изменить `specs/.instructions/analysis/design/create-design.md`:
     - Шаг 7: оставить ТОЛЬКО DRAFT → WAITING через chain_status.py
     - Удалить: таблицу артефактов (строки 1-6), Planned Changes, заглушки, per-tech
     - Удалить: шаг 7.5 (ревью per-tech — перенесён в /docs-sync)
     - Обновить отчёт (шаг 8): убрать артефакты, добавить "Следующий шаг: /docs-sync"
-    - Шаг 9 (авто-предложение): изменить на "/docs-sync" вместо "Plan Tests"
+    - Шаг 9 (авто-предложение): изменить "Plan Tests" → "/docs-sync"
     - Обновить чек-лист: убрать пункты артефактов
-    Также обновить standard-design.md § 4 (побочные эффекты WAITING).
-  activeForm: Обновление create-design.md
+    Также изменить:
+    - `standard-design.md`: § 4 побочные эффекты WAITING, § Связи (добавить /docs-sync)
+    - `modify-design.md`: строка 305 последовательность → добавить /docs-sync
+  activeForm: Обновление design/ инструкций
 
-TASK 6: Обновить create-chain.md — добавить /docs-sync в TaskList
+TASK 8: Обновить plan-test/ инструкции
   description: >
-    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секция "4. Изменения")
+    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секция "4")
+    Изменить `specs/.instructions/analysis/plan-test/standard-plan-test.md`:
+    - "После одобрения Design (WAITING)" → "После выполнения /docs-sync"
+    - § Когда создавать: аналогично
+    Изменить `specs/.instructions/analysis/plan-test/create-plan-test.md`:
+    - Строка 52: "Plan Tests — после Design" → "Plan Tests — после /docs-sync"
+    - Шаг 1: добавить проверку "/docs-sync был выполнен"
+  activeForm: Обновление plan-test/ инструкций
+
+TASK 9: Обновить modify-discussion.md
+  description: >
+    Изменить `specs/.instructions/analysis/discussion/modify-discussion.md`:
+    - Строка 313: `Discussion → Design → Plan Tests → Plan Dev` →
+      `Discussion → Design → /docs-sync → Plan Tests → Plan Dev`
+  activeForm: Обновление modify-discussion.md
+
+TASK 10: Обновить create-chain.md — добавить /docs-sync в TaskList
+  description: >
+    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секция "4")
     Изменить `specs/.instructions/create-chain.md`:
     - Добавить задачу /docs-sync между Design и Plan Tests
     - Было: Task 2 Design → Task 3 Plan Tests
     - Стало: Task 2 Design → Task 3 /docs-sync → Task 4 Plan Tests
     - Сдвинуть нумерацию задач 3-12 → 4-13
     - Обновить blockedBy зависимости
-    - Обновить таблицу Happy Path
+    - Обновить таблицу Happy Path: 12 → 13 задач
   activeForm: Обновление create-chain.md
 
-TASK 7: Обновить standard-process.md
+TASK 11: Обновить standard-process.md
   description: >
-    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секция "4. Изменения")
+    Драфт: .claude/drafts/2026-02-27-docs-sync-agents.md (секция "4")
     Изменить `specs/.instructions/standard-process.md`:
     - Фаза 1: добавить шаг 1.2.1 "Docs Sync" после Design (1.2)
     - Таблица инструментов (§ 8.1): добавить строку /docs-sync с агентами
@@ -438,10 +817,11 @@ TASK 7: Обновить standard-process.md
     Запустить `/migration-create` после изменения стандарта.
   activeForm: Обновление standard-process.md
 
-TASK 8: Валидация и тест
+TASK 12: Валидация и тест
   description: >
     1. `/draft-validate` на черновик
-    2. Валидация всех изменённых файлов
+    2. Валидация всех изменённых файлов (агенты, инструкции, стандарты)
     3. Тест: запустить `/docs-sync` на цепочке 0001-task-dashboard (Design WAITING)
     4. Проверить: 3 сервиса (task.md, auth.md, frontend.md) + per-tech стандарты + .system/ обновлены
+    5. Проверить: ревью всех трёх сущностей пройдено (service-reviewer, technology-reviewer, system-reviewer)
   activeForm: Валидация и тестирование
