@@ -117,7 +117,9 @@ standard-version: v1.1
 | [issue-modify](./issue-modify/SKILL.md) | Изменение GitHub Issue по стандарту |
 | [branch-create](./branch-create/SKILL.md) | Создание ветки по стандарту |
 | [commit](./commit/SKILL.md) | Создание коммита по Conventional Commits |
+| [pr-create](./pr-create/SKILL.md) | Создание PR с автосбором Issues из chain |
 | [review](./review/SKILL.md) | Ревью кода (ветка или PR) |
+| [merge](./merge/SKILL.md) | Merge PR с pre/post проверками и sync |
 | [post-release](./post-release/SKILL.md) | Post-release валидация (Release, Notes, CHANGELOG, деплой) |
 | [release-create](./release-create/SKILL.md) | Создание GitHub Release (chains, pre-release, Notes, публикация) |
 

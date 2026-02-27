@@ -208,7 +208,7 @@ TASK 7: Ревью ветки
 
 TASK 8: Создать PR
   description: >
-    Агент: pr-create-agent (git push, gh pr create, сбор Issues через collect-pr-issues.py).
+    Скилл: /pr-create (git push, gh pr create, сбор Issues через collect-pr-issues.py).
     Формирует body, привязывает labels.
     Пользователь проверяет PR на GitHub.
     SSOT: standard-pull-request.md, create-pull-request.md
@@ -227,7 +227,7 @@ TASK 9: Ревью PR
 
 TASK 10: Merge
   description: >
-    Агент: merge-agent (squash merge PR, закрытие Issues, синхронизация main).
+    Скилл: /merge (squash merge PR, закрытие Issues, синхронизация main).
     Claude мержит PR, синхронизирует локальный main.
     SSOT: create-merge.md, standard-sync.md
   activeForm: Merge

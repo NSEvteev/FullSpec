@@ -59,11 +59,11 @@ index: .github/.instructions/pull-requests/README.md
 
 *Будет добавлен modify-pull-request.md*
 
-**Агент:**
+**Скилл:**
 
-| Агент | Назначение |
+| Скилл | Назначение |
 |-------|------------|
-| [pr-create-agent](/.claude/agents/pr-create-agent/AGENT.md) | Создание PR с автосбором Issues из chain через Task tool |
+| [/pr-create](/.claude/skills/pr-create/SKILL.md) | Создание PR с автосбором Issues из chain |
 
 ---
 

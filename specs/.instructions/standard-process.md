@@ -420,9 +420,9 @@ graph TD
 | 3.3 Commits | standard-commit, create-commit | /commit | — | validate-commit-msg.py |
 | **Фаза 4: Доставка** | | | | |
 | 4.1 Branch Review | validation-review (github) | /review | code-reviewer | — |
-| 4.2 PR Create | standard-pull-request, standard-pr-template, create-pull-request | — | pr-create-agent | collect-pr-issues.py |
+| 4.2 PR Create | standard-pull-request, standard-pr-template, create-pull-request | /pr-create | — | collect-pr-issues.py |
 | 4.3 PR Review | standard-review (github) | /review {N} | code-reviewer | — |
-| 4.4 Merge | standard-review § 3, create-merge | — | merge-agent | — |
+| 4.4 Merge | standard-review § 3, create-merge | /merge | — | — |
 | 4.5 Sync | standard-sync | — | — | — |
 | **Фаза 5: Завершение** | | | | |
 | 5.1 → REVIEW | standard-analysis § 6.5 | /analysis-status | — | chain_status.py |
