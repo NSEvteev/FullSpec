@@ -52,7 +52,7 @@ version: v1.1
 - Async events → `standard-asyncapi.md` (channels, messages, payload schemas)
 - gRPC → `standard-protobuf.md` (service/rpc naming, message naming)
 
-**НЕ выполнять Unified Scan** всех 5 источников design-agent-first — это уже сделал design-agent-first. Читать только то, что нужно для генерации контента.
+**НЕ повторять полное сканирование** docs/ — design-agent-first уже прочитал все архитектурные документы. Читать только то, что нужно для генерации контента.
 
 **При отсутствии `specs/docs/` (новый проект):** шаги 3-5 пропускаются. Генерация на основе Резюме + Discussion.
 
