@@ -28,7 +28,8 @@ argument-hint: "[NNNN] [--all] [--update]"
 
 > ⚠️ **Перед выполнением** прочитать [analysis-status.py](/specs/.instructions/.scripts/analysis-status.py)
 
-→ Выполнить скрипт analysis-status.py с переданными параметрами.
+1. Выполнить скрипт analysis-status.py с переданными параметрами.
+2. **Авто-предложение (только при `<NNNN>`):** после вывода статуса одной цепочки — предложить продолжить через AskUserQuestion: «Продолжить цепочку NNNN? → /chain --resume».
 
 ## Чек-лист
 

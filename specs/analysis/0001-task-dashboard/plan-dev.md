@@ -4,7 +4,7 @@ standard: specs/.instructions/analysis/plan-dev/standard-plan-dev.md
 standard-version: v1.3
 index: specs/analysis/README.md
 parent: plan-test.md
-status: DRAFT
+status: WAITING
 milestone: v0.1.0
 ---
 
@@ -302,7 +302,7 @@ milestone: v0.1.0
 - **Приоритет:** low
 - **Зависимости:** TASK-19
 - **TC:** TC-45, TC-46
-- **Источник:** SVC-1 § 2
+- **Источник:** SVC-1 § 2, INT-1, INT-3
 
 Подзадачи:
 - [ ] 20.1. Seed 120 задач для нагрузочного тестирования (все статусы и приоритеты)
@@ -323,11 +323,11 @@ milestone: v0.1.0
 
 | BLOCK | Задачи | Сервисы | Зависимости | Wave |
 |-------|--------|---------|-------------|------|
-| BLOCK-5 | TASK-1 | shared (INFRA) | — | 0 |
-| BLOCK-1 | TASK-2, TASK-3, TASK-4, TASK-5, TASK-6, TASK-7 | task | BLOCK-5 | 1 |
-| BLOCK-2 | TASK-8, TASK-9, TASK-10, TASK-11, TASK-12 | auth | BLOCK-5 | 1 |
-| BLOCK-3 | TASK-13, TASK-14, TASK-15, TASK-16, TASK-17, TASK-18 | frontend | BLOCK-5, BLOCK-1, BLOCK-2 | 2 |
-| BLOCK-4 | TASK-19, TASK-20 | system | BLOCK-1, BLOCK-2, BLOCK-3 | 3 |
+| BLOCK-1 | TASK-1 | shared (INFRA) | — | 0 |
+| BLOCK-2 | TASK-2, TASK-3, TASK-4, TASK-5, TASK-6, TASK-7 | task | BLOCK-1 | 1 |
+| BLOCK-3 | TASK-8, TASK-9, TASK-10, TASK-11, TASK-12 | auth | BLOCK-1 | 1 |
+| BLOCK-4 | TASK-13, TASK-14, TASK-15, TASK-16, TASK-17, TASK-18 | frontend | BLOCK-1, BLOCK-2, BLOCK-3 | 2 |
+| BLOCK-5 | TASK-19, TASK-20 | system | BLOCK-2, BLOCK-3, BLOCK-4 | 3 |
 
 ## Маппинг GitHub Issues
 
@@ -344,8 +344,10 @@ milestone: v0.1.0
 
 ## Предложения
 
-_(Нет предложений)_
+_Все предложения обработаны._
 
 ## Отвергнутые предложения
 
-_(Нет отвергнутых предложений)_
+| PROP | Приоритет | Категория | Описание | Причина отклонения |
+|------|-----------|-----------|----------|-------------------|
+| PROP-2 | P3 | Зависимости | Таблица "Кросс-сервисные зависимости": запись "TASK-4 (task) → TASK-19 (system)" является транзитивной | Оставлена для наглядности — явно показывает причину зависимости |

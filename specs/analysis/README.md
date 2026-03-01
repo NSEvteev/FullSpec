@@ -50,7 +50,7 @@ index: specs/README.md
 <!-- BEGIN:analysis-status -->
 | NNNN | Тема | Disc | Design | P.Test | P.Dev | Review | Branch | Milestone |
 |------|------|------|--------|--------|-------|--------|--------|-----------|
-| 0001 | task-dashboard | W | W | W | D | — | 0001-task-dashboard | v0.1.0 |
+| 0001 | task-dashboard | W | W | W | W | — | 0001-task-dashboard | v0.1.0 |
 <!-- END:analysis-status -->
 
 *Обновляется через `/analysis-status --update`*
