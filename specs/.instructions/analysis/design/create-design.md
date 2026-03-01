@@ -134,7 +134,7 @@ Task tool:
 
 **ОБЯЗАТЕЛЬНО** делегировать design-agent-second через Task tool. Агент выполняет вторую фазу:
 
-1. **Чтение контекста** — partial design.md + Discussion + overview.md + {svc}.md
+1. **Чтение контекста** — partial design.md + Discussion + overview.md + {svc}.md + per-tech стандарты (naming conventions)
 2. **Генерация** — заполнение подсекций SVC-N (9 шт.), INT-N, STS-N на основе выбранного стека
 3. **Разрешение маркеров** — все `[ТРЕБУЕТ УТОЧНЕНИЯ]` → 0
 4. **Полная валидация** — `validate-analysis-design.py`
@@ -276,6 +276,7 @@ AskUserQuestion: «Перейти к созданию Plan Tests?»
 
 ### Генерация — фаза 2: design-agent-second (шаг 3c)
 - [ ] design-agent-second делегирован через Task tool
+- [ ] Per-tech стандарты прочитаны (naming conventions для API/событий)
 - [ ] Все SVC-N: описание + 9 подсекций (§ 1, § 9 — контент)
 - [ ] INT-N с метаданными, контрактом и sequence
 - [ ] STS-N таблица (или заглушка)

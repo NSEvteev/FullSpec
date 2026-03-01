@@ -10,7 +10,7 @@ tools: Read, Grep, Glob, Edit, Write, Bash
 disallowedTools: WebSearch, WebFetch
 permissionMode: default
 max_turns: 50
-version: v1.0
+version: v1.1
 ---
 
 ## Роль
@@ -37,7 +37,7 @@ version: v1.0
 
 #### Фаза 1: Чтение контекста
 
-Прочитать 4 источника:
+Прочитать 5 источников:
 
 | # | Источник | Что извлечь |
 |---|----------|-------------|
@@ -45,10 +45,16 @@ version: v1.0
 | 2 | **Parent Discussion** (целиком) | Требования, user stories, критерии успеха |
 | 3 | **`specs/docs/.system/overview.md`** | Архитектура, data flows, constraints |
 | 4 | **`specs/docs/{svc}.md`** для каждого SVC-N | API, Data Model, Потоки, Code Map, зависимости (8:8 маппинг) |
+| 5 | **`specs/docs/.technologies/standard-*.md`** per-tech стандарты | Naming conventions для API-контрактов, событий, схем |
 
-**НЕ выполнять Unified Scan** всех 5 источников — это уже сделал design-agent-first. Читать только то, что нужно для генерации контента.
+**Какие per-tech стандарты читать (шаг 5):** Определить по "Выбрано" в секции "Выбор технологий" partial design.md. Читать только релевантные стандарты:
+- REST API → `standard-openapi.md` (operationId, path params, schemas, errors)
+- Async events → `standard-asyncapi.md` (channels, messages, payload schemas)
+- gRPC → `standard-protobuf.md` (service/rpc naming, message naming)
 
-**При отсутствии `specs/docs/` (новый проект):** шаги 3-4 пропускаются. Генерация на основе Резюме + Discussion.
+**НЕ выполнять Unified Scan** всех 5 источников design-agent-first — это уже сделал design-agent-first. Читать только то, что нужно для генерации контента.
+
+**При отсутствии `specs/docs/` (новый проект):** шаги 3-5 пропускаются. Генерация на основе Резюме + Discussion.
 
 #### Фаза 2: GENERATE
 
@@ -119,6 +125,7 @@ python specs/.instructions/.scripts/validate-analysis-design.py specs/analysis/N
 - **Порядок SVC:** Основной → Вторичный → Новый (уже определён заголовками от design-agent-first)
 - **Зона ответственности:** нет бизнес-обоснований (→ Discussion), нет unit/integration тестов конкретного сервиса (→ Plan Tests), нет задач на реализацию (→ Plan Dev)
 - **Контракты в INT-N полные:** endpoint, метод, request/response JSON, статус-коды, ошибки
+- **Naming conventions из per-tech стандартов:** при генерации § 2 API контракты и INT-N Контракт — следовать конвенциям именования из прочитанных стандартов (operationId, path params, schema names, channel/message names). При генерации § 7 Доменная модель с событиями — следовать AsyncAPI naming conventions
 - **Sequence обязательна:** для каждого INT-N, mermaid формат
 - **Shared-компоненты:** решение о размещении обязательно (scope = shared ({путь}))
 - **ADDED endpoint минимум:** path + method, Auth, Request body (POST/PUT/PATCH), Response (200), Errors (4xx)
@@ -128,7 +135,7 @@ python specs/.instructions/.scripts/validate-analysis-design.py specs/analysis/N
 
 ## Область работы
 
-- Чтение: `specs/analysis/`, `specs/docs/`
+- Чтение: `specs/analysis/`, `specs/docs/`, `specs/docs/.technologies/`
 - Запись: только файл проектирования из входных данных
 - **Зона записи:** только SVC-N (подсекции) + INT-N + STS-N. НЕ трогать Резюме и "Выбор технологий" (заполнены design-agent-first)
 
@@ -213,7 +220,7 @@ python specs/.instructions/.scripts/validate-analysis-design.py specs/analysis/N
 
 **Документ:** specs/analysis/NNNN-{topic}/design.md (полный)
 
-**Контекст прочитан:** partial design.md + Discussion + {количество} {svc}.md
+**Контекст прочитан:** partial design.md + Discussion + {количество} {svc}.md + {количество} per-tech стандартов
 
 **Сервисы:** {количество} SVC (подсекции заполнены)
 - § 1-9 заполнены: {N} из {N}
