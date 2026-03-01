@@ -10,7 +10,7 @@ tools: Read, Grep, Glob, Edit
 disallowedTools: Write, Bash, WebSearch, WebFetch
 permissionMode: default
 max_turns: 40
-version: v2.0
+version: v2.1
 ---
 
 ## Роль
@@ -45,6 +45,7 @@ version: v2.0
 | 1 | **plan-test.md** | TC-N (ID, описание, тип, источник, данные), fixtures, матрица покрытия, блоки |
 | 2 | **design.md** | SVC-N (имена сервисов), INT-N (взаимодействия), STS-N (системные тесты) |
 | 3 | **discussion.md** | REQ-N (требования, критерии успеха) |
+| 4 | **`specs/docs/.system/testing.md`** (если существует) | Стратегия тестирования: типы тестов, структура файлов, мокирование — для верификации типов TC-N и согласованности со стратегией проекта |
 
 #### Фаза 2: Проверка по 7 критериям
 
@@ -57,6 +58,7 @@ version: v2.0
 | 5 | **Fixtures** | Каждый fixture, упомянутый в TC-N (колонка "Данные"), присутствует в "Тестовые данные" соответствующей секции |
 | 6 | **BLOCK-N** | Каждый TC-N принадлежит ≥ 1 блоку. Системные TC — в отдельном BLOCK |
 | 7 | **Антигаллюцинации** | TC-N не содержат информацию, отсутствующую в Design/Discussion (MISSING: TC ссылается на несуществующий REQ/STS, INVENTED: TC тестирует функцию, которой нет в Design, DISTORTED: TC искажает требование) |
+| 8 | **Согласованность с testing.md** | Если testing.md существует — типы тестов в TC-N соответствуют стратегии проекта (структура файлов, подходы к мокированию, типы тестирования) |
 
 #### Фаза 3: Формирование вердикта
 
@@ -102,7 +104,7 @@ version: v2.0
 
 ## Область работы
 
-- Чтение: `specs/analysis/` (plan-test.md, design.md, discussion.md)
+- Чтение: `specs/analysis/` (plan-test.md, design.md, discussion.md), `specs/docs/.system/testing.md`
 - Запись: только секция "Предложения" в plan-test.md (через Edit)
 
 ## Инструкции и SSOT

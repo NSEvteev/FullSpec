@@ -278,6 +278,9 @@ stub-текст: *Скрипт валидации кода не создан. В
 ```markdown
 ---
 description: Автозагрузка стандарта {Technology} при работе с файлами.
+standard: .claude/.instructions/rules/standard-rule.md
+standard-version: v1.1
+index: .claude/.instructions/rules/README.md
 globs:
   - {паттерн файлов}
 ---

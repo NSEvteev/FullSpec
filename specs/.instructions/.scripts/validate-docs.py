@@ -47,7 +47,6 @@ REQUIRED_INDEX = "specs/docs/README.md"
 
 REQUIRED_EXAMPLES = [
     "specs/docs/example.md",
-    "specs/docs/.technologies/standard-example.md",
 ]
 
 REQUIRED_TEMPLATES = [

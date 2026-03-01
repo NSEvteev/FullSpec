@@ -153,6 +153,11 @@ def parse_frontmatter(content: str) -> dict:
                 list_values = []
                 result[key] = value
             else:
+                # Parse YAML scalar types
+                if value.lower() == 'true':
+                    value = True
+                elif value.lower() == 'false':
+                    value = False
                 result[key] = value
                 current_key = key
                 list_values = []

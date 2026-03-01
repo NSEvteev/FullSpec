@@ -57,7 +57,7 @@ SECTIONS_REQUIRING_INTRO = [
 ]
 
 # Actors and external systems to exclude from consistency checks
-KNOWN_NON_SERVICES = {"frontend", "admin frontend", "backend", "gateway", "broker", "client"}
+KNOWN_NON_SERVICES = {"admin frontend", "backend", "gateway", "broker", "client"}
 
 ERROR_CODES = {
     "OVW001": "Отсутствует или некорректный frontmatter",

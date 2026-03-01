@@ -247,7 +247,7 @@ def validate_tech_table(content: str, docs_root: Path) -> list[tuple[str, str]]:
     # Get actual tech files
     tech_files = set()
     for item in sorted(tech_dir.iterdir()):
-        if item.is_file() and item.name.startswith("standard-") and item.name not in EXCLUDED_FILES:
+        if item.is_file() and item.name.endswith(".md") and item.name not in EXCLUDED_FILES:
             tech_files.add(item.name)
 
     # Get links from Стандарты технологий table

@@ -277,6 +277,8 @@ AskUserQuestion: «Перейти к созданию Plan Tests?»
 ### Генерация — фаза 2: design-agent-second (шаг 3c)
 - [ ] design-agent-second делегирован через Task tool
 - [ ] Per-tech стандарты прочитаны (naming conventions для API/событий)
+- [ ] conventions.md прочитан (формат ответов/ошибок для § 2 и INT-N)
+- [ ] testing.md прочитан (стратегия тестирования для STS-N)
 - [ ] Все SVC-N: описание + 9 подсекций (§ 1, § 9 — контент)
 - [ ] INT-N с метаданными, контрактом и sequence
 - [ ] STS-N таблица (или заглушка)

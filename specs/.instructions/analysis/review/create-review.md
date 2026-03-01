@@ -36,7 +36,8 @@ index: specs/.instructions/README.md
   - [Шаг 5: Извлечь контекст сервисов](#шаг-5-извлечь-контекст-сервисов)
   - [Шаг 6: Заполнить Контекст ревью](#шаг-6-заполнить-контекст-ревью)
   - [Шаг 7: Валидация](#шаг-7-валидация)
-  - [Шаг 8: Отчёт](#шаг-8-отчёт)
+  - [Шаг 8: Обновить индекс](#шаг-8-обновить-индекс)
+  - [Шаг 9: Отчёт](#шаг-9-отчёт)
 - [Чек-лист](#чек-лист)
 - [Примеры](#примеры)
 - [Скрипты](#скрипты)
@@ -228,7 +229,19 @@ python specs/.instructions/.scripts/validate-analysis-review.py specs/analysis/N
 
 На этом этапе ожидаемо отсутствие итераций (`status: OPEN`, `## Итерация N` не должно быть).
 
-### Шаг 8: Отчёт
+### Шаг 8: Обновить индекс
+
+Обновить `specs/analysis/README.md`:
+
+**8.1. Dashboard статусов** — только через скрипт:
+
+```bash
+python specs/.instructions/.scripts/analysis-status.py --update
+```
+
+**ЗАПРЕЩЕНО** редактировать блок `<!-- BEGIN:analysis-status -->...<!-- END:analysis-status -->` вручную.
+
+### Шаг 9: Отчёт
 
 ```
 Создан review.md: specs/analysis/NNNN-{topic}/review.md
@@ -266,6 +279,9 @@ python specs/.instructions/.scripts/validate-analysis-review.py specs/analysis/N
 - [ ] `### Процесс разработки` заполнена
 - [ ] `### Tech-стандарты` заполнена (только существующие стандарты)
 
+### Индекс
+- [ ] Dashboard обновлён (`analysis-status.py --update`)
+
 ### Проверка
 - [ ] Валидация пройдена
 - [ ] Отчёт выведен
@@ -294,6 +310,8 @@ plan-dev.md: status=WAITING
    - ### Tech-стандарты: Python, PostgreSQL
 
 3. Валидация: OK
+
+4. README обновлён: dashboard (Review = OP)
 ```
 
 ### Создание review.md для двух сервисов
@@ -312,6 +330,8 @@ plan-dev.md: status=WAITING
    - ### gateway (critical-medium) — § 2, § 9
 
 3. Валидация: OK
+
+4. README обновлён: dashboard (Review = OP)
 ```
 
 ---

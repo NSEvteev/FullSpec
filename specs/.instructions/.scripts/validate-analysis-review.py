@@ -36,7 +36,7 @@ VALID_STATUSES = {"OPEN", "RESOLVED"}
 REQUIRED_STANDARD = "specs/.instructions/analysis/review/standard-review.md"
 REQUIRED_INDEX = "specs/analysis/README.md"
 STANDARD_VERSION_REGEX = re.compile(r'^v\d+\.\d+$')
-MILESTONE_REGEX = re.compile(r'^v\d+\.\d+$')
+MILESTONE_REGEX = re.compile(r'^v\d+\.\d+(\.\d+)?$')
 
 ITERATION_HEADING_REGEX = re.compile(r'^## Итерация (\d+)', re.MULTILINE)
 VERDICT_REGEX = re.compile(r'^\*\*Вердикт:\*\*\s*(READY|NOT READY|CONFLICT)', re.MULTILINE)

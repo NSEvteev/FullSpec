@@ -7,6 +7,7 @@ parent: discussion.md
 children: []
 status: WAITING
 milestone: v0.1.0
+docs-synced: true
 ---
 
 # 0001: Task dashboard — Design

@@ -57,7 +57,8 @@ version: v1.2
    - § 1 (Когда валидировать): условия
    - § 2 (Коды ошибок): таблица Код/Описание/Severity
    - § 3 (Чек-лист): конкретные проверки
-6. **Создать rule** `.claude/rules/{tech}.md` по [standard-technology.md § 7.3](/specs/.instructions/technologies/standard-technology.md#73-шаблон-rule-для-автозагрузки):
+6. **Создать rule** `.claude/rules/{tech}.md` по [standard-technology.md § 6](/specs/.instructions/docs/technology/standard-technology.md#6-автозагрузка-через-rules):
+   - Frontmatter: `description`, `standard`, `standard-version`, `index`, `globs` — **все поля обязательны** (шаблон в § 6)
    - `globs` — определить по типу технологии (см. таблицу ниже)
 6.5. **Создать `validate-{tech}-code.py`** (если есть автоматизируемые проверки):
    - Скрипт в `specs/.instructions/.scripts/validate-{tech}-code.py`
@@ -140,9 +141,11 @@ version: v1.2
 ## Антигаллюцинации
 
 - Шаблоны ТОЛЬКО из standard-technology.md § 7 — не придумывать свой формат
+- **Ровно 8 h2-секций** в standard-{tech}.md — НЕ добавлять дополнительные (Связанные стандарты, Ссылки и т.п.)
 - Конвенции кодирования — только общепринятые для данной технологии
 - § 5 (Типичные ошибки) НЕ ДОЛЖЕН противоречить [standard-principles.md](/.instructions/standard-principles.md)
 - Globs для rule — только расширения файлов данной технологии
+- Rule frontmatter — **все поля** из шаблона § 6 (standard, standard-version, index, globs)
 
 ## Ограничения
 
