@@ -26,9 +26,16 @@ from __future__ import annotations
 
 import functools
 import re
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Literal
+
+# Windows cp1251 → UTF-8 для корректного вывода Unicode (→, ✅, ❌)
+if sys.platform == "win32":
+    for _stream in (sys.stdout, sys.stderr):
+        if hasattr(_stream, "reconfigure"):
+            _stream.reconfigure(encoding="utf-8")
 
 
 # =============================================================================
