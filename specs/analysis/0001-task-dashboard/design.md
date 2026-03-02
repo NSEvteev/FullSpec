@@ -1,7 +1,7 @@
 ---
 description: Task Dashboard — встроенный дашборд управления задачами для создания, редактирования, удаления, фильтрации и отслеживания статусов задач. — проектирование распределения ответственностей между сервисами.
 standard: specs/.instructions/analysis/design/standard-design.md
-standard-version: v2.1
+standard-version: v2.2
 index: specs/analysis/README.md
 parent: discussion.md
 children: []

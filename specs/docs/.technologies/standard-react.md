@@ -4,7 +4,7 @@ standard: specs/.instructions/docs/technology/standard-technology.md
 technology: react
 ---
 
-# Стандарт React v1.0
+# Стандарт React v1.1
 
 ## Версия и настройка
 
@@ -13,6 +13,41 @@ technology: react
 | Версия | React 18 |
 | Ключевые библиотеки | TanStack Query (tanstack/react-query) 5.x, Zustand 4.x, react-router-dom 6.x, TypeScript 5.x, Vite 5.x |
 | Конфигурация | `src/frontend/vite.config.ts`, `src/frontend/tsconfig.json`; TanStack Query: `QueryClient` в `src/frontend/app/providers.tsx`; Zustand: store-файлы в `src/frontend/store/` |
+
+### Конфигурация Vite в монорепо
+
+В монорепо используется **плоская структура**: `src/frontend/` содержит код напрямую, без вложенного `src/`. Scaffold Vite создаёт `src/` при инициализации — эта вложенность убирается.
+
+**Расположение файлов в корне сервиса (`src/frontend/`):**
+
+| Файл | Назначение |
+|------|-----------|
+| `vite.config.ts` | Конфигурация сборки |
+| `tsconfig.json` | Конфигурация TypeScript |
+| `index.html` | Entry HTML (Vite dev server) |
+| `app/main.tsx` | Entry point React (ReactDOM.createRoot) |
+
+**Пример `vite.config.ts`:**
+
+```ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '.'),
+    },
+  },
+});
+```
+
+**Ключевые моменты:**
+- `index.html` в корне сервиса (`src/frontend/index.html`), не в `src/frontend/src/`
+- Entry point: `app/main.tsx` (относительно корня сервиса)
+- Alias `@` указывает на корень сервиса для удобных импортов (`@/components/...`, `@/store/...`)
 
 ## Конвенции именования
 

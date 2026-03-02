@@ -106,6 +106,7 @@ ERROR_CODES = {
     "DES033": "Нет секции Выбор технологий",
     "DES034": "Выбор технологий без Выбрано",
     "DES035": "Нарушен порядок секций",
+    "DES036": "Code Map: двойная вложенность src/",
 }
 
 
@@ -465,6 +466,19 @@ def check_svc_sections(content: str) -> list[tuple[str, str]]:
             if not DELTA_MARKER_REGEX.search(sub_text_stripped):
                 errors.append(("DES023",
                                f"{prefix}: § '{subsection}' имеет контент без маркеров ADDED/MODIFIED/REMOVED"))
+
+        # DES036: Code Map — двойная вложенность src/
+        codemap_text = _get_subsection_text(svc_text, "5. Code Map", SVC_SUBSECTIONS)
+        if codemap_text:
+            codemap_stripped = codemap_text.strip()
+            stub = SVC_STUBS.get("5. Code Map")
+            if not (stub and stub.search(codemap_stripped)):
+                # Ищем паттерн src/{svc}/src/ в путях
+                double_src = re.findall(r'src/\w+/src/', codemap_stripped)
+                if double_src:
+                    errors.append(("DES036",
+                                   f"{prefix}: § 5 Code Map содержит двойную вложенность "
+                                   f"src/ ({double_src[0]}...) — конвенция монорепо: src/{{svc}}/ без вложенного src/"))
 
     return errors
 
