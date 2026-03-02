@@ -109,7 +109,12 @@ Tree-level: все не-DONE документы → ROLLING_BACK. Возвращ
 | 3 | Заглушка `{svc}.md` | Удалить файл если `created-by: {NNNN}` и нет других цепочек | Файл не существует → skip |
 | 4 | Per-tech: `standard-{tech}.md`, `validation-{tech}.md`, `.claude/rules/{tech}.md`, строка в `.technologies/README.md` | Удалить файлы и строку реестра | Файл не существует → skip |
 | 5 | Метка `svc:{svc}` | `gh label delete "svc:{svc}" --yes` | Метка не существует → skip |
-| 6 | `docs-synced` в design.md | Удалить поле `docs-synced` из frontmatter design.md | Поле отсутствует → skip |
+| 6 | Docker `Dockerfile.{svc}` | Удалить `platform/docker/Dockerfile.{svc}` | Файл не существует → skip |
+| 7 | Docker compose блок | Удалить блок сервиса из `platform/docker/docker-compose.yml` | Блок не найден → skip |
+| 8 | Docker `init-db.sql` | Удалить `CREATE DATABASE myapp_{svc}` из `platform/docker/init-db.sql` | Строка не найдена → skip |
+| 9 | Docker `.env` | Удалить per-service переменные из `.env.example` и `.env.test` | Переменные не найдены → skip |
+| 10 | Docker `.dockerignore` | Удалить `src/{svc}/.dockerignore` | Файл не существует → skip |
+| 11 | `docs-synced` в design.md | Удалить поле `docs-synced` из frontmatter design.md | Поле отсутствует → skip |
 
 **Особый случай — Design (DONE) → REJECTED:**
 
@@ -160,6 +165,7 @@ python specs/.instructions/.scripts/chain_status.py check_cross_chain {NNNN}
 | 3 | Ветка | `git ls-remote --heads origin {branch}` | Пусто |
 | 4 | Заглушки | `{svc}.md` с `created-by: {NNNN}` | Не существуют |
 | 5 | Per-tech | `standard-{tech}.md` введённые цепочкой | Не существуют |
+| 6 | Docker | `Dockerfile.{svc}`, compose блок, init-db запись, .env переменные, .dockerignore | Удалены/отсутствуют |
 
 Если все проверки пройдены:
 
@@ -207,6 +213,11 @@ python specs/.instructions/.scripts/chain_status.py transition {NNNN} REJECTED
 | Удалить заглушку | Файл не существует → skip | Безопасно |
 | Удалить per-tech файлы | Файл не существует → skip | Безопасно |
 | `gh label delete` | Метка не существует → skip | Безопасно |
+| Удалить Docker Dockerfile | Файл не существует → skip | Безопасно |
+| Удалить Docker compose блок | Блок не найден → skip | Безопасно |
+| Удалить Docker init-db запись | Строка не найдена → skip | Безопасно |
+| Удалить Docker .env переменные | Переменные не найдены → skip | Безопасно |
+| Удалить Docker .dockerignore | Файл не существует → skip | Безопасно |
 | `chain_status.py transition REJECTED` | Уже REJECTED → no-op | Безопасно |
 
 ---
@@ -223,7 +234,7 @@ python specs/.instructions/.scripts/chain_status.py transition {NNNN} REJECTED
 ### Выполнение
 - [ ] T9 переход выполнен (→ ROLLING_BACK)
 - [ ] Plan Dev откачен (Issues закрыты, ветка удалена)
-- [ ] Design откачен (Planned Changes, заглушки, per-tech, метки)
+- [ ] Design откачен (Planned Changes, заглушки, per-tech, метки, Docker scaffolding)
 - [ ] Plan Tests откачен (testing.md)
 - [ ] Discussion откачен (no-op)
 - [ ] Cross-chain проверка выполнена

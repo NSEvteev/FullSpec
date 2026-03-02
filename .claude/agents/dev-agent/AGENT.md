@@ -43,6 +43,8 @@ Main LLM передаёт в prompt:
    - `specs/docs/.system/testing.md` — стратегия тестирования (типы, мокирование, размещение)
    - Если BLOCK содержит e2e/integration задачи → прочитать `tests/.instructions/standard-testing-system.md` (паттерны системных тестов)
 
+   > **Docker scaffolding:** Для новых сервисов `Dockerfile.{svc}`, блок в `docker-compose.yml` и `.env` файлы уже созданы при `/docs-sync` (Фаза 2). Не создавать заново — дополнять реальным кодом. Раскомментировать healthcheck в `docker-compose.yml` после реализации `GET /health` endpoint.
+
 2. **Для каждого Issue в блоке** (по порядку, пропуская закрытые):
    a. Прочитать Issue: `gh issue view {number}`
    b. Написать код по задаче (следовать `/.instructions/standard-principles.md`)
@@ -92,6 +94,7 @@ gh issue list --milestone "{milestone}" --state closed --json number --jq '.[].n
 - `/.github/.instructions/commits/standard-commit.md` — формат коммитов
 - `/.github/.instructions/development/standard-development.md` — процесс разработки
 - `/platform/.instructions/standard-docker.md` § 8 — тестовое окружение (docker-compose.test.yml, tmpfs, сети)
+- `/platform/.instructions/standard-docker.md` § 10 — жизненный цикл Docker-файлов (scaffolding → реализация)
 - `/tests/.instructions/standard-testing-system.md` — паттерны системных тестов (e2e, integration, fixtures)
 - `/specs/.instructions/docs/testing/standard-testing.md` — стратегия тестирования (типы, мокирование, данные)
 

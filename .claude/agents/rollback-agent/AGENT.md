@@ -50,6 +50,11 @@ version: v1.0
 | Per-tech валидация | `specs/docs/.technologies/validation-{tech}.md` | Пометить на удаление |
 | Per-tech rule | `.claude/rules/{tech}.md` | Пометить на удаление |
 | Per-tech реестр | `specs/docs/.technologies/README.md` | Удалить строку |
+| Docker Dockerfile | `platform/docker/Dockerfile.{svc}` | Пометить на удаление (`_old_` префикс) |
+| Docker compose блок | `platform/docker/docker-compose.yml` | Удалить блок сервиса |
+| Docker init-db | `platform/docker/init-db.sql` | Удалить `CREATE DATABASE myapp_{svc}` |
+| Docker env | `platform/docker/.env.example`, `.env.test` | Удалить per-service переменные |
+| Docker ignore | `src/{svc}/.dockerignore` | Пометить на удаление (`_old_` префикс) |
 | Метка GitHub | `svc:{svc}` | `gh label delete "svc:{svc}" --yes` |
 | Issues | GitHub Issues milestone | `gh issue close {N} --reason "not planned"` |
 | Feature-ветка | `{NNNN}-{topic}` | `git push origin --delete` + `git branch -D` |

@@ -104,6 +104,142 @@ index: specs/.instructions/README.md
    - Создать папку кода: `mkdir -p src/{svc}` (если не существует)
    - Создать GitHub label: `gh label create "svc:{svc}" --description "🔷 Сервис {svc}" --color "0ea5e9"` (если не существует)
    - Добавить label в `.github/labels.yml` секцию SVC
+   - **Docker scaffolding** (по [standard-docker.md](/platform/.instructions/standard-docker.md)):
+
+     **a) Dockerfile.{svc}** — создать `platform/docker/Dockerfile.{svc}` из шаблона по технологии (Design SVC-N § 3 Tech Stack):
+
+     Python (FastAPI/Flask):
+     ```dockerfile
+     # === Base ===
+     FROM python:3.12-slim AS base
+     WORKDIR /app
+     RUN addgroup --system app && adduser --system --group app
+
+     # === Development ===
+     FROM base AS development
+     COPY requirements.txt .
+     RUN pip install --no-cache-dir -r requirements.txt
+     COPY . .
+     USER app
+     CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "{PORT}", "--reload"]
+
+     # === Production ===
+     FROM base AS production
+     COPY requirements.txt .
+     RUN pip install --no-cache-dir -r requirements.txt
+     COPY . .
+     USER app
+     CMD ["gunicorn", "main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:{PORT}"]
+     ```
+
+     Node.js (Express):
+     ```dockerfile
+     # === Base ===
+     FROM node:20-slim AS base
+     WORKDIR /app
+     RUN addgroup --system app && adduser --system --group app
+
+     # === Development ===
+     FROM base AS development
+     COPY package*.json .
+     RUN npm ci
+     COPY . .
+     USER app
+     CMD ["npx", "nodemon", "index.js"]
+
+     # === Production ===
+     FROM base AS production
+     COPY package*.json .
+     RUN npm ci --production
+     COPY . .
+     USER app
+     CMD ["node", "index.js"]
+     ```
+
+     > `{PORT}` — из [infrastructure.md](/specs/docs/.system/infrastructure.md).
+
+     **b) docker-compose.yml блок** — добавить сервис в `platform/docker/docker-compose.yml`:
+
+     ```yaml
+       {svc}:
+         build:
+           context: ../../src/{svc}
+           dockerfile: ../../platform/docker/Dockerfile.{svc}
+           target: development
+         restart: unless-stopped
+         ports:
+           - "{PORT}:{PORT}"
+         depends_on:
+           # из Design SVC-N § 6 Dependencies:
+           # postgres → condition: service_healthy
+           # redis → condition: service_healthy
+           # rabbitmq → condition: service_healthy
+           postgres:
+             condition: service_healthy
+         volumes:
+           - ../../src/{svc}:/app
+           # Node.js: добавить anonymous volume для node_modules
+           # - /app/node_modules
+         # healthcheck:
+         #   test: ["CMD", "curl", "-f", "http://localhost:{PORT}/health"]
+         #   interval: 10s
+         #   timeout: 5s
+         #   retries: 3
+         env_file:
+           - .env
+         networks:
+           - app-network
+     ```
+
+     > Health check закомментирован — dev-agent раскомментирует при реализации `/health` endpoint.
+     > `depends_on` — генерировать из Design SVC-N § 6 Dependencies (маппинг: PostgreSQL → `postgres`, Redis → `redis`, RabbitMQ → `rabbitmq`, другой сервис → `{svc}`).
+
+     **c) init-db.sql** — если сервис использует PostgreSQL (Design SVC-N § 4 Data Model), добавить в `platform/docker/init-db.sql`:
+
+     ```sql
+     CREATE DATABASE myapp_{svc};
+     ```
+
+     **d) .env файлы** — добавить per-service переменные:
+
+     В `platform/docker/.env.example`:
+     ```bash
+     # --- {SVC} Service ---
+     {SVC}_DB_NAME=myapp_{svc}                    # если PostgreSQL
+     {SVC}_REDIS_DB={next_db_number}              # если Redis
+     {SVC}_SERVICE_URL=http://{svc}:{PORT}        # URL для inter-service communication
+     ```
+
+     В `platform/docker/.env.test`:
+     ```bash
+     # --- {SVC} Service (test) ---
+     {SVC}_DB_NAME=myapp_{svc}
+     {SVC}_REDIS_DB={next_db_number}
+     {SVC}_SERVICE_URL=http://localhost:{PORT}
+     ```
+
+     **e) .dockerignore** — создать `src/{svc}/.dockerignore` по технологии:
+
+     ```
+     # Общие
+     .git/
+     .env
+     tests/
+
+     # Python (если Python)
+     __pycache__/
+     *.pyc
+     .venv/
+     .pytest_cache/
+     .mypy_cache/
+
+     # Node.js (если Node.js)
+     node_modules/
+     dist/
+     .next/
+     ```
+
+     > Docker ищет `.dockerignore` в build context (`src/{svc}/`), не в `platform/docker/`.
 
 ### Шаг 3: Волна 1 создание
 
@@ -237,6 +373,11 @@ Task tool:
 |--------|-----------|------------|
 | {svc} | создана/существовала | создан/существовал |
 
+### Docker scaffolding (новые сервисы)
+| Сервис | Dockerfile | compose блок | init-db | .env | .dockerignore |
+|--------|-----------|-------------|---------|------|---------------|
+| {svc} | создан | добавлен | добавлен/N/A | добавлены | создан |
+
 **Маркер:** docs-synced: true записан в design.md
 
 **Следующий шаг:** `/dev-create {chain-id}`
@@ -254,6 +395,13 @@ Task tool:
 - [ ] src/{svc}/ папки созданы для новых сервисов
 - [ ] svc:{svc} labels созданы на GitHub для новых сервисов
 - [ ] labels.yml обновлён (секция SVC)
+
+### Docker scaffolding (шаг 2, для новых сервисов)
+- [ ] Dockerfile.{svc} создан в platform/docker/
+- [ ] Блок сервиса добавлен в docker-compose.yml (с закомментированным healthcheck)
+- [ ] CREATE DATABASE добавлен в init-db.sql (если PostgreSQL)
+- [ ] Per-service переменные добавлены в .env.example и .env.test
+- [ ] .dockerignore создан в src/{svc}/
 
 ### Волна 1
 - [ ] service-agent × N запущены параллельно
