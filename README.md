@@ -102,17 +102,20 @@ make build     # Собрать для production
 Фаза 4 — Реализация:
   7. dev-agent         — код + тесты + коммиты (по TASK-N)
 
-Фаза 5 — Доставка:
-  8. /review           — ревью ветки
-  9. /pr-create        — Push + Pull Request
- 10. /review {PR}      — ревью PR
- 11. /merge            — Squash merge + sync main
+Фаза 5 — Финальная валидация:
+  8. /test             — sync main, тесты, lint, build, отчёт READY/NOT READY
 
-Фаза 6 — Завершение:
- 12. /chain-done       — DONE + обновление docs/ (Planned Changes → AS IS)
+Фаза 6 — Доставка:
+  9. /review           — ревью ветки
+ 10. /pr-create        — Push + Pull Request
+ 11. /review {PR}      — ревью PR
+ 12. /merge            — Squash merge + sync main
 
-Фаза 7 — Поставка:
- 13. /release-create   — GitHub Release (опционально)
+Фаза 7 — Завершение:
+ 13. /chain-done       — DONE + обновление docs/ (Planned Changes → AS IS)
+
+Фаза 8 — Поставка:
+ 14. /release-create   — GitHub Release (опционально)
 ```
 
 Подробнее: [standard-process.md](/specs/.instructions/standard-process.md)

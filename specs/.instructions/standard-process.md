@@ -51,9 +51,10 @@ index: specs/.instructions/README.md
   - [Фаза 2: Docs Sync](#фаза-2-docs-sync)
   - [Фаза 3: Запуск реализации](#фаза-3-запуск-реализации)
   - [Фаза 4: Реализация](#фаза-4-реализация)
-  - [Фаза 5: Доставка в main](#фаза-5-доставка-в-main)
-  - [Фаза 6: Завершение цепочки](#фаза-6-завершение-цепочки)
-  - [Фаза 7: Поставка](#фаза-7-поставка)
+  - [Фаза 5: Финальная валидация](#фаза-5-финальная-валидация)
+  - [Фаза 6: Доставка в main](#фаза-6-доставка-в-main)
+  - [Фаза 7: Завершение цепочки](#фаза-7-завершение-цепочки)
+  - [Фаза 8: Поставка](#фаза-8-поставка)
 - [6. Путь B: CONFLICT](#6-путь-b-conflict)
 - [7. Путь C: Альтернативные маршруты](#7-путь-c-альтернативные-маршруты)
 - [8. Сводная таблица инструментов](#8-сводная-таблица-инструментов)
@@ -86,26 +87,29 @@ graph TD
         DEV["4.1 Development"]
         VALIDATE["4.2 Локальная валидация"]
         COMMIT["4.3 Commits"]
-        FINALTEST["4.4 Финальная валидация<br/>/test"]
     end
 
-    subgraph phase5["Фаза 5: Доставка в main"]
-        BREVIEW["5.1 Branch Review"]
-        PR["5.2 PR Create"]
-        PRREVIEW["5.3 PR Review"]
-        MERGE["5.4 Merge"]
-        SYNC["5.5 Sync main"]
+    subgraph phase5["Фаза 5: Финальная валидация"]
+        FINALTEST["5.1 /test"]
     end
 
-    subgraph phase6["Фаза 6: Завершение"]
-        REVIEW["6.1 RUNNING - REVIEW"]
-        REVITER["6.2 Review iterations"]
-        DONE["6.3 REVIEW - DONE<br/>specs/docs/ update"]
+    subgraph phase6["Фаза 6: Доставка в main"]
+        BREVIEW["6.1 Branch Review"]
+        PR["6.2 PR Create"]
+        PRREVIEW["6.3 PR Review"]
+        MERGE["6.4 Merge"]
+        SYNC["6.5 Sync main"]
     end
 
-    subgraph phase7["Фаза 7: Поставка"]
-        PRERELEASE["7.0 Pre-release<br/>test-load"]
-        RELEASE["7.1 Release"]
+    subgraph phase7["Фаза 7: Завершение"]
+        REVIEW["7.1 RUNNING - REVIEW"]
+        REVITER["7.2 Review iterations"]
+        DONE["7.3 REVIEW - DONE<br/>specs/docs/ update"]
+    end
+
+    subgraph phase8["Фаза 8: Поставка"]
+        PRERELEASE["8.0 Pre-release<br/>test-load"]
+        RELEASE["8.1 Release"]
     end
 
     CONFLICT["CONFLICT<br/>Путь B"]
@@ -165,9 +169,9 @@ graph LR
 |--------|-------|-------|
 | DRAFT | per-document | Документ создаётся и итерируется (Фаза 1) |
 | WAITING | per-document | Пользователь одобрил документ (между Фазой 1 и 3) |
-| RUNNING | tree-level | Все 4 документа согласованы, идёт разработка (Фазы 4-5) |
-| REVIEW | tree-level | Реализация завершена, ожидает ревью (Фаза 6) |
-| DONE | per-document (финальный) | Всё готово, specs/docs/ обновлён (конец Фазы 6) |
+| RUNNING | tree-level | Все 4 документа согласованы, идёт разработка (Фазы 4-6) |
+| REVIEW | tree-level | Реализация завершена, ожидает ревью (Фаза 7) |
+| DONE | per-document (финальный) | Всё готово, specs/docs/ обновлён (конец Фазы 7) |
 | CONFLICT | tree-level | Обратная связь код → спеки (Путь B) |
 | ROLLING_BACK | tree-level | Откат артефактов (Путь C.1) |
 | REJECTED | tree-level (финальный) | Отклонён (Путь C.1) |
@@ -265,36 +269,45 @@ graph LR
 | 4.1 | Development | Блоки (BLOCK-N) по волнам, dev-agent параллельно, CONFLICT-детекция | dev-agent | [modify-development.md](/.github/.instructions/development/modify-development.md) |
 | 4.2 | Локальная валидация | `make test`, `make lint` + `make test-e2e` (при изменениях API/DB/inter-service) | `/principles-validate` | [validation-development.md](/.github/.instructions/development/validation-development.md) |
 | 4.3 | Commits | Conventional Commits, [29 pre-commit хуков](/.structure/pre-commit.md) | — | [standard-commit.md](/.github/.instructions/commits/standard-commit.md) |
-| 4.4 | Финальная валидация | Все TASK-N done → sync main → полный прогон тестов → отчёт | `/test` | [create-test.md](/specs/.instructions/create-test.md) |
 
 **Обратная связь:** При обнаружении несовместимости → [Путь B: CONFLICT](#6-путь-b-conflict).
 
-### Фаза 5: Доставка в main
+### Фаза 5: Финальная валидация
+
+> Все TASK-N выполнены — полный прогон тестов перед ревью.
 
 | # | Шаг | Описание | Скилл | SSOT |
 |---|------|---------|-------|------|
-| 5.1 | Branch Review | Локальное ревью ветки перед PR | `/review` | [validation-review.md](/.github/.instructions/review/validation-review.md) |
-| 5.2 | PR Create | `git push` + `gh pr create` с привязкой Issues | — | [standard-pull-request.md](/.github/.instructions/pull-requests/standard-pull-request.md) |
-| 5.3 | PR Review | Code-reviewer агенты проверяют PR | `/review {N}` | [standard-review.md](/.github/.instructions/review/standard-review.md) |
-| 5.4 | Merge | Squash merge, Issues закрываются | — | [standard-review.md § 3](/.github/.instructions/review/standard-review.md#3-merge-стратегии) |
-| 5.5 | Sync main | Локальная синхронизация | — | [standard-sync.md](/.github/.instructions/sync/standard-sync.md) |
+| 5.1 | Финальная валидация | Sync main → docker up → make test/lint/build → e2e → отчёт READY/NOT READY | `/test` | [create-test.md](/specs/.instructions/create-test.md) |
 
-### Фаза 6: Завершение цепочки
+**При NOT READY:** Возврат к Фазе 4 для исправления.
+
+### Фаза 6: Доставка в main
 
 | # | Шаг | Описание | Скилл | SSOT |
 |---|------|---------|-------|------|
-| 6.1 | RUNNING → REVIEW | Все TASK-N выполнены → вся цепочка → REVIEW | `/analysis-status` | [standard-analysis.md § 6.5](./analysis/standard-analysis.md#65-running-to-review) |
-| 6.2 | Review iterations | code-reviewer → итерации в review.md → вердикт | `/review` | [standard-review.md (analysis)](./analysis/review/standard-review.md) |
-| 6.3 | REVIEW → DONE | Bottom-up каскад + system-agent mode=done (все 4 .system/) + обновление specs/docs/ (Planned Changes → AS IS) | `/chain-done` | [standard-analysis.md § 6.6](./analysis/standard-analysis.md#66-review-to-done), [create-chain-done.md](./create-chain-done.md) |
+| 6.1 | Branch Review | Локальное ревью ветки перед PR | `/review` | [validation-review.md](/.github/.instructions/review/validation-review.md) |
+| 6.2 | PR Create | `git push` + `gh pr create` с привязкой Issues | — | [standard-pull-request.md](/.github/.instructions/pull-requests/standard-pull-request.md) |
+| 6.3 | PR Review | Code-reviewer агенты проверяют PR | `/review {N}` | [standard-review.md](/.github/.instructions/review/standard-review.md) |
+| 6.4 | Merge | Squash merge, Issues закрываются | — | [standard-review.md § 3](/.github/.instructions/review/standard-review.md#3-merge-стратегии) |
+| 6.5 | Sync main | Локальная синхронизация | — | [standard-sync.md](/.github/.instructions/sync/standard-sync.md) |
+
+### Фаза 7: Завершение цепочки
+
+| # | Шаг | Описание | Скилл | SSOT |
+|---|------|---------|-------|------|
+| 7.1 | RUNNING → REVIEW | Все TASK-N выполнены → вся цепочка → REVIEW | `/analysis-status` | [standard-analysis.md § 6.5](./analysis/standard-analysis.md#65-running-to-review) |
+| 7.2 | Review iterations | code-reviewer → итерации в review.md → вердикт | `/review` | [standard-review.md (analysis)](./analysis/review/standard-review.md) |
+| 7.3 | REVIEW → DONE | Bottom-up каскад + system-agent mode=done (все 4 .system/) + обновление specs/docs/ (Planned Changes → AS IS) | `/chain-done` | [standard-analysis.md § 6.6](./analysis/standard-analysis.md#66-review-to-done), [create-chain-done.md](./create-chain-done.md) |
 
 **При Design → DONE:** specs/docs/ обновляются — Planned Changes переносятся в AS IS, Changelog обновляется. system-agent mode=done обновляет все 4 файла .system/. → [standard-analysis.md § 7.3](./analysis/standard-analysis.md#73-обновление-при-реализации-to-done)
 
-### Фаза 7: Поставка
+### Фаза 8: Поставка
 
 | # | Шаг | Описание | Скилл | SSOT |
 |---|------|---------|-------|------|
-| 7.0 | Pre-release | `make test-load` (для критичности high/medium), pre-release.yml pipeline | — | [standard-testing.md](./docs/testing/standard-testing.md) |
-| 7.1 | Release | Milestone complete → changelog → tag → GitHub Release | `/release-create`, `/milestone-validate` | [standard-release.md](/.github/.instructions/releases/standard-release.md), [create-release.md](/.github/.instructions/releases/create-release.md) |
+| 8.0 | Pre-release | `make test-load` (для критичности high/medium), pre-release.yml pipeline | — | [standard-testing.md](./docs/testing/standard-testing.md) |
+| 8.1 | Release | Milestone complete → changelog → tag → GitHub Release | `/release-create`, `/milestone-validate` | [standard-release.md](/.github/.instructions/releases/standard-release.md), [create-release.md](/.github/.instructions/releases/create-release.md) |
 
 ---
 
@@ -310,9 +323,9 @@ graph LR
 |----------|-------|--------|
 | Код | При Development (шаг 4.1) | Алгоритм из Design невозможно реализовать |
 | Тесты | При Development (шаг 4.2) | Тесты падают из-за неверных спецификаций |
-| Branch Review | При Branch Review (шаг 5.1) | P1 замечание code-reviewer |
-| PR Review | При PR Review (шаг 5.3) | P1 замечание code-reviewer |
-| Review iterations | При Review (шаг 6.2) | Вердикт CONFLICT в review.md |
+| Branch Review | При Branch Review (шаг 6.1) | P1 замечание code-reviewer |
+| PR Review | При PR Review (шаг 6.3) | P1 замечание code-reviewer |
+| Review iterations | При Review (шаг 7.2) | Вердикт CONFLICT в review.md |
 
 ### Классификация уровня
 
@@ -439,21 +452,22 @@ graph TD
 | 4.1 Development | standard-development, modify-development, standard-testing | — | dev-agent | — |
 | 4.2 Validation | validation-development, standard-testing | /principles-validate | — | validate-principles.py |
 | 4.3 Commits | standard-commit, create-commit | /commit | — | validate-commit-msg.py |
-| 4.4 Финальная валидация | create-test, validation-development, standard-docker § 8 | /test | — | — |
-| **Фаза 5: Доставка** | | | | |
-| 5.1 Branch Review | validation-review (github) | /review | code-reviewer | — |
-| 5.2 PR Create | standard-pull-request, standard-pr-template, create-pull-request | /pr-create | — | collect-pr-issues.py |
-| 5.3 PR Review | standard-review (github) | /review {N} | code-reviewer | — |
-| 5.4 Merge | standard-review § 3, create-merge | /merge | — | — |
-| 5.5 Sync | standard-sync | — | — | — |
-| **Фаза 6: Завершение** | | | | |
-| 6.1 → REVIEW | standard-analysis § 6.5 | /analysis-status | — | chain_status.py |
-| 6.2 Review iter. | standard-review (analysis), create-review | /review | code-reviewer | extract-svc-context.py |
-| 6.3 → DONE | standard-analysis § 6.6, § 7.3, create-chain-done | /chain-done | system-agent mode=done, system-reviewer mode=done | chain_status.py |
-| **Фаза 7: Поставка** | | | | |
-| 7.0 Pre-release | standard-testing | — | — | pre-release.yml (CI) |
-| 7.1 Release | standard-release, create-release, validation-release | /release-create, /milestone-validate, /post-release | — | validate-pre-release.py, validate-post-release.py |
-| 7.2 Deploy | [standard-deploy.md](/.github/.instructions/actions/deploy/standard-deploy.md), [validation-deploy.md](/.github/.instructions/actions/deploy/validation-deploy.md) | — | — | deploy.yml, validate-deploy.py |
+| **Фаза 5: Финальная валидация** | | | | |
+| 5.1 Финальная валидация | create-test, validation-development, standard-docker § 8 | /test | — | — |
+| **Фаза 6: Доставка** | | | | |
+| 6.1 Branch Review | validation-review (github) | /review | code-reviewer | — |
+| 6.2 PR Create | standard-pull-request, standard-pr-template, create-pull-request | /pr-create | — | collect-pr-issues.py |
+| 6.3 PR Review | standard-review (github) | /review {N} | code-reviewer | — |
+| 6.4 Merge | standard-review § 3, create-merge | /merge | — | — |
+| 6.5 Sync | standard-sync | — | — | — |
+| **Фаза 7: Завершение** | | | | |
+| 7.1 → REVIEW | standard-analysis § 6.5 | /analysis-status | — | chain_status.py |
+| 7.2 Review iter. | standard-review (analysis), create-review | /review | code-reviewer | extract-svc-context.py |
+| 7.3 → DONE | standard-analysis § 6.6, § 7.3, create-chain-done | /chain-done | system-agent mode=done, system-reviewer mode=done | chain_status.py |
+| **Фаза 8: Поставка** | | | | |
+| 8.0 Pre-release | standard-testing | — | — | pre-release.yml (CI) |
+| 8.1 Release | standard-release, create-release, validation-release | /release-create, /milestone-validate, /post-release | — | validate-pre-release.py, validate-post-release.py |
+| 8.2 Deploy | [standard-deploy.md](/.github/.instructions/actions/deploy/standard-deploy.md), [validation-deploy.md](/.github/.instructions/actions/deploy/validation-deploy.md) | — | — | deploy.yml, validate-deploy.py |
 | **Security** | | | | |
 | Level 1-3 | standard-security.md + security-{tech}.md | /technology-create (шаг 10) | — | validate-pre-release.py (E009, E010), gitleaks |
 | **Путь B: CONFLICT** | | | | |
@@ -476,10 +490,11 @@ graph TD
 | 3.1 dev-create | branch-validate, type-templates-validate |
 | 4.2 Validation | [29 pre-commit хуков](/.structure/pre-commit.md) (все) |
 | 4.3 Commits | [29 pre-commit хуков](/.structure/pre-commit.md) (все) |
-| 5.1 Branch Review | review-validate |
-| 5.2 PR Create | pr-template-validate |
-| 6.2 Review iter. | review-validate |
-| 6.3 → DONE | service-validate, docs-validate |
+| 5.1 Финальная валидация | — (ручной запуск /test) |
+| 6.1 Branch Review | review-validate |
+| 6.2 PR Create | pr-template-validate |
+| 7.2 Review iter. | review-validate |
+| 7.3 → DONE | service-validate, docs-validate |
 
 ### 8.3 Rules по шагам
 
@@ -489,9 +504,9 @@ graph TD
 |------|-----------------------|
 | core | Все шаги (глобальный) |
 | code | 4.1 Development, 4.2 Validation |
-| development | 3.1 dev-create, 4.1-4.3, 5.1-5.5, 7.1 Release |
-| analysis-status-transition | 1.1-1.4, 3.1, 6.1, 6.3, B.1-B.7 |
-| service-architecture | 1.2 Design, 2.1 Docs Sync, 6.3 → DONE |
+| development | 3.1 dev-create, 4.1-4.3, 5.1, 6.1-6.5, 8.1 Release |
+| analysis-status-transition | 1.1-1.4, 3.1, 7.1, 7.3, B.1-B.7 |
+| service-architecture | 1.2 Design, 2.1 Docs Sync, 7.3 → DONE |
 
 ---
 
@@ -501,7 +516,7 @@ graph TD
 
 ```
 Точка входа:
-  /chain              → TaskList (Happy Path, 13 задач)
+  /chain              → TaskList (Happy Path, 14 задач)
   /chain --hotfix     → TaskList (Hotfix, метки bug/critical)
   /chain --doc-only   → TaskList (1 задача, без chain)
   /chain --resume     → Продолжить существующий TaskList
@@ -529,7 +544,10 @@ graph TD
   make test && make lint && make test-e2e  (e2e — при изменениях API/DB/inter-service)
   git commit            → pre-commit hooks автоматически
 
-Фаза 5 — Доставка в main:
+Фаза 5 — Финальная валидация:
+  /test                 → sync main, docker, tests, lint, build, e2e, отчёт READY/NOT READY
+
+Фаза 6 — Доставка в main:
   /review               → локальное ревью ветки
   git push -u origin {branch}
   gh pr create --title "..." --body "Closes #N, #N"
@@ -537,11 +555,11 @@ graph TD
   gh pr merge {PR-N} --squash
   git checkout main && git pull
 
-Фаза 6 — Завершение цепочки:
+Фаза 7 — Завершение цепочки:
   /chain-done           → RUNNING → REVIEW → DONE (+ system-agent mode=done)
   /review               → итерации review.md → вердикт READY
 
-Фаза 7 — Поставка:
+Фаза 8 — Поставка:
   make test-load                             (pre-release, для high/medium критичности)
   gh release create vX.Y.Z --generate-notes
 

@@ -71,7 +71,7 @@ make clean     # Очистка (docker down -v)
 | `/chain --doc-only` | Опечатки, форматирование (без chain) |
 | `/chain --resume` | Продолжить после прерывания |
 
-### 7 фаз процесса
+### 8 фаз процесса
 
 | Фаза | Что происходит | Ключевые скиллы/агенты |
 |------|---------------|----------------------|
@@ -79,9 +79,10 @@ make clean     # Очистка (docker down -v)
 | 2. Docs Sync | Параллельные агенты: per-service docs, per-tech стандарты, overview.md | `/docs-sync` (service/technology/system-agent + reviewers) |
 | 3. Запуск | Issues + Milestone + Branch → вся цепочка RUNNING | `/dev-create` |
 | 4. Реализация | Код по TASK-N (блоки, волны, CONFLICT-детекция) + коммиты | dev-agent, `/commit` |
-| 5. Доставка в main | Branch Review → PR → PR Review → Merge → Sync | `/review`, `/pr-create`, `/merge` |
-| 6. Завершение | RUNNING → REVIEW → DONE (docs/ AS IS, system-agent mode=done) | code-reviewer, `/chain-done` |
-| 7. Поставка | Pre-release → Release → Deploy | `/release-create`, `/post-release` |
+| 5. Финальная валидация | Sync main → docker → tests/lint/build/e2e → отчёт READY/NOT READY | `/test` |
+| 6. Доставка в main | Branch Review → PR → PR Review → Merge → Sync | `/review`, `/pr-create`, `/merge` |
+| 7. Завершение | RUNNING → REVIEW → DONE (docs/ AS IS, system-agent mode=done) | code-reviewer, `/chain-done` |
+| 8. Поставка | Pre-release → Release → Deploy | `/release-create`, `/post-release` |
 
 **Путь B (CONFLICT):** обратная связь код → спеки. Каскад → разрешение → повторный запуск.
 **Путь C:** Rollback (rollback-agent), Hotfix, Bug-fix bundle, Doc-only.
@@ -93,7 +94,7 @@ make clean     # Очистка (docker down -v)
 Сервисы-заглушки: регистрация, личный кабинет, админка, панель-список пользователей.
 Дискуссия: `specs/analysis/0001-task-dashboard/discussion.md`.
 
-Цель: пройти ВСЕ 7 фаз процесса (analysis chain, docs sync, запуск, реализация, доставка в main, завершение, поставка). Настроить окружение, выйти на "прод".
+Цель: пройти ВСЕ 8 фаз процесса (analysis chain, docs sync, запуск, реализация, финальная валидация, доставка в main, завершение, поставка). Настроить окружение, выйти на "прод".
 
 ## Поиск
 

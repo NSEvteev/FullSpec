@@ -218,7 +218,7 @@ docker compose -f platform/docker/docker-compose.test.yml down -v
 | Есть FAIL или CONFLICT | **NOT READY** | Возврат к разработке (Task 7). Показать список проблем |
 
 **Что НЕ входит в /test (и почему):**
-- `make test-load` — pre-release (Фаза 7), не Фаза 4.4
+- `make test-load` — pre-release (Фаза 8), не Фаза 5
 - `make test-smoke` — post-deploy, не разработка
 
 ---

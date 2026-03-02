@@ -60,7 +60,7 @@ index: .github/.instructions/releases/README.md
 
 ### Шаг 0: Проверить готовность
 
-**SSOT:** [standard-process.md § 5](../../specs/.instructions/standard-process.md#5-путь-a-happy-path) Фаза 5
+**SSOT:** [standard-process.md § 5](../../specs/.instructions/standard-process.md#5-путь-a-happy-path) Фаза 8
 
 Убедиться что все analysis chains для этого Milestone завершены:
 
