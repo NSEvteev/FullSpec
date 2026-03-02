@@ -95,6 +95,16 @@ make clean     # Очистка (docker down -v)
 
 Цель: пройти ВСЕ 7 фаз процесса (analysis chain, docs sync, запуск, реализация, доставка в main, завершение, поставка). Настроить окружение, выйти на "прод".
 
+## Поиск
+
+**`/list-search`** — поиск по всей документации проекта (инструкции, скиллы, агенты, правила, README, скрипты). Использовать перед созданием нового объекта (проверка дубликатов) и для навигации по проекту.
+
+```bash
+# Прямой вызов:
+python .instructions/.scripts/search-docs.py --search "запрос"
+python .instructions/.scripts/search-docs.py --type skill --search "запрос"
+```
+
 ## Паттерны
 
 - Unit-тесты внутри сервиса: `/src/{service}/tests/`
