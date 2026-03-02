@@ -187,11 +187,11 @@ Task tool:
 
 1. Собрать вердикты всех ревьюеров
 2. Если ВСЕ ACCEPT → перейти к Шагу 7
-3. Если есть REVISE:
-   - Перезапустить ТОЛЬКО агентов с REVISE, передав список расхождений
+3. Если есть REWORK:
+   - Перезапустить ТОЛЬКО агентов с REWORK, передав список расхождений
    - После исправлений — повторный ревью для этих агентов
    - **Максимум 3 итерации** Волны 3
-   - После 3-й итерации с REVISE → эскалация пользователю через AskUserQuestion
+   - После 3-й итерации с REWORK → эскалация пользователю через AskUserQuestion
 
 ### Шаг 7: Маркер docs-synced
 
@@ -256,8 +256,8 @@ Task tool:
 - [ ] system-reviewer mode=sync запущен
 - [ ] Все ревьюеры завершились
 
-### Волна 3 (при REVISE)
-- [ ] Агенты с REVISE перезапущены
+### Волна 3 (при REWORK)
+- [ ] Агенты с REWORK перезапущены
 - [ ] Повторный ревью пройден
 - [ ] Итераций ≤ 3
 
@@ -283,7 +283,7 @@ python specs/.instructions/.scripts/chain_status.py check-pending-docs-sync 0001
 # Шаг 3: Волна 1 — 3 service-agent + 2 technology-agent + 1 system-agent (параллельно)
 # Шаг 4: README — добавить 3 новых сервиса
 # Шаг 5: Волна 2 — 3 service-reviewer + 1 technology-reviewer + 1 system-reviewer (параллельно)
-# Шаг 6: Волна 3 — при REVISE перезапуск (макс. 3 итерации)
+# Шаг 6: Волна 3 — при REWORK перезапуск (макс. 3 итерации)
 
 # Шаг 7: маркер
 # docs-synced: true → design.md frontmatter

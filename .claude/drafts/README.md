@@ -30,7 +30,6 @@ index: .claude/README.md
 | Файл | Описание |
 |------|----------|
 | [2026-03-01-test-run-0001-artifacts.md](2026-03-01-test-run-0001-artifacts.md) | Артефакты тестового прогона 0001 — файлы для удаления |
-| [2026-03-01-reviewer-always-fix.md](2026-03-01-reviewer-always-fix.md) | Убрать ACCEPT/REVISE — все замечания обязательны |
 
 
 
@@ -50,7 +49,6 @@ index: .claude/README.md
 
 ```
 /.claude/drafts/
-├── 2026-03-01-reviewer-always-fix.md        # Убрать ACCEPT/REVISE — все замечания обязательны
 ├── 2026-03-01-test-run-0001-artifacts.md    # Артефакты тестового прогона 0001
 ├── examples/                                # Эталонные примеры
 │   ├── 2026-02-08-specs-architecture.md          #   Архитектура specs/ (SDD)

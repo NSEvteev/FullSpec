@@ -50,8 +50,4 @@ status: active
 | `specs/docs/.system/overview.md` | system-agent mode=sync |
 | `specs/docs/README.md` | Строки сервисов + таблица технологий + дерево |
 
-## Удалённые файлы (восстановить из git)
 
-| Файл | Причина |
-|------|---------|
-| `specs/docs/.technologies/standard-example.md` | Заменён реальными стандартами |

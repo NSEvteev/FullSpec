@@ -52,7 +52,7 @@ version: v1.0
 3. Определить diff: `git diff -- specs/docs/.system/overview.md`
 4. Для каждого изменения проверить: есть ли источник в Design?
 5. Проверить обратное: есть ли в Design данные для overview.md, не отражённые?
-6. Вердикт: ACCEPT / REVISE
+6. Вердикт вычисляемый: ACCEPT (0 замечаний) / REWORK (≥1 замечание)
 
 ### Алгоритм (mode=done)
 
@@ -64,7 +64,7 @@ version: v1.0
 6. Для каждого изменения проверить: есть ли источник в Design, Plan Tests или коде?
 7. Проверить обратное: есть ли данные, не отражённые в .system/?
 8. Проверить согласованность между 4 файлами
-9. Вердикт: ACCEPT / REVISE
+9. Вердикт вычисляемый: ACCEPT (0 замечаний) / REWORK (≥1 замечание)
 
 ## Область работы
 
@@ -95,25 +95,35 @@ version: v1.0
 - mode=sync: НЕ проверять conventions.md, infrastructure.md, testing.md
 - ТОЛЬКО сверка источников ↔ .system/ и формата
 
+## Классификация замечаний
+
+| Уровень | Когда ставить | Пример |
+|---------|--------------|--------|
+| **MUST FIX** | Факт пропущен, придуман, искажён или рассогласован | MISSING сервис в карте, INVENTED связь, INCONSISTENT порты |
+| **NICE TO HAVE** | Формат не соответствует стандарту, но факты верны | Неполное описание, формат таблицы |
+
+**Все замечания обязательны к исправлению.** Уровень — для наблюдаемости, не для приоритизации.
+
 ## Формат вывода
+
+**Вердикт вычисляемый:** 0 замечаний = ACCEPT, ≥1 = REWORK.
+
+### При REWORK:
+
+```markdown
+## Ревью .system/ (mode={sync|done}) — REWORK ({N} замечаний)
+
+| # | Тип | Уровень | Файл | Секция | В источнике | В .system/ | Исправление |
+|---|-----|---------|------|--------|-------------|-----------|-------------|
+| 1 | INVENTED | MUST FIX | overview.md | § Связи | — | "auth↔billing REST" | Удалить — отсутствует в Design |
+| 2 | MISSING | MUST FIX | overview.md | § Карта | Design SVC-3 (frontend) | — | Добавить из Design SVC-3 |
+| 3 | INCONSISTENT | MUST FIX | conventions.md / infrastructure.md | § Порты | "3000" / "8080" | — | Привести к единому значению |
+```
 
 ### При ACCEPT:
 
 ```markdown
-ACCEPT — .system/ (mode={sync|done})
+## Ревью .system/ (mode={sync|done}) — ACCEPT (0 замечаний)
 
-{mode=sync: overview.md соответствует Design.}
-{mode=done: Все 4 файла соответствуют Design + Plan Tests + коду. Согласованность подтверждена.}
-```
-
-### При REVISE:
-
-```markdown
-REVISE — .system/ (mode={sync|done})
-
-| # | Тип | Файл | Секция | В источнике | В .system/ | Рекомендация |
-|---|-----|------|--------|-------------|-----------|--------------|
-| 1 | INVENTED | overview.md | § Связи | — | "auth↔billing REST" | Удалить — отсутствует в Design |
-| 2 | MISSING | overview.md | § Карта | Design SVC-3 (frontend) | — | Добавить из Design SVC-3 |
-| 3 | INCONSISTENT | conventions.md / infrastructure.md | § Порты | "3000" / "8080" | — | Привести к единому значению |
+Замечаний нет, документ готов.
 ```
