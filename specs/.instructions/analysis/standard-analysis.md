@@ -7,7 +7,7 @@ index: specs/.instructions/README.md
 
 # Стандарт analysis/
 
-Версия стандарта: 1.3
+Версия стандарта: 1.4
 
 Полное описание аналитического контура Specification-Driven Development v2: философия двух контуров (analysis/ + specs/docs/), четыре уровня (Discussion → Design → Plan Tests → Plan Dev), 7-шаговый воркфлоу объекта, 8 статусов, каскады, правила обновления specs/docs/ при переходах, Clarify-паттерн, именование, запреты. Все per-object стандарты ссылаются на этот документ как SSOT.
 
@@ -827,6 +827,8 @@ Design → DONE (триггер: Plan Tests → DONE, каскад § 6.6 шаг
 
 При откате (§ 6.7–6.8) все артефакты, созданные или изменённые отвергнутой цепочкой, должны быть приведены к состоянию "как будто этой цепочки не было".
 
+**Gate `docs-synced`:** Артефакты docs-sync (per-service, per-tech, overview, labels, Docker) откатываются ТОЛЬКО если `docs-synced: true` в frontmatter design.md. Если поле отсутствует — /docs-sync не выполнялся, артефакты не были созданы.
+
 #### Design → REJECTED
 
 | Файл specs/docs/ | Действие |
@@ -836,7 +838,7 @@ Design → DONE (триггер: Plan Tests → DONE, каскад § 6.6 шаг
 | `README.md` | Удалить строку (если сервис создан этой цепочкой и удалён) |
 | `.system/overview.md` | Откат inline-правок (если docs-synced: true) |
 | `.technologies/standard-{tech}.md` | Удалить (если технология введена этой цепочкой) |
-| `.technologies/validation-{tech}.md` | Удалить (если технология введена этой цепочкой) |
+| `.technologies/security-{tech}.md` | Удалить (если технология введена этой цепочкой, условно) |
 | `.claude/rules/{tech}.md` | Удалить rule (если технология введена этой цепочкой) |
 | `.technologies/README.md` | Удалить строку реестра (если технология введена этой цепочкой) |
 | `labels.yml` + GitHub | Удалить метку `svc:{svc}` (если сервис создан этой цепочкой) |

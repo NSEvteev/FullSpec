@@ -59,6 +59,8 @@ index: specs/.instructions/README.md
 
 > **DONE — финальный.** Откат DONE невозможен. Cross-chain alerts возвращаются в отчёте, но НЕ прерывают процесс.
 
+> **review.md остаётся RESOLVED.** При DONE review.md не меняет статус — остаётся в RESOLVED. Это документированное поведение.
+
 ---
 
 ## Шаги
@@ -114,7 +116,7 @@ python specs/.instructions/.scripts/chain_status.py transition {NNNN} DONE --dry
 
 **Идемпотентность:** Проверить наличие chain-маркера `<!-- chain: {NNNN}-{topic} -->` в Planned Changes § 9. Если маркера нет — docs/ уже обновлены, skip.
 
-**Per-tech стандарты (`specs/docs/.technologies/standard-{tech}.md`, `validation-{tech}.md`, `.claude/rules/{tech}.md`):**
+**Per-tech стандарты (`specs/docs/.technologies/standard-{tech}.md`, `.claude/rules/{tech}.md`):**
 Не требуют обновления при DONE — создаются и ревьюятся при Design → WAITING (technology-agent + technology-reviewer). При DONE остаются как есть.
 
 **При ошибке в одном сервисе:** записать ошибку, продолжить с остальными сервисами. Отразить в отчёте.

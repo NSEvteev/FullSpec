@@ -35,8 +35,8 @@ index: specs/.instructions/README.md
 - [Шаги](#шаги)
   - [Шаг 1: Чтение состояния цепочки](#шаг-1-чтение-состояния-цепочки)
   - [Шаг 2: Переход T9 (ROLLING_BACK)](#шаг-2-переход-t9-rolling_back)
-  - [Шаг 3: Откат Plan Dev](#шаг-3-откат-plan-dev)
-  - [Шаг 4: Откат Design](#шаг-4-откат-design)
+  - [Шаг 3: Откат Plan Dev (IF статус ≥ RUNNING)](#шаг-3-откат-plan-dev-if-статус--running)
+  - [Шаг 4: Откат docs-sync артефактов (IF docs-synced: true)](#шаг-4-откат-docs-sync-артефактов-if-docs-synced-true)
   - [Шаг 5: Откат Plan Tests](#шаг-5-откат-plan-tests)
   - [Шаг 6: Откат Discussion](#шаг-6-откат-discussion)
   - [Шаг 7: Cross-chain проверка](#шаг-7-cross-chain-проверка)
@@ -80,6 +80,12 @@ python specs/.instructions/.scripts/chain_status.py status {NNNN}
 
 **Определить scope:** какие документы не в DONE/REJECTED — они будут откатываться.
 
+**Определить docs-synced:** прочитать frontmatter `design.md` — поле `docs-synced`.
+- `docs-synced: true` → /docs-sync выполнялся, docs-sync артефакты существуют → откатывать (Шаг 4).
+- `docs-synced` отсутствует или false → /docs-sync НЕ выполнялся → Шаг 4 skip.
+
+**Определить статус цепочки:** если хотя бы один документ был в RUNNING или REVIEW → /dev-create выполнялся → откатывать dev-create артефакты (Шаг 3). Иначе Шаг 3 skip.
+
 ### Шаг 2: Переход T9 (ROLLING_BACK)
 
 ```bash
@@ -88,7 +94,7 @@ python specs/.instructions/.scripts/chain_status.py transition {NNNN} ROLLING_BA
 
 Tree-level: все не-DONE документы → ROLLING_BACK. Возвращает `side_effects` — список действий для отката.
 
-### Шаг 3: Откат Plan Dev
+### Шаг 3: Откат Plan Dev (IF статус ≥ RUNNING)
 
 **Артефакты для отката:**
 
@@ -97,24 +103,29 @@ Tree-level: все не-DONE документы → ROLLING_BACK. Возвращ
 | Issues milestone | `gh issue close {N} --reason "not planned" --comment "Rolled back: chain {NNNN} rejected"` | Уже закрыт → no-op |
 | Feature-ветка (remote) | `git push origin --delete {branch}` | Не существует → игнорировать ошибку |
 | Feature-ветка (local) | `git branch -D {branch}` | Не существует → игнорировать ошибку |
+| Milestone | Если Milestone содержит ТОЛЬКО Issues этой цепочки → `gh api -X DELETE repos/{owner}/{repo}/milestones/{number}`. Если есть Issues других цепочек → оставить. | Уже удалён → skip |
+| review.md | Оставить as-is — review.md живёт в папке цепочки `specs/analysis/{NNNN}-{topic}/`, не управляется T9/T10 | No-op |
 
-### Шаг 4: Откат Design
+### Шаг 4: Откат docs-sync артефактов (IF docs-synced: true)
 
-Основной блок — 6 типов артефактов:
+**Условие:** выполняется ТОЛЬКО если `docs-synced: true` в design.md. Если отсутствует/false → skip весь шаг.
 
 | # | Артефакт | Действие | Идемпотентность |
 |---|---------|----------|-----------------|
 | 1 | Planned Changes в `{svc}.md` § 9 | Удалить всё между `<!-- chain: {NNNN}-{topic} -->` и `<!-- /chain: {NNNN}-{topic} -->` (включая оба тега) | Нет маркера → skip |
 | 2 | Inline-правки в `overview.md` | Если `docs-synced: true` в design.md: прочитать Design SVC-N, определить добавленные/изменённые записи (карта сервисов, связи, потоки, домены), удалить их из overview.md | docs-synced отсутствует → skip (overview.md не обновлялся) |
 | 3 | Заглушка `{svc}.md` | Удалить файл если `created-by: {NNNN}` и нет других цепочек | Файл не существует → skip |
-| 4 | Per-tech: `standard-{tech}.md`, `validation-{tech}.md`, `.claude/rules/{tech}.md`, строка в `.technologies/README.md` | Удалить файлы и строку реестра | Файл не существует → skip |
+| 4 | Per-tech: `standard-{tech}.md`, `security-{tech}.md` (если есть), `.claude/rules/{tech}.md`, строка в `.technologies/README.md` | Удалить файлы и строку реестра | Файл не существует → skip |
 | 5 | Метка `svc:{svc}` | `gh label delete "svc:{svc}" --yes` | Метка не существует → skip |
 | 6 | Docker `Dockerfile.{svc}` | Удалить `platform/docker/Dockerfile.{svc}` | Файл не существует → skip |
 | 7 | Docker compose блок | Удалить блок сервиса из `platform/docker/docker-compose.yml` | Блок не найден → skip |
 | 8 | Docker `init-db.sql` | Удалить `CREATE DATABASE myapp_{svc}` из `platform/docker/init-db.sql` | Строка не найдена → skip |
 | 9 | Docker `.env` | Удалить per-service переменные из `.env.example` и `.env.test` | Переменные не найдены → skip |
 | 10 | Docker `.dockerignore` | Удалить `src/{svc}/.dockerignore` | Файл не существует → skip |
-| 11 | `docs-synced` в design.md | Удалить поле `docs-synced` из frontmatter design.md | Поле отсутствует → skip |
+| 11 | `specs/docs/README.md` | Удалить строки новых сервисов (если `created-by: {NNNN}`) | Строки отсутствуют → skip |
+| 12 | `.github/labels.yml` | Удалить строки `svc:{svc}` из секции SVC (для сервисов с `created-by: {NNNN}`) | Строки отсутствуют → skip |
+| 13 | `src/{svc}/` (папка кода) | **No-op** — папка может содержать код из параллельных цепочек | — |
+| 14 | `docs-synced` в design.md | Удалить поле `docs-synced` из frontmatter design.md | Поле отсутствует → skip |
 
 **Особый случай — Design (DONE) → REJECTED:**
 
@@ -166,6 +177,10 @@ python specs/.instructions/.scripts/chain_status.py check_cross_chain {NNNN}
 | 4 | Заглушки | `{svc}.md` с `created-by: {NNNN}` | Не существуют |
 | 5 | Per-tech | `standard-{tech}.md` введённые цепочкой | Не существуют |
 | 6 | Docker | `Dockerfile.{svc}`, compose блок, init-db запись, .env переменные, .dockerignore | Удалены/отсутствуют |
+| 7 | security-{tech}.md | `specs/docs/.technologies/security-{tech}.md` введённые цепочкой | Не существуют |
+| 8 | labels.yml | `.github/labels.yml` секция SVC: строки `svc:{svc}` | Удалены/отсутствуют |
+| 9 | docs/README.md | `specs/docs/README.md` строки новых сервисов | Удалены/отсутствуют |
+| 10 | Milestone | `gh api repos/{owner}/{repo}/milestones` | Удалён/не содержит Issues цепочки |
 
 Если все проверки пройдены:
 
@@ -218,6 +233,10 @@ python specs/.instructions/.scripts/chain_status.py transition {NNNN} REJECTED
 | Удалить Docker init-db запись | Строка не найдена → skip | Безопасно |
 | Удалить Docker .env переменные | Переменные не найдены → skip | Безопасно |
 | Удалить Docker .dockerignore | Файл не существует → skip | Безопасно |
+| Удалить строки docs/README.md | Строки отсутствуют → skip | Безопасно |
+| Удалить строки labels.yml | Строки отсутствуют → skip | Безопасно |
+| Удалить security-{tech}.md | Файл не существует → skip | Безопасно |
+| Удалить/закрыть Milestone | Уже удалён/закрыт → skip | Безопасно |
 | `chain_status.py transition REJECTED` | Уже REJECTED → no-op | Безопасно |
 
 ---

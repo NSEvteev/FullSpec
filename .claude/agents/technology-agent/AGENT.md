@@ -1,6 +1,6 @@
 ---
 name: technology-agent
-description: Создание и обновление per-tech стандарта кодирования (standard-{tech}.md + validation-{tech}.md + rule + реестр). Используй при создании нового Design (вызывается из /technology-create, /technology-modify). Один агент на одну технологию — запускается параллельно.
+description: Создание и обновление per-tech стандарта кодирования (standard-{tech}.md + security-{tech}.md (условно) + rule + реестр). Используй при создании нового Design (вызывается из /technology-create, /technology-modify). Один агент на одну технологию — запускается параллельно.
 standard: .claude/.instructions/agents/standard-agent.md
 standard-version: v1.2
 index: .claude/.instructions/agents/README.md
@@ -21,7 +21,7 @@ version: v1.2
 
 ## Задача
 
-Создать или обновить комплект файлов per-tech стандарта: `standard-{tech}.md` + `validation-{tech}.md` + rule `.claude/rules/{tech}.md` + строку реестра `specs/technologies/README.md`.
+Создать или обновить комплект файлов per-tech стандарта: `standard-{tech}.md` + `security-{tech}.md` (условно, для технологий с package manager) + rule `.claude/rules/{tech}.md` + строку реестра `specs/technologies/README.md`.
 
 ### Входные данные
 
@@ -52,25 +52,19 @@ version: v1.2
    - § 4 (Паттерны использования): рекомендуемые паттерны
    - § 5 (Типичные ошибки): антипаттерны с примерами правильного кода
    - § 6 (Ссылки): документация и style guides
-4. **Прочитать шаблон validation** из [standard-technology.md § 7.2](/specs/.instructions/technologies/standard-technology.md#72-шаблон-validation-techmd)
-5. **Создать `validation-{tech}.md`** по шаблону — **все секции заполнены:**
-   - § 1 (Когда валидировать): условия
-   - § 2 (Коды ошибок): таблица Код/Описание/Severity
-   - § 3 (Чек-лист): конкретные проверки
-6. **Создать rule** `.claude/rules/{tech}.md` по [standard-technology.md § 6](/specs/.instructions/docs/technology/standard-technology.md#6-автозагрузка-через-rules):
+4. **Создать rule** `.claude/rules/{tech}.md` по [standard-technology.md § 6](/specs/.instructions/docs/technology/standard-technology.md#6-автозагрузка-через-rules):
    - Frontmatter: `description`, `standard`, `standard-version`, `index`, `globs` — **все поля обязательны** (шаблон в § 6)
    - `globs` — определить по типу технологии (см. таблицу ниже)
-6.5. **Создать `validate-{tech}-code.py`** (если есть автоматизируемые проверки):
-   - Скрипт в `specs/.instructions/.scripts/validate-{tech}-code.py`
-   - Реализовать автоматизируемые правила из validation-{tech}.md
-   - Добавить хук в `.pre-commit-config.yaml`
-   - Обновить `.structure/pre-commit.md` (таблица хуков)
-7. **Обновить реестр** `specs/technologies/README.md` — добавить строку
-8. **Self-review по R1-R7** (перед валидацией):
+5. **Обновить реестр** `specs/technologies/README.md` — добавить строку
+6. **Создать `security-{tech}.md`** (условно — ТОЛЬКО для технологий с package manager: npm, pip, cargo и т.д.):
+   - Следовать [standard-technology.md § 11](/specs/.instructions/docs/technology/standard-technology.md#11-companion-security-techmd)
+   - Frontmatter: `type: security`, `technology: {tech}`
+   - 5 секций: Версия и источники, Политика зависимостей, Секреты, Типичные уязвимости, Ссылки
+7. **Self-review по R1-R7** (перед валидацией):
    - Пройти по таблице "Критерии качества" выше
    - Для каждого code-блока: проверить синтаксис, imports, определения типов
    - Если найдены проблемы — исправить ДО валидации
-9. **Валидация:**
+8. **Валидация:**
    ```bash
    python specs/.instructions/.scripts/validate-technology.py specs/technologies/standard-{tech}.md --verbose
    ```
@@ -99,7 +93,7 @@ version: v1.2
 ## Область работы
 
 - Чтение: `specs/.instructions/technologies/`, `specs/technologies/`, `.claude/rules/`
-- Запись: `specs/technologies/standard-{tech}.md`, `specs/technologies/validation-{tech}.md`, `.claude/rules/{tech}.md`, `specs/technologies/README.md`, `specs/.instructions/.scripts/validate-{tech}-code.py`, `.pre-commit-config.yaml`, `.structure/pre-commit.md`
+- Запись: `specs/technologies/standard-{tech}.md`, `specs/technologies/security-{tech}.md` (условно), `.claude/rules/{tech}.md`, `specs/technologies/README.md`
 
 ## Инструкции и SSOT
 
@@ -166,7 +160,7 @@ version: v1.2
 
 **Файлы:**
 - standard-{tech}.md: {создан | обновлён | без изменений}
-- validation-{tech}.md: {создан | обновлён | без изменений}
+- security-{tech}.md: {создан | N/A (нет package manager) | без изменений}
 - rule {tech}.md: {создан | без изменений}
 - реестр: {обновлён | без изменений}
 

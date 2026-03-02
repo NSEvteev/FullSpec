@@ -22,12 +22,14 @@ version: v1.0
 1. Прочитать SSOT-инструкцию `/specs/.instructions/create-rollback.md`
 2. Получить номер цепочки `{NNNN}` из промпта вызова
 3. Выполнить **Шаг 1**: прочитать состояние цепочки через `chain_status.py status {NNNN}`
-4. Прочитать `design.md` и `plan-dev.md` цепочки — определить сервисы, технологии, Issues, ветку
+4. Прочитать `design.md` и `plan-dev.md` цепочки — определить сервисы, технологии, Issues, ветку, `docs-synced` (frontmatter design.md)
 5. Выполнить **Шаг 2**: T9 переход `chain_status.py transition {NNNN} ROLLING_BACK`
-6. Выполнить **Шаги 3-6**: откат артефактов top-down (Plan Dev → Design → Plan Tests → Discussion)
-7. Выполнить **Шаг 7**: cross-chain проверка `chain_status.py check_cross_chain {NNNN}`
-8. Выполнить **Шаг 8**: верификация чек-листа + T10 переход `chain_status.py transition {NNNN} REJECTED`
-9. Вернуть структурированный отчёт (**Шаг 9**)
+6. Если `docs-synced: true` → выполнить откат docs-sync артефактов (Шаг 4 create-rollback.md). Если отсутствует/false → skip.
+7. Если статус ≥ RUNNING → выполнить откат dev-create артефактов (Шаг 3 create-rollback.md). Если WAITING → skip.
+8. Выполнить откат Plan Tests и Discussion (Шаги 5-6 create-rollback.md)
+9. Выполнить **Шаг 7**: cross-chain проверка `chain_status.py check_cross_chain {NNNN}`
+10. Выполнить **Шаг 8**: верификация чек-листа + T10 переход `chain_status.py transition {NNNN} REJECTED`
+11. Вернуть структурированный отчёт (**Шаг 9**)
 
 ## Инструкции и SSOT
 
@@ -47,7 +49,7 @@ version: v1.0
 | Planned Changes | `specs/docs/{svc}.md` § 9, `specs/docs/.system/overview.md`, `conventions.md`, `infrastructure.md` | Удалить блоки `<!-- chain: {NNNN}-{topic} -->` |
 | Заглушка сервиса | `specs/docs/{svc}.md` (с `created-by: {NNNN}`) | Пометить на удаление (`_old_` префикс) |
 | Per-tech стандарт | `specs/docs/.technologies/standard-{tech}.md` | Пометить на удаление |
-| Per-tech валидация | `specs/docs/.technologies/validation-{tech}.md` | Пометить на удаление |
+| Per-tech security | `specs/docs/.technologies/security-{tech}.md` | Пометить на удаление |
 | Per-tech rule | `.claude/rules/{tech}.md` | Пометить на удаление |
 | Per-tech реестр | `specs/docs/.technologies/README.md` | Удалить строку |
 | Docker Dockerfile | `platform/docker/Dockerfile.{svc}` | Пометить на удаление (`_old_` префикс) |
@@ -58,6 +60,9 @@ version: v1.0
 | Метка GitHub | `svc:{svc}` | `gh label delete "svc:{svc}" --yes` |
 | Issues | GitHub Issues milestone | `gh issue close {N} --reason "not planned"` |
 | Feature-ветка | `{NNNN}-{topic}` | `git push origin --delete` + `git branch -D` |
+| labels.yml | `.github/labels.yml` (секция SVC) | Удалить строки `svc:{svc}` |
+| docs/README.md | `specs/docs/README.md` | Удалить строки новых сервисов |
+| Milestone | GitHub Milestone | Условное удаление (только если все Issues — из этой цепочки) |
 
 ## Удаление файлов
 

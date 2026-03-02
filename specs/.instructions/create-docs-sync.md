@@ -67,6 +67,7 @@ index: specs/.instructions/README.md
 **Выход:**
 - Per-service docs: `specs/docs/{svc}.md` — создан или обновлён (§ 9 Planned Changes)
 - Per-tech стандарты: `specs/technologies/standard-{tech}.md` — создан или обновлён
+- Per-tech security: `specs/technologies/security-{tech}.md` — создан (условно, для технологий с package manager)
 - Системная архитектура: `specs/docs/.system/overview.md` — обновлён
 - Все артефакты прошли ревью (ACCEPT)
 - Маркер `docs-synced: true` в frontmatter design.md

@@ -43,6 +43,14 @@ status: active
 | `.claude/rules/express.md` | technology-agent |
 | `.claude/rules/jose.md` | technology-agent |
 
+## GitHub Labels
+
+| Label | Создан |
+|-------|--------|
+| `svc:task` | /docs-sync (Шаг 2) |
+| `svc:auth` | /docs-sync (Шаг 2) |
+| `svc:frontend` | /docs-sync (Шаг 2) |
+
 ## GitHub Issues
 
 | TASK | Issue | Сервис |
@@ -86,3 +94,5 @@ status: active
 |------|---------------|
 | `specs/docs/.system/overview.md` | system-agent mode=sync |
 | `specs/docs/README.md` | Строки сервисов + таблица технологий + дерево |
+| `.github/labels.yml` | Добавлены строки svc:task, svc:auth, svc:frontend в секцию SVC |
+| `specs/docs/.technologies/README.md` | Строки реестра: react, typescript, postgresql, prisma, express, jose |
