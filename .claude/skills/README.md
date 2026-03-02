@@ -151,6 +151,7 @@ standard-version: v1.1
 | [plan-dev-modify](./plan-dev-modify/SKILL.md) | Изменение документа плана разработки |
 | [plan-dev-validate](./plan-dev-validate/SKILL.md) | Валидация документа плана разработки |
 | [dev-create](./dev-create/SKILL.md) | Запуск разработки по analysis chain (WAITING → RUNNING) |
+| [test](./test/SKILL.md) | Финальная валидация (sync main, docker, tests, lint, build, отчёт) |
 | [docs-sync](./docs-sync/SKILL.md) | Синхронизация specs/docs/ после analysis chain (service/technology/system агенты + ревью) |
 | [chain-done](./chain-done/SKILL.md) | Завершение analysis chain (REVIEW → DONE, system-agent mode=done, cross-chain) |
 | ~~[dev](./dev_old/SKILL.md)~~ | ~~Деактивирован — заменён на dev-agent~~ |

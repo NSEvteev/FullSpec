@@ -169,7 +169,7 @@ gh issue list --search "ключевое слово" --state all
 
 --- Секция "Документы для изучения" ---
 6. .system/ файлы: отфильтровать по типу сервиса (см. таблицу фильтрации)
-   Если есть TC → ОБЯЗАТЕЛЬНО включить testing.md
+   testing.md ОБЯЗАТЕЛЬНО включить для всех типов задач
 7. Design: из Источника → SVC-N § K с описанием "что искать"
 8. Сервисная документация: specs/docs/{svc}.md — "Code Map, структура"
 9. Per-tech стандарты: {svc}.md → Tech Stack → standard-{tech}.md
@@ -194,9 +194,9 @@ gh issue list --search "ключевое слово" --state all
 
 | Тип задачи | overview.md | conventions.md | infrastructure.md | testing.md |
 |------------|:-----------:|:--------------:|:-----------------:|:----------:|
-| frontend | + | + | — | + (если есть TC) |
-| backend | + | + | + | + (если есть TC) |
-| infra | + | — | + | + (если есть TC) |
+| frontend | + | + | — | + |
+| backend | + | + | + | + |
+| infra | + | — | + | + |
 | test | + | + | + | + |
 
 **Определение типа:** SVC-N → `specs/docs/{svc}.md` → Tech Stack. React/Vue → frontend. Express/NestJS → backend. Нет SVC → infra.

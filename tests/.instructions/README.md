@@ -12,7 +12,7 @@ index: tests/.instructions/README.md
 **Полезные ссылки:**
 - [tests/](../README.md)
 
-**Содержание:** *добавить темы через запятую.*
+**Содержание:** системные тесты, e2e, integration, load, smoke, паттерны, fixtures.
 
 ---
 
@@ -28,14 +28,17 @@ index: tests/.instructions/README.md
 
 ```
 /tests/.instructions/
-└── README.md                # Этот файл (индекс)
+├── README.md                       # Этот файл (индекс)
+└── standard-testing-system.md      # Паттерны e2e, integration, load, smoke тестов
 ```
 
 ---
 
 # 1. Стандарты
 
-*Нет стандартов.*
+| Инструкция | Описание |
+|------------|----------|
+| [standard-testing-system.md](./standard-testing-system.md) | Паттерны e2e, integration, load, smoke тестов, тестовое окружение, fixtures |
 
 ---
 

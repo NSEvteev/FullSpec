@@ -159,7 +159,11 @@ REMOVED: GET /api/legacy →        Удалён из кода?
 - Код не соответствует per-tech стандарту (`standard-{tech}.md`) — читать из Контекст ревью
 - Антипаттерны из `standard-{tech}.md` § 4
 - API-ответы не соответствуют `conventions.md`
-- Тесты не соответствуют `testing.md` (типы, мокирование)
+- Тесты не соответствуют `testing.md`:
+  - Типы тестов: unit/integration/e2e/load/smoke — применены корректные типы по testing.md
+  - Размещение файлов: per-service в `src/{svc}/tests/`, системные в `tests/`
+  - Мокирование: стратегия соответствует testing.md (что мокировать, что поднимать)
+  - Docker-зависимости: тесты, требующие инфраструктуру, ссылаются на docker-compose.test.yml
 - Нарушение принципов из `standard-principles.md`
 - Debug-код, закомментированный код → **P3**
 - TODO без ссылки на Issue (`TODO(#123)`) → **P3**
@@ -240,6 +244,7 @@ gh pr comment {number} --body "{комментарий}"
 - `.github/.instructions/review/standard-review.md` — стандарт GitHub review и merge
 - `.instructions/standard-principles.md` — принципы кода
 - `specs/.instructions/analysis/standard-analysis.md` — структура analysis chain
+- `/platform/.instructions/standard-docker.md` — инфраструктура тестов (docker-compose.test.yml, health checks)
 
 ## Обработка ошибок
 
@@ -293,6 +298,7 @@ gh pr comment {number} --body "{комментарий}"
 
 - TASK-N для {svc}: {X}/{Y} выполнено
 - TC-N для {svc}: {X}/{Y} реализовано
+  Нереализованные: {TC-N1: описание, TC-N2: описание} (если есть)
 - Расхождения: {есть / нет}
 - Вне scope: {есть / нет}
 

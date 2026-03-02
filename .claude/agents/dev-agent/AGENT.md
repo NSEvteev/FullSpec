@@ -40,6 +40,8 @@ Main LLM передаёт в prompt:
    - `specs/docs/{svc}.md` для каждого сервиса — Code Map, API контракты, Границы автономии LLM
    - `design.md` — SVC-N секции (контекст решений, INT-N контракты)
    - `specs/docs/.system/conventions.md` — shared-интерфейсы, конвенции API, форматы ответов
+   - `specs/docs/.system/testing.md` — стратегия тестирования (типы, мокирование, размещение)
+   - Если BLOCK содержит e2e/integration задачи → прочитать `tests/.instructions/standard-testing-system.md` (паттерны системных тестов)
 
 2. **Для каждого Issue в блоке** (по порядку, пропуская закрытые):
    a. Прочитать Issue: `gh issue view {number}`
@@ -89,6 +91,9 @@ gh issue list --milestone "{milestone}" --state closed --json number --jq '.[].n
 - `/.instructions/standard-principles.md` — принципы кода
 - `/.github/.instructions/commits/standard-commit.md` — формат коммитов
 - `/.github/.instructions/development/standard-development.md` — процесс разработки
+- `/platform/.instructions/standard-docker.md` § 8 — тестовое окружение (docker-compose.test.yml, tmpfs, сети)
+- `/tests/.instructions/standard-testing-system.md` — паттерны системных тестов (e2e, integration, fixtures)
+- `/specs/.instructions/docs/testing/standard-testing.md` — стратегия тестирования (типы, мокирование, данные)
 
 ## Скиллы
 

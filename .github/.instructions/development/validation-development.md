@@ -24,6 +24,7 @@ index: .github/.instructions/development/README.md
 - [standard-issue.md](../issues/standard-issue.md) — критерии готовности, описание задачи
 - [standard-testing.md](/specs/.instructions/docs/testing/standard-testing.md) — стратегия тестирования
 - [standard-sync.md](../sync/standard-sync.md) — синхронизация main перед запуском тестов
+- [standard-docker.md](/platform/.instructions/standard-docker.md) § 8 — тестовое окружение (docker-compose.test.yml, health checks)
 
 **Связанные документы:**
 

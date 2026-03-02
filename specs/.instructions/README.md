@@ -114,6 +114,7 @@ index: specs/.instructions/README.md
 ├── create-chain-done.md               # Воркфлоу завершения analysis chain (REVIEW → DONE)
 ├── create-rollback.md                 # Воркфлоу отката analysis chain (ROLLING_BACK → REJECTED)
 ├── create-docs-sync.md                # Воркфлоу синхронизации specs/docs/ (агенты + ревью)
+├── create-test.md                     # Воркфлоу финальной валидации (sync, docker, tests, отчёт)
 └── README.md                         # Этот файл (индекс)
 ```
 
@@ -137,6 +138,7 @@ index: specs/.instructions/README.md
 | [create-chain-done.md](./create-chain-done.md) | Воркфлоу завершения analysis chain — pre-flight, T7 DONE каскад, Planned Changes → AS IS, cross-chain |
 | [create-rollback.md](./create-rollback.md) | Воркфлоу отката analysis chain — T9 ROLLING_BACK, откат артефактов top-down, верификация, T10 REJECTED |
 | [create-docs-sync.md](./create-docs-sync.md) | Воркфлоу синхронизации specs/docs/ — оркестрация service/technology/system агентов с ревью (после Plan Dev, перед Dev) |
+| [create-test.md](./create-test.md) | Воркфлоу финальной валидации — sync main, docker up, полный прогон тестов, проверка полноты, отчёт READY/NOT READY |
 
 ---
 
@@ -208,4 +210,6 @@ index: specs/.instructions/README.md
 
 # 7. Скиллы
 
-*Нет скиллов.*
+| Скилл | Назначение | Инструкция |
+|-------|------------|------------|
+| [/test](/.claude/skills/test/SKILL.md) | Финальная валидация | [create-test.md](./create-test.md) |

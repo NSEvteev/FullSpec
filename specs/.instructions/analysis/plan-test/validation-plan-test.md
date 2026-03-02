@@ -143,7 +143,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py {путь}
 |---------|----------|
 | ID | Формат `TC-N` (число) |
 | Описание | Естественное предложение (НЕ Given/When/Then), без «должен»/«следует» |
-| Тип | Одно из: `unit`, `integration`, `e2e`, `load` |
+| Тип | Одно из: `unit`, `integration`, `e2e`, `load`, `smoke` |
 | Источник | Обязательно ≥ 1 из: REQ-N, STS-N, SVC-N § K, INT-N |
 | Данные | Ссылка на fixture из секции «Тестовые данные» или `—` |
 
@@ -263,7 +263,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py {путь}
 ### Формат TC-N
 - [ ] Описание — естественное предложение (НЕ Given/When/Then)
 - [ ] В колонке Описание — без «должен», «следует»
-- [ ] Тип — один из: unit, integration, e2e, load
+- [ ] Тип — один из: unit, integration, e2e, load, smoke
 - [ ] Источник — обязательно ≥ 1 из: REQ-N, STS-N, SVC-N § K, INT-N
 - [ ] Данные — ссылка на fixture или `—`
 
@@ -329,7 +329,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-test.py {путь}
 | Нет «Тестовые данные» | PT011 | Подсекция h3 пропущена в per-service | Добавить подсекцию (контент или заглушку) |
 | TC-N: формат Given/When/Then | PT012 | Описание в формате G/W/T вместо естественного предложения | Переписать как естественное предложение |
 | TC-N: «должен»/«следует» | PT013 | В колонке Описание модальные глаголы | Переформулировать как констатацию факта |
-| TC-N: невалидный тип | PT014 | Тип не из списка: unit, integration, e2e, load | Исправить тип |
+| TC-N: невалидный тип | PT014 | Тип не из списка: unit, integration, e2e, load, smoke | Исправить тип |
 | TC-N: нет источника | PT015 | Колонка Источник без обязательной ссылки (REQ-N, STS-N, SVC-N или INT-N) | Добавить ≥ 1 источник |
 | TC-N: fixture не найден | PT016 | Ссылка на несуществующий fixture | Добавить fixture в «Тестовые данные» |
 | Дублирование TC-N | PT017 | Два TC с одинаковым номером | Исправить нумерацию |

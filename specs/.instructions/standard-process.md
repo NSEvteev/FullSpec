@@ -86,6 +86,7 @@ graph TD
         DEV["4.1 Development"]
         VALIDATE["4.2 Локальная валидация"]
         COMMIT["4.3 Commits"]
+        FINALTEST["4.4 Финальная валидация<br/>/test"]
     end
 
     subgraph phase5["Фаза 5: Доставка в main"]
@@ -113,7 +114,9 @@ graph TD
     PDEV --> DOCSYNC --> DEVSTART
     DEVSTART --> DEV --> VALIDATE --> COMMIT
     COMMIT -- "ещё TASK-N?" --> DEV
-    COMMIT -- "все TASK-N done" --> BREVIEW
+    COMMIT -- "все TASK-N done" --> FINALTEST
+    FINALTEST -- "READY" --> BREVIEW
+    FINALTEST -- "NOT READY" --> DEV
     BREVIEW --> PR --> PRREVIEW --> MERGE --> SYNC
     SYNC --> REVIEW --> REVITER --> DONE
     DONE --> PRERELEASE --> RELEASE
@@ -262,6 +265,7 @@ graph LR
 | 4.1 | Development | Блоки (BLOCK-N) по волнам, dev-agent параллельно, CONFLICT-детекция | dev-agent | [modify-development.md](/.github/.instructions/development/modify-development.md) |
 | 4.2 | Локальная валидация | `make test`, `make lint` + `make test-e2e` (при изменениях API/DB/inter-service) | `/principles-validate` | [validation-development.md](/.github/.instructions/development/validation-development.md) |
 | 4.3 | Commits | Conventional Commits, [29 pre-commit хуков](/.structure/pre-commit.md) | — | [standard-commit.md](/.github/.instructions/commits/standard-commit.md) |
+| 4.4 | Финальная валидация | Все TASK-N done → sync main → полный прогон тестов → отчёт | `/test` | [create-test.md](/specs/.instructions/create-test.md) |
 
 **Обратная связь:** При обнаружении несовместимости → [Путь B: CONFLICT](#6-путь-b-conflict).
 
@@ -435,6 +439,7 @@ graph TD
 | 4.1 Development | standard-development, modify-development, standard-testing | — | dev-agent | — |
 | 4.2 Validation | validation-development, standard-testing | /principles-validate | — | validate-principles.py |
 | 4.3 Commits | standard-commit, create-commit | /commit | — | validate-commit-msg.py |
+| 4.4 Финальная валидация | create-test, validation-development, standard-docker § 8 | /test | — | — |
 | **Фаза 5: Доставка** | | | | |
 | 5.1 Branch Review | validation-review (github) | /review | code-reviewer | — |
 | 5.2 PR Create | standard-pull-request, standard-pr-template, create-pull-request | /pr-create | — | collect-pr-issues.py |
