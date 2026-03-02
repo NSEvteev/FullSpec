@@ -1,13 +1,13 @@
 ---
 description: Валидация документов плана разработки SDD — frontmatter, именование, секции TASK-N, подзадачи, зависимости, TC-N трассируемость, маппинг Issues, зона ответственности.
 standard: .instructions/standard-instruction.md
-standard-version: v1.4
+standard-version: v1.5
 index: specs/.instructions/README.md
 ---
 
 # Валидация плана разработки
 
-Рабочая версия стандарта: 1.4
+Рабочая версия стандарта: 1.5
 
 Проверка документов плана разработки (`specs/analysis/*/plan-dev.md`) на соответствие [standard-plan-dev.md](./standard-plan-dev.md).
 
@@ -142,7 +142,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
 
 1. **Заголовок** — формат `#### TASK-N: {Название}` (h4)
 
-2. **5 обязательных полей + 1 опциональное:**
+2. **5 обязательных полей + 2 опциональных:**
 
 | Поле | Проверка | Обязательность |
 |------|----------|----------------|
@@ -152,6 +152,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
 | TC | `TC-N` / `TC-N, TC-M` / `INFRA` — хотя бы одно значение | Обязательно |
 | Источник | Формат `SVC-N § K` — ссылка на подсекцию Design | Обязательно |
 | Issue | `[#N](url)` при RUNNING+, `—` при DRAFT/WAITING, отсутствует при DRAFT | Опционально |
+| Type | Одно из: `feature`, `task`, `infra`, `test` — TYPE-метка для GitHub Issue | Опционально |
 
 3. **Значения полей:**
    - Сложность: целое число 1-10, формат `N/10`
@@ -159,6 +160,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
    - Зависимости: если нет — символ `—` (em-dash, не дефис)
    - TC: хотя бы один TC-N из Plan Tests ([standard-plan-test.md](../plan-test/standard-plan-test.md)). Отсутствие TC-N — блокирующая ошибка (статус > DRAFT). Исключение: `TC: INFRA` для инфраструктурных задач
    - Источник: `SVC-N § K` — N = номер SVC-N секции, K = номер подсекции (1-9)
+   - Type: одно из `feature`, `task`, `infra`, `test` (TYPE-метка для GitHub Issue при `/dev-create`)
 
 4. **Лимит INFRA:** Задачи с `TC: INFRA` — не более 20% от общего числа TASK-N
 
@@ -282,6 +284,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
 - [ ] Заголовок: `#### TASK-N: {Название}` (h4)
 - [ ] Все 5 обязательных полей заполнены (Сложность, Приоритет, Зависимости, TC, Источник)
 - [ ] Поле Issue: `—` при DRAFT/WAITING, `[#N](url)` при RUNNING+
+- [ ] Поле Type (если указано): одно из `feature` / `task` / `infra` / `test`
 - [ ] Сложность: целое число 1-10, формат `N/10`
 - [ ] Приоритет: одно из `high` / `medium` / `low`
 - [ ] Зависимости: `TASK-M` или `—` (em-dash)
@@ -374,6 +377,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
 | BLOCK-N не совпадает с plan-test | PD036 | Нумерация BLOCK-N расходится с plan-test | Синхронизировать нумерацию |
 | Нет «Предложения» | PD037 | Обязательный раздел пропущен | Добавить раздел `## Предложения` |
 | Нет «Отвергнутые предложения» | PD038 | Обязательный раздел пропущен | Добавить раздел `## Отвергнутые предложения` |
+| TASK-N: невалидный Type | PD039 | Значение не из допустимого списка | Использовать одно из: `feature`, `task`, `infra`, `test` |
 
 ---
 

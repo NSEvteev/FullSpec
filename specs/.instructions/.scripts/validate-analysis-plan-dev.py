@@ -46,11 +46,13 @@ PRIORITY_PATTERN = re.compile(r'\*\*Приоритет:\*\*\s*(high|medium|low)'
 DEPS_PATTERN = re.compile(r'\*\*Зависимости:\*\*\s*(.+)')
 TC_FIELD_PATTERN = re.compile(r'\*\*TC:\*\*\s*(.+)')
 SOURCE_PATTERN = re.compile(r'\*\*Источник:\*\*\s*(.+)')
+TYPE_PATTERN = re.compile(r'\*\*Type:\*\*\s*(.+)')
 
 SUBTASK_PATTERN = re.compile(r'^- \[[ x]\]\s+(\d+)\.(\d+)\.\s+(.+)$', re.MULTILINE)
 SUBTASK_DEPS_PATTERN = re.compile(r'\(deps:\s*([^)]+)\)')
 
 VALID_PRIORITIES = {"high", "medium", "low"}
+VALID_TYPES = {"feature", "task", "infra", "test"}
 
 ERROR_CODES = {
     "PD001": "Неверное расположение файла",
@@ -91,6 +93,7 @@ ERROR_CODES = {
     "PD036": "BLOCK-N не совпадает с plan-test",
     "PD037": "Нет Предложения",
     "PD038": "Нет Отвергнутые предложения",
+    "PD039": "Невалидный Type",
 }
 
 
@@ -378,6 +381,7 @@ def extract_tasks(content: str) -> list[dict]:
         deps_match = DEPS_PATTERN.search(block)
         tc_match = TC_FIELD_PATTERN.search(block)
         source_match = SOURCE_PATTERN.search(block)
+        type_match = TYPE_PATTERN.search(block)
 
         tasks.append({
             "num": task_num,
@@ -389,6 +393,7 @@ def extract_tasks(content: str) -> list[dict]:
             "deps": deps_match.group(1).strip() if deps_match else None,
             "tc": tc_match.group(1).strip() if tc_match else None,
             "source": source_match.group(1).strip() if source_match else None,
+            "type": type_match.group(1).strip() if type_match else None,
         })
 
     return tasks
@@ -445,6 +450,12 @@ def check_task_fields(tasks: list[dict]) -> list[tuple[str, str]]:
         else:
             if not re.search(r'SVC-\d+\s*§\s*\d+', task["source"]):
                 errors.append(("PD017", f"{prefix}: Источник '{task['source']}' не соответствует формату SVC-N § K"))
+
+        # PD039: Type (опционально)
+        if task["type"] is not None:
+            type_val = task["type"].lower().rstrip('—').strip()
+            if type_val and type_val != "—" and type_val not in VALID_TYPES:
+                errors.append(("PD039", f"{prefix}: Type '{task['type']}', допустимые: {', '.join(sorted(VALID_TYPES))}"))
 
     return errors
 

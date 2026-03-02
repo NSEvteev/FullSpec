@@ -7,7 +7,7 @@ index: .github/.instructions/issues/README.md
 
 # Валидация Issue
 
-Рабочая версия стандарта: 1.4
+Рабочая версия стандарта: 1.5
 
 Проверка соответствия GitHub Issue стандарту: title, body, labels, assignees, milestone, закрытие.
 

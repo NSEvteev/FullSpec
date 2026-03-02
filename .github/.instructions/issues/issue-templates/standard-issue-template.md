@@ -602,7 +602,7 @@ validations:
 
 ### Соответствие меток типа и шаблонов
 
-**Для каждой метки типа (bug, task, docs, refactor) из [labels.yml](../../../labels.yml) ДОЛЖЕН существовать Issue Template.**
+**Для каждой метки типа (bug, task, docs, refactor, feature, infra, test) из [labels.yml](../../../labels.yml) ДОЛЖЕН существовать Issue Template.**
 
 **Правила:**
 - Шаблон ДОЛЖЕН содержать метку типа в `labels: [{type}]`

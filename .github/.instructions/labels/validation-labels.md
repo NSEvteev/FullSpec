@@ -7,7 +7,7 @@ index: .github/.instructions/labels/README.md
 
 # Валидация меток
 
-Рабочая версия стандарта: 1.1
+Рабочая версия стандарта: 1.3
 
 Проверка соответствия labels.yml стандарту и корректности меток на Issues/Pull Requests.
 

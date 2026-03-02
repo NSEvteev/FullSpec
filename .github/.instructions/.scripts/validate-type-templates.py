@@ -34,7 +34,7 @@ import sys
 from pathlib import Path
 
 # TYPE-метки (SSOT: .github/labels.yml, секция # TYPE)
-TYPE_LABELS = {"bug", "task", "docs", "refactor"}
+TYPE_LABELS = {"bug", "task", "docs", "refactor", "feature", "infra", "test"}
 
 # Коды ошибок
 ERROR_CODES = {

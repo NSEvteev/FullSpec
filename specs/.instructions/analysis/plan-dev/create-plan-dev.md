@@ -1,13 +1,13 @@
 ---
 description: Воркфлоу создания документа плана разработки SDD — скрипт файла, Clarify, агенты (plandev-agent + plandev-reviewer), валидация, синхронизация plan-test.md.
 standard: .instructions/standard-instruction.md
-standard-version: v1.4
+standard-version: v1.5
 index: specs/.instructions/README.md
 ---
 
 # Воркфлоу создания плана разработки
 
-Рабочая версия стандарта: 1.4
+Рабочая версия стандарта: 1.5
 
 Пошаговый процесс создания нового документа плана разработки (`specs/analysis/NNNN-{topic}/plan-dev.md`).
 

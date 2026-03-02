@@ -1,13 +1,13 @@
 ---
 description: Стандарт управления метками GitHub — категории, именование, цвета, синхронизация labels.yml с репозиторием.
 standard: .instructions/standard-instruction.md
-standard-version: v1.2
+standard-version: v1.3
 index: .github/.instructions/labels/README.md
 ---
 
 # Стандарт управления метками
 
-Версия стандарта: 1.2
+Версия стандарта: 1.3
 
 Правила создания, применения и управления метками (Labels) для Issues и Pull Requests.
 
@@ -117,6 +117,18 @@ index: .github/.instructions/labels/README.md
 
 > **Для LLM:** Перед созданием Issue/PR проверить наличие обязательных меток `TYPE-метку` и `PRIORITY-метку`. Если метки не указаны — запросить у пользователя.
 
+### Критерии выбора типа
+
+| Тип | Критерий | Примеры |
+|-----|----------|---------|
+| `bug` | Нечто работает не так, как ожидалось | 🐛 Падение сервиса, неверный ответ API, UI-баг |
+| `feature` | Новая функциональность (CRUD, UI, бизнес-логика) | ✨ Новый эндпоинт, UI-компонент, канбан-доска |
+| `task` | Техническая задача (scaffold, middleware, boilerplate) | 🔧 Scaffold сервиса, Zod-схемы, JWT-middleware |
+| `infra` | Инфраструктура (Docker, CI/CD, конфиги) | 🏗️ docker-compose, монорепо, shared config |
+| `test` | Тесты (E2E, integration, load, smoke) | 🧪 E2E тесты, нагрузочные тесты |
+| `docs` | Документация | 📚 README, спецификации, API docs |
+| `refactor` | Рефакторинг без изменения функциональности | ♻️ Переименование, вынос утилит |
+
 ### Критерии выбора приоритета
 
 | Приоритет | Критерий | Примеры |
@@ -164,6 +176,22 @@ docs
 low
 specs
 xs
+```
+
+**Инфраструктура:**
+```
+infra
+high
+platform
+m
+```
+
+**Тесты:**
+```
+test
+medium
+tests
+s
 ```
 
 **Задача на конкретный сервис:**

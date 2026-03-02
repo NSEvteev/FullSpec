@@ -7,7 +7,7 @@ index: .github/.instructions/issues/README.md
 
 # Воркфлоу создания Issue
 
-Рабочая версия стандарта: 1.4
+Рабочая версия стандарта: 1.5
 
 Пошаговый процесс создания нового GitHub Issue.
 
@@ -99,7 +99,10 @@ gh issue list --search "ключевое слово" --state all
 | Контекст | Шаблон | Метка типа |
 |----------|--------|------------|
 | Баг, ошибка, не работает | `bug-report.yml` | bug |
-| Техническая задача, настроить, CI/CD | `task.yml` | task |
+| Новая функциональность, CRUD, UI, бизнес-логика | `feature.yml` | feature |
+| Техническая задача, scaffold, middleware, boilerplate | `task.yml` | task |
+| Docker, CI/CD, монорепо, конфиги | `infra.yml` | infra |
+| E2E, integration, load, smoke тесты | `test.yml` | test |
 | Документация, описать, README | `docs.yml` | docs |
 | Рефакторинг, переписать, оптимизировать | `refactor.yml` | refactor |
 
@@ -297,7 +300,7 @@ gh issue create --title "Создать инструкции для tests/" \
 - [ ] Заполнен body с обязательными секциями
 
 ### Метаданные
-- [ ] Ровно 1 метка типа (bug, task, docs, refactor)
+- [ ] Ровно 1 метка типа (bug, task, docs, refactor, feature, infra, test)
 - [ ] Ровно 1 метка приоритета (critical, high, medium, low)
 - [ ] Milestone назначен
 

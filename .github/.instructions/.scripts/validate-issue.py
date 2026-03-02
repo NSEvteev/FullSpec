@@ -54,12 +54,12 @@ TITLE_MAX_LENGTH = 70
 MAX_ASSIGNEES = 3
 
 # Допустимые имена меток по группам (SSOT: labels.yml)
-TYPE_LABELS = {"bug", "task", "docs", "refactor"}
+TYPE_LABELS = {"bug", "task", "docs", "refactor", "feature", "infra", "test"}
 PRIORITY_LABELS = {"critical", "high", "medium", "low"}
 
 # Префиксы типов, которые не должны быть в title
 TYPE_PREFIXES = re.compile(
-    r"^\[?(Bug|Task|Docs|Refactor|Fix|Hotfix)\]?\s*:?\s*",
+    r"^\[?(Bug|Task|Docs|Refactor|Fix|Hotfix|Feature|Infra|Test)\]?\s*:?\s*",
     re.IGNORECASE,
 )
 

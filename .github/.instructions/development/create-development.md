@@ -96,6 +96,19 @@ python .github/.instructions/.scripts/check-chain-readiness.py {NNNN}
 - Sub-issues для подзадач (N.M)
 - Записать номер Issue inline в поле `Issue` каждой TASK-N (формат: `[#N](url)`)
 
+**Определение TYPE-метки для Issue:**
+
+Если TASK-N содержит поле `Type` → использовать как TYPE-метку.
+
+Если поле `Type` отсутствует (старые plan-dev) → определить автоматически:
+
+| Условие | TYPE-метка |
+|---------|------------|
+| `TC: INFRA` | `infra` |
+| Системные тесты (STS-N, E2E, load, integration) | `test` |
+| Бизнес-логика (CRUD, UI, API-эндпоинты) | `feature` |
+| Scaffold, middleware, схемы, boilerplate | `task` |
+
 ### Шаг 4: Создать/привязать Milestone
 
 1. Проверить: Milestone {vX.Y.Z} существует?

@@ -7,7 +7,7 @@ index: .github/.instructions/issues/README.md
 
 # Стандарт управления GitHub Issues
 
-Версия стандарта: 1.4
+Версия стандарта: 1.5
 
 Правила жизненного цикла, создания и управления задачами (Issues) в репозитории.
 
@@ -250,7 +250,7 @@ GitHub Issues — система управления задачами, бага
 **SSOT:** [standard-labels.md](../labels/standard-labels.md)
 
 **Обязательно при создании Issue:**
-- Ровно 1 метка типа (bug, task, docs, refactor)
+- Ровно 1 метка типа (bug, task, docs, refactor, feature, infra, test)
 - Ровно 1 метка приоритета (critical, high, medium, low)
 
 **Опционально:** status (ready, wip, in-review, blocked), area, effort, env, svc
