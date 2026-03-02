@@ -33,10 +33,11 @@ index: .github/.instructions/development/README.md
   - [Шаг 2: Подтверждение пользователя](#шаг-2-подтверждение-пользователя)
   - [Шаг 3: Создать GitHub Issues](#шаг-3-создать-github-issues)
   - [Шаг 4: Создать/привязать Milestone](#шаг-4-создатьпривязать-milestone)
-  - [Шаг 5: Создать ветку](#шаг-5-создать-ветку)
-  - [Шаг 6: Перевести цепочку в RUNNING](#шаг-6-перевести-цепочку-в-running)
-  - [Шаг 7: Отчёт](#шаг-7-отчёт)
-  - [Шаг 8: Предложить начать разработку](#шаг-8-предложить-начать-разработку)
+  - [Шаг 5: Перевести цепочку в RUNNING](#шаг-5-перевести-цепочку-в-running)
+  - [Шаг 6: Коммит и Push в main](#шаг-6-коммит-и-push-в-main)
+  - [Шаг 7: Создать ветку](#шаг-7-создать-ветку)
+  - [Шаг 8: Отчёт](#шаг-8-отчёт)
+  - [Шаг 9: Предложить начать разработку](#шаг-9-предложить-начать-разработку)
 - [Чек-лист](#чек-лист)
 - [Примеры](#примеры)
 - [Скрипты](#скрипты)
@@ -93,7 +94,7 @@ python .github/.instructions/.scripts/check-chain-readiness.py {NNNN}
 
 Для каждого TASK-N из Plan Dev → `/issue-create`:
 - Sub-issues для подзадач (N.M)
-- Обновить таблицу маппинга TASK-N → Issue в plan-dev.md
+- Записать номер Issue inline в поле `Issue` каждой TASK-N (формат: `[#N](url)`)
 
 ### Шаг 4: Создать/привязать Milestone
 
@@ -101,13 +102,7 @@ python .github/.instructions/.scripts/check-chain-readiness.py {NNNN}
 2. Если нет → `/milestone-create`
 3. Привязать все Issues к Milestone
 
-### Шаг 5: Создать ветку
-
-```
-/branch-create {NNNN}
-```
-
-### Шаг 6: Перевести цепочку в RUNNING
+### Шаг 5: Перевести цепочку в RUNNING
 
 **Переход WAITING → RUNNING** — через модуль `chain_status.py` (SSOT статусов):
 
@@ -118,13 +113,31 @@ result = mgr.transition(to="RUNNING")
 # Модуль автоматически: tree-level, все 4 документа → RUNNING, README dashboard
 ```
 
-Выполнить побочные эффекты из `result.side_effects` (Issues, Milestone, Branch — уже созданы на шагах 3-5).
+### Шаг 6: Коммит и Push в main
 
-### Шаг 7: Отчёт
+Шаги 3-5 изменяют файлы в main (plan-dev.md маппинг Issues, frontmatter статусы, README dashboard). Зафиксировать **до** создания ветки:
+
+```bash
+git add specs/analysis/NNNN-{topic}/ specs/analysis/README.md
+git commit -m "feat(analysis): NNNN-{topic} RUNNING, маппинг Issues"
+git push origin main
+```
+
+**Логика:** Ветка (шаг 7) отводится от чистого main, содержащего все метаданные цепочки.
+
+### Шаг 7: Создать ветку
+
+```
+/branch-create {NNNN}
+```
+
+Ветка создаётся от свежего main (после push шага 6).
+
+### Шаг 8: Отчёт
 
 Вывести: Issues (#N), Milestone, Branch, статус цепочки → RUNNING.
 
-### Шаг 8: Предложить начать разработку
+### Шаг 9: Предложить начать разработку
 
 **БЛОКИРУЮЩЕЕ.** AskUserQuestion: "Цепочка NNNN-{topic} в RUNNING. Начать разработку?"
 
@@ -141,10 +154,11 @@ result = mgr.transition(to="RUNNING")
 - [ ] Маркеров `[ТРЕБУЕТ УТОЧНЕНИЯ]` = 0
 - [ ] Пользователь подтвердил запуск
 - [ ] Issues созданы из TASK-N
-- [ ] Таблица маппинга в plan-dev.md обновлена
+- [ ] Поле Issue заполнено inline в каждой TASK-N
 - [ ] Milestone создан/привязан
-- [ ] Ветка создана
 - [ ] Цепочка переведена в RUNNING
+- [ ] Коммит + Push в main (метаданные цепочки)
+- [ ] Ветка создана (от свежего main)
 - [ ] README обновлён
 - [ ] Отчёт выведен
 - [ ] Пользователю предложено начать разработку

@@ -1,10 +1,10 @@
 ---
 description: Plan Dev Task Dashboard — задачи реализации для task, auth, frontend.
 standard: specs/.instructions/analysis/plan-dev/standard-plan-dev.md
-standard-version: v1.3
+standard-version: v1.4
 index: specs/analysis/README.md
 parent: plan-test.md
-status: WAITING
+status: RUNNING
 milestone: v0.1.0
 ---
 
@@ -24,6 +24,7 @@ milestone: v0.1.0
 - **Зависимости:** —
 - **TC:** INFRA
 - **Источник:** SVC-1 § 5, SVC-2 § 5, SVC-3 § 5
+- **Issue:** [#42](https://github.com/NSEvteev/project_template/issues/42)
 
 Подзадачи:
 - [ ] 1.1. Инициализация корневого package.json с workspaces
@@ -42,6 +43,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-1
 - **TC:** TC-1
 - **Источник:** SVC-1 § 3, SVC-1 § 5
+- **Issue:** [#43](https://github.com/NSEvteev/project_template/issues/43)
 
 Подзадачи:
 - [ ] 2.1. Инициализация Express-приложения (src/task/index.ts, tsconfig.json)
@@ -56,6 +58,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-2
 - **TC:** TC-2, TC-4, TC-15
 - **Источник:** SVC-1 § 2, SVC-1 § 5
+- **Issue:** [#44](https://github.com/NSEvteev/project_template/issues/44)
 
 Подзадачи:
 - [ ] 3.1. Zod-схема CreateTaskRequest (title required, description/priority/assigneeId optional)
@@ -69,6 +72,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-2
 - **TC:** TC-3, TC-16, TC-17
 - **Источник:** SVC-1 § 5, SVC-1 § 9, INT-3
+- **Issue:** [#45](https://github.com/NSEvteev/project_template/issues/45)
 
 Подзадачи:
 - [ ] 4.1. auth.middleware.ts: извлечение Bearer token из заголовка Authorization
@@ -83,6 +87,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-3, TASK-4
 - **TC:** TC-1, TC-5, TC-8, TC-9, TC-10, TC-12, TC-13, TC-14
 - **Источник:** SVC-1 § 2, SVC-1 § 4
+- **Issue:** [#46](https://github.com/NSEvteev/project_template/issues/46)
 
 Подзадачи:
 - [ ] 5.1. Маршруты tasks.ts: POST, GET (list), GET (by id), PUT, DELETE
@@ -97,6 +102,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-5
 - **TC:** TC-6, TC-7
 - **Источник:** SVC-1 § 3, SVC-1 § 4, SVC-1 § 9
+- **Issue:** [#47](https://github.com/NSEvteev/project_template/issues/47)
 
 Подзадачи:
 - [ ] 6.1. Расширение сервиса: обработка query params status, priority, assigneeId
@@ -110,6 +116,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-5
 - **TC:** TC-10, TC-11
 - **Источник:** SVC-1 § 4, SVC-1 § 7, SVC-1 § 9
+- **Issue:** [#48](https://github.com/NSEvteev/project_template/issues/48)
 
 Подзадачи:
 - [ ] 7.1. Утилита diff: сравнение старого и нового состояния задачи, определение изменённых полей
@@ -128,6 +135,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-1
 - **TC:** TC-18
 - **Источник:** SVC-2 § 3, SVC-2 § 5
+- **Issue:** [#49](https://github.com/NSEvteev/project_template/issues/49)
 
 Подзадачи:
 - [ ] 8.1. Инициализация Express-приложения (src/auth/index.ts, tsconfig.json)
@@ -142,6 +150,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-8
 - **TC:** TC-23, TC-24, TC-25
 - **Источник:** SVC-2 § 5, SVC-2 § 9
+- **Issue:** [#50](https://github.com/NSEvteev/project_template/issues/50)
 
 Подзадачи:
 - [ ] 9.1. jwt.service.ts: функция sign (jose, HS256, claims: sub, iat, exp=1h)
@@ -155,6 +164,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-9
 - **TC:** TC-18, TC-19, TC-20, TC-21, TC-22
 - **Источник:** SVC-2 § 2, SVC-2 § 4
+- **Issue:** [#51](https://github.com/NSEvteev/project_template/issues/51)
 
 Подзадачи:
 - [ ] 10.1. Zod-схема LoginRequest (email required, password required)
@@ -169,6 +179,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-9
 - **TC:** TC-23, TC-24, TC-25, TC-47
 - **Источник:** SVC-2 § 2, SVC-2 § 4, INT-3
+- **Issue:** [#52](https://github.com/NSEvteev/project_template/issues/52)
 
 Подзадачи:
 - [ ] 11.1. Маршрут: GET /api/v1/auth/validate
@@ -182,6 +193,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-8
 - **TC:** TC-26, TC-27
 - **Источник:** SVC-2 § 2, SVC-2 § 4, INT-2
+- **Issue:** [#53](https://github.com/NSEvteev/project_template/issues/53)
 
 Подзадачи:
 - [ ] 12.1. Маршрут: GET /api/v1/auth/users
@@ -198,6 +210,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-1
 - **TC:** TC-28
 - **Источник:** SVC-3 § 5
+- **Issue:** [#54](https://github.com/NSEvteev/project_template/issues/54)
 
 Подзадачи:
 - [ ] 13.1. Vite + React 18 + TypeScript инициализация
@@ -212,6 +225,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-13
 - **TC:** TC-29, TC-31
 - **Источник:** SVC-3 § 5, INT-1, INT-2
+- **Issue:** [#55](https://github.com/NSEvteev/project_template/issues/55)
 
 Подзадачи:
 - [ ] 14.1. auth.api.ts: функции login(email, password), getUsers()
@@ -226,6 +240,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-14
 - **TC:** TC-28, TC-29, TC-30
 - **Источник:** SVC-3 § 4, SVC-3 § 5, INT-2
+- **Issue:** [#56](https://github.com/NSEvteev/project_template/issues/56)
 
 Подзадачи:
 - [ ] 15.1. authStore.ts (Zustand): token, user, login(), logout()
@@ -240,6 +255,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-15
 - **TC:** TC-31, TC-33, TC-34
 - **Источник:** SVC-3 § 4, SVC-3 § 5, SVC-3 § 9
+- **Issue:** [#57](https://github.com/NSEvteev/project_template/issues/57)
 
 Подзадачи:
 - [ ] 16.1. DashboardPage.tsx: layout страницы с KanbanBoard
@@ -256,6 +272,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-15
 - **TC:** TC-31, TC-32, TC-35
 - **Источник:** SVC-3 § 4, SVC-3 § 5
+- **Issue:** [#58](https://github.com/NSEvteev/project_template/issues/58)
 
 Подзадачи:
 - [ ] 17.1. TaskForm.tsx: поля title, description, priority, assignee (select из useUsers)
@@ -270,6 +287,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-16
 - **TC:** TC-8, TC-34
 - **Источник:** SVC-3 § 4, SVC-3 § 5
+- **Issue:** [#59](https://github.com/NSEvteev/project_template/issues/59)
 
 Подзадачи:
 - [ ] 18.1. TaskDetail.tsx: отображение всех полей задачи (title, description, priority, status, assignee)
@@ -288,6 +306,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-7, TASK-11, TASK-18
 - **TC:** TC-36, TC-37, TC-38, TC-39, TC-40, TC-41, TC-42, TC-43, TC-44, TC-47
 - **Источник:** SVC-1 § 4, SVC-2 § 4, SVC-3 § 4
+- **Issue:** [#60](https://github.com/NSEvteev/project_template/issues/60)
 
 Подзадачи:
 - [ ] 19.1. Конфигурация docker-compose.test.yml: все сервисы + PostgreSQL + seed
@@ -303,6 +322,7 @@ milestone: v0.1.0
 - **Зависимости:** TASK-19
 - **TC:** TC-45, TC-46
 - **Источник:** SVC-1 § 2, INT-1, INT-3
+- **Issue:** [#61](https://github.com/NSEvteev/project_template/issues/61)
 
 Подзадачи:
 - [ ] 20.1. Seed 120 задач для нагрузочного тестирования (все статусы и приоритеты)
@@ -331,16 +351,7 @@ milestone: v0.1.0
 
 ## Маппинг GitHub Issues
 
-Маппинг выполняется **по команде пользователя** после перехода всей цепочки в RUNNING ([Стандарт analysis/ § 4.1](../standard-analysis.md#41-прямой-поток)). LLM создаёт каждый TASK-N → Issue через `/issue-create`.
-
-| Элемент Plan Dev | GitHub Issue |
-|------------------|-------------|
-| TASK-N | Отдельный Issue через `/issue-create` |
-| Подзадачи N.M | Чек-лист в body Issue |
-| Приоритет | Label приоритета ([standard-labels.md](/.github/.instructions/labels/standard-labels.md)) |
-| Зависимости | `**Зависит от:** #N` в body |
-| TC | Ссылка в секции "Связанная документация" |
-| Milestone | Из frontmatter Discussion ([standard-milestone.md § 6](/.github/.instructions/milestones/standard-milestone.md#6)) |
+Маппинг выполнен через `/dev-create` при переходе WAITING → RUNNING. Номера Issues записаны inline в поле `Issue` каждой TASK-N.
 
 ## Предложения
 

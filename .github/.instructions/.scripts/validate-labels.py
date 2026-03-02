@@ -116,8 +116,8 @@ def validate_label_format(label: dict) -> list[str]:
     if name != name.lower():
         errors.append(f"[E002] {name}: должен быть lowercase")
 
-    # E003: kebab-case (только буквы, цифры, дефис)
-    if not re.match(r"^[a-z0-9-]+$", name):
+    # E003: kebab-case (буквы, цифры, дефис; допускается префикс с двоеточием для svc:)
+    if not re.match(r"^[a-z0-9-]+(:[a-z0-9-]+)?$", name):
         errors.append(f"[E003] {name}: должен быть kebab-case")
 
     # E004: HEX цвета

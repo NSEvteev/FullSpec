@@ -5,7 +5,7 @@ standard-version: v2.1
 index: specs/analysis/README.md
 parent: discussion.md
 children: []
-status: WAITING
+status: RUNNING
 milestone: v0.1.0
 docs-synced: true
 ---

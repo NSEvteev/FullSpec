@@ -6,7 +6,7 @@ index: specs/analysis/README.md
 parent: design.md
 children:
   - plan-dev.md
-status: WAITING
+status: RUNNING
 milestone: v0.1.0
 ---
 

@@ -100,6 +100,10 @@ index: specs/.instructions/README.md
 3. Для каждой технологии определить mode:
    - `specs/technologies/standard-{tech}.md` существует? → `update`
    - Не существует? → `create`
+4. **Для каждого нового сервиса** (mode=create):
+   - Создать папку кода: `mkdir -p src/{svc}` (если не существует)
+   - Создать GitHub label: `gh label create "svc:{svc}" --description "🔷 Сервис {svc}" --color "0ea5e9"` (если не существует)
+   - Добавить label в `.github/labels.yml` секцию SVC
 
 ### Шаг 3: Волна 1 создание
 
@@ -228,6 +232,11 @@ Task tool:
 |------|----------|-------|
 | overview.md | Да/Нет | ACCEPT |
 
+### Инфраструктура сервисов
+| Сервис | src/ папка | svc: label |
+|--------|-----------|------------|
+| {svc} | создана/существовала | создан/существовал |
+
 **Маркер:** docs-synced: true записан в design.md
 
 **Следующий шаг:** `/dev-create {chain-id}`
@@ -240,6 +249,11 @@ Task tool:
 ### Prerequisites
 - [ ] Все 4 документа в WAITING
 - [ ] Cross-chain guard пройден
+
+### Scope (шаг 2)
+- [ ] src/{svc}/ папки созданы для новых сервисов
+- [ ] svc:{svc} labels созданы на GitHub для новых сервисов
+- [ ] labels.yml обновлён (секция SVC)
 
 ### Волна 1
 - [ ] service-agent × N запущены параллельно
