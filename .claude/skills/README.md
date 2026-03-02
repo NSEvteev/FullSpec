@@ -154,7 +154,6 @@ standard-version: v1.1
 | [test](./test/SKILL.md) | Финальная валидация (sync main, docker, tests, lint, build, отчёт) |
 | [docs-sync](./docs-sync/SKILL.md) | Синхронизация specs/docs/ после analysis chain (service/technology/system агенты + ревью) |
 | [chain-done](./chain-done/SKILL.md) | Завершение analysis chain (REVIEW → DONE, system-agent mode=done, cross-chain) |
-| ~~[dev](./dev_old/SKILL.md)~~ | ~~Деактивирован — заменён на dev-agent~~ |
 | [analysis-status](./analysis-status/SKILL.md) | Статус analysis chain (одна/все цепочки, dashboard) |
 | [review-create](./review-create/SKILL.md) | Создание review.md при Plan Dev → WAITING |
 | [review-validate](./review-validate/SKILL.md) | Валидация документа ревью кода |
