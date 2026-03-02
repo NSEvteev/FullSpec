@@ -1,7 +1,7 @@
 ---
 description: Plan Dev Task Dashboard — задачи реализации для task, auth, frontend.
 standard: specs/.instructions/analysis/plan-dev/standard-plan-dev.md
-standard-version: v1.5
+standard-version: v1.6
 index: specs/analysis/README.md
 parent: plan-test.md
 status: RUNNING

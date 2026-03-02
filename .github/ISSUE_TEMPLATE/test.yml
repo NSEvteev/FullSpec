@@ -5,43 +5,64 @@ labels:
   - test
 body:
   - type: textarea
-    id: description
+    id: task-description
     attributes:
       label: Описание задачи
-      description: Что нужно сделать?
-    validations:
-      required: true
+      description: "Какие тесты нужно написать и ЗАЧЕМ"
+      placeholder: |
+        Написать E2E тесты для потока авторизации: логин → дашборд → логаут.
+        Покрыть критический путь пользователя для CI/CD.
 
-  - type: dropdown
-    id: area
-    attributes:
-      label: Область
-      description: Какая часть кодовой базы затрагивается?
-      multiple: true
-      options:
-        - Backend
-        - Frontend
-        - Database
-        - Infrastructure
+        **Сервис:** frontend + auth
     validations:
       required: true
 
   - type: textarea
-    id: related-docs
+    id: documents
     attributes:
-      label: Связанная документация
-      description: "Файлы проекта для понимания контекста задачи. Формат: описание — путь. Если нет — напишите «Связанной документации нет»"
+      label: Документы для изучения
+      description: "Документы для понимания контекста. Формат: таблица | # | Документ | Путь | Что искать |"
       placeholder: |
-        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+        | # | Документ | Путь | Что искать |
+        |---|----------|------|-----------|
+        | 1 | Тестирование | specs/docs/.system/testing.md | Стратегия, мокирование |
+        | 2 | Plan Test | specs/analysis/0001-.../plan-test.md | TC-N сценарии |
     validations:
       required: true
 
-  - type: input
-    id: dependencies
+  - type: textarea
+    id: assignment
     attributes:
-      label: Зависимости
-      description: "Issues, от которых зависит задача (например #123, #124). Если нет — напишите «Нет»"
-      placeholder: "#123, #124 или Нет"
+      label: Задание
+      description: "Пошаговые инструкции: какие тесты написать"
+      placeholder: |
+        1. **Создай** `tests/e2e/auth.spec.ts` — E2E тесты авторизации.
+        2. **Покрой сценарии** TC-28 (логин), TC-29 (ошибка 401), TC-30 (редирект).
+        3. **Настрой** fixtures и mocks.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Критерии готовности
+      description: "Как проверить результат. Ссылка на Plan Test + TC-N"
+      placeholder: |
+        - [ ] Тесты проходят локально
+        - [ ] Покрыты все TC-N сценарии
+        - [ ] CI pipeline проходит
+    validations:
+      required: true
+
+  - type: textarea
+    id: practical-context
+    attributes:
+      label: Практический контекст
+      description: "Тестовое окружение, команды запуска"
+      placeholder: |
+        **Существующие тесты:** tests/e2e/ содержит: setup.ts, utils.ts
+        **Как запустить:** make test-e2e
+        **Как проверить:** npm run test:e2e -- --reporter=verbose
     validations:
       required: true
 

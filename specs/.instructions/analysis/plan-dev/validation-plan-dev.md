@@ -1,13 +1,13 @@
 ---
 description: Валидация документов плана разработки SDD — frontmatter, именование, секции TASK-N, подзадачи, зависимости, TC-N трассируемость, маппинг Issues, зона ответственности.
 standard: .instructions/standard-instruction.md
-standard-version: v1.5
+standard-version: v1.6
 index: specs/.instructions/README.md
 ---
 
 # Валидация плана разработки
 
-Рабочая версия стандарта: 1.5
+Рабочая версия стандарта: 1.6
 
 Проверка документов плана разработки (`specs/analysis/*/plan-dev.md`) на соответствие [standard-plan-dev.md](./standard-plan-dev.md).
 
@@ -150,7 +150,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
 | Приоритет | Одно из: `high`, `medium`, `low` (строчные) | Обязательно |
 | Зависимости | `TASK-M` / `TASK-M, TASK-K` / `—` (em-dash) | Обязательно |
 | TC | `TC-N` / `TC-N, TC-M` / `INFRA` — хотя бы одно значение | Обязательно |
-| Источник | Формат `SVC-N § K` — ссылка на подсекцию Design | Обязательно |
+| Источник | Формат `SVC-N § K` — конкретные номера подсекций Design (не обобщённые). Используется при `/dev-create` для навигации в Issue body | Обязательно |
 | Issue | `[#N](url)` при RUNNING+, `—` при DRAFT/WAITING, отсутствует при DRAFT | Опционально |
 | Type | Одно из: `feature`, `task`, `infra`, `test` — TYPE-метка для GitHub Issue | Опционально |
 
@@ -159,7 +159,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
    - Приоритет: ровно одно из трёх значений
    - Зависимости: если нет — символ `—` (em-dash, не дефис)
    - TC: хотя бы один TC-N из Plan Tests ([standard-plan-test.md](../plan-test/standard-plan-test.md)). Отсутствие TC-N — блокирующая ошибка (статус > DRAFT). Исключение: `TC: INFRA` для инфраструктурных задач
-   - Источник: `SVC-N § K` — N = номер SVC-N секции, K = номер подсекции (1-9)
+   - Источник: `SVC-N § K` — N = номер SVC-N секции, K = номер подсекции (1-9). Точность обязательна: `SVC-3 § 4, SVC-3 § 5` (хорошо), `SVC-3` (плохо). Используется при `/dev-create` для генерации навигации в Issue body
    - Type: одно из `feature`, `task`, `infra`, `test` (TYPE-метка для GitHub Issue при `/dev-create`)
 
 4. **Лимит INFRA:** Задачи с `TC: INFRA` — не более 20% от общего числа TASK-N
@@ -289,7 +289,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
 - [ ] Приоритет: одно из `high` / `medium` / `low`
 - [ ] Зависимости: `TASK-M` или `—` (em-dash)
 - [ ] TC: хотя бы один TC-N из Plan Tests или `INFRA`
-- [ ] Источник: `SVC-N § K` из Design
+- [ ] Источник: `SVC-N § K` из Design (конкретные номера подсекций, не обобщённые)
 
 ### Подзадачи
 - [ ] Точечная нотация: `N.M`

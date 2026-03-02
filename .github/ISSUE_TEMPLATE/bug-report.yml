@@ -5,52 +5,72 @@ labels:
   - bug
   - priority:medium
 body:
-  - type: markdown
-    attributes:
-      value: |
-        ## Спасибо за сообщение о баге!
-
-        Пожалуйста, предоставьте как можно больше деталей.
-
   - type: textarea
-    id: description
+    id: task-description
     attributes:
-      label: Описание бага
-      description: Чёткое и краткое описание проблемы
-      placeholder: "При нажатии на X происходит Y вместо Z"
-    validations:
-      required: true
-
-  - type: textarea
-    id: steps
-    attributes:
-      label: Шаги воспроизведения
-      description: Как воспроизвести проблему?
+      label: Описание задачи
+      description: "Что происходит, что ожидалось, в каком сервисе. Шаги воспроизведения."
       placeholder: |
+        При загрузке CSV-файла > 10MB эндпоинт POST /api/import возвращает 500.
+        Ожидание: файл обрабатывается или возвращается 413.
+
+        Шаги воспроизведения:
         1. Перейти в '...'
-        2. Нажать на '...'
-        3. Увидеть ошибку
+        2. Загрузить файл > 10MB
+        3. Увидеть ошибку 500
+
+        **Сервис:** api-gateway
     validations:
       required: true
 
-  - type: input
-    id: version
+  - type: textarea
+    id: documents
     attributes:
-      label: Версия
-      description: Какую версию вы используете?
-      placeholder: "v1.0.0"
+      label: Документы для изучения
+      description: "Документы для понимания контекста бага. Формат: таблица | # | Документ | Путь | Что искать |"
+      placeholder: |
+        | # | Документ | Путь | Что искать |
+        |---|----------|------|-----------|
+        | 1 | Конвенции API | specs/docs/.system/conventions.md | Формат ошибок, лимиты |
+        | 2 | Сервисная документация | specs/docs/api-gateway.md | Code Map, обработка загрузок |
     validations:
       required: true
 
-  - type: dropdown
-    id: environment
+  - type: textarea
+    id: assignment
     attributes:
-      label: Окружение
-      description: Где возникла проблема?
-      options:
-        - Production
-        - Staging
-        - Local
+      label: Задание
+      description: "Пошаговые инструкции по исправлению бага"
+      placeholder: |
+        1. **Найди обработчик** в `src/.../routes/...`.
+        2. **Исправь логику** — описание что изменить.
+        3. **Напиши тест** — покрыть сценарий.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Критерии готовности
+      description: "Как проверить что баг исправлен"
+      placeholder: |
+        - [ ] Ошибка больше не воспроизводится
+        - [ ] Тест покрывает сценарий
+        - [ ] Существующая функциональность не нарушена
+    validations:
+      required: true
+
+  - type: textarea
+    id: practical-context
+    attributes:
+      label: Практический контекст
+      description: "Как воспроизвести, окружение, команды запуска"
+      placeholder: |
+        **Как воспроизвести:** curl -X POST ...
+        **Окружение:** Production / Staging / Local
+        **Версия:** v1.0.0
+        **Как запустить:** make dev
+        **Как проверить:** cd src/... && npm test
     validations:
       required: true
 
@@ -58,27 +78,8 @@ body:
     id: logs
     attributes:
       label: Логи
-      description: Вставьте релевантные логи
+      description: Вставьте релевантные логи (опционально)
       render: bash
-
-  - type: textarea
-    id: related-docs
-    attributes:
-      label: Связанная документация
-      description: "Файлы проекта для понимания контекста задачи. Формат: описание — путь. Если нет — напишите «Связанной документации нет»"
-      placeholder: |
-        - Стандарт меток — .github/.instructions/labels/standard-labels.md
-    validations:
-      required: true
-
-  - type: input
-    id: dependencies
-    attributes:
-      label: Зависимости
-      description: "Issues, от которых зависит задача (например #123, #124). Если нет — напишите «Нет»"
-      placeholder: "#123, #124 или Нет"
-    validations:
-      required: true
 
   - type: checkboxes
     id: checklist

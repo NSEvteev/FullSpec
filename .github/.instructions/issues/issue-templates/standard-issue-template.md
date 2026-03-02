@@ -7,7 +7,7 @@ index: .github/.instructions/issues/issue-templates/README.md
 
 # Стандарт YAML-шаблонов Issues
 
-Версия стандарта: 1.3
+Версия стандарта: 1.4
 
 Формат и правила создания шаблонов для GitHub Issues в `.github/ISSUE_TEMPLATE/`.
 
@@ -264,50 +264,99 @@ assignees:
 - `checkboxes` — список чекбоксов
 
 **Рекомендуемый порядок полей в body:**
-1. `markdown` с инструкциями (в начале формы)
-2. Основные поля ввода (`textarea` для описания, `input` для версии)
-3. `textarea` для связанной документации (`related-docs`) — **обязательное**, см. ниже
-4. `input` для зависимостей (`dependencies`) — **обязательное**, см. ниже
-5. Дополнительные поля (`dropdown`, `textarea` для логов)
-6. `checkboxes` с чек-листом (в конце формы)
 
-**Принцип:** Обязательные поля — в начале, чек-листы и подтверждения — в конце.
+Каждый шаблон генерирует body с 5 обязательными секциями — [standard-issue.md § 4 Body](../standard-issue.md#body-структура-описания).
 
-**Поле Related Docs (обязательное):**
+1. `markdown` с инструкциями (в начале формы, опционально)
+2. `textarea` для описания задачи (`task-description`) — **обязательное**
+3. `textarea` для документов для изучения (`documents`) — **обязательное**
+4. `textarea` для задания (`assignment`) — **обязательное**
+5. `textarea` / `checkboxes` для критериев готовности (`acceptance-criteria`) — **обязательное**
+6. `textarea` для практического контекста (`practical-context`) — **обязательное**
+7. Дополнительные поля (`dropdown`, `input` для версии, `textarea` для логов)
+8. `checkboxes` с подтверждениями (в конце формы)
 
-Каждый шаблон ДОЛЖЕН содержать поле связанной документации. Конвенция формата — [standard-issue.md § 4 Body](../standard-issue.md#body-структура-описания).
+**Принцип:** Обязательные 5 секций — в порядке стандарта, дополнительные поля — после них.
+
+**Поле Task Description (обязательное):**
 
 ```yaml
 - type: textarea
-  id: related-docs
+  id: task-description
   attributes:
-    label: Related Documentation
-    description: "Project files that help understand the task context. Format: description — path. Write 'Связанной документации нет' if none"
+    label: Описание задачи
+    description: "ЧТО нужно сделать и ЗАЧЕМ. 2-3 предложения + метаданные (сложность, сервис, зависимости)"
     placeholder: |
-      - Стандарт меток — .github/.instructions/labels/standard-labels.md
-      - Справочник меток — .github/labels.yml
+      Реализовать аутентификацию на фронтенде: Zustand-стор, страницу логина, ProtectedRoute.
+
+      **Сервис:** frontend
+      **Зависит от:** #55 (API-слой) — ДОЛЖЕН быть готов.
   validations:
     required: true
 ```
 
-Поле обязательное (`required: true`): создатель Issue вынужден осознанно указать релевантные документы или явно написать "Связанной документации нет".
-
-**Поле Dependencies (обязательное):**
-
-Каждый шаблон ДОЛЖЕН содержать поле зависимостей. Конвенция формата — [standard-issue.md § 8](../standard-issue.md#8-декомпозиция-и-зависимости).
+**Поле Documents (обязательное):**
 
 ```yaml
-- type: input
-  id: dependencies
+- type: textarea
+  id: documents
   attributes:
-    label: Dependencies
-    description: "Issues this depends on (e.g. #123, #124). Write 'None' if no dependencies"
-    placeholder: "#123, #124 or None"
+    label: Документы для изучения
+    description: "Таблица документов для изучения перед началом работы. Формат: | # | Документ | Путь | Что искать |"
+    placeholder: |
+      | # | Документ | Путь | Что искать |
+      |---|----------|------|-----------|
+      | 1 | Конвенции API | specs/docs/.system/conventions.md | Формат ошибок |
   validations:
     required: true
 ```
 
-Поле обязательное (`required: true`): автор Issue вынужден осознанно оценить зависимости перед созданием. Если зависимостей нет — указать "None".
+**Поле Assignment (обязательное):**
+
+```yaml
+- type: textarea
+  id: assignment
+  attributes:
+    label: Задание
+    description: "Пошаговые инструкции ЧТО ИМЕННО сделать. Каждый пункт: действие + путь к файлу + контекст"
+    placeholder: |
+      1. **Создай `src/...`** — описание что должен делать файл.
+      2. **Обнови `src/...`** — что изменить и зачем.
+      3. **Напиши тесты** — по TC-N из Plan Test.
+  validations:
+    required: true
+```
+
+**Поле Acceptance Criteria (обязательное):**
+
+```yaml
+- type: textarea
+  id: acceptance-criteria
+  attributes:
+    label: Критерии готовности
+    description: "Чек-лист: как проверить результат. Для Plan Dev — ссылка на Plan Test + TC-N"
+    placeholder: |
+      - [ ] Эндпоинт работает корректно
+      - [ ] Тесты покрывают основные сценарии
+  validations:
+    required: true
+```
+
+**Поле Practical Context (обязательное):**
+
+```yaml
+- type: textarea
+  id: practical-context
+  attributes:
+    label: Практический контекст
+    description: "Существующий код, экспорты зависимостей, команды запуска/проверки"
+    placeholder: |
+      **Существующий код:** src/frontend/ содержит: App.tsx, main.tsx
+      **Как запустить:** make dev → http://localhost:3000
+      **Как проверить:** cd src/frontend && npm test
+  validations:
+    required: true
+```
 
 **Контекст для LLM:**
 
@@ -754,71 +803,64 @@ labels:
   - bug
   - medium
 body:
-  - type: markdown
-    attributes:
-      value: |
-        ## Thank you for reporting a bug!
-
-        Please provide as much detail as possible.
-
   - type: textarea
-    id: description
+    id: task-description
     attributes:
-      label: Bug Description
-      description: A clear and concise description of the bug
-      placeholder: "When I click X, Y happens instead of Z"
-    validations:
-      required: true
-
-  - type: textarea
-    id: steps
-    attributes:
-      label: Steps to Reproduce
-      description: How can we reproduce this issue?
+      label: Описание задачи
+      description: "Что происходит, что ожидалось, в каком сервисе. Шаги воспроизведения."
       placeholder: |
-        1. Go to '...'
-        2. Click on '...'
-        3. See error
-    validations:
-      required: true
+        При загрузке CSV-файла размером > 10MB эндпоинт POST /api/import возвращает 500.
+        Ожидание: файл обрабатывается или возвращается 413.
 
-  - type: input
-    id: version
-    attributes:
-      label: Version
-      description: Which version are you using?
-      placeholder: "v1.0.0"
+        **Сервис:** api-gateway
     validations:
       required: true
 
   - type: textarea
-    id: related-docs
+    id: documents
     attributes:
-      label: Related Documentation
-      description: "Project files that help understand the task context. Format: description — path. Write 'Связанной документации нет' if none"
+      label: Документы для изучения
+      description: "Документы для понимания контекста бага. Формат: таблица | # | Документ | Путь | Что искать |"
       placeholder: |
-        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+        | # | Документ | Путь | Что искать |
+        |---|----------|------|-----------|
+        | 1 | Конвенции API | specs/docs/.system/conventions.md | Формат ошибок |
     validations:
       required: true
 
-  - type: input
-    id: dependencies
+  - type: textarea
+    id: assignment
     attributes:
-      label: Dependencies
-      description: "Issues this depends on (e.g. #123, #124). Write 'None' if no dependencies"
-      placeholder: "#123, #124 or None"
+      label: Задание
+      description: "Пошаговые инструкции по исправлению бага"
+      placeholder: |
+        1. **Найди обработчик** в `src/.../routes/...`.
+        2. **Исправь логику** — описание что изменить.
+        3. **Напиши тест** — покрыть сценарий.
     validations:
       required: true
 
-  - type: dropdown
-    id: environment
+  - type: textarea
+    id: acceptance-criteria
     attributes:
-      label: Environment
-      description: Where did the bug occur?
-      options:
-        - Production
-        - Staging
-        - Local
+      label: Критерии готовности
+      description: "Как проверить что баг исправлен"
+      placeholder: |
+        - [ ] Ошибка больше не воспроизводится
+        - [ ] Тест покрывает сценарий
+    validations:
+      required: true
+
+  - type: textarea
+    id: practical-context
+    attributes:
+      label: Практический контекст
+      description: "Как воспроизвести, окружение, команды запуска"
+      placeholder: |
+        **Как воспроизвести:** curl -X POST ...
+        **Окружение:** Production / Staging / Local
+        **Как запустить:** make dev
+        **Как проверить:** cd src/... && npm test
     validations:
       required: true
 
@@ -826,7 +868,7 @@ body:
     id: logs
     attributes:
       label: Logs
-      description: Paste any relevant logs
+      description: Paste any relevant logs (optional)
       render: bash
 
   - type: checkboxes
@@ -852,43 +894,62 @@ labels:
   - task
 body:
   - type: textarea
-    id: description
+    id: task-description
     attributes:
-      label: Task Description
-      description: What needs to be done?
+      label: Описание задачи
+      description: "ЧТО нужно сделать и ЗАЧЕМ. 2-3 предложения + метаданные"
+      placeholder: |
+        Реализовать компонент X для сервиса Y.
+
+        **Сервис:** frontend
+        **Зависит от:** #55 (описание) — ДОЛЖЕН быть готов.
     validations:
       required: true
 
   - type: textarea
-    id: related-docs
+    id: documents
     attributes:
-      label: Related Documentation
-      description: "Project files that help understand the task context. Format: description — path. Write 'Связанной документации нет' if none"
+      label: Документы для изучения
+      description: "Документы для изучения перед началом работы. Формат: таблица | # | Документ | Путь | Что искать |"
       placeholder: |
-        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+        | # | Документ | Путь | Что искать |
+        |---|----------|------|-----------|
+        | 1 | Сервисная документация | specs/docs/frontend.md | Code Map, структура |
     validations:
       required: true
 
-  - type: input
-    id: dependencies
+  - type: textarea
+    id: assignment
     attributes:
-      label: Dependencies
-      description: "Issues this depends on (e.g. #123, #124). Write 'None' if no dependencies"
-      placeholder: "#123, #124 or None"
+      label: Задание
+      description: "Пошаговые инструкции ЧТО ИМЕННО сделать"
+      placeholder: |
+        1. **Создай `src/.../file.ts`** — описание.
+        2. **Обнови `src/.../App.tsx`** — что изменить.
+        3. **Напиши тесты** — по TC-N из Plan Test.
     validations:
       required: true
 
-  - type: dropdown
-    id: area
+  - type: textarea
+    id: acceptance-criteria
     attributes:
-      label: Area
-      description: Which part of the codebase?
-      multiple: true
-      options:
-        - Backend
-        - Frontend
-        - Database
-        - Infrastructure
+      label: Критерии готовности
+      description: "Как проверить результат. Для Plan Dev — ссылка на Plan Test + TC-N"
+      placeholder: |
+        - [ ] Компонент X работает корректно
+        - [ ] Тесты покрывают основные сценарии
+    validations:
+      required: true
+
+  - type: textarea
+    id: practical-context
+    attributes:
+      label: Практический контекст
+      description: "Существующий код, экспорты зависимостей, команды запуска"
+      placeholder: |
+        **Существующий код:** src/frontend/ содержит: App.tsx, main.tsx
+        **Как запустить:** make dev → http://localhost:3000
+        **Как проверить:** cd src/frontend && npm test
     validations:
       required: true
 

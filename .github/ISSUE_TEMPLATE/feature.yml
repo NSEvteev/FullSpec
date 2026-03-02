@@ -5,43 +5,64 @@ labels:
   - feature
 body:
   - type: textarea
-    id: description
+    id: task-description
     attributes:
       label: Описание задачи
-      description: Что нужно сделать?
-    validations:
-      required: true
+      description: "ЧТО нужно сделать и ЗАЧЕМ. 2-3 предложения + метаданные (сервис, зависимости)"
+      placeholder: |
+        Добавить возможность экспорта данных в CSV для эндпоинта API.
+        Пользователи смогут скачать отчёт в удобном формате.
 
-  - type: dropdown
-    id: area
-    attributes:
-      label: Область
-      description: Какая часть кодовой базы затрагивается?
-      multiple: true
-      options:
-        - Backend
-        - Frontend
-        - Database
-        - Infrastructure
+        **Сервис:** api-gateway
+        **Зависит от:** #120 (авторизация) — ДОЛЖЕН быть готов.
     validations:
       required: true
 
   - type: textarea
-    id: related-docs
+    id: documents
     attributes:
-      label: Связанная документация
-      description: "Файлы проекта для понимания контекста задачи. Формат: описание — путь. Если нет — напишите «Связанной документации нет»"
+      label: Документы для изучения
+      description: "Документы для изучения перед началом работы. Формат: таблица | # | Документ | Путь | Что искать |"
       placeholder: |
-        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+        | # | Документ | Путь | Что искать |
+        |---|----------|------|-----------|
+        | 1 | Сервисная документация | specs/docs/api-gateway.md | Code Map, эндпоинты |
     validations:
       required: true
 
-  - type: input
-    id: dependencies
+  - type: textarea
+    id: assignment
     attributes:
-      label: Зависимости
-      description: "Issues, от которых зависит задача (например #123, #124). Если нет — напишите «Нет»"
-      placeholder: "#123, #124 или Нет"
+      label: Задание
+      description: "Пошаговые инструкции ЧТО ИМЕННО сделать"
+      placeholder: |
+        1. **Создай `src/.../export.ts`** — описание.
+        2. **Добавь роут** в `src/.../routes.ts` — GET /api/export/csv.
+        3. **Напиши тесты** — happy path + edge cases.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Критерии готовности
+      description: "Как проверить результат. Для Plan Dev — ссылка на Plan Test + TC-N"
+      placeholder: |
+        - [ ] Эндпоинт работает корректно
+        - [ ] Тесты покрывают основные сценарии
+        - [ ] Документация API обновлена
+    validations:
+      required: true
+
+  - type: textarea
+    id: practical-context
+    attributes:
+      label: Практический контекст
+      description: "Существующий код, экспорты зависимостей, команды запуска"
+      placeholder: |
+        **Существующий код:** src/api-gateway/ содержит: routes/, controllers/
+        **Как запустить:** make dev → http://localhost:3000
+        **Как проверить:** cd src/api-gateway && npm test
     validations:
       required: true
 

@@ -5,60 +5,63 @@ labels:
   - docs
   - low
 body:
-  - type: dropdown
-    id: type
-    attributes:
-      label: Тип изменения
-      description: Какое изменение документации нужно?
-      options:
-        - Исправить опечатку/ошибку
-        - Добавить недостающую информацию
-        - Улучшить ясность
-        - Добавить пример
-        - Другое
-    validations:
-      required: true
-
-  - type: input
-    id: location
-    attributes:
-      label: Расположение
-      description: Какой файл или раздел нужно изменить?
-      placeholder: "README.md, раздел 'Установка'"
-    validations:
-      required: true
-
   - type: textarea
-    id: description
+    id: task-description
     attributes:
-      label: Описание
-      description: Опишите проблему или улучшение
-      placeholder: "В инструкции по установке не хватает..."
-    validations:
-      required: true
-
-  - type: textarea
-    id: suggestion
-    attributes:
-      label: Предлагаемое изменение
-      description: Если у вас есть конкретное предложение, опишите его здесь
-
-  - type: textarea
-    id: related-docs
-    attributes:
-      label: Связанная документация
-      description: "Файлы проекта для понимания контекста задачи. Формат: описание — путь. Если нет — напишите «Связанной документации нет»"
+      label: Описание задачи
+      description: "Какая проблема в документации и ЗАЧЕМ нужно исправить"
       placeholder: |
-        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+        В инструкции по установке не хватает шага настройки pre-commit хуков.
+        Без этого шага новые разработчики пропускают make setup.
+
+        **Файл:** README.md, раздел "Установка"
     validations:
       required: true
 
-  - type: input
-    id: dependencies
+  - type: textarea
+    id: documents
     attributes:
-      label: Зависимости
-      description: "Issues, от которых зависит задача (например #123, #124). Если нет — напишите «Нет»"
-      placeholder: "#123, #124 или Нет"
+      label: Документы для изучения
+      description: "Документы для понимания контекста. Формат: таблица | # | Документ | Путь | Что искать |"
+      placeholder: |
+        | # | Документ | Путь | Что искать |
+        |---|----------|------|-----------|
+        | 1 | Целевой документ | README.md | Раздел "Установка" |
+    validations:
+      required: true
+
+  - type: textarea
+    id: assignment
+    attributes:
+      label: Задание
+      description: "Пошаговые инструкции: что именно изменить в документации"
+      placeholder: |
+        1. **Открой** `README.md`, раздел "Установка".
+        2. **Добавь** шаг "Выполни `make setup`" после клонирования.
+        3. **Проверь** ссылки на связанные документы.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Критерии готовности
+      description: "Как проверить что документация исправлена"
+      placeholder: |
+        - [ ] Информация корректна и актуальна
+        - [ ] Ссылки работают
+        - [ ] Нет опечаток
+    validations:
+      required: true
+
+  - type: textarea
+    id: practical-context
+    attributes:
+      label: Практический контекст
+      description: "Где находится документ, как проверить изменения"
+      placeholder: |
+        **Файл:** README.md, строка ~45
+        **Как проверить:** прочитать раздел — инструкция должна быть понятна новому разработчику
     validations:
       required: true
 

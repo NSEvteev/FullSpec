@@ -9,8 +9,7 @@ validate-type-templates.py — Валидация соответствия TYPE-
 Проверяет:
     - Для каждой TYPE-метки в labels.yml существует Issue Template
     - Каждый Issue Template содержит TYPE-метку в labels:
-    - Каждый Issue Template содержит обязательное поле related-docs
-    - Каждый Issue Template содержит обязательное поле dependencies
+    - Каждый Issue Template содержит 5 обязательных полей body (task-description, documents, assignment, acceptance-criteria, practical-context)
 
 TYPE-метки (из секции # TYPE в labels.yml):
     bug, task, docs, refactor
@@ -43,8 +42,10 @@ ERROR_CODES = {
     "TT003": "Issue Template с неизвестной TYPE-меткой",
     "TT004": "Файл labels.yml не найден",
     "TT005": "Папка ISSUE_TEMPLATE не найдена",
-    "TT006": "Issue Template без обязательного поля dependencies",
-    "TT007": "Issue Template без обязательного поля related-docs",
+    "TT006": "Issue Template без обязательного поля documents",
+    "TT007": "Issue Template без обязательного поля assignment",
+    "TT008": "Issue Template без обязательного поля practical-context",
+    "TT009": "Issue Template без обязательного поля task-description",
 }
 
 
@@ -130,8 +131,8 @@ def load_templates(repo_root: Path) -> dict[str, set[str]]:
     return templates
 
 
-def check_dependencies_field(repo_root: Path) -> list[str]:
-    """Проверить что каждый шаблон содержит обязательное поле dependencies."""
+def check_required_body_field(repo_root: Path, field_id: str, error_code: str) -> list[str]:
+    """Проверить что каждый шаблон содержит обязательное поле body с указанным id."""
     errors = []
     templates_dir = repo_root / ".github" / "ISSUE_TEMPLATE"
     if not templates_dir.exists():
@@ -144,60 +145,23 @@ def check_dependencies_field(repo_root: Path) -> list[str]:
         with open(template_file, encoding="utf-8") as f:
             content = f.read()
 
-        # Проверяем наличие id: dependencies
-        has_id = bool(re.search(r'^\s+id:\s*dependencies\s*$', content, re.MULTILINE))
+        # Проверяем наличие id: {field_id}
+        has_id = bool(re.search(rf'^\s+id:\s*{re.escape(field_id)}\s*$', content, re.MULTILINE))
         if not has_id:
             errors.append(
-                f"[TT006] {template_file.name}: нет поля с id: dependencies"
+                f"[{error_code}] {template_file.name}: нет поля с id: {field_id}"
             )
             continue
 
-        # Проверяем required: true для dependencies
-        # Ищем блок: id: dependencies ... validations: ... required: true
-        dep_block = re.search(
-            r'id:\s*dependencies.*?validations:\s*\n\s+required:\s*(true|false)',
+        # Проверяем required: true
+        field_block = re.search(
+            rf'id:\s*{re.escape(field_id)}.*?validations:\s*\n\s+required:\s*(true|false)',
             content,
             re.DOTALL,
         )
-        if dep_block and dep_block.group(1) != "true":
+        if field_block and field_block.group(1) != "true":
             errors.append(
-                f"[TT006] {template_file.name}: поле dependencies должно быть required: true"
-            )
-
-    return errors
-
-
-def check_related_docs_field(repo_root: Path) -> list[str]:
-    """Проверить что каждый шаблон содержит обязательное поле related-docs."""
-    errors = []
-    templates_dir = repo_root / ".github" / "ISSUE_TEMPLATE"
-    if not templates_dir.exists():
-        return errors
-
-    for template_file in templates_dir.glob("*.yml"):
-        if template_file.name == "config.yml":
-            continue
-
-        with open(template_file, encoding="utf-8") as f:
-            content = f.read()
-
-        # Проверяем наличие id: related-docs
-        has_id = bool(re.search(r'^\s+id:\s*related-docs\s*$', content, re.MULTILINE))
-        if not has_id:
-            errors.append(
-                f"[TT007] {template_file.name}: нет поля с id: related-docs"
-            )
-            continue
-
-        # Проверяем required: true для related-docs
-        doc_block = re.search(
-            r'id:\s*related-docs.*?validations:\s*\n\s+required:\s*(true|false)',
-            content,
-            re.DOTALL,
-        )
-        if doc_block and doc_block.group(1) != "true":
-            errors.append(
-                f"[TT007] {template_file.name}: поле related-docs должно быть required: true"
+                f"[{error_code}] {template_file.name}: поле {field_id} должно быть required: true"
             )
 
     return errors
@@ -254,11 +218,15 @@ def validate(repo_root: Path, verbose: bool = False) -> list[str]:
             if label not in type_labels:
                 errors.append(f"[TT003] {name}: метка '{label}' не найдена в секции TYPE labels.yml")
 
-    # TT006: проверка поля dependencies
-    errors.extend(check_dependencies_field(repo_root))
-
-    # TT007: проверка поля related-docs
-    errors.extend(check_related_docs_field(repo_root))
+    # TT006-TT009: проверка 5 обязательных полей body
+    required_fields = [
+        ("documents", "TT006"),
+        ("assignment", "TT007"),
+        ("practical-context", "TT008"),
+        ("task-description", "TT009"),
+    ]
+    for field_id, error_code in required_fields:
+        errors.extend(check_required_body_field(repo_root, field_id, error_code))
 
     return errors
 

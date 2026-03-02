@@ -5,43 +5,64 @@ labels:
   - infra
 body:
   - type: textarea
-    id: description
+    id: task-description
     attributes:
       label: Описание задачи
-      description: Что нужно сделать?
-    validations:
-      required: true
+      description: "ЧТО нужно сделать и ЗАЧЕМ. Какая инфраструктурная проблема решается"
+      placeholder: |
+        Настроить Docker Compose для локальной разработки: все сервисы + БД.
+        Разработчики смогут запускать весь стек одной командой.
 
-  - type: dropdown
-    id: area
-    attributes:
-      label: Область
-      description: Какая часть кодовой базы затрагивается?
-      multiple: true
-      options:
-        - Backend
-        - Frontend
-        - Database
-        - Infrastructure
+        **Зависит от:** #100 (базовые Dockerfile) — ДОЛЖЕН быть готов.
     validations:
       required: true
 
   - type: textarea
-    id: related-docs
+    id: documents
     attributes:
-      label: Связанная документация
-      description: "Файлы проекта для понимания контекста задачи. Формат: описание — путь. Если нет — напишите «Связанной документации нет»"
+      label: Документы для изучения
+      description: "Документы для понимания контекста. Формат: таблица | # | Документ | Путь | Что искать |"
       placeholder: |
-        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+        | # | Документ | Путь | Что искать |
+        |---|----------|------|-----------|
+        | 1 | Инфраструктура | specs/docs/.system/infrastructure.md | Порты, БД, Docker |
+        | 2 | Обзор системы | specs/docs/.system/overview.md | Карта сервисов |
     validations:
       required: true
 
-  - type: input
-    id: dependencies
+  - type: textarea
+    id: assignment
     attributes:
-      label: Зависимости
-      description: "Issues, от которых зависит задача (например #123, #124). Если нет — напишите «Нет»"
-      placeholder: "#123, #124 или Нет"
+      label: Задание
+      description: "Пошаговые инструкции ЧТО ИМЕННО сделать"
+      placeholder: |
+        1. **Создай** `platform/docker/docker-compose.yml` — все сервисы.
+        2. **Настрой** volumes, networks, healthchecks.
+        3. **Проверь** запуск через `make dev`.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Критерии готовности
+      description: "Как проверить результат"
+      placeholder: |
+        - [ ] make dev запускает все сервисы
+        - [ ] Сервисы доступны на ожидаемых портах
+        - [ ] Логи не содержат ошибок
+    validations:
+      required: true
+
+  - type: textarea
+    id: practical-context
+    attributes:
+      label: Практический контекст
+      description: "Существующая инфраструктура, команды, окружение"
+      placeholder: |
+        **Существующий код:** platform/docker/ содержит: Dockerfile.base
+        **Как запустить:** make dev
+        **Как проверить:** docker ps → все контейнеры running
     validations:
       required: true
 

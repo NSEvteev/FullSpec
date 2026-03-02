@@ -36,7 +36,7 @@ ERROR_CODES = {
     "E002": "Title со строчной буквы",
     "E003": "Title с префиксом типа",
     "E004": "Body пустой",
-    "E005": "Нет секции 'Связанная документация'",
+    "E005": "Нет секции 'Документы для изучения'",
     "E006": "Нет секции 'Критерии готовности' с чек-листом",
     "E007": "Нет метки типа",
     "E008": "Нет метки приоритета",
@@ -47,6 +47,8 @@ ERROR_CODES = {
     "E013": "Нет комментария при закрытии not planned",
     "E014": "Зависимость не закрыта при закрытии Issue",
     "E015": "Title слишком короткий (< 50 символов)",
+    "E016": "Нет секции 'Задание'",
+    "E017": "Нет секции 'Практический контекст'",
 }
 
 TITLE_MIN_LENGTH = 50
@@ -188,19 +190,45 @@ def validate_body(issue: dict) -> list[str]:
     lines = body.split("\n")
     lower_lines = [line.strip().lower() for line in lines]
 
-    # E005: Секция "Связанная документация"
-    has_related_docs = any(
-        line.startswith("## ") and "связанная документация" in line
+    # E005: Секция "Документы для изучения"
+    has_documents = any(
+        line.startswith("## ") and "документы для изучения" in line
         for line in lower_lines
     )
     # Также проверяем английский вариант (из шаблонов)
-    if not has_related_docs:
-        has_related_docs = any(
-            line.startswith("### related documentation") or line.startswith("## related documentation")
+    if not has_documents:
+        has_documents = any(
+            line.startswith("### documents") or line.startswith("## documents")
             for line in lower_lines
         )
-    if not has_related_docs:
-        errors.append(f"[E005] #{number}: отсутствует секция 'Связанная документация'")
+    if not has_documents:
+        errors.append(f"[E005] #{number}: отсутствует секция 'Документы для изучения'")
+
+    # E016: Секция "Задание"
+    has_assignment = any(
+        line.startswith("## ") and line.strip() == "## задание"
+        for line in lower_lines
+    )
+    if not has_assignment:
+        has_assignment = any(
+            line.startswith("## ") and "assignment" in line
+            for line in lower_lines
+        )
+    if not has_assignment:
+        errors.append(f"[E016] #{number}: отсутствует секция 'Задание'")
+
+    # E017: Секция "Практический контекст"
+    has_practical = any(
+        line.startswith("## ") and "практический контекст" in line
+        for line in lower_lines
+    )
+    if not has_practical:
+        has_practical = any(
+            line.startswith("## ") and "practical context" in line
+            for line in lower_lines
+        )
+    if not has_practical:
+        errors.append(f"[E017] #{number}: отсутствует секция 'Практический контекст'")
 
     # E006: Секция "Критерии готовности"
     has_criteria = False

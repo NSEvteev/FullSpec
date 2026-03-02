@@ -5,43 +5,63 @@ labels:
   - task
 body:
   - type: textarea
-    id: description
+    id: task-description
     attributes:
       label: Описание задачи
-      description: Что нужно сделать?
-    validations:
-      required: true
+      description: "ЧТО нужно сделать и ЗАЧЕМ. 2-3 предложения + метаданные (сервис, зависимости)"
+      placeholder: |
+        Реализовать компонент X для сервиса Y.
+        Это часть функциональности Z — после реализации пользователь сможет...
 
-  - type: dropdown
-    id: area
-    attributes:
-      label: Область
-      description: Какая часть кодовой базы затрагивается?
-      multiple: true
-      options:
-        - Backend
-        - Frontend
-        - Database
-        - Infrastructure
+        **Сервис:** frontend
+        **Зависит от:** #55 (API-слой) — ДОЛЖЕН быть готов.
     validations:
       required: true
 
   - type: textarea
-    id: related-docs
+    id: documents
     attributes:
-      label: Связанная документация
-      description: "Файлы проекта для понимания контекста задачи. Формат: описание — путь. Если нет — напишите «Связанной документации нет»"
+      label: Документы для изучения
+      description: "Документы для изучения перед началом работы. Формат: таблица | # | Документ | Путь | Что искать |"
       placeholder: |
-        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+        | # | Документ | Путь | Что искать |
+        |---|----------|------|-----------|
+        | 1 | Сервисная документация | specs/docs/frontend.md | Code Map, структура |
     validations:
       required: true
 
-  - type: input
-    id: dependencies
+  - type: textarea
+    id: assignment
     attributes:
-      label: Зависимости
-      description: "Issues, от которых зависит задача (например #123, #124). Если нет — напишите «Нет»"
-      placeholder: "#123, #124 или Нет"
+      label: Задание
+      description: "Пошаговые инструкции ЧТО ИМЕННО сделать"
+      placeholder: |
+        1. **Создай `src/.../file.ts`** — описание.
+        2. **Обнови `src/.../App.tsx`** — что изменить.
+        3. **Напиши тесты** — по TC-N из Plan Test.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Критерии готовности
+      description: "Как проверить результат. Для Plan Dev — ссылка на Plan Test + TC-N"
+      placeholder: |
+        - [ ] Компонент работает корректно
+        - [ ] Тесты покрывают основные сценарии
+    validations:
+      required: true
+
+  - type: textarea
+    id: practical-context
+    attributes:
+      label: Практический контекст
+      description: "Существующий код, экспорты зависимостей, команды запуска"
+      placeholder: |
+        **Существующий код:** src/frontend/ содержит: App.tsx, main.tsx
+        **Как запустить:** make dev → http://localhost:3000
+        **Как проверить:** cd src/frontend && npm test
     validations:
       required: true
 

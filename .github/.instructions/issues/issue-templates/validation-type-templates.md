@@ -72,8 +72,10 @@ python .github/.instructions/.scripts/validate-type-templates.py
 | TT001: Метка без шаблона | Создать Issue Template (см. [standard-issue-template.md](./standard-issue-template.md)) |
 | TT002: Шаблон без метки типа | Добавить метку типа в `labels:` шаблона |
 | TT003: Неизвестная метка | Добавить метку в `labels.yml` или исправить опечатку |
-| TT006: Нет поля dependencies | Добавить `id: dependencies` с `required: true` (см. [standard-issue-template.md § body](./standard-issue-template.md#body-обязательно)) |
-| TT007: Нет поля related-docs | Добавить `id: related-docs` с `required: true` (см. [standard-issue-template.md § body](./standard-issue-template.md#body-обязательно)) |
+| TT006: Нет поля documents | Добавить `id: documents` с `required: true` (см. [standard-issue-template.md § body](./standard-issue-template.md#body-обязательно)) |
+| TT007: Нет поля assignment | Добавить `id: assignment` с `required: true` (см. [standard-issue-template.md § body](./standard-issue-template.md#body-обязательно)) |
+| TT008: Нет поля practical-context | Добавить `id: practical-context` с `required: true` (см. [standard-issue-template.md § body](./standard-issue-template.md#body-обязательно)) |
+| TT009: Нет поля task-description | Добавить `id: task-description` с `required: true` (см. [standard-issue-template.md § body](./standard-issue-template.md#body-обязательно)) |
 
 ---
 
@@ -81,8 +83,11 @@ python .github/.instructions/.scripts/validate-type-templates.py
 
 - [ ] Для каждой метки типа есть шаблон
 - [ ] Каждый шаблон содержит метку типа в `labels:`
-- [ ] Каждый шаблон содержит поле `id: related-docs` с `required: true`
-- [ ] Каждый шаблон содержит поле `id: dependencies` с `required: true`
+- [ ] Каждый шаблон содержит поле `id: task-description` с `required: true`
+- [ ] Каждый шаблон содержит поле `id: documents` с `required: true`
+- [ ] Каждый шаблон содержит поле `id: assignment` с `required: true`
+- [ ] Каждый шаблон содержит поле `id: acceptance-criteria` с `required: true`
+- [ ] Каждый шаблон содержит поле `id: practical-context` с `required: true`
 - [ ] Метки в шаблонах существуют в `labels.yml`
 - [ ] Валидация проходит без ошибок
 
@@ -97,8 +102,10 @@ python .github/.instructions/.scripts/validate-type-templates.py
 | Неизвестная метка | TT003 | Опечатка в шаблоне или метка удалена | Исправить имя или добавить в labels.yml |
 | labels.yml не найден | TT004 | Файл отсутствует | Создать `.github/labels.yml` |
 | Папка не найдена | TT005 | Нет `.github/ISSUE_TEMPLATE/` | Создать папку и шаблоны |
-| Нет поля dependencies | TT006 | Шаблон не содержит `id: dependencies` или `required: true` | Добавить обязательное поле dependencies |
-| Нет поля related-docs | TT007 | Шаблон не содержит `id: related-docs` или `required: true` | Добавить обязательное поле related-docs |
+| Нет поля documents | TT006 | Шаблон не содержит `id: documents` или `required: true` | Добавить обязательное поле documents |
+| Нет поля assignment | TT007 | Шаблон не содержит `id: assignment` или `required: true` | Добавить обязательное поле assignment |
+| Нет поля practical-context | TT008 | Шаблон не содержит `id: practical-context` или `required: true` | Добавить обязательное поле practical-context |
+| Нет поля task-description | TT009 | Шаблон не содержит `id: task-description` или `required: true` | Добавить обязательное поле task-description |
 
 ---
 

@@ -5,63 +5,65 @@ labels:
   - refactor
 body:
   - type: textarea
-    id: current
+    id: task-description
     attributes:
-      label: Текущее состояние
-      description: Опишите текущий код/архитектуру, который нужно отрефакторить
-      placeholder: "Текущая реализация в модуле X..."
-    validations:
-      required: true
-
-  - type: textarea
-    id: proposed
-    attributes:
-      label: Предлагаемые изменения
-      description: Какие изменения вы предлагаете?
-      placeholder: "Отрефакторить используя паттерн Y..."
-    validations:
-      required: true
-
-  - type: textarea
-    id: motivation
-    attributes:
-      label: Мотивация
-      description: Почему нужен этот рефакторинг?
-      placeholder: "Это улучшит поддерживаемость, потому что..."
-    validations:
-      required: true
-
-  - type: dropdown
-    id: area
-    attributes:
-      label: Область
-      description: Какая часть кодовой базы затрагивается?
-      multiple: true
-      options:
-        - Backend
-        - Frontend
-        - Database
-        - Infrastructure
-        - Tests
-    validations:
-      required: true
-
-  - type: textarea
-    id: related-docs
-    attributes:
-      label: Связанная документация
-      description: "Файлы проекта для понимания контекста задачи. Формат: описание — путь. Если нет — напишите «Связанной документации нет»"
+      label: Описание задачи
+      description: "Текущее состояние, предлагаемые изменения, мотивация (ЗАЧЕМ)"
       placeholder: |
-        - Стандарт меток — .github/.instructions/labels/standard-labels.md
+        Отрефакторить модуль обработки ошибок: вынести общую логику в middleware.
+        Текущая реализация дублирует try/catch в каждом контроллере.
+        Это улучшит поддерживаемость и уменьшит дублирование.
+
+        **Сервис:** api-gateway
     validations:
       required: true
 
-  - type: input
-    id: dependencies
+  - type: textarea
+    id: documents
     attributes:
-      label: Зависимости
-      description: "Issues, от которых зависит задача (например #123, #124). Если нет — напишите «Нет»"
-      placeholder: "#123, #124 или Нет"
+      label: Документы для изучения
+      description: "Документы для понимания контекста. Формат: таблица | # | Документ | Путь | Что искать |"
+      placeholder: |
+        | # | Документ | Путь | Что искать |
+        |---|----------|------|-----------|
+        | 1 | Конвенции | specs/docs/.system/conventions.md | Формат ошибок, middleware |
+        | 2 | Сервисная документация | specs/docs/api-gateway.md | Code Map, обработка ошибок |
+    validations:
+      required: true
+
+  - type: textarea
+    id: assignment
+    attributes:
+      label: Задание
+      description: "Пошаговые инструкции: что именно отрефакторить"
+      placeholder: |
+        1. **Создай** `src/.../middleware/errorHandler.ts` — общий обработчик ошибок.
+        2. **Замени** try/catch в контроллерах на middleware.
+        3. **Напиши тесты** — убедись что поведение не изменилось.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Критерии готовности
+      description: "Как проверить результат рефакторинга"
+      placeholder: |
+        - [ ] Функциональность не изменилась
+        - [ ] Тесты проходят
+        - [ ] Дублирование устранено
+    validations:
+      required: true
+
+  - type: textarea
+    id: practical-context
+    attributes:
+      label: Практический контекст
+      description: "Затронутые файлы, команды запуска, как убедиться что ничего не сломалось"
+      placeholder: |
+        **Затронутые файлы:** src/api-gateway/controllers/*.ts (5 файлов)
+        **Как запустить:** make dev
+        **Как проверить:** cd src/api-gateway && npm test
     validations:
       required: true
 
