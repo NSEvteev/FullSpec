@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Структура:** [.structure/README.md](/.structure/README.md) — SSOT структуры проекта
 
+**Инициализация:** [initialization.md](/.structure/initialization.md) — установка, настройка GitHub, template workflow
+
 **Quick Start:** [quick-start.md](/.structure/quick-start.md)
 
 **Onboarding:** [onboarding.md](/.claude/onboarding.md)
@@ -86,15 +88,6 @@ make clean     # Очистка (docker down -v)
 
 **Путь B (CONFLICT):** обратная связь код → спеки. Каскад → разрешение → повторный запуск.
 **Путь C:** Rollback (rollback-agent), Hotfix, Bug-fix bundle, Doc-only.
-
-## Задачи на 2026-02-28
-
-**РЕАЛЬНЫЕ тесты процесса** — первый полный прогон `/chain` от дискуссии до "прода" на цепочке `0001`.
-
-Сервисы-заглушки: регистрация, личный кабинет, админка, панель-список пользователей.
-Дискуссия: `specs/analysis/0001-task-dashboard/discussion.md`.
-
-Цель: пройти ВСЕ 8 фаз процесса (analysis chain, docs sync, запуск, реализация, финальная валидация, доставка в main, завершение, поставка). Настроить окружение, выйти на "прод".
 
 ## Поиск
 
