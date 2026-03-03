@@ -24,7 +24,7 @@ jobs:
     outputs:
       services: ${{ steps.find.outputs.services }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - id: find
         name: Find services with Dockerfile
@@ -49,7 +49,7 @@ jobs:
       matrix:
         service: ${{ fromJson(needs.discover.outputs.services) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Log in to registry
         uses: docker/login-action@v3
@@ -80,7 +80,7 @@ jobs:
     timeout-minutes: 30
     environment: staging
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Deploy to staging
         env:
@@ -113,7 +113,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Run smoke tests
         run: |
@@ -130,7 +130,7 @@ jobs:
     timeout-minutes: 30
     environment: production  # requires manual approval (GitHub Environment protection)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Deploy to production
         env:
