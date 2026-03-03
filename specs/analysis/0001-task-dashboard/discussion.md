@@ -4,7 +4,7 @@ standard: specs/.instructions/analysis/discussion/standard-discussion.md
 standard-version: v1.1
 index: specs/analysis/README.md
 children: []
-status: RUNNING
+status: REJECTED
 milestone: v0.1.0
 ---
 

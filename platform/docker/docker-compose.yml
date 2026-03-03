@@ -61,46 +61,6 @@ services:
   # Раскомментировать при создании сервиса через analysis chain.
   # Каждый сервис требует Dockerfile: platform/docker/Dockerfile.{svc}
 
-  # auth:
-  #   build:
-  #     context: ../../src/auth
-  #     dockerfile: ../../platform/docker/Dockerfile.auth
-  #     target: development
-  #   restart: unless-stopped
-  #   ports:
-  #     - "8001:8001"
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #     redis:
-  #       condition: service_healthy
-  #   volumes:
-  #     - ../../src/auth:/app
-  #   env_file:
-  #     - .env
-  #   networks:
-  #     - app-network
-
-  # task:
-  #   build:
-  #     context: ../../src/task
-  #     dockerfile: ../../platform/docker/Dockerfile.task
-  #     target: development
-  #   restart: unless-stopped
-  #   ports:
-  #     - "8002:8002"
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #     rabbitmq:
-  #       condition: service_healthy
-  #   volumes:
-  #     - ../../src/task:/app
-  #   env_file:
-  #     - .env
-  #   networks:
-  #     - app-network
-
   # notification:
   #   build:
   #     context: ../../src/notification

@@ -166,15 +166,4 @@
 # Цвет: 0ea5e9
 # Стандарт: standard-service.md, standard-labels.md
 # =============================================================================
-- name: "svc:task"
-  description: "🔷 Сервис task"
-  color: "0ea5e9"
-
-- name: "svc:auth"
-  description: "🔷 Сервис auth"
-  color: "0ea5e9"
-
-- name: "svc:frontend"
-  description: "🔷 Сервис frontend"
-  color: "0ea5e9"
 

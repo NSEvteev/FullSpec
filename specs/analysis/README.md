@@ -41,7 +41,7 @@ index: specs/README.md
 
 | ID | Тема | Статус | Design | Milestone | Описание |
 |----|------|--------|--------|-----------|----------|
-| 0001 | task-dashboard | RUNNING | design.md | v0.1.0 | Task Dashboard — дашборд управления задачами |
+| 0001 | task-dashboard | REJECTED | design.md | v0.1.0 | Task Dashboard — дашборд управления задачами |
 
 ---
 
@@ -50,7 +50,7 @@ index: specs/README.md
 <!-- BEGIN:analysis-status -->
 | NNNN | Тема | Disc | Design | P.Test | P.Dev | Review | Branch | Milestone |
 |------|------|------|--------|--------|-------|--------|--------|-----------|
-| 0001 | task-dashboard | R | R | R | R | OP | 0001-task-dashboard | v0.1.0 |
+| 0001 | task-dashboard | RJ | RJ | RJ | RJ | OP | 0001-task-dashboard | v0.1.0 |
 <!-- END:analysis-status -->
 
 *Обновляется через `/analysis-status --update`*
