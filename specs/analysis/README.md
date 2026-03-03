@@ -41,7 +41,7 @@ index: specs/README.md
 
 | ID | Тема | Статус | Design | Milestone | Описание |
 |----|------|--------|--------|-----------|----------|
-| 0001 | task-dashboard | REJECTED | design.md | v0.1.0 | Task Dashboard — дашборд управления задачами |
+| — | — | — | — | — | Нет активных цепочек |
 
 ---
 
@@ -61,6 +61,5 @@ index: specs/README.md
 
 ```
 specs/analysis/
-├── 0001-task-dashboard/        # Task Dashboard (v0.1.0)
 └── README.md                   # Индекс цепочек
 ```
