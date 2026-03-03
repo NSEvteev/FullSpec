@@ -16,6 +16,7 @@ standard-version: v1.1
 
 ## Оглавление
 
+- [0. Создание проекта из template](#0-создание-проекта-из-template)
 - [1. Быстрый старт](#1-быстрый-старт)
 - [2. Зависимости](#2-зависимости)
 - [3. Установка вручную](#3-установка-вручную)
@@ -27,6 +28,60 @@ standard-version: v1.1
 - [8. Настройка GitHub Labels (опционально)](#8-настройка-github-labels-опционально)
 - [9. Настройка GitHub Environments (деплой)](#9-настройка-github-environments-деплой)
 - [10. Claude-assisted инициализация](#10-claude-assisted-инициализация)
+- [11. Backport улучшений в template](#11-backport-улучшений-в-template)
+- [12. Forward port: template → проект](#12-forward-port-template--проект)
+
+---
+
+## 0. Создание проекта из template
+
+> Этот шаг выполняется **один раз** при создании нового проекта. Если вы клонировали существующий проект — переходите к [§ 1](#1-быстрый-старт).
+
+### Шаг 1: Создать репозиторий
+
+На GitHub: **"Use this template" → "Create a new repository"**.
+
+Копируется вся структура (код, инструкции, скиллы, агенты, rules, хуки), но **НЕ копируются Settings:**
+- Branch Protection Rules
+- Environments (staging/production)
+- Labels (нужно sync)
+- Secrets
+- GitHub Pages settings
+
+### Шаг 2: Клонировать и настроить
+
+```bash
+git clone https://github.com/{owner}/{new-repo}.git
+cd {new-repo}
+make setup    # pre-commit хуки
+```
+
+### Шаг 3: Инициализация через Claude
+
+```
+/init-project
+```
+
+Интерактивная настройка: Labels, Security, Branch Protection, Environments, CODEOWNERS. Подробнее — [§ 10](#10-claude-assisted-инициализация).
+
+### Шаг 4: Очистить project-specific данные
+
+| Что | Где | Действие |
+|-----|-----|----------|
+| Таблица цепочек | `specs/analysis/README.md` | Очистить строки таблицы (оставить заголовок) |
+| Статус-трекер | `specs/analysis/README.md` | Очистить блок между `BEGIN:analysis-status` и `END:analysis-status` |
+| CODEOWNERS | `.github/CODEOWNERS` | Заменить `@NSEvteev` на своего мейнтейнера |
+| Черновики | `.claude/drafts/` | Удалить project-specific (оставить `examples/`) |
+
+### Шаг 5: Первый коммит
+
+```bash
+git add -A
+git commit -m "chore: инициализация проекта из template"
+git push
+```
+
+Проект полностью рабочий. Все инструкции, скиллы, агенты, rules, pre-commit хуки — на месте. Начинай с `/chain`.
 
 ---
 
@@ -382,6 +437,122 @@ gh secret set DEPLOY_SSH_KEY < ~/.ssh/deploy_key
 | `/init-project --skip-docs` | Пропустить проверку docs/ (§ 8) |
 
 **SSOT:** [create-initialization.md](./.instructions/create-initialization.md)
+
+---
+
+## 11. Backport улучшений в template
+
+Когда в проекте улучшили инструкцию, скрипт, агента или rule — и хотим вернуть это в template для всех будущих проектов.
+
+### Принципы
+
+> **Не всё нужно возвращать.** Project-specific правки (API-контракты, конкретные сервисы, бизнес-логика) остаются в проекте. В template возвращаются только **универсальные** улучшения.
+
+> **Template = generic.** Шаблон не должен содержать знания о конкретном проекте.
+
+> **Атомарные PR.** Каждый backport — отдельный PR в template-репозиторий. Не смешивать несколько улучшений.
+
+### Что возвращать
+
+| Тип | Пример | Возвращать? |
+|-----|--------|-------------|
+| Исправление бага в скрипте | `validate-agent.py` принимает и файл, и папку | Да |
+| Новый универсальный агент | `docker-agent` | Да |
+| Улучшение инструкции | Новый шаг в `create-docs-sync.md` | Да |
+| Новый per-tech стандарт | `standard-fastapi.md` | Да |
+| Новый rule | `fastapi.md` в `.claude/rules/` | Да |
+| Project-specific сервис | `specs/docs/auth.md` | Нет |
+| Бизнес-дискуссия | `specs/analysis/0001-*/discussion.md` | Нет |
+| Project-specific env | `.env.example` с конкретными переменными | Нет |
+
+### Процесс
+
+```
+Проект (feature-repo)              Template (project_template)
+─────────────────────              ────────────────────────────
+1. Улучшил инструкцию
+   в проекте
+                              2. cd в template-репозиторий
+                              3. git checkout -b backport/{topic}
+                              4. Скопировать изменённые файлы из проекта
+                              5. Адаптировать: убрать project-specific части
+                              6. pre-commit run --all-files
+                              7. Commit + Push + PR в template
+                              8. Merge PR
+```
+
+**Шаг 1: Определить что backport'ить**
+
+```bash
+# В проекте: показать изменённые инструкции/скрипты/агенты
+git log --oneline --all -- '.instructions/' '.claude/' 'specs/.instructions/'
+```
+
+**Шаг 2: Подготовить template**
+
+```bash
+cd /path/to/project_template
+git checkout main && git pull
+git checkout -b backport/{краткое-описание}
+```
+
+**Шаг 3: Скопировать и адаптировать**
+
+```bash
+# Скопировать конкретные файлы из проекта
+cp /path/to/project/.instructions/some-file.md .instructions/some-file.md
+```
+
+Убрать project-specific: конкретные имена сервисов → `{svc}`, порты → `{PORT}`, URL → плейсхолдеры, ссылки на project-specific docs → убрать.
+
+**Шаг 4: Валидация и PR**
+
+```bash
+pre-commit run --all-files
+git add {файлы}
+git commit -m "feat(instructions): backport {описание} из {project}"
+git push -u origin backport/{topic}
+gh pr create --title "Backport: {описание}" --body "Из проекта {name}: {что улучшено}"
+```
+
+---
+
+## 12. Forward port: template → проект
+
+Когда template обновился и хочется подтянуть улучшения в существующий проект.
+
+### Подключить template как remote (один раз)
+
+```bash
+# В проекте
+git remote add template https://github.com/{owner}/project_template.git
+```
+
+### Посмотреть что нового
+
+```bash
+git fetch template
+git log --oneline template/main --since="2026-03-01" -- '.instructions/' '.claude/'
+```
+
+### Подтянуть изменения
+
+```bash
+# Вариант 1: cherry-pick конкретных коммитов
+git cherry-pick {hash1} {hash2}
+
+# Вариант 2: скопировать конкретный файл
+git show template/main:.instructions/some-file.md > .instructions/some-file.md
+
+# Вариант 3: diff + apply (если файл менялся в обоих местах)
+git diff HEAD...template/main -- .instructions/some-file.md | git apply
+```
+
+> При конфликтах — разрешать вручную, project-specific правки имеют приоритет.
+
+### После forward port — обновить другие проекты
+
+Если backport прошёл в template, все проекты на его основе могут подтянуть через тот же forward port.
 
 ---
 
