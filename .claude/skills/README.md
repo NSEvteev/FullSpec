@@ -155,6 +155,7 @@ standard-version: v1.1
 | [docs-sync](./docs-sync/SKILL.md) | Синхронизация specs/docs/ после analysis chain (service/technology/system агенты + ревью) |
 | [chain-done](./chain-done/SKILL.md) | Завершение analysis chain (REVIEW → DONE, system-agent mode=done, cross-chain) |
 | [analysis-status](./analysis-status/SKILL.md) | Статус analysis chain (одна/все цепочки, dashboard) |
+| [rollback-chain](./rollback-chain/SKILL.md) | Откат analysis chain (ROLLING_BACK → REJECTED) — 5 фаз оркестрации |
 | [review-create](./review-create/SKILL.md) | Создание review.md при Plan Dev → WAITING |
 | [review-validate](./review-validate/SKILL.md) | Валидация документа ревью кода |
 | [service-create](./service-create/SKILL.md) | Создание specs/docs/{svc}.md — per-service документ |
