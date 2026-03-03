@@ -30,10 +30,12 @@ standard-version: v1.0
 | Технология | Стандарт | Security |
 |-----------|---------|----------|
 | AsyncAPI | [standard-asyncapi.md](.technologies/standard-asyncapi.md) | — |
+| FastAPI | [standard-fastapi.md](.technologies/standard-fastapi.md) | — |
 | OpenAPI | [standard-openapi.md](.technologies/standard-openapi.md) | — |
 | PostgreSQL | [standard-postgresql.md](.technologies/standard-postgresql.md) | — |
 | Protobuf | [standard-protobuf.md](.technologies/standard-protobuf.md) | — |
 | React | [standard-react.md](.technologies/standard-react.md) | — |
+| Tailwind CSS | [standard-tailwind-css.md](.technologies/standard-tailwind-css.md) | — |
 | TypeScript | [standard-typescript.md](.technologies/standard-typescript.md) | [security-typescript.md](.technologies/security-typescript.md) |
 
 ## Дерево
@@ -48,10 +50,12 @@ specs/docs/
 ├── .technologies/
 │   ├── security-typescript.md         # Security-стандарт TypeScript
 │   ├── standard-asyncapi.md           # Конвенции AsyncAPI (events)
+│   ├── standard-fastapi.md            # Конвенции FastAPI (Python web)
 │   ├── standard-openapi.md            # Конвенции OpenAPI (REST)
 │   ├── standard-postgresql.md         # Конвенции PostgreSQL
 │   ├── standard-protobuf.md           # Конвенции Protobuf (gRPC)
 │   ├── standard-react.md              # Конвенции React
+│   ├── standard-tailwind-css.md       # Конвенции Tailwind CSS (палитра, z-слои, анимации)
 │   └── standard-typescript.md         # Конвенции TypeScript
 └── example.md                         # Пример сервисного документа
 ```

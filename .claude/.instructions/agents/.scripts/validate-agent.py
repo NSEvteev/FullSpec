@@ -427,8 +427,11 @@ def main():
         else:
             # Это папка со всеми агентами
             results = validate_directory(target)
+    elif target.is_file() and target.name == "AGENT.md":
+        # Передан путь к AGENT.md — использовать родительскую папку
+        results = [validate_agent(target.parent)]
     else:
-        print(f"Ожидается папка агента: {target}")
+        print(f"Ожидается папка агента или файл AGENT.md: {target}")
         sys.exit(1)
 
     if not results:

@@ -29,8 +29,7 @@ index: .claude/README.md
 
 | Файл | Описание |
 |------|----------|
-| [2026-03-01-test-run-0001-artifacts.md](2026-03-01-test-run-0001-artifacts.md) | Артефакты тестового прогона 0001 — файлы для удаления |
-| [2026-03-03-rollback-skill-wrapper.md](2026-03-03-rollback-skill-wrapper.md) | Скилл-обёртка rollback-agent — оркестрация, статусы, валидация, README |
+| [2026-03-03-useful-links.md](2026-03-03-useful-links.md) | Постоянная коллекция полезных ссылок — инструменты, подходы, библиотеки |
 
 ---
 
@@ -48,8 +47,7 @@ index: .claude/README.md
 
 ```
 /.claude/drafts/
-├── 2026-03-01-test-run-0001-artifacts.md    # Артефакты тестового прогона 0001
-├── 2026-03-03-rollback-skill-wrapper.md     # Скилл-обёртка rollback-agent
+├── 2026-03-03-useful-links.md               # Коллекция полезных ссылок
 ├── examples/                                # Эталонные примеры
 │   ├── 2026-02-08-specs-architecture.md          #   Архитектура specs/ (SDD)
 │   ├── 2026-02-27-docs-sync-after-dev.md         #   /docs-sync после Plan Dev

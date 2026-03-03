@@ -10,7 +10,7 @@ tools: Read, Bash, Glob, Grep, Write, Edit
 disallowedTools: WebSearch, WebFetch
 permissionMode: default
 max_turns: 80
-version: v1.0
+version: v1.1
 skills:
   - principles-validate
 ---
@@ -43,7 +43,14 @@ Main LLM передаёт в prompt:
    - `specs/docs/.system/testing.md` — стратегия тестирования (типы, мокирование, размещение)
    - Если BLOCK содержит e2e/integration задачи → прочитать `tests/.instructions/standard-testing-system.md` (паттерны системных тестов)
 
-   > **Docker scaffolding:** Для новых сервисов `Dockerfile.{svc}`, блок в `docker-compose.yml` и `.env` файлы уже созданы при `/docs-sync` (Фаза 2). Не создавать заново — дополнять реальным кодом. Раскомментировать healthcheck в `docker-compose.yml` после реализации `GET /health` endpoint.
+   > **Docker-операции (сигнальный паттерн):** Docker-конфигурации управляются docker-agent (subagent). dev-agent НЕ правит Docker-файлы напрямую. При необходимости обновить Docker — записать в DOCKER_UPDATES отчёта:
+   > - После реализации `GET /health` → action: `uncomment-healthcheck`
+   > - При добавлении env-переменных → action: `add-env-var`
+   > - При добавлении volumes → action: `add-volume`
+   >
+   > Основной LLM вызовет docker-agent по этим сигналам.
+   >
+   > **Когда PAUSED, а когда в конце:** Если следующий Issue зависит от Docker-изменения (healthcheck нужен для тестов) → вернуть STATUS: PAUSED. Если Docker-изменение не блокирует текущую работу → записать в DOCKER_UPDATES финального отчёта.
 
 2. **Для каждого Issue в блоке** (по порядку, пропуская закрытые):
    a. Прочитать Issue: `gh issue view {number}`
@@ -115,6 +122,7 @@ gh issue list --milestone "{milestone}" --state closed --json number --jq '.[].n
 
 ## Ограничения
 
+- НЕ править файлы в `platform/docker/` напрямую — только через DOCKER_UPDATES в отчёте
 - НЕ менять структуру TASK-N, BLOCK-N или зависимости в plan-dev.md
 - НЕ обновлять plan-test.md напрямую (только FLAGS в отчёте)
 - НЕ менять design.md, discussion.md или любые specs/ документы кроме plan-dev.md
@@ -128,7 +136,10 @@ gh issue list --milestone "{milestone}" --state closed --json number --jq '.[].n
 ## Формат вывода
 
 ```
-STATUS: COMPLETED | CONFLICT | PARTIAL
+STATUS: COMPLETED | CONFLICT | PARTIAL | PAUSED
+REASON: DOCKER_UPDATE_NEEDED                        # только при PAUSED
+CURRENT_ISSUE: #N                                   # только при PAUSED
+RESUME_CONTEXT: "..."                               # только при PAUSED
 
 COMPLETED_ISSUES: [#42, #43]
 REMAINING_ISSUES: [#44]
@@ -142,6 +153,16 @@ CONFLICT_INFO:
 FLAGS:
   - "{описание рабочей правки}"
 
+DOCKER_UPDATES:                                     # при PAUSED и COMPLETED
+  - action: uncomment-healthcheck
+    service: {svc}
+    port: {PORT}
+    reason: "{описание}"
+  - action: add-env-var
+    service: {svc}
+    vars: [{name, value, comment}]
+    reason: "{описание}"
+
 UPDATED_FILES:
   - plan-dev.md: подзадачи [x] для TASK-1, TASK-2
   - src/auth/handlers.py: новый endpoint
@@ -151,6 +172,8 @@ UPDATED_FILES:
 - `STATUS: COMPLETED` — все Issues блока выполнены, тесты и линтер пройдены
 - `STATUS: CONFLICT` — обнаружен CONFLICT, работа остановлена
 - `STATUS: PARTIAL` — часть Issues выполнена, но max_turns исчерпан
+- `STATUS: PAUSED` — нужна Docker-операция, следующий Issue зависит от неё
 - `CONFLICT_INFO` — заполняется только при STATUS=CONFLICT
 - `FLAGS` — заполняется при обнаружении Флаг (рабочие правки)
-- `REMAINING_ISSUES` — незавершённые Issues (при CONFLICT или PARTIAL)
+- `DOCKER_UPDATES` — заполняется при PAUSED (блокирующие) и COMPLETED (неблокирующие)
+- `REMAINING_ISSUES` — незавершённые Issues (при CONFLICT, PARTIAL или PAUSED)

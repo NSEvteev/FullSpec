@@ -28,6 +28,7 @@ index: specs/.instructions/README.md
 - [standard-docker.md](/platform/.instructions/standard-docker.md) § 8 — тестовое окружение (docker-compose.test.yml, health checks)
 - [standard-testing-system.md](/tests/.instructions/standard-testing-system.md) — паттерны системных тестов
 - [standard-sync.md](/.github/.instructions/sync/standard-sync.md) — синхронизация с main
+- [docker-agent](/.claude/agents/docker-agent/AGENT.md) — валидация Docker-конфигурации (mode=validate)
 
 ## Оглавление
 
@@ -85,6 +86,22 @@ git merge origin/main --no-edit
 | Конфликт | СТОП: показать конфликтные файлы. Вернуть к dev-agent для разрешения |
 
 > **SSOT:** [standard-sync.md](/.github/.instructions/sync/standard-sync.md) — процесс синхронизации.
+
+### Шаг 2.5: Валидация Docker-конфигурации
+
+```
+Agent tool:
+  subagent_type: docker-agent
+  prompt: |
+    mode: validate
+    compose-file: platform/docker/docker-compose.test.yml
+    services: [{список сервисов из plan-dev.md}]
+```
+
+| Результат | Действие |
+|-----------|----------|
+| STATUS: PASS | Продолжить к Шагу 3 |
+| STATUS: FAIL | СТОП: показать ISSUES из отчёта docker-agent |
 
 ### Шаг 3: Поднять тестовое окружение
 
@@ -232,6 +249,7 @@ docker compose -f platform/docker/docker-compose.test.yml down -v
 
 ### Валидация
 - [ ] Sync с main выполнен (нет конфликтов)
+- [ ] Docker config validated (docker-agent mode=validate → PASS)
 - [ ] Docker test env поднят (health checks OK)
 - [ ] `make test` — exit code 0
 - [ ] `make lint` — нет ERRORS

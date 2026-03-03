@@ -70,7 +70,7 @@ index: specs/.instructions/README.md
 
 ### Шаг 1: Определить путь
 
-Прочитать [standard-process.md § 3](../standard-process.md#3-выбор-пути). Спросить пользователя через AskUserQuestion:
+Прочитать [standard-process.md § 3](./standard-process.md#3-выбор-пути). Спросить пользователя через AskUserQuestion:
 
 **Вопрос:** "Что вы хотите сделать?"
 
@@ -183,7 +183,8 @@ TASK 4: Создать Plan Dev
 TASK 5: Синхронизировать docs/
   description: >
     Скилл: /docs-sync {design-path} — параллельные агенты: service-agent × N,
-    technology-agent × M, system-agent mode=sync (overview.md).
+    technology-agent × M, system-agent mode=sync (overview.md),
+    docker-agent mode=scaffold (Docker scaffolding для новых сервисов).
     Три волны: создание → ревью → исправления (max 3 итерации).
     Маркер docs-synced: true в design.md.
     SSOT: create-docs-sync.md
@@ -203,6 +204,8 @@ TASK 6: Запустить разработку
 TASK 7: Разработка
   description: >
     Агент: dev-agent — оркестрация разработки (код, тесты по BLOCK-N в изолированном контексте).
+    dev-agent сигнализирует DOCKER_UPDATES → основной LLM вызывает docker-agent mode=update
+    (паттерн pause/resume для Docker-операций).
     Коммиты: скилл /commit (Conventional Commits).
     Параллельные агенты по волнам. Per-service тесты внутри блока,
     системные тесты после волны.
@@ -214,9 +217,9 @@ TASK 7: Разработка
 TASK 8: Валидация и тесты
   description: >
     Скилл: /test — финальный прогон всех тестов и проверок после завершения разработки.
-    Последовательно: sync main → docker up → make test → make lint → make build →
-    make test-e2e (если API/DB/inter-service изменения по git diff) → docker down →
-    проверка полноты реализации → отчёт.
+    Последовательно: sync main → docker-agent mode=validate → docker up → make test →
+    make lint → make build → make test-e2e (если API/DB/inter-service изменения по git diff) →
+    docker down → проверка полноты реализации → отчёт.
     Вердикт: READY → ревью. NOT READY → вернуться к Task 7.
     SSOT: create-test.md → validation-development.md
   activeForm: Валидация и тесты

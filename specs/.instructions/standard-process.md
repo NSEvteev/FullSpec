@@ -445,15 +445,15 @@ graph TD
 | 1.3 Plan Tests | standard/create/modify/validation-plan-test | /plan-test-create, -modify, -validate | plantest-agent, plantest-reviewer | create-analysis-plan-test-file.py, validate-analysis-plan-test.py, chain_status.py |
 | 1.4 Plan Dev | standard/create/modify/validation-plan-dev, create-review | /plan-dev-create (включает /review-create), -modify, -validate | plandev-agent, plandev-reviewer | create-analysis-plan-dev-file.py, validate-analysis-plan-dev.py, create-review-file.py, chain_status.py |
 | **Фаза 2: Docs Sync** | | | | |
-| 2.1 /docs-sync | create-docs-sync | /docs-sync | service-agent, service-reviewer, technology-agent, technology-reviewer, system-agent, system-reviewer | chain_status.py |
+| 2.1 /docs-sync | create-docs-sync | /docs-sync | service-agent, service-reviewer, technology-agent, technology-reviewer, system-agent, system-reviewer, docker-agent mode=scaffold | chain_status.py |
 | **Фаза 3: Запуск** | | | | |
 | 3.1 dev-create | create-development, standard-issue, standard-milestone, standard-branching | /dev-create, /issue-create, /milestone-create, /branch-create | — | chain_status.py |
 | **Фаза 4: Реализация** | | | | |
-| 4.1 Development | standard-development, modify-development, standard-testing | — | dev-agent | — |
+| 4.1 Development | standard-development, modify-development, standard-testing | — | dev-agent, docker-agent mode=update | — |
 | 4.2 Validation | validation-development, standard-testing | /principles-validate | — | validate-principles.py |
 | 4.3 Commits | standard-commit, create-commit | /commit | — | validate-commit-msg.py |
 | **Фаза 5: Финальная валидация** | | | | |
-| 5.1 Финальная валидация | create-test, validation-development, standard-docker § 8 | /test | — | — |
+| 5.1 Финальная валидация | create-test, validation-development, standard-docker § 8 | /test | docker-agent mode=validate | — |
 | **Фаза 6: Доставка** | | | | |
 | 6.1 Branch Review | validation-review (github) | /review | code-reviewer | — |
 | 6.2 PR Create | standard-pull-request, standard-pr-template, create-pull-request | /pr-create | — | collect-pr-issues.py |

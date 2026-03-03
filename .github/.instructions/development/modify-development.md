@@ -22,6 +22,7 @@ index: .github/.instructions/development/README.md
 - [standard-commit.md](../commits/standard-commit.md) — формат коммитов
 - [standard-principles.md](/.instructions/standard-principles.md) — принципы программирования
 - [dev-agent](/.claude/agents/dev-agent/AGENT.md) — агент разработки (выполняет BLOCK-N)
+- [docker-agent](/.claude/agents/docker-agent/AGENT.md) — Docker-операции (mode=update, вызывается по сигналу DOCKER_UPDATES)
 
 **Связанные документы:**
 
@@ -191,12 +192,30 @@ gh issue list --milestone "{milestone}" --state closed --json number --jq '.[].n
 2. Собрать частичные результаты из всех агентов (COMPLETED_ISSUES, REMAINING_ISSUES)
 3. Перейти к [Переход: RUNNING → CONFLICT](#переход-running-conflict)
 
+**Если любой STATUS=PAUSED:**
+
+1. Прочитать DOCKER_UPDATES из отчёта
+2. Для каждого action вызвать docker-agent mode=update:
+   ```
+   Agent tool:
+     subagent_type: docker-agent
+     prompt: |
+       mode: update
+       service: {svc}
+       action: {action}
+       details: {параметры из DOCKER_UPDATES}
+   ```
+3. Resume dev-agent по agent ID (Agent tool с параметром `resume`)
+4. Повторить цикл — dev-agent может снова вернуть PAUSED
+
 **Если любой STATUS=PARTIAL:**
 
 1. Записать REMAINING_ISSUES
 2. Перезапустить блок с REMAINING_ISSUES (Шаг 2)
 
 **Если все STATUS=COMPLETED:**
+
+1. Если DOCKER_UPDATES непуст в любом отчёте → вызвать docker-agent mode=update для каждого action
 
 1. Проверить FLAGS всех агентов — есть ли рабочие правки, влияющие на следующие волны
 2. Запустить системные тесты:
@@ -363,6 +382,8 @@ result = mgr.transition(to="REJECTED")
 ### Волна (для каждой волны)
 - [ ] Все блоки волны запущены параллельно (dev-agent × N)
 - [ ] Все агенты вернули результат
+- [ ] PAUSED обработан (если был): docker-agent mode=update → resume dev-agent
+- [ ] DOCKER_UPDATES из COMPLETED обработаны (если непусты)
 - [ ] CONFLICT обработан (если был)
 - [ ] Системные тесты пройдены (`make test-e2e`)
 - [ ] FLAGS проверены (рабочие правки)

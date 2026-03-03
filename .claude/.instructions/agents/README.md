@@ -155,3 +155,4 @@ index: .claude/.instructions/agents/README.md
 | [plantest-reviewer](/.claude/agents/plantest-reviewer/AGENT.md) | general-purpose | Ревью plan-test.md на полноту покрытия REQ-N/STS-N/SVC-N, формат TC-N, согласованность с Design |
 | [plandev-agent](/.claude/agents/plandev-agent/AGENT.md) | general-purpose | Генерация содержимого plan-dev.md — TASK-N, подзадачи, зависимости, BLOCK-N (mode: per-service/INFRA/system) |
 | [plandev-reviewer](/.claude/agents/plandev-reviewer/AGENT.md) | general-purpose | Ревью plan-dev.md на полноту покрытия TC-N, формат TASK-N, согласованность с Design/Plan Tests, запись PROP-N |
+| [docker-agent](/.claude/agents/docker-agent/AGENT.md) | general-purpose | Docker-операции — scaffolding, обновление конфигураций, валидация compose (вызывается из docs-sync, dev, test) |
