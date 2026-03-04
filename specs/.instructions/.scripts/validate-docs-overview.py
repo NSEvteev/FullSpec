@@ -344,12 +344,11 @@ def validate_consistency(content: str) -> list[tuple[str, str]]:
         return errors
 
     # Compare A vs B
+    # Сервисы из Карты должны упоминаться в Связях
     only_in_a_not_b = services_a - services_b
-    only_in_b_not_a = services_b - services_a
     for svc in sorted(only_in_a_not_b):
         errors.append(("OVW007", f"Сервис «{svc}» есть в Карте сервисов, но отсутствует в Связях"))
-    for svc in sorted(only_in_b_not_a):
-        errors.append(("OVW007", f"Сервис «{svc}» есть в Связях, но отсутствует в Карте сервисов"))
+    # Сервисы из Связей, отсутствующие в Карте — внешние системы (допустимо)
 
     # Compare A vs C
     only_in_a_not_c = services_a - services_c
