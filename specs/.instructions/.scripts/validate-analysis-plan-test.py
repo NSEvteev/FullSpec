@@ -62,7 +62,7 @@ MODAL_PATTERNS = [
     re.compile(r'\bдолжны\b', re.IGNORECASE),
 ]
 
-VALID_TC_TYPES = {"unit", "integration", "e2e", "load"}
+VALID_TC_TYPES = {"unit", "integration", "e2e", "load", "smoke"}
 
 ERROR_CODES = {
     "PT001": "Неверное расположение файла",
