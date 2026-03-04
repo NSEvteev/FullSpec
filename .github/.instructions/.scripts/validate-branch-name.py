@@ -36,6 +36,7 @@ BRANCH_PATTERN = re.compile(
 )
 
 SKIP_BRANCHES = ("main", "master", "develop", "release", "hotfix")
+SKIP_PREFIXES = ("backport/", "chore/")
 
 ERROR_CODES = {
     "BR001": "Нет NNNN-префикса",
@@ -177,7 +178,7 @@ def main():
         sys.exit(2)
 
     # Пропуск системных веток
-    if branch_name in SKIP_BRANCHES:
+    if branch_name in SKIP_BRANCHES or any(branch_name.startswith(p) for p in SKIP_PREFIXES):
         if not args.json:
             print(f"⏭️  Системная ветка '{branch_name}' — пропуск валидации")
         sys.exit(0)

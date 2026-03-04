@@ -447,7 +447,7 @@ graph TD
 | **Фаза 2: Docs Sync** | | | | |
 | 2.1 /docs-sync | create-docs-sync | /docs-sync | service-agent, service-reviewer, technology-agent, technology-reviewer, system-agent, system-reviewer, docker-agent mode=scaffold | chain_status.py |
 | **Фаза 3: Запуск** | | | | |
-| 3.1 dev-create | create-development, standard-issue, standard-milestone, standard-branching | /dev-create, /issue-create, /milestone-create, /branch-create | — | chain_status.py |
+| 3.1 dev-create | create-development, standard-issue, standard-milestone, standard-branching | /dev-create, /milestone-create, /branch-create | issue-agent, issue-reviewer | chain_status.py |
 | **Фаза 4: Реализация** | | | | |
 | 4.1 Development | standard-development, modify-development, standard-testing | — | dev-agent, docker-agent mode=update | — |
 | 4.2 Validation | validation-development, standard-testing | /principles-validate | — | validate-principles.py |

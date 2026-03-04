@@ -156,3 +156,5 @@ index: .claude/.instructions/agents/README.md
 | [plandev-agent](/.claude/agents/plandev-agent/AGENT.md) | general-purpose | Генерация содержимого plan-dev.md — TASK-N, подзадачи, зависимости, BLOCK-N (mode: per-service/INFRA/system) |
 | [plandev-reviewer](/.claude/agents/plandev-reviewer/AGENT.md) | general-purpose | Ревью plan-dev.md на полноту покрытия TC-N, формат TASK-N, согласованность с Design/Plan Tests, запись PROP-N |
 | [docker-agent](/.claude/agents/docker-agent/AGENT.md) | general-purpose | Docker-операции — scaffolding, обновление конфигураций, валидация compose (вызывается из docs-sync, dev, test) |
+| [issue-agent](/.claude/agents/issue-agent/AGENT.md) | general-purpose | Создание GitHub Issues для TASK-N одного блока plan-dev.md — 18-шаговый алгоритм, один агент на блок, параллельно |
+| [issue-reviewer](/.claude/agents/issue-reviewer/AGENT.md) | general-purpose | Дополнение и доводка GitHub Issues — 4-фазный алгоритм (пробелы → обогащение → 7 критериев → самопроверка), один ревьюер на блок, параллельно |

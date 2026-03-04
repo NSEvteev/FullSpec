@@ -92,9 +92,35 @@ python .github/.instructions/.scripts/check-chain-readiness.py {NNNN}
 
 ### Шаг 3: Создать GitHub Issues
 
-Для каждого TASK-N из Plan Dev → `/issue-create`:
-- Sub-issues для подзадач (N.M)
-- Записать номер Issue inline в поле `Issue` каждой TASK-N (формат: `[#N](url)`)
+Оркестрация через issue-agent + issue-reviewer (2 волны):
+
+**Шаг 3.0: Определить блоки**
+Парсить plan-dev.md → определить ## секции (блоки).
+Каждый блок = один issue-agent. Примеры блоков: `## INFRA`, `## SVC-1: auth`, `## Системные тесты`.
+
+**Шаг 3.1: Волна 1 — issue-agent × K параллельно**
+Для каждого блока запустить issue-agent (Agent tool, subagent_type=issue-agent):
+- block-section: заголовок блока
+- plan-dev-path, design-path, discussion-path, plan-test-path
+- milestone, chain-id
+Агент создаёт Issues для всех TASK-N блока по 18-шаговому алгоритму (§ ниже).
+Возвращает: список {TASK-N: Issue #N, URL}.
+
+**Шаг 3.2: Записать маппинг Issue**
+Оркестратор обновляет plan-dev.md: `Issue: —` → `Issue: [#N](url)` для каждого TASK-N.
+
+**Шаг 3.3: Волна 2 — issue-reviewer × K параллельно**
+Для каждого блока запустить issue-reviewer (Agent tool, subagent_type=issue-reviewer):
+- block-section, issue-numbers (список от Волны 1)
+- plan-dev-path, design-path, discussion-path, plan-test-path
+Reviewer читает каждый Issue "глазами исполнителя", находит пробелы,
+читает все источники, дополняет Issue через `gh issue edit`, самопроверяется.
+Результат: все Issues блока дополнены и готовы к реализации.
+
+**Шаг 3.4: Отчёт + возможность повторного запуска**
+Оркестратор выводит отчёт (кол-во правок per-Issue).
+Пользователь может запустить issue-reviewer повторно на любой блок
+(или все блоки) — каждый запуск проходит 4 фазы заново.
 
 **Определение TYPE-метки для Issue:**
 
@@ -320,7 +346,8 @@ git push origin main
 - [ ] Все 4 документа цепочки существуют и в WAITING
 - [ ] Маркеров `[ТРЕБУЕТ УТОЧНЕНИЯ]` = 0
 - [ ] Пользователь подтвердил запуск
-- [ ] Issues созданы из TASK-N с полным body (5 секций: Описание задачи, Документы для изучения, Задание, Критерии готовности, Практический контекст)
+- [ ] Issues созданы через issue-agent (по блокам, параллельно)
+- [ ] Issues дополнены через issue-reviewer (по блокам, параллельно)
 - [ ] Body содержит отфильтрованные .system/ файлы, Design §§, per-tech стандарты, Plan Test TC-N
 - [ ] Поле Issue заполнено inline в каждой TASK-N
 - [ ] Milestone создан/привязан

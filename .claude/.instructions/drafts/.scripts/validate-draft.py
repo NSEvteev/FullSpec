@@ -34,6 +34,7 @@ ERROR_CODES = {
     "D007": "Отсутствует секция 'Контекст'",
     "D008": "Отсутствует секция 'Содержание'",
     "D009": "Отсутствует секция 'Tasklist' с TASK N записями",
+    "D010": "TASK N без обязательных полей description: и activeForm:",
 }
 
 # =============================================================================
@@ -136,6 +137,36 @@ def validate_structure(file_path: Path, result: dict) -> None:
     has_tasks = any(re.match(r'\s*TASK\s+\d+:', line) for line in lines)
     if not has_tasklist or not has_tasks:
         add_error(result, "D009")
+
+    # D010: Проверка description: и activeForm: в каждом TASK N
+    if has_tasks:
+        task_numbers = []
+        for line in lines:
+            m = re.match(r'\s*TASK\s+(\d+):', line)
+            if m:
+                task_numbers.append(int(m.group(1)))
+
+        # Парсинг блоков TASK: от TASK N: до следующего TASK или конца
+        task_lines_map = {}
+        current_task = None
+        for line in lines:
+            m = re.match(r'\s*TASK\s+(\d+):', line)
+            if m:
+                current_task = int(m.group(1))
+                task_lines_map[current_task] = []
+            elif current_task is not None:
+                task_lines_map[current_task].append(line)
+
+        for task_num, task_body in task_lines_map.items():
+            has_desc = any(re.match(r'\s+description:', line) for line in task_body)
+            has_active = any(re.match(r'\s+activeForm:', line) for line in task_body)
+            if not has_desc or not has_active:
+                missing = []
+                if not has_desc:
+                    missing.append("description")
+                if not has_active:
+                    missing.append("activeForm")
+                add_error(result, "D010", f"TASK {task_num} — нет {', '.join(missing)}")
 
 
 def validate_draft(file_path: Path, repo_root: Path) -> dict:

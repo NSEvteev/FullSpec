@@ -80,9 +80,10 @@ index: .github/.instructions/development/README.md
    - Если "Нет" → СТОП
 
 3. **Создать GitHub Issues**
-   - Для каждого TASK-N из Plan Dev → `/issue-create`
-   - Sub-issues для подзадач (N.M)
-   - Обновить таблицу маппинга в plan-dev.md
+   - Волна 1: issue-agent × K параллельно (K = кол-во блоков в plan-dev.md)
+   - Волна 2: issue-reviewer × K параллельно (дополняет + 7 критериев проверки)
+   - Повторный запуск reviewer — по запросу пользователя
+   - Оркестратор обновляет маппинг Issues в plan-dev.md
 
 4. **Создать/привязать Milestone**
    - Проверить: Milestone {vX.Y.Z} существует?
