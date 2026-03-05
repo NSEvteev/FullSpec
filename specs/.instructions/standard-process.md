@@ -284,7 +284,7 @@ graph LR
 |---|------|---------|-------|------|
 | 5.1 | Docker dev-окружение | Поднять Docker dev-окружение, healthcheck всех сервисов | `/docker-up` | [create-docker-env.md](/specs/.instructions/create-docker-env.md) |
 | 5.2 | Финальная валидация | Sync main → make test/lint/build → e2e → отчёт READY/NOT READY | `/test` | [create-test.md](/specs/.instructions/create-test.md) |
-| 5.3 | Playwright UI smoke | UI smoke-тесты (SMOKE-NNN сценарии через Playwright MCP, скриншоты, PASS/FAIL) | `/test-ui` | [create-test-ui.md](/specs/.instructions/create-test-ui.md) |
+| 5.3 | Playwright UI smoke | UI smoke-тесты (SMOKE-NNN сценарии через Playwright CLI (playwright-cli, agent), скриншоты, PASS/FAIL) | `/test-ui` | [create-test-ui.md](/specs/.instructions/create-test-ui.md) |
 
 **При NOT READY:** Возврат к Фазе 4 для исправления.
 
@@ -555,7 +555,7 @@ graph TD
 Фаза 5 — Финальная валидация:
   /docker-up            → docker compose up --build, healthcheck всех сервисов
   /test                 → sync main, tests, lint, build, e2e, отчёт READY/NOT READY
-  /test-ui              → Playwright MCP smoke-тесты (SMOKE-NNN), скриншоты, PASS/FAIL
+  /test-ui              → Playwright CLI smoke-тесты (playwright-cli, agent), скриншоты, PASS/FAIL
 
 Фаза 6 — Доставка в main:
   /review               → локальное ревью ветки

@@ -260,7 +260,7 @@ TASK 9: Валидация и тесты
 
 TASK 10: Playwright UI smoke-тесты
   description: >
-    Скилл: /test-ui — UI smoke-тесты через Playwright MCP.
+    Скилл: /test-ui — UI smoke-тесты через Playwright CLI (playwright-cli, agent).
     Предусловие: Docker-окружение (Task 8) + /test READY (Task 9).
     Выполнить SMOKE-NNN сценарии, сохранить скриншоты, сформировать отчёт.
     Вердикт: PASS → ревью ветки. FAIL → чинить UI, повторить /test-ui.
