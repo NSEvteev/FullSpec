@@ -90,7 +90,10 @@ graph TD
     end
 
     subgraph phase5["Фаза 5: Финальная валидация"]
-        FINALTEST["5.1 /test"]
+        DOCKERUP["5.1 /docker-up"]
+        FINALTEST["5.2 /test"]
+        PLAYWRIGHT["5.3 /test-ui"]
+        DOCKERUP --> FINALTEST --> PLAYWRIGHT
     end
 
     subgraph phase6["Фаза 6: Доставка в main"]
@@ -118,9 +121,10 @@ graph TD
     PDEV --> DOCSYNC --> DEVSTART
     DEVSTART --> DEV --> VALIDATE --> COMMIT
     COMMIT -- "ещё TASK-N?" --> DEV
-    COMMIT -- "все TASK-N done" --> FINALTEST
-    FINALTEST -- "READY" --> BREVIEW
+    COMMIT -- "все TASK-N done" --> DOCKERUP
+    PLAYWRIGHT -- "READY" --> BREVIEW
     FINALTEST -- "NOT READY" --> DEV
+    PLAYWRIGHT -- "FAIL" --> DEV
     BREVIEW --> PR --> PRREVIEW --> MERGE --> SYNC
     SYNC --> REVIEW --> REVITER --> DONE
     DONE --> PRERELEASE --> RELEASE
@@ -278,7 +282,9 @@ graph LR
 
 | # | Шаг | Описание | Скилл | SSOT |
 |---|------|---------|-------|------|
-| 5.1 | Финальная валидация | Sync main → docker up → make test/lint/build → e2e → отчёт READY/NOT READY | `/test` | [create-test.md](/specs/.instructions/create-test.md) |
+| 5.1 | Docker dev-окружение | Поднять Docker dev-окружение, healthcheck всех сервисов | `/docker-up` | [create-docker-env.md](/specs/.instructions/create-docker-env.md) |
+| 5.2 | Финальная валидация | Sync main → make test/lint/build → e2e → отчёт READY/NOT READY | `/test` | [create-test.md](/specs/.instructions/create-test.md) |
+| 5.3 | Playwright UI smoke | UI smoke-тесты (SMOKE-NNN сценарии через Playwright MCP, скриншоты, PASS/FAIL) | `/test-ui` | [create-test-ui.md](/specs/.instructions/create-test-ui.md) |
 
 **При NOT READY:** Возврат к Фазе 4 для исправления.
 
@@ -453,7 +459,9 @@ graph TD
 | 4.2 Validation | validation-development, standard-testing | /principles-validate | — | validate-principles.py |
 | 4.3 Commits | standard-commit, create-commit | /commit | — | validate-commit-msg.py |
 | **Фаза 5: Финальная валидация** | | | | |
-| 5.1 Финальная валидация | create-test, validation-development, standard-docker § 8 | /test | docker-agent mode=validate | — |
+| 5.1 Docker dev-окружение | create-docker-env | /docker-up | — | — |
+| 5.2 Финальная валидация | create-test, validation-development | /test | — | — |
+| 5.3 Playwright UI smoke | create-test-ui | /test-ui | mcp__playwright__* | — |
 | **Фаза 6: Доставка** | | | | |
 | 6.1 Branch Review | validation-review (github) | /review | code-reviewer | — |
 | 6.2 PR Create | standard-pull-request, standard-pr-template, create-pull-request | /pr-create | — | collect-pr-issues.py |
@@ -545,7 +553,9 @@ graph TD
   git commit            → pre-commit hooks автоматически
 
 Фаза 5 — Финальная валидация:
-  /test                 → sync main, docker, tests, lint, build, e2e, отчёт READY/NOT READY
+  /docker-up            → docker compose up --build, healthcheck всех сервисов
+  /test                 → sync main, tests, lint, build, e2e, отчёт READY/NOT READY
+  /test-ui              → Playwright MCP smoke-тесты (SMOKE-NNN), скриншоты, PASS/FAIL
 
 Фаза 6 — Доставка в main:
   /review               → локальное ревью ветки

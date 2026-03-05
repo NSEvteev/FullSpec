@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу финальной валидации — sync main, docker up, make test/lint/build/test-e2e, проверка полноты реализации, отчёт с вердиктом READY/NOT READY.
+description: Воркфлоу финальной валидации — sync main, make test/lint/build/test-e2e, проверка полноты реализации, отчёт с вердиктом READY/NOT READY.
 standard: .instructions/standard-instruction.md
 standard-version: v1.3
 index: specs/.instructions/README.md
@@ -9,7 +9,7 @@ index: specs/.instructions/README.md
 
 Рабочая версия стандарта: 1.3
 
-Оркестрация финальной валидации после завершения разработки (Task 8 в chain). Последовательно: sync main, docker up, полный прогон тестов, проверка полноты реализации, отчёт с вердиктом.
+Оркестрация финальной валидации после завершения разработки (Task 9 в chain). Предусловие: Docker-окружение поднято (Task 8, шаг 5.1). Последовательно: sync main, полный прогон тестов, проверка полноты реализации, отчёт с вердиктом.
 
 **Полезные ссылки:**
 - [Инструкции specs/](./README.md)
@@ -25,10 +25,9 @@ index: specs/.instructions/README.md
 
 **SSOT-зависимости:**
 - [validation-development.md](/.github/.instructions/development/validation-development.md) — чек-лист проверок перед push
-- [standard-docker.md](/platform/.instructions/standard-docker.md) § 8 — тестовое окружение (docker-compose.test.yml, health checks)
 - [standard-testing-system.md](/tests/.instructions/standard-testing-system.md) — паттерны системных тестов
 - [standard-sync.md](/.github/.instructions/sync/standard-sync.md) — синхронизация с main
-- [docker-agent](/.claude/agents/docker-agent/AGENT.md) — валидация Docker-конфигурации (mode=validate)
+- [create-docker-env.md](/specs/.instructions/create-docker-env.md) — prerequisite: Docker-окружение (шаг 5.1)
 
 ## Оглавление
 
@@ -36,14 +35,12 @@ index: specs/.instructions/README.md
 - [Шаги](#шаги)
   - [Шаг 1: Проверить предусловия](#шаг-1-проверить-предусловия)
   - [Шаг 2: Синхронизация с main](#шаг-2-синхронизация-с-main)
-  - [Шаг 3: Поднять тестовое окружение](#шаг-3-поднять-тестовое-окружение)
-  - [Шаг 4: Unit/Integration тесты](#шаг-4-unitintegration-тесты)
-  - [Шаг 5: Линтинг](#шаг-5-линтинг)
-  - [Шаг 6: Сборка](#шаг-6-сборка)
-  - [Шаг 7: E2E тесты](#шаг-7-e2e-тесты)
-  - [Шаг 8: Остановить тестовое окружение](#шаг-8-остановить-тестовое-окружение)
-  - [Шаг 9: Проверка полноты реализации](#шаг-9-проверка-полноты-реализации)
-  - [Шаг 10: Отчёт](#шаг-10-отчёт)
+  - [Шаг 3: Unit/Integration тесты](#шаг-3-unitintegration-тесты)
+  - [Шаг 4: Линтинг](#шаг-4-линтинг)
+  - [Шаг 5: Сборка](#шаг-5-сборка)
+  - [Шаг 6: E2E тесты](#шаг-6-e2e-тесты)
+  - [Шаг 7: Проверка полноты реализации](#шаг-7-проверка-полноты-реализации)
+  - [Шаг 8: Отчёт](#шаг-8-отчёт)
 - [Чек-лист](#чек-лист)
 - [Примеры](#примеры)
 - [Скрипты](#скрипты)
@@ -57,7 +54,7 @@ index: specs/.instructions/README.md
 
 > **Автоматический E2E по diff.** Анализ `git diff` определяет обязательность E2E — без вопросов пользователю.
 
-> **Вердикт блокирует ревью.** NOT READY = возврат к разработке (Task 7). READY = переход к ревью (Task 9).
+> **Вердикт блокирует ревью.** NOT READY = возврат к разработке (Task 7). READY = переход к ревью (Task 11).
 
 ---
 
@@ -69,8 +66,8 @@ index: specs/.instructions/README.md
 
 | Предусловие | Как проверить | При failure |
 |-------------|---------------|-------------|
+| Docker-окружение поднято (шаг 5.1) | `docker ps` — все сервисы healthy | СТОП: "Выполните `/docker-up` перед `/test`" |
 | Feature-ветка (не main) | `git branch --show-current` ≠ `main` | СТОП: "Финальная валидация запускается только в feature-ветке" |
-| docker-compose.test.yml доступен | `test -f platform/docker/docker-compose.test.yml` | СТОП: "Docker-конфигурация не найдена. См. standard-docker.md § 8" |
 | Все TASK-N из plan-dev.md done | Прочитать plan-dev.md, проверить `[x]` для всех TASK-N | СТОП: "Не все задачи завершены: {список незавершённых TASK-N}" |
 
 ### Шаг 2: Синхронизация с main
@@ -87,44 +84,7 @@ git merge origin/main --no-edit
 
 > **SSOT:** [standard-sync.md](/.github/.instructions/sync/standard-sync.md) — процесс синхронизации.
 
-### Шаг 2.5: Валидация Docker-конфигурации
-
-```
-Agent tool:
-  subagent_type: docker-agent
-  prompt: |
-    mode: validate
-    compose-file: platform/docker/docker-compose.test.yml
-    services: [{список сервисов из plan-dev.md}]
-```
-
-| Результат | Действие |
-|-----------|----------|
-| STATUS: PASS | Продолжить к Шагу 3 |
-| STATUS: FAIL | СТОП: показать ISSUES из отчёта docker-agent |
-
-### Шаг 3: Поднять тестовое окружение
-
-```bash
-docker compose -f platform/docker/docker-compose.test.yml up -d --wait
-```
-
-> **SSOT:** [standard-docker.md](/platform/.instructions/standard-docker.md) § 8 — конфигурация docker-compose.test.yml, health checks.
-
-Флаг `--wait` ожидает прохождения health checks, настроенных в docker-compose.test.yml:
-
-| Сервис | Healthcheck |
-|--------|-------------|
-| PostgreSQL | `pg_isready` |
-| Redis | `redis-cli ping` |
-| RabbitMQ | `rabbitmq-diagnostics -q ping` |
-
-**Таймаут:** 60s. Если health check не пройден за 60s:
-1. Выполнить `docker compose -f platform/docker/docker-compose.test.yml logs {service}`
-2. Выполнить `docker inspect {container}` для диагностики
-3. СТОП с ошибкой и логами
-
-### Шаг 4: Unit/Integration тесты
+### Шаг 3: Unit/Integration тесты
 
 ```bash
 make test
@@ -135,7 +95,7 @@ make test
 | exit code 0 | Продолжить |
 | exit code ≠ 0 | Записать failing тесты в отчёт. Продолжить (собрать все результаты) |
 
-### Шаг 5: Линтинг
+### Шаг 4: Линтинг
 
 ```bash
 make lint
@@ -146,7 +106,7 @@ make lint
 | Нет ERRORS | Продолжить |
 | Есть ERRORS | Записать ошибки в отчёт. Продолжить |
 
-### Шаг 6: Сборка
+### Шаг 5: Сборка
 
 ```bash
 make build
@@ -157,7 +117,7 @@ make build
 | exit code 0 | Продолжить |
 | exit code ≠ 0 | Записать ошибку в отчёт. Продолжить |
 
-### Шаг 7: E2E тесты
+### Шаг 6: E2E тесты
 
 **Анализ необходимости:**
 
@@ -188,15 +148,7 @@ make test-e2e
 | SKIP | Записать причину skip в отчёт |
 | FAIL | Записать failing тесты в отчёт |
 
-### Шаг 8: Остановить тестовое окружение
-
-```bash
-docker compose -f platform/docker/docker-compose.test.yml down -v
-```
-
-> Выполняется независимо от результатов тестов.
-
-### Шаг 9: Проверка полноты реализации
+### Шаг 7: Проверка полноты реализации
 
 1. Прочитать `plan-dev.md` → все TASK-N
 2. Проверить GitHub Issues → все closed
@@ -207,7 +159,7 @@ docker compose -f platform/docker/docker-compose.test.yml down -v
 | Все TASK-N done, Issues closed | PASS |
 | Есть незавершённые | Записать список в отчёт |
 
-### Шаг 10: Отчёт
+### Шаг 8: Отчёт
 
 **Вывести таблицу результатов:**
 
@@ -231,7 +183,7 @@ docker compose -f platform/docker/docker-compose.test.yml down -v
 
 | Условие | Вердикт | Действие |
 |---------|---------|----------|
-| Все PASS/SKIP | **READY** | Переход к ревью (Task 9) |
+| Все PASS/SKIP | **READY** | Переход к ревью (Task 11) |
 | Есть FAIL или CONFLICT | **NOT READY** | Возврат к разработке (Task 7). Показать список проблем |
 
 **Что НЕ входит в /test (и почему):**
@@ -243,14 +195,12 @@ docker compose -f platform/docker/docker-compose.test.yml down -v
 ## Чек-лист
 
 ### Предусловия
+- [ ] Docker-окружение поднято — все сервисы healthy (`/docker-up` выполнен)
 - [ ] Feature-ветка (не main)
-- [ ] docker-compose.test.yml существует
 - [ ] Все TASK-N из plan-dev.md помечены `[x]`
 
 ### Валидация
 - [ ] Sync с main выполнен (нет конфликтов)
-- [ ] Docker config validated (docker-agent mode=validate → PASS)
-- [ ] Docker test env поднят (health checks OK)
 - [ ] `make test` — exit code 0
 - [ ] `make lint` — нет ERRORS
 - [ ] `make build` — exit code 0
@@ -269,24 +219,22 @@ docker compose -f platform/docker/docker-compose.test.yml down -v
 ### Успешная валидация (READY)
 
 ```
-Шаг 1: Предусловия ✓ (feature-ветка, docker-compose.test.yml, 5/5 TASK-N done)
+Шаг 1: Предусловия ✓ (Docker healthy, feature-ветка, 5/5 TASK-N done)
 Шаг 2: git merge origin/main — OK (no conflicts)
-Шаг 3: docker compose up --wait — OK (3/3 healthy)
-Шаг 4: make test — PASS (42 tests, 0 failures)
-Шаг 5: make lint — PASS (0 errors)
-Шаг 6: make build — PASS
-Шаг 7: git diff → src/auth/routes/ changed → E2E обязателен → make test-e2e — PASS
-Шаг 8: docker compose down -v — OK
-Шаг 9: 5/5 TASK-N done, 5/5 Issues closed
-Шаг 10: Вердикт: READY
+Шаг 3: make test — PASS (42 tests, 0 failures)
+Шаг 4: make lint — PASS (0 errors)
+Шаг 5: make build — PASS
+Шаг 6: git diff → src/auth/routes/ changed → E2E обязателен → make test-e2e — PASS
+Шаг 7: 5/5 TASK-N done, 5/5 Issues closed
+Шаг 8: Вердикт: READY
 ```
 
 ### Валидация с проблемами (NOT READY)
 
 ```
-Шаг 4: make test — FAIL (2 failures: auth.service.test.ts, notification.handler.test.ts)
-Шаг 7: E2E SKIP (no API/DB changes)
-Шаг 10: Вердикт: NOT READY
+Шаг 3: make test — FAIL (2 failures: auth.service.test.ts, notification.handler.test.ts)
+Шаг 6: E2E SKIP (no API/DB changes)
+Шаг 8: Вердикт: NOT READY
   Проблемы:
   - make test: 2 failing tests
   → Вернуться к Task 7 для исправления
