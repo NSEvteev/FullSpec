@@ -114,7 +114,9 @@ index: specs/.instructions/README.md
 ├── create-chain-done.md               # Воркфлоу завершения analysis chain (REVIEW → DONE)
 ├── create-rollback.md                 # Воркфлоу отката analysis chain (ROLLING_BACK → REJECTED)
 ├── create-docs-sync.md                # Воркфлоу синхронизации specs/docs/ (агенты + ревью)
-├── create-test.md                     # Воркфлоу финальной валидации (sync, docker, tests, отчёт)
+├── create-docker-env.md               # Воркфлоу поднятия Docker dev-окружения (/docker-up, шаг 5.1)
+├── create-test.md                     # Воркфлоу финальной валидации (sync, tests, отчёт)
+├── create-test-ui.md                  # Воркфлоу Playwright UI smoke-тестов (/test-ui, шаг 5.3)
 └── README.md                         # Этот файл (индекс)
 ```
 
@@ -138,7 +140,9 @@ index: specs/.instructions/README.md
 | [create-chain-done.md](./create-chain-done.md) | Воркфлоу завершения analysis chain — pre-flight, T7 DONE каскад, Planned Changes → AS IS, cross-chain |
 | [create-rollback.md](./create-rollback.md) | Воркфлоу отката analysis chain — T9 ROLLING_BACK, откат артефактов top-down, верификация, T10 REJECTED |
 | [create-docs-sync.md](./create-docs-sync.md) | Воркфлоу синхронизации specs/docs/ — оркестрация service/technology/system агентов с ревью (после Plan Dev, перед Dev) |
-| [create-test.md](./create-test.md) | Воркфлоу финальной валидации — sync main, docker up, полный прогон тестов, проверка полноты, отчёт READY/NOT READY |
+| [create-docker-env.md](./create-docker-env.md) | Воркфлоу поднятия Docker dev-окружения — docker compose up, healthcheck всех сервисов, troubleshooting (шаг 5.1) |
+| [create-test.md](./create-test.md) | Воркфлоу финальной валидации — sync main, полный прогон тестов, проверка полноты, отчёт READY/NOT READY (шаг 5.2) |
+| [create-test-ui.md](./create-test-ui.md) | Воркфлоу Playwright UI smoke-тестов — SMOKE-NNN сценарии через Playwright MCP, скриншоты, отчёт PASS/FAIL (шаг 5.3) |
 
 ---
 
@@ -212,4 +216,6 @@ index: specs/.instructions/README.md
 
 | Скилл | Назначение | Инструкция |
 |-------|------------|------------|
+| [/docker-up](/.claude/skills/docker-up/SKILL.md) | Поднятие Docker dev-окружения | [create-docker-env.md](./create-docker-env.md) |
 | [/test](/.claude/skills/test/SKILL.md) | Финальная валидация | [create-test.md](./create-test.md) |
+| [/test-ui](/.claude/skills/test-ui/SKILL.md) | Playwright UI smoke-тесты | [create-test-ui.md](./create-test-ui.md) |
