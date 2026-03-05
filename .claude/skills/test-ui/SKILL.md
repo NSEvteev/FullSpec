@@ -1,10 +1,10 @@
 ---
 name: test-ui
-description: Playwright UI smoke-тесты — выполнение SMOKE-NNN сценариев через Playwright MCP, скриншоты, отчёт PASS/FAIL. Используй после /test (шаг 5.3).
+description: Playwright UI smoke-тесты — делегирует test-ui-agent (playwright-cli), скриншоты, отчёт PASS/FAIL. Используй после /test (шаг 5.3).
 standard: .claude/.instructions/skills/standard-skill.md
 standard-version: v1.2
 index: .claude/skills/README.md
-allowed-tools: Read, Bash, Glob, Grep
+allowed-tools: Read, Bash, Glob, Grep, Agent
 argument-hint: ""
 ---
 

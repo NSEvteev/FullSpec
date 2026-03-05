@@ -1,5 +1,5 @@
 ---
-description: Воркфлоу Playwright UI smoke-тестов — SMOKE-NNN сценарии через Playwright MCP, скриншоты, отчёт. SSOT для скилла /test-ui.
+description: Воркфлоу Playwright UI smoke-тестов — SMOKE-NNN сценарии через Playwright CLI (Bash), скриншоты, отчёт. SSOT для скилла /test-ui.
 standard: .instructions/standard-instruction.md
 standard-version: v1.3
 index: specs/.instructions/README.md
@@ -9,7 +9,7 @@ index: specs/.instructions/README.md
 
 Рабочая версия стандарта: 1.3
 
-Оркестрация UI smoke-тестов (шаг 5.3 в chain). Последовательно: проверка предусловий, выполнение SMOKE-NNN сценариев через Playwright MCP, сохранение скриншотов, отчёт.
+Оркестрация UI smoke-тестов (шаг 5.3 в chain). Последовательно: проверка предусловий, выполнение SMOKE-NNN сценариев через Playwright CLI (Bash), сохранение скриншотов, отчёт.
 
 **Полезные ссылки:**
 - [Инструкции specs/](./README.md)
@@ -43,7 +43,7 @@ index: specs/.instructions/README.md
   - [Правила удаления](#правила-удаления)
   - [Правила изменения](#правила-изменения)
   - [Текущие сценарии](#текущие-сценарии)
-- [Настройка Playwright MCP](#настройка-playwright-mcp)
+- [Установка Playwright CLI](#установка-playwright-cli)
 - [Чек-лист](#чек-лист)
 - [Скиллы](#скиллы)
 
@@ -55,7 +55,7 @@ index: specs/.instructions/README.md
 
 > **СТОП при падении smoke.** Если сценарий упал — остановиться, чинить UI, не переходить к следующему шагу.
 
-> **MCP постоянно включён.** Playwright MCP не включается/выключается между скиллами. Tool Search автоматически откладывает загрузку инструментов вне `/test-ui`.
+> **CLI через Bash.** Playwright CLI запускается через Bash — не требует MCP, не загружает инструменты в контекст. Можно делегировать sub-агенту без накладных расходов на токены.
 
 > **Номера сценариев — идентификаторы.** При удалении сценария не перенумеровывать оставшиеся.
 
@@ -66,7 +66,7 @@ index: specs/.instructions/README.md
 | Что | Инструмент | Шаг |
 |-----|-----------|-----|
 | API-тесты (health, endpoints, контракты) | pytest + httpx | 5.2 `/test` |
-| UI smoke-тесты (страница открылась, элементы видны) | Playwright MCP | 5.3 `/test-ui` |
+| UI smoke-тесты (страница открылась, элементы видны) | Playwright CLI (Bash) | 5.3 `/test-ui` |
 | Полноценные e2e-сценарии (бизнес-флоу) | pytest + httpx | 5.2 `/test` |
 
 ---
@@ -77,7 +77,7 @@ index: specs/.instructions/README.md
 |------------|---------------|-------------|
 | Docker-окружение поднято (шаг 5.1) | `docker ps` — все сервисы healthy | СТОП: "Выполните `/docker-up` перед `/test-ui`" |
 | Финальная валидация пройдена (шаг 5.2) | результат `/test` — READY | СТОП: "Выполните `/test` перед `/test-ui`" |
-| Playwright MCP доступен | инструменты `mcp__playwright__*` видны | Проверить `.mcp.json`, перезапустить Claude Code |
+| playwright-cli установлен | `playwright-cli --version` | Установить: `npm install -g @playwright/cli@latest && playwright-cli install --skills` |
 
 ---
 
@@ -98,10 +98,19 @@ docker ps --format "table {{.Names}}\t{{.Status}}"
 
 Для каждого сценария из раздела [Текущие сценарии](#текущие-сценарии):
 
-1. Открыть URL через `mcp__playwright__navigate`
-2. Выполнить проверки сценария
-3. Сделать скриншот через `mcp__playwright__screenshot`
-4. Зафиксировать результат: PASS / FAIL
+Делегировать `test-ui-agent` через Agent tool:
+
+```
+Agent tool:
+  subagent_type: test-ui-agent
+  prompt: |
+    Выполни UI smoke-тесты.
+    Сценарии: specs/.instructions/create-test-ui.md (секция "Текущие сценарии")
+    Скриншоты: .claude/smoke-screenshots/
+    Верни таблицу результатов с вердиктом PASS/FAIL.
+```
+
+Агент вернёт таблицу → зафиксировать вердикт.
 
 **При FAIL:** СТОП. Зафиксировать симптом, не переходить к следующему сценарию.
 
@@ -167,24 +176,16 @@ docker ps --format "table {{.Names}}\t{{.Status}}"
 
 ---
 
-## Настройка Playwright MCP
+## Установка Playwright CLI
 
-Конфигурация в `.mcp.json` (корень проекта):
-
-```json
-{
-  "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": ["@playwright/mcp@latest"]
-    }
-  }
-}
+```bash
+npm install -g @playwright/cli@latest
+playwright-cli install --skills
 ```
 
-**Важно:** Playwright MCP постоянно включён — runtime-toggle не поддерживается без перезапуска Claude Code. Tool Search автоматически откладывает загрузку инструментов вне `/test-ui`.
+**Проверка:** `playwright-cli --version`
 
-После изменения конфигурации: перезапустить Claude Code, проверить наличие `mcp__playwright__*` через `/mcp`.
+**Рекомендация:** `@playwright/cli` оптимизирован для coding-агентов — работает через Bash, не загружает инструменты в контекст, поддерживает сессии. Подходит для делегирования sub-агенту.
 
 ---
 
@@ -192,7 +193,7 @@ docker ps --format "table {{.Names}}\t{{.Status}}"
 
 - [ ] Docker-окружение поднято — все сервисы healthy
 - [ ] Финальная валидация `/test` пройдена — READY
-- [ ] Playwright MCP доступен (`mcp__playwright__*` инструменты видны)
+- [ ] playwright-cli установлен (`playwright-cli --version` выполняется)
 - [ ] Все сценарии SMOKE-NNN выполнены
 - [ ] Скриншоты сохранены для каждого сценария
 - [ ] Отчёт сформирован (таблица + вердикт PASS/FAIL)
