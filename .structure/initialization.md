@@ -452,6 +452,8 @@ gh secret set DEPLOY_SSH_KEY < ~/.ssh/deploy_key
 
 > **Атомарные PR.** Каждый backport — отдельный PR в template-репозиторий. Не смешивать несколько улучшений.
 
+> **Копировать файлы напрямую через `cp`, не вручную.** Это гарантирует, что ничего не забыто и нет расхождений. Вручную редактируется только project-specific содержимое после копирования.
+
 ### Что возвращать
 
 | Тип | Пример | Возвращать? |
@@ -474,8 +476,9 @@ gh secret set DEPLOY_SSH_KEY < ~/.ssh/deploy_key
    в проекте
                               2. cd в template-репозиторий
                               3. git checkout -b backport/{topic}
-                              4. Скопировать изменённые файлы из проекта
-                              5. Адаптировать: убрать project-specific части
+                              4. cp файлы из проекта 1:1 (не вручную!)
+                              5. Отредактировать только project-specific
+                                 секции (см. таблицу ниже)
                               6. pre-commit run --all-files
                               7. Commit + Push + PR в template
                               8. Merge PR
@@ -496,16 +499,29 @@ git checkout main && git pull
 git checkout -b backport/{краткое-описание}
 ```
 
-**Шаг 3: Скопировать и адаптировать**
+**Шаг 3: Скопировать файлы напрямую**
 
 ```bash
-# Скопировать конкретные файлы из проекта
-cp /path/to/project/.instructions/some-file.md .instructions/some-file.md
+# Копировать файлы из проекта 1:1 — не редактировать вручную
+PROJECT=/path/to/project
+cp $PROJECT/specs/.instructions/some-file.md specs/.instructions/some-file.md
+cp $PROJECT/.claude/skills/some-skill/SKILL.md .claude/skills/some-skill/SKILL.md
+# ... и т.д. для каждого файла из списка backport
 ```
+
+**Шаг 4: Адаптировать project-specific секции**
+
+Большинство файлов не требуют адаптации и переносятся 1:1. Адаптация нужна только если файл содержит project-specific секции:
+
+| Тип секции | Признак | Что делать |
+|------------|---------|------------|
+| Текущее состояние (сервисы, порты) | Конкретные имена: `postgres:5432`, `auth:8001` | Заменить на `{svc}:{PORT}`, пометить "заполняется в проекте" |
+| Примеры сценариев (SMOKE-NNN) | Конкретные URL, тексты кнопок | Убрать конкретные примеры, оставить формат + пустую таблицу |
+| Предусловия с конкретными портами | `5432/8001/3000` в таблице | Обобщить до "порты сервисов проекта" |
 
 Убрать project-specific: конкретные имена сервисов → `{svc}`, порты → `{PORT}`, URL → плейсхолдеры, ссылки на project-specific docs → убрать.
 
-**Шаг 4: Валидация и PR**
+**Шаг 5: Валидация и PR**
 
 ```bash
 pre-commit run --all-files
