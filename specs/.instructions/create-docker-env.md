@@ -67,7 +67,7 @@ index: specs/.instructions/README.md
 | `.env` файл существует | `test -f platform/docker/.env` | `cp platform/docker/.env.example platform/docker/.env`, заполнить секреты |
 | `.dockerignore` существует | `test -f .dockerignore` | СТОП: без него сборка зависнет на Windows/WSL2 |
 | Docker Desktop запущен | `docker ps` выполняется без ошибки | Запустить Docker Desktop |
-| Нет конфликтующих compose | `docker ps` — нет контейнеров на портах сервисов проекта | `docker ps` → остановить конфликтующий compose |
+| Нет конфликтующих compose | `docker ps` — нет контейнеров на портах 5432/8001/3000 | `docker ps` → остановить конфликтующий compose |
 
 ---
 
@@ -105,6 +105,11 @@ docker ps --format "table {{.Names}}\t{{.Status}}"
 
 Ожидаемый статус каждого сервиса: `healthy`.
 
+```bash
+# Дополнительно — проверить health endpoint backend-сервисов:
+curl http://localhost:8001/api/v1/health
+```
+
 **Критерий прохождения:** все сервисы `healthy`. Если нет — см. [Известные грабли](#известные-грабли).
 
 ---
@@ -125,14 +130,12 @@ docker ps --format "table {{.Names}}\t{{.Status}}"
 4. Если сервис зависит от shared-пакета — добавить volume и `PYTHONPATH`
 5. Если сервис требует секреты — добавить переменные в `.env.example` с пустыми значениями
 6. Обновить `.dockerignore`: добавить `!src/{service}/**` и `!shared/{service}/**` (если есть)
-7. Обновить раздел [Текущее состояние](#текущее-состояние) в этом файле
 
 ### Удаление сервиса
 
 1. Удалить сервис из `docker-compose.yml`
 2. Убрать его переменные из `.env.example` (если не используются другими сервисами)
 3. Убрать `!src/{service}/**` из `.dockerignore`
-4. Обновить раздел [Текущее состояние](#текущее-состояние) в этом файле
 
 ### Запуск и остановка
 
@@ -173,15 +176,23 @@ Dev compose ДОЛЖЕН монтировать исходники через vo
 
 ### Текущее состояние
 
-> **Project-specific:** эта секция заполняется в каждом проекте. Пример структуры:
+> Заполняется в проекте. Формат:
 
 ```
-{svc-1}:{PORT-1} → {svc-2}:{PORT-2} → {svc-3}:{PORT-3}
+postgres:{PORT} → {svc}:{PORT} → ...
 ```
 
 | Сервис | Порт | Dockerfile | Healthcheck |
 |--------|------|-----------|-------------|
-| *(заполняется в проекте)* | — | — | — |
+| postgres | `{PORT}` | `postgres:16-alpine` (готовый образ) | `pg_isready` |
+| `{svc}` | `{PORT}` | `src/{svc}/Dockerfile` | `/api/v1/health` |
+
+**Паттерн Dockerfile (обязательный):**
+- Размещение: `src/{svc}/Dockerfile` (НЕ в `platform/docker/`)
+- Multi-stage: `builder` (gcc + pip install) → `runtime` (COPY --from=builder site-packages, без gcc)
+- БД: один postgres, per-service базы через `init-db.sql` (НЕ отдельный postgres-инстанс)
+
+Предварительные требования: заполняются в проекте.
 
 ---
 
@@ -193,6 +204,7 @@ Dev compose ДОЛЖЕН монтировать исходники через vo
 - [ ] Нет конфликтующих контейнеров на портах сервисов
 - [ ] `docker compose up -d --build` завершился без ошибок
 - [ ] Все сервисы в статусе `healthy` (`docker ps`)
+- [ ] Health endpoint backend-сервисов отвечает 200
 
 ---
 
