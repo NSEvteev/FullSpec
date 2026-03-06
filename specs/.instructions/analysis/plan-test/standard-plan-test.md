@@ -346,10 +346,13 @@ Plan Tests — **структурированный документ с per-serv
 
 | BLOCK | TC | Сервисы | Dev BLOCK |
 |-------|----|---------|-----------|
-| BLOCK-1 | TC-1..TC-7 | auth | BLOCK-1 |
-| BLOCK-2 | TC-8, TC-9 | gateway | BLOCK-2 |
-| BLOCK-3 | TC-10, TC-11 | users | BLOCK-3 |
-| BLOCK-4 | TC-12..TC-14 | e2e (system) | BLOCK-4 |
+| BLOCK-1 | TC-1 | shared (INFRA) | BLOCK-1 |
+| BLOCK-2 | TC-2..TC-4 | auth | BLOCK-2 |
+| BLOCK-3 | TC-5, TC-6 | auth | BLOCK-3 |
+| BLOCK-4 | TC-7 | gateway | BLOCK-4 |
+| BLOCK-5 | TC-8, TC-9 | users | BLOCK-5 |
+| BLOCK-6 | TC-10, TC-11 | users | BLOCK-6 |
+| BLOCK-7 | TC-12..TC-14 | e2e (system) | BLOCK-7 |
 ```
 
 **Двухуровневое тестирование:**
