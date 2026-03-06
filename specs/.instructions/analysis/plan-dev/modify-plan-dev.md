@@ -271,7 +271,7 @@ result = mgr.transition(to="DRAFT", document="plan-dev")
 - Уточнение описаний подзадач
 - Изменение порядка внутри задачи
 - Добавление новых TASK-N **в конец** per-service раздела (номер = max(TASK-N) + 1)
-- Добавление нового TASK-N в существующий BLOCK-N (если не создаёт file overlap)
+- Добавление нового TASK-N в существующий BLOCK-N (если не создаёт file overlap и BLOCK не превышает 3 TASK-N)
 
 **Запрещено:**
 - Переименование существующих TASK-N (ломает ссылки в GitHub Issues)
