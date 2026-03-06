@@ -34,12 +34,24 @@ version: v1.0
 1. Прочитать `platform/.instructions/standard-docker.md` § 4 (Dockerfile) и § 5 (Compose)
 2. Прочитать `specs/docs/.system/infrastructure.md` — порты, сервисы
 3. Для каждого сервиса:
-   a. Создать `platform/docker/Dockerfile.{svc}` из шаблона по tech (Python/Node.js)
-   b. Добавить блок в `platform/docker/docker-compose.yml` (healthcheck закомментирован)
-   c. Если has_db — добавить `CREATE DATABASE` в `platform/docker/init-db.sql`
+   a. Создать `src/{svc}/Dockerfile` (НЕ в platform/docker/) — multi-stage: builder → runtime
+      - builder: gcc + pip install зависимостей (компиляция C-расширений)
+      - runtime: COPY --from=builder site-packages + код, без gcc, non-root user
+      - Паттерн-референс: первый существующий `src/{svc}/Dockerfile` в проекте
+   b. Добавить блок в `platform/docker/docker-compose.yml`:
+      - `dockerfile: src/{svc}/Dockerfile` (без target)
+      - healthcheck раскомментирован
+      - depends_on: postgres (condition: service_healthy), НЕ отдельный {svc}_db
+   c. Если has_db — добавить `CREATE DATABASE` в `platform/docker/init-db.sql` (общий postgres)
    d. Добавить переменные в `.env.example` и `.env.test`
-   e. Создать `src/{svc}/.dockerignore` по tech
+   e. Добавить `!src/{svc}/**` в корневой `.dockerignore`
+   f. Проверить uvicorn command: `{svc_module}.app.main:app` (или верный путь к main.py)
 4. Вернуть отчёт
+
+**ЗАПРЕЩЕНО:**
+- Создавать отдельный postgres-инстанс (`{svc}_db`) для каждого сервиса — использовать общий postgres с отдельной базой через init-db.sql
+- Размещать Dockerfile в `platform/docker/Dockerfile.{svc}` — только в `src/{svc}/Dockerfile`
+- Использовать `base → development → production` паттерн — только `builder → runtime`
 
 ### mode=update
 
@@ -75,9 +87,10 @@ version: v1.0
    - Healthchecks: все application-сервисы имеют healthcheck
    - depends_on: правильные условия (service_healthy для инфра)
    - Volumes: dev-режим монтирует src/{svc}
-4. Проверить каждый Dockerfile.{svc}:
-   - Multi-stage (base → development → production)
-   - Non-root user (USER app)
+4. Проверить каждый `src/{svc}/Dockerfile`:
+   - Multi-stage (builder → runtime)
+   - builder: gcc + pip install, runtime: COPY --from=builder site-packages
+   - Non-root user (useradd appuser, USER appuser)
    - Порядок COPY (dependencies first)
 5. Проверить .env.example:
    - Все переменные из docker-compose.yml присутствуют
@@ -91,8 +104,9 @@ version: v1.0
 
 ## Область работы
 
-- Зона записи: `platform/docker/` (Dockerfile.*, docker-compose.yml, .env.*, init-db.sql)
-- Зона записи (доп.): `src/{svc}/.dockerignore` (только при scaffold)
+- Зона записи: `platform/docker/` (docker-compose.yml, .env.*, init-db.sql)
+- Зона записи: `src/{svc}/Dockerfile` (при scaffold)
+- Зона записи: `.dockerignore` в корне репо (добавление `!src/{svc}/**`)
 - Чтение: `platform/.instructions/`, `specs/docs/.system/`, `specs/analysis/`
 
 ## Удаление файлов
@@ -121,14 +135,13 @@ version: v1.0
 ```
 STATUS: COMPLETED
 CREATED_FILES:
-  - platform/docker/Dockerfile.{svc}
-  - ...
+  - src/{svc}/Dockerfile
 MODIFIED_FILES:
   - platform/docker/docker-compose.yml ({N} блоков добавлено)
   - platform/docker/init-db.sql (CREATE DATABASE ...)
   - platform/docker/.env.example ({SVC}_* переменные)
   - platform/docker/.env.test ({SVC}_* переменные)
-  - src/{svc}/.dockerignore (создан)
+  - .dockerignore (!src/{svc}/**)
 ```
 
 ### update
