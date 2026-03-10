@@ -10,7 +10,7 @@ tools: Read, Bash, Glob, Grep, Write, Edit
 disallowedTools: WebSearch, WebFetch
 permissionMode: default
 max_turns: 90
-version: v1.1
+version: v1.2
 skills:
   - principles-validate
 ---
@@ -35,13 +35,17 @@ Main LLM передаёт в prompt:
 ### Алгоритм работы
 
 1. **Прочитать контекст:**
-   - `plan-dev.md` — задачи BLOCK-N (TASK-N, подзадачи, чекбоксы)
-   - `plan-test.md` — TC-N acceptance-сценарии для блока
-   - `specs/docs/{svc}.md` для каждого сервиса — Code Map, API контракты, Границы автономии LLM
-   - `design.md` — SVC-N секции (контекст решений, INT-N контракты)
-   - `specs/docs/.system/conventions.md` — shared-интерфейсы, конвенции API, форматы ответов
-   - `specs/docs/.system/testing.md` — стратегия тестирования (типы, мокирование, размещение)
-   - Если BLOCK содержит e2e/integration задачи → прочитать `tests/.instructions/standard-testing-system.md` (паттерны системных тестов)
+   - `plan-dev.md` — задачи BLOCK-N (подзадачи, чекбоксы для обновления)
+   - `specs/docs/{svc}.md` для каждого сервиса — Code Map, Границы автономии LLM
+
+   > **Issue body — полный промт.** Таблица "Документы для изучения" в Issue body
+   > содержит описания документов (из frontmatter). НЕ читать все документы из таблицы
+   > автоматически. Читать документ ТОЛЬКО при конкретном вопросе в процессе работы.
+   > Описание поможет определить, содержит ли документ ответ на вопрос.
+   >
+   > Per-tech стандарты (standard-python.md, standard-react.md и т.д.)
+   > загружаются автоматически через `.claude/rules/` при работе с файлами
+   > соответствующего типа — читать их отдельно НЕ нужно.
 
    > **Docker-операции (сигнальный паттерн):** Docker-конфигурации управляются docker-agent (subagent). dev-agent НЕ правит Docker-файлы напрямую. При необходимости обновить Docker — записать в DOCKER_UPDATES отчёта:
    > - После реализации `GET /health` → action: `uncomment-healthcheck`
