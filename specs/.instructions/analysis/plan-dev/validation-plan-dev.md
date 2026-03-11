@@ -1,13 +1,13 @@
 ---
 description: Валидация документов плана разработки SDD — frontmatter, именование, секции TASK-N, подзадачи, зависимости, TC-N трассируемость, маппинг Issues, зона ответственности.
 standard: .instructions/standard-instruction.md
-standard-version: v1.6
+standard-version: v1.7
 index: specs/.instructions/README.md
 ---
 
 # Валидация плана разработки
 
-Рабочая версия стандарта: 1.6
+Рабочая версия стандарта: 1.7
 
 Проверка документов плана разработки (`specs/analysis/*/plan-dev.md`) на соответствие [standard-plan-dev.md](./standard-plan-dev.md).
 
@@ -222,6 +222,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
 | No file overlap | Блоки одной волны не затрагивают одни файлы (shared → INFRA-блок) |
 | INFRA-блок | Блоки с `TC: INFRA` задачами в wave 0 или первой волне |
 | Размер | 1-2 TASK-N на блок (по умолчанию), максимум 3 для тесно связанных |
+| Тесты | Системные/e2e тестовые TASK-N: 1 TC = 1 BLOCK (разные файлы). Объединять TC только при file overlap, shared setup или последовательной зависимости |
 | Зависимости | Нет циклических зависимостей между BLOCK-N |
 | Волны | Блоки с зависимостями в разных волнах (зависимый → после зависимости) |
 | Нумерация | Сквозная: BLOCK-1, BLOCK-2, ... Совпадает с plan-test |
@@ -313,6 +314,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
 - [ ] INFRA-блоки в wave 0 или первой волне
 - [ ] Блоки одной волны не имеют file overlap
 - [ ] Размер блока: 1-2 TASK-N (по умолчанию), максимум 3 для тесно связанных
+- [ ] Тестовые TC: 1 TC = 1 BLOCK по умолчанию (объединять только при file overlap / shared setup / sequential dependency)
 - [ ] Нумерация BLOCK-N сквозная, совпадает с plan-test
 
 ### Per-service разделы
@@ -376,6 +378,7 @@ python specs/.instructions/.scripts/validate-analysis-plan-dev.py {путь}
 | INFRA-блок не в первой волне | PD035 | INFRA-блок с wave > 1 | Переместить в wave 0 или 1 |
 | BLOCK-N не совпадает с plan-test | PD036 | Нумерация BLOCK-N расходится с plan-test | Синхронизировать нумерацию |
 | Нет «Предложения» | PD037 | Обязательный раздел пропущен | Добавить раздел `## Предложения` |
+| Тестовые TC объединены без причины | PD040 | Несколько TC (разные файлы) в одном BLOCK без file overlap/shared setup/sequential dependency | Разделить на отдельные BLOCK-N |
 | Нет «Отвергнутые предложения» | PD038 | Обязательный раздел пропущен | Добавить раздел `## Отвергнутые предложения` |
 | TASK-N: невалидный Type | PD039 | Значение не из допустимого списка | Использовать одно из: `feature`, `task`, `infra`, `test` |
 

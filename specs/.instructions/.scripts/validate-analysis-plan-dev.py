@@ -94,6 +94,7 @@ ERROR_CODES = {
     "PD037": "Нет Предложения",
     "PD038": "Нет Отвергнутые предложения",
     "PD039": "Невалидный Type",
+    "PD040": "Тестовые TC объединены без причины",
 }
 
 
@@ -810,7 +811,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Валидация документов плана разработки SDD"
     )
-    parser.add_argument("path", nargs="?", help="Путь к документу плана разработки")
+    parser.add_argument("path", nargs="*", help="Путь к документу плана разработки")
     parser.add_argument("--all", action="store_true", help="Проверить все планы разработки")
     parser.add_argument("--json", action="store_true", help="JSON вывод")
     parser.add_argument("--repo", default=".", help="Корень репозитория")
@@ -825,7 +826,7 @@ def main():
             print("Планы разработки не найдены")
             sys.exit(0)
     elif args.path:
-        plan_devs = [Path(args.path)]
+        plan_devs = [Path(p) for p in args.path]
     else:
         parser.print_help()
         sys.exit(2)
