@@ -1,13 +1,13 @@
 ---
 description: Воркфлоу изменения документа плана разработки SDD — операции по статусам, переходы жизненного цикла, GitHub Issues синхронизация, рабочие правки.
 standard: .instructions/standard-instruction.md
-standard-version: v1.6
+standard-version: v1.7
 index: specs/.instructions/README.md
 ---
 
 # Воркфлоу изменения плана разработки
 
-Рабочая версия стандарта: 1.6
+Рабочая версия стандарта: 1.7
 
 Процессы изменения существующего документа плана разработки (`specs/analysis/NNNN-{topic}/plan-dev.md`).
 
