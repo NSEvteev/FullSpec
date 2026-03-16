@@ -1,182 +1,190 @@
+🌐 [English](README.md) | [Русский](README.ru.md)
+
 # Project Template
 
-Шаблон fullstack проекта с микросервисной архитектурой и AI-powered процессом разработки через [Claude Code](https://claude.ai/code).
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/NSEvteev/project_template/actions/workflows/ci.yml/badge.svg)](https://github.com/NSEvteev/project_template/actions/workflows/ci.yml)
 
-Полный цикл от идеи до релиза: дискуссия, проектирование, планирование тестов, план разработки, реализация, ревью, деплой — автоматизирован через 67 скиллов, 20 агентов и 80 скриптов валидации.
+A fullstack microservice project template with an AI-powered development process via [Claude Code](https://claude.ai/code).
 
-## Оглавление
+The full cycle from idea to release — discussion, design, test planning, development planning, implementation, review, deploy — is automated through **70 skills**, **23 agents**, and **80+ validation scripts**.
 
-- [Возможности](#возможности)
-- [Быстрый старт](#быстрый-старт)
-- [Структура проекта](#структура-проекта)
-- [Процесс разработки](#процесс-разработки)
-- [Команды](#команды)
-- [Документация](#документация)
+> **Note:** Internal project documentation (instructions, standards, specs) is written in Russian. Claude Code understands Russian natively — just fork, customize, and let your Claude handle the rest.
 
----
+## Table of Contents
 
-## Возможности
-
-**Процесс поставки ценности** — 8 фаз от идеи до production, каждая автоматизирована скиллами Claude Code. Одна команда `/chain` создаёт полный план и ведёт по всем этапам.
-
-**Analysis chain** — формальная цепочка документов (Discussion → Design → Plan Tests → Plan Dev) с трассируемостью требований, системой статусов и каскадным обнаружением конфликтов.
-
-**Инструкции в каждой папке** — `.instructions/` с правилами, стандартами и скриптами валидации. Claude Code автоматически подхватывает контекст через rules.
-
-**Per-tech стандарты кодирования** — стандарты для TypeScript, React, FastAPI, PostgreSQL, Protobuf и других технологий генерируются из Design и привязываются к конкретным сервисам.
-
-**Pre-commit хуки** — валидация структуры README, rules, скриптов и скиллов при каждом коммите. CI дублирует проверки на GitHub Actions.
-
-**GitHub-интеграция** — скиллы для Issues, Milestones, Labels, PR, Releases. Стандартизированные шаблоны и метки.
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Project Structure](#project-structure)
+- [Development Process](#development-process)
+- [Commands](#commands)
+- [Documentation](#documentation)
+- [License](#license)
 
 ---
 
-## Быстрый старт
+## Features
 
-### Новый проект из template
+**Value delivery process** — 8 phases from idea to production, each automated by Claude Code skills. A single `/chain` command creates a full plan and guides you through every step.
+
+**Analysis chain** — a formal document chain (Discussion → Design → Plan Tests → Plan Dev) with requirements traceability, status system, and cascading conflict detection.
+
+**Instructions in every folder** — `.instructions/` with rules, standards, and validation scripts. Claude Code automatically picks up context via rules.
+
+**Per-tech coding standards** — standards for TypeScript, React, FastAPI, PostgreSQL, Protobuf, and other technologies are generated from Design and bound to specific services.
+
+**Pre-commit hooks** — README structure, rules, scripts, and skills validation on every commit. CI mirrors these checks on GitHub Actions.
+
+**GitHub integration** — skills for Issues, Milestones, Labels, PRs, Releases. Standardized templates and labels.
+
+---
+
+## Quick Start
+
+### New project from template
 
 ```bash
 # 1. GitHub: "Use this template" → "Create a new repository"
-# 2. Клонировать
+# 2. Clone
 git clone https://github.com/{owner}/{repo}.git
 cd {repo}
 
-# 3. Установить хуки
+# 3. Install hooks
 make setup
 
-# 4. Полная настройка через Claude Code
+# 4. Full setup via Claude Code
 /init-project
 ```
 
-Подробная инструкция: [initialization.md](.structure/initialization.md)
+Detailed guide: [initialization.md](.structure/initialization.md)
 
-### Существующий проект
+### Existing project
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/NSEvteev/project_template.git
 cd project_template
 
-# Установить pre-commit хуки (обязательно!)
+# Install pre-commit hooks (required!)
 make setup
 
-# Запуск сервисов
+# Start services
 make dev
 
-# Остановка
+# Stop services
 make stop
 ```
 
-### Требования
+### Requirements
 
-| Инструмент | Назначение |
-|------------|------------|
-| Docker + Docker Compose | Контейнеризация сервисов |
-| Python 3.8+ | Скрипты валидации, pre-commit |
-| Git | Контроль версий |
-| GitHub CLI (`gh`) | Работа с Issues, PR, Releases |
+| Tool | Purpose |
+|------|---------|
+| Docker + Docker Compose | Service containerization |
+| Python 3.8+ | Validation scripts, pre-commit |
+| Git | Version control |
+| GitHub CLI (`gh`) | Issues, PRs, Releases |
 
 ---
 
-## Структура проекта
+## Project Structure
 
-**SSOT структуры:** [.structure/README.md](.structure/README.md)
+**Structure SSOT:** [.structure/README.md](.structure/README.md)
 
-| Папка | Назначение |
-|-------|------------|
-| `src/` | Исходный код сервисов |
-| `shared/` | Контракты API, события, общие библиотеки |
-| `platform/` | Docker, Gateway, Kubernetes, мониторинг |
-| `config/` | Конфигурации окружений (dev/staging/prod) |
-| `tests/` | Системные тесты (e2e, integration, load) |
-| `specs/` | Спецификации, analysis chains, глоссарий |
-| `.claude/` | Скиллы, rules, агенты Claude Code |
-| `.github/` | Шаблоны Issues, CI/CD workflows |
-| `.instructions/` | Мета-инструкции — стандарты написания инструкций |
-| `.structure/` | SSOT структуры, инициализация |
+| Folder | Purpose |
+|--------|---------|
+| `src/` | Service source code |
+| `shared/` | API contracts, events, shared libraries |
+| `platform/` | Docker, Gateway, Kubernetes, monitoring |
+| `config/` | Environment configs (dev/staging/prod) |
+| `tests/` | System tests (e2e, integration, load) |
+| `specs/` | Specifications, analysis chains, glossary |
+| `.claude/` | Skills, rules, agents for Claude Code |
+| `.github/` | Issue templates, CI/CD workflows |
+| `.instructions/` | Meta-instructions — standards for writing instructions |
+| `.structure/` | Structure SSOT, initialization |
 
-Каждая папка содержит `.instructions/` с правилами работы:
+Each folder contains `.instructions/` with working rules:
 
 ```
 src/
-├── .instructions/          # Стандарты разработки сервисов
-│   ├── standard-*.md       # Стандарты
-│   └── README.md           # Индекс
-├── {service}/              # Сервисы
+├── .instructions/          # Service development standards
+│   ├── standard-*.md       # Standards
+│   └── README.md           # Index
+├── {service}/              # Services
 └── README.md
 ```
 
 ---
 
-## Процесс разработки
+## Development Process
 
-Любое изменение системы начинается с `/chain`. Одна команда создаёт TaskList с полной последовательностью от идеи до релиза.
+Any system change starts with `/chain`. A single command creates a TaskList with the full sequence from idea to release.
 
 ```
-Фаза 1 — Аналитика (DRAFT → WAITING):
-  1. Discussion        — зачем? требования, критерии успеха
-  2. Design            — как? сервисы, API, data model, технологии
-  3. Plan Tests        — как проверяем? acceptance-сценарии
-  4. Plan Dev          — какие задачи? TASK-N, блоки, зависимости
+Phase 1 — Analysis (DRAFT → WAITING):
+  1. Discussion        — why? requirements, success criteria
+  2. Design            — how? services, API, data model, technologies
+  3. Plan Tests        — how to verify? acceptance scenarios
+  4. Plan Dev          — what tasks? TASK-N, blocks, dependencies
 
-Фаза 2 — Docs Sync:
-  5. /docs-sync        — параллельные агенты: per-service docs,
-                         per-tech стандарты, overview.md
+Phase 2 — Docs Sync:
+  5. /docs-sync        — parallel agents: per-service docs,
+                         per-tech standards, overview.md
 
-Фаза 3 — Запуск:
+Phase 3 — Launch:
   6. /dev-create       — Issues + Milestone + Branch → RUNNING
 
-Фаза 4 — Реализация:
-  7. dev-agent         — код + тесты + коммиты (по TASK-N)
+Phase 4 — Implementation:
+  7. dev-agent         — code + tests + commits (by TASK-N)
 
-Фаза 5 — Финальная валидация:
-  8. /test             — sync main, тесты, lint, build → READY/NOT READY
+Phase 5 — Final Validation:
+  8. /test             — sync main, tests, lint, build → READY/NOT READY
 
-Фаза 6 — Доставка:
-  9. /review           — ревью ветки
+Phase 6 — Delivery:
+  9. /review           — branch review
  10. /pr-create        — Pull Request
  11. /merge            — Squash merge + sync main
 
-Фаза 7 — Завершение:
- 12. /chain-done       — DONE + обновление docs/
+Phase 7 — Completion:
+ 12. /chain-done       — DONE + update docs/
 
-Фаза 8 — Поставка:
+Phase 8 — Release:
  13. /release-create   — GitHub Release
 ```
 
-Подробнее: [standard-process.md](specs/.instructions/standard-process.md)
+Details: [standard-process.md](specs/.instructions/standard-process.md)
 
 ---
 
-## Команды
+## Commands
 
 ```bash
-make setup      # Установить pre-commit хуки (обязательно после клонирования!)
-make help       # Показать все команды
-make dev        # Запустить для разработки (docker-compose)
-make stop       # Остановить сервисы
-make test       # Unit/integration тесты
-make test-e2e   # E2E тесты
-make lint       # Линтинг
-make build      # Собрать для production
-make clean      # Очистка (docker down -v)
+make setup      # Install pre-commit hooks (required after cloning!)
+make help       # Show all commands
+make dev        # Start for development (docker-compose)
+make stop       # Stop services
+make test       # Unit/integration tests
+make test-e2e   # E2E tests
+make lint       # Linting
+make build      # Build for production
+make clean      # Cleanup (docker down -v)
 ```
 
 ---
 
-## Документация
+## Documentation
 
-| Документ | Назначение |
-|----------|------------|
-| [CLAUDE.md](CLAUDE.md) | Точка входа для Claude Code |
-| [Инициализация](.structure/initialization.md) | Установка, настройка GitHub, template workflow |
-| [Структура проекта](.structure/README.md) | SSOT структуры — дерево папок, описание |
-| [Quick Start](.structure/quick-start.md) | Quick Start для LLM |
-| [Процесс поставки](specs/.instructions/standard-process.md) | Полный стандарт — 8 фаз, статусы, скиллы |
-| [Глоссарий](specs/glossary.md) | Термины проекта |
-| [Pre-commit хуки](.structure/pre-commit.md) | Настройка и решение проблем |
+| Document | Purpose |
+|----------|---------|
+| [CLAUDE.md](CLAUDE.md) | Entry point for Claude Code |
+| [Initialization](.structure/initialization.md) | Setup, GitHub config, template workflow |
+| [Project Structure](.structure/README.md) | Structure SSOT — folder tree, descriptions |
+| [Quick Start](.structure/quick-start.md) | Quick Start for LLM |
+| [Delivery Process](specs/.instructions/standard-process.md) | Full standard — 8 phases, statuses, skills |
+| [Glossary](specs/glossary.md) | Project terms |
+| [Pre-commit Hooks](.structure/pre-commit.md) | Setup and troubleshooting |
 
 ---
 
-## Лицензия
+## License
 
-Проприетарный проект.
+This project is licensed under the [MIT License](LICENSE).

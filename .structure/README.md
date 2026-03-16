@@ -8,7 +8,7 @@ standard-version: v1.1
 
 > **SSOT** — единый источник правды о структуре папок проекта.
 
-Корневые папки: инструменты Claude (`.claude/`), GitHub платформа (`.github/`), мета-инструкции (`.instructions/`), структура проекта (`.structure/`), конфигурации (`config/`), инфраструктура (`platform/`), общий код (`shared/`), спецификации (`specs/`), исходный код (`src/`), тесты (`tests/`). Корневые файлы: `.gitignore`, `.pre-commit-config.yaml`, `CHANGELOG.md`, `CLAUDE.md`, `Makefile`, `README.md`.
+Корневые папки: инструменты Claude (`.claude/`), GitHub платформа (`.github/`), мета-инструкции (`.instructions/`), структура проекта (`.structure/`), конфигурации (`config/`), инфраструктура (`platform/`), общий код (`shared/`), спецификации (`specs/`), исходный код (`src/`), тесты (`tests/`). Корневые файлы: `.gitignore`, `.pre-commit-config.yaml`, `CHANGELOG.md`, `CLAUDE.md`, `LICENSE`, `Makefile`, `README.md`.
 
 **Полезные ссылки:**
 - [Точка входа Claude](../CLAUDE.md)
@@ -47,9 +47,9 @@ standard-version: v1.1
 
 **Инструменты Claude Code.**
 
-Инструкции для написания скиллов, rules и агентов (`.instructions/`), скиллы автоматизации — 67 команд для управления инструкциями, скриптами, скиллами, rules, агентами, ссылками, структурой, issues, milestones, labels, ветками, миграциями, ревью, analysis chain и документацией (`skills/`), контекстные правила для автозагрузки (`rules/`), автономные агенты — 19 агентов для параллельного выполнения задач (`agents/`), черновики и SSOT-документы (`drafts/`), настройки Claude (`settings.json`).
+Инструкции для написания скиллов, rules и агентов (`.instructions/`), скиллы автоматизации — 70 команд для управления инструкциями, скриптами, скиллами, rules, агентами, ссылками, структурой, issues, milestones, labels, ветками, миграциями, ревью, analysis chain и документацией (`skills/`), контекстные правила для автозагрузки (`rules/`), автономные агенты — 23 агента для параллельного выполнения задач (`agents/`), черновики и SSOT-документы (`drafts/`), настройки Claude (`settings.json`).
 
-### 🔗 [.github/](../.github/README.md)
+### 🔗 .github/
 
 **GitHub платформа.**
 
@@ -131,6 +131,12 @@ standard-version: v1.1
 
 Справочная информация о проекте для Claude Code — проверка скиллов, блокирующие пути, структура папок, доступные команды.
 
+### 🔗 [LICENSE](../LICENSE)
+
+**Лицензия MIT.**
+
+Условия использования, копирования и распространения проекта.
+
 ### 🔗 [Makefile](../Makefile)
 
 **Команды проекта.**
@@ -159,7 +165,7 @@ standard-version: v1.1
 │   ├── drafts/                          #   Черновики (в git)
 │   │   └── examples/                    #     Эталонные примеры черновиков
 │   ├── rules/                           #   Rules для автозагрузки контекста
-│   ├── skills/                          #   Скиллы (67)
+│   ├── skills/                          #   Скиллы (70)
 │   ├── CHANGELOG.md                     #   История изменений .claude/
 │   ├── onboarding.md                    #   Руководство для новых участников
 │   ├── README.md                        #   Описание .claude/
@@ -191,7 +197,6 @@ standard-version: v1.1
 │   ├── dependabot.yml                   #   Dependabot конфигурация
 │   ├── labels.yml                       #   Справочник меток
 │   ├── PULL_REQUEST_TEMPLATE.md         #   Шаблон Pull Request
-│   ├── README.md                        #   Описание .github/
 │   ├── release.yml                      #   Конфигурация Release
 │   └── SECURITY.md                      #   Политика безопасности
 │
@@ -269,6 +274,7 @@ standard-version: v1.1
 ├── .pre-commit-config.yaml              # Pre-commit hooks
 ├── CHANGELOG.md                         # История изменений
 ├── CLAUDE.md                            # Точка входа для Claude
+├── LICENSE                              # MIT лицензия
 ├── Makefile                             # Команды (make help)
 └── README.md                            # Главный README
 ```

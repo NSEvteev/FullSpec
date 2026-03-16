@@ -132,7 +132,6 @@ python .github/.instructions/.scripts/validate-labels.py --sync
 
 Обновить:
 - `standard-labels.md` — добавить категорию в описание
-- `.github/README.md` — если нужно
 
 ---
 

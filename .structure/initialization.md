@@ -200,13 +200,6 @@ gh auth status
 pre-commit run --all-files
 ```
 
-**Проверить фиксированные файлы архитектуры:**
-```bash
-python specs/.instructions/.scripts/validate-architecture.py --verbose
-```
-
-Скрипт проверяет наличие 4 обязательных файлов (`system/overview.md`, `system/data-flows.md`, `system/infrastructure.md`, `domains/context-map.md`), frontmatter и обязательные секции. Подробнее: [validation-architecture.md](/specs/.instructions/living-docs/architecture/validation-architecture.md).
-
 **Ожидаемый результат pre-commit:**
 ```
 Check README structure sync..........................Passed
