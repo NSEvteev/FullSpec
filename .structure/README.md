@@ -8,7 +8,7 @@ standard-version: v1.1
 
 > **SSOT** — единый источник правды о структуре папок проекта.
 
-Корневые папки: инструменты Claude (`.claude/`), GitHub платформа (`.github/`), мета-инструкции (`.instructions/`), структура проекта (`.structure/`), конфигурации (`config/`), инфраструктура (`platform/`), общий код (`shared/`), спецификации (`specs/`), исходный код (`src/`), тесты (`tests/`). Корневые файлы: `.gitignore`, `.pre-commit-config.yaml`, `CHANGELOG.md`, `CLAUDE.md`, `LICENSE`, `Makefile`, `README.md`.
+Корневые папки: инструменты Claude (`.claude/`), GitHub платформа (`.github/`), мета-инструкции (`.instructions/`), структура проекта (`.structure/`), ресурсы (`assets/`), конфигурации (`config/`), инфраструктура (`platform/`), общий код (`shared/`), спецификации (`specs/`), исходный код (`src/`), тесты (`tests/`). Корневые файлы: `.gitignore`, `.pre-commit-config.yaml`, `CHANGELOG.md`, `CLAUDE.md`, `LICENSE`, `Makefile`, `README.md`.
 
 **Полезные ссылки:**
 - [Точка входа Claude](../CLAUDE.md)
@@ -42,6 +42,12 @@ standard-version: v1.1
 ---
 
 ## 1. Корневые папки
+
+### 🔗 [assets/](../assets/)
+
+**Ресурсы проекта.**
+
+Логотипы (светлая/тёмная тема), иконка для аватара репозитория.
 
 ### 🔗 [.claude/](../.claude/README.md)
 
@@ -155,6 +161,8 @@ standard-version: v1.1
 
 ```
 /
+├── assets/                              # Логотипы и иконки
+│
 ├── .claude/                             # Инструменты Claude Code
 │   ├── .instructions/
 │   │   ├── agents/                      #   Как писать агентов

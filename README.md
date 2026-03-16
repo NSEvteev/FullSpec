@@ -1,9 +1,17 @@
 🌐 [English](README.md) | [Русский](README.ru.md)
 
-# FullSpec
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/logo.svg">
+    <img alt="FullSpec" src="assets/logo.svg" width="600">
+  </picture>
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![CI](https://github.com/NSEvteev/fullspec/actions/workflows/ci.yml/badge.svg)](https://github.com/NSEvteev/fullspec/actions/workflows/ci.yml)
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
+  <a href="https://github.com/NSEvteev/FullSpec/actions/workflows/ci.yml"><img src="https://github.com/NSEvteev/FullSpec/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+</p>
 
 A spec-driven development framework for [Claude Code](https://claude.ai/code). Structured process from requirements to production — specifications first, then code.
 
@@ -49,9 +57,15 @@ git clone https://github.com/{owner}/{repo}.git
 cd {repo}
 make setup
 
-# 3. Start building
+# 3. Configure Claude's language
+#    Add to CLAUDE.md or tell Claude directly:
+#    "Always respond in English"
+
+# 4. Start building
 /chain
 ```
+
+> **Tip:** Internal instructions are in Russian, but Claude reads them and responds in any language. Add `Always respond in {your language}` to `CLAUDE.md` — Claude will communicate with you in your language while following Russian-written specs internally.
 
 <details>
 <summary><b>Requirements</b></summary>

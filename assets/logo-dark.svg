@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 140" width="380" height="140">
+  <defs>
+    <linearGradient id="chainGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#818CF8"/>
+      <stop offset="100%" style="stop-color:#A78BFA"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#A78BFA"/>
+      <stop offset="100%" style="stop-color:#818CF8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Title: FullSpec -->
+  <text x="20" y="60" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="68" font-weight="700"><tspan fill="#E0E7FF">Full</tspan><tspan fill="url(#chainGrad)">Spec</tspan></text>
+
+  <!-- Second row: chain nodes + "for FullStack" (aligned with title) -->
+  <g transform="translate(29, 95)">
+    <line x1="0" y1="0" x2="32" y2="0" stroke="url(#chainGrad)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="32" y1="0" x2="64" y2="0" stroke="url(#chainGrad)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="64" y1="0" x2="96" y2="0" stroke="url(#chainGrad)" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="0" cy="0" r="9" fill="url(#nodeGrad)" opacity="0.6"/>
+    <circle cx="0" cy="0" r="5.5" fill="#818CF8"/>
+    <circle cx="-1" cy="-1" r="2.2" stroke="white" stroke-width="1.2" fill="none"/>
+    <line x1="0.5" y1="0.5" x2="2.5" y2="2.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+
+    <circle cx="32" cy="0" r="9" fill="url(#nodeGrad)" opacity="0.7"/>
+    <circle cx="32" cy="0" r="5.5" fill="#8B5CF6"/>
+    <line x1="30" y1="2" x2="34.5" y2="-2.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="29.5" y1="1.5" x2="30.5" y2="2.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+
+    <circle cx="64" cy="0" r="9" fill="url(#nodeGrad)" opacity="0.85"/>
+    <circle cx="64" cy="0" r="5.5" fill="#A78BFA"/>
+    <line x1="63" y1="-2.5" x2="65" y2="-2.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="63.2" y1="-2.5" x2="62" y2="1" stroke="white" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <line x1="64.8" y1="-2.5" x2="66" y2="1" stroke="white" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <line x1="62" y1="1" x2="66" y2="1" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+
+    <circle cx="96" cy="0" r="9" fill="url(#nodeGrad)"/>
+    <circle cx="96" cy="0" r="5.5" fill="#C4B5FD"/>
+    <path d="M94.5,-2 L93,0 L94.5,2" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M97.5,-2 L99,0 L97.5,2" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <text x="115" y="5.5" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="18"><tspan fill="#94A3B8" font-weight="400">for </tspan><tspan fill="#E0E7FF" font-weight="600">Full</tspan><tspan fill="url(#chainGrad)" font-weight="600">Stack</tspan></text>
+  </g>
+</svg>
