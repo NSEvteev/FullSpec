@@ -364,7 +364,7 @@ I'm collecting projects built with FullSpec from around the world. If you've shi
 
 FullSpec is free and open source (MIT). If it saves you time, consider supporting development:
 
-<a href="https://github.com/sponsors/NSEvteev"><img src="https://img.shields.io/badge/GitHub_Sponsors-❤️-ea4aaa?style=for-the-badge&logo=github" alt="GitHub Sponsors"></a>&nbsp;&nbsp;<a href="https://boosty.to/nsevteev"><img src="https://img.shields.io/badge/Boosty-Support-f15f2c?style=for-the-badge" alt="Boosty"></a>
+<a href="https://boosty.to/nsevteev"><img src="https://img.shields.io/badge/Boosty-Support-f15f2c?style=for-the-badge" alt="Boosty"></a>
 
 ### Consulting
 
