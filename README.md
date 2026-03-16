@@ -5,153 +5,137 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![CI](https://github.com/NSEvteev/project_template/actions/workflows/ci.yml/badge.svg)](https://github.com/NSEvteev/project_template/actions/workflows/ci.yml)
 
-A fullstack microservice project template with an AI-powered development process via [Claude Code](https://claude.ai/code).
+**AI coding assistants are powerful — but without structure, every project reinvents the wheel.** Requirements live in chat history, decisions aren't documented, and "just build it" leads to rework.
 
-The full cycle from idea to release — discussion, design, test planning, development planning, implementation, review, deploy — is automated through **70 skills**, **23 agents**, and **80+ validation scripts**.
+Project Template adds a structured development process so that you and your AI **agree on what to build before writing code** — and then automate the entire journey from idea to production release.
 
-> **Note:** Internal project documentation (instructions, standards, specs) is written in Russian. Claude Code understands Russian natively — just fork, customize, and let your Claude handle the rest.
-
-## Table of Contents
-
-- [Features](#features)
-- [Quick Start](#quick-start)
-- [Project Structure](#project-structure)
-- [Development Process](#development-process)
-- [Commands](#commands)
-- [Documentation](#documentation)
-- [License](#license)
+> **Note:** Internal project files (instructions, standards, specs) are written in Russian. Claude Code understands Russian natively — fork, customize with your own Claude, and it just works.
 
 ---
 
-## Features
+## See It in Action
 
-**Value delivery process** — 8 phases from idea to production, each automated by Claude Code skills. A single `/chain` command creates a full plan and guides you through every step.
+One command. Full lifecycle.
 
-**Analysis chain** — a formal document chain (Discussion → Design → Plan Tests → Plan Dev) with requirements traceability, status system, and cascading conflict detection.
+```
+You: /chain
+     "Add user authentication with OAuth2"
 
-**Instructions in every folder** — `.instructions/` with rules, standards, and validation scripts. Claude Code automatically picks up context via rules.
+Claude creates a plan and guides you through:
 
-**Per-tech coding standards** — standards for TypeScript, React, FastAPI, PostgreSQL, Protobuf, and other technologies are generated from Design and bound to specific services.
+  ✓ Discussion     — clarify requirements, define success criteria
+  ✓ Design         — choose services, API contracts, data model
+  ✓ Plan Tests     — write acceptance scenarios before code
+  ✓ Plan Dev       — break into tasks with dependencies
+  ✓ Docs Sync      — generate per-service docs and coding standards
+  ✓ Dev Launch     — create GitHub Issues, Milestone, branch
+  ✓ Implementation — write code task by task, with validation
+  ✓ Review & PR    — automated code review and pull request
+  ✓ Release        — GitHub Release with changelog
 
-**Pre-commit hooks** — README structure, rules, scripts, and skills validation on every commit. CI mirrors these checks on GitHub Actions.
-
-**GitHub integration** — skills for Issues, Milestones, Labels, PRs, Releases. Standardized templates and labels.
+Every decision is traced. Every step is validated. Nothing falls through the cracks.
+```
 
 ---
 
 ## Quick Start
 
-### New project from template
-
 ```bash
 # 1. GitHub: "Use this template" → "Create a new repository"
-# 2. Clone
+
+# 2. Clone and setup
 git clone https://github.com/{owner}/{repo}.git
 cd {repo}
-
-# 3. Install hooks
 make setup
 
-# 4. Full setup via Claude Code
-/init-project
+# 3. Start building
+/chain
 ```
 
-Detailed guide: [initialization.md](.structure/initialization.md)
-
-### Existing project
-
-```bash
-git clone https://github.com/NSEvteev/project_template.git
-cd project_template
-
-# Install pre-commit hooks (required!)
-make setup
-
-# Start services
-make dev
-
-# Stop services
-make stop
-```
-
-### Requirements
+<details>
+<summary><b>Requirements</b></summary>
 
 | Tool | Purpose |
 |------|---------|
+| [Claude Code](https://claude.ai/code) | AI-powered development assistant |
 | Docker + Docker Compose | Service containerization |
 | Python 3.8+ | Validation scripts, pre-commit |
-| Git | Version control |
-| GitHub CLI (`gh`) | Issues, PRs, Releases |
+| Git + GitHub CLI (`gh`) | Version control, Issues, PRs |
+
+Detailed setup: [initialization.md](.structure/initialization.md)
+
+</details>
+
+---
+
+## Why This Template?
+
+### The problem
+
+AI assistants generate code fast — but **what** code? Without a shared understanding of requirements, architecture, and success criteria, you get:
+- Features nobody asked for
+- Conflicting implementations across services
+- No test coverage for edge cases
+- "It works on my machine" releases
+
+### How we solve it
+
+| Without structure | With Project Template |
+|---|---|
+| Requirements live in chat history | Formal Discussion doc with success criteria |
+| Architecture decisions are ad-hoc | Design doc with service contracts and data models |
+| Tests are an afterthought | Test Plan written before code |
+| Tasks are vague | Dev Plan with dependencies and blocks |
+| Standards vary by developer | Per-tech coding standards auto-generated |
+| Docs are always outdated | Living docs synced from specs |
+| Release is manual and scary | Automated validation → PR → Release pipeline |
+
+### What's inside
+
+- **70 skills** — slash commands that automate every step (`/chain`, `/commit`, `/review`, `/release-create`)
+- **23 agents** — parallel workers for analysis, code review, documentation sync
+- **80+ validation scripts** — pre-commit hooks + CI ensure nothing breaks silently
+- **16 context rules** — Claude automatically loads relevant standards when touching specific files
+- **9 per-tech standards** — TypeScript, React, FastAPI, PostgreSQL, Protobuf, OpenAPI, AsyncAPI, Tailwind CSS
+
+---
+
+## The 8 Phases
+
+```
+Phase 1 — Analysis        Discussion → Design → Plan Tests → Plan Dev
+Phase 2 — Docs Sync       Per-service docs, per-tech standards, overview
+Phase 3 — Launch           GitHub Issues + Milestone + Branch
+Phase 4 — Implementation   Code by tasks, with conflict detection
+Phase 5 — Validation       Tests, lint, build, e2e → READY / NOT READY
+Phase 6 — Delivery         Code review → PR → Merge
+Phase 7 — Completion       Update living docs, close chain
+Phase 8 — Release          GitHub Release + deploy
+```
+
+Each phase has dedicated skills and agents. Phases run in order, but within each phase parallel agents speed things up.
+
+Full process: [standard-process.md](specs/.instructions/standard-process.md)
 
 ---
 
 ## Project Structure
 
-**Structure SSOT:** [.structure/README.md](.structure/README.md)
-
-| Folder | Purpose |
-|--------|---------|
-| `src/` | Service source code |
-| `shared/` | API contracts, events, shared libraries |
-| `platform/` | Docker, Gateway, Kubernetes, monitoring |
-| `config/` | Environment configs (dev/staging/prod) |
-| `tests/` | System tests (e2e, integration, load) |
-| `specs/` | Specifications, analysis chains, glossary |
-| `.claude/` | Skills, rules, agents for Claude Code |
-| `.github/` | Issue templates, CI/CD workflows |
-| `.instructions/` | Meta-instructions — standards for writing instructions |
-| `.structure/` | Structure SSOT, initialization |
-
-Each folder contains `.instructions/` with working rules:
+Every folder contains `.instructions/` — Claude reads them automatically.
 
 ```
-src/
-├── .instructions/          # Service development standards
-│   ├── standard-*.md       # Standards
-│   └── README.md           # Index
-├── {service}/              # Services
-└── README.md
+src/           → Service source code (backend, database, tests)
+shared/        → API contracts, events, shared libraries
+platform/      → Docker, Gateway, Kubernetes, monitoring
+config/        → Environment configs (dev / staging / prod)
+tests/         → System tests (e2e, integration, load, smoke)
+specs/         → Specifications and analysis chains
+.claude/       → Skills (70), agents (23), rules (16)
+.github/       → CI/CD workflows, issue templates, labels
+.instructions/ → Meta-instructions for writing instructions
 ```
 
----
-
-## Development Process
-
-Any system change starts with `/chain`. A single command creates a TaskList with the full sequence from idea to release.
-
-```
-Phase 1 — Analysis (DRAFT → WAITING):
-  1. Discussion        — why? requirements, success criteria
-  2. Design            — how? services, API, data model, technologies
-  3. Plan Tests        — how to verify? acceptance scenarios
-  4. Plan Dev          — what tasks? TASK-N, blocks, dependencies
-
-Phase 2 — Docs Sync:
-  5. /docs-sync        — parallel agents: per-service docs,
-                         per-tech standards, overview.md
-
-Phase 3 — Launch:
-  6. /dev-create       — Issues + Milestone + Branch → RUNNING
-
-Phase 4 — Implementation:
-  7. dev-agent         — code + tests + commits (by TASK-N)
-
-Phase 5 — Final Validation:
-  8. /test             — sync main, tests, lint, build → READY/NOT READY
-
-Phase 6 — Delivery:
-  9. /review           — branch review
- 10. /pr-create        — Pull Request
- 11. /merge            — Squash merge + sync main
-
-Phase 7 — Completion:
- 12. /chain-done       — DONE + update docs/
-
-Phase 8 — Release:
- 13. /release-create   — GitHub Release
-```
-
-Details: [standard-process.md](specs/.instructions/standard-process.md)
+Full tree: [.structure/README.md](.structure/README.md)
 
 ---
 
@@ -160,31 +144,29 @@ Details: [standard-process.md](specs/.instructions/standard-process.md)
 ```bash
 make setup      # Install pre-commit hooks (required after cloning!)
 make help       # Show all commands
-make dev        # Start for development (docker-compose)
+make dev        # Start services (docker-compose)
 make stop       # Stop services
-make test       # Unit/integration tests
-make test-e2e   # E2E tests
+make test       # Unit & integration tests
+make test-e2e   # End-to-end tests
 make lint       # Linting
-make build      # Build for production
-make clean      # Cleanup (docker down -v)
+make build      # Production build
+make clean      # Full cleanup (docker down -v)
 ```
 
 ---
 
 ## Documentation
 
-| Document | Purpose |
-|----------|---------|
+| Document | What you'll find |
+|----------|-----------------|
+| [Initialization](.structure/initialization.md) | Setup guide for 3 platforms (Windows, macOS, Linux) |
+| [Project Structure](.structure/README.md) | Full folder tree with descriptions |
+| [Delivery Process](specs/.instructions/standard-process.md) | 8 phases, statuses, skills, agents |
 | [CLAUDE.md](CLAUDE.md) | Entry point for Claude Code |
-| [Initialization](.structure/initialization.md) | Setup, GitHub config, template workflow |
-| [Project Structure](.structure/README.md) | Structure SSOT — folder tree, descriptions |
-| [Quick Start](.structure/quick-start.md) | Quick Start for LLM |
-| [Delivery Process](specs/.instructions/standard-process.md) | Full standard — 8 phases, statuses, skills |
-| [Glossary](specs/glossary.md) | Project terms |
-| [Pre-commit Hooks](.structure/pre-commit.md) | Setup and troubleshooting |
+| [Glossary](specs/glossary.md) | Project terminology |
 
 ---
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+[MIT](LICENSE) — use it, modify it, ship it.
