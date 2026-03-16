@@ -463,7 +463,7 @@ gh secret set DEPLOY_SSH_KEY < ~/.ssh/deploy_key
 ### Процесс
 
 ```
-Проект (feature-repo)              Template (project_template)
+Проект (feature-repo)              Template (fullspec)
 ─────────────────────              ────────────────────────────
 1. Улучшил инструкцию
    в проекте
@@ -487,7 +487,7 @@ git log --oneline --all -- '.instructions/' '.claude/' 'specs/.instructions/'
 **Шаг 2: Подготовить template**
 
 ```bash
-cd /path/to/project_template
+cd /path/to/fullspec
 git checkout main && git pull
 git checkout -b backport/{краткое-описание}
 ```
@@ -534,7 +534,7 @@ gh pr create --title "Backport: {описание}" --body "Из проекта 
 
 ```bash
 # В проекте
-git remote add template https://github.com/{owner}/project_template.git
+git remote add template https://github.com/{owner}/fullspec.git
 ```
 
 ### Посмотреть что нового

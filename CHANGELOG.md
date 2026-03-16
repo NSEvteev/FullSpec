@@ -67,4 +67,4 @@ First public release. 498 commits of building a complete AI-powered development 
 ### Changed
 - License: proprietary → MIT
 
-[1.0.0]: https://github.com/NSEvteev/project_template/releases/tag/v1.0.0
+[1.0.0]: https://github.com/NSEvteev/fullspec/releases/tag/v1.0.0
