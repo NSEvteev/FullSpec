@@ -370,6 +370,7 @@ FullSpec is free and open source (MIT). If it saves you time, consider supportin
 
 Want to bring AI-driven development into your company? I help teams adopt spec-driven workflows with Claude Code:
 
+- **Project development** — want to build a project with AI? Let's discuss commercial development terms
 - **AI development integration** — structured AI-assisted development setup for your team
 - **Custom skills & agents** — automation tailored to your codebase and processes
 - **Architecture & onboarding** — spec-driven design sessions, team training, production rollout
