@@ -1,6 +1,9 @@
 # Claude Code
 tmpclaude-*
 
+# Local drafts
+habr-post.md
+
 # Временные файлы ОС
 *.tmp
 *.temp
