@@ -316,8 +316,9 @@ make clean      # Full cleanup (docker down -v)
 | Team that needs traceable decisions and audit trail | Best fit — every decision linked from requirement to code |
 | Solo developer who wants structure without bureaucracy | Good fit — `/chain` handles the process, you focus on code |
 | Adding structure to an existing project | Partial — can adopt incrementally, but designed as a template |
-| Quick prototype or hackathon (< 1 week) | Not ideal — overhead doesn't pay off for throwaway code |
-| Using Cursor, Copilot, or other non-Claude AI | Not compatible — requires Claude Code |
+| Quick prototype or hackathon (< 1 week) | Works — `/chain` adds structure even to short projects |
+| Brownfield (adding to an existing project) | Planned — currently works only as a template for new projects |
+| Using Cursor, Copilot, Windsurf | Not tested — built for Claude Code, porting is possible |
 
 ---
 
@@ -375,7 +376,7 @@ Want to bring AI-driven development into your company? I help teams adopt spec-d
 - **Custom skills & agents** — automation tailored to your codebase and processes
 - **Architecture & onboarding** — spec-driven design sessions, team training, production rollout
 
-Contact: [n.s.evteev@ya.ru](mailto:n.s.evteev@ya.ru)
+For any questions, reach out: [n.s.evteev@ya.ru](mailto:n.s.evteev@ya.ru)
 
 ---
 

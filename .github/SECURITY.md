@@ -2,13 +2,11 @@
 
 ## Reporting a Vulnerability
 
-**INTERNAL PROJECT — Confidential disclosure only.**
-
 If you discover a security vulnerability:
 
 1. **DO NOT** create a public GitHub Issue
-2. **DO NOT** discuss in public channels (Slack, email lists)
-3. Email: n.s.evteev@ya.ru
+2. **DO NOT** discuss publicly
+3. Email: [n.s.evteev@ya.ru](mailto:n.s.evteev@ya.ru)
 4. Include:
    - Description of the vulnerability
    - Steps to reproduce
