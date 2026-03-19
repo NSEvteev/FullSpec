@@ -87,6 +87,7 @@ ERROR_CODES = {
     "D021": "Неверный index",
     "D022": "Секция без контента и без заглушки",
     "D023": "Description слишком длинное (> 1024 символов)",
+    "D024": "Секция 'Отвергнутые предложения' без таблицы",
 }
 
 
@@ -415,6 +416,27 @@ def check_readme_registration(path: Path, content: str, repo_root: Path) -> list
     return errors
 
 
+def check_rejected_proposals(content: str) -> list[tuple[str, str]]:
+    """D024: Если секция 'Отвергнутые предложения' есть — проверить таблицу."""
+    errors = []
+
+    body = get_body(content)
+    body_no_code = remove_code_blocks(body)
+
+    section_match = re.search(
+        SECTION_HEADING_PREFIX + r'Отвергнутые предложения\s*\n(.*?)(?=^##\s|\Z)',
+        body_no_code, re.MULTILINE | re.DOTALL
+    )
+    if section_match:
+        section_text = section_match.group(1)
+        has_table = re.search(r'^\|', section_text, re.MULTILINE)
+        has_stub = re.search(r'_Отвергнутых предложений нет\._', section_text)
+        if not has_table and not has_stub:
+            errors.append(("D024", "Секция 'Отвергнутые предложения' без таблицы и без заглушки"))
+
+    return errors
+
+
 # =============================================================================
 # Основные функции
 # =============================================================================
@@ -451,6 +473,9 @@ def validate_discussion(path: Path, repo_root: Path) -> list[tuple[str, str]]:
 
     # D013-D014: маркеры и статус
     errors.extend(check_markers_and_status(content))
+
+    # D024: "Отвергнутые предложения" — если секция есть, должна содержать таблицу
+    errors.extend(check_rejected_proposals(content))
 
     # D015: зона ответственности
     errors.extend(check_zone_responsibility(content))
@@ -508,7 +533,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Валидация документов дискуссий SDD"
     )
-    parser.add_argument("path", nargs="?", help="Путь к документу дискуссии")
+    parser.add_argument("path", nargs="*", help="Путь к документу дискуссии")
     parser.add_argument("--all", action="store_true", help="Проверить все дискуссии")
     parser.add_argument("--json", action="store_true", help="JSON вывод")
     parser.add_argument("--repo", default=".", help="Корень репозитория")
@@ -523,7 +548,7 @@ def main():
             print("Дискуссии не найдены")
             sys.exit(0)
     elif args.path:
-        discussions = [Path(args.path)]
+        discussions = [Path(p) for p in args.path]
     else:
         parser.print_help()
         sys.exit(2)
