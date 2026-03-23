@@ -40,3 +40,6 @@ index: .claude/.instructions/rules/README.md
   - `/issue-modify` - правильное изменение Issue (обновление, закрытие, переоткрытие)
   - `/issue-validate` - валидация Issue по стандарту
   - `/branch-create` - правильное отведение Branch
+
+При работе с хотфиксами ОБЯЗАТЕЛЬНО использовать скилл:
+  - `/hotfix` - процесс хотфикса (диагностика, impact analysis, исправление)
