@@ -44,7 +44,7 @@ index: specs/.instructions/README.md
 - [1. Обзорная диаграмма](#1-обзорная-диаграмма)
 - [2. Модель статусов](#2-модель-статусов)
 - [3. Выбор пути](#3-выбор-пути)
-- [4. Три пути (обзор)](#4-три-пути-обзор)
+- [4. Обзор путей](#4-обзор-путей)
   - [Фаза 0: Инициализация проекта](#фаза-0-инициализация-проекта)
 - [5. Путь A: Happy Path](#5-путь-a-happy-path)
   - [Фаза 1: Аналитическая цепочка](#фаза-1-аналитическая-цепочка)
@@ -54,7 +54,6 @@ index: specs/.instructions/README.md
   - [Фаза 5: Финальная валидация](#фаза-5-финальная-валидация)
   - [Фаза 6: Доставка в main](#фаза-6-доставка-в-main)
   - [Фаза 7: Завершение цепочки](#фаза-7-завершение-цепочки)
-  - [Фаза 8: Поставка](#фаза-8-поставка)
 - [6. Путь B: CONFLICT](#6-путь-b-conflict)
 - [7. Путь C: Альтернативные маршруты](#7-путь-c-альтернативные-маршруты)
 - [8. Сводная таблица инструментов](#8-сводная-таблица-инструментов)
@@ -110,24 +109,17 @@ graph TD
         DONE["7.3 REVIEW - DONE<br/>specs/docs/ update"]
     end
 
-    subgraph phase8["Фаза 8: Поставка"]
-        PRERELEASE["8.0 Pre-release<br/>test-load"]
-        RELEASE["8.1 Release"]
-    end
-
     CONFLICT["CONFLICT<br/>Путь B"]
 
     IDEA --> DISC --> DESIGN --> PTEST --> PDEV
     PDEV --> DOCSYNC --> DEVSTART
     DEVSTART --> DEV --> VALIDATE --> COMMIT
     COMMIT -- "ещё TASK-N?" --> DEV
-    COMMIT -- "все TASK-N done" --> DOCKERUP
-    PLAYWRIGHT -- "READY" --> BREVIEW
+    COMMIT -- "все TASK-N done" --> FINALTEST
+    FINALTEST -- "READY" --> BREVIEW
     FINALTEST -- "NOT READY" --> DEV
-    PLAYWRIGHT -- "FAIL" --> DEV
     BREVIEW --> PR --> PRREVIEW --> MERGE --> SYNC
     SYNC --> REVIEW --> REVITER --> DONE
-    DONE --> PRERELEASE --> RELEASE
 
     DEV -. "обратная связь" .-> CONFLICT
     PRREVIEW -. "P1 замечание" .-> CONFLICT
@@ -188,18 +180,14 @@ graph LR
 
 > **Принцип:** Даже "мелкий" фикс проходит полную аналитическую цепочку. Изменение, которое кажется тривиальным, может затрагивать API контракты, data model или cross-service интеграции. Analysis chain выявляет это **до** написания кода, а не после.
 
-| Что меняется | Путь | Обоснование |
+| Что меняется | Команда | Описание |
 |---|---|---|
-| Поведение системы (API, data model, логика, UI) | **A — полная цепочка** | Любое изменение поведения требует проектирования, тестов и ревью |
-| Баг в production (критический, блокирует пользователей) | **A — полная цепочка** | Discussion может быть краткой, но цепочка обязательна — даже hotfix может сломать контракты. См. [C.2 Hotfix](#c2-hotfix) |
-| Несколько мелких багов без затрагивания API | **A через C.3 (bug-fix bundle)** | Одна Discussion группирует фиксы, далее полная цепочка |
-| Опечатки, форматирование, комментарии | **C.4 (doc-only)** | Единственное исключение — изменение **не меняет поведение** системы |
-
-**Исключение из analysis chain (C.4):** Допускается ТОЛЬКО когда изменение не затрагивает API контракты, data model, схему интеграций и не меняет поведение системы. Примеры: опечатка в README, исправление форматирования, обновление комментария.
+| Поведение системы (API, data model, логика, UI) | **`/chain`** | Полная аналитическая цепочка: Discussion → Design → Plan Tests → Plan Dev → реализация → PR → Merge |
+| Баги, production-инциденты, хотфиксы | **`/hotfix`** | Диагностика → решение → impact analysis → исправление кода и docs. [SSOT: standard-hotfix.md](/specs/.instructions/hotfixes/standard-hotfix.md) |
 
 ---
 
-## 4. Три пути (обзор)
+## 4. Обзор путей
 
 ### Фаза 0: Инициализация проекта
 
@@ -213,13 +201,13 @@ graph LR
 
 **Скиллы:** `/init-project`, `/labels-modify`, `/milestone-create`
 
-### Три пути
+### Пути
 
 | Путь | Описание | Частота |
 |------|---------|---------|
-| **A: Happy Path** | Линейный поток от идеи до релиза без конфликтов | Идеальный сценарий |
+| **A: Happy Path** | Линейный поток от идеи до завершения без конфликтов | Идеальный сценарий |
 | **B: CONFLICT** | Обратная связь код → спецификации. Обнаружение → классификация → каскад → разрешение → повторный запуск | Частый — код регулярно выявляет несовместимость |
-| **C: Альтернативные** | Rollback, Hotfix, Bug-fix bundle, Doc-only changes, Cross-chain координация | По ситуации |
+| **C: Альтернативные** | Rollback, Cross-chain координация | По ситуации |
 
 ---
 
@@ -282,9 +270,9 @@ graph LR
 
 | # | Шаг | Описание | Скилл | SSOT |
 |---|------|---------|-------|------|
-| 5.1 | Docker dev-окружение | Поднять Docker dev-окружение, healthcheck всех сервисов | `/docker-up` | [create-docker-env.md](/specs/.instructions/create-docker-env.md) |
-| 5.2 | Финальная валидация | Sync main → make test/lint/build → e2e → отчёт READY/NOT READY | `/test` | [create-test.md](/specs/.instructions/create-test.md) |
-| 5.3 | Playwright UI smoke | UI smoke-тесты (SMOKE-NNN сценарии через Playwright CLI (playwright-cli, agent), скриншоты, PASS/FAIL) | `/test-ui` | [create-test-ui.md](/specs/.instructions/create-test-ui.md) |
+| 5.1 | Docker Environment | `docker compose up -d --build` → healthcheck всех сервисов → порты доступны | `/docker-up` | [create-docker-env.md](/specs/.instructions/create-docker-env.md) |
+| 5.2 | Финальная валидация | sync main → make test/lint/build → e2e (httpx) → отчёт READY/NOT READY | `/test` | [create-test.md](/specs/.instructions/create-test.md) |
+| 5.3 | Playwright Smoke | UI smoke-тесты через Playwright CLI (playwright-cli, agent) → скриншоты → отчёт | `/test-ui` | [create-test-ui.md](/specs/.instructions/create-test-ui.md) |
 
 **При NOT READY:** Возврат к Фазе 4 для исправления.
 
@@ -308,12 +296,7 @@ graph LR
 
 **При Design → DONE:** specs/docs/ обновляются — Planned Changes переносятся в AS IS, Changelog обновляется. system-agent mode=done обновляет все 4 файла .system/. → [standard-analysis.md § 7.3](./analysis/standard-analysis.md#73-обновление-при-реализации-to-done)
 
-### Фаза 8: Поставка
-
-| # | Шаг | Описание | Скилл | SSOT |
-|---|------|---------|-------|------|
-| 8.0 | Pre-release | `make test-load` (для критичности high/medium), pre-release.yml pipeline | — | [standard-testing.md](./docs/testing/standard-testing.md) |
-| 8.1 | Release | Milestone complete → changelog → tag → GitHub Release | `/release-create`, `/milestone-validate` | [standard-release.md](/.github/.instructions/releases/standard-release.md), [create-release.md](/.github/.instructions/releases/create-release.md) |
+> **Релиз** выполняется отдельно через `/release-create` (не является частью chain). **Хотфиксы** — через `/hotfix`.
 
 ---
 
@@ -389,37 +372,12 @@ graph TD
 
 **Инструменты:** rollback-agent (Task tool), create-rollback.md, chain_status.py
 
-### C.2 Hotfix
+### C.2 Hotfix → отдельный процесс
 
-Критический баг в production, требующий немедленного исправления.
-
-**SSOT:** [standard-release.md § 12](/.github/.instructions/releases/standard-release.md#12-hotfix-релиз)
-
-**Hotfix идёт через обычную analysis chain.** Отдельного hotfix-workflow нет — даже критический баг проходит Discussion → Design → Plan Tests → Plan Dev → Docs Sync → Development → PR → Merge → Release. Discussion может быть краткой, но цепочка обязательна: hotfix может сломать контракты, data model или cross-service интеграции.
-
-**Особенности hotfix-цепочки:**
-- Issue создаётся с метками `bug` + `critical`
-- Ветка: `{NNNN}-hotfix-{topic}`
-- Hotfix-релиз: PATCH-версия (v1.0.0 → v1.0.1)
-- Если hotfix невозможен за ~30 минут → rollback (C.1), затем исправление без спешки
-
-### C.3 Bug-fix bundle
-
-Группировка мелких фиксов, не затрагивающих API/data model, в одну Discussion.
-
-**SSOT:** [standard-analysis.md решение #33](./analysis/standard-analysis.md#12-решения)
-
-**Правило:** Если хотя бы один фикс затрагивает API или data model — отдельная Discussion.
-
-### C.4 Documentation-only changes
-
-Опечатки, форматирование, мелкие неточности — без analysis chain.
-
-**SSOT:** [standard-analysis.md § 10](./analysis/standard-analysis.md#10-запреты) (исключение)
-
-**Критерий:** Изменение **не меняет поведение системы** — не затрагивает API контракты, data model, схему интеграций, описание архитектурных решений.
-
-**Процесс:** Issue (опционально) → Branch → PR → Merge. Без Discussion, Design, Plan Tests, Plan Dev. Commit type: `docs:` или `fix:` (для опечаток в коде).
+> **Хотфиксы и багфиксы вынесены в отдельную команду `/hotfix`.**
+> SSOT: [standard-hotfix.md](/specs/.instructions/hotfixes/standard-hotfix.md)
+>
+> `/hotfix` обеспечивает: диагностику инцидента, impact analysis на ВСЮ документацию, параллельное исправление кода и docs через специализированных агентов.
 
 ### C.5 Кросс-цепочечная координация
 
@@ -459,9 +417,9 @@ graph TD
 | 4.2 Validation | validation-development, standard-testing | /principles-validate | — | validate-principles.py |
 | 4.3 Commits | standard-commit, create-commit | /commit | — | validate-commit-msg.py |
 | **Фаза 5: Финальная валидация** | | | | |
-| 5.1 Docker dev-окружение | create-docker-env | /docker-up | — | — |
+| 5.1 Docker Environment | create-docker-env | /docker-up | — | — |
 | 5.2 Финальная валидация | create-test, validation-development | /test | — | — |
-| 5.3 Playwright UI smoke | create-test-ui | /test-ui | mcp__playwright__* | — |
+| 5.3 Playwright Smoke | create-test-ui | /test-ui | — | — |
 | **Фаза 6: Доставка** | | | | |
 | 6.1 Branch Review | validation-review (github) | /review | code-reviewer | — |
 | 6.2 PR Create | standard-pull-request, standard-pr-template, create-pull-request | /pr-create | — | collect-pr-issues.py |
@@ -512,7 +470,7 @@ graph TD
 |------|-----------------------|
 | core | Все шаги (глобальный) |
 | code | 4.1 Development, 4.2 Validation |
-| development | 3.1 dev-create, 4.1-4.3, 5.1, 6.1-6.5, 8.1 Release |
+| development | 3.1 dev-create, 4.1-4.3, 5.1, 6.1-6.5 |
 | analysis-status-transition | 1.1-1.4, 3.1, 7.1, 7.3, B.1-B.7 |
 | service-architecture | 1.2 Design, 2.1 Docs Sync, 7.3 → DONE |
 
@@ -524,10 +482,10 @@ graph TD
 
 ```
 Точка входа:
-  /chain              → TaskList (Happy Path, 14 задач)
-  /chain --hotfix     → TaskList (Hotfix, метки bug/critical)
-  /chain --doc-only   → TaskList (1 задача, без chain)
+  /chain              → TaskList (Happy Path, 15 задач)
   /chain --resume     → Продолжить существующий TaskList
+  /hotfix             → Диагностика + решение + impact + исправление (7 задач)
+  /hotfix --resume    → Продолжить существующий хотфикс
 
 Фаза 0 — Инициализация (однократно):
   /init-project         → полная интерактивная настройка (10 шагов)
@@ -553,9 +511,9 @@ graph TD
   git commit            → pre-commit hooks автоматически
 
 Фаза 5 — Финальная валидация:
-  /docker-up            → docker compose up --build, healthcheck всех сервисов
+  /docker-up            → поднять Docker dev-окружение, healthcheck
   /test                 → sync main, tests, lint, build, e2e, отчёт READY/NOT READY
-  /test-ui              → Playwright CLI smoke-тесты (playwright-cli, agent), скриншоты, PASS/FAIL
+  /test-ui              → Playwright UI smoke-тесты
 
 Фаза 6 — Доставка в main:
   /review               → локальное ревью ветки
@@ -569,9 +527,8 @@ graph TD
   /chain-done           → RUNNING → REVIEW → DONE (+ system-agent mode=done)
   /review               → итерации review.md → вердикт READY
 
-Фаза 8 — Поставка:
-  make test-load                             (pre-release, для high/medium критичности)
-  gh release create vX.Y.Z --generate-notes
+Релиз (отдельно от chain):
+  /release-create     → GitHub Release (changelog, tag, milestone close)
 
 CONFLICT:
   /analysis-status      → RUNNING → CONFLICT

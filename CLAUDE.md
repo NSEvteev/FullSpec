@@ -60,7 +60,7 @@ make clean     # Очистка (docker down -v)
 
 ## Разработка
 
-**Любое изменение системы начинается с:** `/chain`
+**Изменение поведения системы:** `/chain`. **Баги и хотфиксы:** `/hotfix`
 
 **SSOT:** [standard-process.md](/specs/.instructions/standard-process.md) — полный стандарт процесса поставки ценности.
 
@@ -68,10 +68,9 @@ make clean     # Очистка (docker down -v)
 
 | Команда | Когда |
 |---------|-------|
-| `/chain` | Новая фича, изменение поведения, баг |
-| `/chain --hotfix` | Критический баг в production |
-| `/chain --doc-only` | Опечатки, форматирование (без chain) |
+| `/chain` | Новая фича, изменение поведения |
 | `/chain --resume` | Продолжить после прерывания |
+| `/hotfix` | Баги, production-инциденты, хотфиксы |
 
 ### 8 фаз процесса
 
@@ -87,7 +86,8 @@ make clean     # Очистка (docker down -v)
 | 8. Поставка | Pre-release → Release → Deploy | `/release-create`, `/post-release` |
 
 **Путь B (CONFLICT):** обратная связь код → спеки. Каскад → разрешение → повторный запуск.
-**Путь C:** Rollback (rollback-agent), Hotfix, Bug-fix bundle, Doc-only.
+**Путь C:** Rollback (rollback-agent).
+**Хотфиксы:** `/hotfix` — отдельный процесс для багов и production-инцидентов.
 
 ## Поиск
 

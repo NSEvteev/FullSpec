@@ -3,7 +3,7 @@ name: chain
 description: Оркестратор полного цикла — создаёт TaskList от идеи до релиза по standard-process.md. Используй при запросе на добавление функциональности, изменение поведения, исправление бага или любом изменении системы.
 allowed-tools: Read, Bash, Glob, Grep, Write, Edit
 ssot-version: v1.3
-argument-hint: "[--hotfix] [--bug-bundle] [--doc-only] [--resume]"
+argument-hint: "[--resume]"
 ---
 
 # Оркестратор полного цикла
@@ -13,18 +13,14 @@ argument-hint: "[--hotfix] [--bug-bundle] [--doc-only] [--resume]"
 ## Формат вызова
 
 ```
-/chain              — Happy Path (Путь A)
-/chain --hotfix     — Hotfix (Путь C.2)
-/chain --bug-bundle — Bug-fix bundle (Путь C.3)
-/chain --doc-only   — Doc-only (Путь C.4)
+/chain              — Happy Path (полная цепочка, 15 задач)
 /chain --resume     — Возобновить существующий TaskList
 ```
 
+> Для багов и хотфиксов — `/hotfix`.
+
 | Параметр | Описание | Обязательный |
 |----------|----------|--------------|
-| `--hotfix` | Критический баг, метки bug/critical | Нет |
-| `--bug-bundle` | Группировка мелких багов | Нет |
-| `--doc-only` | Опечатки, форматирование (без chain) | Нет |
 | `--resume` | Продолжить после прерывания | Нет |
 
 ## Воркфлоу
@@ -41,7 +37,5 @@ argument-hint: "[--hotfix] [--bug-bundle] [--doc-only] [--resume]"
 
 ```
 /chain
-/chain --hotfix
-/chain --doc-only
 /chain --resume
 ```

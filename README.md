@@ -25,7 +25,7 @@ The result: every decision is traceable from requirement to deployed code. Docum
 
 ## How It Works: The /chain Process
 
-One command — `/chain` — orchestrates the entire development lifecycle. 8 phases, from requirements gathering to production release:
+Two commands orchestrate the development lifecycle. `/chain` for behavior changes (15 tasks, 7 phases). `/hotfix` for bugs and incidents (7 tasks). Release is separate via `/release-create`.
 
 ```
 /chain "Add user authentication with OAuth2"
