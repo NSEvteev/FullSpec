@@ -22,7 +22,7 @@
 1. Прочитай [/CLAUDE.md](/CLAUDE.md) — точка входа
 2. Прочитай [quick-start.md](/.structure/quick-start.md) — минимальный контекст (SSOT, артефакты, скиллы, процесс)
 3. Посмотри [/.structure/README.md](/.structure/README.md) — структура проекта
-4. **Любое изменение начинай с `/chain`** — оркестратор создаёт TaskList с полным планом. [SSOT: create-chain.md](/specs/.instructions/create-chain.md)
+4. **Изменение поведения → `/chain`**, баги → `/hotfix`** — оркестратор создаёт TaskList. [SSOT: create-chain.md](/specs/.instructions/create-chain.md)
 
 ## 3. Типичные задачи
 
