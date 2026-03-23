@@ -20,6 +20,7 @@ index: specs/.instructions/README.md
 
 | Секция | Инструкция | Описание |
 |--------|------------|----------|
+| [Вложенные области](#вложенные-области) | — | Подобласти инструкций |
 | [1. Стандарты](#1-стандарты) | standard-process.md, standard-docs.md, standard-analysis.md | Форматы и правила |
 | [2. Воркфлоу](#2-воркфлоу) | — | Создание и изменение |
 | [3. Валидация](#3-валидация) | validation-docs.md | Проверка согласованности |
@@ -31,94 +32,30 @@ index: specs/.instructions/README.md
 ```
 /specs/.instructions/
 ├── .scripts/
-│   ├── validate-docs-conventions.py    # Валидация формата specs/docs/.system/conventions.md
-│   ├── validate-docs-infrastructure.py # Валидация формата specs/docs/.system/infrastructure.md
-│   ├── validate-docs-overview.py      # Валидация формата specs/docs/.system/overview.md
-│   ├── validate-docs-readme.py       # Валидация формата specs/docs/README.md
-│   ├── validate-docs-readme-services.py # Синхронизация specs/docs/README.md с деревом
-│   ├── validate-docs-service.py      # Валидация формата specs/docs/{svc}.md
-│   ├── validate-docs-technology.py   # Валидация формата specs/docs/.technologies/standard-{tech}.md
-│   ├── validate-docs-testing.py      # Валидация формата specs/docs/.system/testing.md
-│   ├── validate-docs.py              # Валидация структуры specs/docs/
-│   ├── validate-analysis-discussion.py # Валидация документа дискуссии analysis/
-│   ├── validate-analysis-design.py    # Валидация документа проектирования analysis/
-│   ├── validate-analysis-plan-test.py # Валидация документа плана тестов analysis/
-│   ├── validate-analysis-plan-dev.py  # Валидация документа плана разработки analysis/
-│   ├── validate-analysis-review.py   # Валидация документа ревью кода analysis/
-│   ├── chain_status.py                # SSOT-модуль управления статусами analysis chain (ChainManager)
-│   ├── create-analysis-design-file.py # Создание файла design.md по шаблону
-│   ├── create-analysis-plan-test-file.py # Создание файла plan-test.md по шаблону
-│   ├── create-analysis-plan-dev-file.py  # Создание файла plan-dev.md по шаблону
-│   ├── create-review-file.py         # Создание файла review.md по шаблону
-│   └── extract-svc-context.py        # Извлечение SVC-N контекста из design.md для review.md
-├── standard-process.md              # Мета-стандарт процесса поставки ценности (оркестратор)
-├── docs/
-│   ├── standard-docs.md               # Мета-стандарт документации для поставки (specs/docs/)
-│   ├── validation-docs.md             # Валидация наличия обязательных документов specs/docs/
-│   ├── conventions/
-│   │   ├── modify-conventions.md    # Воркфлоу модификации conventions.md
-│   │   ├── standard-conventions.md   # Стандарт specs/docs/.system/conventions.md
-│   │   └── validation-conventions.md # Валидация specs/docs/.system/conventions.md
-│   ├── overview/
-│   │   ├── modify-overview.md        # Воркфлоу модификации overview.md
-│   │   ├── standard-overview.md      # Стандарт specs/docs/.system/overview.md
-│   │   └── validation-overview.md    # Валидация specs/docs/.system/overview.md
-│   ├── infrastructure/
-│   │   ├── modify-infrastructure.md   # Воркфлоу модификации infrastructure.md
-│   │   ├── standard-infrastructure.md # Стандарт specs/docs/.system/infrastructure.md
-│   │   └── validation-infrastructure.md # Валидация specs/docs/.system/infrastructure.md
-│   ├── testing/
-│   │   ├── modify-testing.md          # Воркфлоу модификации testing.md
-│   │   ├── standard-testing.md        # Стандарт specs/docs/.system/testing.md
-│   │   └── validation-testing.md      # Валидация specs/docs/.system/testing.md
-│   ├── service/
-│   │   ├── create-service.md          # Воркфлоу создания {svc}.md
-│   │   ├── modify-service.md          # Воркфлоу модификации {svc}.md
-│   │   ├── standard-service.md        # Стандарт specs/docs/{svc}.md
-│   │   └── validation-service.md      # Валидация specs/docs/{svc}.md
-│   ├── technology/
-│   │   ├── create-technology.md       # Воркфлоу создания standard-{tech}.md
-│   │   ├── modify-technology.md       # Воркфлоу модификации standard-{tech}.md
-│   │   ├── standard-technology.md     # Стандарт specs/docs/.technologies/standard-{tech}.md
-│   │   └── validation-technology.md   # Валидация standard-{tech}.md
-│   └── readme/
-│       ├── standard-readme.md        # Стандарт specs/docs/README.md
-│       └── validation-readme.md      # Валидация specs/docs/README.md
 ├── analysis/
-│   ├── discussion/
-│   │   ├── standard-discussion.md    # Стандарт дискуссий (Discussion)
-│   │   ├── validation-discussion.md  # Валидация дискуссий
-│   │   ├── create-discussion.md      # Воркфлоу создания дискуссии
-│   │   └── modify-discussion.md      # Воркфлоу изменения дискуссии
-│   ├── design/
-│   │   ├── standard-design.md        # Стандарт проектирования (Design v2)
-│   │   ├── validation-design.md      # Валидация проектирования
-│   │   ├── create-design.md          # Воркфлоу создания проектирования
-│   │   └── modify-design.md          # Воркфлоу изменения проектирования
-│   ├── plan-test/
-│   │   ├── standard-plan-test.md     # Стандарт плана тестов (Plan Tests)
-│   │   ├── validation-plan-test.md   # Валидация плана тестов
-│   │   ├── create-plan-test.md       # Воркфлоу создания плана тестов
-│   │   └── modify-plan-test.md       # Воркфлоу изменения плана тестов
-│   ├── plan-dev/
-│   │   ├── standard-plan-dev.md      # Стандарт плана разработки (Plan Dev)
-│   │   ├── validation-plan-dev.md    # Валидация плана разработки
-│   │   ├── create-plan-dev.md        # Воркфлоу создания плана разработки
-│   │   └── modify-plan-dev.md        # Воркфлоу изменения плана разработки
-│   ├── review/
-│   │   ├── standard-review.md        # Стандарт ревью кода (review.md)
-│   │   ├── validation-review.md      # Валидация review.md
-│   │   └── create-review.md          # Воркфлоу создания review.md (/review-create)
-│   └── standard-analysis.md          # Стандарт аналитического контура (4 уровня, статусы, каскады)
-├── create-chain.md                    # Воркфлоу запуска analysis chain (TaskList от идеи до релиза)
-├── create-chain-done.md               # Воркфлоу завершения analysis chain (REVIEW → DONE)
-├── create-rollback.md                 # Воркфлоу отката analysis chain (ROLLING_BACK → REJECTED)
-├── create-docs-sync.md                # Воркфлоу синхронизации specs/docs/ (агенты + ревью)
-├── create-docker-env.md               # Воркфлоу поднятия Docker dev-окружения (/docker-up, шаг 5.1)
-├── create-test.md                     # Воркфлоу финальной валидации (sync, tests, отчёт)
-├── create-test-ui.md                  # Воркфлоу Playwright UI smoke-тестов (/test-ui, шаг 5.3)
-└── README.md                         # Этот файл (индекс)
+├── docs/
+├── hotfixes/               # Инструкции для hotfixes/
+├── standard-process.md     # Мета-стандарт процесса поставки ценности (оркестратор)
+├── create-chain.md         # Воркфлоу запуска analysis chain (TaskList от идеи до релиза)
+├── create-chain-done.md    # Воркфлоу завершения analysis chain (REVIEW → DONE)
+├── create-rollback.md      # Воркфлоу отката analysis chain (ROLLING_BACK → REJECTED)
+├── create-docs-sync.md     # Воркфлоу синхронизации specs/docs/ (агенты + ревью)
+├── create-docker-env.md    # Воркфлоу поднятия Docker dev-окружения (up, healthcheck, troubleshooting)
+├── create-test.md          # Воркфлоу финальной валидации (sync, tests, отчёт READY/NOT READY)
+├── create-test-ui.md       # Воркфлоу Playwright UI smoke-тестов (SMOKE-NNN сценарии, скриншоты)
+└── README.md               # Этот файл (индекс)
 ```
+
+---
+
+## Вложенные области
+
+Инструкции разделены на подобласти:
+
+| Область | Описание | Индекс |
+|---------|----------|--------|
+| [pipelines/](./pipelines/) | Инструкции для pipelines/ | [README](./pipelines/README.md) |
+| [hotfixes/](./hotfixes/) | Инструкции для hotfixes/ | [README](./hotfixes/README.md) |
 
 ---
 
@@ -142,7 +79,7 @@ index: specs/.instructions/README.md
 | [create-docs-sync.md](./create-docs-sync.md) | Воркфлоу синхронизации specs/docs/ — оркестрация service/technology/system агентов с ревью (после Plan Dev, перед Dev) |
 | [create-docker-env.md](./create-docker-env.md) | Воркфлоу поднятия Docker dev-окружения — docker compose up, healthcheck всех сервисов, troubleshooting (шаг 5.1) |
 | [create-test.md](./create-test.md) | Воркфлоу финальной валидации — sync main, полный прогон тестов, проверка полноты, отчёт READY/NOT READY (шаг 5.2) |
-| [create-test-ui.md](./create-test-ui.md) | Воркфлоу Playwright UI smoke-тестов — SMOKE-NNN сценарии через Playwright MCP, скриншоты, отчёт PASS/FAIL (шаг 5.3) |
+| [create-test-ui.md](./create-test-ui.md) | Воркфлоу Playwright UI smoke-тестов — SMOKE-NNN сценарии, скриншоты, отчёт (шаг 5.3) |
 
 ---
 

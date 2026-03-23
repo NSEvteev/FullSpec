@@ -158,3 +158,5 @@ index: .claude/.instructions/agents/README.md
 | [docker-agent](/.claude/agents/docker-agent/AGENT.md) | general-purpose | Docker-операции — scaffolding, обновление конфигураций, валидация compose (вызывается из docs-sync, dev, test) |
 | [issue-agent](/.claude/agents/issue-agent/AGENT.md) | general-purpose | Создание GitHub Issues для TASK-N одного блока plan-dev.md — 18-шаговый алгоритм, один агент на блок, параллельно |
 | [issue-reviewer](/.claude/agents/issue-reviewer/AGENT.md) | general-purpose | Дополнение и доводка GitHub Issues — 4-фазный алгоритм (пробелы → обогащение → 7 критериев → самопроверка), один ревьюер на блок, параллельно |
+| [hotfix-docs-search-agent](/.claude/agents/hotfix-docs-search-agent/AGENT.md) | general-purpose | Поиск влияния хотфикса на документацию — read-only сканирование одного scope по keywords/services, приоритеты (один агент на scope, до 5 параллельно) |
+| [hotfix-docs-agent](/.claude/agents/hotfix-docs-agent/AGENT.md) | general-purpose | Прямое обновление одного документа по результатам hotfix impact analysis — один агент на документ, параллельно |

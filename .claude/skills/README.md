@@ -130,6 +130,7 @@ standard-version: v1.1
 | Скилл | Описание |
 |-------|----------|
 | [chain](./chain/SKILL.md) | Оркестратор полного цикла (TaskList от идеи до релиза) |
+| [hotfix](./hotfix/SKILL.md) | Процесс хотфикса (диагностика, impact analysis, исправление) |
 | [init-project](./init-project/SKILL.md) | Инициализация проекта (Фаза 0, GitHub, docs/, customization) |
 
 ### specs
@@ -152,7 +153,7 @@ standard-version: v1.1
 | [plan-dev-validate](./plan-dev-validate/SKILL.md) | Валидация документа плана разработки |
 | [dev-create](./dev-create/SKILL.md) | Запуск разработки по analysis chain (WAITING → RUNNING) |
 | [docker-up](./docker-up/SKILL.md) | Поднятие Docker dev-окружения (compose up, healthcheck, шаг 5.1) |
-| [test](./test/SKILL.md) | Финальная валидация (sync main, tests, lint, build, отчёт, шаг 5.2) |
+| [test](./test/SKILL.md) | Финальная валидация (sync main, tests, lint, build, отчёт READY/NOT READY, шаг 5.2) |
 | [test-ui](./test-ui/SKILL.md) | Playwright UI smoke-тесты (SMOKE-NNN сценарии, скриншоты, отчёт PASS/FAIL, шаг 5.3) |
 | [docs-sync](./docs-sync/SKILL.md) | Синхронизация specs/docs/ после analysis chain (service/technology/system агенты + ревью) |
 | [chain-done](./chain-done/SKILL.md) | Завершение analysis chain (REVIEW → DONE, system-agent mode=done, cross-chain) |

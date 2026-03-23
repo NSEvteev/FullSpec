@@ -257,13 +257,15 @@ standard-version: v1.1
 │   │   │   ├── plan-test/               #       План тестов
 │   │   │   └── review/                  #       Ревью кода
 │   │   ├── docs/                        #     Документация (per-service, system)
-│   │   └── .scripts/                    #     Скрипты валидации и создания
+│   │   ├── .scripts/                    #     Скрипты валидации и создания
+│   │   └── hotfixes/                    #     Инструкции для hotfixes/
 │   ├── analysis/                        #   Analysis chains (NNNN-{topic}/)
 │   │   └── 0001-task-dashboard/         #     Пример: discussion, design, plan-test, plan-dev
 │   ├── docs/                            #   Живая документация
 │   │   ├── .system/                     #     Системные документы (overview, conventions, infrastructure, testing)
 │   │   └── .technologies/               #     Per-tech стандарты (openapi, protobuf, asyncapi)
-│   └── README.md                        #   Описание specs/
+│   ├── README.md                        #   Описание specs/
+│   └── hotfixes/                        #   Хранилище хотфиксов
 │
 ├── src/                                 # Исходный код сервисов
 │   ├── .instructions/                   #   Стандарты разработки

@@ -83,25 +83,26 @@ index: .structure/README.md
 ```
 /specs/
 ├── analysis/                   # Контур 1: аналитика (4-уровневая цепочка + review.md)
-│   └── README.md               #   Индекс цепочек NNNN-{topic}
+│   ├── README.md               #   Индекс цепочек NNNN-{topic}
 ├── docs/                       # Контур 2: документация для поставки
 │   ├── .system/                # Системные документы
 │   │   ├── conventions.md
 │   │   ├── infrastructure.md
 │   │   ├── overview.md
-│   │   └── testing.md
+│   │   ├── testing.md
 │   ├── .technologies/          # Per-tech стандарты кодирования
-│   │   └── standard-example.md
+│   │   ├── standard-example.md
 │   ├── example.md              # Пример per-service документа
-│   └── README.md
+│   ├── README.md
 ├── .instructions/              # Стандарты и воркфлоу обоих контуров
 │   ├── analysis/               # Стандарты контура analysis/
 │   │   ├── design/
 │   │   ├── discussion/
+├── hotfixes/                        # Хранилище хотфиксов
 │   │   ├── plan-dev/
 │   │   ├── plan-test/
 │   │   ├── review/             #   Стандарты review.md
-│   │   └── standard-analysis.md
+│   │   ├── standard-analysis.md
 │   ├── docs/                   # Стандарты контура docs/
 │   │   ├── conventions/
 │   │   ├── infrastructure/
@@ -111,8 +112,8 @@ index: .structure/README.md
 │   │   ├── technology/
 │   │   ├── testing/
 │   │   ├── standard-docs.md
-│   │   └── validation-docs.md
+│   │   ├── validation-docs.md
 │   ├── .scripts/               # Скрипты валидации (pre-commit)
-│   └── README.md
+│   ├── README.md
 └── README.md                   # Этот файл
 ```
